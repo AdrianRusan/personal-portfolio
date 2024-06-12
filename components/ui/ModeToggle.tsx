@@ -54,7 +54,7 @@ export function ModeToggle() {
       transition={{
         duration: 0.2,
       }}
-      className="flex max-w-fit md:min-w-[70vw] lg:min-w-fit fixed z-[5000] top-12 w-screen right-20"
+      className="flex max-w-fit md:min-w-[70vw] lg:min-w-fit fixed z-[5000] top-28 md:top-12 w-screen right-7 md:right-20"
       style={{
         backdropFilter: "blur(16px) saturate(180%)",
         backgroundColor: "rgba(17, 25, 40, 0.75)",
