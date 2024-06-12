@@ -180,14 +180,14 @@ export const workExperience = [
     id: 2,
     title: "Mobile App Dev - JSM Tech",
     desc: "Designed and developed mobile app for both iOS & Android platforms using React Native.",
-    className: "md:col-span-2", // change to md:col-span-2
+    className: "md:col-span-2",
     thumbnail: "https://utfs.io/f/5204c033-6bdb-4b06-9c15-7965e18e5561-1v1dh.svg",
   },
   {
     id: 3,
     title: "Freelance App Dev Project",
     desc: "Led the dev of a mobile app for a client, from initial concept to deployment on app stores.",
-    className: "md:col-span-2", // change to md:col-span-2
+    className: "md:col-span-2",
     thumbnail: "https://utfs.io/f/9ae30726-e9a7-43bc-a28c-bce3e44eba67-1v1di.svg",
   },
   {

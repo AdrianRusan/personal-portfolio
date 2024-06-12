@@ -105,12 +105,12 @@ export function Globe({ globeConfig, data }: WorldProps) {
     for (let i = 0; i < arcs.length; i++) {
       const arc = arcs[i];
       if (isNaN(arc.startLat) || isNaN(arc.startLng) || isNaN(arc.endLat) || isNaN(arc.endLng)) {
-        console.error('Invalid arc data:', arc);  // Log invalid data
+        console.error('Invalid arc data:', arc);
         continue;
       }
       const rgb = hexToRgb(arc.color);
       if (!rgb) {
-        console.error('Invalid color:', arc.color);  // Log invalid color
+        console.error('Invalid color:', arc.color);
         continue;
       }
       points.push({
