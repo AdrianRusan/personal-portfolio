@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useRef, useState } from "react";
 import { Color, Scene, Fog, PerspectiveCamera, Vector3 } from "three";
 import ThreeGlobe from "three-globe";
@@ -96,29 +97,22 @@ export function Globe({ globeConfig, data }: WorldProps) {
       _buildData();
       _buildMaterial();
     }
-  });
-
-  const _buildMaterial = () => {
-    if (!globeRef.current) return;
-
-    const globeMaterial = globeRef.current.globeMaterial() as unknown as {
-      color: Color;
-      emissive: Color;
-      emissiveIntensity: number;
-      shininess: number;
-    };
-    globeMaterial.color = new Color(globeConfig.globeColor);
-    globeMaterial.emissive = new Color(globeConfig.emissive);
-    globeMaterial.emissiveIntensity = globeConfig.emissiveIntensity || 0.1;
-    globeMaterial.shininess = globeConfig.shininess || 0.9;
-  };
+  }, []);
 
   const _buildData = () => {
     const arcs = data;
     let points = [];
     for (let i = 0; i < arcs.length; i++) {
       const arc = arcs[i];
-      const rgb = hexToRgb(arc.color) as { r: number; g: number; b: number };
+      if (isNaN(arc.startLat) || isNaN(arc.startLng) || isNaN(arc.endLat) || isNaN(arc.endLng)) {
+        console.error('Invalid arc data:', arc);  // Log invalid data
+        continue;
+      }
+      const rgb = hexToRgb(arc.color);
+      if (!rgb) {
+        console.error('Invalid color:', arc.color);  // Log invalid color
+        continue;
+      }
       points.push({
         size: defaultProps.pointSize,
         order: arc.order,
@@ -147,6 +141,22 @@ export function Globe({ globeConfig, data }: WorldProps) {
 
     setGlobeData(filteredPoints);
   };
+
+  const _buildMaterial = () => {
+    if (!globeRef.current) return;
+
+    const globeMaterial = globeRef.current.globeMaterial() as unknown as {
+      color: Color;
+      emissive: Color;
+      emissiveIntensity: number;
+      shininess: number;
+    };
+    if (globeConfig.globeColor) globeMaterial.color = new Color(globeConfig.globeColor);
+    if (globeConfig.emissive) globeMaterial.emissive = new Color(globeConfig.emissive);
+    globeMaterial.emissiveIntensity = globeConfig.emissiveIntensity || 0.1;
+    globeMaterial.shininess = globeConfig.shininess || 0.9;
+  };
+
 
   useEffect(() => {
     if (globeRef.current && globeData) {

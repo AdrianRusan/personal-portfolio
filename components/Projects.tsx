@@ -3,6 +3,8 @@ import React from 'react'
 import { PinContainer } from './ui/PinContainer'
 import Image from 'next/image'
 import { FaLocationArrow } from 'react-icons/fa6'
+import Link from 'next/link'
+import { Button } from './ui/button'
 
 const Projects = () => {
   return (
@@ -13,17 +15,16 @@ const Projects = () => {
       </h2>
       <div className='flex justify-center items-center flex-wrap p-4 gap-x-24 gap-y-8 mt-10'>
         {projects.map(({
-          id, title, description, img, iconLists, link
+          id, title, description, img, iconLists, github, link
         }) => (
           <div key={id} className='sm:h-[41rem] h-[32rem] lg:min-h-[32.5rem] flex justify-center items-center sm:w-[570px] w-[80vw]'>
             <PinContainer
               title={link}
-              href={link}
             >
               <div className='relative flex justify-center items-center sm:w-[570px] sm:h-[40vh] w-[80vw] overflow-hidden h-[30vh] mb-10'>
                 <div className='relative w-full h-full overflow-hidden lg:rounded-3xl bg-[#13162d]'>
                   <Image
-                    src='/bg.png'
+                    src='https://utfs.io/f/fce06cff-c4c2-4fa4-bd2c-4076b5b55c1a-2f9.png'
                     alt='bg-img'
                     width={100}
                     height={100}
@@ -44,7 +45,6 @@ const Projects = () => {
               <p className='lg:text-xl lg:font-normal font-light text-sm line-clamp-2'>
                 {description}
               </p>
-
               <div className='flex justify-between items-center mt-7 mb-3'>
                 <div className='flex items-center'>
                   {iconLists.map((icon, index) => (
@@ -67,11 +67,25 @@ const Projects = () => {
                 </div>
 
                 <div className='flex justify-center items-center'>
-                  <p className='flex lg:text-xl md:text-xs text-sm text-purple'>Check Live Site</p>
-                  <FaLocationArrow className="ms-3" color="#CBACF9" />
+                  <Link
+                    href={github}
+                    target="_blank"
+                  >
+                    <Button className='flex lg:text-xl md:text-xs text-sm text-purple bg-transparent hover:bg-transparent transition hover:scale-110'>
+                      Check Github
+                    </Button>
+                  </Link>
+                  <Link
+                    href={link}
+                    target="_blank"
+                  >
+                    <Button className='flex lg:text-xl md:text-xs text-sm text-purple bg-transparent hover:bg-transparent transition hover:scale-110'>
+                      Check Live Site
+                      <FaLocationArrow className="ms-3" color="#CBACF9" />
+                    </Button>
+                  </Link>
                 </div>
               </div>
-
             </PinContainer>
           </div>
         ))

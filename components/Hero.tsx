@@ -8,7 +8,6 @@ import SpotlightBackground from './ui/SpotlightBackground'
 
 const Hero = () => {
 
-
   return (
     <section className='pb-20 pt-36'>
       <SpotlightBackground />
