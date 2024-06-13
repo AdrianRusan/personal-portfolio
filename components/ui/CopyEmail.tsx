@@ -1,17 +1,13 @@
 'use client'
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import Lottie from "react-lottie";
 import MagicButton from "./MagicButton";
 import { IoCopyOutline } from "react-icons/io5";
-
-import animationData from '@/data/confetti.json'
-
-type AnimationDataType = typeof animationData | null;
+import animationData from '@/data/confetti.json';
 
 const CopyEmail = () => {
-  const [copied, setCopied] = useState(false)
-  const [currentAnimationData, setCurrentAnimationData] = useState<AnimationDataType>(animationData);
+  const [copied, setCopied] = useState(false);
 
   const handleCopy = useCallback(() => {
     navigator.clipboard.writeText('rusan.adrian.ionut@gmail.com');
@@ -22,23 +18,10 @@ const CopyEmail = () => {
     }, 3000);
   }, []);
 
-  const refreshAnimation = useCallback(() => {
-    setCurrentAnimationData(null);
-    setTimeout(() => {
-      setCurrentAnimationData(animationData);
-    }, 100);
-  }, []);
-
-  useEffect(() => {
-    if (!copied) {
-      refreshAnimation();
-    }
-  }, [copied, refreshAnimation]);
-
   const lottieOptions = {
-    loop: copied,
-    autoplay: copied,
-    animationData: currentAnimationData,
+    loop: false,
+    autoplay: true,
+    animationData: animationData,
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid slice',
     },
@@ -46,11 +29,9 @@ const CopyEmail = () => {
 
   return (
     <div className="mt-5 relative">
-      <div className="absolute -bottom-5 right-0">
-        {currentAnimationData && (
-          <Lottie
-            options={lottieOptions}
-          />
+      <div className="absolute -bottom-5 right-0 -z-10">
+        {copied && (
+          <Lottie options={lottieOptions} />
         )}
       </div>
 
@@ -61,7 +42,8 @@ const CopyEmail = () => {
         otherClasses="bg-[#161a31]"
         handleClick={handleCopy}
       />
-    </div>)
+    </div>
+  );
 }
 
-export default CopyEmail
+export default CopyEmail;
