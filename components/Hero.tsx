@@ -8,7 +8,7 @@ import SpotlightBackground from './ui/SpotlightBackground'
 
 const Hero = () => {
   return (
-    <section className='pb-20 pt-36 h-screen'>
+    <section className='h-[100vh]' id="home">
       <SpotlightBackground />
       <div>
         <GridBackground />

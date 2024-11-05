@@ -5,8 +5,9 @@ import dynamic from "next/dynamic";
 
 const About = dynamic(() => import("@/components/About"));
 const Projects = dynamic(() => import("@/components/Projects"));
-const Testimonials = dynamic(() => import("@/components/Testimonials"));
-
+const Experience = dynamic(() => import("@/components/Experience"));
+const Approach = dynamic(() => import("@/components/Approach"));
+const Footer = dynamic(() => import("@/components/Footer"));
 export default function Home() {
   return (
     <main className="relative dark:bg-black-100 bg-white flex justify-center items-center flex-col overflow-hidden mx-auto px-5 sm:px-10">
@@ -16,8 +17,12 @@ export default function Home() {
         />
         <Hero />
         <About />
+        <div id='experience'>
+          <Experience />
         <Projects />
-        <Testimonials />
+        </div>
+        <Approach />
+        <Footer />
       </div>
     </main>
   );

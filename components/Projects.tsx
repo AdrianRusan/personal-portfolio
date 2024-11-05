@@ -8,10 +8,9 @@ import { Button } from './ui/button'
 
 const Projects = () => {
   return (
-    <section id="projects" className='py-20'>
+    <section className='py-20'>
       <h2 className='heading'>
-        A small selection of {' '}
-        <span className='text-purple'>recent projects</span>
+        Recent <span className='text-purple'>Projects</span>
       </h2>
       <div className='flex justify-center items-center flex-wrap p-4 gap-x-24 gap-y-8 mt-10'>
         {projects.map(({
@@ -39,14 +38,14 @@ const Projects = () => {
                   className='z-10 absolute bottom-0 object-cover w-full h-full lg:rounded-3xl'
                 />
               </div>
-              <div className='flex flex-col items-center justify-center w-full h-full text-center px-10'>
+              <div className='flex flex-col items-center justify-center w-[90%] h-full text-center px-10'>
                 <h3 className='font-bold lg:text-2xl md:text-xl text-base line-clamp-1'>
                   {title}
                 </h3>
                 <p className='lg:text-xl lg:font-normal font-light text-sm line-clamp-2'>
-                  {description} asdasd
+                  {description}
                 </p>
-                <div className='flex justify-between items-center mt-7 mb-3'>
+                <div className='flex flex-col md:flex-row justify-between items-center mt-7 mb-3'>
                   <div className='flex items-center'>
                     {iconLists.map((icon, index) => (
                       <div
@@ -73,7 +72,7 @@ const Projects = () => {
                       target="_blank"
                     >
                       <Button className='flex lg:text-xl md:text-xs text-sm text-purple bg-transparent hover:bg-transparent transition hover:scale-110'>
-                        Check Github
+                        Check Repo
                       </Button>
                     </Link>
                     <Link
@@ -81,7 +80,7 @@ const Projects = () => {
                       target="_blank"
                     >
                       <Button className='flex lg:text-xl md:text-xs text-sm text-purple bg-transparent hover:bg-transparent transition hover:scale-110'>
-                        Check Live Site
+                        Check Website
                         <FaLocationArrow className="ms-3" color="#CBACF9" />
                       </Button>
                     </Link>

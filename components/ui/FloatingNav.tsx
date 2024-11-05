@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   motion,
   AnimatePresence,
@@ -9,7 +9,6 @@ import {
 } from "framer-motion";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { ModeToggle } from "./ModeToggle";
 
 export const FloatingNav = ({
   navItems,
@@ -76,7 +75,6 @@ export const FloatingNav = ({
           </Link>
         ))}
       </motion.div>
-      <ModeToggle />
     </AnimatePresence>
   );
 };
