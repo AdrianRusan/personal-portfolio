@@ -94,7 +94,7 @@ export const projects = [
       'https://utfs.io/f/9bb653e9-fbd3-4b08-bd47-93b431541157-1toyhq.svg',
       'https://utfs.io/f/8ee0ad2e-2f9c-4436-8864-b97406507c85-2iv.svg',
     ],
-    github: 'https://github.com/AdrianRusan/shop-value',
+    // github: 'https://github.com/AdrianRusan/shop-value',
     link: 'https://shop-value.vercel.app/',
   },
   {

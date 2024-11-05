@@ -67,14 +67,16 @@ const Projects = () => {
                   </div>
 
                   <div className='flex justify-center items-center'>
-                    <Link
-                      href={github}
-                      target="_blank"
+                    {github && (
+                      <Link
+                        href={github}
+                        target="_blank"
                     >
                       <Button className='flex lg:text-xl md:text-xs text-sm text-purple bg-transparent hover:bg-transparent transition hover:scale-110'>
                         Check Repo
                       </Button>
                     </Link>
+                    )}
                     <Link
                       href={link}
                       target="_blank"
