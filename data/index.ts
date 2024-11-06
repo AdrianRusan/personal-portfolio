@@ -83,16 +83,22 @@ export const techStackRight = ['SQL', 'REST API', 'Node.js', 'MongoDB'];
 export const projects = [
   {
     id: 1,
-    title: 'ShopValue - Web Scrapper for Product Prices',
+    title: 'ShopValue - Product Price Scrapper',
     description:
       'Elevate your shopping game with ShopValue. Track prices, spot trends and get the best deals from flip.ro.',
     img: 'https://utfs.io/f/302c56cd-01cb-4ea4-bf5d-33349de0a959-yg72dh.png',
+    alt: 'ShopValue image',
     iconLists: [
       'https://utfs.io/f/89882599-3371-4fbc-b4f8-3825ce00e10b-2sz.svg',
       'https://utfs.io/f/f4808e60-309b-4c54-97b3-86094cd55887-24500.svg',
       'https://utfs.io/f/926347cb-afd7-4aef-b916-f491fe0b704f-2v3.svg',
-      'https://utfs.io/f/9bb653e9-fbd3-4b08-bd47-93b431541157-1toyhq.svg',
       'https://utfs.io/f/8ee0ad2e-2f9c-4436-8864-b97406507c85-2iv.svg',
+    ],
+    iconListsAlt: [
+      'React icon',
+      'Tailwind CSS icon',
+      'TypeScript icon',
+      'Framer Motion icon',
     ],
     // github: 'https://github.com/AdrianRusan/shop-value',
     link: 'https://shop-value.vercel.app/',
@@ -103,6 +109,7 @@ export const projects = [
     description:
       'Simplify your video conferencing experience with NextHub. Seamlessly connect with colleagues and friends.',
     img: 'https://utfs.io/f/9790aeb2-4bcd-47e7-b2a4-f085489d13d5-2pu.svg',
+    alt: 'NextHub image',
     iconLists: [
       'https://utfs.io/f/488b9b22-8201-4f04-8ed8-00f38b137785-20eer.svg',
       'https://utfs.io/f/f4808e60-309b-4c54-97b3-86094cd55887-24500.svg',
@@ -110,18 +117,25 @@ export const projects = [
       'https://utfs.io/f/99f9d107-5657-42a9-8020-4b92baea8f39-er2g00.svg',
       'https://utfs.io/f/929d0b4c-5f54-485d-b3dd-827509c0c36d-2r.svg',
     ],
+    iconListsAlt: [
+      'Next.js icon',
+      'Tailwind CSS icon',
+      'TypeScript icon',
+      'GetStream.io icon',
+      'Clerk icon',
+    ],
     github: 'https://github.com/AdrianRusan/nexthub',
     link: 'https://nexthub-project.vercel.app/',
   },
 ];
 
-export const testimonials = [
-  {
-    quote: 'Quote1',
-    name: 'Name1',
-    title: 'Title1',
-  },
-];
+// export const testimonials = [
+//   {
+//     quote: 'Quote1',
+//     name: 'Name1',
+//     title: 'Title1',
+//   },
+// ];
 
 export const companies = [
   {
@@ -208,11 +222,13 @@ export const socialMedia = [
   {
     id: 1,
     img: 'https://utfs.io/f/d0acc209-f51b-4737-bf8b-ea1e2d6c55a9-26z6.svg',
+    alt: 'GitHub icon',
     link: 'https://github.com/AdrianRusan',
   },
   {
     id: 3,
     img: 'https://utfs.io/f/5d83e728-2f46-4c99-b364-c7fc0ecefe77-1z75m.svg',
+    alt: 'LinkedIn icon',
     link: 'https://www.linkedin.com/in/adrian-rusan/',
   },
 ];

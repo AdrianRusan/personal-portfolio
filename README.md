@@ -6,7 +6,6 @@ This is my personal portfolio built with Next.js, TypeScript and Tailwind CSS. I
 
 - **About Me**: A brief introduction about myself.
 - **Projects**: A showcase of my projects with links to the GitHub repositories.
-- **Testimonials**: Testimonials from people I've worked with.
 - **Contact**: A way for people to get in touch with me.
 
 ## Tech Stack

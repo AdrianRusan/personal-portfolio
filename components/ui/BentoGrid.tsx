@@ -66,10 +66,11 @@ export const BentoGridItem = ({
           {img && (
             <Image
               src={img}
-              alt={img}
+              alt={'Stock image'}
               className={cn(imgClassName, "object-cover object-center ")}
               width={0}
               height={0}
+              title={'Stock image'}
             />
           )}
         </div>
@@ -80,10 +81,11 @@ export const BentoGridItem = ({
           {spareImg && (
             <Image
               src={spareImg}
-              alt={spareImg}
+              alt={'Stock image'}
               width={220}
               height={220}
               className="object-cover object-center w-full h-full"
+              title={'Stock image'}
             />
           )}
         </div>
@@ -100,11 +102,10 @@ export const BentoGridItem = ({
           <div className="font-sans font-extralight md:max-w-32 md:text-xs lg:text-base text-sm text-[#C1C2D3] z-10">
             {description}
           </div>
-          <div
-            className="font-sans text-lg lg:text-3xl max-w-96 font-bold z-20"
+          <h3 className="font-sans text-lg lg:text-3xl max-w-96 font-bold z-20"
           >
             {title}
-          </div>
+          </h3>
 
           {id === 3 && (
             <div className="flex gap-2 w-fit absolute -right-3 lg:-right-2">
