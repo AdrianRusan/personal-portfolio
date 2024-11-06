@@ -18,8 +18,8 @@ const nextConfig = {
 };
 
 const sentryWebpackPluginOptions = {
-  org: "rusan-adrian-ionut-pfa",
-  project: "personal-portfolio",
+  org: 'rusan-adrian-ionut-pfa',
+  project: 'personal-portfolio',
   silent: !process.env.CI,
   widenClientFileUpload: true,
   hideSourceMaps: true,

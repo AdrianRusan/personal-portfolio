@@ -74,6 +74,7 @@ const Projects = () => {
                       <Link
                         href={github}
                         target="_blank"
+                        aria-label="Visit Adrian Rusan's GitHub Profile"
                     >
                       <Button className='flex lg:text-xl md:text-xs text-sm text-purple bg-transparent hover:bg-transparent transition hover:scale-110'>
                         Check Repo
@@ -83,6 +84,7 @@ const Projects = () => {
                     <Link
                       href={link}
                       target="_blank"
+                      aria-label="Visit Adrian Rusan's Project Website"
                     >
                       <Button className='flex lg:text-xl md:text-xs text-sm text-purple bg-transparent hover:bg-transparent transition hover:scale-110'>
                         Check Website

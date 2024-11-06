@@ -222,13 +222,13 @@ export const socialMedia = [
   {
     id: 1,
     img: 'https://utfs.io/f/d0acc209-f51b-4737-bf8b-ea1e2d6c55a9-26z6.svg',
-    alt: 'GitHub icon',
+    alt: 'GitHub',
     link: 'https://github.com/AdrianRusan',
   },
   {
     id: 3,
     img: 'https://utfs.io/f/5d83e728-2f46-4c99-b364-c7fc0ecefe77-1z75m.svg',
-    alt: 'LinkedIn icon',
+    alt: 'LinkedIn',
     link: 'https://www.linkedin.com/in/adrian-rusan/',
   },
 ];
