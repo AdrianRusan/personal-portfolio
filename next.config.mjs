@@ -11,6 +11,8 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'utfs.io',
+        port: '',
+        pathname: '/a/23x7w9tiht/**',
       },
     ],
     minimumCacheTTL: 60,

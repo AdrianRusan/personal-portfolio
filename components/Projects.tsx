@@ -23,7 +23,7 @@ const Projects = () => {
               <div className='relative flex justify-center items-center sm:w-[570px] sm:h-[40vh] w-[80vw] overflow-hidden h-[30vh] mb-10'>
                 <div className='relative w-full h-full overflow-hidden lg:rounded-3xl bg-[#13162d]'>
                   <Image
-                    src='https://utfs.io/f/fce06cff-c4c2-4fa4-bd2c-4076b5b55c1a-2f9.png'
+                    src='https://utfs.io/a/23x7w9tiht/fce06cff-c4c2-4fa4-bd2c-4076b5b55c1a-2f9.png'
                     alt='Background image'
                     width={100}
                     height={100}

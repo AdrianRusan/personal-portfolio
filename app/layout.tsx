@@ -5,54 +5,6 @@ import { ThemeProvider } from "@/context/theme-provider";
 
 const inter = Inter({ subsets: ["latin"], display: 'swap' });
 
-export const metadata: Metadata = {
-  title: "Adrian Rusan | Full-Stack Engineer from Romania",
-  description: "Explore the portfolio of Adrian Rusan, a full-stack engineer with 8 years of experience in web development.",
-  openGraph: {
-    title: 'Adrian Rusan | Full-Stack Engineer',
-    description: 'Portfolio of Adrian Rusan showcasing projects, skills, and experience in full-stack development.',
-    url: 'https://www.adrian-rusan.com',
-    images: [{ url: 'https://utfs.io/f/7iidzn1Twzuk3ZQYpyCbRtXkfi51QxyWTOLMcl8HhG4CZF2s' }],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Adrian Rusan | Full-Stack Engineer Portfolio',
-    description: 'Discover the projects and experience of Adrian Rusan, a full-stack engineer from Romania.',
-    images: ['https://utfs.io/f/7iidzn1Twzuk3ZQYpyCbRtXkfi51QxyWTOLMcl8HhG4CZF2s'],
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-  alternates: {
-    canonical: 'https://www.adrian-rusan.com',
-  },
-};
-
-const structuredData = () => (
-  <script
-    type="application/ld+json"
-    dangerouslySetInnerHTML={{
-      __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Person",
-        name: "Adrian Rusan",
-        jobTitle: "Full-Stack Engineer",
-        url: "https://www.adrian-rusan.com",
-        sameAs: [
-          "https://github.com/adrian-rusan",
-          "https://www.linkedin.com/in/adrian-rusan/",
-        ],
-        worksFor: {
-          "@type": "Organization",
-          name: "Self-Employed", // or name of your recent company
-        },
-        description: "Full-stack engineer with 8 years of experience in web development",
-      }),
-    }}
-  />
-)
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -65,9 +17,7 @@ export default function RootLayout({
         <link rel='icon' href='/favicon.ico' />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
-        {structuredData()}
       </head>
       <body className={inter.className}>
         <ThemeProvider
