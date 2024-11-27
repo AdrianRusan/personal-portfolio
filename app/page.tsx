@@ -22,7 +22,7 @@ export default function Home() {
           <Experience />
         <Projects />
         </div>
-        <Approach />
+        <Approach /> 
         <Footer />
       </div>
     </main>
