@@ -1,4 +1,5 @@
 import Hero from "@/components/Hero";
+import Testimonials from "@/components/Testimonials";
 import { FloatingNav } from "@/components/ui/FloatingNav";
 import { navItems } from "@/data";
 import dynamic from "next/dynamic";
@@ -20,9 +21,10 @@ export default function Home() {
         <About />
         <div id='experience'>
           <Experience />
-        <Projects />
+          <Projects />
         </div>
-        <Approach /> 
+        <Approach />
+        <Testimonials />
         <Footer />
       </div>
     </main>

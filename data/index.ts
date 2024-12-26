@@ -130,13 +130,14 @@ export const projects = [
   },
 ];
 
-// export const testimonials = [
-//   {
-//     quote: 'Quote1',
-//     name: 'Name1',
-//     title: 'Title1',
-//   },
-// ];
+export const testimonials = [
+  {
+    quote: "I am very pleased with Adrian's efforts and progress on my project. I was informed on a daily basis about progress, and Adrian is very keen on delivering quality work. He made sure I was happy with the end result, I definitely recommend contacting Adrian if you are in need of any web related projects!",
+    name: 'Tim Claes',
+    title: 'Freelance mobile & Web engineer',
+    img: 'https://utfs.io/a/23x7w9tiht/7iidzn1TwzukCJ59vIyXoxIjwOYaTyPZtGk0mVdeKgr9LH8h',
+  },
+];
 
 export const companies = [
   {
