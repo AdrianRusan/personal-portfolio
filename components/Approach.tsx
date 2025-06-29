@@ -2,8 +2,18 @@
 
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import dynamic from "next/dynamic";
 
-import { CanvasRevealEffect } from "./ui/CanvasRevealEffect";
+// Create a completely client-side only wrapper for CanvasRevealEffect
+const ClientOnlyCanvasRevealEffect = dynamic(
+  () => import("./ui/CanvasRevealEffect"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-full w-full bg-gradient-to-t from-gray-950 to-[84%] rounded-3xl overflow-hidden" />
+    ),
+  }
+);
 
 const Approach = () => {
   return (
@@ -17,7 +27,7 @@ const Approach = () => {
           icon={<AceternityIcon order="Phase 1" />}
           des="Together, we'll define the website's purpose, target audience, and essential features, creating a strategic roadmap that covers site structure, navigation, and content to align with your vision."
         >
-          <CanvasRevealEffect
+          <ClientOnlyCanvasRevealEffect
             animationSpeed={5.1}
             containerClassName="bg-emerald-900 rounded-3xl overflow-hidden"
           />
@@ -28,7 +38,7 @@ const Approach = () => {
           icon={<AceternityIcon order="Phase 2" />}
           des="With the roadmap in hand, we move into design and development, building core functionality and visuals while keeping you informed and involved at each milestone."
         >
-          <CanvasRevealEffect
+          <ClientOnlyCanvasRevealEffect
             animationSpeed={3}
             containerClassName="bg-pink-900 rounded-3xl overflow-hidden"
             colors={[
@@ -44,7 +54,7 @@ const Approach = () => {
           icon={<AceternityIcon order="Phase 3" />}
           des="In the final phase, we perform thorough testing to ensure a seamless experience, refine any details, and prepare for a smooth launch, ensuring the website meets your expectations."
         >
-          <CanvasRevealEffect
+          <ClientOnlyCanvasRevealEffect
             animationSpeed={3}
             containerClassName="bg-sky-600 rounded-3xl overflow-hidden"
             colors={[[125, 211, 252]]}

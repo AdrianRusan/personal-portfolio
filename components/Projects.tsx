@@ -1,5 +1,6 @@
 import { projects } from '@/data'
-import React from 'react'
+
+import React from 'react';
 import { PinContainer } from './ui/PinContainer'
 import Image from 'next/image'
 import { FaLocationArrow } from 'react-icons/fa6'
@@ -59,11 +60,11 @@ const Projects = () => {
                       >
                         <Image
                           src={icon}
-                          alt={iconListsAlt[index]}
+                          alt={iconListsAlt?.[index] || `Technology icon ${index + 1}`}
                           width={0}
                           height={0}
                           className='p-1 w-5/6 h-5/6 object-cover'
-                          title={iconListsAlt[index]}
+                          title={iconListsAlt?.[index] || `Technology icon ${index + 1}`}
                         />
                       </div>
                     ))}
