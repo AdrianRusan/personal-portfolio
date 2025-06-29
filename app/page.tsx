@@ -1,14 +1,53 @@
 import Hero from "@/components/Hero";
-import Testimonials from "@/components/Testimonials";
 import { FloatingNav } from "@/components/ui/FloatingNav";
 import { navItems } from "@/data";
 import dynamic from "next/dynamic";
+import { Suspense } from "react";
+import { 
+  ProjectSkeleton, 
+  TestimonialSkeleton, 
+  ExperienceSkeleton 
+} from "@/components/ui/Skeleton";
 
-const About = dynamic(() => import("@/components/About"));
-const Projects = dynamic(() => import("@/components/Projects"));
-const Experience = dynamic(() => import("@/components/Experience"));
-const Approach = dynamic(() => import("@/components/Approach"));
-const Footer = dynamic(() => import("@/components/Footer"));
+// Dynamic imports with loading components for better performance
+const About = dynamic(() => import("@/components/About"), {
+  loading: () => <div className="h-screen animate-pulse bg-slate-100 dark:bg-slate-800 rounded-lg" />
+});
+
+const Projects = dynamic(() => import("@/components/Projects"), {
+  loading: () => (
+    <div className="py-20">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
+        <ProjectSkeleton />
+        <ProjectSkeleton />
+      </div>
+    </div>
+  )
+});
+
+const Experience = dynamic(() => import("@/components/Experience"), {
+  loading: () => (
+    <div className="py-20">
+      <ExperienceSkeleton />
+    </div>
+  )
+});
+
+const Approach = dynamic(() => import("@/components/Approach"), {
+  loading: () => <div className="h-96 animate-pulse bg-slate-100 dark:bg-slate-800 rounded-lg" />
+});
+
+const Testimonials = dynamic(() => import("@/components/Testimonials"), {
+  loading: () => (
+    <div className="py-20">
+      <TestimonialSkeleton />
+    </div>
+  )
+});
+
+const Footer = dynamic(() => import("@/components/Footer"), {
+  loading: () => <div className="h-32 animate-pulse bg-slate-100 dark:bg-slate-800" />
+});
 
 export default function Home() {
   return (
