@@ -84,17 +84,14 @@ export const OptimizedImage = ({
       <Image
         src={src}
         alt={alt}
-        width={fill ? undefined : width}
-        height={fill ? undefined : height}
-        fill={fill}
+        {...(fill ? { fill: true } : { width: width || 800, height: height || 600 })}
         priority={priority}
         quality={quality}
         sizes={sizes}
         placeholder={placeholder}
-        blurDataURL={
-          blurDataURL || 
-          (placeholder === 'blur' ? `data:image/svg+xml;base64,${toBase64(shimmer(width, height))}` : undefined)
-        }
+        {...(placeholder === 'blur' ? {
+          blurDataURL: blurDataURL || `data:image/svg+xml;base64,${toBase64(shimmer(width || 800, height || 600))}`
+        } : {})}
         className={cn(
           "duration-700 ease-in-out",
           isLoading ? "scale-110 blur-2xl grayscale" : "scale-100 blur-0 grayscale-0",

@@ -59,7 +59,7 @@ const nextConfig = {
               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
               img-src 'self' data: https: blob:;
               font-src 'self' https://fonts.gstatic.com;
-              connect-src 'self' https://vitals.vercel-insights.com https://vercel-insights.com;
+              connect-src 'self' https://vitals.vercel-insights.com https://vercel-insights.com https://*.ingest.de.sentry.io https://*.ingest.sentry.io;
               frame-src 'none';
               object-src 'none';
               base-uri 'self';

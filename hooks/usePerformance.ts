@@ -11,8 +11,8 @@ interface PerformanceMetrics {
 export const usePerformance = () => {
   const reportMetric = useCallback((metric: PerformanceMetrics) => {
     // Report to analytics service
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'web_vitals', {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'web_vitals', {
         event_category: 'Performance',
         event_label: Object.keys(metric)[0],
         value: Math.round(Object.values(metric)[0] || 0),
@@ -37,11 +37,15 @@ export const usePerformance = () => {
         }
         
         if (entry.entryType === 'first-input') {
-          reportMetric({ FID: entry.processingStart - entry.startTime });
+          const fidEntry = entry as any;
+          reportMetric({ FID: (fidEntry.processingStart || 0) - entry.startTime });
         }
         
-        if (entry.entryType === 'layout-shift' && !entry.hadRecentInput) {
-          reportMetric({ CLS: entry.value });
+        if (entry.entryType === 'layout-shift') {
+          const clsEntry = entry as any;
+          if (!clsEntry.hadRecentInput) {
+            reportMetric({ CLS: clsEntry.value || 0 });
+          }
         }
       }
     });
@@ -71,8 +75,10 @@ export const usePerformance = () => {
     const navigationEntries = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[];
     if (navigationEntries.length > 0) {
       const navigation = navigationEntries[0];
-      const ttfb = navigation.responseStart - navigation.requestStart;
-      reportMetric({ TTFB: ttfb });
+      if (navigation && navigation.responseStart && navigation.requestStart) {
+        const ttfb = navigation.responseStart - navigation.requestStart;
+        reportMetric({ TTFB: ttfb });
+      }
     }
 
     return () => {
