@@ -44,7 +44,7 @@ export const FloatingNav = ({
 
   return (
     <AnimatePresence mode="sync">
-      <motion.div
+      <motion.nav
         initial={{
           opacity: 1,
           y: -100,
@@ -74,7 +74,7 @@ export const FloatingNav = ({
             <span className=" text-sm !cursor-pointer">{navItem.name}</span>
           </Link>
         ))}
-      </motion.div>
+      </motion.nav>
     </AnimatePresence>
   );
 };

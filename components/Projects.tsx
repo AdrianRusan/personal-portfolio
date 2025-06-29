@@ -9,7 +9,7 @@ import { Button } from './ui/button'
 
 const Projects = () => {
   return (
-    <section className='py-20'>
+    <section className='py-20' aria-label="Projects Section">
       <h2 className='heading'>
         Recent <span className='text-purple'>Projects</span>
       </h2>

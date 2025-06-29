@@ -8,7 +8,7 @@ import SpotlightBackground from './ui/SpotlightBackground'
 
 const Hero = () => {
   return (
-    <section className='h-[100vh]' id="home">
+    <section className='h-[100vh]' id="home" aria-label="Hero Section">
       <SpotlightBackground />
       <div>
         <GridBackground />
