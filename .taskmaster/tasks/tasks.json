@@ -1,0 +1,589 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Project Analysis and Backup Setup",
+        "description": "Perform comprehensive file inventory analysis and create safety backup before cleanup begins",
+        "details": "Create backup branch using 'git checkout -b backup/pre-cleanup'. Document current application functionality and take baseline measurements. Use grep/ripgrep to search for all file references: 'rg \"globe\\.json\" --type ts --type tsx --type js --type jsx' and similar for other target files. Create verification checklist and set up build verification scripts. Measure current bundle size with 'npm run build && du -sh .next/', build time, and Lighthouse scores for baseline comparison.",
+        "testStrategy": "Verify backup branch creation, confirm all baseline measurements are recorded, and ensure build verification scripts execute successfully. Test that current application runs without issues.",
+        "priority": "high",
+        "dependencies": [],
+        "status": "in-progress",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Backup Branch",
+            "description": "Create a complete backup of the current codebase by establishing a new Git branch to preserve the original state before any modifications",
+            "dependencies": [],
+            "details": "Create a new Git branch named 'backup-original' or similar, commit all current changes, and push to remote repository to ensure code safety",
+            "status": "in-progress",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Document Current Functionality",
+            "description": "Comprehensive documentation of all existing application features, user workflows, and system behaviors",
+            "dependencies": [
+              1
+            ],
+            "details": "Create detailed documentation covering user interfaces, API endpoints, business logic, data flows, and expected system behaviors for reference during modifications",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Analyze File References and Dependencies",
+            "description": "Conduct thorough analysis of file imports, dependencies, and cross-references throughout the codebase",
+            "dependencies": [
+              1
+            ],
+            "details": "Map all file dependencies, import statements, module relationships, and identify potential impact areas for planned changes",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Create Verification Checklist",
+            "description": "Develop comprehensive checklist and automated scripts for verifying system functionality after modifications",
+            "dependencies": [
+              2,
+              3
+            ],
+            "details": "Create test scripts, validation procedures, and step-by-step verification checklist to ensure all functionality remains intact after changes",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Measure Baseline Performance",
+            "description": "Establish baseline performance metrics for the current system before implementing any changes",
+            "dependencies": [
+              2,
+              3
+            ],
+            "details": "Run performance tests, measure response times, resource usage, and system benchmarks to create reference point for post-modification comparison",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Remove Unused Data Files",
+        "description": "Remove the 319KB globe.json file and verify no references exist in the codebase",
+        "details": "Delete data/globe.json file which provides 319KB immediate savings. Before removal, perform comprehensive search: 'find . -name \"*.ts\" -o -name \"*.tsx\" -o -name \"*.js\" -o -name \"*.jsx\" | xargs grep -l \"globe\\.json\"' and 'rg \"globe\" --type ts --type tsx --type js --type jsx' to confirm no static imports, dynamic imports, or runtime references. Check for any fetch() calls or dynamic imports that might reference this file. After removal, run 'npm run build' and 'npm run dev' to verify no build errors.",
+        "testStrategy": "Execute comprehensive grep search before removal, verify TypeScript compilation passes, test build process completes successfully, and confirm application runs without errors.",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Comprehensive Codebase Search for File References",
+            "description": "Perform thorough search across the entire codebase to identify all references to the target data file, including imports, file paths, configuration references, and any dependencies that might be affected by its removal.",
+            "dependencies": [],
+            "details": "Search through all source files, configuration files, build scripts, and documentation for any mentions of the data file. Use multiple search methods including grep, IDE search, and dependency analysis tools to ensure no references are missed.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Safe Deletion of Data File and Reference Cleanup",
+            "description": "Carefully remove the identified data file and clean up all found references to prevent application breakage, including updating imports, removing unused dependencies, and modifying configuration files as needed.",
+            "dependencies": [
+              1
+            ],
+            "details": "Based on the reference analysis from subtask 1, systematically remove or update all identified references. Create backup of the file before deletion and update any code that depends on the file's existence.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Post-Removal Build Verification and Testing",
+            "description": "Execute comprehensive build verification to ensure the application compiles successfully and runs without errors after the file removal, including running tests and checking for any runtime issues.",
+            "dependencies": [
+              2
+            ],
+            "details": "Run full build process, execute unit tests, integration tests, and perform runtime verification to confirm the application functions correctly without the removed data file. Address any build errors or test failures that may arise.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Remove Dead UI Components",
+        "description": "Remove unused components: ModeToggle.tsx, dropdown-menu.tsx, and OptimizedImage.tsx",
+        "details": "Remove components/ui/ModeToggle.tsx, components/ui/dropdown-menu.tsx, and components/ui/OptimizedImage.tsx. Before each removal, search for imports: 'rg \"from.*ModeToggle\" --type ts --type tsx' and 'rg \"import.*ModeToggle\" --type ts --type tsx'. Check for dynamic imports and ensure no barrel exports in index.ts files reference these components. Verify OptimizedImage.tsx is only used in test files before removal. After each removal, run TypeScript compilation to catch any missing import errors.",
+        "testStrategy": "Search for all import statements before removal, verify TypeScript compilation passes after each component removal, and test application functionality remains intact.",
+        "priority": "medium",
+        "dependencies": [
+          2
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Identify Unused Components",
+            "description": "Scan the codebase to identify components that are not being imported or used in any part of the application",
+            "dependencies": [],
+            "details": "Use static analysis tools or manual inspection to find components in the components directory that have no import statements referencing them. Create a comprehensive list of potentially unused components with their file paths and component names.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Search for Component References",
+            "description": "Perform thorough search across the entire codebase to verify that identified components have no references",
+            "dependencies": [
+              1
+            ],
+            "details": "Search for each potentially unused component across all files including JavaScript, TypeScript, JSX, TSX, and configuration files. Check for direct imports, dynamic imports, string references, and any other potential usage patterns to confirm they are truly unused.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Remove Unused Components",
+            "description": "Systematically remove each confirmed unused component from the codebase",
+            "dependencies": [
+              2
+            ],
+            "details": "Delete the component files and any associated test files, style files, or documentation. Remove components one at a time to enable proper testing after each removal. Update any index files or barrel exports that may reference the removed components.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Verify Application Functionality",
+            "description": "Test the application after each component removal to ensure no functionality is broken",
+            "dependencies": [
+              3
+            ],
+            "details": "Run the application build process, execute automated tests, and perform manual testing of key functionality after each component is removed. Check for any runtime errors, missing imports, or broken features that may indicate the component was actually in use.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Remove Testing Infrastructure",
+        "description": "Remove all testing files, configurations, and related infrastructure",
+        "details": "Remove directories: __tests__/ and e2e/. Remove configuration files: jest.config.js, jest.setup.js, playwright.config.ts. Remove test scripts from package.json: 'test', 'test:watch', 'test:coverage', 'e2e', 'e2e:headed'. Update package.json scripts section to remove all test-related entries. Verify no import statements in source code reference test utilities. After removal, run 'npm run build' to ensure no build dependencies on test files.",
+        "testStrategy": "Verify all test files and directories are removed, confirm package.json scripts no longer reference testing, and ensure build process works without test dependencies.",
+        "priority": "medium",
+        "dependencies": [
+          3
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Remove test directories and files",
+            "description": "Delete all test-related directories and files from the project structure",
+            "dependencies": [],
+            "details": "Identify and remove test directories (e.g., __tests__, test/, spec/), test files with naming patterns like *.test.js, *.spec.js, and any testing utility files. Ensure no critical application files are accidentally deleted.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Delete test configuration files",
+            "description": "Remove configuration files specific to testing frameworks and tools",
+            "dependencies": [
+              1
+            ],
+            "details": "Delete configuration files such as jest.config.js, karma.conf.js, mocha.opts, .babelrc.test, testing-specific ESLint configs, and any other test-related configuration files. Review each file to ensure it's test-specific before removal.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Update package.json scripts and dependencies",
+            "description": "Remove test-related scripts and dependencies from package.json",
+            "dependencies": [
+              2
+            ],
+            "details": "Remove test scripts (test, test:watch, test:coverage, etc.) from the scripts section. Remove testing dependencies and devDependencies like jest, mocha, chai, karma, testing-library packages, and related tools. Update any scripts that reference testing commands.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Verify build process and application functionality",
+            "description": "Test the build process and ensure the application functions correctly after test removal",
+            "dependencies": [
+              3
+            ],
+            "details": "Run the build process to ensure no broken imports or missing dependencies. Test application startup and core functionality. Check for any remaining references to test files or configurations that might cause errors. Validate that the application builds and runs successfully in both development and production modes.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Remove Performance Monitoring Code",
+        "description": "Remove unused performance monitoring hooks and Sentry configurations",
+        "details": "Remove hooks/usePerformance.ts after confirming no imports with 'rg \"usePerformance\" --type ts --type tsx'. Remove Sentry configuration files: sentry.client.config.ts, sentry.edge.config.ts, sentry.server.config.ts. Remove instrumentation.ts if present. Simplify config/environment.ts to only include essential environment variables, removing Sentry-related configurations. Check for any Sentry imports in layout.tsx or other files and remove if unused.",
+        "testStrategy": "Search for all imports of removed hooks and configurations, verify TypeScript compilation passes, and confirm application builds and runs without monitoring dependencies.",
+        "priority": "medium",
+        "dependencies": [
+          4
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Identify and Remove Performance Monitoring Hooks",
+            "description": "Locate and remove all performance monitoring hooks, instrumentation code, and related imports from the application codebase",
+            "dependencies": [],
+            "details": "Search for performance monitoring libraries (APM agents, custom hooks), remove initialization code, clean up middleware integrations, and eliminate performance tracking decorators or wrappers from the codebase",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Delete Sentry Configuration Files",
+            "description": "Remove all Sentry-related configuration files, environment variables, and dependencies from the project",
+            "dependencies": [
+              1
+            ],
+            "details": "Delete sentry.properties, sentry configuration sections from main config files, remove Sentry SDK dependencies from package files, and clean up any Sentry-specific environment variables or initialization scripts",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Simplify Environment Configurations",
+            "description": "Clean up and simplify environment configuration files by removing monitoring-related variables and streamlining remaining settings",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Remove performance monitoring environment variables, clean up .env files, simplify configuration templates, update deployment scripts to exclude monitoring configurations, and ensure environment consistency across development, staging, and production",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Consolidate Documentation",
+        "description": "Create comprehensive README.md and remove redundant documentation files",
+        "details": "Create new README.md structure with sections: Project Overview, Features, Tech Stack, Setup Instructions, Development Guide, Deployment, Performance Metrics. Migrate essential content from COMPREHENSIVE_TEST_SUITE_SUMMARY.md, PERFORMANCE_OPTIMIZATIONS_IMPLEMENTED.md, PORTFOLIO_REFACTORING_ANALYSIS.md, and TEST_DOCUMENTATION.md. Include setup instructions: 'npm install', 'npm run dev', 'npm run build'. Add deployment instructions for Vercel. Only after README is complete, remove original documentation files.",
+        "testStrategy": "Verify new README contains all essential information, confirm setup instructions work correctly, and ensure no critical information is lost from original documentation.",
+        "priority": "low",
+        "dependencies": [
+          5
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create new README structure",
+            "description": "Design and implement a comprehensive README structure with clear sections for project overview, installation, usage, contributing guidelines, and other essential documentation components",
+            "dependencies": [],
+            "details": "Define sections including project description, features, installation instructions, usage examples, API documentation, contributing guidelines, license information, and contact details. Create template structure with proper markdown formatting and navigation.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Migrate content from existing documentation",
+            "description": "Extract and transfer relevant content from current documentation files into the new README structure, ensuring all critical information is preserved and properly organized",
+            "dependencies": [
+              1
+            ],
+            "details": "Review existing documentation files, identify essential content, adapt and reorganize information to fit the new README structure, update formatting and links, and ensure consistency in tone and style throughout the migrated content.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Remove redundant files",
+            "description": "Identify and safely remove outdated or redundant documentation files after confirming all essential content has been successfully migrated to the new README",
+            "dependencies": [
+              2
+            ],
+            "details": "Audit existing documentation files to identify redundancies, verify that all critical information has been migrated, create backup of files to be removed, and systematically delete outdated documentation while updating any references or links.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Clean Up Package Dependencies",
+        "description": "Remove unused dependencies and optimize package.json",
+        "details": "Remove testing dependencies from devDependencies: @playwright/test, @testing-library/jest-dom, @testing-library/react, @testing-library/user-event, @types/jest, jest, jest-environment-jsdom, ts-jest. Remove from dependencies: @sentry/nextjs. Move @next/bundle-analyzer to devDependencies if in dependencies. Evaluate react-lottie usage - keep only if used for confetti animation. Remove critters if present. After changes, delete package-lock.json and node_modules, then run 'npm install' to generate clean lockfile.",
+        "testStrategy": "Verify removed packages are not imported anywhere in codebase, test clean npm install process, and confirm application builds and runs with reduced dependencies.",
+        "priority": "medium",
+        "dependencies": [
+          6
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Identify unused dependencies",
+            "description": "Analyze the codebase to identify dependencies listed in package.json that are not actually being used in the application code",
+            "dependencies": [],
+            "details": "Use tools like depcheck, npm-check-unused, or manual analysis to scan through source code and identify packages that are installed but not imported or required anywhere in the application. Create a comprehensive list of unused dependencies including both regular dependencies and devDependencies.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Update package.json file",
+            "description": "Remove identified unused dependencies from the package.json file",
+            "dependencies": [
+              1
+            ],
+            "details": "Carefully remove the unused dependencies from both the dependencies and devDependencies sections of package.json. Ensure that only truly unused packages are removed and that no critical dependencies are accidentally deleted. Create a backup of the original package.json before making changes.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Regenerate lockfile",
+            "description": "Update the package lock file to reflect the changes made to package.json",
+            "dependencies": [
+              2
+            ],
+            "details": "Delete the existing package-lock.json (or yarn.lock) file and run npm install (or yarn install) to generate a fresh lockfile that matches the updated package.json. This ensures that the dependency tree is clean and only contains the necessary packages.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Verify application functionality",
+            "description": "Test the application thoroughly to ensure it still functions correctly after dependency cleanup",
+            "dependencies": [
+              3
+            ],
+            "details": "Run the application in development mode, execute all test suites, perform build processes, and manually test key functionality to ensure that removing dependencies hasn't broken any features. Check for any runtime errors, missing imports, or build failures that might indicate accidentally removed dependencies.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Comprehensive Functionality Testing",
+        "description": "Perform thorough manual testing of all portfolio features and user flows",
+        "details": "Test all sections: Hero (resume CTA), About (BentoGrid layout), Projects (PinContainer cards, GitHub links, live demos), Experience (MovingBorders animation), Approach (CanvasRevealEffect), Testimonials (InfiniteMovingCards), Footer (contact info, social links). Test FloatingNav smooth scrolling, theme switching (dark/light mode), email copy functionality with confetti animation. Test responsive design on mobile devices. Verify all animations work correctly and no console errors appear.",
+        "testStrategy": "Execute comprehensive manual testing checklist covering all user flows, verify responsive design across devices, check for console errors, and confirm all interactive elements function properly.",
+        "priority": "high",
+        "dependencies": [
+          7
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Test Core Application Sections",
+            "description": "Systematically test all major application sections including navigation, main content areas, user dashboards, and key functional modules to ensure proper loading and basic functionality",
+            "dependencies": [],
+            "details": "Navigate through each major section of the application, verify page loads, check content rendering, test basic navigation flows, and document any issues found in core functionality",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Verify Interactive Elements Functionality",
+            "description": "Test all interactive elements including buttons, forms, dropdowns, modals, tooltips, and user input fields to ensure proper behavior and user feedback",
+            "dependencies": [
+              1
+            ],
+            "details": "Click all buttons, fill out forms, interact with dropdowns and modals, test hover states, verify form validation, check user feedback mechanisms, and ensure all interactive elements respond appropriately",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Test Responsive Design Across Devices",
+            "description": "Verify application layout and functionality across different screen sizes and devices including desktop, tablet, and mobile viewports",
+            "dependencies": [
+              1
+            ],
+            "details": "Test application on various screen resolutions, check mobile responsiveness, verify touch interactions on mobile devices, ensure proper layout scaling, and confirm all features work across different viewport sizes",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Monitor Console for Errors and Warnings",
+            "description": "Systematically check browser console for JavaScript errors, warnings, and performance issues during application usage",
+            "dependencies": [
+              2,
+              3
+            ],
+            "details": "Open browser developer tools, monitor console output during testing, document any JavaScript errors or warnings, check for network request failures, and verify no critical console errors occur during normal usage",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Validate User Flow Integration",
+            "description": "Test complete user workflows and integration between different application sections to ensure seamless user experience",
+            "dependencies": [
+              2,
+              3
+            ],
+            "details": "Execute end-to-end user scenarios, test transitions between sections, verify data persistence across workflows, check user session management, and ensure integrated functionality works cohesively",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Compile Testing Report and Documentation",
+            "description": "Document all testing results, create comprehensive report of findings, and provide recommendations for any issues discovered",
+            "dependencies": [
+              4,
+              5
+            ],
+            "details": "Compile all test results into a structured report, categorize issues by severity, provide screenshots or recordings of problems, document browser compatibility findings, and create actionable recommendations for development team",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Performance Measurement and Validation",
+        "description": "Measure performance improvements and validate cleanup goals are met",
+        "details": "Measure post-cleanup metrics: bundle size with 'npm run build && du -sh .next/', build time measurement, page load speed testing. Run Lighthouse audit for performance, accessibility, and SEO scores. Compare against baseline measurements from task 1. Verify 70% complexity reduction goal (file count, dependency count), 30%+ build time improvement, and maintained 100% functionality. Document improvements in README performance section.",
+        "testStrategy": "Compare all metrics against baseline measurements, verify performance improvements meet or exceed targets, and confirm no functionality regression through side-by-side testing.",
+        "priority": "high",
+        "dependencies": [
+          8
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Measure Post-Cleanup Performance Metrics",
+            "description": "Collect comprehensive performance metrics after cleanup implementation including load times, bundle sizes, memory usage, and runtime performance indicators",
+            "dependencies": [],
+            "details": "Use performance monitoring tools to gather metrics such as First Contentful Paint, Largest Contentful Paint, Time to Interactive, bundle size analysis, memory consumption, and JavaScript execution times. Document all measurements with timestamps and environment details.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Run Lighthouse Audits",
+            "description": "Execute Lighthouse performance audits on the cleaned-up application to obtain standardized performance scores and recommendations",
+            "dependencies": [
+              1
+            ],
+            "details": "Run Lighthouse audits in multiple environments (desktop/mobile) focusing on Performance, Accessibility, Best Practices, and SEO scores. Generate detailed reports with specific recommendations and capture screenshots of key metrics.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Compare Against Baseline Measurements",
+            "description": "Analyze performance improvements by comparing post-cleanup metrics against pre-cleanup baseline measurements",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Create side-by-side comparisons of all performance metrics, calculate percentage improvements, identify areas of significant enhancement, and highlight any potential regressions. Use statistical analysis where appropriate.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Document Performance Improvements",
+            "description": "Create comprehensive documentation of all performance improvements achieved through the cleanup process",
+            "dependencies": [
+              3
+            ],
+            "details": "Compile a detailed report including before/after metrics, visual charts and graphs, key improvement highlights, methodology used, and recommendations for maintaining performance gains. Include executive summary and technical details.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "title": "Final Validation and Deployment Preparation",
+        "description": "Perform final cross-browser testing and prepare for production deployment",
+        "details": "Test application across major browsers (Chrome, Firefox, Safari, Edge) on both desktop and mobile. Verify Vercel Analytics and Speed Insights still function correctly. Test production build deployment process. Confirm all environment variables work in production. Run final security check for any exposed sensitive data. Update any deployment documentation in README. Create final commit with comprehensive cleanup summary.",
+        "testStrategy": "Execute cross-browser compatibility testing, verify production deployment works correctly, confirm analytics integration functions, and validate no sensitive data exposure.",
+        "priority": "medium",
+        "dependencies": [
+          9
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Cross-browser Testing",
+            "description": "Test application functionality across different browsers and versions to ensure consistent user experience",
+            "dependencies": [],
+            "details": "Execute comprehensive testing on Chrome, Firefox, Safari, and Edge browsers. Test core functionality, UI components, responsive design, and JavaScript compatibility. Document any browser-specific issues and implement fixes.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Verify Analytics Functionality",
+            "description": "Validate that all analytics tracking and reporting features are working correctly",
+            "dependencies": [
+              1
+            ],
+            "details": "Test analytics event tracking, user behavior monitoring, conversion tracking, and dashboard reporting. Verify data accuracy, real-time updates, and integration with third-party analytics services.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Test Production Deployment",
+            "description": "Execute deployment process to production environment and validate system functionality",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Deploy application to production servers, verify database connections, test API endpoints, validate SSL certificates, and ensure all services are running correctly. Perform smoke testing on live environment.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Conduct Security Checks",
+            "description": "Perform comprehensive security testing and vulnerability assessment",
+            "dependencies": [
+              3
+            ],
+            "details": "Run security scans for vulnerabilities, test authentication and authorization systems, validate input sanitization, check for SQL injection and XSS vulnerabilities, and verify HTTPS implementation and data encryption.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Update Deployment Documentation",
+            "description": "Update and finalize all deployment-related documentation",
+            "dependencies": [
+              3,
+              4
+            ],
+            "details": "Document deployment procedures, update configuration guides, create troubleshooting documentation, update API documentation, and ensure all technical specifications reflect the current production environment.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-07-09T14:31:03.640Z",
+      "updated": "2025-07-09T14:44:08.099Z",
+      "description": "Tasks for master context"
+    }
+  }
+}
