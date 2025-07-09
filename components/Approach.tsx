@@ -17,8 +17,8 @@ const ClientOnlyCanvasRevealEffect = dynamic(
 
 const Approach = () => {
   return (
-    <section className="w-full py-20" id="approach">
-      <h2 className="heading">
+    <>
+      <h2 id="approach-heading" className="heading">
         Project <span className="text-purple">Journey</span>
       </h2>
       <div className="my-20 flex flex-col lg:flex-row items-center justify-center w-full gap-4">
@@ -61,7 +61,7 @@ const Approach = () => {
           />
         </Card>
       </div>
-    </section>
+    </>
   );
 };
 
@@ -80,7 +80,7 @@ const Card = ({
 }) => {
   const [hovered, setHovered] = React.useState(false);
   return (
-    <div
+    <article
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className="border border-black/[0.2] group/canvas-card flex items-center justify-center
@@ -90,6 +90,7 @@ const Card = ({
         backgroundColor:
           "linear-gradient(90deg, rgba(4,7,29,1) 0%, rgba(12,14,35,1) 100%)",
       }}
+      aria-labelledby={`approach-title-${title.replace(/\s+/g, '-').toLowerCase()}`}
     >
       <Icon className="absolute h-10 w-10 -top-3 -left-3 dark:text-white text-black opacity-30" />
       <Icon className="absolute h-10 w-10 -bottom-3 -left-3 dark:text-white text-black opacity-30" />
@@ -116,6 +117,7 @@ const Card = ({
           {icon}
         </div>
         <h3
+          id={`approach-title-${title.replace(/\s+/g, '-').toLowerCase()}`}
           className="dark:text-white text-center text-3xl opacity-0 group-hover/canvas-card:opacity-100
          relative z-10 text-black mt-4  font-bold group-hover/canvas-card:text-white 
          group-hover/canvas-card:-translate-y-2 transition duration-200"
@@ -131,7 +133,7 @@ const Card = ({
           {des}
         </p>
       </div>
-    </div>
+    </article>
   );
 };
 

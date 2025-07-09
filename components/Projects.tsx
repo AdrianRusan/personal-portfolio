@@ -9,15 +9,15 @@ import { Button } from './ui/button'
 
 const Projects = () => {
   return (
-    <section className='py-20' aria-label="Projects Section">
-      <h2 className='heading'>
+    <>
+      <h2 id="projects-heading" className='heading'>
         Recent <span className='text-purple'>Projects</span>
       </h2>
       <div className='flex justify-center items-center flex-wrap p-4 gap-x-24 gap-y-8 mt-10'>
         {projects.map(({
           id, title, description, img, alt, iconLists, iconListsAlt, github, link
         }) => (
-          <div key={id} className='sm:h-[41rem] h-[32rem] lg:min-h-[32.5rem] flex justify-center items-center sm:w-[570px] w-[80vw]'>
+          <article key={id} className='sm:h-[41rem] h-[32rem] lg:min-h-[32.5rem] flex justify-center items-center sm:w-[570px] w-[80vw]' aria-labelledby={`project-title-${id}`}>
             <PinContainer
               title={link}
             >
@@ -25,11 +25,11 @@ const Projects = () => {
                 <div className='relative w-full h-full overflow-hidden lg:rounded-3xl bg-[#13162d]'>
                   <Image
                     src='https://utfs.io/a/23x7w9tiht/fce06cff-c4c2-4fa4-bd2c-4076b5b55c1a-2f9.png'
-                    alt='Background image'
+                    alt='Background pattern'
                     width={100}
                     height={100}
                     className='bg-cover w-full h-full'
-                    title='Background image'
+                    title='Background pattern'
                   />
                 </div>
                 <Image
@@ -42,14 +42,14 @@ const Projects = () => {
                 />
               </div>
               <div className='flex flex-col items-center justify-center w-[90%] h-full text-center px-10 gap-2'>
-                <h3 className='font-bold lg:text-xl md:text-lg text-base line-clamp-1'>
+                <h3 id={`project-title-${id}`} className='font-bold lg:text-xl md:text-lg text-base line-clamp-1'>
                   {title}
                 </h3>
                 <p className='lg:text-lg lg:font-normal font-light text-sm line-clamp-3'>
                   {description}
                 </p>
                 <div className='flex flex-col md:flex-row justify-between items-center mt-4 mb-3'>
-                  <div className='flex items-center'>
+                  <div className='flex items-center' role="list" aria-label="Technologies used">
                     {iconLists.map((icon, index) => (
                       <div
                         key={icon}
@@ -57,6 +57,7 @@ const Projects = () => {
                         style={{
                           transform: `translateX(-${10 * index} px)`
                         }}
+                        role="listitem"
                       >
                         <Image
                           src={icon}
@@ -70,12 +71,13 @@ const Projects = () => {
                     ))}
                   </div>
 
-                  <div className='flex justify-center items-center'>
+                  <div className='flex justify-center items-center gap-2'>
                     {github && (
                       <Link
                         href={github}
                         target="_blank"
-                        aria-label="Visit Adrian Rusan's GitHub Profile"
+                        rel="noopener noreferrer"
+                        aria-label={`View ${title} source code on GitHub (opens in new tab)`}
                     >
                       <Button className='flex lg:text-xl md:text-xs text-sm text-purple bg-transparent hover:bg-transparent transition hover:scale-110'>
                         Check Repo
@@ -85,7 +87,8 @@ const Projects = () => {
                     <Link
                       href={link}
                       target="_blank"
-                      aria-label="Visit Adrian Rusan's Project Website"
+                      rel="noopener noreferrer"
+                      aria-label={`Visit ${title} live website (opens in new tab)`}
                     >
                       <Button className='flex lg:text-xl md:text-xs text-sm text-purple bg-transparent hover:bg-transparent transition hover:scale-110'>
                         Check Website
@@ -96,11 +99,11 @@ const Projects = () => {
                 </div>
               </div>
             </PinContainer>
-          </div>
+          </article>
         ))
         }
       </div >
-    </section >
+    </>
   )
 }
 

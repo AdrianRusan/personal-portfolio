@@ -48,10 +48,13 @@ test-results
 logs
 *.log
 dev-debug.log
+
 # Dependency directories
 node_modules/
+
 # Environment variables
 .env
+
 # Editor directories and files
 .idea
 .vscode
@@ -60,8 +63,17 @@ node_modules/
 *.njsproj
 *.sln
 *.sw?
-# OS specific
 
-# Task files
-# tasks.json
-# tasks/ 
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.backup
+*.bak
+
+# Taskmaster files (keep main tasks.json but ignore generated files)
+.taskmaster/reports/
+.taskmaster/docs/
+.taskmaster/tasks/
+.taskmaster/state.json 

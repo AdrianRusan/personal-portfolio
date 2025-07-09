@@ -1,75 +1,8 @@
 export const navItems = [
-  { name: 'Home', link: '#home' },
-  { name: 'About', link: '#about' },
-  { name: 'Experience', link: '#experience' },
-  { name: 'Approach', link: '#approach' },
-  { name: 'Contact', link: '#contact' },
-];
-
-export const gridItems = [
-  {
-    id: 1,
-    title: 'I prioritize client collaboration, fostering open communication ',
-    description: '',
-    className: 'lg:col-span-3 md:col-span-6 md:row-span-4 lg:min-h-[60vh]',
-    imgClassName: 'w-full h-full',
-    titleClassName: 'justify-end',
-    img: 'https://utfs.io/a/23x7w9tiht/f4d41c9c-c7dd-456f-b879-2077b3851e37-2dr.svg',
-    spareImg: '',
-  },
-  {
-    id: 2,
-    title: "I'm very flexible with time zone communications",
-    description: '',
-    className: 'lg:col-span-2 md:col-span-3 md:row-span-2',
-    imgClassName: '',
-    titleClassName: 'justify-start',
-    img: '',
-    spareImg: '',
-  },
-  {
-    id: 3,
-    title: 'My tech stack',
-    description: 'I constantly try to improve',
-    className: 'lg:col-span-2 md:col-span-3 md:row-span-2',
-    imgClassName: '',
-    titleClassName: 'justify-center',
-    img: '',
-    spareImg: '',
-  },
-  {
-    id: 4,
-    title: 'Tech enthusiast with a passion for development.',
-    description: '',
-    className: 'lg:col-span-2 md:col-span-3 md:row-span-1',
-    imgClassName: '',
-    titleClassName: 'justify-start',
-    img: 'https://utfs.io/a/23x7w9tiht/d3448a1f-0636-4db1-8525-c79eccc65362-1w6rq.png',
-    spareImg:
-      'https://utfs.io/a/23x7w9tiht/c1631a06-941c-4f53-94eb-ca026d0cca44-2du.svg',
-  },
-
-  {
-    id: 5,
-    title: 'Currently building a SaaS Boilerplate',
-    description: 'The Inside Scoop',
-    className: 'md:col-span-3 md:row-span-2',
-    imgClassName: 'absolute right-0 bottom-0 md:w-96 w-60',
-    titleClassName: 'justify-center md:justify-start lg:justify-center',
-    img: 'https://utfs.io/a/23x7w9tiht/c4b6c8fd-390f-4dc9-b399-aa6772926947-2dv.svg',
-    spareImg:
-      'https://utfs.io/a/23x7w9tiht/d3448a1f-0636-4db1-8525-c79eccc65362-1w6rq.png',
-  },
-  {
-    id: 6,
-    title: 'Do you want to start a project together?',
-    description: '',
-    className: 'lg:col-span-2 md:col-span-3 md:row-span-1',
-    imgClassName: '',
-    titleClassName: 'justify-center md:max-w-full max-w-60 text-center',
-    img: '',
-    spareImg: '',
-  },
+  { name: "About", link: "#about" },
+  { name: "Projects", link: "#projects" },
+  { name: "Testimonials", link: "#testimonials" },
+  { name: "Contact", link: "#contact" },
 ];
 
 export const techStackLeft = [
@@ -80,6 +13,70 @@ export const techStackLeft = [
 ];
 
 export const techStackRight = ['SQL', 'REST API', 'Node.js', 'MongoDB'];
+
+export const gridItems = [
+  {
+    id: 1,
+    title: "I prioritize client collaboration, fostering open communication ",
+    description: "",
+    className: "lg:col-span-3 md:col-span-6 md:row-span-4 lg:min-h-[60vh]",
+    imgClassName: "w-full h-full",
+    titleClassName: "justify-end",
+    img: "https://23x7w9tiht.ufs.sh/f/f4d41c9c-c7dd-456f-b879-2077b3851e37-2dr.svg",
+    spareImg: "",
+  },
+  {
+    id: 2,
+    title: "I'm very flexible with time zone communications",
+    description: "",
+    className: "lg:col-span-2 md:col-span-3 md:row-span-2",
+    imgClassName: "",
+    titleClassName: "justify-start",
+    img: "",
+    spareImg: "",
+  },
+  {
+    id: 3,
+    title: "My tech stack",
+    description: "I constantly try to improve",
+    className: "lg:col-span-2 md:col-span-3 md:row-span-2",
+    imgClassName: "",
+    titleClassName: "justify-center",
+    img: "",
+    spareImg: "",
+  },
+  {
+    id: 4,
+    title: "Tech enthusiast with a passion for development.",
+    description: "",
+    className: "lg:col-span-2 md:col-span-3 md:row-span-1",
+    imgClassName: "",
+    titleClassName: "justify-start",
+    img: "https://23x7w9tiht.ufs.sh/f/d008b742-3509-47cb-bce0-1312ea498310-1w6rq.svg",
+    spareImg: "https://23x7w9tiht.ufs.sh/f/c1631a06-941c-4f53-94eb-ca026d0cca44-2du.svg",
+  },
+
+  {
+    id: 5,
+    title: "Currently building a JS Animation library",
+    description: "The Inside Scoop",
+    className: "md:col-span-3 md:row-span-2",
+    imgClassName: "absolute right-0 bottom-0 md:w-96 w-60",
+    titleClassName: "justify-center md:justify-start lg:justify-center",
+    img: "https://23x7w9tiht.ufs.sh/f/c4b6c8fd-390f-4dc9-b399-aa6772926947-2dv.svg",
+    spareImg: "https://23x7w9tiht.ufs.sh/f/d008b742-3509-47cb-bce0-1312ea498310-1w6rq.svg",
+  },
+  {
+    id: 6,
+    title: "Do you want to start a project together?",
+    description: "",
+    className: "lg:col-span-2 md:col-span-3 md:row-span-1",
+    imgClassName: "",
+    titleClassName: "justify-center md:max-w-full max-w-60 text-center",
+    img: "",
+    spareImg: "",
+  },
+];
 
 export const projects = [
   {
@@ -142,38 +139,33 @@ export const testimonials = [
 export const companies = [
   {
     id: 1,
-    name: 'cloudinary',
-    img: 'https://utfs.io/a/23x7w9tiht/f34da338-638b-4286-ac7b-57d981c7b6b0-1keyid.svg',
-    nameImg:
-      'https://utfs.io/a/23x7w9tiht/576a89ee-2863-4242-a826-e0a28118d192-71tt40.svg',
+    name: "cloudinary",
+    img: "/cloud.svg",
+    nameImg: "/cloudName.svg",
   },
   {
     id: 2,
-    name: 'appwrite',
-    img: 'https://utfs.io/a/23x7w9tiht/e08295ba-5b28-421f-957b-6672dd781791-22ox.svg',
-    nameImg:
-      'https://utfs.io/a/23x7w9tiht/f459dbf6-ac52-425e-93ea-baf64895f5ca-d4t3n8.svg',
+    name: "appwrite",
+    img: "/app.svg",
+    nameImg: "/appName.svg",
   },
   {
     id: 3,
-    name: 'HOSTINGER',
-    img: 'https://utfs.io/a/23x7w9tiht/d9df0a2a-2b57-4fc3-920b-2b0cf791a343-1wrs8.svg',
-    nameImg:
-      'https://utfs.io/a/23x7w9tiht/c350b5fe-a902-4aec-a621-06654945795e-4z29il.svg',
+    name: "HOSTINGER",
+    img: "/host.svg",
+    nameImg: "/hostName.svg",
   },
   {
     id: 4,
-    name: 'stream',
-    img: 'https://utfs.io/a/23x7w9tiht/e73cd114-dcaf-4d6c-a9e9-9dc2a885c043-37.svg',
-    nameImg:
-      'https://utfs.io/a/23x7w9tiht/15f59e4c-397c-4f6b-a16c-409fb75f95dc-jrfy6t.svg',
+    name: "stream",
+    img: "/s.svg",
+    nameImg: "/streamName.svg",
   },
   {
     id: 5,
-    name: 'docker.',
-    img: 'https://utfs.io/a/23x7w9tiht/b85c0abf-e9ae-4ed7-8ce7-e26762d3539d-1u7g3.svg',
-    nameImg:
-      'https://utfs.io/a/23x7w9tiht/2aa2143e-fd84-4323-bd87-58e670e8fd53-lsq6gl.svg',
+    name: "docker.",
+    img: "/dock.svg",
+    nameImg: "/dockerName.svg",
   },
 ];
 
@@ -223,14 +215,20 @@ export const workExperience = [
 export const socialMedia = [
   {
     id: 1,
-    img: 'https://utfs.io/a/23x7w9tiht/d0acc209-f51b-4737-bf8b-ea1e2d6c55a9-26z6.svg',
-    alt: 'GitHub',
-    link: 'https://github.com/AdrianRusan',
+    img: "https://23x7w9tiht.ufs.sh/f/d0acc209-f51b-4737-bf8b-ea1e2d6c55a9-26z6.svg",
+    url: "https://github.com/AdrianRusan",
+    alt: "Adrian Rusan GitHub Profile"
+  },
+  {
+    id: 2,
+    img: "https://23x7w9tiht.ufs.sh/f/53382907-a497-4b6e-b3b9-92ce21e0be2b-24lbi.svg", 
+    url: "https://twitter.com/adrian_rusan",
+    alt: "Adrian Rusan Twitter Profile"
   },
   {
     id: 3,
-    img: 'https://utfs.io/a/23x7w9tiht/5d83e728-2f46-4c99-b364-c7fc0ecefe77-1z75m.svg',
-    alt: 'LinkedIn',
-    link: 'https://www.linkedin.com/in/adrian-rusan/',
+    img: "https://23x7w9tiht.ufs.sh/f/5d83e728-2f46-4c99-b364-c7fc0ecefe77-1z75m.svg",
+    url: "https://linkedin.com/in/adrian-rusan",
+    alt: "Adrian Rusan LinkedIn Profile"
   },
 ];
