@@ -16,37 +16,37 @@ const About = dynamic(() => import("@/components/About"), {
 
 const Projects = dynamic(() => import("@/components/Projects"), {
   loading: () => (
-    <div className="py-20">
+    <section className="py-20" aria-label="Projects loading">
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
         <ProjectSkeleton />
         <ProjectSkeleton />
       </div>
-    </div>
+    </section>
   )
 });
 
 const Experience = dynamic(() => import("@/components/Experience"), {
   loading: () => (
-    <div className="py-20">
+    <section className="py-20" aria-label="Experience loading">
       <ExperienceSkeleton />
-    </div>
+    </section>
   )
 });
 
 const Approach = dynamic(() => import("@/components/Approach"), {
-  loading: () => <div className="h-96 animate-pulse bg-slate-100 dark:bg-slate-800 rounded-lg" />
+  loading: () => <section className="h-96 animate-pulse bg-slate-100 dark:bg-slate-800 rounded-lg" aria-label="Approach loading" />
 });
 
 const Testimonials = dynamic(() => import("@/components/Testimonials"), {
   loading: () => (
-    <div className="py-20">
+    <section className="py-20" aria-label="Testimonials loading">
       <TestimonialSkeleton />
-    </div>
+    </section>
   )
 });
 
 const Footer = dynamic(() => import("@/components/Footer"), {
-  loading: () => <div className="h-32 animate-pulse bg-slate-100 dark:bg-slate-800" />
+  loading: () => <footer className="h-32 animate-pulse bg-slate-100 dark:bg-slate-800" aria-label="Footer loading" />
 });
 
 export default function Home() {
@@ -57,13 +57,21 @@ export default function Home() {
           navItems={navItems}
         />
         <Hero />
-        <About />
-        <div id='experience'>
+        <section id="about" aria-labelledby="about-heading">
+          <About />
+        </section>
+        <section id="experience" aria-labelledby="experience-heading">
           <Experience />
-          <Projects />
-        </div>
-        <Approach />
-        <Testimonials />
+          <div id="projects" aria-labelledby="projects-heading">
+            <Projects />
+          </div>
+        </section>
+        <section id="approach" aria-labelledby="approach-heading">
+          <Approach />
+        </section>
+        <section id="testimonials" aria-labelledby="testimonials-heading">
+          <Testimonials />
+        </section>
         <Footer />
       </div>
     </main>

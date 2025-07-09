@@ -1,0 +1,93 @@
+{
+	"meta": {
+		"generatedAt": "2025-07-09T14:35:38.744Z",
+		"tasksAnalyzed": 10,
+		"totalTasks": 10,
+		"analysisCount": 10,
+		"thresholdScore": 5,
+		"projectName": "Taskmaster",
+		"usedResearch": true
+	},
+	"complexityAnalysis": [
+		{
+			"taskId": 1,
+			"taskTitle": "Project Analysis and Backup Setup",
+			"complexityScore": 7,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Break down the task into subtasks covering backup creation, documentation of current functionality, file reference analysis, verification checklist creation, and baseline performance measurement.",
+			"reasoning": "This task involves multiple critical steps, including creating a backup branch, documenting application functionality, analyzing file references, setting up verification scripts, and measuring baseline performance. Each step requires careful execution to ensure data integrity and accurate baseline establishment."
+		},
+		{
+			"taskId": 2,
+			"taskTitle": "Remove Unused Data Files",
+			"complexityScore": 5,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "Divide the task into subtasks for comprehensive codebase search for references, deletion of the data file, and post-removal build verification.",
+			"reasoning": "The task requires thorough searching for file references, careful deletion to avoid breaking the application, and verification to ensure no build errors occur post-removal. Each step is essential to maintain application stability."
+		},
+		{
+			"taskId": 3,
+			"taskTitle": "Remove Dead UI Components",
+			"complexityScore": 6,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Create subtasks for identifying unused components, searching for their references, removing each component, and verifying application functionality after each removal.",
+			"reasoning": "This task involves identifying multiple unused components, ensuring they are not referenced elsewhere, removing them, and verifying that the application remains functional. Each component's removal is a distinct subtask requiring careful attention."
+		},
+		{
+			"taskId": 4,
+			"taskTitle": "Remove Testing Infrastructure",
+			"complexityScore": 6,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Outline subtasks for removing test directories, deleting configuration files, updating package.json scripts, and verifying the build process post-removal.",
+			"reasoning": "The task encompasses removing various testing files and configurations, updating scripts, and ensuring the application builds correctly without test dependencies. Each aspect requires focused execution to prevent unintended disruptions."
+		},
+		{
+			"taskId": 5,
+			"taskTitle": "Remove Performance Monitoring Code",
+			"complexityScore": 5,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "Break down the task into subtasks for identifying and removing performance monitoring hooks, deleting Sentry configuration files, and simplifying environment configurations.",
+			"reasoning": "This task involves identifying and removing specific performance monitoring code and configurations, which requires careful attention to avoid affecting application performance and stability."
+		},
+		{
+			"taskId": 6,
+			"taskTitle": "Consolidate Documentation",
+			"complexityScore": 4,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "Divide the task into subtasks for creating a new README structure, migrating content from existing documentation, and removing redundant files.",
+			"reasoning": "The task involves structuring a comprehensive README, migrating essential content, and ensuring no critical information is lost. Each step is crucial for maintaining clear and effective documentation."
+		},
+		{
+			"taskId": 7,
+			"taskTitle": "Clean Up Package Dependencies",
+			"complexityScore": 5,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Outline subtasks for identifying unused dependencies, updating package.json, regenerating the lockfile, and verifying application functionality post-cleanup.",
+			"reasoning": "This task requires careful identification and removal of unused dependencies, updating configuration files, and ensuring the application remains functional, which involves multiple detailed steps."
+		},
+		{
+			"taskId": 8,
+			"taskTitle": "Comprehensive Functionality Testing",
+			"complexityScore": 7,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Create subtasks for testing each major application section, verifying interactive elements, checking responsive design, and ensuring no console errors.",
+			"reasoning": "The task involves thorough testing of various application features and user flows, each requiring detailed attention to ensure comprehensive coverage and functionality verification."
+		},
+		{
+			"taskId": 9,
+			"taskTitle": "Performance Measurement and Validation",
+			"complexityScore": 6,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Break down the task into subtasks for measuring post-cleanup performance metrics, running Lighthouse audits, comparing against baseline measurements, and documenting improvements.",
+			"reasoning": "This task involves measuring various performance metrics, conducting audits, comparing results to baselines, and documenting findings, each requiring focused effort to validate improvements."
+		},
+		{
+			"taskId": 10,
+			"taskTitle": "Final Validation and Deployment Preparation",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Outline subtasks for cross-browser testing, verifying analytics functionality, testing production deployment, conducting security checks, and updating deployment documentation.",
+			"reasoning": "The task encompasses multiple critical steps to ensure the application is ready for production deployment, each requiring careful execution to guarantee a successful release."
+		}
+	]
+}

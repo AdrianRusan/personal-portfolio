@@ -46,6 +46,19 @@ export const BentoGridItem = ({
   spareImg?: string,
 }) => {
 
+  const getImageAlt = (id: number, isSpare: boolean = false) => {
+    const altTexts: Record<number, { main: string; spare: string }> = {
+      1: { main: "Client collaboration and communication illustration", spare: "" },
+      2: { main: "Time zone flexibility world map", spare: "" },
+      3: { main: "Technology stack visualization", spare: "" },
+      4: { main: "Development enthusiasm and passion graphic", spare: "Grid pattern background for tech section" },
+      5: { main: "JavaScript animation library development project", spare: "Grid pattern overlay for projects" },
+      6: { main: "Contact and project collaboration invitation", spare: "" }
+    };
+    
+    return isSpare ? altTexts[id]?.spare || "Decorative background element" : altTexts[id]?.main || "Portfolio section illustration";
+  };
+
   return (
     <div
       className={
@@ -66,11 +79,11 @@ export const BentoGridItem = ({
           {img && (
             <Image
               src={img}
-              alt={'Stock image'}
+              alt={getImageAlt(id)}
               className={cn(imgClassName, "object-cover object-center ")}
               width={0}
               height={0}
-              title={'Stock image'}
+              title={getImageAlt(id)}
             />
           )}
         </div>
@@ -81,11 +94,11 @@ export const BentoGridItem = ({
           {spareImg && (
             <Image
               src={spareImg}
-              alt={'Stock image'}
+              alt={getImageAlt(id, true)}
               width={220}
               height={220}
               className="object-cover object-center w-full h-full"
-              title={'Stock image'}
+              title={getImageAlt(id, true)}
             />
           )}
         </div>
@@ -108,13 +121,14 @@ export const BentoGridItem = ({
           </h3>
 
           {id === 3 && (
-            <div className="flex gap-2 w-fit absolute -right-3 lg:-right-2">
+            <div className="flex gap-2 w-fit absolute -right-3 lg:-right-2" aria-label="Technology stack">
               <div className="flex flex-col gap-3 mt-10">
                 {techStackLeft.map((item) => (
                   <span
                     key={item}
                     className="py-2 px-3 text-xs lg:text-base opacity-50 
                     lg:opacity-100 rounded-lg text-center bg-[#10132E]"
+                    role="listitem"
                   >
                     {item}
                   </span>
@@ -128,6 +142,7 @@ export const BentoGridItem = ({
                     key={item}
                     className="py-2 px-3 text-xs lg:text-base opacity-50 
                     lg:opacity-100 rounded-lg text-center bg-[#10132E]"
+                    role="listitem"
                   >
                     {item}
                   </span>

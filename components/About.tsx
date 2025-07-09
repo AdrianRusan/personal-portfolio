@@ -4,8 +4,8 @@ import { gridItems } from '@/data'
 
 const About = () => {
   return (
-    <section id="about">
-      <h2 className="heading">
+    <>
+      <h2 id="about-heading" className="heading">
         About <span className="text-purple">Me</span>
       </h2>
       <BentoGrid className='w-full py-20'>
@@ -25,7 +25,7 @@ const About = () => {
           />
         ))}
       </BentoGrid>
-    </section>
+    </>
   )
 }
 

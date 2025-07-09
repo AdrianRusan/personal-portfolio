@@ -5,8 +5,8 @@ import Image from 'next/image'
 
 const Testimonials = () => {
   return (
-    <section id="testimonials" className='py-20 flex flex-col gap-10'>
-      <h2 className='heading'>
+    <>
+      <h2 id="testimonials-heading" className='heading'>
         Kind words from
         <span className='text-purple'> satisfied clients</span>
       </h2>
@@ -40,7 +40,7 @@ const Testimonials = () => {
           ))}
         </div> */}
       </div>
-    </section>
+    </>
   )
 }
 
