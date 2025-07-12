@@ -57,21 +57,28 @@ export default function Home() {
           navItems={navItems}
         />
         <Hero />
-        <section id="about" aria-labelledby="about-heading">
+        
+        <section id="about" aria-labelledby="about-heading" className="py-10 md:py-20">
           <About />
         </section>
-        <section id="experience" aria-labelledby="experience-heading">
+        
+        <section id="experience" aria-labelledby="experience-heading" className="py-10 md:py-20">
           <Experience />
-          <div id="projects" aria-labelledby="projects-heading">
+          <div id="projects" aria-labelledby="projects-heading" className="mt-10 md:mt-20">
             <Projects />
           </div>
         </section>
-        <section id="approach" aria-labelledby="approach-heading">
+        
+        <section id="approach" aria-labelledby="approach-heading" className="py-10 md:py-20">
           <Approach />
         </section>
+        
+        {/* Testimonials section with proper spacing */}
         <section id="testimonials" aria-labelledby="testimonials-heading">
           <Testimonials />
         </section>
+        
+        {/* Contact section - Footer contains the contact form */}
         <Footer />
       </div>
     </main>

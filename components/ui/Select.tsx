@@ -15,8 +15,9 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
 }
 
 const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
-  ({ className, label, error, isRequired, options, placeholder, ...props }, ref) => {
-    const selectId = React.useId();
+  ({ className, label, error, isRequired, options, placeholder, id, ...props }, ref) => {
+    // Use provided id or generate a stable one based on name prop
+    const selectId = id || (props.name ? `select-${props.name}` : undefined);
     
     return (
       <div className="space-y-2">
@@ -41,7 +42,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
             className
           )}
           aria-invalid={error ? 'true' : 'false'}
-          aria-describedby={error ? `${selectId}-error` : undefined}
+          aria-describedby={error && selectId ? `${selectId}-error` : undefined}
           {...props}
         >
           {placeholder && (
@@ -59,7 +60,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
             </option>
           ))}
         </select>
-        {error && (
+        {error && selectId && (
           <p 
             id={`${selectId}-error`}
             className="text-sm text-red-500 mt-1"

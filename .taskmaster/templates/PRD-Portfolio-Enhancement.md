@@ -72,7 +72,7 @@ Next.js 14 App Router + PayloadCMS
 
 ## 4. Core Enhancement Features
 
-### 4.1 PayloadCMS Integration
+### 4.1 on
 **Priority**: High  
 **Effort**: Medium  
 **Timeline**: 2-3 weeks

@@ -99,7 +99,7 @@ const ContactForm = () => {
          </p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" data-testid="contact-form">
         {/* Personal Information */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Input
@@ -108,6 +108,7 @@ const ContactForm = () => {
             placeholder="Your full name"
             error={errors.name?.message}
             isRequired
+            data-testid="name-input"
           />
           
           <Input
@@ -117,6 +118,7 @@ const ContactForm = () => {
             placeholder="your.email@example.com"
             error={errors.email?.message}
             isRequired
+            data-testid="email-input"
           />
         </div>
 
@@ -201,7 +203,7 @@ const ContactForm = () => {
 
                  {/* Submit Button */}
          <div className="pt-6">
-           <div onClick={handleSubmit(onSubmit)} className="cursor-pointer">
+           <div onClick={handleSubmit(onSubmit)} className="cursor-pointer" data-testid="submit-button">
              <MagicButton
                title={isSubmitting ? 'Sending...' : 'Send Message'}
                icon={<FaLocationArrow />}

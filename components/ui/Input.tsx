@@ -8,8 +8,9 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, label, error, isRequired, type = 'text', ...props }, ref) => {
-    const inputId = React.useId();
+  ({ className, label, error, isRequired, type = 'text', id, ...props }, ref) => {
+    // Use provided id or generate a stable one based on name prop
+    const inputId = id || (props.name ? `input-${props.name}` : undefined);
     
     return (
       <div className="space-y-2">
@@ -34,10 +35,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             className
           )}
           aria-invalid={error ? 'true' : 'false'}
-          aria-describedby={error ? `${inputId}-error` : undefined}
+          aria-describedby={error && inputId ? `${inputId}-error` : undefined}
           {...props}
         />
-        {error && (
+        {error && inputId && (
           <p 
             id={`${inputId}-error`}
             className="text-sm text-red-500 mt-1"

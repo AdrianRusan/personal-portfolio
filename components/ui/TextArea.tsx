@@ -8,8 +8,9 @@ interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement
 }
 
 const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  ({ className, label, error, isRequired, ...props }, ref) => {
-    const textareaId = React.useId();
+  ({ className, label, error, isRequired, id, ...props }, ref) => {
+    // Use provided id or generate a stable one based on name prop
+    const textareaId = id || (props.name ? `textarea-${props.name}` : undefined);
     
     return (
       <div className="space-y-2">
@@ -33,10 +34,10 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
             className
           )}
           aria-invalid={error ? 'true' : 'false'}
-          aria-describedby={error ? `${textareaId}-error` : undefined}
+          aria-describedby={error && textareaId ? `${textareaId}-error` : undefined}
           {...props}
         />
-        {error && (
+        {error && textareaId && (
           <p 
             id={`${textareaId}-error`}
             className="text-sm text-red-500 mt-1"

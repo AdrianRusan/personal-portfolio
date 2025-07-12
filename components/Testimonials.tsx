@@ -5,8 +5,8 @@ import Image from 'next/image'
 
 const Testimonials = () => {
   return (
-    <>
-      <h2 id="testimonials-heading" className='heading'>
+    <section className="py-20 md:py-32 lg:py-40">
+      <h2 id="testimonials-heading" className='heading mb-16 md:mb-20'>
         Kind words from
         <span className='text-purple'> satisfied clients</span>
       </h2>
@@ -40,7 +40,7 @@ const Testimonials = () => {
           ))}
         </div> */}
       </div>
-    </>
+    </section>
   )
 }
 
