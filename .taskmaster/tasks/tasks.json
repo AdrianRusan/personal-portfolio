@@ -477,5 +477,902 @@
       "updated": "2025-07-09T20:02:57.757Z",
       "description": "Tasks for master context"
     }
+  },
+  "v1": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Project Initialization and Environment Setup",
+        "description": "Initialize a new Next.js 14 project using the App Router. Configure TypeScript, Tailwind CSS, and Framer Motion. Set up the project structure and establish environment variable management using `.env.local` for all secrets listed in the PRD (Payload, Resend, GitHub, etc.).",
+        "details": "Use `create-next-app@latest` with TypeScript and Tailwind CSS options. Install `framer-motion@^10.0.0`. Create a `.env.local.example` file listing all required variables: `PAYLOAD_SECRET`, `DATABASE_URI`, `RESEND_API_KEY`, `GITHUB_TOKEN`, etc., to ensure consistent environment setup across development and production.",
+        "testStrategy": "Verify that the Next.js application runs successfully locally (`npm run dev`). Check that Tailwind classes are applied correctly. Ensure environment variables can be accessed via `process.env` in server components.",
+        "priority": "high",
+        "dependencies": [],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up Next.js with TypeScript",
+            "description": "Initialize a new Next.js project with TypeScript configuration and essential dependencies",
+            "dependencies": [],
+            "details": "Create a new Next.js project using 'npx create-next-app@latest' with TypeScript flag, configure tsconfig.json for strict type checking, set up proper folder structure with pages, components, and utils directories, install necessary TypeScript types for Next.js, and verify the development server runs correctly",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Configure Tailwind CSS",
+            "description": "Install and configure Tailwind CSS for styling with proper integration into the Next.js project",
+            "dependencies": [
+              1
+            ],
+            "details": "Install Tailwind CSS and its dependencies (tailwindcss, postcss, autoprefixer), initialize Tailwind configuration files (tailwind.config.js and postcss.config.js), configure content paths to include all relevant file extensions, add Tailwind directives to global CSS file, set up custom theme extensions if needed, and test basic utility classes work correctly",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Integrate Framer Motion and Environment Variables",
+            "description": "Install Framer Motion for animations and set up comprehensive environment variable management",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Install framer-motion package and configure TypeScript types, create example animated components to verify integration, set up environment variable structure with .env.local, .env.example files, configure different environment stages (development, staging, production), implement proper environment variable validation and type safety, document environment variable usage and create setup instructions for team members",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "PayloadCMS Installation and MongoDB Atlas Integration",
+        "description": "Install and configure PayloadCMS version 2.x within the Next.js project. Establish a connection to the specified MongoDB Atlas cluster and configure the admin panel, including setting up the initial admin user and authentication.",
+        "details": "Follow the official PayloadCMS documentation to integrate with Next.js. Install `payload@^2.0.0` and `mongodb@^6.0.0`. Configure the `payload.config.ts` file with the `DATABASE_URI` from environment variables. Define the admin path (e.g., `/admin`) and set up the `Users` collection for authentication.",
+        "testStrategy": "Access the Payload admin panel at the configured URL. Successfully log in with the created admin credentials. Verify the connection to MongoDB Atlas by checking for the creation of Payload's internal collections.",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Install PayloadCMS",
+            "description": "Install PayloadCMS package and its dependencies in the Next.js project",
+            "dependencies": [],
+            "details": "Run npm install payload @payloadcms/bundler-webpack @payloadcms/richtext-slate @payloadcms/db-mongodb and configure the basic PayloadCMS setup files",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Configure PayloadCMS within Next.js project",
+            "description": "Set up PayloadCMS configuration files and integrate with Next.js routing structure",
+            "dependencies": [
+              1
+            ],
+            "details": "Create payload.config.ts, configure collections, fields, and integrate PayloadCMS API routes with Next.js app router or pages directory",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Set up MongoDB Atlas connection",
+            "description": "Configure the database connection between PayloadCMS and MongoDB Atlas",
+            "dependencies": [
+              1
+            ],
+            "details": "Set up MongoDB Atlas cluster, configure connection string, environment variables, and test database connectivity with PayloadCMS",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Configure admin panel with initial user authentication",
+            "description": "Set up the PayloadCMS admin panel and create initial user authentication system",
+            "dependencies": [
+              2,
+              3
+            ],
+            "details": "Configure admin panel settings, create initial admin user, set up authentication middleware, and test login functionality",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Define Core PayloadCMS Collections and Rich Text Editor",
+        "description": "Define and implement all required content collections in PayloadCMS as specified in the PRD's data models. This includes Projects, BlogPosts, Testimonials, WorkExperience, ContactSubmissions, and Media.",
+        "details": "In `payload.config.ts`, define each collection as a separate file (e.g., `src/collections/Projects.ts`). Translate the TypeScript interfaces from the PRD into Payload field types (text, richText, relationship, etc.). For the `richText` editor, configure custom plugins for syntax highlighting (`prism.js`), image embedding, and tables to meet PRD requirements.",
+        "testStrategy": "Log into the Payload admin panel and verify that all collections are present in the sidebar. Test creating, updating, and deleting an entry in each collection. Validate that the rich text editor displays all custom plugin options.",
+        "priority": "high",
+        "dependencies": [
+          2
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Design and Create Projects Collection Schema",
+            "description": "Define the Projects collection structure with all necessary fields including title, description, technologies, images, links, and metadata. Configure field types, validation rules, and relationships.",
+            "dependencies": [],
+            "details": "Create collection schema with fields for project title (text), description (rich text), technology stack (tags), featured image (media), gallery images (media array), live URL (URL), repository URL (URL), status (select), date created/updated (datetime), and SEO metadata. Set up proper validation and required field constraints.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Design and Create BlogPosts Collection Schema",
+            "description": "Define the BlogPosts collection structure with fields for content management, categorization, and publishing workflow. Include rich text content field and metadata.",
+            "dependencies": [],
+            "details": "Create collection schema with fields for post title (text), slug (text), content (rich text), excerpt (textarea), featured image (media), categories (relation/tags), tags (tags), author (relation), publish date (datetime), status (draft/published), SEO title/description, and reading time estimation. Configure publishing workflow and content versioning.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Design and Create Testimonials Collection Schema",
+            "description": "Define the Testimonials collection structure for client feedback and reviews with proper field configuration and display options.",
+            "dependencies": [],
+            "details": "Create collection schema with fields for client name (text), client title/position (text), company name (text), testimonial content (rich text), client photo (media), company logo (media), rating (number), date received (datetime), featured status (boolean), and contact information. Set up proper validation and display ordering.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Configure Rich Text Editor Base Setup",
+            "description": "Set up the core rich text editor configuration with basic formatting options and prepare the foundation for custom plugin integration.",
+            "dependencies": [
+              1,
+              2,
+              3
+            ],
+            "details": "Configure the rich text editor with standard formatting options (bold, italic, headings, lists, links), set up editor toolbar customization, configure content sanitization and validation rules, establish editor field integration with collections, and prepare plugin architecture for custom extensions.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Implement Custom Rich Text Editor Plugins",
+            "description": "Develop and integrate custom plugins for syntax highlighting, image embedding, and table functionality within the rich text editor.",
+            "dependencies": [
+              4
+            ],
+            "details": "Create syntax highlighting plugin with support for multiple programming languages (JavaScript, Python, HTML, CSS, etc.), implement image embedding plugin with drag-drop functionality, upload handling, and responsive image options, develop table plugin with row/column management, styling options, and responsive behavior. Configure plugin settings, test integration with all collections, and ensure proper content rendering on frontend.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Develop Data Migration Script for Existing Content",
+        "description": "Develop an automated Node.js script to migrate existing hardcoded content from `data/index.ts` into the newly created PayloadCMS collections. The script must parse the source file, transform the data to match the new schemas, and use the Payload Local API to create the entries.",
+        "details": "Create a script at `scripts/migrate-data.ts`. Use `ts-node` to execute it. The script will import `payload` to access the Local API (`payload.create`). It will read and parse the `data/index.ts` file, loop through the projects and other data, and create corresponding documents in Payload. Ensure media assets are handled correctly by uploading them to the Media collection first and then referencing their IDs.",
+        "testStrategy": "Run the migration script on a staging environment. After execution, log into the Payload admin panel and verify that all data from `data/index.ts` has been accurately migrated into the respective collections. Check for broken relationships or missing data.",
+        "priority": "medium",
+        "dependencies": [
+          3
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Parse Source Data",
+            "description": "Develop functionality to read and parse the existing content data from the source system, including validation and error handling for malformed data structures.",
+            "dependencies": [],
+            "details": "Create parsers for different data formats (JSON, CSV, XML, etc.), implement data validation checks, handle encoding issues, and establish error logging for problematic records. Include functionality to preview and analyze source data structure before migration.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Transform Data to New Schema",
+            "description": "Implement data transformation logic to convert parsed source data into the format required by the new schema, including field mapping and data type conversions.",
+            "dependencies": [
+              1
+            ],
+            "details": "Create mapping configurations between old and new field structures, implement data type conversion functions, handle missing or deprecated fields, establish default values for new required fields, and validate transformed data against new schema requirements.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Handle Media Assets Migration",
+            "description": "Develop functionality to migrate media files and assets, including downloading, processing, and uploading to the new system with proper URL updates.",
+            "dependencies": [
+              1
+            ],
+            "details": "Implement media file download from source URLs, resize/optimize images if needed, upload assets to new storage location, update asset references in content data, handle broken or missing media files, and maintain asset metadata and alt text.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Create Entries via Payload Local API",
+            "description": "Implement the final step to create new content entries in the target system using Payload's Local API, including batch processing and error recovery.",
+            "dependencies": [
+              2,
+              3
+            ],
+            "details": "Set up Payload Local API connection, implement batch creation with rate limiting, handle API errors and retries, maintain creation logs for tracking progress, implement rollback functionality for failed migrations, and verify created entries match source data.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Implement Advanced Contact Form with React Hook Form and Zod",
+        "description": "Build the advanced contact form component using React Hook Form and Zod for robust client-side and server-side validation. The form will include all fields specified in the `ContactSubmission` model, such as conditional fields based on project type.",
+        "details": "Install `react-hook-form@^7.45.0`, `zod@^3.22.0`, and `@hookform/resolvers@^3.3.0`. Define a Zod schema that matches the `ContactSubmission` model. Use the `useForm` hook with the Zod resolver. Implement conditional rendering for the `sourceDetails` field, which should only appear when `source` is 'referral' or 'other'. Style with Tailwind CSS.",
+        "testStrategy": "Unit test the form component to ensure validation rules work as expected (e.g., required fields, email format). Manually test the form in the browser to verify conditional logic and that submission is blocked when data is invalid.",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up React Hook Form with Zod validation schema",
+            "description": "Install and configure React Hook Form and Zod libraries, create the base form structure with validation schema defining field types, constraints, and error messages",
+            "dependencies": [],
+            "details": "Install react-hook-form and zod packages, create a Zod schema with validation rules for contact form fields (name, email, phone, message, etc.), integrate the schema with useForm hook using zodResolver, set up basic form structure with proper TypeScript types",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement conditional field logic and dynamic validation",
+            "description": "Create conditional field rendering based on user selections and implement dynamic validation rules that change based on form state",
+            "dependencies": [
+              1
+            ],
+            "details": "Use React Hook Form's watch() to monitor field changes, implement conditional rendering logic for fields that appear/disappear based on user input, create dynamic Zod schemas that adapt validation rules based on form state, handle conditional required fields and their validation messages",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Build form UI components and submission handling",
+            "description": "Create reusable form input components with error handling, implement form submission logic, and add user feedback mechanisms",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Build custom input components (text, email, select, textarea) with integrated error display, implement form submission handler with loading states and success/error feedback, add form reset functionality, create accessible form labels and ARIA attributes, implement client-side and server-side error handling with appropriate user notifications",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Create Contact Form Submission Server Action",
+        "description": "Create a Next.js Server Action to process the contact form submission. This action will validate the data using the Zod schema, save the submission to the `ContactSubmissions` collection in PayloadCMS, and trigger email notifications.",
+        "details": "Create a file `app/actions/contact.ts`. The server action will accept the form data, parse it with the Zod schema to ensure type safety, and then use the Payload Local API (`payload.create`) to store the validated data in the `ContactSubmissions` collection. This action will be called from the form's `onSubmit` handler.",
+        "testStrategy": "Submit the form with valid data and verify a new entry is created in the Payload admin panel under 'Contact Submissions'. Submit invalid data to ensure the server action returns an error and the entry is not created. Check server logs for any errors.",
+        "priority": "high",
+        "dependencies": [
+          3,
+          5
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Zod validation schema and server action structure",
+            "description": "Create the server action function with comprehensive Zod schema validation for form data, including error handling and type safety",
+            "dependencies": [],
+            "details": "Set up Zod validation schemas for all form fields, implement the server action function structure, add proper error handling for validation failures, ensure type safety throughout the validation process, and create reusable validation utilities",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Integrate PayloadCMS storage and implement submission processing",
+            "description": "Connect the validated form data to PayloadCMS for persistent storage and implement complete submission workflow",
+            "dependencies": [
+              1
+            ],
+            "details": "Configure PayloadCMS collection for form submissions, implement data transformation from validated input to CMS format, add error handling for database operations, create success/failure response handling, and ensure proper data persistence with appropriate field mapping",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Integrate Resend API and Create Email Templates",
+        "description": "Integrate the Resend API for sending transactional emails. Create email templates using React Email for the automated client confirmation and the admin notification upon a new contact form submission.",
+        "details": "Install `resend@^3.0.0` and `@react-email/components`. Create two email templates: `ContactConfirmationEmail.tsx` and `AdminNotificationEmail.tsx`. In the server action from the previous task, after successfully saving the submission to Payload, call the Resend API to send both emails. Use the `RESEND_API_KEY` from environment variables.",
+        "testStrategy": "Submit the contact form. Verify that the client's email address receives the confirmation email and the admin's email receives the notification. Check the Resend dashboard to monitor email sending status and delivery rates.",
+        "priority": "high",
+        "dependencies": [
+          6
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up Resend API configuration",
+            "description": "Configure the Resend API by obtaining API keys, setting up environment variables, and establishing secure connection to the email service",
+            "dependencies": [],
+            "details": "Install Resend SDK, create account and obtain API key, configure environment variables for secure key storage, set up API client initialization, and test basic connection to ensure proper authentication",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Create email templates with React Email",
+            "description": "Design and develop reusable email templates using React Email components for different types of notifications and communications",
+            "dependencies": [
+              1
+            ],
+            "details": "Install React Email package, create template components for various email types (welcome, confirmation, notifications), implement dynamic content placeholders, style templates with responsive design, and test template rendering across different email clients",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Implement email triggering on form submission",
+            "description": "Integrate email sending functionality with form submission handlers to automatically trigger appropriate emails based on user actions",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Create email service functions that utilize Resend API, implement form submission handlers that trigger email sending, add error handling and retry logic for failed sends, validate form data before email dispatch, and implement logging for email delivery tracking",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Implement Dynamic GitHub Integration with ISR",
+        "description": "Develop a system to dynamically display GitHub repositories and contribution statistics. This involves fetching data from the GitHub API via a Next.js API route and implementing a robust caching strategy to avoid rate limiting.",
+        "details": "Create a Next.js API route (`app/api/github/route.ts`). Use the `GITHUB_TOKEN` to authenticate with the GitHub API via Octokit.js (`@octokit/rest`). Fetch pinned repositories and user contribution data. Implement Vercel's Incremental Static Regeneration (ISR) on the portfolio page that displays this data, with a revalidation period of 6 hours (`revalidate: 21600`) to keep data fresh without hitting API limits.",
+        "testStrategy": "Verify that the frontend component correctly displays GitHub repositories and stats. Check the network tab to confirm that data is being fetched from the internal API route. Deploy to Vercel and verify that the data updates after the specified revalidation period.",
+        "priority": "medium",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Develop GitHub Data Fetching System",
+            "description": "Create a robust system to fetch repository data, user profile information, and commit statistics from GitHub API with proper error handling and authentication",
+            "dependencies": [],
+            "details": "Implement GitHub API client with authentication tokens, create functions to fetch repositories, user profile, and commit data, add comprehensive error handling for API failures and rate limiting scenarios",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Create API Route for GitHub Data",
+            "description": "Build Next.js API routes to serve GitHub data with proper request validation and response formatting",
+            "dependencies": [
+              1
+            ],
+            "details": "Create API endpoints at /api/github/* to handle different data requests, implement request validation middleware, format responses consistently, and add proper HTTP status codes and error responses",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Implement Caching Strategies",
+            "description": "Design and implement multi-layer caching system to minimize API calls and avoid GitHub rate limits",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Implement Redis or in-memory caching for API responses, set appropriate cache TTL values, create cache invalidation strategies, add cache warming mechanisms, and implement fallback strategies for cache misses",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Integrate GitHub Data with ISR Portfolio",
+            "description": "Integrate cached GitHub data into portfolio pages using Next.js Incremental Static Regeneration for optimal performance",
+            "dependencies": [
+              1,
+              2,
+              3
+            ],
+            "details": "Configure ISR for GitHub data pages with appropriate revalidation intervals, create dynamic portfolio components that consume GitHub data, implement loading states and error boundaries, and optimize data fetching patterns for static generation",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Build Blog Listing and Individual Post Pages",
+        "description": "Build the frontend for the blog, including a main listing page with pagination and individual post pages. Pages will be dynamically generated using data fetched from the `BlogPosts` collection in PayloadCMS.",
+        "details": "Create dynamic routes `app/blog/page.tsx` for the listing and `app/blog/[slug]/page.tsx` for individual posts. Use the Payload REST API or GraphQL to fetch published blog posts. Implement pagination on the listing page. The post page should render the rich text content from Payload, ensuring custom elements like code blocks are styled correctly.",
+        "testStrategy": "Create several test blog posts in Payload. Verify the listing page shows the correct posts per page and that pagination works. Navigate to an individual post and ensure all content, including rich text, images, and code blocks, renders correctly.",
+        "priority": "medium",
+        "dependencies": [],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Blog Listing Page with Pagination",
+            "description": "Develop the main blog listing page that displays blog posts in a paginated format, including navigation controls and responsive design",
+            "dependencies": [],
+            "details": "Build a blog listing component that fetches and displays blog posts from PayloadCMS with pagination controls. Include features like posts per page configuration, next/previous navigation, page numbers, and responsive grid layout for blog post previews.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement Data Fetching from BlogPosts Collection",
+            "description": "Set up API integration to fetch blog post data from PayloadCMS BlogPosts collection with proper error handling and loading states",
+            "dependencies": [],
+            "details": "Create API functions to retrieve blog posts from PayloadCMS, including pagination parameters, sorting options, and filtering capabilities. Implement proper error handling, loading states, and data transformation for consistent frontend consumption.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Build Individual Blog Post Pages",
+            "description": "Create dynamic individual blog post pages with full content display, metadata, and navigation between posts",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Develop individual blog post pages that display full post content, author information, publication date, tags, and related posts. Include SEO optimization, social sharing buttons, and navigation to previous/next posts using data from the BlogPosts collection.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "title": "Implement Blog RSS Feed, SEO, and Social Sharing",
+        "description": "Enhance the blog with key features: generate an RSS feed for subscribers, implement automated SEO meta tag generation for each post, and add social sharing functionality.",
+        "details": "Create an API route (`/api/rss`) that fetches all blog posts and generates an XML feed using the `rss` package. For SEO, use the `generateMetadata` function in Next.js 14 on the post page layout to dynamically set the title, description, and OpenGraph tags from the post's SEO fields in Payload. Add social sharing buttons (e.g., for Twitter, LinkedIn) using a library like `react-share`.",
+        "testStrategy": "Navigate to `/api/rss` and validate the generated XML feed using an online validator. Inspect the `<head>` of a blog post page to verify that meta tags are set correctly. Click the social sharing buttons to ensure they generate the correct sharing links.",
+        "priority": "medium",
+        "dependencies": [
+          9
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement RSS Feed Generation",
+            "description": "Create an RSS feed endpoint that dynamically generates XML content from blog posts, including proper RSS 2.0 formatting, post metadata, and content syndication capabilities.",
+            "dependencies": [],
+            "details": "Set up RSS feed route, create XML template with proper RSS 2.0 structure, implement post data serialization, add feed metadata (title, description, link), handle content encoding and CDATA sections, implement pagination for large feeds, add proper HTTP headers for XML content type, and test feed validation with RSS validators.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement Automated SEO Meta Tag Generation",
+            "description": "Develop a system to automatically generate SEO-optimized meta tags for blog posts and pages, including Open Graph and Twitter Card metadata.",
+            "dependencies": [
+              1
+            ],
+            "details": "Create meta tag generation utility functions, implement dynamic title and description generation based on post content, add Open Graph meta tags (og:title, og:description, og:image, og:url), implement Twitter Card meta tags, create canonical URL generation, add structured data markup (JSON-LD), implement meta tag injection into page templates, handle fallback values for missing content, and optimize meta descriptions for search engines.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Add Social Sharing Functionality",
+            "description": "Integrate social media sharing buttons and functionality for major platforms, with proper URL encoding and sharing metadata.",
+            "dependencies": [
+              2
+            ],
+            "details": "Create social sharing component with buttons for Facebook, Twitter, LinkedIn, and other platforms, implement proper URL encoding for sharing links, add share count tracking and display, create custom sharing URLs with pre-filled content, implement copy-to-clipboard functionality for post URLs, add email sharing option, style sharing buttons responsively, implement sharing analytics tracking, test sharing functionality across different devices and platforms, and ensure proper meta tag integration for rich social previews.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "title": "Enhance Project Pages to Detailed Case Studies",
+        "description": "Revamp the project display pages to function as detailed case studies. Fetch data from the enhanced `Project` model in PayloadCMS and present it in a compelling challenge-solution-results format.",
+        "details": "Create a dynamic route `app/projects/[slug]/page.tsx`. Fetch a single project's data from Payload based on the slug. Design the page to clearly separate sections for `challenge`, `solution`, `results`, `technologies`, and `client.metrics`. Use a gallery component for `images` and render the rich text fields for the detailed case study content.",
+        "testStrategy": "Populate a project in Payload with full case study details. Verify the project page renders all fields correctly, including rich text and image galleries. Ensure the layout is responsive and easy to read.",
+        "priority": "medium",
+        "dependencies": [
+          4
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Fetch and Structure Enhanced Project Data",
+            "description": "Implement data fetching mechanisms to retrieve comprehensive project information including detailed descriptions, technologies used, challenges faced, solutions implemented, outcomes, and metrics. Structure this data into a format suitable for case study presentation.",
+            "dependencies": [],
+            "details": "Create API endpoints or data queries to gather extended project information beyond basic details. Include project timeline, team members, technical specifications, performance metrics, user feedback, and lessons learned. Organize data into structured formats that support rich case study narratives.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Design Case Study Page Layout and Components",
+            "description": "Create responsive page layouts and reusable components specifically designed for case study presentation, including sections for project overview, problem statement, solution approach, implementation details, results, and key takeaways.",
+            "dependencies": [
+              1
+            ],
+            "details": "Design and implement UI components such as hero sections, timeline visualizations, before/after comparisons, metrics dashboards, image galleries, and testimonial sections. Ensure the layout is optimized for storytelling flow and includes interactive elements like expandable sections and media carousels.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "title": "Integrate Calendly for Consultation Booking",
+        "description": "Integrate an embedded Calendly widget to allow potential clients to directly book a 30-minute consultation. The component should be styled to match the portfolio's design system.",
+        "details": "Install `react-calendly@^4.0.0`. Create a new page or a section on the contact page for booking. Use the `InlineWidget` component from the library, passing the `url` for the specific Calendly event. Use the component's styling props to customize colors and text to align with the portfolio's brand.",
+        "testStrategy": "Verify the Calendly widget loads and is fully interactive. Complete a test booking flow to ensure it correctly schedules an event in the connected Calendly account. Check that automated confirmation emails from Calendly are sent.",
+        "priority": "medium",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Embed Calendly Widget into Contact Page",
+            "description": "Integrate the Calendly scheduling widget into the contact page by adding the necessary embed code and configuring basic functionality",
+            "dependencies": [],
+            "details": "Add Calendly embed script to the contact page HTML, configure the widget settings including event types, availability, and basic display options. Ensure the widget loads properly and is functional for scheduling appointments.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Customize Calendly Widget Appearance",
+            "description": "Style the Calendly widget to match the portfolio's design system including colors, fonts, and layout consistency",
+            "dependencies": [
+              1
+            ],
+            "details": "Apply custom CSS to modify the Calendly widget's appearance, including color scheme alignment with portfolio branding, font family matching, button styling, and responsive design adjustments. Ensure seamless visual integration with the existing contact page design.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 13,
+        "title": "Build Basic Documentation Platform with MDX",
+        "description": "Set up a basic documentation platform using Next.js and MDX. This includes creating static pages from MDX files stored in the Git repository, with features like syntax highlighting and a table of contents.",
+        "details": "Create a `/docs` directory in the project root for MDX files. Install `next-mdx-remote@^4.4.0` and `gray-matter`. Create a dynamic route `app/docs/[...slug]/page.tsx` that reads the MDX files, parses the frontmatter, and renders the content using the `MDXRemote` component. Use a library like `rehype-pretty-code` for syntax highlighting.",
+        "testStrategy": "Create a sample `.mdx` file with frontmatter and code blocks. Verify that the page renders correctly at the corresponding URL. Check that syntax highlighting is applied and the table of contents is generated from headings.",
+        "priority": "low",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Static Pages with MDX Configuration",
+            "description": "Set up the basic MDX configuration and create static documentation pages with proper routing and content structure.",
+            "dependencies": [],
+            "details": "Configure MDX parser, set up page routing system, create template layouts for documentation pages, implement MDX component mapping, and establish the basic file structure for documentation content.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement Syntax Highlighting System",
+            "description": "Integrate and configure syntax highlighting for code blocks within MDX content using appropriate highlighting libraries.",
+            "dependencies": [
+              1
+            ],
+            "details": "Install and configure syntax highlighting library (such as Prism.js or highlight.js), set up language support for multiple programming languages, customize highlighting themes, and ensure proper integration with MDX code blocks.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Generate Dynamic Table of Contents",
+            "description": "Implement automatic table of contents generation based on MDX content headings and page structure.",
+            "dependencies": [
+              1
+            ],
+            "details": "Parse MDX content to extract headings and structure, create dynamic TOC component, implement smooth scrolling navigation, add active section highlighting, and ensure TOC updates automatically when content changes.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 14,
+        "title": "Develop Basic Learning Platform with Progress Tracking",
+        "description": "Build the frontend for the basic learning platform. This includes pages to list and display educational content from the `LearningContent` collection in PayloadCMS, with client-side reading progress tracking.",
+        "details": "Create dynamic routes `app/learning/page.tsx` and `app/learning/[slug]/page.tsx`. Fetch content from the `LearningContent` collection. On the article page, use a `useEffect` hook to monitor the user's scroll position and save the progress percentage to `localStorage` against the article's slug. On the listing page, read from `localStorage` to display progress indicators on articles.",
+        "testStrategy": "Create learning content in Payload. Verify the listing and detail pages render correctly. Scroll through an article, refresh the page, and confirm the scroll position is restored. Go back to the listing page and check that a progress bar or indicator is visible for the article you were reading.",
+        "priority": "low",
+        "dependencies": [
+          3
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Design and implement educational content listing interface",
+            "description": "Create a comprehensive interface for displaying educational content with filtering, searching, and categorization capabilities",
+            "dependencies": [],
+            "details": "Develop a responsive content listing page that displays courses, articles, and learning materials with thumbnail images, titles, descriptions, difficulty levels, and duration estimates. Include search functionality, category filters, and sorting options (by date, popularity, difficulty). Implement pagination or infinite scroll for large content libraries.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Build individual article display and reading experience",
+            "description": "Develop detailed article pages with rich content presentation and navigation features",
+            "dependencies": [
+              1
+            ],
+            "details": "Create individual article pages with clean typography, embedded media support (images, videos, code snippets), table of contents, estimated reading time, and related content suggestions. Implement breadcrumb navigation, previous/next article navigation, and responsive design for optimal reading experience across devices.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Implement client-side progress tracking system",
+            "description": "Develop a comprehensive progress tracking mechanism that monitors user learning activities and stores data locally",
+            "dependencies": [
+              2
+            ],
+            "details": "Create a client-side progress tracking system using localStorage or IndexedDB to track article completion, reading time, quiz scores, and overall course progress. Implement progress indicators, completion badges, and learning streaks. Include data persistence and synchronization capabilities for when users switch devices.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Integrate progress visualization and user dashboard",
+            "description": "Build a user dashboard that displays learning progress, achievements, and personalized recommendations",
+            "dependencies": [
+              3
+            ],
+            "details": "Develop a comprehensive dashboard showing progress charts, completed courses, earned certificates, learning statistics, and personalized content recommendations. Include visual progress bars, achievement badges, learning calendar, and goal-setting features. Implement data export functionality and progress sharing capabilities.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 15,
+        "title": "Create Simple Service Status Page",
+        "description": "Create a simple, static service status page that shows the uptime and operational status of the portfolio. A serverless function will be used for a basic health check.",
+        "details": "Create a page at `app/status/page.tsx`. This page will initially display a manually updatable status. Create a serverless function (`app/api/health/route.ts`) that performs a `fetch` to the portfolio's main URL. If it returns a 200 OK, the function returns `{ status: 'operational' }`. The status page can optionally fetch from this endpoint on the client-side to show a live status.",
+        "testStrategy": "Visit the `/status` page and verify it displays the default status. Call the `/api/health` endpoint directly and confirm it returns a success response. Introduce a temporary failure to test the error state.",
+        "priority": "low",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Static Service Status Page",
+            "description": "Design and develop a static HTML/CSS/JavaScript status page that displays service health status with real-time updates and historical uptime data",
+            "dependencies": [],
+            "details": "Build a responsive status page interface showing service components, current status indicators (operational/degraded/down), uptime percentages, and incident history. Include auto-refresh functionality and status color coding for quick visual assessment.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Develop Serverless Health Check Function",
+            "description": "Create a serverless function that performs automated health checks on services and updates the status page data",
+            "dependencies": [
+              1
+            ],
+            "details": "Implement a cloud function (AWS Lambda, Azure Functions, or Google Cloud Functions) that periodically pings services, checks response times, validates endpoints, and stores status data. Include error handling, retry logic, and JSON API endpoints for the status page to consume.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 16,
+        "title": "Implement Basic Workflow Automation with Cron Jobs and Webhooks",
+        "description": "Implement basic workflow automations using Vercel Cron Jobs and Next.js API Routes. This includes a scheduled job for syncing GitHub data and a webhook handler for content-related notifications.",
+        "details": "Configure a cron job in `vercel.json` to trigger an API route (e.g., `/api/cron/github-sync`) every 6 hours, as specified in the PRD. This route will re-use the GitHub fetching logic. Create another API route to act as a webhook endpoint for Payload. Configure a webhook in Payload to call this endpoint when a new blog post is published, which can then trigger a notification email via Resend.",
+        "testStrategy": "Deploy to Vercel and check the cron job logs to ensure it runs on schedule. Manually trigger the webhook from the Payload admin panel and verify that the associated action (e.g., email notification) is performed successfully.",
+        "priority": "low",
+        "dependencies": [
+          7,
+          8
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up Vercel Cron Jobs configuration and Next.js API routes structure",
+            "description": "Configure Vercel Cron Jobs using vercel.json configuration file and create the foundational API routes structure in Next.js for handling scheduled tasks and webhook endpoints.",
+            "dependencies": [],
+            "details": "Create vercel.json with cron job definitions, set up API routes folder structure (/api/cron/, /api/webhooks/), implement basic cron job handlers with proper error handling and logging, configure environment variables for scheduling intervals, and set up middleware for request validation.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement GitHub data synchronization workflow",
+            "description": "Build automated workflows to sync GitHub repository data including commits, pull requests, issues, and repository metadata using GitHub API integration.",
+            "dependencies": [
+              1
+            ],
+            "details": "Create GitHub API client with authentication, implement data fetching functions for repositories, commits, PRs, and issues, set up database models for storing GitHub data, create sync logic with incremental updates, implement rate limiting and error retry mechanisms, and schedule regular sync jobs via Vercel Cron.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Build content notification system with webhook handlers",
+            "description": "Develop automated notification system for content-related events using webhooks and scheduled notifications, including email alerts and real-time updates.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Set up webhook endpoints for GitHub events (push, PR, issues), implement notification templates for different content types, integrate email service (SendGrid/Resend) for notifications, create notification queue system for reliable delivery, implement user preference management for notification settings, and set up monitoring and logging for notification delivery status.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 17,
+        "title": "Implement UI/UX Enhancements and Micro-interactions",
+        "description": "Enhance UI/UX with improved navigation and interaction design. Implement a sticky header, smooth scrolling, mobile-optimized menu, and micro-interactions like loading skeletons and toast notifications.",
+        "details": "Use `framer-motion` for page transitions and micro-interactions. Implement a sticky header with a `position: sticky` class in Tailwind CSS. For toast notifications, use a library like `react-hot-toast`. Create skeleton loader components that mimic the layout of dynamic content (e.g., blog post cards) and display them while data is being fetched.",
+        "testStrategy": "Manually navigate the site to test all UI enhancements. Verify the sticky header works on all pages. Test on various screen sizes to ensure mobile navigation is optimal. Trigger actions that show loading states and toast notifications (e.g., form submission) to confirm they work as expected.",
+        "priority": "medium",
+        "dependencies": [
+          1,
+          12
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Sticky Header with Responsive Design",
+            "description": "Create a sticky navigation header that remains fixed at the top during scrolling, with responsive behavior for different screen sizes and smooth transitions.",
+            "dependencies": [],
+            "details": "Implement CSS position: sticky or fixed positioning, add scroll detection for header styling changes, ensure proper z-index layering, and optimize for mobile viewport. Include smooth fade-in/out effects and background opacity changes on scroll.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Develop Mobile-Optimized Navigation Menu",
+            "description": "Design and implement a mobile-friendly hamburger menu with smooth animations and touch-optimized interactions for smaller screens.",
+            "dependencies": [
+              1
+            ],
+            "details": "Create hamburger menu icon with CSS animations, implement slide-out or overlay menu panel, add touch gestures support, ensure accessibility with proper ARIA labels, and integrate with the sticky header component.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Add Smooth Scrolling and Page Transitions",
+            "description": "Implement smooth scrolling behavior for navigation links and page sections, along with elegant page transition effects.",
+            "dependencies": [
+              1
+            ],
+            "details": "Configure CSS scroll-behavior: smooth, implement JavaScript-based smooth scrolling for better browser compatibility, add intersection observer for scroll-triggered animations, and create page transition effects using CSS transforms and opacity changes.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Create Micro-interactions and Feedback Systems",
+            "description": "Develop loading skeletons, toast notifications, and other micro-interactions to enhance user experience and provide visual feedback.",
+            "dependencies": [
+              2,
+              3
+            ],
+            "details": "Design and implement skeleton loading screens for content areas, create toast notification system with different types (success, error, warning), add hover effects and button animations, implement progress indicators, and ensure all interactions follow consistent timing and easing functions.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 18,
+        "title": "Final Integration Testing, Performance Audit, and Launch Preparation",
+        "description": "Conduct a final round of end-to-end integration testing for all features. Perform a performance and security audit, and prepare all necessary configurations for a production launch on Vercel.",
+        "details": "Test the full user flows: Client Acquisition, Content Discovery, and Recruitment. Run Lighthouse audits on key pages (Home, Blog, Project Case Study) and aim for scores of 90+. Review security best practices: configure CORS in `next.config.mjs`, ensure rate limiting is considered for public APIs, and double-check all environment variables are correctly set in Vercel.",
+        "testStrategy": "Create a pre-launch checklist. Execute all test cases for the defined user flows. Resolve all issues found during the Lighthouse audit. Perform a final code review focusing on security and performance. Deploy to production and monitor Vercel Analytics and logs for any issues.",
+        "priority": "high",
+        "dependencies": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Design and Execute User Flow Testing",
+            "description": "Create comprehensive test scenarios for all critical user journeys and execute end-to-end testing to validate user experience and functionality",
+            "dependencies": [],
+            "details": "Map out all user flows including registration, login, core feature usage, and checkout processes. Create automated and manual test scripts, execute tests across different browsers and devices, document test results and identify any user experience issues.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Conduct Performance Audit and Optimization",
+            "description": "Perform comprehensive performance testing including load testing, stress testing, and optimization of application response times",
+            "dependencies": [
+              1
+            ],
+            "details": "Execute load testing with expected user volumes, measure response times and resource utilization, identify performance bottlenecks, optimize database queries and API calls, validate caching mechanisms, and ensure scalability requirements are met.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Execute Security Audit and Vulnerability Assessment",
+            "description": "Conduct thorough security testing including penetration testing, vulnerability scanning, and security compliance verification",
+            "dependencies": [
+              1
+            ],
+            "details": "Perform automated security scans, conduct manual penetration testing, validate authentication and authorization mechanisms, test for common vulnerabilities (OWASP Top 10), review data encryption and privacy controls, and ensure compliance with security standards.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Prepare Production Environment Configurations",
+            "description": "Set up and configure all production environment settings, infrastructure, and deployment configurations",
+            "dependencies": [
+              2,
+              3
+            ],
+            "details": "Configure production servers and databases, set up monitoring and logging systems, prepare environment variables and secrets management, configure load balancers and CDN, set up backup and disaster recovery procedures, and validate all production configurations.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Finalize Launch Readiness and Documentation",
+            "description": "Complete final validation checks, prepare launch documentation, and ensure all systems are ready for production deployment",
+            "dependencies": [
+              4
+            ],
+            "details": "Conduct final smoke tests in production environment, prepare deployment runbooks and rollback procedures, create monitoring dashboards and alerts, finalize user documentation and support materials, coordinate with stakeholders for launch approval, and establish post-launch support procedures.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-07-12T15:36:08.429Z",
+      "updated": "2025-07-12T15:37:56.859Z",
+      "description": "Tasks for v1 context"
+    }
   }
 }
