@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/context/theme-provider";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ subsets: ["latin"], display: 'swap' });
 
@@ -175,6 +176,30 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              style: {
+                background: '#0A0A0A',
+                color: '#FFFFFF',
+                border: '1px solid #333',
+              },
+              success: {
+                style: {
+                  background: '#0A0A0A',
+                  color: '#10B981',
+                  border: '1px solid #10B981',
+                },
+              },
+              error: {
+                style: {
+                  background: '#0A0A0A',
+                  color: '#EF4444',
+                  border: '1px solid #EF4444',
+                },
+              },
+            }}
+          />
           {process.env.NODE_ENV === 'production' && (
             <>
               <Analytics />

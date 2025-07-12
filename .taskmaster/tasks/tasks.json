@@ -479,579 +479,579 @@
     }
   },
   "v1": {
-      "tasks": [
-        {
-          "id": 1,
-          "title": "Project Initialization and Environment Setup (Verify Existing)",
-          "description": "Verify the existing Next.js 14 project setup, including App Router, TypeScript, Tailwind CSS, Framer Motion. Ensure existing environment variable management using `.env.local` is correct and robust error logging via Sentry is configured.",
-          "details": "Confirm `create-next-app@latest` was used with TypeScript and Tailwind CSS options. Verify `framer-motion@^10.0.0` and `@sentry/nextjs` are installed. Ensure `.env.local` contains placeholders for `RESEND_API_KEY`, `GITHUB_TOKEN`, `CALENDLY_API_KEY`, `ADMIN_EMAIL`, `CALENDLY_USERNAME`, `NEXT_PUBLIC_GA_ID`, `SENTRY_DSN` as per PRD. Confirm Sentry is initialized and capturing errors. Install `ts-node` in `devDependencies` for script execution. This task is primarily a verification step given the project's current state.",
-          "testStrategy": "Verify that the Next.js application runs successfully locally (`npm run dev`). Check that Tailwind classes are applied correctly. Ensure environment variables can be accessed via `process.env`. Trigger a test error to confirm Sentry is capturing exceptions and verify `npm run build` passes locally without warnings.",
-          "priority": "high",
-          "dependencies": [],
-          "status": "done",
-          "subtasks": [
-            {
-              "id": 1,
-              "title": "Verify Next.js with TypeScript and Sentry Setup",
-              "description": "Confirm the existing Next.js project is correctly configured with TypeScript and Sentry for error tracking.",
-              "dependencies": [],
-              "details": "Review `tsconfig.json` for strict type checking. Confirm project folder structure (`app/`, `components/`, `lib/`, `scripts/`, `e2e/`, `config/`). Verify `@sentry/nextjs` is installed and configured via `sentry.client.config.ts`, `sentry.server.config.ts`, and `sentry.edge.config.ts` if applicable. Ensure `SENTRY_DSN` is in `.env.local`.",
-              "status": "done",
-              "testStrategy": "Run `npm run dev`. Navigate to a page and confirm no console errors related to Next.js or TypeScript. Trigger a deliberate error (e.g., `throw new Error('Test Sentry Current');`) and verify it appears in the Sentry dashboard."
-            },
-            {
-              "id": 2,
-              "title": "Verify Tailwind CSS Configuration",
-              "description": "Confirm existing Tailwind CSS setup and its integration into the Next.js project.",
-              "dependencies": [
-                1
-              ],
-              "details": "Review `tailwind.config.js` and `postcss.config.js`. Ensure `content` paths include all relevant file extensions. Confirm Tailwind directives in global CSS (`app/globals.css`). Verify custom theme extensions are correctly set up.",
-              "status": "done",
-              "testStrategy": "Inspect existing components using Tailwind classes. Verify styles are applied as expected in the browser's developer tools. No new code required, just validation of current state."
-            },
-            {
-              "id": 3,
-              "title": "Verify Framer Motion and Environment Variables Management",
-              "description": "Confirm Framer Motion is correctly integrated and environment variable management is robust.",
-              "dependencies": [
-                1,
-                2
-              ],
-              "details": "Verify `framer-motion` package is installed and `Framer Motion` components are used in existing animations. Confirm `.env.local` and `.env.local.example` structure. Ensure `process.env` access is working for existing variables. Add new environment variable placeholders from PRD (`RESEND_API_KEY`, `CALENDLY_API_KEY`, `ADMIN_EMAIL`, `CALENDLY_USERNAME`, `NEXT_PUBLIC_GA_ID`) to `.env.local.example`. Ensure `ts-node` is installed as a `devDependency` for running scripts.",
-              "status": "done",
-              "testStrategy": "Observe existing animated components to confirm smooth animations. Create a temporary log of `process.env.GITHUB_USERNAME` in a server component or API route to verify access. Check `.env.local.example` for all required new variables."
-            }
-          ]
-        },
-        {
-          "id": 2,
-          "title": "Implement Advanced Contact Form with React Hook Form and Zod",
-          "description": "Build the advanced contact form component using React Hook Form and Zod for robust client-side and server-side validation. This will *replace/enhance the existing basic contact form*. The form will include all fields specified in the `ContactFormData` model, such as conditional fields based on project type. *For V1, this form data will not be persisted on the server-side beyond email notifications.*",
-          "details": "Install `react-hook-form@^7.45.0`, `zod@^3.22.0`, and `@hookform/resolvers@^3.3.0`. Define a Zod schema that precisely matches the `ContactFormData` model. Use the `useForm` hook with the Zod resolver. Implement conditional rendering for fields like `sourceDetails` (only appearing when `source` is 'referral' or 'other') and `phone` (optional but present). Style all form elements using *your existing Tailwind CSS setup*. **Implement `try...catch` blocks for client-side form submission to handle network errors gracefully and provide user feedback.**",
-          "testStrategy": "Unit test the Zod schema to ensure validation rules work as expected (e.g., required fields, email format, budget/timeline valid values). Manually test the form in the browser: submit with valid data, invalid data (missing required fields, incorrect email), and test conditional field visibility. Ensure submission is blocked/errors displayed for invalid data.",
-          "priority": "high",
-          "dependencies": [
-            1
-          ],
-          "status": "pending",
-          "subtasks": [
-            {
-              "id": 1,
-              "title": "Set up React Hook Form with Zod validation schema",
-              "description": "Install and configure React Hook Form and Zod libraries, create the base form structure with validation schema defining field types, constraints, and error messages.",
-              "dependencies": [],
-              "details": "Install `react-hook-form` and `zod` packages. Create a Zod schema (`src/lib/schemas/contactForm.ts`) with validation rules for all fields in the `ContactFormData` model. Integrate the schema with `useForm` hook using `@hookform/resolvers/zod`. Set up a basic `<form>` structure with appropriate `register` calls for each input and `formState.errors` for display.",
-              "status": "pending",
-              "testStrategy": "Create a dummy form component and apply the Zod schema. Manually test basic validation (e.g., leaving a required field empty, entering an invalid email format) and observe error messages appear correctly on the UI."
-            },
-            {
-              "id": 2,
-              "title": "Implement conditional field logic and dynamic validation",
-              "description": "Create conditional field rendering based on user selections and implement dynamic validation rules that change based on form state.",
-              "dependencies": [
-                1
-              ],
-              "details": "Use React Hook Form's `watch()` function to monitor changes in fields like `projectType` and `source`. Implement conditional rendering logic (e.g., `sourceDetails` only appears if `source` is 'referral' or 'other'). Ensure `zod`'s `superRefine` or `refine` methods are used for any complex cross-field validation if necessary.",
-              "status": "pending",
-              "testStrategy": "Test the form in the browser. Select 'referral' or 'other' for 'source' and confirm `sourceDetails` appears. Change it back and ensure `sourceDetails` disappears. Verify no validation errors occur when conditional fields are hidden."
-            },
-            {
-              "id": 3,
-              "title": "Build form UI components and client-side submission handling",
-              "description": "Create reusable form input components with error handling, implement client-side form submission logic, and add user feedback mechanisms.",
-              "dependencies": [
-                1,
-                2
-              ],
-              "details": "Build custom input components (e.g., `Input.tsx`, `Select.tsx`, `TextArea.tsx`) that display `formState.errors` appropriately. Implement the form's `onSubmit` handler to manage `isSubmitting` state and display `Success` or `Error` toasts (using `react-hot-toast`). **Crucially, wrap the submission logic in a `try...catch` block to handle network errors gracefully and provide user feedback.** Implement form reset on successful submission. Ensure all form elements have accessible labels and ARIA attributes. *The server-side handling and email sending will be covered in Task 3.*",
-              "status": "pending",
-              "testStrategy": "Submit the form with valid data and verify `isSubmitting` state changes and a success message appears. Submit with invalid data to ensure `isSubmitting` reverts and error messages are shown. Use browser dev tools to simulate network errors during submission and confirm graceful error display (e.g., an error toast)."
-            }
-          ]
-        },
-        {
-          "id": 3,
-          "title": "Create Contact Form Submission Server Action and Email Notifications",
-          "description": "Create a Next.js Server Action to process the contact form submission. This action will validate the data using the Zod schema and trigger email notifications via Resend API to the admin and sender. *For V1, this form data will not be persisted on the server-side.*",
-          "details": "Create a file `app/actions/contact.ts` to define the server action. This action will receive the `formData` from the client. **Re-use the Zod schema from Task 2 for server-side validation.** Call the email sending functions (from Subtask 2 below) to send both `ContactConfirmationEmail` to the user and `AdminNotificationEmail` to the admin (`ADMIN_EMAIL`). **Implement robust `try...catch` blocks for all server-side operations (validation, email sending) and log errors to Sentry.** Return appropriate success/error messages to the client. *No database interaction is required for this V1.*",
-          "testStrategy": "Submit the form with valid data. Verify that the client's email address receives the confirmation email and the admin's email (`ADMIN_EMAIL`) receives the notification. Check Resend dashboard to monitor email sending status and delivery rates. Submit invalid data (e.g., modify data client-side before sending) to ensure server-side validation catches it and an appropriate error is returned. Check Vercel logs and Sentry for any errors during submission.",
-          "priority": "high",
-          "dependencies": [
-            2
-          ],
-          "status": "pending",
-          "subtasks": [
-            {
-              "id": 1,
-              "title": "Implement Zod validation schema and server action structure",
-              "description": "Create the server action function with comprehensive Zod schema validation for form data, including error handling and type safety.",
-              "dependencies": [],
-              "details": "Define an `async function` marked with `'use server'` in `app/actions/contact.ts`. Import and apply the Zod schema from Task 2 to validate the incoming `formData`. Implement `try...catch` for validation and return specific error messages if validation fails.",
-              "status": "pending",
-              "testStrategy": "Create a test endpoint or directly call the server action with valid and invalid payloads (e.g., using Postman/cURL). Verify that valid data passes and invalid data returns appropriate validation errors."
-            },
-            {
-              "id": 2,
-              "title": "Integrate Resend Email Notifications into Server Action",
-              "description": "Integrate email sending functionality with the contact form server action to automatically trigger appropriate emails.",
-              "dependencies": [
-                1
-              ],
-              "details": "Install `resend@^3.0.0` and `@react-email/components`. Define an `EmailService` interface and implement it using the `Resend` SDK. Create `ContactConfirmationEmail.tsx` and `AdminNotificationEmail.tsx` React Email templates in a `src/emails` directory. Within the server action, call the `EmailService` functions to send both emails using `RESEND_API_KEY`, `FROM_EMAIL`, and `ADMIN_EMAIL` from environment variables. **Wrap these email calls in `try...catch` to prevent email failures from blocking the form submission, and log failures to Sentry.**",
-              "status": "pending",
-              "testStrategy": "Submit the contact form. Verify that both the user and admin emails are received. Check Resend logs for successful delivery. If possible, simulate an email sending failure (e.g., invalid API key) and confirm it's logged to Sentry without crashing the form submission."
-            }
-          ]
-        },
-        {
-          "id": 4,
-          "title": "Implement Dynamic GitHub Integration with ISR",
-          "description": "Develop a system to dynamically display GitHub repositories and contribution statistics *by leveraging existing ISR capabilities*. This involves fetching data from the GitHub API via a Next.js API route and implementing a robust caching strategy to avoid rate limiting. Create a dedicated cron job for periodic data synchronization.",
-          "details": "Create a Next.js API route (`app/api/github/route.ts`). Use the `GITHUB_TOKEN` and `GITHUB_USERNAME` to authenticate with the GitHub API via `octokit/rest`. Fetch public repositories (filtered by stars or pin status) and user statistics. Implement Vercel's Incremental Static Regeneration (ISR) on the portfolio page that displays this data, with a revalidation period of 6 hours (`revalidate: 21600`) to keep data fresh without hitting API limits. Also, configure a Vercel Cron Job in `vercel.json` (`/api/cron/github-sync`) to trigger this data refresh periodically.",
-          "testStrategy": "Verify that the frontend component correctly displays GitHub repositories and stats. Check the network tab to confirm that data is being fetched from the internal API route. Deploy to Vercel and verify that the data updates after the specified revalidation period, and that the cron job runs successfully in Vercel logs.",
-          "priority": "medium",
-          "dependencies": [
-            1
-          ],
-          "status": "pending",
-          "subtasks": [
-            {
-              "id": 1,
-              "title": "Develop GitHub Data Fetching System",
-              "description": "Create a robust system to fetch repository data, user profile information, and contribution statistics from GitHub API with proper error handling and authentication.",
-              "dependencies": [],
-              "details": "Install `@octokit/rest`. Create a utility file (e.g., `src/lib/github.ts`) with functions like `getGitHubRepos` and `getGitHubStats`. Use `GITHUB_TOKEN` and `GITHUB_USERNAME` for authentication. Implement `try...catch` blocks to handle GitHub API rate limits (return cached data or an error message) and other API failures. Log critical errors to Sentry.",
-              "status": "pending",
-              "testStrategy": "Run a standalone test script to call `getGitHubRepos()` and `getGitHubStats()`. Print the results to the console to ensure data is fetched correctly and error handling is triggered for invalid tokens or rate limits."
-            },
-            {
-              "id": 2,
-              "title": "Create API Route for GitHub Data",
-              "description": "Build a Next.js API route to serve GitHub data, incorporating caching for performance and rate limit avoidance.",
-              "dependencies": [
-                1
-              ],
-              "details": "Create `app/api/github/route.ts`. This route will call the functions from Subtask 1 to fetch data. Implement a basic in-memory cache or, for more advanced persistent caching, integrate `ioredis` (if added to dependencies and configured in `.env.local`) to cache GitHub API responses. Set appropriate cache TTLs (e.g., 1 hour). Add proper HTTP status codes and error responses. Ensure CORS headers are configured in `next.config.mjs` for this API route if accessed from different origins.",
-              "status": "pending",
-              "testStrategy": "Make multiple requests to `http://localhost:3000/api/github`. Verify the initial request fetches live data, and subsequent requests within the cache TTL are served from cache (observe logs or network timing). Test error scenarios (e.g., missing token)."
-            },
-            {
-              "id": 3,
-              "title": "Implement GitHub Data with ISR on Portfolio Page",
-              "description": "Integrate cached GitHub data into portfolio pages by *leveraging the existing Next.js Incremental Static Regeneration* for optimal performance and data freshness.",
-              "dependencies": [
-                1,
-                2
-              ],
-              "details": "On your main portfolio page (e.g., `app/page.tsx` or a dedicated GitHub showcase component within it), fetch the GitHub data using Next.js's data fetching methods (e.g., directly in a Server Component). Configure `revalidate: 21600` (6 hours) to leverage ISR. Create a UI component (`components/GitHubShowcase.tsx`) to display the repositories and stats. Implement loading states and error boundaries for the component.",
-              "status": "pending",
-              "testStrategy": "Render the `GitHubShowcase` component. Verify data displays correctly. After initial load, clear browser cache and hard refresh to ensure ISR serves cached content. Deploy to a Vercel preview URL and observe revalidation behavior over time."
-            },
-            {
-              "id": 4,
-              "title": "Configure Vercel Cron Job for GitHub Sync",
-              "description": "Set up a Vercel Cron Job to periodically trigger the GitHub data refresh, ensuring data freshness without manual intervention.",
-              "dependencies": [
-                2,
-                3
-              ],
-              "details": "Add a `crons` array to your `vercel.json` file. Define a cron job with `path: \"/api/cron/github-sync\"` (create this API route, which simply triggers the data revalidation for the GitHub page/data) and `schedule: \"0 */6 * * *\"` (every 6 hours). Ensure the `/api/cron/github-sync` API route specifically re-validates the relevant GitHub data fetching paths (e.g., `res.revalidate('/your-github-showcase-path')` or `revalidatePath('/your-github-showcase-path')`).",
-              "status": "pending",
-              "testStrategy": "Deploy to a Vercel preview environment. Go to your Vercel dashboard for the project, navigate to the 'Functions' tab, then 'Crons'. Verify the cron job is listed and running on schedule. Check the logs for that cron job to confirm successful execution and data refresh."
-            }
-          ]
-        },
-        {
-          "id": 5,
-          "title": "Integrate Calendly for Consultation Booking",
-          "description": "Integrate an embedded Calendly widget to allow potential clients to directly book a 30-minute consultation. The component should be styled to match the portfolio's design system and ensure all booking communications leverage Resend (where Calendly allows).",
-          "details": "Install `react-calendly@^4.0.0`. Create a new section on your contact or dedicated booking page (e.g., `app/consultation/page.tsx`). Use the `InlineWidget` component, passing your Calendly event `url` (`https://calendly.com/adrian-rusan/consultation` from PRD). Customize the widget's styling props (`pageSettings`) to align colors and text with your portfolio's *existing dark theme and purple accents*. Ensure any automated booking confirmations or reminders are configured in Calendly to use the Resend API (if Calendly supports custom SMTP/API setup for outgoing emails, otherwise this is handled by Calendly's internal email system).",
-          "testStrategy": "Verify the Calendly widget loads and is fully interactive within your page. Complete a full test booking flow to ensure it correctly schedules an event in the connected Calendly account. Confirm that automated confirmation emails from Calendly are sent (and ideally, that they use the Resend domain if custom SMTP is configured in Calendly).",
-          "priority": "medium",
-          "dependencies": [
-            1
-          ],
-          "status": "pending",
-          "subtasks": [
-            {
-              "id": 1,
-              "title": "Embed Calendly Widget into Contact/Consultation Page",
-              "description": "Integrate the Calendly scheduling widget into an appropriate page, adding necessary embed code and configuring basic functionality.",
-              "dependencies": [],
-              "details": "Create `app/consultation/page.tsx` or a component to be added to the contact page. Install `react-calendly`. Use the `<InlineWidget />` component. Set the `url` prop to your Calendly event URL (from `CALENDLY_USERNAME` env var). Ensure the widget loads without console errors.",
-              "status": "pending",
-              "testStrategy": "Render the component/page. Verify the Calendly widget loads successfully, and you can see available booking slots. Attempt to click through the booking process up to the final confirmation screen (without completing a real booking)."
-            },
-            {
-              "id": 2,
-              "title": "Customize Calendly Widget Appearance and Event Flow",
-              "description": "Style the Calendly widget to match the portfolio's design system and ensure the booking flow aligns with user expectations.",
-              "dependencies": [
-                1
-              ],
-              "details": "Apply custom styling to the `InlineWidget` using its `styles` and `pageSettings` props to match your *existing dark theme, purple accents, and typography*. Ensure `backgroundColor` is transparent if applicable. Review your Calendly event setup (on Calendly.com) to include any necessary pre-consultation questions or preparation materials that guide the client.",
-              "status": "pending",
-              "testStrategy": "Visually inspect the embedded Calendly widget. Confirm its colors, fonts, and overall appearance match your site's theme. Go through the booking steps on the live widget and ensure the flow is smooth and clear for the user."
-            }
-          ]
-        },
-        {
-          "id": 6,
-          "title": "Enhance Project Pages (Static Content)",
-          "description": "Ensure *existing project display pages* are well-presented with content from `data/index.ts`. No new detailed case study format is introduced in V1.",
-          "details": "Review the existing `app/projects/page.tsx` and any dynamic `app/projects/[slug]/page.tsx` routes. Confirm they correctly fetch and display project data from `data/index.ts`. Ensure images are properly displayed using `next/image` and responsive styles. Verify existing descriptions and links are functional. This task focuses on validating the current static content display for projects.",
-          "testStrategy": "Manually inspect all project pages (listing and individual project pages). Verify all hardcoded project details (title, description, technologies, images, live/GitHub links) are correctly displayed. Ensure images load quickly and are responsive.",
-          "priority": "medium",
-          "dependencies": [
-            1
-          ],
-          "status": "pending",
-          "subtasks": [
-            {
-              "id": 1,
-              "title": "Verify Existing Project Data Loading and Display",
-              "description": "Confirm that existing project data from `data/index.ts` is correctly loaded and displayed on the portfolio's project pages.",
-              "dependencies": [],
-              "details": "Review `app/projects/page.tsx` and potentially `app/projects/[slug]/page.tsx` (if already dynamic). Trace how `data/index.ts` is imported and used to render project information. Verify current fields like `title`, `description`, `technologies`, `image`, `liveUrl`, `githubUrl` are displayed. Ensure `next/image` is used for all images.",
-              "status": "pending",
-              "testStrategy": "Navigate to the Projects section of the portfolio. Verify all current projects are listed. Click on each project (if dynamic) and ensure its details page loads correctly with all hardcoded information visible. Check browser console for errors related to data loading."
-            },
-            {
-              "id": 2,
-              "title": "Review and Optimize Existing Project UI",
-              "description": "Perform a review of the existing project page UI for responsiveness and user experience.",
-              "dependencies": [
-                1
-              ],
-              "details": "Examine the visual presentation of project cards/details. Ensure responsive behavior across different screen sizes. Verify hover effects, link functionality, and overall aesthetic align with the portfolio's design system. Make minor CSS adjustments via Tailwind if needed for consistency.",
-              "status": "pending",
-              "testStrategy": "Manually test project pages on desktop, tablet, and mobile viewports. Verify layouts adapt correctly, images scale appropriately, and all interactive elements (buttons, links) are touch-friendly and functional. Check for any UI glitches or misalignments."
-            }
-          ]
-        },
-        {
-          "id": 7,
-          "title": "Build Basic Documentation Platform (Static HTML/TSX)",
-          "description": "Set up a basic documentation platform using Next.js, consisting of static pages built directly with HTML/TSX/JSX. This will serve as a knowledge base, adhering to the 'basic' definition in the PRD.",
-          "details": "Create a `/docs` directory in `app/`. Add static Next.js pages, e.g., `app/docs/introduction/page.tsx`, `app/docs/api-basics/page.tsx`. Content for these pages will be hardcoded directly in the TSX/JSX. Implement basic navigation (links between pages). **No MDX parsing, `gray-matter`, or `next-mdx-remote` will be used for V1.** Style using *your existing Tailwind CSS framework*.",
-          "testStrategy": "Create 2-3 static documentation pages. Verify that each page renders its content correctly at its URL (e.g., `/docs/introduction`). Ensure basic navigation links work between them. Check responsiveness.",
-          "priority": "low",
-          "dependencies": [
-            1
-          ],
-          "status": "pending",
-          "subtasks": [
-            {
-              "id": 1,
-              "title": "Create Static Documentation Pages",
-              "description": "Develop multiple static documentation pages using standard Next.js page components (TSX/JSX).",
-              "dependencies": [],
-              "details": "Create `app/docs/introduction/page.tsx`, `app/docs/getting-started/page.tsx`, etc. Hardcode content directly into these files using standard HTML elements within JSX. Implement basic internal navigation links between these pages. Ensure consistent layout with your *existing `app/layout.tsx`*.",
-              "status": "pending",
-              "testStrategy": "Navigate to each newly created documentation page URL. Verify the content is visible and formatted as expected. Click internal links between documentation pages to confirm navigation."
-            },
-            {
-              "id": 2,
-              "title": "Implement Basic Documentation Navigation",
-              "description": "Create simple navigation links for the documentation section, allowing users to move between static documentation pages.",
-              "dependencies": [
-                1
-              ],
-              "details": "Add a sidebar or top navigation component within the `app/docs/layout.tsx` (if created) or directly within `app/docs/page.tsx`. This navigation will contain direct links (`<Link href=\"...\">`) to the static documentation pages created in Subtask 1. Style using *existing Tailwind CSS classes*.",
-              "status": "pending",
-              "testStrategy": "Verify the documentation navigation appears on docs pages. Click each link to ensure it correctly navigates to the respective static documentation page."
-            }
-          ]
-        },
-        {
-          "id": 8,
-          "title": "Create Simple Service Status Page",
-          "description": "Create a simple, static service status page that shows the uptime and operational status of the portfolio and its integrated services. A serverless function will be used for a basic health check and incident communication will use Resend.",
-          "details": "Create a page at `app/status/page.tsx`. This page will display service components and their status (e.g., 'Operational', 'Degraded'). This status will be hardcoded in the TSX for V1. Create a Vercel serverless function (`app/api/health/route.ts`) that performs basic health checks (e.g., fetches `https://adrian-rusan.com`, `https://api.github.com`, `https://api.resend.com/health`). If all return 200 OK, the function returns `{ status: 'operational' }`. The status page will fetch from this endpoint on the client-side to show a live status. Incident communications via Resend API should be triggered manually (or via cron for automated checks, as per basic workflow automation). Style using *your existing Tailwind CSS framework*.",
-          "testStrategy": "Visit the `/status` page and verify it displays the configured service items and their initial status. Call the `/api/health` endpoint directly and confirm it returns a success response. Simulate a service failure (e.g., temporarily block access to `github.com` from your dev environment) and verify the `/api/health` endpoint reflects this. Verify a test incident notification can be sent via Resend.",
-          "priority": "low",
-          "dependencies": [
-            1
-          ],
-          "status": "pending",
-          "subtasks": [
-            {
-              "id": 1,
-              "title": "Create Static Service Status Page",
-              "description": "Design and develop a static HTML/CSS/JavaScript status page that displays service health status with current status indicators.",
-              "dependencies": [],
-              "details": "Create `app/status/page.tsx`. Design the UI to list key service components (e.g., 'Portfolio Website', 'GitHub Integration', 'Email Delivery'). Use simple visual indicators (e.g., green/yellow/red circles or text) to show their status. Initially, status will be hardcoded in the TSX file. Ensure responsiveness using *existing Tailwind CSS classes*.",
-              "status": "pending",
-              "testStrategy": "Render the `/status` page. Verify it loads quickly and displays service components and their default 'Operational' status. Check responsiveness on mobile."
-            },
-            {
-              "id": 2,
-              "title": "Develop Serverless Health Check Function",
-              "description": "Create a serverless function that performs automated health checks on key services and updates the status page data.",
-              "dependencies": [
-                1
-              ],
-              "details": "Create `app/api/health/route.ts`. This serverless function will perform `fetch` requests to critical endpoints: `https://adrian-rusan.com` (for the main site), `https://api.github.com` (for GitHub integration), and `https://api.resend.com/health` (for Resend status). Return a combined status object (`{ portfolio: 'operational', github: 'operational', email: 'operational' }`). The `status/page.tsx` can then fetch from this API route on the client-side (using `useEffect` or similar) to display dynamic status. **Implement `try...catch` for each health check and log failures to Sentry.**",
-              "status": "pending",
-              "testStrategy": "Call `http://localhost:3000/api/health`. Verify it returns a JSON object with the expected status for each service. Temporarily introduce a network error or an invalid endpoint in the function to test error reporting (e.g., a service is 'degraded'), and confirm it's logged to Sentry."
-            },
-            {
-              "id": 3,
-              "title": "Implement Incident Communication via Resend",
-              "description": "Set up a mechanism to send email notifications for service status changes or incidents using Resend API.",
-              "dependencies": [
-                2
-              ],
-              "details": "Using your `EmailService` (from Task 3), create a function `sendStatusNotification(service: string, status: 'operational'|'degraded'|'down')`. Integrate this into the `app/api/health/route.ts` function (or a cron job that calls it) to trigger an email to `ADMIN_EMAIL` when a service status changes from 'operational' to 'degraded'/'down'. This is a basic notification for now, not a full incident management system.",
-              "status": "pending",
-              "testStrategy": "Manually trigger a simulated status change in `app/api/health/route.ts` (e.g., force a service to 'down'). Verify that an email notification is sent to `ADMIN_EMAIL` via Resend, indicating the status change."
-            }
-          ]
-        },
-        {
-          "id": 9,
-          "title": "Basic Learning Platform (Static HTML/TSX)",
-          "description": "Build the frontend for a basic learning platform consisting of static articles and resources. Content will be hardcoded directly in TSX/JSX files, with client-side reading progress tracking via `localStorage`.",
-          "details": "Create dynamic routes `app/learning/page.tsx` for the listing and `app/learning/[slug]/page.tsx` for individual content pages. Content for these pages will be hardcoded within the TSX/JSX files. On the individual content page, use a `useEffect` hook to monitor the user's scroll position (or simply track page visit) and save the progress percentage to `localStorage` against the content's slug. On the listing page, read from `localStorage` to display progress indicators (e.g., a simple badge or percentage) on articles the user has started/completed. Ensure content rendering supports static rich text and potentially embedded videos (using `react-player`). Style using *your existing Tailwind CSS framework*.",
-          "testStrategy": "Create several test learning content pages as static TSX/JSX files, some with static rich text, some with placeholder video URLs. Verify the listing and detail pages render correctly. Scroll through a learning article, refresh the page, and confirm the scroll position is restored/progress is saved. Go back to the listing page and check that a progress bar or indicator is visible for the content you were interacting with.",
-          "priority": "low",
-          "dependencies": [
-            1
-          ],
-          "status": "pending",
-          "subtasks": [
-            {
-              "id": 1,
-              "title": "Design and implement educational content listing interface",
-              "description": "Create a comprehensive interface for displaying static educational content with basic filtering and categorization.",
-              "dependencies": [],
-              "details": "Develop a responsive content listing page (`app/learning/page.tsx`) that displays hardcoded articles/tutorials with thumbnail images (from `public`), titles, descriptions, difficulty levels, and duration estimates. Content for this listing will be defined within the `app/learning/page.tsx` file itself. Implement basic client-side filtering and categorization based on hardcoded content properties. Style using *your existing filtering/search patterns and Tailwind CSS*.",
-              "status": "pending",
-              "testStrategy": "Create multiple hardcoded learning content entries in `app/learning/page.tsx`. Verify the `/learning` page loads and displays all content cards. Test filtering by category/tag (if implemented) and ensure only relevant content is shown."
-            },
-            {
-              "id": 2,
-              "title": "Build individual static content display and rich text rendering",
-              "description": "Develop detailed individual content pages with static rich text presentation and optional video embedding.",
-              "dependencies": [
-                1
-              ],
-              "details": "Create `app/learning/[slug]/page.tsx` (or static `app/learning/article-1/page.tsx`). Hardcode the content directly in the TSX/JSX files. If `type` is 'video' and `videoUrl` is present (hardcoded), use `react-player` to embed the video (install `react-player@^2.13.0`). Ensure all styling (including code blocks if manually added) is consistent with the *main portfolio's existing theme*.",
-              "status": "pending",
-              "testStrategy": "Navigate to an individual learning content page. Verify content loads and formatting is correct. If a video is specified, ensure it embeds and plays correctly. Check responsiveness of the content display."
-            },
-            {
-              "id": 3,
-              "title": "Implement client-side progress tracking system (localStorage)",
-              "description": "Develop a basic client-side progress tracking mechanism that monitors user learning activities and stores data in `localStorage`.",
-              "dependencies": [
-                2
-              ],
-              "details": "On individual learning content pages (`app/learning/[slug]/page.tsx`), use a `useEffect` hook. On component mount, check `localStorage` for `learningProgress` associated with the current `slug`. On scroll or completion (e.g., reaching end of page), update a percentage (e.g., scroll percentage) and save to `localStorage`. On the listing page (`app/learning/page.tsx`), read from `localStorage` to display a small progress bar or 'Continue Reading' badge on content cards.",
-              "status": "pending",
-              "testStrategy": "Open a learning article, scroll halfway, and close the tab. Reopen the browser and navigate to the `/learning` page. Verify the progress indicator on that article reflects the half-way point. Open the article again, scroll to the end, close, and verify completion."
-            }
-          ]
-        },
-        {
-          "id": 10,
-          "title": "Implement Basic Workflow Automation with Cron Jobs and Webhooks",
-          "description": "Implement basic workflow automations using Vercel Cron Jobs and Next.js API Routes. This includes a scheduled job for syncing GitHub data, and webhook handlers for static content revalidation (e.g., after a Git push) and potential lead nurturing sequences. This aligns with the 'basic' automation definition in the PRD.",
-          "details": "Configure a cron job in `vercel.json` (`/api/cron/github-sync`) to trigger the GitHub data revalidation every 6 hours (re-using logic from Task 4). Create another cron job (`/api/cron/email-sequences`) to trigger daily email sequences (e.g., initial lead nurturing for new submissions from Task 3, using `Resend`). Implement a Next.js API Route (`app/api/webhooks/revalidate-static/route.ts`) to act as a generic webhook endpoint. This can be triggered by a Vercel deploy hook after a Git push to revalidate static content paths (e.g., `/projects`, `/docs`, `/learning`).",
-          "testStrategy": "Deploy to Vercel and verify cron jobs are scheduled and run successfully in Vercel Analytics logs. Trigger a Vercel deploy hook (e.g., push a new MDX blog post to Git) and verify the associated content revalidation occurs. Manually test triggering the email sequence cron job to ensure emails are sent.",
-          "priority": "low",
-          "dependencies": [
-            3,
-            4
-          ],
-          "status": "pending",
-          "subtasks": [
-            {
-              "id": 1,
-              "title": "Set up Vercel Cron Jobs Configuration and API Routes",
-              "description": "Configure Vercel Cron Jobs using `vercel.json` and create the foundational API routes structure in Next.js for handling scheduled tasks and webhook endpoints.",
-              "dependencies": [],
-              "details": "Add the `crons` array to `vercel.json` with entries for `/api/cron/github-sync` and `/api/cron/email-sequences`. Create the corresponding API route files: `app/api/cron/github-sync/route.ts` and `app/api/cron/email-sequences/route.ts`. Ensure these routes are defined as `POST` methods and include a basic security check (e.g., checking for a secret header for internal cron calls, though Vercel crons are generally secure).",
-              "status": "pending",
-              "testStrategy": "Deploy to a Vercel preview. Check the 'Crons' tab in the Vercel dashboard to ensure the cron jobs are recognized and scheduled. Manually invoke the API routes (e.g., with `curl -X POST /api/cron/github-sync`) and verify a 200 OK response."
-            },
-            {
-              "id": 2,
-              "title": "Implement GitHub Data Synchronization Workflow",
-              "description": "Build an automated workflow to revalidate GitHub data via a cron job, ensuring data freshness.",
-              "dependencies": [
-                1
-              ],
-              "details": "In `app/api/cron/github-sync/route.ts`, implement logic to trigger the revalidation of the GitHub showcase page. This can be done by calling `revalidatePath('/your-github-showcase-path')` or by re-fetching and re-storing data if your caching mechanism requires it. **Remember to handle errors and log them to Sentry.**",
-              "status": "pending",
-              "testStrategy": "Deploy to Vercel. Manually trigger the `/api/cron/github-sync` endpoint. After a few seconds, navigate to your GitHub showcase page. Verify the content has been refreshed (e.g., by changing a repo star count on GitHub and seeing it update)."
-            },
-            {
-              "id": 3,
-              "title": "Build Static Content Revalidation Webhook Handler",
-              "description": "Develop a basic automated system for static content updates triggered by Git pushes/deploys, using a generic webhook handler.",
-              "dependencies": [
-                1
-              ],
-              "details": "Create `app/api/webhooks/revalidate-static/route.ts`. This route will be a `POST` endpoint. Configure a Vercel Deploy Hook (in Vercel project settings) to call this URL after each successful production deployment. The webhook handler will then use `revalidatePath()` for relevant static content paths like `/projects`, `/docs`, `/learning`, `/status` to ensure new content from Git is reflected on the site. This replaces any dynamic CMS webhooks for content updates.",
-              "status": "pending",
-              "testStrategy": "Deploy to Vercel. Push a change to a static page (e.g., `app/docs/test/page.tsx`). After successful deployment, verify the new content appears on the live site immediately without further manual revalidation."
-            },
-            {
-              "id": 4,
-              "title": "Implement Basic Email Sequence Automation",
-              "description": "Create a scheduled workflow to send basic email sequences (e.g., welcome or follow-up) using Vercel Cron Jobs and Resend.",
-              "dependencies": [
-                1
-              ],
-              "details": "In `app/api/cron/email-sequences/route.ts`, implement logic to manage simple email sequences. For this V1, this could involve: 1) Checking for new contact form submissions (based on email content, or simple status tracking via a local file in `tmp/` or by checking for existence of follow-up emails in Resend logs). 2) Using your `EmailService` (from Task 3) to send a predefined welcome/follow-up email. You'll need a simple mechanism (e.g., a small text file, or tracking in an external system like a Google Sheet via a serverless API call) to avoid sending duplicates. This cron job will run daily.",
-              "status": "pending",
-              "testStrategy": "Submit a contact form entry that should trigger an email sequence. Deploy to Vercel. Manually trigger the `/api/cron/email-sequences` endpoint or wait for the scheduled run. Verify that the relevant email is sent to the contact via Resend and the contact is marked as 'followed up' in your simple tracking mechanism."
-            }
-          ]
-        },
-        {
-          "id": 11,
-          "title": "Implement UI/UX Enhancements and Micro-interactions",
-          "description": "*Enhance existing UI/UX features* with improved navigation and interaction design. Implement a sticky header, smooth scrolling, mobile-optimized menu, and micro-interactions like loading skeletons and toast notifications. Ensure all `Framer Motion` animations are smooth and performant.",
-          "details": "Leverage your *existing `framer-motion` setup* for page transitions and micro-interactions. Implement a sticky header using *your existing Tailwind CSS `sticky` class* with `top-0` and a high `z-index`. For toast notifications, use `react-hot-toast` (`npm install react-hot-toast`). Create skeleton loader components that mimic the layout of dynamic content (e.g., project showcases, static articles) and display them while data is being fetched. Ensure `lucide-react` is installed for icons. Your *existing responsive design* should be considered throughout.",
-          "testStrategy": "Manually navigate the site to test all UI enhancements on desktop and mobile. Verify the sticky header works consistently on all pages. Test on various screen sizes to ensure mobile navigation (hamburger menu) is optimal and responsive. Trigger actions that show loading states (e.g., slow down network in dev tools) and toast notifications (e.g., form submission success/error) to confirm they work as expected. Verify `Framer Motion` animations are smooth.",
-          "priority": "medium",
-          "dependencies": [
-            1,
-            10
-          ],
-          "status": "pending",
-          "subtasks": [
-            {
-              "id": 1,
-              "title": "Implement Sticky Header with Responsive Design",
-              "description": "Refine the existing sticky navigation header to ensure optimal responsive behavior for different screen sizes and smooth transitions.",
-              "dependencies": [],
-              "details": "Refine the existing header component. Ensure the sticky positioning (`position: sticky`, `top-0`, `z-index`) is robust. Add responsive classes to adjust padding and font sizes for mobile if not already optimized. Use `Framer Motion` for subtle scroll-triggered effects (e.g., shrinking slightly on scroll) on the existing header element.",
-              "status": "pending",
-              "testStrategy": "Scroll up and down on various pages on both desktop and mobile. Verify the header remains fixed at the top and adapts its styling correctly on smaller screens."
-            },
-            {
-              "id": 2,
-              "title": "Develop Mobile-Optimized Navigation Menu",
-              "description": "Refine the existing mobile-friendly hamburger menu with smooth animations and touch-optimized interactions for smaller screens.",
-              "dependencies": [
-                1
-              ],
-              "details": "Enhance the existing hamburger menu icon (ensure `lucide-react` is used if needed). Refine the slide-out or overlay navigation panel animations using `Framer Motion` for smoother open/close. Ensure the menu is accessible (e.g., ARIA attributes for toggling) and test touch gestures comprehensively. The goal is to elevate the existing mobile menu.",
-              "status": "pending",
-              "testStrategy": "Resize the browser window to mobile view. Click the hamburger icon to open/close the menu. Verify the animation is smooth. Navigate through menu items. Test on an actual mobile device if possible, ensuring touch interactions are flawless."
-            },
-            {
-              "id": 3,
-              "title": "Add Smooth Scrolling and Page Transitions",
-              "description": "*Enhance existing* smooth scrolling behavior for navigation links and page sections, along with elegant page transition effects using `Framer Motion`.",
-              "dependencies": [
-                1
-              ],
-              "details": "For smooth scrolling: Apply `scroll-behavior: smooth` in your global CSS. For page transitions: Ensure a global `Framer Motion` `AnimatePresence` component is robustly implemented around your page content (e.g., in `app/layout.tsx` or a root component wrapper) to enable smooth transitions between routes (e.g., fade-in/out, slide effects). Fine-tune existing animations for optimal performance and visual appeal.",
-              "status": "pending",
-              "testStrategy": "Click internal navigation links (e.g., to different sections on the same page, or different pages). Verify the scrolling is smooth and page transitions play cleanly without visual glitches. Observe FPS in dev tools for smoothness, ensuring it maintains a high frame rate."
-            },
-            {
-              "id": 4,
-              "title": "Create Micro-interactions and Feedback Systems",
-              "description": "Develop loading skeletons, toast notifications, and other micro-interactions to enhance user experience and provide visual feedback.",
-              "dependencies": [
-                2,
-                3
-              ],
-              "details": "Design skeleton loader components that visually resemble the content they will replace (e.g., for project cards, static articles). Implement logic to display these skeletons while data is fetching. Install `react-hot-toast@^2.0.0` for success, error, and info notifications, integrating its provider at the root of your app. Add subtle hover effects, button press animations, and input focus states using *existing Tailwind CSS utilities* and/or `Framer Motion`.",
-              "status": "pending",
-              "testStrategy": "Simulate slow network speeds in browser dev tools. Verify skeleton loaders appear correctly for static content. Trigger form submissions (success and error) and verify toast notifications appear correctly. Test button hovers and clicks for micro-interactions."
-            }
-          ]
-        },
-        {
-          "id": 12,
-          "title": "Final Integration Testing, Performance Audit, and Launch Preparation",
-          "description": "Conduct a final round of end-to-end integration testing for all *newly implemented V1 features*. Perform a comprehensive performance and security audit, and prepare all necessary configurations for a production launch on Vercel. Ensure successful `npm run build` and final test pass, *leveraging your existing robust testing and deployment processes*.",
-          "details": "Test the full user flows as defined in the PRD *specifically focusing on the new V1 functionalities*: Client Acquisition, Content Discovery, and Recruitment. Run Lighthouse audits on key pages (*including all newly added V1 pages/sections*: Contact, Documentation, Learning, Status) and **aim for scores of 90+ across all categories (Performance, Accessibility, Best Practices, SEO).** Review security best practices: configure CORS in `next.config.mjs` for all necessary origins, ensure rate limiting is considered for public APIs, and double-check all environment variables are correctly set in Vercel. Perform an `npm run build` locally and resolve all warnings/errors. Run `npm start` to test the production build locally. **This phase critically leverages your existing Playwright, Jest, ESLint, Prettier, Sentry, Vercel Analytics, Speed Insights, and custom performance scripts for the new V1 features.**",
-          "testStrategy": "Create a comprehensive pre-launch checklist (a small markdown file in `docs/`). Execute all test cases for the defined user flows, ensuring cross-browser (Chrome, Firefox, Safari) and cross-device (desktop, mobile, tablet) compatibility. Resolve all issues found during Lighthouse audits on a production build. Perform a final code review focusing on security, performance, and best practices. Successfully run `npm run build` locally, then `npm start` to verify the production build works. Finally, deploy to Vercel and monitor Vercel Analytics and Sentry logs closely for any issues immediately post-launch.",
-          "priority": "high",
-          "dependencies": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11
-          ],
-          "status": "pending",
-          "subtasks": [
-            {
-              "id": 1,
-              "title": "Design and Execute User Flow Testing for V1 Features",
-              "description": "Create comprehensive test scenarios for all *new V1 user journeys* and execute end-to-end testing to validate user experience and functionality, leveraging your *existing Playwright setup*.",
-              "dependencies": [],
-              "details": "Map out all *new* user flows (e.g., Contact Form submission, Learning content consumption). Create automated test scripts using your *existing Playwright framework* for critical paths, and perform extensive manual testing across different browsers (Chrome, Firefox, Safari) and devices (desktop, mobile, tablet). Document all test cases, results, and bug reports specifically for the V1 features.",
-              "status": "pending",
-              "testStrategy": "Run automated E2E tests related to V1 features and verify all pass. Manually follow each new user flow defined in the PRD, ensuring every step functions as expected and the UI/UX is consistent."
-            },
-            {
-              "id": 2,
-              "title": "Conduct Performance Audit and Optimization for V1 Features",
-              "description": "Perform comprehensive performance testing including Lighthouse audits and optimization of *new V1 application components* response times, *leveraging existing performance scripts and monitoring tools*.",
-              "dependencies": [
-                1
-              ],
-              "details": "Run Lighthouse audits on a Vercel preview deployment for all *new V1 pages/sections* (`/contact`, `/docs`, `/learning`, `/status`). Identify and optimize performance bottlenecks related to new bundle size additions, new API route response times, and new rendering logic. Ensure Core Web Vitals are in the green zone. Leverage *existing Vercel Analytics and Speed Insights* for real-world performance monitoring.",
-              "status": "pending",
-              "testStrategy": "Generate Lighthouse reports for all key V1 pages/sections. Verify all categories (Performance, Accessibility, Best Practices, SEO) are 90+ (or as high as possible). Check Vercel Analytics for Core Web Vitals data for the new pages and ensure they meet targets."
-            },
-            {
-              "id": 3,
-              "title": "Execute Security Audit and Vulnerability Assessment for V1 Features",
-              "description": "Conduct thorough security testing including vulnerability scanning, dependency review, and security compliance verification, specifically for *new V1 features and integrations*.",
-              "dependencies": [
-                1
-              ],
-              "details": "Review OWASP Top 10 risks. Ensure all new user inputs (e.g., contact form) are properly sanitized and validated (both client-side and server-side). Review CORS settings in `next.config.mjs` to be strict and only allow necessary origins for new API routes. Check for proper API key handling (server-side only, not exposed to client). Run `npm audit` to check for new dependency vulnerabilities and update/patch as necessary. Ensure *Sentry* is capturing security-related errors from new code. Implement rate limiting on critical new public APIs (e.g., contact form submission).",
-              "status": "pending",
-              "testStrategy": "Use security scanning tools (e.g., Snyk, npm audit) to check for vulnerabilities in new dependencies. Attempt common attack vectors (e.g., XSS via static content if input is accepted) on new input fields. Verify that sensitive data is not exposed in the network tab. Check server logs for any suspicious activity or error messages related to security in new features."
-            },
-            {
-              "id": 4,
-              "title": "Prepare Production Environment Configurations for V1",
-              "description": "Set up and configure all production environment settings, infrastructure, and deployment configurations specifically for the *V1 enhancements*, leveraging *existing Vercel processes*.",
-              "dependencies": [
-                2,
-                3
-              ],
-              "details": "Ensure all sensitive environment variables (e.g., `RESEND_API_KEY`) are correctly set in Vercel's project settings (not directly in `vercel.json`). Configure Vercel build settings, functions settings (`maxDuration`), and cron jobs (`crons` in `vercel.json`) as per PRD for V1. The *existing Vercel custom domain and DNS setup* should be verified.",
-              "status": "pending",
-              "testStrategy": "Review Vercel dashboard settings: ensure all *new* environment variables are properly configured for production. Verify `vercel.json` settings are active for V1 features. Confirm domain configuration is correct and SSL is enabled."
-            },
-            {
-              "id": 5,
-              "title": "Finalize Launch Readiness and Documentation for V1",
-              "description": "Complete final validation checks, prepare launch documentation, and ensure all systems are ready for production deployment of V1, building on *existing launch procedures*.",
-              "dependencies": [
-                4
-              ],
-              "details": "Create a `LAUNCH_CHECKLIST_V1.md` file (in `docs/`) that outlines all pre-launch checks specific to V1 features (e.g., final Lighthouse run on new pages, Sentry configured for new API routes, Resend domain verified). *Update your existing `README.md` and documentation* to reflect the new V1 features and any updated setup instructions. Conduct a final `npm run build` and `npm start` locally to verify V1 production readiness. Communicate launch plans to stakeholders. **Crucially, perform one last comprehensive end-to-end test on a Vercel preview deployment that mimics production for the V1 feature set.**",
-              "status": "pending",
-              "testStrategy": "Execute `npm run build` and `npm start` locally without any warnings or errors. Follow the `LAUNCH_CHECKLIST_V1.md` meticulously. Perform a final end-to-end user flow test on the Vercel preview deployment, covering all new V1 features. Confirm all documentation related to V1 is up-to-date and accessible."
-            }
-          ]
-        }
-      ],
-      "metadata": {
-        "created": "2025-07-12T15:36:08.429Z",
-        "updated": "2025-07-12T15:37:56.859Z",
-        "description": "Tasks for v1 context"
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Project Initialization and Environment Setup (Verify Existing)",
+        "description": "Verify the existing Next.js 14 project setup, including App Router, TypeScript, Tailwind CSS, Framer Motion. Ensure existing environment variable management using `.env.local` is correct and robust error logging via Sentry is configured.",
+        "details": "Confirm `create-next-app@latest` was used with TypeScript and Tailwind CSS options. Verify `framer-motion@^10.0.0` and `@sentry/nextjs` are installed. Ensure `.env.local` contains placeholders for `RESEND_API_KEY`, `GITHUB_TOKEN`, `CALENDLY_API_KEY`, `ADMIN_EMAIL`, `CALENDLY_USERNAME`, `NEXT_PUBLIC_GA_ID`, `SENTRY_DSN` as per PRD. Confirm Sentry is initialized and capturing errors. Install `ts-node` in `devDependencies` for script execution. This task is primarily a verification step given the project's current state.",
+        "testStrategy": "Verify that the Next.js application runs successfully locally (`npm run dev`). Check that Tailwind classes are applied correctly. Ensure environment variables can be accessed via `process.env`. Trigger a test error to confirm Sentry is capturing exceptions and verify `npm run build` passes locally without warnings.",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Verify Next.js with TypeScript and Sentry Setup",
+            "description": "Confirm the existing Next.js project is correctly configured with TypeScript and Sentry for error tracking.",
+            "dependencies": [],
+            "details": "Review `tsconfig.json` for strict type checking. Confirm project folder structure (`app/`, `components/`, `lib/`, `scripts/`, `e2e/`, `config/`). Verify `@sentry/nextjs` is installed and configured via `sentry.client.config.ts`, `sentry.server.config.ts`, and `sentry.edge.config.ts` if applicable. Ensure `SENTRY_DSN` is in `.env.local`.",
+            "status": "done",
+            "testStrategy": "Run `npm run dev`. Navigate to a page and confirm no console errors related to Next.js or TypeScript. Trigger a deliberate error (e.g., `throw new Error('Test Sentry Current');`) and verify it appears in the Sentry dashboard."
+          },
+          {
+            "id": 2,
+            "title": "Verify Tailwind CSS Configuration",
+            "description": "Confirm existing Tailwind CSS setup and its integration into the Next.js project.",
+            "dependencies": [
+              1
+            ],
+            "details": "Review `tailwind.config.js` and `postcss.config.js`. Ensure `content` paths include all relevant file extensions. Confirm Tailwind directives in global CSS (`app/globals.css`). Verify custom theme extensions are correctly set up.",
+            "status": "done",
+            "testStrategy": "Inspect existing components using Tailwind classes. Verify styles are applied as expected in the browser's developer tools. No new code required, just validation of current state."
+          },
+          {
+            "id": 3,
+            "title": "Verify Framer Motion and Environment Variables Management",
+            "description": "Confirm Framer Motion is correctly integrated and environment variable management is robust.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Verify `framer-motion` package is installed and `Framer Motion` components are used in existing animations. Confirm `.env.local` and `.env.local.example` structure. Ensure `process.env` access is working for existing variables. Add new environment variable placeholders from PRD (`RESEND_API_KEY`, `CALENDLY_API_KEY`, `ADMIN_EMAIL`, `CALENDLY_USERNAME`, `NEXT_PUBLIC_GA_ID`) to `.env.local.example`. Ensure `ts-node` is installed as a `devDependency` for running scripts.",
+            "status": "done",
+            "testStrategy": "Observe existing animated components to confirm smooth animations. Create a temporary log of `process.env.GITHUB_USERNAME` in a server component or API route to verify access. Check `.env.local.example` for all required new variables."
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Implement Advanced Contact Form with React Hook Form and Zod",
+        "description": "Build the advanced contact form component using React Hook Form and Zod for robust client-side and server-side validation. This will *replace/enhance the existing basic contact form*. The form will include all fields specified in the `ContactFormData` model, such as conditional fields based on project type. *For V1, this form data will not be persisted on the server-side beyond email notifications.*",
+        "details": "Install `react-hook-form@^7.45.0`, `zod@^3.22.0`, and `@hookform/resolvers@^3.3.0`. Define a Zod schema that precisely matches the `ContactFormData` model. Use the `useForm` hook with the Zod resolver. Implement conditional rendering for fields like `sourceDetails` (only appearing when `source` is 'referral' or 'other') and `phone` (optional but present). Style all form elements using *your existing Tailwind CSS setup*. **Implement `try...catch` blocks for client-side form submission to handle network errors gracefully and provide user feedback.**",
+        "testStrategy": "Unit test the Zod schema to ensure validation rules work as expected (e.g., required fields, email format, budget/timeline valid values). Manually test the form in the browser: submit with valid data, invalid data (missing required fields, incorrect email), and test conditional field visibility. Ensure submission is blocked/errors displayed for invalid data.",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up React Hook Form with Zod validation schema",
+            "description": "Install and configure React Hook Form and Zod libraries, create the base form structure with validation schema defining field types, constraints, and error messages.",
+            "dependencies": [],
+            "details": "Install `react-hook-form` and `zod` packages. Create a Zod schema (`src/lib/schemas/contactForm.ts`) with validation rules for all fields in the `ContactFormData` model. Integrate the schema with `useForm` hook using `@hookform/resolvers/zod`. Set up a basic `<form>` structure with appropriate `register` calls for each input and `formState.errors` for display.",
+            "status": "done",
+            "testStrategy": "Create a dummy form component and apply the Zod schema. Manually test basic validation (e.g., leaving a required field empty, entering an invalid email format) and observe error messages appear correctly on the UI."
+          },
+          {
+            "id": 2,
+            "title": "Implement conditional field logic and dynamic validation",
+            "description": "Create conditional field rendering based on user selections and implement dynamic validation rules that change based on form state.",
+            "dependencies": [
+              1
+            ],
+            "details": "Use React Hook Form's `watch()` function to monitor changes in fields like `projectType` and `source`. Implement conditional rendering logic (e.g., `sourceDetails` only appears if `source` is 'referral' or 'other'). Ensure `zod`'s `superRefine` or `refine` methods are used for any complex cross-field validation if necessary.",
+            "status": "done",
+            "testStrategy": "Test the form in the browser. Select 'referral' or 'other' for 'source' and confirm `sourceDetails` appears. Change it back and ensure `sourceDetails` disappears. Verify no validation errors occur when conditional fields are hidden."
+          },
+          {
+            "id": 3,
+            "title": "Build form UI components and client-side submission handling",
+            "description": "Create reusable form input components with error handling, implement client-side form submission logic, and add user feedback mechanisms.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Build custom input components (e.g., `Input.tsx`, `Select.tsx`, `TextArea.tsx`) that display `formState.errors` appropriately. Implement the form's `onSubmit` handler to manage `isSubmitting` state and display `Success` or `Error` toasts (using `react-hot-toast`). **Crucially, wrap the submission logic in a `try...catch` block to handle network errors gracefully and provide user feedback.** Implement form reset on successful submission. Ensure all form elements have accessible labels and ARIA attributes. *The server-side handling and email sending will be covered in Task 3.*",
+            "status": "done",
+            "testStrategy": "Submit the form with valid data and verify `isSubmitting` state changes and a success message appears. Submit with invalid data to ensure `isSubmitting` reverts and error messages are shown. Use browser dev tools to simulate network errors during submission and confirm graceful error display (e.g., an error toast)."
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Create Contact Form Submission Server Action and Email Notifications",
+        "description": "Create a Next.js Server Action to process the contact form submission. This action will validate the data using the Zod schema and trigger email notifications via Resend API to the admin and sender. *For V1, this form data will not be persisted on the server-side.*",
+        "details": "Create a file `app/actions/contact.ts` to define the server action. This action will receive the `formData` from the client. **Re-use the Zod schema from Task 2 for server-side validation.** Call the email sending functions (from Subtask 2 below) to send both `ContactConfirmationEmail` to the user and `AdminNotificationEmail` to the admin (`ADMIN_EMAIL`). **Implement robust `try...catch` blocks for all server-side operations (validation, email sending) and log errors to Sentry.** Return appropriate success/error messages to the client. *No database interaction is required for this V1.*",
+        "testStrategy": "Submit the form with valid data. Verify that the client's email address receives the confirmation email and the admin's email (`ADMIN_EMAIL`) receives the notification. Check Resend dashboard to monitor email sending status and delivery rates. Submit invalid data (e.g., modify data client-side before sending) to ensure server-side validation catches it and an appropriate error is returned. Check Vercel logs and Sentry for any errors during submission.",
+        "priority": "high",
+        "dependencies": [
+          2
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Zod validation schema and server action structure",
+            "description": "Create the server action function with comprehensive Zod schema validation for form data, including error handling and type safety.",
+            "dependencies": [],
+            "details": "Define an `async function` marked with `'use server'` in `app/actions/contact.ts`. Import and apply the Zod schema from Task 2 to validate the incoming `formData`. Implement `try...catch` for validation and return specific error messages if validation fails.",
+            "status": "pending",
+            "testStrategy": "Create a test endpoint or directly call the server action with valid and invalid payloads (e.g., using Postman/cURL). Verify that valid data passes and invalid data returns appropriate validation errors."
+          },
+          {
+            "id": 2,
+            "title": "Integrate Resend Email Notifications into Server Action",
+            "description": "Integrate email sending functionality with the contact form server action to automatically trigger appropriate emails.",
+            "dependencies": [
+              1
+            ],
+            "details": "Install `resend@^3.0.0` and `@react-email/components`. Define an `EmailService` interface and implement it using the `Resend` SDK. Create `ContactConfirmationEmail.tsx` and `AdminNotificationEmail.tsx` React Email templates in a `src/emails` directory. Within the server action, call the `EmailService` functions to send both emails using `RESEND_API_KEY`, `FROM_EMAIL`, and `ADMIN_EMAIL` from environment variables. **Wrap these email calls in `try...catch` to prevent email failures from blocking the form submission, and log failures to Sentry.**",
+            "status": "pending",
+            "testStrategy": "Submit the contact form. Verify that both the user and admin emails are received. Check Resend logs for successful delivery. If possible, simulate an email sending failure (e.g., invalid API key) and confirm it's logged to Sentry without crashing the form submission."
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Implement Dynamic GitHub Integration with ISR",
+        "description": "Develop a system to dynamically display GitHub repositories and contribution statistics *by leveraging existing ISR capabilities*. This involves fetching data from the GitHub API via a Next.js API route and implementing a robust caching strategy to avoid rate limiting. Create a dedicated cron job for periodic data synchronization.",
+        "details": "Create a Next.js API route (`app/api/github/route.ts`). Use the `GITHUB_TOKEN` and `GITHUB_USERNAME` to authenticate with the GitHub API via `octokit/rest`. Fetch public repositories (filtered by stars or pin status) and user statistics. Implement Vercel's Incremental Static Regeneration (ISR) on the portfolio page that displays this data, with a revalidation period of 6 hours (`revalidate: 21600`) to keep data fresh without hitting API limits. Also, configure a Vercel Cron Job in `vercel.json` (`/api/cron/github-sync`) to trigger this data refresh periodically.",
+        "testStrategy": "Verify that the frontend component correctly displays GitHub repositories and stats. Check the network tab to confirm that data is being fetched from the internal API route. Deploy to Vercel and verify that the data updates after the specified revalidation period, and that the cron job runs successfully in Vercel logs.",
+        "priority": "medium",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Develop GitHub Data Fetching System",
+            "description": "Create a robust system to fetch repository data, user profile information, and contribution statistics from GitHub API with proper error handling and authentication.",
+            "dependencies": [],
+            "details": "Install `@octokit/rest`. Create a utility file (e.g., `src/lib/github.ts`) with functions like `getGitHubRepos` and `getGitHubStats`. Use `GITHUB_TOKEN` and `GITHUB_USERNAME` for authentication. Implement `try...catch` blocks to handle GitHub API rate limits (return cached data or an error message) and other API failures. Log critical errors to Sentry.",
+            "status": "pending",
+            "testStrategy": "Run a standalone test script to call `getGitHubRepos()` and `getGitHubStats()`. Print the results to the console to ensure data is fetched correctly and error handling is triggered for invalid tokens or rate limits."
+          },
+          {
+            "id": 2,
+            "title": "Create API Route for GitHub Data",
+            "description": "Build a Next.js API route to serve GitHub data, incorporating caching for performance and rate limit avoidance.",
+            "dependencies": [
+              1
+            ],
+            "details": "Create `app/api/github/route.ts`. This route will call the functions from Subtask 1 to fetch data. Implement a basic in-memory cache or, for more advanced persistent caching, integrate `ioredis` (if added to dependencies and configured in `.env.local`) to cache GitHub API responses. Set appropriate cache TTLs (e.g., 1 hour). Add proper HTTP status codes and error responses. Ensure CORS headers are configured in `next.config.mjs` for this API route if accessed from different origins.",
+            "status": "pending",
+            "testStrategy": "Make multiple requests to `http://localhost:3000/api/github`. Verify the initial request fetches live data, and subsequent requests within the cache TTL are served from cache (observe logs or network timing). Test error scenarios (e.g., missing token)."
+          },
+          {
+            "id": 3,
+            "title": "Implement GitHub Data with ISR on Portfolio Page",
+            "description": "Integrate cached GitHub data into portfolio pages by *leveraging the existing Next.js Incremental Static Regeneration* for optimal performance and data freshness.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "On your main portfolio page (e.g., `app/page.tsx` or a dedicated GitHub showcase component within it), fetch the GitHub data using Next.js's data fetching methods (e.g., directly in a Server Component). Configure `revalidate: 21600` (6 hours) to leverage ISR. Create a UI component (`components/GitHubShowcase.tsx`) to display the repositories and stats. Implement loading states and error boundaries for the component.",
+            "status": "pending",
+            "testStrategy": "Render the `GitHubShowcase` component. Verify data displays correctly. After initial load, clear browser cache and hard refresh to ensure ISR serves cached content. Deploy to a Vercel preview URL and observe revalidation behavior over time."
+          },
+          {
+            "id": 4,
+            "title": "Configure Vercel Cron Job for GitHub Sync",
+            "description": "Set up a Vercel Cron Job to periodically trigger the GitHub data refresh, ensuring data freshness without manual intervention.",
+            "dependencies": [
+              2,
+              3
+            ],
+            "details": "Add a `crons` array to your `vercel.json` file. Define a cron job with `path: \"/api/cron/github-sync\"` (create this API route, which simply triggers the data revalidation for the GitHub page/data) and `schedule: \"0 */6 * * *\"` (every 6 hours). Ensure the `/api/cron/github-sync` API route specifically re-validates the relevant GitHub data fetching paths (e.g., `res.revalidate('/your-github-showcase-path')` or `revalidatePath('/your-github-showcase-path')`).",
+            "status": "pending",
+            "testStrategy": "Deploy to a Vercel preview environment. Go to your Vercel dashboard for the project, navigate to the 'Functions' tab, then 'Crons'. Verify the cron job is listed and running on schedule. Check the logs for that cron job to confirm successful execution and data refresh."
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Integrate Calendly for Consultation Booking",
+        "description": "Integrate an embedded Calendly widget to allow potential clients to directly book a 30-minute consultation. The component should be styled to match the portfolio's design system and ensure all booking communications leverage Resend (where Calendly allows).",
+        "details": "Install `react-calendly@^4.0.0`. Create a new section on your contact or dedicated booking page (e.g., `app/consultation/page.tsx`). Use the `InlineWidget` component, passing your Calendly event `url` (`https://calendly.com/adrian-rusan/consultation` from PRD). Customize the widget's styling props (`pageSettings`) to align colors and text with your portfolio's *existing dark theme and purple accents*. Ensure any automated booking confirmations or reminders are configured in Calendly to use the Resend API (if Calendly supports custom SMTP/API setup for outgoing emails, otherwise this is handled by Calendly's internal email system).",
+        "testStrategy": "Verify the Calendly widget loads and is fully interactive within your page. Complete a full test booking flow to ensure it correctly schedules an event in the connected Calendly account. Confirm that automated confirmation emails from Calendly are sent (and ideally, that they use the Resend domain if custom SMTP is configured in Calendly).",
+        "priority": "medium",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Embed Calendly Widget into Contact/Consultation Page",
+            "description": "Integrate the Calendly scheduling widget into an appropriate page, adding necessary embed code and configuring basic functionality.",
+            "dependencies": [],
+            "details": "Create `app/consultation/page.tsx` or a component to be added to the contact page. Install `react-calendly`. Use the `<InlineWidget />` component. Set the `url` prop to your Calendly event URL (from `CALENDLY_USERNAME` env var). Ensure the widget loads without console errors.",
+            "status": "pending",
+            "testStrategy": "Render the component/page. Verify the Calendly widget loads successfully, and you can see available booking slots. Attempt to click through the booking process up to the final confirmation screen (without completing a real booking)."
+          },
+          {
+            "id": 2,
+            "title": "Customize Calendly Widget Appearance and Event Flow",
+            "description": "Style the Calendly widget to match the portfolio's design system and ensure the booking flow aligns with user expectations.",
+            "dependencies": [
+              1
+            ],
+            "details": "Apply custom styling to the `InlineWidget` using its `styles` and `pageSettings` props to match your *existing dark theme, purple accents, and typography*. Ensure `backgroundColor` is transparent if applicable. Review your Calendly event setup (on Calendly.com) to include any necessary pre-consultation questions or preparation materials that guide the client.",
+            "status": "pending",
+            "testStrategy": "Visually inspect the embedded Calendly widget. Confirm its colors, fonts, and overall appearance match your site's theme. Go through the booking steps on the live widget and ensure the flow is smooth and clear for the user."
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Enhance Project Pages (Static Content)",
+        "description": "Ensure *existing project display pages* are well-presented with content from `data/index.ts`. No new detailed case study format is introduced in V1.",
+        "details": "Review the existing `app/projects/page.tsx` and any dynamic `app/projects/[slug]/page.tsx` routes. Confirm they correctly fetch and display project data from `data/index.ts`. Ensure images are properly displayed using `next/image` and responsive styles. Verify existing descriptions and links are functional. This task focuses on validating the current static content display for projects.",
+        "testStrategy": "Manually inspect all project pages (listing and individual project pages). Verify all hardcoded project details (title, description, technologies, images, live/GitHub links) are correctly displayed. Ensure images load quickly and are responsive.",
+        "priority": "medium",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Verify Existing Project Data Loading and Display",
+            "description": "Confirm that existing project data from `data/index.ts` is correctly loaded and displayed on the portfolio's project pages.",
+            "dependencies": [],
+            "details": "Review `app/projects/page.tsx` and potentially `app/projects/[slug]/page.tsx` (if already dynamic). Trace how `data/index.ts` is imported and used to render project information. Verify current fields like `title`, `description`, `technologies`, `image`, `liveUrl`, `githubUrl` are displayed. Ensure `next/image` is used for all images.",
+            "status": "pending",
+            "testStrategy": "Navigate to the Projects section of the portfolio. Verify all current projects are listed. Click on each project (if dynamic) and ensure its details page loads correctly with all hardcoded information visible. Check browser console for errors related to data loading."
+          },
+          {
+            "id": 2,
+            "title": "Review and Optimize Existing Project UI",
+            "description": "Perform a review of the existing project page UI for responsiveness and user experience.",
+            "dependencies": [
+              1
+            ],
+            "details": "Examine the visual presentation of project cards/details. Ensure responsive behavior across different screen sizes. Verify hover effects, link functionality, and overall aesthetic align with the portfolio's design system. Make minor CSS adjustments via Tailwind if needed for consistency.",
+            "status": "pending",
+            "testStrategy": "Manually test project pages on desktop, tablet, and mobile viewports. Verify layouts adapt correctly, images scale appropriately, and all interactive elements (buttons, links) are touch-friendly and functional. Check for any UI glitches or misalignments."
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Build Basic Documentation Platform (Static HTML/TSX)",
+        "description": "Set up a basic documentation platform using Next.js, consisting of static pages built directly with HTML/TSX/JSX. This will serve as a knowledge base, adhering to the 'basic' definition in the PRD.",
+        "details": "Create a `/docs` directory in `app/`. Add static Next.js pages, e.g., `app/docs/introduction/page.tsx`, `app/docs/api-basics/page.tsx`. Content for these pages will be hardcoded directly in the TSX/JSX. Implement basic navigation (links between pages). **No MDX parsing, `gray-matter`, or `next-mdx-remote` will be used for V1.** Style using *your existing Tailwind CSS framework*.",
+        "testStrategy": "Create 2-3 static documentation pages. Verify that each page renders its content correctly at its URL (e.g., `/docs/introduction`). Ensure basic navigation links work between them. Check responsiveness.",
+        "priority": "low",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Static Documentation Pages",
+            "description": "Develop multiple static documentation pages using standard Next.js page components (TSX/JSX).",
+            "dependencies": [],
+            "details": "Create `app/docs/introduction/page.tsx`, `app/docs/getting-started/page.tsx`, etc. Hardcode content directly into these files using standard HTML elements within JSX. Implement basic internal navigation links between these pages. Ensure consistent layout with your *existing `app/layout.tsx`*.",
+            "status": "pending",
+            "testStrategy": "Navigate to each newly created documentation page URL. Verify the content is visible and formatted as expected. Click internal links between documentation pages to confirm navigation."
+          },
+          {
+            "id": 2,
+            "title": "Implement Basic Documentation Navigation",
+            "description": "Create simple navigation links for the documentation section, allowing users to move between static documentation pages.",
+            "dependencies": [
+              1
+            ],
+            "details": "Add a sidebar or top navigation component within the `app/docs/layout.tsx` (if created) or directly within `app/docs/page.tsx`. This navigation will contain direct links (`<Link href=\"...\">`) to the static documentation pages created in Subtask 1. Style using *existing Tailwind CSS classes*.",
+            "status": "pending",
+            "testStrategy": "Verify the documentation navigation appears on docs pages. Click each link to ensure it correctly navigates to the respective static documentation page."
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Create Simple Service Status Page",
+        "description": "Create a simple, static service status page that shows the uptime and operational status of the portfolio and its integrated services. A serverless function will be used for a basic health check and incident communication will use Resend.",
+        "details": "Create a page at `app/status/page.tsx`. This page will display service components and their status (e.g., 'Operational', 'Degraded'). This status will be hardcoded in the TSX for V1. Create a Vercel serverless function (`app/api/health/route.ts`) that performs basic health checks (e.g., fetches `https://adrian-rusan.com`, `https://api.github.com`, `https://api.resend.com/health`). If all return 200 OK, the function returns `{ status: 'operational' }`. The status page will fetch from this endpoint on the client-side to show a live status. Incident communications via Resend API should be triggered manually (or via cron for automated checks, as per basic workflow automation). Style using *your existing Tailwind CSS framework*.",
+        "testStrategy": "Visit the `/status` page and verify it displays the configured service items and their initial status. Call the `/api/health` endpoint directly and confirm it returns a success response. Simulate a service failure (e.g., temporarily block access to `github.com` from your dev environment) and verify the `/api/health` endpoint reflects this. Verify a test incident notification can be sent via Resend.",
+        "priority": "low",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Static Service Status Page",
+            "description": "Design and develop a static HTML/CSS/JavaScript status page that displays service health status with current status indicators.",
+            "dependencies": [],
+            "details": "Create `app/status/page.tsx`. Design the UI to list key service components (e.g., 'Portfolio Website', 'GitHub Integration', 'Email Delivery'). Use simple visual indicators (e.g., green/yellow/red circles or text) to show their status. Initially, status will be hardcoded in the TSX file. Ensure responsiveness using *existing Tailwind CSS classes*.",
+            "status": "pending",
+            "testStrategy": "Render the `/status` page. Verify it loads quickly and displays service components and their default 'Operational' status. Check responsiveness on mobile."
+          },
+          {
+            "id": 2,
+            "title": "Develop Serverless Health Check Function",
+            "description": "Create a serverless function that performs automated health checks on key services and updates the status page data.",
+            "dependencies": [
+              1
+            ],
+            "details": "Create `app/api/health/route.ts`. This serverless function will perform `fetch` requests to critical endpoints: `https://adrian-rusan.com` (for the main site), `https://api.github.com` (for GitHub integration), and `https://api.resend.com/health` (for Resend status). Return a combined status object (`{ portfolio: 'operational', github: 'operational', email: 'operational' }`). The `status/page.tsx` can then fetch from this API route on the client-side (using `useEffect` or similar) to display dynamic status. **Implement `try...catch` for each health check and log failures to Sentry.**",
+            "status": "pending",
+            "testStrategy": "Call `http://localhost:3000/api/health`. Verify it returns a JSON object with the expected status for each service. Temporarily introduce a network error or an invalid endpoint in the function to test error reporting (e.g., a service is 'degraded'), and confirm it's logged to Sentry."
+          },
+          {
+            "id": 3,
+            "title": "Implement Incident Communication via Resend",
+            "description": "Set up a mechanism to send email notifications for service status changes or incidents using Resend API.",
+            "dependencies": [
+              2
+            ],
+            "details": "Using your `EmailService` (from Task 3), create a function `sendStatusNotification(service: string, status: 'operational'|'degraded'|'down')`. Integrate this into the `app/api/health/route.ts` function (or a cron job that calls it) to trigger an email to `ADMIN_EMAIL` when a service status changes from 'operational' to 'degraded'/'down'. This is a basic notification for now, not a full incident management system.",
+            "status": "pending",
+            "testStrategy": "Manually trigger a simulated status change in `app/api/health/route.ts` (e.g., force a service to 'down'). Verify that an email notification is sent to `ADMIN_EMAIL` via Resend, indicating the status change."
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Basic Learning Platform (Static HTML/TSX)",
+        "description": "Build the frontend for a basic learning platform consisting of static articles and resources. Content will be hardcoded directly in TSX/JSX files, with client-side reading progress tracking via `localStorage`.",
+        "details": "Create dynamic routes `app/learning/page.tsx` for the listing and `app/learning/[slug]/page.tsx` for individual content pages. Content for these pages will be hardcoded within the TSX/JSX files. On the individual content page, use a `useEffect` hook to monitor the user's scroll position (or simply track page visit) and save the progress percentage to `localStorage` against the content's slug. On the listing page, read from `localStorage` to display progress indicators (e.g., a simple badge or percentage) on articles the user has started/completed. Ensure content rendering supports static rich text and potentially embedded videos (using `react-player`). Style using *your existing Tailwind CSS framework*.",
+        "testStrategy": "Create several test learning content pages as static TSX/JSX files, some with static rich text, some with placeholder video URLs. Verify the listing and detail pages render correctly. Scroll through a learning article, refresh the page, and confirm the scroll position is restored/progress is saved. Go back to the listing page and check that a progress bar or indicator is visible for the content you were interacting with.",
+        "priority": "low",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Design and implement educational content listing interface",
+            "description": "Create a comprehensive interface for displaying static educational content with basic filtering and categorization.",
+            "dependencies": [],
+            "details": "Develop a responsive content listing page (`app/learning/page.tsx`) that displays hardcoded articles/tutorials with thumbnail images (from `public`), titles, descriptions, difficulty levels, and duration estimates. Content for this listing will be defined within the `app/learning/page.tsx` file itself. Implement basic client-side filtering and categorization based on hardcoded content properties. Style using *your existing filtering/search patterns and Tailwind CSS*.",
+            "status": "pending",
+            "testStrategy": "Create multiple hardcoded learning content entries in `app/learning/page.tsx`. Verify the `/learning` page loads and displays all content cards. Test filtering by category/tag (if implemented) and ensure only relevant content is shown."
+          },
+          {
+            "id": 2,
+            "title": "Build individual static content display and rich text rendering",
+            "description": "Develop detailed individual content pages with static rich text presentation and optional video embedding.",
+            "dependencies": [
+              1
+            ],
+            "details": "Create `app/learning/[slug]/page.tsx` (or static `app/learning/article-1/page.tsx`). Hardcode the content directly in the TSX/JSX files. If `type` is 'video' and `videoUrl` is present (hardcoded), use `react-player` to embed the video (install `react-player@^2.13.0`). Ensure all styling (including code blocks if manually added) is consistent with the *main portfolio's existing theme*.",
+            "status": "pending",
+            "testStrategy": "Navigate to an individual learning content page. Verify content loads and formatting is correct. If a video is specified, ensure it embeds and plays correctly. Check responsiveness of the content display."
+          },
+          {
+            "id": 3,
+            "title": "Implement client-side progress tracking system (localStorage)",
+            "description": "Develop a basic client-side progress tracking mechanism that monitors user learning activities and stores data in `localStorage`.",
+            "dependencies": [
+              2
+            ],
+            "details": "On individual learning content pages (`app/learning/[slug]/page.tsx`), use a `useEffect` hook. On component mount, check `localStorage` for `learningProgress` associated with the current `slug`. On scroll or completion (e.g., reaching end of page), update a percentage (e.g., scroll percentage) and save to `localStorage`. On the listing page (`app/learning/page.tsx`), read from `localStorage` to display a small progress bar or 'Continue Reading' badge on content cards.",
+            "status": "pending",
+            "testStrategy": "Open a learning article, scroll halfway, and close the tab. Reopen the browser and navigate to the `/learning` page. Verify the progress indicator on that article reflects the half-way point. Open the article again, scroll to the end, close, and verify completion."
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "title": "Implement Basic Workflow Automation with Cron Jobs and Webhooks",
+        "description": "Implement basic workflow automations using Vercel Cron Jobs and Next.js API Routes. This includes a scheduled job for syncing GitHub data, and webhook handlers for static content revalidation (e.g., after a Git push) and potential lead nurturing sequences. This aligns with the 'basic' automation definition in the PRD.",
+        "details": "Configure a cron job in `vercel.json` (`/api/cron/github-sync`) to trigger the GitHub data revalidation every 6 hours (re-using logic from Task 4). Create another cron job (`/api/cron/email-sequences`) to trigger daily email sequences (e.g., initial lead nurturing for new submissions from Task 3, using `Resend`). Implement a Next.js API Route (`app/api/webhooks/revalidate-static/route.ts`) to act as a generic webhook endpoint. This can be triggered by a Vercel deploy hook after a Git push to revalidate static content paths (e.g., `/projects`, `/docs`, `/learning`).",
+        "testStrategy": "Deploy to Vercel and verify cron jobs are scheduled and run successfully in Vercel Analytics logs. Trigger a Vercel deploy hook (e.g., push a new MDX blog post to Git) and verify the associated content revalidation occurs. Manually test triggering the email sequence cron job to ensure emails are sent.",
+        "priority": "low",
+        "dependencies": [
+          3,
+          4
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up Vercel Cron Jobs Configuration and API Routes",
+            "description": "Configure Vercel Cron Jobs using `vercel.json` and create the foundational API routes structure in Next.js for handling scheduled tasks and webhook endpoints.",
+            "dependencies": [],
+            "details": "Add the `crons` array to `vercel.json` with entries for `/api/cron/github-sync` and `/api/cron/email-sequences`. Create the corresponding API route files: `app/api/cron/github-sync/route.ts` and `app/api/cron/email-sequences/route.ts`. Ensure these routes are defined as `POST` methods and include a basic security check (e.g., checking for a secret header for internal cron calls, though Vercel crons are generally secure).",
+            "status": "pending",
+            "testStrategy": "Deploy to a Vercel preview. Check the 'Crons' tab in the Vercel dashboard to ensure the cron jobs are recognized and scheduled. Manually invoke the API routes (e.g., with `curl -X POST /api/cron/github-sync`) and verify a 200 OK response."
+          },
+          {
+            "id": 2,
+            "title": "Implement GitHub Data Synchronization Workflow",
+            "description": "Build an automated workflow to revalidate GitHub data via a cron job, ensuring data freshness.",
+            "dependencies": [
+              1
+            ],
+            "details": "In `app/api/cron/github-sync/route.ts`, implement logic to trigger the revalidation of the GitHub showcase page. This can be done by calling `revalidatePath('/your-github-showcase-path')` or by re-fetching and re-storing data if your caching mechanism requires it. **Remember to handle errors and log them to Sentry.**",
+            "status": "pending",
+            "testStrategy": "Deploy to Vercel. Manually trigger the `/api/cron/github-sync` endpoint. After a few seconds, navigate to your GitHub showcase page. Verify the content has been refreshed (e.g., by changing a repo star count on GitHub and seeing it update)."
+          },
+          {
+            "id": 3,
+            "title": "Build Static Content Revalidation Webhook Handler",
+            "description": "Develop a basic automated system for static content updates triggered by Git pushes/deploys, using a generic webhook handler.",
+            "dependencies": [
+              1
+            ],
+            "details": "Create `app/api/webhooks/revalidate-static/route.ts`. This route will be a `POST` endpoint. Configure a Vercel Deploy Hook (in Vercel project settings) to call this URL after each successful production deployment. The webhook handler will then use `revalidatePath()` for relevant static content paths like `/projects`, `/docs`, `/learning`, `/status` to ensure new content from Git is reflected on the site. This replaces any dynamic CMS webhooks for content updates.",
+            "status": "pending",
+            "testStrategy": "Deploy to Vercel. Push a change to a static page (e.g., `app/docs/test/page.tsx`). After successful deployment, verify the new content appears on the live site immediately without further manual revalidation."
+          },
+          {
+            "id": 4,
+            "title": "Implement Basic Email Sequence Automation",
+            "description": "Create a scheduled workflow to send basic email sequences (e.g., welcome or follow-up) using Vercel Cron Jobs and Resend.",
+            "dependencies": [
+              1
+            ],
+            "details": "In `app/api/cron/email-sequences/route.ts`, implement logic to manage simple email sequences. For this V1, this could involve: 1) Checking for new contact form submissions (based on email content, or simple status tracking via a local file in `tmp/` or by checking for existence of follow-up emails in Resend logs). 2) Using your `EmailService` (from Task 3) to send a predefined welcome/follow-up email. You'll need a simple mechanism (e.g., a small text file, or tracking in an external system like a Google Sheet via a serverless API call) to avoid sending duplicates. This cron job will run daily.",
+            "status": "pending",
+            "testStrategy": "Submit a contact form entry that should trigger an email sequence. Deploy to Vercel. Manually trigger the `/api/cron/email-sequences` endpoint or wait for the scheduled run. Verify that the relevant email is sent to the contact via Resend and the contact is marked as 'followed up' in your simple tracking mechanism."
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "title": "Implement UI/UX Enhancements and Micro-interactions",
+        "description": "*Enhance existing UI/UX features* with improved navigation and interaction design. Implement a sticky header, smooth scrolling, mobile-optimized menu, and micro-interactions like loading skeletons and toast notifications. Ensure all `Framer Motion` animations are smooth and performant.",
+        "details": "Leverage your *existing `framer-motion` setup* for page transitions and micro-interactions. Implement a sticky header using *your existing Tailwind CSS `sticky` class* with `top-0` and a high `z-index`. For toast notifications, use `react-hot-toast` (`npm install react-hot-toast`). Create skeleton loader components that mimic the layout of dynamic content (e.g., project showcases, static articles) and display them while data is being fetched. Ensure `lucide-react` is installed for icons. Your *existing responsive design* should be considered throughout.",
+        "testStrategy": "Manually navigate the site to test all UI enhancements on desktop and mobile. Verify the sticky header works consistently on all pages. Test on various screen sizes to ensure mobile navigation (hamburger menu) is optimal and responsive. Trigger actions that show loading states (e.g., slow down network in dev tools) and toast notifications (e.g., form submission success/error) to confirm they work as expected. Verify `Framer Motion` animations are smooth.",
+        "priority": "medium",
+        "dependencies": [
+          1,
+          10
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Sticky Header with Responsive Design",
+            "description": "Refine the existing sticky navigation header to ensure optimal responsive behavior for different screen sizes and smooth transitions.",
+            "dependencies": [],
+            "details": "Refine the existing header component. Ensure the sticky positioning (`position: sticky`, `top-0`, `z-index`) is robust. Add responsive classes to adjust padding and font sizes for mobile if not already optimized. Use `Framer Motion` for subtle scroll-triggered effects (e.g., shrinking slightly on scroll) on the existing header element.",
+            "status": "pending",
+            "testStrategy": "Scroll up and down on various pages on both desktop and mobile. Verify the header remains fixed at the top and adapts its styling correctly on smaller screens."
+          },
+          {
+            "id": 2,
+            "title": "Develop Mobile-Optimized Navigation Menu",
+            "description": "Refine the existing mobile-friendly hamburger menu with smooth animations and touch-optimized interactions for smaller screens.",
+            "dependencies": [
+              1
+            ],
+            "details": "Enhance the existing hamburger menu icon (ensure `lucide-react` is used if needed). Refine the slide-out or overlay navigation panel animations using `Framer Motion` for smoother open/close. Ensure the menu is accessible (e.g., ARIA attributes for toggling) and test touch gestures comprehensively. The goal is to elevate the existing mobile menu.",
+            "status": "pending",
+            "testStrategy": "Resize the browser window to mobile view. Click the hamburger icon to open/close the menu. Verify the animation is smooth. Navigate through menu items. Test on an actual mobile device if possible, ensuring touch interactions are flawless."
+          },
+          {
+            "id": 3,
+            "title": "Add Smooth Scrolling and Page Transitions",
+            "description": "*Enhance existing* smooth scrolling behavior for navigation links and page sections, along with elegant page transition effects using `Framer Motion`.",
+            "dependencies": [
+              1
+            ],
+            "details": "For smooth scrolling: Apply `scroll-behavior: smooth` in your global CSS. For page transitions: Ensure a global `Framer Motion` `AnimatePresence` component is robustly implemented around your page content (e.g., in `app/layout.tsx` or a root component wrapper) to enable smooth transitions between routes (e.g., fade-in/out, slide effects). Fine-tune existing animations for optimal performance and visual appeal.",
+            "status": "pending",
+            "testStrategy": "Click internal navigation links (e.g., to different sections on the same page, or different pages). Verify the scrolling is smooth and page transitions play cleanly without visual glitches. Observe FPS in dev tools for smoothness, ensuring it maintains a high frame rate."
+          },
+          {
+            "id": 4,
+            "title": "Create Micro-interactions and Feedback Systems",
+            "description": "Develop loading skeletons, toast notifications, and other micro-interactions to enhance user experience and provide visual feedback.",
+            "dependencies": [
+              2,
+              3
+            ],
+            "details": "Design skeleton loader components that visually resemble the content they will replace (e.g., for project cards, static articles). Implement logic to display these skeletons while data is fetching. Install `react-hot-toast@^2.0.0` for success, error, and info notifications, integrating its provider at the root of your app. Add subtle hover effects, button press animations, and input focus states using *existing Tailwind CSS utilities* and/or `Framer Motion`.",
+            "status": "pending",
+            "testStrategy": "Simulate slow network speeds in browser dev tools. Verify skeleton loaders appear correctly for static content. Trigger form submissions (success and error) and verify toast notifications appear correctly. Test button hovers and clicks for micro-interactions."
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "title": "Final Integration Testing, Performance Audit, and Launch Preparation",
+        "description": "Conduct a final round of end-to-end integration testing for all *newly implemented V1 features*. Perform a comprehensive performance and security audit, and prepare all necessary configurations for a production launch on Vercel. Ensure successful `npm run build` and final test pass, *leveraging your existing robust testing and deployment processes*.",
+        "details": "Test the full user flows as defined in the PRD *specifically focusing on the new V1 functionalities*: Client Acquisition, Content Discovery, and Recruitment. Run Lighthouse audits on key pages (*including all newly added V1 pages/sections*: Contact, Documentation, Learning, Status) and **aim for scores of 90+ across all categories (Performance, Accessibility, Best Practices, SEO).** Review security best practices: configure CORS in `next.config.mjs` for all necessary origins, ensure rate limiting is considered for public APIs, and double-check all environment variables are correctly set in Vercel. Perform an `npm run build` locally and resolve all warnings/errors. Run `npm start` to test the production build locally. **This phase critically leverages your existing Playwright, Jest, ESLint, Prettier, Sentry, Vercel Analytics, Speed Insights, and custom performance scripts for the new V1 features.**",
+        "testStrategy": "Create a comprehensive pre-launch checklist (a small markdown file in `docs/`). Execute all test cases for the defined user flows, ensuring cross-browser (Chrome, Firefox, Safari) and cross-device (desktop, mobile, tablet) compatibility. Resolve all issues found during Lighthouse audits on a production build. Perform a final code review focusing on security, performance, and best practices. Successfully run `npm run build` locally, then `npm start` to verify the production build works. Finally, deploy to Vercel and monitor Vercel Analytics and Sentry logs closely for any issues immediately post-launch.",
+        "priority": "high",
+        "dependencies": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Design and Execute User Flow Testing for V1 Features",
+            "description": "Create comprehensive test scenarios for all *new V1 user journeys* and execute end-to-end testing to validate user experience and functionality, leveraging your *existing Playwright setup*.",
+            "dependencies": [],
+            "details": "Map out all *new* user flows (e.g., Contact Form submission, Learning content consumption). Create automated test scripts using your *existing Playwright framework* for critical paths, and perform extensive manual testing across different browsers (Chrome, Firefox, Safari) and devices (desktop, mobile, tablet). Document all test cases, results, and bug reports specifically for the V1 features.",
+            "status": "pending",
+            "testStrategy": "Run automated E2E tests related to V1 features and verify all pass. Manually follow each new user flow defined in the PRD, ensuring every step functions as expected and the UI/UX is consistent."
+          },
+          {
+            "id": 2,
+            "title": "Conduct Performance Audit and Optimization for V1 Features",
+            "description": "Perform comprehensive performance testing including Lighthouse audits and optimization of *new V1 application components* response times, *leveraging existing performance scripts and monitoring tools*.",
+            "dependencies": [
+              1
+            ],
+            "details": "Run Lighthouse audits on a Vercel preview deployment for all *new V1 pages/sections* (`/contact`, `/docs`, `/learning`, `/status`). Identify and optimize performance bottlenecks related to new bundle size additions, new API route response times, and new rendering logic. Ensure Core Web Vitals are in the green zone. Leverage *existing Vercel Analytics and Speed Insights* for real-world performance monitoring.",
+            "status": "pending",
+            "testStrategy": "Generate Lighthouse reports for all key V1 pages/sections. Verify all categories (Performance, Accessibility, Best Practices, SEO) are 90+ (or as high as possible). Check Vercel Analytics for Core Web Vitals data for the new pages and ensure they meet targets."
+          },
+          {
+            "id": 3,
+            "title": "Execute Security Audit and Vulnerability Assessment for V1 Features",
+            "description": "Conduct thorough security testing including vulnerability scanning, dependency review, and security compliance verification, specifically for *new V1 features and integrations*.",
+            "dependencies": [
+              1
+            ],
+            "details": "Review OWASP Top 10 risks. Ensure all new user inputs (e.g., contact form) are properly sanitized and validated (both client-side and server-side). Review CORS settings in `next.config.mjs` to be strict and only allow necessary origins for new API routes. Check for proper API key handling (server-side only, not exposed to client). Run `npm audit` to check for new dependency vulnerabilities and update/patch as necessary. Ensure *Sentry* is capturing security-related errors from new code. Implement rate limiting on critical new public APIs (e.g., contact form submission).",
+            "status": "pending",
+            "testStrategy": "Use security scanning tools (e.g., Snyk, npm audit) to check for vulnerabilities in new dependencies. Attempt common attack vectors (e.g., XSS via static content if input is accepted) on new input fields. Verify that sensitive data is not exposed in the network tab. Check server logs for any suspicious activity or error messages related to security in new features."
+          },
+          {
+            "id": 4,
+            "title": "Prepare Production Environment Configurations for V1",
+            "description": "Set up and configure all production environment settings, infrastructure, and deployment configurations specifically for the *V1 enhancements*, leveraging *existing Vercel processes*.",
+            "dependencies": [
+              2,
+              3
+            ],
+            "details": "Ensure all sensitive environment variables (e.g., `RESEND_API_KEY`) are correctly set in Vercel's project settings (not directly in `vercel.json`). Configure Vercel build settings, functions settings (`maxDuration`), and cron jobs (`crons` in `vercel.json`) as per PRD for V1. The *existing Vercel custom domain and DNS setup* should be verified.",
+            "status": "pending",
+            "testStrategy": "Review Vercel dashboard settings: ensure all *new* environment variables are properly configured for production. Verify `vercel.json` settings are active for V1 features. Confirm domain configuration is correct and SSL is enabled."
+          },
+          {
+            "id": 5,
+            "title": "Finalize Launch Readiness and Documentation for V1",
+            "description": "Complete final validation checks, prepare launch documentation, and ensure all systems are ready for production deployment of V1, building on *existing launch procedures*.",
+            "dependencies": [
+              4
+            ],
+            "details": "Create a `LAUNCH_CHECKLIST_V1.md` file (in `docs/`) that outlines all pre-launch checks specific to V1 features (e.g., final Lighthouse run on new pages, Sentry configured for new API routes, Resend domain verified). *Update your existing `README.md` and documentation* to reflect the new V1 features and any updated setup instructions. Conduct a final `npm run build` and `npm start` locally to verify V1 production readiness. Communicate launch plans to stakeholders. **Crucially, perform one last comprehensive end-to-end test on a Vercel preview deployment that mimics production for the V1 feature set.**",
+            "status": "pending",
+            "testStrategy": "Execute `npm run build` and `npm start` locally without any warnings or errors. Follow the `LAUNCH_CHECKLIST_V1.md` meticulously. Perform a final end-to-end user flow test on the Vercel preview deployment, covering all new V1 features. Confirm all documentation related to V1 is up-to-date and accessible."
+          }
+        ]
       }
+    ],
+    "metadata": {
+      "created": "2025-07-12T15:36:08.429Z",
+      "updated": "2025-07-12T18:19:45.457Z",
+      "description": "Tasks for v1 context"
+    }
   }
 }
