@@ -1,0 +1,66 @@
+# Testing Rules
+
+Apply these rules when writing or updating tests. Use alongside main .cursorrules file.
+
+## Testing Standards
+
+### E2E Testing with Playwright
+- Test critical user journeys for new features
+- Use data-testid attributes for reliable element selection
+- Test across all configured browsers (Chrome, Firefox, Safari, Mobile)
+- Verify responsive design at different viewports
+- Test keyboard navigation and accessibility
+
+### Unit Testing with Jest
+- Write unit tests for utility functions and business logic
+- Test error handling and edge cases
+- Mock external dependencies (APIs, databases)
+- Aim for high code coverage on critical paths
+
+### Testing Patterns
+
+#### E2E Test Structure
+```typescript
+test('user can complete [feature] workflow', async ({ page }) => {
+  // Setup
+  await page.goto('/relevant-page');
+  
+  // Action
+  await page.getByTestId('target-element').click();
+  
+  // Assertion
+  await expect(page.getByRole('heading', { name: /expected/i })).toBeVisible();
+});
+```
+
+#### Unit Test Structure
+```typescript
+describe('utilityFunction', () => {
+  it('should handle valid input correctly', () => {
+    const result = utilityFunction(validInput);
+    expect(result).toEqual(expectedOutput);
+  });
+  
+  it('should throw error for invalid input', () => {
+    expect(() => utilityFunction(invalidInput)).toThrow();
+  });
+});
+```
+
+### Test Requirements for New Features
+- All new API routes must have error handling tests
+- All new Server Actions must have validation tests
+- All new components must have accessibility tests
+- All new user flows must have E2E tests
+
+### Performance Testing
+- Lighthouse scores must remain 90+ after implementation
+- Core Web Vitals must stay in green zone
+- Bundle size impact should be minimal
+
+### Accessibility Testing
+- Screen reader compatibility
+- Keyboard navigation
+- ARIA labels and roles
+- Color contrast requirements
+- Focus management 

@@ -1,0 +1,259 @@
+# Adrian Rusan Portfolio - Cursor Rules
+
+You are working on Adrian Rusan's Personal Portfolio Enhancement project (v0.1.0). Your primary objective is to implement the next pending task from the v1 tag in tasks.json, using PRD-Portfolio-NextJS-Vercel.md as the source of truth.
+
+## Tech Stack Context
+
+This is a Next.js 15 application with React 18, TypeScript, Tailwind CSS, PayloadCMS 3.0, and Vercel deployment. The project maintains 90+ Lighthouse scores and follows enterprise-grade development practices.
+
+## Core Development Rules
+
+### TypeScript Standards
+- Always use TypeScript (.ts/.tsx) for new code
+- Maintain strict type checking - avoid `any` unless absolutely necessary
+- Create proper interfaces for all data structures
+- Document type assertions when used
+
+### Codebase Consistency
+- Maintain existing project structure: app/, components/, lib/, scripts/, e2e/, config/
+- Leverage existing utilities: lib/utils.ts, hooks/usePerformance.ts
+- Reuse UI components from components/ui/ before creating new ones
+- Follow established patterns and conventions
+- Adhere strictly to .eslintrc.json and .prettierrc.json configurations
+
+## Next.js App Router Rules
+
+### Server Components First
+- Create all new pages/layouts in app/ directory
+- Prefer Server Components for data fetching and static UI
+- Use Server Actions for form submissions and data mutations
+- Only use 'use client' when client-side interactivity is required
+- Minimize client-side JavaScript bundle size
+
+### Data Fetching & Caching
+- Implement ISR for dynamic content (blog posts, GitHub data)
+- Use appropriate revalidate times: 6 hours for GitHub, 1 hour for blog
+- Wrap external API calls in try...catch with Sentry logging
+- Implement fallback data for API failures
+
+### API Routes
+- Use app/api/.../route.ts for all new API endpoints
+- Ensure fast cold starts and stateless functions
+- Set maxDuration in vercel.json for longer-running routes
+- Implement proper error handling and logging
+
+### Image Optimization
+- Always use next/image component
+- Always provide width, height, and alt attributes
+- Configure images.domains in next.config.mjs for external sources
+- Use priority prop for above-the-fold images
+
+## PayloadCMS 3.0 Integration
+
+### Installation & Setup
+- Use `npx create-payload-app@latest` for new installations
+- PayloadCMS 3.0 installs directly into Next.js apps
+- Use the built-in Next.js integration (no separate server needed)
+- Configure in `payload.config.ts` in project root
+
+### Schema Definition
+Follow PRD interfaces strictly. Example:
+```typescript
+interface Project {
+  id: string;
+  title: string;
+  slug: string;
+  shortDescription: string;
+  longDescription: RichText;
+  challenge: RichText;
+  solution: RichText;
+  results: RichText;
+  technologies: string[];
+  images: MediaItem[];
+  liveUrl?: string;
+  githubUrl?: string;
+  featured: boolean;
+  status: 'draft' | 'published';
+  createdAt: Date;
+  updatedAt: Date;
+}
+```
+
+### Collection Configuration
+```typescript
+// collections/Projects.ts
+import { CollectionConfig } from 'payload/types'
+
+export const Projects: CollectionConfig = {
+  slug: 'projects',
+  admin: {
+    useAsTitle: 'title',
+  },
+  fields: [
+    {
+      name: 'title',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'slug',
+      type: 'text',
+      required: true,
+      unique: true,
+    },
+    {
+      name: 'longDescription',
+      type: 'richText',
+      editor: lexicalEditor({}),
+    },
+    // ... other fields
+  ],
+}
+```
+
+### Local API Usage
+- Use Payload's Local API for Server Actions
+- Follow exact TypeScript interfaces from PRD
+- Implement proper error handling and validation
+- Use revalidatePath() after data mutations
+
+### Rich Text Editor
+- Use Lexical editor (stable in 3.0) instead of Slate
+- Configure with `lexicalEditor({})` from '@payloadcms/richtext-lexical'
+- Supports inline and block-level components
+- Better performance and extensibility than Slate
+
+### Jobs Queue (New in 3.0)
+- Use built-in jobs queue for background tasks
+- Configure in payload.config.ts
+- Integrate with Vercel Cron for scheduled tasks
+
+## Email & Third-Party Integrations
+
+### Resend API (Primary)
+- Use Resend SDK and React Email for all transactional emails
+- Always wrap Resend calls in try...catch blocks
+- Log errors to Sentry
+- Resend is the recommended email service for modern Next.js apps
+
+### GitHub API
+- Use @octokit/rest for GitHub API interactions
+- Implement robust error handling for API rate limits
+- Log failures to Sentry with appropriate context
+
+## Performance & SEO Requirements
+
+### Lighthouse & Core Web Vitals
+- Maintain 90+ Lighthouse scores across all categories
+- Use dynamic imports for non-critical components
+- Optimize images with proper sizing and formats
+- Implement proper loading states
+
+### SEO Implementation
+- Dynamically generate metadata using generateMetadata function
+- Implement JSON-LD structured data for projects and blog posts
+- Use proper heading hierarchy and semantic HTML
+- Include Open Graph and Twitter Card meta tags
+
+## Security & Monitoring
+
+### Input Validation
+- Use Zod for schema validation on both client and server
+- Implement validation in Server Actions
+- Sanitize all user inputs
+
+### Error Handling
+- Capture all server-side errors with Sentry
+- Include relevant context (tags, extra data)
+- Return appropriate HTTP status codes
+- Implement graceful fallbacks
+
+### Environment Variables
+- Use process.env for all sensitive configuration
+- Never expose API keys in client-side code
+- Validate required environment variables at startup
+
+## Testing Requirements
+
+### Component Testing
+- Add data-testid attributes for E2E tests
+- Use proper ARIA labels and semantic HTML
+- Include accessibility attributes
+
+### E2E Testing
+- Test critical user journeys
+- Verify responsive design across viewports
+- Test keyboard navigation and screen reader compatibility
+
+## File Organization
+
+### Directory Structure
+```
+app/
+├── (dashboard)/
+│   ├── projects/
+│   │   ├── page.tsx
+│   │   └── [slug]/page.tsx
+├── api/
+│   ├── contact/route.ts
+│   └── github/route.ts
+collections/
+├── Projects.ts
+├── BlogPosts.ts
+├── Testimonials.ts
+└── Media.ts
+components/
+├── ui/
+├── forms/
+├── layouts/
+└── sections/
+```
+
+### Naming Conventions
+- Components: PascalCase (ProjectCard.tsx)
+- Files: kebab-case (project-detail.tsx)
+- Variables: camelCase (projectData)
+- Constants: UPPER_SNAKE_CASE (API_BASE_URL)
+- Types/Interfaces: PascalCase (ProjectData)
+
+## Implementation Process
+
+1. Read the specific task from tasks.json v1 tag
+2. Reference PRD-Portfolio-NextJS-Vercel.md for requirements
+3. Check existing codebase for similar patterns
+4. Implement following these rules strictly
+5. Test functionality thoroughly
+6. Update documentation if needed
+
+## Success Criteria
+
+Each implementation must:
+- Maintain 90+ Lighthouse scores across all categories
+- Pass all existing E2E tests
+- Follow TypeScript strict mode without errors
+- Include proper error handling and logging
+- Implement appropriate caching strategies
+- Include accessibility attributes
+- Follow established design patterns
+
+## Common Pitfalls to Avoid
+
+- Don't use `any` type without justification
+- Don't create client components unnecessarily
+- Don't ignore error handling for external APIs
+- Don't hardcode sensitive data or API keys
+- Don't skip input validation on server actions
+- Don't forget to revalidate paths after data mutations
+- Don't use regular img tags instead of next/image
+- Don't ignore accessibility attributes
+- Don't skip testing for new features
+- Don't use Payload 2.x patterns when working with 3.0
+
+## Current Focus Areas
+
+Based on PRD priorities:
+1. PayloadCMS 3.0 Integration - Dynamic content management
+2. Advanced Contact System - Lead qualification
+3. Blog System - Thought leadership content
+4. GitHub Integration - Dynamic repository showcase
+5. Project Case Studies - Detailed project pages 
