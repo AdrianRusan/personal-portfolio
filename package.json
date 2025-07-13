@@ -13,7 +13,8 @@
     "verify:tests": "node scripts/verify-tests.js",
     "verify:security": "npm run security-check",
     "verify:all": "npm run verify:tests && npm run verify:build && npm run verify:security",
-    "test:github-cron": "node scripts/test-github-cron.js"
+    "test:github-cron": "node scripts/test-github-cron.js",
+    "test:email-sequences": "node scripts/test-email-sequences.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

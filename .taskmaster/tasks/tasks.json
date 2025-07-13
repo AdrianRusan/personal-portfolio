@@ -865,7 +865,7 @@
           3,
           4
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -873,7 +873,7 @@
             "description": "Configure Vercel Cron Jobs using `vercel.json` and create the foundational API routes structure in Next.js for handling scheduled tasks and webhook endpoints.",
             "dependencies": [],
             "details": "Add the `crons` array to `vercel.json` with entries for `/api/cron/github-sync` and `/api/cron/email-sequences`. Create the corresponding API route files: `app/api/cron/github-sync/route.ts` and `app/api/cron/email-sequences/route.ts`. Ensure these routes are defined as `POST` methods and include a basic security check (e.g., checking for a secret header for internal cron calls, though Vercel crons are generally secure).",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Deploy to a Vercel preview. Check the 'Crons' tab in the Vercel dashboard to ensure the cron jobs are recognized and scheduled. Manually invoke the API routes (e.g., with `curl -X POST /api/cron/github-sync`) and verify a 200 OK response."
           },
           {
@@ -884,7 +884,7 @@
               1
             ],
             "details": "In `app/api/cron/github-sync/route.ts`, implement logic to trigger the revalidation of the GitHub showcase page. This can be done by calling `revalidatePath('/your-github-showcase-path')` or by re-fetching and re-storing data if your caching mechanism requires it. **Remember to handle errors and log them to Sentry.**",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Deploy to Vercel. Manually trigger the `/api/cron/github-sync` endpoint. After a few seconds, navigate to your GitHub showcase page. Verify the content has been refreshed (e.g., by changing a repo star count on GitHub and seeing it update)."
           },
           {
@@ -895,7 +895,7 @@
               1
             ],
             "details": "Create `app/api/webhooks/revalidate-static/route.ts`. This route will be a `POST` endpoint. Configure a Vercel Deploy Hook (in Vercel project settings) to call this URL after each successful production deployment. The webhook handler will then use `revalidatePath()` for relevant static content paths like `/projects`, `/docs`, `/learning`, `/status` to ensure new content from Git is reflected on the site. This replaces any dynamic CMS webhooks for content updates.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Deploy to Vercel. Push a change to a static page (e.g., `app/docs/test/page.tsx`). After successful deployment, verify the new content appears on the live site immediately without further manual revalidation."
           },
           {
@@ -906,7 +906,7 @@
               1
             ],
             "details": "In `app/api/cron/email-sequences/route.ts`, implement logic to manage simple email sequences. For this V1, this could involve: 1) Checking for new contact form submissions (based on email content, or simple status tracking via a local file in `tmp/` or by checking for existence of follow-up emails in Resend logs). 2) Using your `EmailService` (from Task 3) to send a predefined welcome/follow-up email. You'll need a simple mechanism (e.g., a small text file, or tracking in an external system like a Google Sheet via a serverless API call) to avoid sending duplicates. This cron job will run daily.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Submit a contact form entry that should trigger an email sequence. Deploy to Vercel. Manually trigger the `/api/cron/email-sequences` endpoint or wait for the scheduled run. Verify that the relevant email is sent to the contact via Resend and the contact is marked as 'followed up' in your simple tracking mechanism."
           }
         ]
@@ -1050,7 +1050,7 @@
     ],
     "metadata": {
       "created": "2025-07-12T15:36:08.429Z",
-      "updated": "2025-07-13T14:56:05.822Z",
+      "updated": "2025-07-13T15:04:14.430Z",
       "description": "Tasks for v1 context"
     }
   }

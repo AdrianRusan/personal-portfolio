@@ -4,6 +4,7 @@ import { contactFormSchema, ContactFormData } from '@/lib/schemas/contactForm';
 import { Resend } from 'resend';
 import { ContactConfirmationEmail } from '@/emails/ContactConfirmationEmail';
 import { AdminNotificationEmail } from '@/emails/AdminNotificationEmail';
+import { addToEmailSequence } from '@/lib/email-sequences';
 import * as Sentry from '@sentry/nextjs';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -16,6 +17,19 @@ export async function submitContactForm(formData: ContactFormData) {
     // Check if Resend API key is configured
     if (!process.env.RESEND_API_KEY || process.env.RESEND_API_KEY === 'your-resend-api-key-here') {
       console.log('Resend API key not configured - simulating email send');
+      
+      // Add to email sequence even in simulation mode
+      try {
+        await addToEmailSequence(
+          validatedData.email,
+          validatedData.name,
+          validatedData.projectType,
+          new Date()
+        );
+        console.log(`Added ${validatedData.email} to email sequence (simulation mode)`);
+      } catch (sequenceError) {
+        console.error('Failed to add to email sequence:', sequenceError);
+      }
       
       // Simulate email sending for testing
       return {
@@ -53,6 +67,31 @@ export async function submitContactForm(formData: ContactFormData) {
     // Log successful email sends
     console.log('User email sent:', userEmailResult.data?.id);
     console.log('Admin email sent:', adminEmailResult.data?.id);
+
+    // Add to email sequence for follow-up automation
+    try {
+      await addToEmailSequence(
+        validatedData.email,
+        validatedData.name,
+        validatedData.projectType,
+        new Date()
+      );
+      console.log(`Added ${validatedData.email} to email sequence`);
+    } catch (sequenceError) {
+      // Log error but don't fail the contact form submission
+      console.error('Failed to add to email sequence:', sequenceError);
+      Sentry.captureException(sequenceError, {
+        tags: {
+          action: 'contact_form_submission',
+          component: 'email_sequence_integration'
+        },
+        extra: {
+          email: validatedData.email,
+          name: validatedData.name,
+          projectType: validatedData.projectType
+        }
+      });
+    }
 
     return {
       success: true,

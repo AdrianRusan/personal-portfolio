@@ -30,8 +30,11 @@ GITHUB_USERNAME=AdrianRusan
 # Calendly Integration (for Task 5)
 NEXT_PUBLIC_CALENDLY_URL=https://calendly.com/adrian-rusan/consultation
 
-# Cron Job Security (for GitHub sync)
+# Cron Job Security (for GitHub sync and email sequences)
 CRON_SECRET=your-random-secret-string-for-cron-auth
+
+# Webhook Security (for static content revalidation)
+WEBHOOK_SECRET=your-random-secret-string-for-webhook-auth
 
 # Analytics & Monitoring
 NEXT_PUBLIC_GA_ID=your-google-analytics-id
