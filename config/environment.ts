@@ -36,6 +36,7 @@ export const config = {
     contactForm: true,
     testimonials: true,
     darkMode: true,
+    calendly: true,
   },
 
   // Social media links
@@ -50,6 +51,20 @@ export const config = {
     resumeUrl: 'https://utfs.io/a/23x7w9tiht/7iidzn1TwzukCxvpcPXoxIjwOYaTyPZtGk0mVdeKgr9LH8hD',
     maxProjects: 10,
     maxTestimonials: 5,
+  },
+
+  // Calendly integration
+  calendly: {
+    url: process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com/adrian-rusan',
+    prefill: {
+      name: '',
+      email: '',
+    },
+    utm: {
+      utmCampaign: 'portfolio',
+      utmSource: 'website',
+      utmMedium: 'embedded_widget',
+    },
   },
 } as const;
 

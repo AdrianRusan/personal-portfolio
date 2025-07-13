@@ -4,6 +4,7 @@ export const navItems = [
   { name: "GitHub", link: "#github" },
   { name: "Testimonials", link: "#testimonials" },
   { name: "Contact", link: "#contact" },
+  { name: "Book Call", link: "https://calendly.com/adrian-rusan?hide_gdpr_banner=1", external: true },
 ];
 
 export const techStackLeft = [

@@ -28,8 +28,7 @@ GITHUB_TOKEN=your-github-personal-access-token
 GITHUB_USERNAME=AdrianRusan
 
 # Calendly Integration (for Task 5)
-CALENDLY_API_KEY=your-calendly-api-key
-CALENDLY_USERNAME=adrian-rusan
+NEXT_PUBLIC_CALENDLY_URL=https://calendly.com/adrian-rusan/consultation
 
 # Cron Job Security (for GitHub sync)
 CRON_SECRET=your-random-secret-string-for-cron-auth

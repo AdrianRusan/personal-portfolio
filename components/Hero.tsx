@@ -29,13 +29,24 @@ const Hero = () => {
             Hi, I&apos;m <strong>Adrian Rusan</strong>, a <strong>Full-Stack Engineer</strong> based in <strong>Romania</strong> with <strong>8 years of experience</strong> in modern web development.
           </p>
 
-          <Link href='https://utfs.io/a/23x7w9tiht/7iidzn1TwzukCxvpcPXoxIjwOYaTyPZtGk0mVdeKgr9LH8hD' target='_blank' rel="noopener noreferrer" aria-label="Download Adrian Rusan's Resume (opens in new tab)">
-            <MagicButton
-              title="See my Resume"
-              icon={<FaLocationArrow />}
-              position='right'
-            />
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+            <Link href='https://utfs.io/a/23x7w9tiht/7iidzn1TwzukCxvpcPXoxIjwOYaTyPZtGk0mVdeKgr9LH8hD' target='_blank' rel="noopener noreferrer" aria-label="Download Adrian Rusan's Resume (opens in new tab)">
+              <MagicButton
+                title="See my Resume"
+                icon={<FaLocationArrow />}
+                position='right'
+              />
+            </Link>
+            
+            <Link href='https://calendly.com/adrian-rusan/30min' target='_blank' rel="noopener noreferrer" aria-label="Schedule a consultation with Adrian Rusan (opens in new tab)">
+              <MagicButton
+                title="Book Consultation"
+                icon={<FaLocationArrow />}
+                position='right'
+                otherClasses="bg-transparent border border-purple hover:bg-purple/10"
+              />
+            </Link>
+          </div>
         </div>
       </div>
     </section>

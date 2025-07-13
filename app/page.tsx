@@ -55,6 +55,8 @@ const GitHubShowcase = dynamic(() => import("@/components/GitHubShowcase"), {
   loading: () => <GitHubShowcaseSkeleton />
 });
 
+
+
 export default async function Home() {
   // Fetch GitHub data with ISR caching
   const githubData = await getGitHubShowcaseData();
@@ -91,6 +93,8 @@ export default async function Home() {
         <section id="approach" aria-labelledby="approach-heading" className="py-10 md:py-20">
           <Approach />
         </section>
+        
+
         
         {/* Testimonials section with proper spacing */}
         <section id="testimonials" aria-labelledby="testimonials-heading">

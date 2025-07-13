@@ -18,6 +18,7 @@ export const FloatingNav = ({
     name: string;
     link: string;
     icon?: JSX.Element;
+    external?: boolean;
   }[];
   className?: string;
 }) => {
@@ -66,8 +67,11 @@ export const FloatingNav = ({
           <Link
             key={navItem.link}
             href={navItem.link}
+            target={navItem.external ? "_blank" : undefined}
+            rel={navItem.external ? "noopener noreferrer" : undefined}
             className={cn(
-              "relative dark:text-neutral-50 items-center  flex space-x-1 text-neutral-600 dark:hover:text-neutral-300 hover:text-neutral-500"
+              "relative dark:text-neutral-50 items-center  flex space-x-1 text-neutral-600 dark:hover:text-neutral-300 hover:text-neutral-500",
+              navItem.external && "text-purple hover:text-purple/80"
             )}
           >
             <span className="block sm:hidden">{navItem.icon}</span>
