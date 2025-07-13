@@ -774,7 +774,7 @@
         "dependencies": [
           1
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -782,7 +782,7 @@
             "description": "Design and develop a static HTML/CSS/JavaScript status page that displays service health status with current status indicators.",
             "dependencies": [],
             "details": "Create `app/status/page.tsx`. Design the UI to list key service components (e.g., 'Portfolio Website', 'GitHub Integration', 'Email Delivery'). Use simple visual indicators (e.g., green/yellow/red circles or text) to show their status. Initially, status will be hardcoded in the TSX file. Ensure responsiveness using *existing Tailwind CSS classes*.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Render the `/status` page. Verify it loads quickly and displays service components and their default 'Operational' status. Check responsiveness on mobile."
           },
           {
@@ -793,7 +793,7 @@
               1
             ],
             "details": "Create `app/api/health/route.ts`. This serverless function will perform `fetch` requests to critical endpoints: `https://adrian-rusan.com` (for the main site), `https://api.github.com` (for GitHub integration), and `https://api.resend.com/health` (for Resend status). Return a combined status object (`{ portfolio: 'operational', github: 'operational', email: 'operational' }`). The `status/page.tsx` can then fetch from this API route on the client-side (using `useEffect` or similar) to display dynamic status. **Implement `try...catch` for each health check and log failures to Sentry.**",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Call `http://localhost:3000/api/health`. Verify it returns a JSON object with the expected status for each service. Temporarily introduce a network error or an invalid endpoint in the function to test error reporting (e.g., a service is 'degraded'), and confirm it's logged to Sentry."
           },
           {
@@ -804,7 +804,7 @@
               2
             ],
             "details": "Using your `EmailService` (from Task 3), create a function `sendStatusNotification(service: string, status: 'operational'|'degraded'|'down')`. Integrate this into the `app/api/health/route.ts` function (or a cron job that calls it) to trigger an email to `ADMIN_EMAIL` when a service status changes from 'operational' to 'degraded'/'down'. This is a basic notification for now, not a full incident management system.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Manually trigger a simulated status change in `app/api/health/route.ts` (e.g., force a service to 'down'). Verify that an email notification is sent to `ADMIN_EMAIL` via Resend, indicating the status change."
           }
         ]
@@ -1050,7 +1050,7 @@
     ],
     "metadata": {
       "created": "2025-07-12T15:36:08.429Z",
-      "updated": "2025-07-13T13:09:44.440Z",
+      "updated": "2025-07-13T13:27:34.897Z",
       "description": "Tasks for v1 context"
     }
   }
