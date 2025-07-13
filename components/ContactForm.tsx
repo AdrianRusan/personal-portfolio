@@ -17,6 +17,7 @@ import {
   sourceOptions
 } from '@/lib/schemas/contactForm';
 import { FaLocationArrow } from 'react-icons/fa6';
+import { submitContactForm } from '@/app/actions/contact';
 
 const ContactForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -48,19 +49,27 @@ const ContactForm = () => {
     setIsSubmitting(true);
     
     try {
-      // TODO: This will be implemented in Task 3 - Server Action
-      // For now, we'll just simulate the submission
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Call the server action with form data
+      const result = await submitContactForm(data);
       
-      console.log('Form submitted:', data);
-      
-             toast.success('Thank you for your message! I&apos;ll get back to you soon.');
-      setSubmitted(true);
-      reset();
+      if (result.success) {
+        toast.success(result.message);
+        setSubmitted(true);
+        reset();
+      } else {
+        // Handle different types of errors
+        if (result.error === 'validation_error') {
+          toast.error(result.message);
+        } else if (result.error === 'rate_limit_error') {
+          toast.error(result.message);
+        } else {
+          toast.error(result.message);
+        }
+      }
       
     } catch (error) {
       console.error('Form submission error:', error);
-      toast.error('Something went wrong. Please try again or contact me directly.');
+      toast.error('Something went wrong. Please try again or contact me directly at rusan.adrian.ionut@gmail.com.');
     } finally {
       setIsSubmitting(false);
     }

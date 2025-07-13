@@ -580,7 +580,7 @@
         "dependencies": [
           2
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -588,7 +588,7 @@
             "description": "Create the server action function with comprehensive Zod schema validation for form data, including error handling and type safety.",
             "dependencies": [],
             "details": "Define an `async function` marked with `'use server'` in `app/actions/contact.ts`. Import and apply the Zod schema from Task 2 to validate the incoming `formData`. Implement `try...catch` for validation and return specific error messages if validation fails.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Create a test endpoint or directly call the server action with valid and invalid payloads (e.g., using Postman/cURL). Verify that valid data passes and invalid data returns appropriate validation errors."
           },
           {
@@ -599,7 +599,7 @@
               1
             ],
             "details": "Install `resend@^3.0.0` and `@react-email/components`. Define an `EmailService` interface and implement it using the `Resend` SDK. Create `ContactConfirmationEmail.tsx` and `AdminNotificationEmail.tsx` React Email templates in a `src/emails` directory. Within the server action, call the `EmailService` functions to send both emails using `RESEND_API_KEY`, `FROM_EMAIL`, and `ADMIN_EMAIL` from environment variables. **Wrap these email calls in `try...catch` to prevent email failures from blocking the form submission, and log failures to Sentry.**",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Submit the contact form. Verify that both the user and admin emails are received. Check Resend logs for successful delivery. If possible, simulate an email sending failure (e.g., invalid API key) and confirm it's logged to Sentry without crashing the form submission."
           }
         ]
@@ -614,7 +614,7 @@
         "dependencies": [
           1
         ],
-        "status": "pending",
+        "status": "in-progress",
         "subtasks": [
           {
             "id": 1,
@@ -1050,7 +1050,7 @@
     ],
     "metadata": {
       "created": "2025-07-12T15:36:08.429Z",
-      "updated": "2025-07-12T18:19:45.457Z",
+      "updated": "2025-07-13T08:25:54.287Z",
       "description": "Tasks for v1 context"
     }
   }
