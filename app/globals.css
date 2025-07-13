@@ -14,6 +14,16 @@
   display: none;
 }
 
+/* Shimmer animation for skeleton loaders */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -80,102 +90,113 @@
   }
 
   .floating-nav {
-    backdrop-filter: blur(16px) saturate(180%);
-    background-color: rgba(17, 25, 40, 0.75);
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.125);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  }
+
+  /* Enhanced button hover effects */
+  .btn-hover-effect {
+    @apply transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg;
+  }
+
+  /* Micro-interaction classes */
+  .micro-bounce {
+    @apply transition-transform duration-200 ease-in-out hover:scale-110 active:scale-95;
+  }
+
+  .micro-fade {
+    @apply transition-opacity duration-300 ease-in-out hover:opacity-80;
+  }
+
+  .micro-slide {
+    @apply transition-transform duration-300 ease-in-out hover:translate-y-1;
   }
 }
 
-/* Custom Calendly styling to match dark theme */
-@layer components {
-  .calendly-inline-widget {
-    /* Ensure the widget container has proper styling */
-    border-radius: 0.5rem;
-    overflow: hidden;
-    background: rgba(17, 25, 40, 0.75);
-    border: 1px solid rgba(255, 255, 255, 0.125);
-  }
-  
-  .calendly-inline-widget iframe {
-    /* Style the embedded iframe */
-    border-radius: 0.5rem;
-    background: rgba(17, 25, 40, 0.75);
-  }
-  
-  /* Custom styles for popup button */
-  .calendly-popup-widget {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.75rem 2rem;
-    font-size: 1rem;
-    font-weight: 500;
-    border-radius: 0.5rem;
-    background-color: #CBACF9;
-    color: #ffffff;
-    text-decoration: none;
-    transition: all 0.2s ease-in-out;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .calendly-popup-widget:hover {
-    background-color: rgba(203, 172, 249, 0.9);
-    transform: translateY(-1px);
-  }
-  
-  .calendly-popup-widget:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px #CBACF9;
-  }
+/* Calendly widget styles */
+.calendly-inline-widget {
+  min-width: 320px;
+  height: 630px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-/* Additional dark theme optimizations for Calendly */
-@layer utilities {
-  .calendly-dark-theme {
-    --calendly-color-primary: #CBACF9;
-    --calendly-color-primary-hover: rgba(203, 172, 249, 0.9);
-    --calendly-color-secondary: rgba(17, 25, 40, 0.75);
-    --calendly-color-text: #C1C2D3;
-    --calendly-color-text-secondary: #BEC1DD;
-    --calendly-color-background: #000319;
-    --calendly-color-surface: rgba(17, 25, 40, 0.75);
-    --calendly-color-border: rgba(255, 255, 255, 0.125);
-  }
+.calendly-inline-widget iframe {
+  border-radius: 8px;
 }
 
-/* Ensure proper spacing and layout for consultation section */
-@layer components {
-  .consultation-section {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem 0;
-  }
-  
-  .consultation-info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    max-width: 64rem;
-    margin: 0 auto;
-  }
-  
-  .consultation-info-card {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    background: rgba(17, 25, 40, 0.75);
-    border-radius: 0.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.125);
-    transition: all 0.2s ease-in-out;
-  }
-  
-  .consultation-info-card:hover {
-    transform: translateY(-2px);
-    border-color: #CBACF9;
-  }
+/* Calendly popup styles */
+.calendly-popup-widget {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 900px;
+  height: 90%;
+  max-height: 700px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.calendly-popup-widget:hover {
+  box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.25);
+}
+
+.calendly-popup-widget:focus {
+  outline: 2px solid #CBACF9;
+  outline-offset: 2px;
+}
+
+/* Dark theme for Calendly */
+.calendly-dark-theme {
+  background: #1a1a1a;
+  color: #ffffff;
+}
+
+.calendly-dark-theme .calendly-inline-widget {
+  background: #2d2d2d;
+  border: 1px solid #404040;
+}
+
+.calendly-dark-theme .calendly-popup-widget {
+  background: #2d2d2d;
+  border: 1px solid #404040;
+}
+
+/* Consultation section styles */
+.consultation-section {
+  background: linear-gradient(135deg, rgba(203, 172, 249, 0.1) 0%, rgba(0, 3, 25, 0.8) 100%);
+  border: 1px solid rgba(203, 172, 249, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.consultation-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.consultation-info-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.consultation-info-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(203, 172, 249, 0.3);
+  transform: translateY(-2px);
 }

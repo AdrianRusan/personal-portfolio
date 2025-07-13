@@ -9,6 +9,7 @@ import {
   ExperienceSkeleton,
   GitHubShowcaseSkeleton 
 } from "@/components/ui/Skeleton";
+import { SectionReveal } from "@/components/ui/PageTransition";
 import { getGitHubShowcaseData } from "@/lib/github-data";
 
 // Dynamic imports with loading components for better performance
@@ -55,8 +56,6 @@ const GitHubShowcase = dynamic(() => import("@/components/GitHubShowcase"), {
   loading: () => <GitHubShowcaseSkeleton />
 });
 
-
-
 export default async function Home() {
   // Fetch GitHub data with ISR caching
   const githubData = await getGitHubShowcaseData();
@@ -67,42 +66,57 @@ export default async function Home() {
         <FloatingNav
           navItems={navItems}
         />
+        
+        {/* Hero section - no animation needed as it's the first thing users see */}
         <Hero />
         
-        <section id="about" aria-labelledby="about-heading" className="py-10 md:py-20">
-          <About />
-        </section>
+        {/* About section with reveal animation */}
+        <SectionReveal delay={0.1}>
+          <section id="about" aria-labelledby="about-heading" className="py-10 md:py-20">
+            <About />
+          </section>
+        </SectionReveal>
         
-        <section id="experience" aria-labelledby="experience-heading" className="py-10 md:py-20">
-          <Experience />
-          <div id="projects" aria-labelledby="projects-heading" className="mt-10 md:mt-20">
-            <Projects />
-          </div>
-        </section>
+        {/* Experience section with reveal animation */}
+        <SectionReveal delay={0.2}>
+          <section id="experience" aria-labelledby="experience-heading" className="py-10 md:py-20">
+            <Experience />
+            <div id="projects" aria-labelledby="projects-heading" className="mt-10 md:mt-20">
+              <Projects />
+            </div>
+          </section>
+        </SectionReveal>
         
-        {/* GitHub Showcase section */}
-        <section id="github" aria-labelledby="github-heading" className="py-10 md:py-20">
-          <Suspense fallback={<GitHubShowcaseSkeleton />}>
-            <GitHubShowcase 
-              stats={githubData.stats} 
-              featuredRepos={githubData.featuredRepos} 
-            />
-          </Suspense>
-        </section>
+        {/* GitHub Showcase section with reveal animation */}
+        <SectionReveal delay={0.1}>
+          <section id="github" aria-labelledby="github-heading" className="py-10 md:py-20">
+            <Suspense fallback={<GitHubShowcaseSkeleton />}>
+              <GitHubShowcase 
+                stats={githubData.stats} 
+                featuredRepos={githubData.featuredRepos} 
+              />
+            </Suspense>
+          </section>
+        </SectionReveal>
         
-        <section id="approach" aria-labelledby="approach-heading" className="py-10 md:py-20">
-          <Approach />
-        </section>
+        {/* Approach section with reveal animation */}
+        <SectionReveal delay={0.2}>
+          <section id="approach" aria-labelledby="approach-heading" className="py-10 md:py-20">
+            <Approach />
+          </section>
+        </SectionReveal>
         
-
-        
-        {/* Testimonials section with proper spacing */}
-        <section id="testimonials" aria-labelledby="testimonials-heading">
-          <Testimonials />
-        </section>
+        {/* Testimonials section with reveal animation */}
+        <SectionReveal delay={0.1}>
+          <section id="testimonials" aria-labelledby="testimonials-heading">
+            <Testimonials />
+          </section>
+        </SectionReveal>
         
         {/* Contact section - Footer contains the contact form */}
-        <Footer />
+        <SectionReveal delay={0.2}>
+          <Footer />
+        </SectionReveal>
       </div>
     </main>
   );

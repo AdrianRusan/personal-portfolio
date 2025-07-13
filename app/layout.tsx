@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/context/theme-provider";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Toaster } from 'react-hot-toast';
+import { PageTransition } from "@/components/ui/PageTransition";
 
 const inter = Inter({ subsets: ["latin"], display: 'swap' });
 
@@ -176,7 +177,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <PageTransition>
+            {children}
+          </PageTransition>
           <Toaster
             position="top-right"
             toastOptions={{
