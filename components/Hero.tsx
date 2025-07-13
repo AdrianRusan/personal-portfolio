@@ -30,7 +30,7 @@ const Hero = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
-            <Link href='https://utfs.io/a/23x7w9tiht/7iidzn1TwzukCxvpcPXoxIjwOYaTyPZtGk0mVdeKgr9LH8hD' target='_blank' rel="noopener noreferrer" aria-label="Download Adrian Rusan's Resume (opens in new tab)">
+            <Link href='#' target='_blank' rel="noopener noreferrer" aria-label="Download Adrian Rusan's Resume (opens in new tab)">
               <MagicButton
                 title="See my Resume"
                 icon={<FaLocationArrow />}

@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     url: 'https://www.adrian-rusan.com',
     siteName: 'Adrian Rusan Portfolio',
     images: [{ 
-      url: 'https://utfs.io/a/23x7w9tiht/7iidzn1Twzuk3ZQYpyCbRtXkfi51QxyWTOLMcl8HhG4CZF2s',
+      url: '/favicon.ico', // Placeholder image
       width: 1200,
       height: 630,
       alt: 'Adrian Rusan - Full-Stack Engineer Portfolio'
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Adrian Rusan | Full-Stack Engineer Portfolio',
     description: 'Discover the projects and experience of Adrian Rusan, a full-stack engineer from Romania specializing in React, Next.js, and modern web development.',
-    images: ['https://utfs.io/a/23x7w9tiht/7iidzn1Twzuk3ZQYpyCbRtXkfi51QxyWTOLMcl8HhG4CZF2s'],
+    images: ['/favicon.ico'], // Placeholder image
     creator: '@adrian_rusan',
   },
   robots: {
@@ -82,7 +82,7 @@ const structuredData = () => (
           "url": "https://www.adrian-rusan.com",
           "image": {
             "@type": "ImageObject",
-            "url": "https://utfs.io/a/23x7w9tiht/7iidzn1Twzuk3ZQYpyCbRtXkfi51QxyWTOLMcl8HhG4CZF2s",
+            "url": "/favicon.ico",
             "width": 400,
             "height": 400
           },

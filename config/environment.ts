@@ -48,7 +48,7 @@ export const config = {
 
   // Content
   content: {
-    resumeUrl: 'https://utfs.io/a/23x7w9tiht/7iidzn1TwzukCxvpcPXoxIjwOYaTyPZtGk0mVdeKgr9LH8hD',
+    resumeUrl: '#', // Placeholder - replace with actual resume URL
     maxProjects: 10,
     maxTestimonials: 5,
   },
