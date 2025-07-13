@@ -819,7 +819,7 @@
         "dependencies": [
           1
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -827,7 +827,7 @@
             "description": "Create a comprehensive interface for displaying static educational content with basic filtering and categorization.",
             "dependencies": [],
             "details": "Develop a responsive content listing page (`app/learning/page.tsx`) that displays hardcoded articles/tutorials with thumbnail images (from `public`), titles, descriptions, difficulty levels, and duration estimates. Content for this listing will be defined within the `app/learning/page.tsx` file itself. Implement basic client-side filtering and categorization based on hardcoded content properties. Style using *your existing filtering/search patterns and Tailwind CSS*.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Create multiple hardcoded learning content entries in `app/learning/page.tsx`. Verify the `/learning` page loads and displays all content cards. Test filtering by category/tag (if implemented) and ensure only relevant content is shown."
           },
           {
@@ -838,7 +838,7 @@
               1
             ],
             "details": "Create `app/learning/[slug]/page.tsx` (or static `app/learning/article-1/page.tsx`). Hardcode the content directly in the TSX/JSX files. If `type` is 'video' and `videoUrl` is present (hardcoded), use `react-player` to embed the video (install `react-player@^2.13.0`). Ensure all styling (including code blocks if manually added) is consistent with the *main portfolio's existing theme*.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Navigate to an individual learning content page. Verify content loads and formatting is correct. If a video is specified, ensure it embeds and plays correctly. Check responsiveness of the content display."
           },
           {
@@ -849,7 +849,7 @@
               2
             ],
             "details": "On individual learning content pages (`app/learning/[slug]/page.tsx`), use a `useEffect` hook. On component mount, check `localStorage` for `learningProgress` associated with the current `slug`. On scroll or completion (e.g., reaching end of page), update a percentage (e.g., scroll percentage) and save to `localStorage`. On the listing page (`app/learning/page.tsx`), read from `localStorage` to display a small progress bar or 'Continue Reading' badge on content cards.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Open a learning article, scroll halfway, and close the tab. Reopen the browser and navigate to the `/learning` page. Verify the progress indicator on that article reflects the half-way point. Open the article again, scroll to the end, close, and verify completion."
           }
         ]
@@ -1050,7 +1050,7 @@
     ],
     "metadata": {
       "created": "2025-07-12T15:36:08.429Z",
-      "updated": "2025-07-13T13:27:34.897Z",
+      "updated": "2025-07-13T14:56:05.822Z",
       "description": "Tasks for v1 context"
     }
   }
