@@ -706,7 +706,7 @@
         "dependencies": [
           1
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -714,7 +714,7 @@
             "description": "Confirm that existing project data from `data/index.ts` is correctly loaded and displayed on the portfolio's project pages.",
             "dependencies": [],
             "details": "Review `app/projects/page.tsx` and potentially `app/projects/[slug]/page.tsx` (if already dynamic). Trace how `data/index.ts` is imported and used to render project information. Verify current fields like `title`, `description`, `technologies`, `image`, `liveUrl`, `githubUrl` are displayed. Ensure `next/image` is used for all images.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Navigate to the Projects section of the portfolio. Verify all current projects are listed. Click on each project (if dynamic) and ensure its details page loads correctly with all hardcoded information visible. Check browser console for errors related to data loading."
           },
           {
@@ -725,7 +725,7 @@
               1
             ],
             "details": "Examine the visual presentation of project cards/details. Ensure responsive behavior across different screen sizes. Verify hover effects, link functionality, and overall aesthetic align with the portfolio's design system. Make minor CSS adjustments via Tailwind if needed for consistency.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Manually test project pages on desktop, tablet, and mobile viewports. Verify layouts adapt correctly, images scale appropriately, and all interactive elements (buttons, links) are touch-friendly and functional. Check for any UI glitches or misalignments."
           }
         ]
@@ -740,7 +740,7 @@
         "dependencies": [
           1
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -748,7 +748,7 @@
             "description": "Develop multiple static documentation pages using standard Next.js page components (TSX/JSX).",
             "dependencies": [],
             "details": "Create `app/docs/introduction/page.tsx`, `app/docs/getting-started/page.tsx`, etc. Hardcode content directly into these files using standard HTML elements within JSX. Implement basic internal navigation links between these pages. Ensure consistent layout with your *existing `app/layout.tsx`*.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Navigate to each newly created documentation page URL. Verify the content is visible and formatted as expected. Click internal links between documentation pages to confirm navigation."
           },
           {
@@ -759,7 +759,7 @@
               1
             ],
             "details": "Add a sidebar or top navigation component within the `app/docs/layout.tsx` (if created) or directly within `app/docs/page.tsx`. This navigation will contain direct links (`<Link href=\"...\">`) to the static documentation pages created in Subtask 1. Style using *existing Tailwind CSS classes*.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Verify the documentation navigation appears on docs pages. Click each link to ensure it correctly navigates to the respective static documentation page."
           }
         ]
@@ -1050,7 +1050,7 @@
     ],
     "metadata": {
       "created": "2025-07-12T15:36:08.429Z",
-      "updated": "2025-07-13T12:40:08.200Z",
+      "updated": "2025-07-13T13:09:44.440Z",
       "description": "Tasks for v1 context"
     }
   }

@@ -4,6 +4,7 @@ export const navItems = [
   { name: "GitHub", link: "#github" },
   { name: "Testimonials", link: "#testimonials" },
   { name: "Contact", link: "#contact" },
+  { name: "Docs", link: "/docs", external: true },
   { name: "Book Call", link: "https://calendly.com/adrian-rusan?hide_gdpr_banner=1", external: true },
 ];
 
@@ -100,7 +101,7 @@ export const projects = [
       'TypeScript icon',
       'Framer Motion icon',
     ],
-    // github: 'https://github.com/AdrianRusan/shop-value',
+    github: 'https://github.com/AdrianRusan/shop-value',
     link: 'https://shop-value.vercel.app/',
   },
   {
