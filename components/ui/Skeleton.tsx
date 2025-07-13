@@ -63,3 +63,91 @@ export const HeroSkeleton = () => (
     <Skeleton className="h-12 w-40 rounded-full" />
   </div>
 );
+
+export const GitHubShowcaseSkeleton = () => (
+  <section className="py-20" aria-label="GitHub showcase loading">
+    <div className="max-w-7xl mx-auto px-4">
+      <div className="text-center mb-16">
+        <Skeleton className="h-12 w-64 mx-auto mb-4" />
+      </div>
+
+      {/* GitHub Stats Overview Skeleton */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="bg-black-200 rounded-lg p-6 border border-white/[0.1]">
+            <div className="flex items-center justify-between">
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-20" />
+                <Skeleton className="h-8 w-16" />
+              </div>
+              <Skeleton className="h-8 w-8 rounded-full" />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Top Languages Skeleton */}
+      <div className="mb-16">
+        <div className="text-center mb-8">
+          <Skeleton className="h-8 w-64 mx-auto" />
+        </div>
+        <div className="flex flex-wrap justify-center gap-4">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="flex items-center gap-3 bg-black-200 px-4 py-2 rounded-lg border border-white/[0.1]">
+              <Skeleton className="w-4 h-4 rounded-full" />
+              <Skeleton className="h-4 w-20" />
+              <Skeleton className="h-4 w-12" />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Featured Repositories Skeleton */}
+      <div>
+        <div className="text-center mb-8">
+          <Skeleton className="h-8 w-56 mx-auto" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="bg-black-200 rounded-lg p-6 border border-white/[0.1]">
+              <div className="space-y-4">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1 space-y-2">
+                    <Skeleton className="h-6 w-32" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-3/4" />
+                  </div>
+                  <Skeleton className="h-6 w-6 rounded" />
+                </div>
+                
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <Skeleton className="h-4 w-8" />
+                    <Skeleton className="h-4 w-8" />
+                  </div>
+                  <Skeleton className="h-4 w-16" />
+                </div>
+                
+                <div className="flex flex-wrap gap-2">
+                  {Array.from({ length: 3 }).map((_, j) => (
+                    <Skeleton key={j} className="h-6 w-16 rounded-full" />
+                  ))}
+                </div>
+                
+                <div className="flex items-center gap-3 mt-auto">
+                  <Skeleton className="h-8 w-24 rounded-lg" />
+                  <Skeleton className="h-8 w-20 rounded-lg" />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* GitHub Profile Link Skeleton */}
+      <div className="text-center mt-16">
+        <Skeleton className="h-12 w-64 mx-auto rounded-lg" />
+      </div>
+    </div>
+  </section>
+);

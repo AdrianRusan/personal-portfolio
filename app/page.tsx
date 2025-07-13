@@ -6,8 +6,10 @@ import { Suspense } from "react";
 import { 
   ProjectSkeleton, 
   TestimonialSkeleton, 
-  ExperienceSkeleton 
+  ExperienceSkeleton,
+  GitHubShowcaseSkeleton 
 } from "@/components/ui/Skeleton";
+import { getGitHubShowcaseData } from "@/lib/github-data";
 
 // Dynamic imports with loading components for better performance
 const About = dynamic(() => import("@/components/About"), {
@@ -49,7 +51,14 @@ const Footer = dynamic(() => import("@/components/Footer"), {
   loading: () => <footer className="h-32 animate-pulse bg-slate-100 dark:bg-slate-800" aria-label="Footer loading" />
 });
 
-export default function Home() {
+const GitHubShowcase = dynamic(() => import("@/components/GitHubShowcase"), {
+  loading: () => <GitHubShowcaseSkeleton />
+});
+
+export default async function Home() {
+  // Fetch GitHub data with ISR caching
+  const githubData = await getGitHubShowcaseData();
+
   return (
     <main className="relative dark:bg-black-100 bg-white flex justify-center items-center flex-col overflow-hidden mx-auto px-5 sm:px-10">
       <div className="max-w-7xl w-full">
@@ -67,6 +76,16 @@ export default function Home() {
           <div id="projects" aria-labelledby="projects-heading" className="mt-10 md:mt-20">
             <Projects />
           </div>
+        </section>
+        
+        {/* GitHub Showcase section */}
+        <section id="github" aria-labelledby="github-heading" className="py-10 md:py-20">
+          <Suspense fallback={<GitHubShowcaseSkeleton />}>
+            <GitHubShowcase 
+              stats={githubData.stats} 
+              featuredRepos={githubData.featuredRepos} 
+            />
+          </Suspense>
         </section>
         
         <section id="approach" aria-labelledby="approach-heading" className="py-10 md:py-20">

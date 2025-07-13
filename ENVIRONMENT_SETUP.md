@@ -31,6 +31,9 @@ GITHUB_USERNAME=AdrianRusan
 CALENDLY_API_KEY=your-calendly-api-key
 CALENDLY_USERNAME=adrian-rusan
 
+# Cron Job Security (for GitHub sync)
+CRON_SECRET=your-random-secret-string-for-cron-auth
+
 # Analytics & Monitoring
 NEXT_PUBLIC_GA_ID=your-google-analytics-id
 SENTRY_DSN=your-sentry-dsn
