@@ -1,46 +1,55 @@
 
-import { InfiniteMovingCards } from './ui/InfiniteMovingCards'
-import { companies, testimonials } from '@/data'
+import { testimonials } from '@/data'
 import Image from 'next/image'
+import { InfiniteMovingCards } from './ui/InfiniteMovingCards'
 
 const Testimonials = () => {
   return (
-    <>
-      <h2 id="testimonials-heading" className='heading'>
+    <section className="py-20 md:py-32 lg:py-40">
+      <h2 id="testimonials-heading" className='heading mb-16 md:mb-20'>
         Kind words from
         <span className='text-purple'> satisfied clients</span>
       </h2>
-      <div className='flex items-center flex-col max-lg:mt-10'>
-        <InfiniteMovingCards
-          items={testimonials}
-          direction='right'
-          speed='slow'
-        />
-
-        {/* <div className='flex flex-wrap justify-center items-center gap-4 md:gap-16 max-lg:mt-10'>
-          {companies.map(({
-            id, img, name, nameImg
-          }) => (
-            <div key={id} className='flex md:max-w-60 max-w-32 gap-2 items-center'>
-              <Image
-                src={img}
-                alt={name}
-                className="h-full object-contain md:w-10 w-5"
-                width={0}
-                height={0}
-              />
-              <Image
-                src={nameImg}
-                alt={name}
-                className="h-full object-contain md:w-24 w-20"
-                width={0}
-                height={0}
-              />
-            </div>
-          ))}
-        </div> */}
+      
+      <div className='flex items-center justify-center flex-col max-lg:mt-10'>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
+          <InfiniteMovingCards
+            items={testimonials}
+            direction='right'
+            speed='slow'
+          />
+          {/* {testimonials.map((item, idx) => (
+            <article
+              key={idx}
+              className="relative rounded-2xl border border-slate-800 p-5 md:p-8 bg-gradient-to-br from-slate-900/90 to-slate-800/90 backdrop-blur-xl"
+            >
+              <blockquote className="space-y-6">
+                <p className="text-sm md:text-lg leading-relaxed text-white font-normal">
+                  &ldquo;{item.quote}&rdquo;
+                </p>
+                <footer className="flex items-center gap-4">
+                  <Image
+                    src={item.img}
+                    alt={item.name}
+                    width={50}
+                    height={50}
+                    className="w-12 h-12 object-cover rounded-full"
+                  />
+                  <div className="flex flex-col">
+                    <cite className="text-lg font-bold text-white not-italic">
+                      {item.name}
+                    </cite>
+                    <span className="text-sm text-gray-300">
+                      {item.title}
+                    </span>
+                  </div>
+                </footer>
+              </blockquote>
+            </article>
+          ))} */}
+        </div>
       </div>
-    </>
+    </section>
   )
 }
 

@@ -71,7 +71,7 @@ test.describe('Portfolio User Journey', () => {
       
       if (projectsVisible) {
         // Test project interactions if projects are visible
-        const projectLinks = page.getByRole('link').filter({ hasText: /Check Website|Check Repo/i })
+        const projectLinks = page.getByRole('link').filter({ hasText: /Live Demo|View Code/i })
         const linkCount = await projectLinks.count()
         
         if (linkCount > 0) {
@@ -80,9 +80,18 @@ test.describe('Portfolio User Journey', () => {
             const link = projectLinks.nth(i)
             if (await link.isVisible()) {
               await expect(link).toHaveAttribute('target', '_blank')
+              await expect(link).toHaveAttribute('rel', 'noopener noreferrer')
             }
           }
         }
+        
+        // Test that both projects are displayed
+        await expect(page.getByText('ShopValue - Product Price Scrapper')).toBeVisible()
+        await expect(page.getByText('NextHub - Video Conferencing App')).toBeVisible()
+        
+        // Test technology icons are visible
+        const techIcons = page.locator('[role="list"][aria-label="Technologies used"]')
+        await expect(techIcons.first()).toBeVisible()
       }
       
       // Main test: page should remain functional

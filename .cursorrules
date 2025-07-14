@@ -4,7 +4,7 @@ You are working on Adrian Rusan's Personal Portfolio Enhancement project (v0.1.0
 
 ## Tech Stack Context
 
-This is a Next.js 15 application with React 18, TypeScript, Tailwind CSS, PayloadCMS 3.0, and Vercel deployment. The project maintains 90+ Lighthouse scores and follows enterprise-grade development practices.
+This is a Next.js 15 application with React 18, TypeScript, Tailwind CSS, and Vercel deployment. The project maintains 90+ Lighthouse scores and follows enterprise-grade development practices.
 
 ## Core Development Rules
 
@@ -47,86 +47,6 @@ This is a Next.js 15 application with React 18, TypeScript, Tailwind CSS, Payloa
 - Always provide width, height, and alt attributes
 - Configure images.domains in next.config.mjs for external sources
 - Use priority prop for above-the-fold images
-
-## PayloadCMS 3.0 Integration
-
-### Installation & Setup
-- Use `npx create-payload-app@latest` for new installations
-- PayloadCMS 3.0 installs directly into Next.js apps
-- Use the built-in Next.js integration (no separate server needed)
-- Configure in `payload.config.ts` in project root
-
-### Schema Definition
-Follow PRD interfaces strictly. Example:
-```typescript
-interface Project {
-  id: string;
-  title: string;
-  slug: string;
-  shortDescription: string;
-  longDescription: RichText;
-  challenge: RichText;
-  solution: RichText;
-  results: RichText;
-  technologies: string[];
-  images: MediaItem[];
-  liveUrl?: string;
-  githubUrl?: string;
-  featured: boolean;
-  status: 'draft' | 'published';
-  createdAt: Date;
-  updatedAt: Date;
-}
-```
-
-### Collection Configuration
-```typescript
-// collections/Projects.ts
-import { CollectionConfig } from 'payload/types'
-
-export const Projects: CollectionConfig = {
-  slug: 'projects',
-  admin: {
-    useAsTitle: 'title',
-  },
-  fields: [
-    {
-      name: 'title',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true,
-    },
-    {
-      name: 'longDescription',
-      type: 'richText',
-      editor: lexicalEditor({}),
-    },
-    // ... other fields
-  ],
-}
-```
-
-### Local API Usage
-- Use Payload's Local API for Server Actions
-- Follow exact TypeScript interfaces from PRD
-- Implement proper error handling and validation
-- Use revalidatePath() after data mutations
-
-### Rich Text Editor
-- Use Lexical editor (stable in 3.0) instead of Slate
-- Configure with `lexicalEditor({})` from '@payloadcms/richtext-lexical'
-- Supports inline and block-level components
-- Better performance and extensibility than Slate
-
-### Jobs Queue (New in 3.0)
-- Use built-in jobs queue for background tasks
-- Configure in payload.config.ts
-- Integrate with Vercel Cron for scheduled tasks
 
 ## Email & Third-Party Integrations
 
@@ -252,8 +172,7 @@ Each implementation must:
 ## Current Focus Areas
 
 Based on PRD priorities:
-1. PayloadCMS 3.0 Integration - Dynamic content management
-2. Advanced Contact System - Lead qualification
-3. Blog System - Thought leadership content
-4. GitHub Integration - Dynamic repository showcase
-5. Project Case Studies - Detailed project pages 
+1. Advanced Contact System - Lead qualification
+2. Blog System - Thought leadership content
+3. GitHub Integration - Dynamic repository showcase
+4. Project Case Studies - Detailed project pages 
