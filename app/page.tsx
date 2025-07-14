@@ -13,6 +13,8 @@ import { SectionReveal } from "@/components/ui/PageTransition";
 import { getGitHubShowcaseData } from "@/lib/github-data";
 import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
+import Experience from "@/components/Experience";
+import Testimonials from "@/components/Testimonials";
 
 // Dynamic imports with loading components for better performance
 const About = dynamic(() => import("@/components/About"), {
@@ -30,25 +32,25 @@ const Projects = dynamic(() => import("@/components/Projects"), {
   )
 });
 
-const Experience = dynamic(() => import("@/components/Experience"), {
-  loading: () => (
-    <section className="py-20" aria-label="Experience loading">
-      <ExperienceSkeleton />
-    </section>
-  )
-});
+// const Experience = dynamic(() => import("@/components/Experience"), {
+//   loading: () => (
+//     <section className="py-20" aria-label="Experience loading">
+//       <ExperienceSkeleton />
+//     </section>
+//   )
+// });
 
 const Approach = dynamic(() => import("@/components/Approach"), {
   loading: () => <section className="h-96 animate-pulse bg-slate-100 dark:bg-slate-800 rounded-lg" aria-label="Approach loading" />
 });
 
-const Testimonials = dynamic(() => import("@/components/Testimonials"), {
-  loading: () => (
-    <section className="py-20" aria-label="Testimonials loading">
-      <TestimonialSkeleton />
-    </section>
-  )
-});
+// const Testimonials = dynamic(() => import("@/components/Testimonials"), {
+//   loading: () => (
+//     <section className="py-20" aria-label="Testimonials loading">
+//       <TestimonialSkeleton />
+//     </section>
+//   )
+// });
 
 const Footer = dynamic(() => import("@/components/Footer"), {
   loading: () => <footer className="h-32 animate-pulse bg-slate-100 dark:bg-slate-800" aria-label="Footer loading" />
@@ -91,14 +93,14 @@ export default async function Home() {
         </SectionReveal>
         
         {/* Experience section with reveal animation */}
-        {/* <SectionReveal delay={0.2}>
+        <SectionReveal delay={0.2}>
           <section id="experience" aria-labelledby="experience-heading" className="py-10 md:py-20">
             <Experience />
-            <div id="projects" aria-labelledby="projects-heading" className="mt-10 md:mt-20">
+            {/* <div id="projects" aria-labelledby="projects-heading" className="mt-10 md:mt-20">
               <Projects />
-            </div>
+            </div> */}
           </section>
-        </SectionReveal> */}
+        </SectionReveal>
         
         {/* GitHub Showcase section with reveal animation */}
         <SectionReveal delay={0.1}>
@@ -190,23 +192,23 @@ export default async function Home() {
         </SectionReveal>
         
         {/* Approach section with reveal animation */}
-        {/* <SectionReveal delay={0.2}>
+        <SectionReveal delay={0.2}>
           <section id="approach" aria-labelledby="approach-heading" className="py-10 md:py-20">
             <Approach />
           </section>
-        </SectionReveal> */}
+        </SectionReveal>
         
         {/* Testimonials section with reveal animation */}
-        {/* <SectionReveal delay={0.1}>
+        <SectionReveal delay={0.1}>
           <section id="testimonials" aria-labelledby="testimonials-heading">
             <Testimonials />
           </section>
-        </SectionReveal> */}
+        </SectionReveal>
         
         {/* Contact section - Footer contains the contact form */}
-        {/* <SectionReveal delay={0.2}>
+        <SectionReveal delay={0.2}>
           <Footer />
-        </SectionReveal> */}
+        </SectionReveal>
       </div>
     </main>
   );
