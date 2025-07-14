@@ -1,6 +1,7 @@
 
 import { testimonials } from '@/data'
 import Image from 'next/image'
+import { InfiniteMovingCards } from './ui/InfiniteMovingCards'
 
 const Testimonials = () => {
   return (
@@ -12,7 +13,12 @@ const Testimonials = () => {
       
       <div className='flex items-center justify-center flex-col max-lg:mt-10'>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
-          {testimonials.map((item, idx) => (
+          <InfiniteMovingCards
+            items={testimonials}
+            direction='right'
+            speed='slow'
+          />
+          {/* {testimonials.map((item, idx) => (
             <article
               key={idx}
               className="relative rounded-2xl border border-slate-800 p-5 md:p-8 bg-gradient-to-br from-slate-900/90 to-slate-800/90 backdrop-blur-xl"
@@ -40,7 +46,7 @@ const Testimonials = () => {
                 </footer>
               </blockquote>
             </article>
-          ))}
+          ))} */}
         </div>
       </div>
     </section>
