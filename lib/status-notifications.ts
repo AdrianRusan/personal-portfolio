@@ -20,6 +20,7 @@ interface StatusNotificationData {
 /**
  * Sends a status notification email to the admin
  */
+
 export async function sendStatusNotification(data: StatusNotificationData): Promise<{ success: boolean; emailId?: string; error?: string }> {
   try {
     // Check if Resend API key is configured
