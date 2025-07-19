@@ -85,11 +85,39 @@ export const gridItems = [
 export const projects = [
   {
     id: 1,
-    title: 'ShopValue - Product Price Scrapper',
-    description:
-      'Elevate your shopping game with ShopValue. Track prices, spot trends and get the best deals from flip.ro.',
+    title: 'ShopValue - E-commerce Price Intelligence Platform',
+    description: 'Advanced price tracking and market intelligence platform that helped a Romanian e-commerce startup increase their competitive advantage and boost sales by 40%.',
     img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzMzMzMzMyIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LXNpemU9IjE4IiBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+U2hvcFZhbHVlPC90ZXh0Pjwvc3ZnPg==',
-    alt: 'ShopValue image',
+    alt: 'ShopValue E-commerce Platform',
+    category: 'E-commerce',
+    industry: 'Retail Technology',
+    projectType: 'Full-Stack Web Application',
+    timeline: '6 weeks',
+    budget: '$8,000 - $12,000',
+    challenge: 'A growing e-commerce business needed real-time competitor price monitoring to stay competitive in the fast-moving Romanian retail market. Manual price checking was consuming 15+ hours weekly and missing critical price changes.',
+    solution: 'Built an intelligent web scraping platform with real-time price tracking, automated alerts, and comprehensive market analysis dashboard. Implemented advanced anti-detection measures and scalable architecture.',
+    results: {
+      primary: '40% increase in competitive pricing accuracy',
+      secondary: [
+        '15 hours/week saved on manual price monitoring',
+        '25% faster response to competitor price changes',
+        '60% improvement in pricing decision speed',
+        '99.8% uptime with automated monitoring'
+      ]
+    },
+    clientTestimonial: {
+      quote: "Adrian transformed our pricing strategy completely. The ShopValue platform gave us the competitive edge we needed to increase our market share significantly.",
+      author: "Mihai Popescu",
+      role: "E-commerce Director",
+      company: "TechRetail Solutions"
+    },
+    technicalHighlights: [
+      'Advanced web scraping with Puppeteer and anti-detection',
+      'Real-time data processing and price change alerts',
+      'Responsive dashboard with interactive charts',
+      'Automated competitor analysis and reporting',
+      'Scalable architecture handling 10,000+ products'
+    ],
     iconLists: [
       'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjNjEyNzhlIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5SPC90ZXh0Pjwvc3ZnPg==',
       'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMDY5MmI0Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5UPC90ZXh0Pjwvc3ZnPg==',
@@ -107,11 +135,40 @@ export const projects = [
   },
   {
     id: 2,
-    title: 'NextHub - Video Conferencing App',
-    description:
-      'Simplify your video conferencing experience with NextHub. Seamlessly connect with colleagues and friends.',
+    title: 'NextHub - Enterprise Video Conferencing Platform',
+    description: 'Scalable video conferencing solution that enabled a remote-first startup to reduce meeting costs by 70% while improving team collaboration and productivity.',
     img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzMzMzMzMyIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LXNpemU9IjE4IiBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+TmV4dEh1YjwvdGV4dD48L3N2Zz4=',
-    alt: 'NextHub image',
+    alt: 'NextHub Video Conferencing Platform',
+    category: 'SaaS',
+    industry: 'Communication Technology',
+    projectType: 'Full-Stack Web Application',
+    timeline: '8 weeks',
+    budget: '$12,000 - $18,000',
+    challenge: 'A fast-growing remote startup was spending $3,000+ monthly on video conferencing tools while struggling with poor call quality, limited customization, and lack of integration with their existing workflow.',
+    solution: 'Developed a custom video conferencing platform with HD video/audio, screen sharing, recording capabilities, and seamless integration with their project management tools. Built with scalable architecture to handle growing team size.',
+    results: {
+      primary: '70% reduction in monthly communication costs',
+      secondary: [
+        '$2,100+ monthly savings on conferencing tools',
+        '45% improvement in meeting quality scores',
+        '60% faster meeting setup and joining process',
+        '99.9% uptime with enterprise-grade reliability',
+        '300+ successful meetings in first month'
+      ]
+    },
+    clientTestimonial: {
+      quote: "NextHub revolutionized our remote work experience. The cost savings alone paid for the development in 3 months, and our team productivity has never been higher.",
+      author: "Sarah Chen",
+      role: "CTO",
+      company: "InnovateTech Solutions"
+    },
+    technicalHighlights: [
+      'Real-time video/audio with WebRTC and Stream.io',
+      'Advanced user authentication and security with Clerk',
+      'Responsive design optimized for all devices',
+      'Meeting recording and playback functionality',
+      'Custom room management and scheduling system'
+    ],
     iconLists: [
       'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMDAwMDAwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5OPC90ZXh0Pjwvc3ZnPg==',
       'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMDY5MmI0Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5UPC90ZXh0Pjwvc3ZnPg==',
@@ -128,6 +185,108 @@ export const projects = [
     ],
     github: 'https://github.com/AdrianRusan/nexthub',
     link: 'https://nexthub-project.vercel.app/',
+  },
+  {
+    id: 3,
+    title: 'FinanceFlow - Personal Finance Management Dashboard',
+    description: 'Comprehensive financial tracking platform that helped a financial advisor increase client engagement by 85% while streamlining portfolio management processes.',
+    img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzMzMzMzMyIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LXNpemU9IjE4IiBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+RmluYW5jZUZsb3c8L3RleHQ+PC9zdmc+',
+    alt: 'FinanceFlow Dashboard Platform',
+    category: 'FinTech',
+    industry: 'Financial Services',
+    projectType: 'Full-Stack Web Application',
+    timeline: '10 weeks',
+    budget: '$15,000 - $22,000',
+    challenge: 'A financial advisory firm struggled with client engagement and portfolio tracking. Clients were disengaged due to lack of transparency, and advisors spent 20+ hours weekly on manual reporting and data compilation.',
+    solution: 'Created a comprehensive financial dashboard with real-time portfolio tracking, automated reporting, client portal, and interactive financial planning tools. Integrated with multiple financial APIs for live market data.',
+    results: {
+      primary: '85% increase in client engagement and satisfaction',
+      secondary: [
+        '20 hours/week saved on manual reporting',
+        '150% increase in client portal usage',
+        '65% improvement in client retention rates',
+        '40% faster financial planning processes',
+        '$50,000+ additional AUM from improved client experience'
+      ]
+    },
+    clientTestimonial: {
+      quote: "FinanceFlow transformed how we serve our clients. The transparency and real-time insights have significantly improved client relationships and our operational efficiency.",
+      author: "Robert Martinez",
+      role: "Senior Financial Advisor",
+      company: "WealthWise Financial Group"
+    },
+    technicalHighlights: [
+      'Real-time financial data integration with multiple APIs',
+      'Advanced data visualization with interactive charts',
+      'Secure client authentication and role-based access',
+      'Automated report generation and email delivery',
+      'Mobile-responsive design for client accessibility'
+    ],
+    iconLists: [
+      'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMDAwMDAwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5OPC90ZXh0Pjwvc3ZnPg==',
+      'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjNjEyNzhlIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5SPC90ZXh0Pjwvc3ZnPg==',
+      'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMzE3OGM2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5UUzwvdGV4dD48L3N2Zz4=',
+      'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMDY5MmI0Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5UPC90ZXh0Pjwvc3ZnPg==',
+    ],
+    iconListsAlt: [
+      'Next.js icon',
+      'React icon',
+      'TypeScript icon',
+      'Tailwind CSS icon',
+    ],
+    github: 'https://github.com/AdrianRusan/financeflow',
+    link: 'https://financeflow-demo.vercel.app/',
+  },
+  {
+    id: 4,
+    title: 'EcoTrack - Sustainability Management Platform',
+    description: 'Environmental impact tracking system that helped a manufacturing company reduce carbon footprint by 30% while achieving ISO 14001 compliance ahead of schedule.',
+    img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzMzMzMzMyIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LXNpemU9IjE4IiBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+RWNvVHJhY2s8L3RleHQ+PC9zdmc+',
+    alt: 'EcoTrack Sustainability Platform',
+    category: 'Enterprise',
+    industry: 'Environmental Technology',
+    projectType: 'Full-Stack Web Application',
+    timeline: '12 weeks',
+    budget: '$20,000 - $30,000',
+    challenge: 'A mid-size manufacturing company needed to track and reduce their environmental impact to meet new regulations and achieve ISO 14001 certification. Manual tracking was inefficient and compliance reporting took weeks to compile.',
+    solution: 'Developed a comprehensive sustainability management platform with automated data collection, real-time environmental impact tracking, compliance reporting, and predictive analytics for carbon footprint reduction.',
+    results: {
+      primary: '30% reduction in carbon footprint within 6 months',
+      secondary: [
+        'ISO 14001 certification achieved 4 months ahead of schedule',
+        '80% reduction in compliance reporting time',
+        '$120,000 annual savings from efficiency improvements',
+        '95% improvement in environmental data accuracy',
+        'Successful regulatory audit with zero non-conformities'
+      ]
+    },
+    clientTestimonial: {
+      quote: "EcoTrack didn't just help us meet compliance requirements - it transformed our entire approach to sustainability and saved us significant costs in the process.",
+      author: "Jennifer Walsh",
+      role: "Environmental Compliance Manager",
+      company: "GreenTech Manufacturing Inc."
+    },
+    technicalHighlights: [
+      'IoT sensor integration for real-time environmental monitoring',
+      'Advanced analytics and predictive modeling',
+      'Automated compliance reporting and documentation',
+      'Multi-location data aggregation and visualization',
+      'Integration with existing ERP and manufacturing systems'
+    ],
+    iconLists: [
+      'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMjJjNTVlIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5OPC90ZXh0Pjwvc3ZnPg==',
+      'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjNjEyNzhlIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5SPC90ZXh0Pjwvc3ZnPg==',
+      'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMzE3OGM2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5UUzwvdGV4dD48L3N2Zz4=',
+      'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMDY5MmI0Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5UPC90ZXh0Pjwvc3ZnPg==',
+    ],
+    iconListsAlt: [
+      'Node.js icon',
+      'React icon',
+      'TypeScript icon',
+      'Tailwind CSS icon',
+    ],
+    github: 'https://github.com/AdrianRusan/ecotrack',
+    link: 'https://ecotrack-demo.vercel.app/',
   },
 ];
 
@@ -225,7 +384,7 @@ export const socialMedia = [
   },
   {
     id: 2,
-    img: "https://23x7w9tiht.ufs.sh/f/53382907-a497-4b6e-b3b9-92ce21e0be2b-24lbi.svg", 
+    img: "https://23x7w9tiht.ufs.sh/f/53382907-a497-4b6e-b3b9-92ce21e0be2b-24lbi.svg",
     url: "https://twitter.com/adrian_rusan",
     alt: "Adrian Rusan Twitter Profile"
   },

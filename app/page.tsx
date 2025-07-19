@@ -96,9 +96,13 @@ export default async function Home() {
         <SectionReveal delay={0.2}>
           <section id="experience" aria-labelledby="experience-heading" className="py-10 md:py-20">
             <Experience />
-            {/* <div id="projects" aria-labelledby="projects-heading" className="mt-10 md:mt-20">
-              <Projects />
-            </div> */}
+          </section>
+        </SectionReveal>
+        
+        {/* Projects section with reveal animation */}
+        <SectionReveal delay={0.3}>
+          <section id="projects" aria-labelledby="projects-heading" className="py-10 md:py-20">
+            <Projects />
           </section>
         </SectionReveal>
         

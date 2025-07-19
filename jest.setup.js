@@ -35,6 +35,12 @@ jest.mock('framer-motion', () => ({
     p: 'p',
     section: 'section',
     article: 'article',
+    button: 'button',
+    form: 'form',
+    input: 'input',
+    textarea: 'textarea',
+    a: 'a',
+    img: 'img',
   },
   AnimatePresence: ({ children }) => children,
   useScroll: () => ({
@@ -43,6 +49,10 @@ jest.mock('framer-motion', () => ({
   useMotionValueEvent: () => {},
   useTransform: () => 0,
   useSpring: () => 0,
+  useAnimate: () => [{ current: null }, jest.fn()],
+  useInView: () => true,
+  useMotionValue: () => ({ current: 0 }),
+  stagger: jest.fn(() => 0.1),
 }))
 
 // Mock react-lottie

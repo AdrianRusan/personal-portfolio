@@ -82,9 +82,10 @@ export async function sendStatusNotification(data: StatusNotificationData): Prom
     // Log successful email send
     console.log('Status notification email sent:', emailResult.data?.id);
 
+    const emailId = emailResult.data?.id;
     return {
       success: true,
-      emailId: emailResult.data?.id,
+      ...(emailId && { emailId }),
     };
 
   } catch (error) {
