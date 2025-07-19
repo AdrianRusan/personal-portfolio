@@ -2,9 +2,6 @@ import { withSentryConfig } from '@sentry/nextjs';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
-  },
   images: {
     remotePatterns: [
       {
@@ -18,6 +15,12 @@ const nextConfig = {
         hostname: '23x7w9tiht.ufs.sh',
         port: '',
         pathname: '/f/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+        port: '',
+        pathname: '/**',
       },
     ],
     formats: ['image/webp', 'image/avif'],

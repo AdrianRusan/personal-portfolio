@@ -1,0 +1,20 @@
+{
+  "functions": {
+    "app/api/cron/github-sync/route.ts": {
+      "maxDuration": 30
+    },
+    "app/api/cron/email-sequences/route.ts": {
+      "maxDuration": 60
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/cron/github-sync",
+      "schedule": "0 */6 * * *"
+    },
+    {
+      "path": "/api/cron/email-sequences",
+      "schedule": "0 9 * * *"
+    }
+  ]
+} 

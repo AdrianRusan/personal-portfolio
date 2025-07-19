@@ -4,6 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/context/theme-provider";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Toaster } from 'react-hot-toast';
+import { PageTransition } from "@/components/ui/PageTransition";
 
 const inter = Inter({ subsets: ["latin"], display: 'swap' });
 
@@ -22,7 +24,7 @@ export const metadata: Metadata = {
     url: 'https://www.adrian-rusan.com',
     siteName: 'Adrian Rusan Portfolio',
     images: [{ 
-      url: 'https://utfs.io/a/23x7w9tiht/7iidzn1Twzuk3ZQYpyCbRtXkfi51QxyWTOLMcl8HhG4CZF2s',
+      url: '/favicon.ico', // Placeholder image
       width: 1200,
       height: 630,
       alt: 'Adrian Rusan - Full-Stack Engineer Portfolio'
@@ -32,7 +34,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Adrian Rusan | Full-Stack Engineer Portfolio',
     description: 'Discover the projects and experience of Adrian Rusan, a full-stack engineer from Romania specializing in React, Next.js, and modern web development.',
-    images: ['https://utfs.io/a/23x7w9tiht/7iidzn1Twzuk3ZQYpyCbRtXkfi51QxyWTOLMcl8HhG4CZF2s'],
+    images: ['/favicon.ico'], // Placeholder image
     creator: '@adrian_rusan',
   },
   robots: {
@@ -81,7 +83,7 @@ const structuredData = () => (
           "url": "https://www.adrian-rusan.com",
           "image": {
             "@type": "ImageObject",
-            "url": "https://utfs.io/a/23x7w9tiht/7iidzn1Twzuk3ZQYpyCbRtXkfi51QxyWTOLMcl8HhG4CZF2s",
+            "url": "/favicon.ico",
             "width": 400,
             "height": 400
           },
@@ -165,6 +167,7 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="manifest" href="/site.webmanifest" />
+
         {structuredData()}
       </head>
       <body className={inter.className}>
@@ -174,7 +177,33 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <PageTransition>
+            {children}
+          </PageTransition>
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              style: {
+                background: '#0A0A0A',
+                color: '#FFFFFF',
+                border: '1px solid #333',
+              },
+              success: {
+                style: {
+                  background: '#0A0A0A',
+                  color: '#10B981',
+                  border: '1px solid #10B981',
+                },
+              },
+              error: {
+                style: {
+                  background: '#0A0A0A',
+                  color: '#EF4444',
+                  border: '1px solid #EF4444',
+                },
+              },
+            }}
+          />
           {process.env.NODE_ENV === 'production' && (
             <>
               <Analytics />

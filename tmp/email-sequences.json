@@ -1,0 +1,42 @@
+[
+  {
+    "email": "john.doe@example.com",
+    "name": "John Doe",
+    "projectType": "web-development",
+    "submittedAt": "2025-07-19T20:50:05.617Z",
+    "followUpCount": 0,
+    "status": "pending"
+  },
+  {
+    "email": "jane.doe@example.com",
+    "name": "Jane Doe",
+    "projectType": "consultation",
+    "submittedAt": "2025-07-19T20:50:05.301Z",
+    "followUpCount": 0,
+    "status": "pending"
+  },
+  {
+    "email": "test@example.com",
+    "name": "Test User",
+    "projectType": "web-development",
+    "submittedAt": "2025-07-19T20:50:12.256Z",
+    "followUpCount": 0,
+    "status": "pending"
+  },
+  {
+    "email": "toast@example.com",
+    "name": "Toast Test",
+    "projectType": "web-development",
+    "submittedAt": "2025-07-19T20:50:15.882Z",
+    "followUpCount": 0,
+    "status": "pending"
+  },
+  {
+    "email": "keyboard@example.com",
+    "name": "Keyboard User",
+    "projectType": "consultation",
+    "submittedAt": "2025-07-19T20:50:20.256Z",
+    "followUpCount": 0,
+    "status": "pending"
+  }
+]
