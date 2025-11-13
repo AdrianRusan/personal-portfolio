@@ -80,9 +80,9 @@ export const BentoGridItem = ({
             <Image
               src={img}
               alt={getImageAlt(id)}
-              className={cn(imgClassName, "object-cover object-center ")}
-              width={0}
-              height={0}
+              className={cn(imgClassName, "object-cover object-center")}
+              width={800}
+              height={600}
               title={getImageAlt(id)}
             />
           )}
@@ -126,7 +126,7 @@ export const BentoGridItem = ({
                 {techStackLeft.map((item) => (
                   <span
                     key={item}
-                    className="py-2 px-3 text-xs lg:text-base opacity-50 
+                    className="py-2 px-3 text-sm lg:text-base opacity-80
                     lg:opacity-100 rounded-lg text-center bg-[#10132E]"
                     role="listitem"
                   >
@@ -140,7 +140,7 @@ export const BentoGridItem = ({
                 {techStackRight.map((item) => (
                   <span
                     key={item}
-                    className="py-2 px-3 text-xs lg:text-base opacity-50 
+                    className="py-2 px-3 text-sm lg:text-base opacity-80
                     lg:opacity-100 rounded-lg text-center bg-[#10132E]"
                     role="listitem"
                   >

@@ -45,12 +45,6 @@ jest.mock('framer-motion', () => ({
   useSpring: () => 0,
 }))
 
-// Mock react-lottie
-jest.mock('react-lottie', () => ({
-  __esModule: true,
-  default: () => <div data-testid="lottie-animation" />,
-}))
-
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,

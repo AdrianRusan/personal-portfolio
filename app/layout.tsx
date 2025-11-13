@@ -1,24 +1,21 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/context/theme-provider";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
-const inter = Inter({ subsets: ["latin"], display: 'swap' });
-
 export const metadata: Metadata = {
-  title: "Adrian Rusan | Full-Stack Engineer from Romania",
-  description: "Explore the portfolio of Adrian Rusan, a full-stack engineer with 8 years of experience in web development, specializing in React, Next.js, TypeScript, and modern web technologies.",
-  keywords: ["Adrian Rusan", "Full-Stack Engineer", "React Developer", "Next.js", "TypeScript", "Web Developer", "Romania", "Software Engineer", "JavaScript", "Node.js"],
+  title: "Adrian Rusan | Full-Stack & AI Engineer from Romania",
+  description: "Portfolio of Adrian Rusan, a full-stack engineer with 8 years of experience specializing in React, Next.js, TypeScript, AI integration, and intelligent automation solutions.",
+  keywords: ["Adrian Rusan", "Full-Stack Engineer", "AI Engineer", "Automation Engineer", "React Developer", "Next.js", "TypeScript", "Web Developer", "Romania", "Software Engineer", "JavaScript", "Node.js", "AI Integration", "Intelligent Automation", "Web Scraping", "API Development", "Remote Developer Europe"],
   authors: [{ name: "Adrian Rusan", url: "https://www.adrian-rusan.com" }],
   creator: "Adrian Rusan",
   publisher: "Adrian Rusan",
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    title: 'Adrian Rusan | Full-Stack Engineer',
-    description: 'Portfolio of Adrian Rusan showcasing projects, skills, and experience in full-stack development with React, Next.js, and modern web technologies.',
+    title: 'Adrian Rusan | Full-Stack & AI Engineer',
+    description: 'Portfolio of Adrian Rusan showcasing 8 years of experience in full-stack development, AI integration, automation, React, Next.js, and modern web technologies.',
     url: 'https://www.adrian-rusan.com',
     siteName: 'Adrian Rusan Portfolio',
     images: [{ 
@@ -30,8 +27,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Adrian Rusan | Full-Stack Engineer Portfolio',
-    description: 'Discover the projects and experience of Adrian Rusan, a full-stack engineer from Romania specializing in React, Next.js, and modern web development.',
+    title: 'Adrian Rusan | Full-Stack & AI Engineer',
+    description: 'Full-stack engineer from Romania with 8 years of experience in React, Next.js, AI integration, automation, and modern web development.',
     images: ['https://utfs.io/a/23x7w9tiht/7iidzn1Twzuk3ZQYpyCbRtXkfi51QxyWTOLMcl8HhG4CZF2s'],
     creator: '@adrian_rusan',
   },
@@ -44,9 +41,6 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: 'https://www.adrian-rusan.com',
-  },
-  verification: {
-    google: 'your-google-verification-code',
   },
 };
 
@@ -76,8 +70,8 @@ const structuredData = () => (
           "name": "Adrian Rusan",
           "givenName": "Adrian",
           "familyName": "Rusan",
-          "jobTitle": "Full-Stack Engineer",
-          "description": "Experienced Full-Stack Engineer from Romania with 8 years of expertise in building scalable and performant web applications using technologies like React, Next.js, Node.js, and TypeScript.",
+          "jobTitle": "Full-Stack & AI Engineer",
+          "description": "Experienced Full-Stack & AI Engineer from Romania with 8 years of expertise in building scalable web applications, AI integration, automation solutions, using React, Next.js, Node.js, and TypeScript.",
           "url": "https://www.adrian-rusan.com",
           "image": {
             "@type": "ImageObject",
@@ -95,17 +89,18 @@ const structuredData = () => (
             "url": "https://www.adrian-rusan.com"
           },
           "knowsAbout": [
-            "React", "Next.js", "TypeScript", "JavaScript", "Node.js", 
-            "HTML5", "CSS3", "Tailwind CSS", "MongoDB", "SQL", 
+            "React", "Next.js", "TypeScript", "JavaScript", "Node.js",
+            "AI Integration", "Automation", "Web Scraping", "Puppeteer",
+            "HTML5", "CSS3", "Tailwind CSS", "MongoDB", "SQL",
             "REST API", "GraphQL", "Docker", "Git", "Agile Development",
             "Test-Driven Development", "Web Performance Optimization",
             "User Experience Design", "Responsive Web Design"
           ],
           "hasOccupation": {
             "@type": "Occupation",
-            "name": "Full-Stack Engineer",
-            "description": "Develops both frontend and backend solutions for web applications",
-            "skills": "React, Next.js, TypeScript, Node.js, Database Management, API Development"
+            "name": "Full-Stack & AI Engineer",
+            "description": "Develops full-stack web applications, AI integrations, and automation solutions",
+            "skills": "React, Next.js, TypeScript, Node.js, AI Integration, Automation, Web Scraping, API Development"
           },
           "address": {
             "@type": "PostalAddress",
@@ -165,9 +160,12 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="manifest" href="/site.webmanifest" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
         {structuredData()}
       </head>
-      <body className={inter.className}>
+      <body className="font-sans">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
