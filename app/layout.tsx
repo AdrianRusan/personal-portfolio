@@ -42,6 +42,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.adrian-rusan.com',
   },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+  },
 };
 
 const structuredData = () => (
