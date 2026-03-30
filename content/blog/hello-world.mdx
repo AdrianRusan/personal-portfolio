@@ -1,0 +1,129 @@
+---
+title: "Hello World — Building a Developer Blog with Next.js and MDX"
+description: "Welcome to my blog! In this first post, I walk through how I built this blog using Next.js 15, MDX, and rehype-pretty-code — and what I plan to write about going forward."
+date: "2024-03-15"
+tags: ["next.js", "mdx", "typescript", "web-development"]
+published: true
+featured: true
+language: "en"
+---
+
+Welcome to my blog! After years of building web applications for clients, I've decided to start writing about the things I learn, the tools I use, and the problems I solve.
+
+## Why Start a Blog?
+
+As engineers, we spend a lot of time reading documentation, blog posts, and Stack Overflow answers. It's time to give back. Writing forces you to deeply understand what you know — and often reveals the gaps.
+
+A few things you can expect here:
+
+- **Deep dives** into React, Next.js, TypeScript, and the modern web stack
+- **Architecture decisions** from real projects
+- **Performance optimization** techniques
+- **Lessons learned** from freelance and product work
+
+## The Tech Stack Behind This Blog
+
+This blog is built on the same codebase as my portfolio — Next.js 15 with the App Router. Here's what powers the writing experience:
+
+### MDX — Markdown + JSX
+
+MDX lets me write in Markdown but embed React components directly. So this entire post is a `.mdx` file that gets compiled at build time.
+
+```typescript
+// lib/blog.ts — loading posts from the filesystem
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+
+const BLOG_DIR = path.join(process.cwd(), 'content/blog');
+
+export async function getPosts() {
+  const files = fs.readdirSync(BLOG_DIR);
+
+  return files
+    .filter(file => file.endsWith('.mdx'))
+    .map(file => {
+      const slug = file.replace('.mdx', '');
+      const raw = fs.readFileSync(path.join(BLOG_DIR, file), 'utf-8');
+      const { data, content } = matter(raw);
+      return { slug, frontmatter: data, content };
+    })
+    .filter(post => post.frontmatter.published);
+}
+```
+
+### Syntax Highlighting with rehype-pretty-code
+
+Code blocks are powered by [rehype-pretty-code](https://rehype-pretty-code.netlify.app/) and [Shiki](https://shiki.matsu.io/). Every language gets proper tokenization:
+
+```tsx
+// app/blog/[slug]/page.tsx
+import { compileMDX } from 'next-mdx-remote/rsc';
+import rehypePrettyCode from 'rehype-pretty-code';
+import rehypeSlug from 'rehype-slug';
+
+export default async function BlogPostPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const post = await getPost(slug);
+
+  const { content } = await compileMDX({
+    source: post.source,
+    options: {
+      mdxOptions: {
+        rehypePlugins: [
+          rehypeSlug,
+          [rehypePrettyCode, { theme: 'one-dark-pro' }],
+        ],
+      },
+    },
+  });
+
+  return <article>{content}</article>;
+}
+```
+
+### RSS Feed
+
+Every blog needs an RSS feed. This one is available at `/feed.xml` and includes all published posts — subscribe in your feed reader of choice.
+
+## What's Coming Next
+
+Here's a rough list of posts I'm planning:
+
+1. **React Server Components in Production** — patterns I've learned after shipping RSC-heavy apps
+2. **Next.js App Router Performance** — measuring and improving Core Web Vitals
+3. **TypeScript Patterns I Use Every Day** — the subset of TS that pays dividends
+4. **Building Accessible UIs** — aria, focus management, keyboard navigation
+
+## A Quick Benchmark
+
+To give you a feel for the kind of content I'll write, here's a simple benchmark comparing two approaches to memoization:
+
+```typescript
+// Without useMemo — recalculates on every render
+function ExpensiveComponent({ items }: { items: number[] }) {
+  const sorted = items.sort((a, b) => a - b); // ❌ sorts on every render
+  return <ul>{sorted.map(n => <li key={n}>{n}</li>)}</ul>;
+}
+
+// With useMemo — only recalculates when items changes
+function ExpensiveComponent({ items }: { items: number[] }) {
+  const sorted = useMemo(
+    () => [...items].sort((a, b) => a - b), // ✅ stable reference
+    [items]
+  );
+  return <ul>{sorted.map(n => <li key={n}>{n}</li>)}</ul>;
+}
+```
+
+Small change, big impact on performance in lists with hundreds of items.
+
+---
+
+If you want to follow along, the RSS feed is at [/feed.xml](/feed.xml), and you can find me on [LinkedIn](https://linkedin.com/in/adrian-rusan) and [GitHub](https://github.com/AdrianRusan).
+
+Thanks for reading.
