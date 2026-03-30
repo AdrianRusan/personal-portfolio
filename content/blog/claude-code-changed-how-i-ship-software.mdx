@@ -1,0 +1,91 @@
+---
+title: "Claude Code Changed How I Ship Software"
+description: "How I went from writing every line to orchestrating AI agents that ship 30 PRs in 2.5 days — and why engineering experience matters more than ever."
+date: "2026-03-30"
+tags: ["ai", "claude-code", "developer-productivity", "software-engineering"]
+published: true
+featured: true
+language: "en"
+---
+
+There's a debate raging right now about "vibe coders" — people who let AI write all their code without really understanding what's happening. On one side: traditionalists who say real developers will outlast the prompt jockeys. On the other: AI maximalists who think coding knowledge is about to become irrelevant.
+
+Both sides are wrong. And I have the receipts.
+
+## My Setup
+
+I work two full-time senior dev contracts simultaneously. Not by working 16 hours a day — by using Claude Code to multiply my output in ways I couldn't have imagined a year ago.
+
+My workflow: Claude Code instances running in tmux panes, each working on a separate GitHub issue, using git worktrees to avoid conflicts. I review, steer, and merge their output.
+
+Last month, I shipped an entire admin dashboard — **30 pull requests across 9 worker batches in 2.5 days.** The features included real-time log viewers, cron job management, SSE live updates, a memory browser, disk usage dashboards, and a full PWA layer.
+
+30 PRs. 2.5 days. One developer.
+
+## How It Actually Works
+
+Here's what the "vibe coding" critics miss: I'm not copy-pasting output and hoping for the best. The workflow looks like this:
+
+**1. Triage and plan.** I review the GitHub board, group related issues, and decide which can run in parallel without conflicts. This is pure engineering judgment — no AI involved.
+
+**2. Spin up agents.** Each Claude Code instance gets a specific issue, the project context file (a `CLAUDE.md` with architecture decisions, conventions, and boundaries), and clear constraints. They work in separate git worktrees so there's zero merge hell.
+
+**3. Review ruthlessly.** This is where the engineering actually happens. In the dashboard batch alone, I caught and fixed **15+ security issues** — shell injection vulnerabilities where agents used `execSync` instead of `execFileSync`, missing path traversal guards, input validation gaps.
+
+**4. Merge and iterate.** Clean PRs go in. Broken ones get bounced back to the agent with specific feedback. Some issues took 3 attempts before they got it right.
+
+## The Security Reality Check
+
+Here's the part that should make every "vibe coder" nervous: **AI agents are confidently insecure.**
+
+In one batch, three separate PRs had shell injection vulnerabilities. The code worked. The tests passed. It would've been a security disaster in production.
+
+```typescript
+// What Claude Code wrote (looks fine, right?)
+const result = execSync(`git log --oneline ${branch}`);
+
+// What I replaced it with
+const result = execFileSync('git', ['log', '--oneline', branch]);
+```
+
+If I didn't have 9+ years of knowing what `execSync` with string interpolation means, those vulnerabilities would've shipped. This is the real argument for engineering experience in the AI age: not that you need to write every line yourself, but that you need to catch the lines that could destroy you.
+
+## The Honest Numbers
+
+Let me be real about what this looks like in practice:
+
+- **Agent success rate:** ~85%. About 1 in 7 attempts fails outright — wrong approach, scope creep, or hallucinated APIs that don't exist.
+- **Review overhead:** Each PR takes 5-15 minutes of human review. That's 2.5-7.5 hours of review for 30 PRs.
+- **Real throughput:** I'm roughly **4-5x more productive** than working solo. Not 100x. Not 10x. 4-5x.
+- **Cost:** Claude Code usage for a heavy batch week runs about $50-80. Cheaper than a junior dev's hourly rate for one afternoon.
+- **Context file ROI:** A well-written `CLAUDE.md` (architecture, conventions, boundaries) is worth more than a better model. I update mine multiple times a week.
+
+## What Changed for Me
+
+Before Claude Code, I was the bottleneck on everything. Two contracts meant constant context-switching. Side projects moved at a crawl because there were never enough hours.
+
+Now? The blog you're reading was built by Claude Code in a single session while I was doing something else. The infrastructure — MDX rendering, RSS feeds, OG image generation, syntax highlighting — all set up in one prompt while I focused on higher-level work.
+
+This isn't about replacing what I do. It's about **removing the gap between deciding something should exist and it existing.**
+
+I still make every architecture decision. I still review every line that goes to production. I still catch the security issues that AI introduces. But the mechanical work of translating decisions into code? That's no longer my bottleneck.
+
+## The Workflow That Actually Sticks
+
+If you want to try this without the chaos:
+
+1. **Start with 2 agents, not 4.** Context-switching between agents has a real cognitive cost. Build up to parallelism.
+2. **Use git worktrees.** `git worktree add` prevents the merge conflicts that kill any parallel workflow.
+3. **Write a project context file.** Your `CLAUDE.md` should cover architecture decisions, naming conventions, and hard boundaries. Without this, you'll spend more time correcting than reviewing.
+4. **Never skip security review.** Automated tests won't catch the vulnerabilities AI introduces. You need human eyes — preferably experienced ones.
+5. **Track your actual numbers.** "AI makes me faster" isn't useful. "AI makes me 4x faster with 15% failure rate" is a real decision-making input.
+
+## What the Debate Gets Wrong
+
+The "vibe coding" discourse frames this as binary: either you're a real developer or you're an AI parrot. The reality is messier and more interesting.
+
+I *am* a real developer. I also let AI write most of my first drafts. These aren't contradictions — they're the same workflow that writers, architects, and designers have used forever. The skilled professional sets direction, reviews output, and catches what the tool misses.
+
+The developers who'll struggle aren't the ones using AI or avoiding AI. **They're the ones who can't tell the difference between code that works and code that's correct.**
+
+The future of software development isn't developers vs. AI. It's developers with AI, being honest about what that actually looks like.
