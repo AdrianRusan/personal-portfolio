@@ -8,6 +8,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 const inter = Inter({ subsets: ["latin"], display: 'swap' });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.adrian-rusan.com'),
   title: "Adrian Rusan | Full-Stack Engineer from Romania",
   description: "Explore the portfolio of Adrian Rusan, a full-stack engineer with 8 years of experience in web development, specializing in React, Next.js, TypeScript, and modern web technologies.",
   keywords: ["Adrian Rusan", "Full-Stack Engineer", "React Developer", "Next.js", "TypeScript", "Web Developer", "Romania", "Software Engineer", "JavaScript", "Node.js"],
