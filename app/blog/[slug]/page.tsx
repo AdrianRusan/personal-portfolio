@@ -55,8 +55,36 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
+  const postUrl = `https://www.adrian-rusan.com/blog/${slug}`;
+
   return (
     <div className="max-w-5xl mx-auto px-5 sm:px-10 pb-20">
+      <script
+        type="application/ld+json"
+        // Security Note: dangerouslySetInnerHTML is safe here as we're using JSON.stringify()
+        // with static data for structured data markup (Schema.org JSON-LD)
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            headline: post.frontmatter.title,
+            description: post.frontmatter.description,
+            datePublished: post.frontmatter.date,
+            dateModified: post.frontmatter.date,
+            author: {
+              "@type": "Person",
+              name: "Adrian Rusan",
+              url: "https://www.adrian-rusan.com",
+            },
+            image: `${postUrl}/opengraph-image`,
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": postUrl,
+            },
+            keywords: post.frontmatter.tags?.join(", "),
+          }),
+        }}
+      />
       <article>
         <PostHeader
           frontmatter={post.frontmatter}

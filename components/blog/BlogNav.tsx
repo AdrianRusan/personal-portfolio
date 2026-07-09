@@ -1,5 +1,5 @@
-import Link from 'next/link';
-import { ArrowLeft, Rss } from 'lucide-react';
+import Link from "next/link";
+import { ArrowLeft, Mail, Rss } from "lucide-react";
 
 interface BlogNavProps {
   showBackToPost?: boolean;
@@ -39,16 +39,27 @@ export default function BlogNav({ showBackToPost, postTitle }: BlogNavProps) {
           )}
         </div>
 
-        <Link
-          href="/feed.xml"
-          className="flex items-center gap-1.5 text-white-200 hover:text-orange-400 transition-colors text-sm"
-          aria-label="RSS Feed"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Rss size={15} />
-          <span className="hidden sm:inline text-xs">RSS</span>
-        </Link>
+        <div className="flex items-center gap-4">
+          <Link
+            href="/#subscribe"
+            className="flex items-center gap-1.5 text-white hover:text-purple transition-colors text-sm font-medium"
+            aria-label="Get new posts by email"
+          >
+            <Mail size={15} />
+            <span className="hidden sm:inline text-xs">Get posts by email</span>
+          </Link>
+
+          <Link
+            href="/feed.xml"
+            className="flex items-center gap-1.5 text-white-200/70 hover:text-orange-400 transition-colors text-sm"
+            aria-label="RSS Feed"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Rss size={14} />
+            <span className="hidden sm:inline text-xs">RSS</span>
+          </Link>
+        </div>
       </div>
     </nav>
   );

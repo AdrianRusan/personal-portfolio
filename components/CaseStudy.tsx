@@ -35,7 +35,7 @@ const CaseStudy = () => {
             rel="noopener noreferrer"
             className="text-sm font-medium text-blue-100 hover:text-purple transition-colors"
           >
-            Run this on your backlog
+            Book a scoping call
           </a>
         </div>
       </div>

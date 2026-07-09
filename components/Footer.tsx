@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { GridBackground } from "./ui/GridBackground";
 import SpotlightBackground from "./ui/SpotlightBackground";
+import EmailCapture from "./EmailCapture";
 
 const Footer = () => {
   return (
@@ -41,6 +42,7 @@ const Footer = () => {
           >
             or email me
           </a>
+          <EmailCapture variant="footer" className="mt-8 w-full p-4 md:p-5" />
         </section>
         <div className="flex gap-5 md:gap-0 md:flex-row flex-col justify-around items-center z-10">
           <div className="flex items-center md:gap-3 gap-6">

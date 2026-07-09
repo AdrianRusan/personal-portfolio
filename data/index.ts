@@ -42,14 +42,14 @@ export const offers = [
   {
     id: 1,
     badge: "Start here",
-    title: "Agent-Accelerated Delivery Sprint",
+    title: "Agent-Accelerated Delivery Sprint, Reviewed",
     body: "A fixed batch of production-ready PRs, each one adversarially reviewed for security, shipped in days at a price you agree before we start.",
     featured: true,
   },
   {
     id: 2,
     badge: "",
-    title: "AI-Native Delivery Retainer",
+    title: "AI-Native Delivery Retainer, Reviewed",
     body: "A steady flow of security-reviewed PRs every month — agent-speed delivery that runs continuously, not in bursts, with the review layer never dropped.",
     featured: false,
   },
@@ -64,7 +64,7 @@ export const offers = [
 
 export const whoFor = {
   forList: [
-    "You lead engineering, found a company, or own delivery at a funded startup or scaleup — fintech-adjacent especially.",
+    "You lead engineering, found a company, or own delivery at a funded startup or scaleup — especially where a security review is non-negotiable: fintech, health, payments, anything handling money or PII.",
     "You're drowning in backlog and can't hire your way out fast enough.",
     "You want agent-speed throughput but need a senior human accountable for what merges.",
     "You'd rather hear the real multiplier than the flattering one.",

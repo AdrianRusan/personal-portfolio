@@ -8,8 +8,9 @@ const Offers = () => {
           Three ways to work together.
         </h2>
         <p className="text-white-200 text-center mt-3 max-w-2xl mx-auto">
-          One two-step — agents ship, a senior human verifies — sold three ways.
-          Every engagement is fixed-scope and priced before we start.
+          Agents ship the volume, a senior engineer reviews every PR — packaged
+          three ways. Every engagement is fixed-scope and priced before we
+          start.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-12">
