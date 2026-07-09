@@ -1,8 +1,6 @@
 import MagicButton from "@/components/ui/MagicButton";
 import { CALENDLY_URL } from "@/data";
 import { FaLocationArrow } from "react-icons/fa6";
-import { PricingTable } from "./PricingTable";
-import type { PricingColumn, PricingRow } from "./PricingTable";
 
 const deliverables = [
   "A working Claude Code agent harness configured against your repo: CLAUDE.md project rules, the worktree and dispatch workflow, and CI wiring.",
@@ -17,27 +15,6 @@ const terms = [
   "Requires your team present and participating — this is assistive by design, not done-for-you. Said plainly so expectations match.",
   "Doesn't include Claude Code licenses or third-party tool seats — you bring your own accounts.",
   "The harness is configured and handed over; I don't retain access unless you add a retainer.",
-];
-
-const columns: PricingColumn[] = [
-  { name: "Install" },
-  { name: "Install + Enablement", badge: "Recommended", featured: true },
-  { name: "Fleet Rollout" },
-];
-
-const rows: PricingRow[] = [
-  {
-    label: "Scope",
-    values: [
-      "One repo: agent fleet config, CI security gates, review rubric + runbook. ~1 week.",
-      "Everything in Install, plus 2–3 workshops, tuned review rubrics, methodology transfer, 30 days support. ~2 weeks.",
-      "Multi-repo / org-wide standards, embedded pairing, security-gate policy across services, advisory handoff.",
-    ],
-  },
-  {
-    label: "Price",
-    values: ["€9,000", "€18,000", "€30,000 — fixed on the scope call"],
-  },
 ];
 
 export const HarnessSetup = () => {
@@ -72,12 +49,28 @@ export const HarnessSetup = () => {
         </ul>
 
         <h3 className="text-lg font-semibold mt-10 mb-4">Pricing</h3>
-        <PricingTable
-          columns={columns}
-          rows={rows}
-          ctaHref={CALENDLY_URL}
-          ctaLabel="Book a scoping call"
-        />
+        <div className="rounded-xl border border-white/10 bg-black-200/60 p-6 md:p-8 max-w-2xl">
+          <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100">
+            Harness setup
+          </span>
+          <p className="text-3xl md:text-4xl font-bold tracking-tight mt-2">
+            Starts at €9,000
+          </p>
+          <p className="text-sm text-white-200/80 mt-3 leading-relaxed">
+            One repo: agent fleet config, CI security gates, review rubric,
+            handover playbook, and follow-up support. Scope grows with
+            multi-repo rollout, extra workshops, and embedded pairing — scoped
+            and fixed on the call, before any work starts.
+          </p>
+          <div className="mt-6">
+            <MagicButton
+              title="Book a scoping call"
+              icon={<FaLocationArrow />}
+              position="right"
+              href={CALENDLY_URL}
+            />
+          </div>
+        </div>
         <p className="text-xs text-white-200/70 mt-4 italic">
           Locked on day 0, no runaway bill — the price is fixed on the scope
           call, before any work starts.

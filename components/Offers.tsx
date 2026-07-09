@@ -13,26 +13,51 @@ const Offers = () => {
           start.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-12 items-start">
           {offers.map((offer) => (
             <div
               key={offer.id}
-              className={`relative flex flex-col rounded-xl p-6 bg-black-200/40 border ${offer.featured ? "border-purple shadow-[inset_0_0_0_1px_#CBACF9]" : "border-white/10"}`}
+              className={
+                offer.featured
+                  ? "relative flex flex-col rounded-xl p-6 bg-black-200/40 border border-purple shadow-[inset_0_0_0_1px_#CBACF9] md:scale-[1.03] md:py-8"
+                  : "relative flex flex-col rounded-xl p-5 bg-black-200/20 border border-white/10 opacity-80"
+              }
             >
               {offer.badge && (
                 <span className="font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-purple mb-3">
                   {offer.badge}
                 </span>
               )}
-              <h3 className="text-lg font-semibold mb-3 tracking-tight">
+              <h3
+                className={
+                  offer.featured
+                    ? "text-lg font-semibold mb-3 tracking-tight"
+                    : "text-base font-semibold mb-2 tracking-tight text-white-200"
+                }
+              >
                 {offer.title}
               </h3>
-              <p className="text-sm text-white-200 leading-relaxed flex-1">
+              <p
+                className={
+                  offer.featured
+                    ? "text-sm text-white-200 leading-relaxed flex-1"
+                    : "text-sm text-white-200/80 leading-relaxed flex-1"
+                }
+              >
                 {offer.body}
               </p>
+              {offer.featured && (
+                <p className="text-xs text-white-200/70 mt-4">
+                  Sprints from €7,500 — most €12–18k, fixed on the call.
+                </p>
+              )}
               <a
                 href="/services"
-                className="text-sm font-medium text-purple hover:underline underline-offset-4 mt-5"
+                className={
+                  offer.featured
+                    ? "text-sm font-medium text-purple hover:underline underline-offset-4 mt-5"
+                    : "text-sm font-medium text-purple/80 hover:underline underline-offset-4 mt-4"
+                }
               >
                 Learn more →
               </a>

@@ -26,6 +26,10 @@ export const ServicesHero = () => {
         <p className="inline-block text-center font-mono text-xs md:text-sm text-purple mt-5 border-l-2 border-purple pl-3">
           2-3x, not 100x — and here&apos;s what the agents get wrong.
         </p>
+        <p className="font-mono text-xs md:text-sm text-white-200/60 mt-3">
+          Delivery Sprints start at €7,500 — most land €12–18k, fixed on the
+          scope call.
+        </p>
 
         <div className="flex flex-col items-center gap-4 mt-6">
           <MagicButton
