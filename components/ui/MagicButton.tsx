@@ -35,9 +35,17 @@ const MagicButton = ({
   // When an href is given, render a single anchor (via Radix Slot) so we never
   // nest a <button> inside an <a> — that is invalid HTML and trips hydration.
   if (href) {
+    const isExternal = href.startsWith("http");
     return (
       <Button asChild className={magicClasses}>
-        <Link href={href}>{inner}</Link>
+        <Link
+          href={href}
+          {...(isExternal
+            ? { target: "_blank", rel: "noopener noreferrer" }
+            : {})}
+        >
+          {inner}
+        </Link>
       </Button>
     );
   }

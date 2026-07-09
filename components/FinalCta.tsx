@@ -1,5 +1,6 @@
 import MagicButton from "./ui/MagicButton";
 import { FaLocationArrow } from "react-icons/fa6";
+import { CALENDLY_URL } from "@/data";
 
 const FinalCta = () => {
   return (
@@ -16,13 +17,12 @@ const FinalCta = () => {
           You triage and merge. I&apos;m accountable for what lands.
         </p>
         <div className="flex justify-center mt-8">
-          <a href="#contact" aria-label="Book a scoping call">
-            <MagicButton
-              title="Book a scoping call"
-              icon={<FaLocationArrow />}
-              position="right"
-            />
-          </a>
+          <MagicButton
+            title="Book a scoping call"
+            icon={<FaLocationArrow />}
+            position="right"
+            href={CALENDLY_URL}
+          />
         </div>
         <p className="text-xs text-white-200/60 mt-6 max-w-xl mx-auto">
           The verify layer is one senior human and doesn&apos;t parallelize — so

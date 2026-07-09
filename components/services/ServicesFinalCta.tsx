@@ -1,5 +1,6 @@
 import Link from "next/link";
 import MagicButton from "@/components/ui/MagicButton";
+import { CALENDLY_URL } from "@/data";
 import { FaLocationArrow } from "react-icons/fa6";
 
 export const ServicesFinalCta = () => {
@@ -23,7 +24,7 @@ export const ServicesFinalCta = () => {
             title="Book a scoping call"
             icon={<FaLocationArrow />}
             position="right"
-            href="/#contact"
+            href={CALENDLY_URL}
           />
         </div>
         <Link

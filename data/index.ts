@@ -1,3 +1,5 @@
+export const CALENDLY_URL = "https://calendly.com/adrian-rusan";
+
 export const navItems = [
   { name: "How it works", link: "#ship-verify" },
   { name: "Services", link: "#offers" },

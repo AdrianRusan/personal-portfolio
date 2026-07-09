@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CALENDLY_URL } from "@/data";
 
 const CaseStudy = () => {
   return (
@@ -27,7 +28,9 @@ const CaseStudy = () => {
           </Link>
           <span className="text-white-200/40">·</span>
           <a
-            href="#contact"
+            href={CALENDLY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-sm font-medium text-blue-100 hover:text-purple transition-colors"
           >
             Run this on your backlog

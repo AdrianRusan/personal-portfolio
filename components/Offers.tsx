@@ -30,7 +30,7 @@ const Offers = () => {
                 {offer.body}
               </p>
               <a
-                href="#contact"
+                href="/services"
                 className="text-sm font-medium text-purple hover:underline underline-offset-4 mt-5"
               >
                 Learn more →

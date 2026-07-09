@@ -82,7 +82,13 @@ export const PricingTable = ({
                 key={column.name}
                 className={`py-6 px-4 ${column.featured ? "bg-black-200/60" : ""}`}
               >
-                <Link href={ctaHref} aria-label={ctaLabel}>
+                <Link
+                  href={ctaHref}
+                  aria-label={ctaLabel}
+                  {...(ctaHref.startsWith("http")
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                >
                   <span className="inline-flex items-center rounded-lg border border-purple/40 px-4 py-2 text-xs font-medium text-purple hover:bg-purple/10 transition-colors">
                     {ctaLabel}
                   </span>
