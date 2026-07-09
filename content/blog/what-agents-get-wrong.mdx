@@ -3,7 +3,7 @@ title: "What AI Coding Agents Get Wrong: A Field Taxonomy"
 date: "2026-07-08"
 tags: ["ai", "code-review", "security", "claude-code", "software-engineering"]
 description: "Six recurring failure categories I catch reviewing AI-generated code — fail-open security gates, scope creep, silent error swallowing, and more. All pass tests. Here's what to look for."
-published: false
+published: true
 language: "en"
 ---
 
@@ -39,9 +39,7 @@ if (result.error || result.status === null || result.status !== 0) {
 }
 ```
 
-This is the category I trust the least to automated tooling, because the happy-path test — feed it a secret, watch it block — passes on both versions. You only catch it by asking "what happens when the check can't execute?" Three of the shell-injection vulnerabilities I've caught in agent code trace back to this failure-mode blindness.
-
-> **NEEDS FROM ADI:** confirm you want the shell-injection count tied to this category specifically, or keep it general.
+This is the category I trust the least to automated tooling, because the happy-path test — feed it a secret, watch it block — passes on both versions. You only catch it by asking "what happens when the check can't execute?" All three of the shell-injection vulnerabilities I've caught in agent code trace back to this exact failure-mode blindness — the agent handled the "bad input" path and forgot the "couldn't evaluate the input" one.
 
 ## 2. Scope creep and gold-plating past the ticket
 
@@ -91,7 +89,7 @@ You see `array.findLast()` in an environment that doesn't have it, a deprecated 
 
 Notice what these have in common: **none of them are caught by the test suite passing.** Fail-open gates pass the happy-path test. Scope creep adds passing tests for the extra scope. Swallowed errors make tests greener, not redder. Confidently-wrong logic ships with confidently-wrong tests. Premature abstraction is fully tested — it just shouldn't exist. Hallucinated APIs that type-check, type-check.
 
-This is why I keep saying the honest multiplier is 4–5x, not 100x. The generation is fast. The *review* is the bottleneck, and it's a real, senior, human bottleneck — because the failure modes above are specifically the ones that hide from automation. Agents optimize their output to make tests go green. They do not optimize it to be safe, and those are not the same target.
+This is why I keep saying the honest multiplier is 2–3x, not 100x. The generation is fast. The *review* is the bottleneck, and it's a real, senior, human bottleneck — because the failure modes above are specifically the ones that hide from automation. Agents optimize their output to make tests go green. They do not optimize it to be safe, and those are not the same target.
 
 If you're letting agents write production code, the move isn't to distrust them — they earn the throughput. The move is to put an adversarial reviewer between the green checkmark and the merge button, someone whose job is to assume the code is wrong until proven safe and who knows which six things to look for first.
 
@@ -107,7 +105,7 @@ Because agents optimize output to make the test suite green, and often write the
 Type checkers and builds catch most hallucinated-API errors, and linters catch some. But fail-open gates, confidently-wrong logic, and swallowed errors pass green CI by construction — they need a human reading the logic against the specification, not against the tests.
 
 **Does this mean AI coding agents aren't worth using?**
-No. They deliver a real 4–5x throughput gain. The point is that agent speed is only mergeable with a senior review layer on top. Speed without the review is a liability; the two together are the product.
+No. They deliver a real 2–3x throughput gain. The point is that agent speed is only mergeable with a senior review layer on top. Speed without the review is a liability; the two together are the product.
 
 ---
 

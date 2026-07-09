@@ -3,7 +3,7 @@ title: "The Shell-Injection Bugs My Agents Wrote (and the Tests Passed)"
 date: "2026-07-08"
 tags: ["ai", "security", "code-review", "claude-code", "software-engineering"]
 description: "Three real shell-injection vulnerabilities coding agents wrote, that automated tests passed, and that a senior human caught before merge — proof AI code needs adversarial review, not just green CI."
-published: false
+published: true
 language: "en"
 ---
 
@@ -13,9 +13,7 @@ Yes, AI writes insecure code. I know because I ship a lot of it, and then I catc
 
 I run fleets of Claude Code agents to clear backlog — 30 reviewed PRs across nine batches in two and a half days is a real, measured example. That's the "ship" half. The "verify" half is me, reading every diff before it merges, assuming the agent got it wrong until I've proven it didn't. That habit comes from fintech, where a mistake costs money instead of a rerun.
 
-This post is about three times that habit paid for itself. Three shell-injection bugs the agents wrote, that the test suite waved through, that I caught on review. The specifics are generalized below to stay on the safe side of client confidentiality — but the failure patterns are exactly what I saw.
-
-> **NEEDS FROM ADI:** Confirm how much of the actual vulnerable code and repo context can be shown. The code sketches below are sanitized, representative reconstructions of the vulnerability *class*, not verbatim client code. If any real (non-Bono, non-confidential) snippet from the `codin` harness work can be shown verbatim, it will land harder than a reconstruction — flag which of the three, if any.
+This post is about three times that habit paid for itself. Three shell-injection bugs the agents wrote, that the test suite waved through, that I caught on review — every one before it merged. The specifics are generalized below to stay on the safe side of client confidentiality, and the code sketches are sanitized reconstructions of the vulnerability *class*, not verbatim code — but the failure patterns are exactly what I saw.
 
 ## Why "the tests passed" is not the reassurance it sounds like
 
@@ -138,4 +136,4 @@ Every Agent-Accelerated Delivery Sprint ships fixed-scope, fixed-price reviewed 
 
 **[Book a scoping call →](/#contact)** — tell me the backlog, I'll tell you the honest number.
 
-*4–5x, not 100x — and here's what the agents get wrong.*
+*2–3x, not 100x — and here's what the agents get wrong.*

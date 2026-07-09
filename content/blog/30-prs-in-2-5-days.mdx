@@ -3,7 +3,7 @@ title: "30 PRs in 2.5 Days: Anatomy of Nine Agent Batches"
 date: "2026-07-08"
 tags: ["ai", "claude-code", "git-worktrees", "developer-productivity", "software-engineering"]
 description: "The mechanics behind 30 reviewed PRs in 2.5 days: parallel git worktrees, issue dispatch via CLAUDE.md, and why review — not generation — is the real bottleneck."
-published: false
+published: true
 language: "en"
 ---
 
@@ -44,8 +44,6 @@ The dispatch itself is boring by design: pick the next N ready issues, spin up a
 
 A batch is one wave of parallel agents. Nine batches got me to 30 PRs, so the batches averaged a little over three PRs each — some fatter, some thinner, depending on how many issues were genuinely independent at that moment.
 
-> **NEEDS FROM ADI:** the actual per-batch PR counts and the repo/feature area (or a generalized description if it's the codin harness itself / client-confidential). Right now I'm stating the average that's implied by 30 across 9; a real breakdown ("batch 1: 5 PRs on the auth layer, batch 2: 2 PRs...") is far more citable and honest.
-
 The rhythm of each batch:
 
 1. **Dispatch.** Ready issues go out to agents in fresh worktrees.
@@ -65,8 +63,6 @@ The honest part. Speed is not free, and I'd rather name the failure modes than p
 
 - **Merge-order collisions.** Parallel branches that each looked fine in isolation touched the same module and conflicted on merge. Worktrees prevent file-level chaos during generation, but they don't resolve semantic conflicts between two independently "correct" PRs. Sequencing the merges — cheapest, most foundational PRs first — is manual judgment the agents can't do for you.
 
-> **NEEDS FROM ADI:** any other recurring break you remember from those 9 batches (silent error-swallowing, hallucinated API usage, a specific test that lied). Concrete named examples here are the highest-value, most-shareable content in the piece.
-
 None of these are reasons not to run agents. They're reasons not to run agents *without a reviewer*. Every one of them was invisible to green CI.
 
 ## The bottleneck is review, not generation
@@ -77,7 +73,7 @@ I did not spend 2.5 days waiting on agents to write code. Generation is the chea
 
 That inversion is the real story of AI-native delivery. For most of my nine years, generation was the constraint — you were limited by how fast a human could write correct code. Now generation is nearly free and **review is the scarce resource.** The multiplier you can safely run is set entirely by how much code one senior engineer can adversarially review, not by how much the agents can produce.
 
-Which is also why I say **4–5x, not 100x.** Anyone quoting you a 100x multiplier has quietly dropped the review step — because if they were reviewing the output the way I review it, they'd hit the same ceiling I do. The agents can generate 100x. You cannot safely *merge* 100x. The honest number is bounded by the bottleneck, and the bottleneck is a human reading carefully.
+Which is also why I say **2–3x, not 100x.** Anyone quoting you a 100x multiplier has quietly dropped the review step — because if they were reviewing the output the way I review it, they'd hit the same ceiling I do. The agents can generate 100x. You cannot safely *merge* 100x. The honest number is bounded by the bottleneck, and the bottleneck is a human reading carefully.
 
 ## FAQ
 
@@ -87,7 +83,7 @@ Yes. The clean way is one git worktree per agent — each agent checks out its o
 
 ### How many PRs can one engineer ship with AI agents?
 
-In my measured case: 30 reviewed PRs across 9 batches in 2.5 days — roughly a 4–5x speedup over solo senior pace. The cap isn't how much the agents generate; it's how much code one person can adversarially review before merging. Bigger multipliers usually mean the review step was skipped.
+In my measured case: 30 reviewed PRs across 9 batches in 2.5 days — roughly a 2–3x speedup over solo senior pace. The cap isn't how much the agents generate; it's how much code one person can adversarially review before merging. Bigger multipliers usually mean the review step was skipped.
 
 ### What is a git worktree and why use it for AI agents?
 
@@ -105,4 +101,4 @@ Thirty PRs in 2.5 days isn't a demo trick — it's the delivery model I run for 
 
 If you've got a backlog and you're tired of choosing between "fast and unreviewed" and "safe and slow," [book a scoping call](/#contact) and we'll size a sprint against a real slice of your work.
 
-*Related reading: [The shell-injection bugs my agents wrote — and the tests passed](/blog/catching-shell-injection-agents-wrote) · [4–5x, not 100x: the honest number for AI coding speed](/blog/4-5x-not-100x) · A CLAUDE.md that actually dispatches work to agents (coming soon).*
+*Related reading: [The shell-injection bugs my agents wrote — and the tests passed](/blog/catching-shell-injection-agents-wrote) · [2–3x, not 100x: the honest number for AI coding speed](/blog/2-3x-not-100x) · A CLAUDE.md that actually dispatches work to agents (coming soon).*
