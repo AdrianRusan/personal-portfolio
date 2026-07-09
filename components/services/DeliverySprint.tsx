@@ -14,11 +14,11 @@ const deliverables = [
     rest: "what the agent produced, what the review caught and changed, and the residual risk, if any.",
   },
   {
-    lead: "A security findings log for the whole sprint",
+    lead: "The Sprint Security Report (yours to keep)",
     rest: "— every vulnerability class checked, everything caught and fixed, stated plainly. This is the artifact the sprint is selling.",
   },
   {
-    lead: "A sprint wrap doc:",
+    lead: "The Agent Failure Map (yours to keep) —",
     rest: "what shipped, what's left, and what the agents consistently got wrong in your codebase — a useful map for your team going forward.",
   },
 ];
@@ -49,9 +49,9 @@ const rows: PricingRow[] = [
   {
     label: "Roughly",
     values: [
-      "~5–6 reviewed PRs",
-      "~10–15 reviewed PRs",
-      "~16–20+ reviewed PRs",
+      "A focused feature slice (~5–6 PRs)",
+      "A reviewed contractor-month (~10–15 PRs)",
+      "A major surface, in depth (~16–20+ PRs)",
     ],
   },
   {
@@ -104,6 +104,14 @@ export const DeliverySprint = () => {
           </ul>
 
           <h3 className="text-lg font-semibold mt-10 mb-4">Pricing</h3>
+          <p className="text-white-200 mb-6 leading-relaxed max-w-3xl text-base md:text-lg">
+            <span className="text-white font-semibold">
+              A senior contractor costs ~€10–14k/month and takes weeks to
+              onboard.
+            </span>{" "}
+            Standard ships a reviewed contractor-month — in two weeks. €14,500,
+            fixed.
+          </p>
           <PricingTable
             columns={columns}
             rows={rows}
@@ -151,13 +159,12 @@ export const DeliverySprint = () => {
             </div>
             <div className="rounded-xl border border-white/10 bg-black-200/30 p-5">
               <p className="font-mono text-xs text-purple mb-2">
-                2. First-PR proof guarantee
+                2. First-PR quality guarantee
               </p>
               <p className="text-sm text-white-200 leading-relaxed">
-                The first reviewed PR lands within 48 hours of repo access. If
-                it doesn&apos;t, that sprint is 25% off — no argument. Your risk
-                is highest before I&apos;ve shipped anything, so the guarantee
-                sits right there.
+                If the first reviewed PR isn&apos;t merge-ready to your
+                standard, you don&apos;t pay for it. Your risk is highest before
+                I&apos;ve shipped anything, so the guarantee sits right there.
               </p>
             </div>
           </div>
@@ -165,7 +172,7 @@ export const DeliverySprint = () => {
             There is deliberately no blanket &quot;money back if unhappy&quot;
             guarantee. It invites scope disputes and it&apos;s not how a senior
             operator works. These two put my skin in the game where it actually
-            matters: speed and security.
+            matters: quality and security.
           </p>
 
           <h3 className="text-lg font-semibold mt-10 mb-2">Payment</h3>

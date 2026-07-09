@@ -28,12 +28,12 @@ const faqItems: FaqItem[] = [
   {
     question: "What if it doesn't work out, or you're too slow?",
     answer:
-      "The first reviewed PR lands within 48 hours of repo access. If it doesn't, the sprint is 25% off, automatically. That's deliberately the moment your risk is highest, so the guarantee sits right there. Beyond that, scope is fixed on day 0, so there's no runaway bill.",
+      "If the first reviewed PR isn't merge-ready to your standard, you don't pay for it — your risk is highest before I've shipped anything, so the guarantee sits right there. Beyond that, scope is fixed on day 0, so there's no runaway bill.",
   },
   {
     question: "Can you just work as a normal contractor by the day?",
     answer:
-      "That's available as a retainer, but it's not the recommended way in. The sprint sells you a reviewed outcome for a price you agree up front, which is a better deal for you than buying time and hoping. Start with a Pilot Sprint if you want to test the working relationship at low risk.",
+      "That's available as a retainer, starting at €9,000/mo, but it's not the recommended way in. The sprint sells you a reviewed outcome for a price you agree up front, which is a better deal for you than buying time and hoping. The retainer carries the same security guarantee, plus a proof-month: month 1 is a trial, and you can cancel at the end of it if we haven't hit the agreed reviewed-PR cadence. Start with a Pilot Sprint if you want to test the working relationship at low risk first.",
   },
 ];
 
