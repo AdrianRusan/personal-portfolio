@@ -23,10 +23,10 @@ Living context. Update after each session (`/context-save`). Keep under 200 line
 - **Deploy**: Vercel, branch previews. Sentry org `adrianrusan`, project `personal-portfolio`.
 
 ## Known Issues
-- **P0 (NEW, pre-existing, unrelated to audit)**: `npm run build` FAILS at static prerender of `/404` and `/_error` — `<Html> should not be imported outside of pages/_document`. Confirmed on clean tree (git stash) and persists with `optimizeCss` off. Only `@sentry/nextjs` imports `next/document` (its pages-router `_error` instrumentation) — classic App-Router+Sentry trigger. Blocks removing `ignoreBuildErrors`. Separate follow-up: investigate Sentry Next SDK version / error-page config.
-- **P1**: `tsc --noEmit` for **app code is now CLEAN** (blog type errors fixed 2026-07-09). Only remaining tsc noise is `e2e/*` + `playwright.config.ts` (missing `@playwright/test` types under app tsconfig) — exclude e2e from app tsconfig as cleanup.
-- **P2**: `ignoreBuildErrors: true` still in `next.config.mjs` — type fixes landed but flag NOT removed yet (can't validate against a green build until the P0 Html bug is fixed).
+- **RESOLVED 2026-07-09**: local `npm run build` `<Html>`/`pages/_document` prerender failure — root cause was shell `NODE_ENV=development` leaking into `next build`; fixed by pinning `NODE_ENV=production` in the build script (commit adf2e2c). Was NOT Sentry.
+- **RESOLVED 2026-07-09**: type gate — `tsc --noEmit` clean, e2e/playwright excluded from app tsconfig, `ignoreBuildErrors` removed; `npm run build` now type-checks and passes green (tech-3 closed).
 - **P2**: Zero Jest unit tests despite jest config — `verify:tests` passes vacuously; no real unit coverage.
+- Note: shell profile exports `NODE_ENV=development` — any raw `next build` (not via `npm run build`) will re-trigger the `<Html>` bug. Always build through the npm script.
 - **P2**: `config.features.blog === false` while blog is live — stale feature flag, misleading.
 - **P3**: `@playwright/test` types unresolved under `tsc` — e2e specs pollute typecheck output.
 - **P3**: 3 overlapping PRD docs at repo root (Enhancement / Enterprise-Systems / NextJS-Vercel) + stale `PROJECT_OVERVIEW.md` (says React 18, 8 yrs, blog "future"). Consolidate/date them.
