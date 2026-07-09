@@ -3,6 +3,7 @@ import MagicButton from "./ui/MagicButton";
 import { TextGenerateEffect } from "./ui/TextGenerateEffect";
 import { FaLocationArrow } from "react-icons/fa6";
 import SpotlightBackground from "./ui/SpotlightBackground";
+import { CALENDLY_URL } from "@/data";
 
 const Hero = () => {
   return (
@@ -40,15 +41,14 @@ const Hero = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 mt-2">
-            <a href="#contact" aria-label="Book a scoping call">
-              <MagicButton
-                title="Book a scoping call"
-                icon={<FaLocationArrow />}
-                position="right"
-              />
-            </a>
+            <MagicButton
+              title="Book a scoping call"
+              icon={<FaLocationArrow />}
+              position="right"
+              href={CALENDLY_URL}
+            />
             <a
-              href="#offers"
+              href="/services"
               className="text-sm font-medium text-blue-100 hover:text-purple transition-colors md:mt-10"
             >
               See how the sprint works →
