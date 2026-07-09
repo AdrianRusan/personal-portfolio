@@ -1,0 +1,114 @@
+---
+title: "What AI Coding Agents Get Wrong: A Field Taxonomy"
+date: "2026-07-08"
+tags: ["ai", "code-review", "security", "claude-code", "software-engineering"]
+description: "Six recurring failure categories I catch reviewing AI-generated code — fail-open security gates, scope creep, silent error swallowing, and more. All pass tests. Here's what to look for."
+published: true
+language: "en"
+---
+
+> **The short version:** Across 30 reviewed PRs written by Claude Code agents in one 2.5-day batch, the defects clustered into six recurring categories: security gates that fail open, scope creep past the ticket, silently swallowed errors, confidently-wrong logic, premature abstraction, and stale or hallucinated APIs. Every one of them looked correct on read and passed the test suite. They fail on the class of input the tests never exercised. This is what a human reviewer is actually for.
+
+I review a lot of agent-written code. In one recent stretch I shipped 30 reviewed pull requests across 9 parallel agent batches in 2.5 days, and I adversarially reviewed every one before it merged. That volume is the point of the workflow, but it also turns code review into a sampling exercise: when you read that many diffs from the same class of author, the mistakes stop being random and start being a taxonomy.
+
+The agents are good. That is precisely why the failures are dangerous — they are not the obvious garbage people picture when they hear "AI wrote it." The code compiles, reads cleanly, and goes green in CI. The defects live in the gap between "the tests pass" and "the code is safe," and that gap is exactly where a payment flow gets breached.
+
+Here are the six categories I see over and over. Each one is self-contained, so you can lift the one that matters to your review checklist.
+
+## 1. Security gates that fail open
+
+**The failure:** A check whose entire job is to *block* bad input quietly lets everything through when the check itself can't run. The agent handles the "input is bad" path correctly and forgets the "I couldn't evaluate the input" path.
+
+The canonical version I catch is a subprocess-based gate — a secret scanner, a schema validator, a linter invoked as a security check — that gates only on the exit code:
+
+```js
+// Agent's version — fails OPEN
+const result = spawnSync("scanner", args);
+if (result.status !== 0) {
+  throw new Error("blocked");
+}
+// falls through to "allowed" on spawn failure
+```
+
+If the binary isn't found, or the OS kills it, `spawnSync` returns `{ status: null, error: Error }`. `null !== 0` is false, so the code sails past the gate. The scanner never ran, and the agent treated "didn't run" as "passed." A security gate has to fail *closed*: the "I don't know" answer must be identical to the "no, blocked" answer.
+
+```js
+// Fails CLOSED
+if (result.error || result.status === null || result.status !== 0) {
+  throw new Error("blocked");
+}
+```
+
+This is the category I trust the least to automated tooling, because the happy-path test — feed it a secret, watch it block — passes on both versions. You only catch it by asking "what happens when the check can't execute?" All three of the shell-injection vulnerabilities I've caught in agent code trace back to this exact failure-mode blindness — the agent handled the "bad input" path and forgot the "couldn't evaluate the input" one.
+
+## 2. Scope creep and gold-plating past the ticket
+
+**The failure:** The ticket says "add search by email." The agent adds search by email, phone, and name; a fuzzy-match toggle; a new caching layer; and a config flag for the page size — none of it asked for, all of it now yours to maintain, review, and secure.
+
+Agents are eager. Given a narrow instruction they will happily infer a "more complete" version of the feature and build that instead. It reads as helpfulness, but every unrequested line is unreviewed surface area, and the extra branches are exactly where the untested edge cases hide. A `enablePhoneSearch` flag nobody requested is a flag nobody has thought about the security of.
+
+My rule when reviewing: the diff should map to the ticket and nothing else. If I can't point at the issue for a given change, it comes out. This tracks a principle I hold for my own work too — three similar lines beat the wrong abstraction, and a strong default beats a speculative flag.
+
+## 3. Silent error swallowing
+
+**The failure:** A broad `try/catch` (or bare `except:`) that catches everything, logs nothing useful, and returns a default — so a real failure becomes a silent wrong answer instead of a loud crash.
+
+```js
+try {
+  balance = await fetchBalance(userId);
+} catch (e) {
+  balance = 0; // <- now a fetch outage reads as "$0.00"
+}
+```
+
+Agents reach for this pattern because it makes the code "robust" in the shallow sense: nothing throws, the demo works, the test passes. But swallowing the error converts a detectable outage into an undetectable data corruption. In a fintech context, "the balance call failed" and "the balance is zero" must never collapse into the same branch. I flag every catch that is broader than the error it's actually handling, and every catch that recovers to a plausible-but-fabricated value.
+
+## 4. Confidently-wrong logic
+
+**The failure:** Code that is structurally clean, well-named, and reads as obviously correct — and is wrong on a boundary the author never considered. Off-by-one on a date range, an inverted conditional, a `>=` that should be `>`, timezone math that works in the author's assumptions and breaks at the DST boundary.
+
+This is the hardest category to catch because there's nothing to smell. The variable names are good. The structure is idiomatic. The tests pass — because the agent wrote tests that assert the same wrong mental model the code implements. Agent-written code and agent-written tests share a blind spot, so green CI is self-confirming rather than independent.
+
+The only defense is reading the logic against the *specification*, not against the tests. I re-derive the boundary conditions myself and check the code against my derivation, not against the suite. When the code and its tests agree but both disagree with reality, only an outside model catches it.
+
+## 5. Premature abstraction
+
+**The failure:** A generic `BaseHandler`, a config-driven factory, or a five-parameter "flexible" helper introduced to serve a single call site — abstraction built for a future that hasn't arrived.
+
+Agents pattern-match on "good engineering" and reproduce the *shape* of extensible code without the *demand* for it. You end up with an interface, an abstract class, and a registry to handle one concrete case. It's harder to read, harder to change, and it hides the actual behavior behind indirection that exists to serve hypothetical callers who will never show up.
+
+My bar is the rule of three: don't extract a shared abstraction until the same pattern appears at three call sites with the same shape. Two similar blocks is a coincidence; three is a pattern. Until then, duplication is cheaper than the wrong abstraction — and far easier to review.
+
+## 6. Stale or hallucinated APIs
+
+**The failure:** The agent calls a method that doesn't exist, uses a library's old signature, or invents a plausible-looking option that was never in the API. The code looks right because it matches the *average* of how that library has been used across the training data — which may be a version you're not on, or a call that was never real.
+
+You see `array.findLast()` in an environment that doesn't have it, a deprecated React lifecycle method, an SDK option that reads sensibly but isn't in the docs, or a config key that's a blend of two real ones. Type checking and a real build catch a good share of these — which is why they're the *least* dangerous category on this list — but the ones that survive are the ones that happen to type-check while being semantically wrong for your version. A pinned-version build and reading the actual dependency's source are the fixes; trusting that the API exists because the code looks fluent is the trap.
+
+## The thread connecting all six
+
+Notice what these have in common: **none of them are caught by the test suite passing.** Fail-open gates pass the happy-path test. Scope creep adds passing tests for the extra scope. Swallowed errors make tests greener, not redder. Confidently-wrong logic ships with confidently-wrong tests. Premature abstraction is fully tested — it just shouldn't exist. Hallucinated APIs that type-check, type-check.
+
+This is why I keep saying the honest multiplier is 2–3x, not 100x. The generation is fast. The *review* is the bottleneck, and it's a real, senior, human bottleneck — because the failure modes above are specifically the ones that hide from automation. Agents optimize their output to make tests go green. They do not optimize it to be safe, and those are not the same target.
+
+If you're letting agents write production code, the move isn't to distrust them — they earn the throughput. The move is to put an adversarial reviewer between the green checkmark and the merge button, someone whose job is to assume the code is wrong until proven safe and who knows which six things to look for first.
+
+## FAQ
+
+**What mistakes do AI coding agents make most often?**
+In my review work the recurring six are: security gates that fail open, scope creep beyond the ticket, silently swallowed errors, confidently-wrong logic on unconsidered boundaries, premature abstraction, and stale or hallucinated API calls. All six commonly pass automated tests.
+
+**Why does AI-generated code pass tests but still fail?**
+Because agents optimize output to make the test suite green, and often write the tests too — so the code and its tests share the same blind spot. Passing tests prove the code does what the tests check, not that it's safe against inputs nobody wrote a test for.
+
+**Can automated tools catch these problems?**
+Type checkers and builds catch most hallucinated-API errors, and linters catch some. But fail-open gates, confidently-wrong logic, and swallowed errors pass green CI by construction — they need a human reading the logic against the specification, not against the tests.
+
+**Does this mean AI coding agents aren't worth using?**
+No. They deliver a real 2–3x throughput gain. The point is that agent speed is only mergeable with a senior review layer on top. Speed without the review is a liability; the two together are the product.
+
+---
+
+**Shipping features with AI agents and worried about exactly this?** That's the whole reason the review layer exists. An Agent-Accelerated Delivery Sprint gives you fixed-scope, fixed-price reviewed PRs shipped in days — every one adversarially reviewed for the six failure modes above before it merges, with a named senior engineer accountable for what lands. [Book a scoping call →](/#contact)
+
+*Related reading: [The shell-injection bugs my agents wrote (and the tests passed)](/blog/catching-shell-injection-agents-wrote) · How to adversarially review AI-generated code (coming soon) · The tests passed. The code was broken. (coming soon).*
