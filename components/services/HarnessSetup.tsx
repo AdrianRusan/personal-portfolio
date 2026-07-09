@@ -19,21 +19,27 @@ const terms = [
 ];
 
 const columns: PricingColumn[] = [
-  { name: "Harness Setup" },
-  { name: "Harness Setup + Enablement", badge: "Recommended", featured: true },
+  { name: "Install" },
+  { name: "Install + Enablement", badge: "Recommended", featured: true },
+  { name: "Fleet Rollout" },
 ];
 
 const rows: PricingRow[] = [
   {
     label: "Scope",
     values: [
-      "Configure + one live batch + playbook + 2 weeks support",
-      "Everything in Setup, plus multi-session team enablement until they ship solo",
+      "One repo: agent fleet config, CI security gates, review rubric + runbook. ~1 week.",
+      "Everything in Install, plus 2–3 workshops, tuned review rubrics, methodology transfer, 30 days support. ~2 weeks.",
+      "Multi-repo / org-wide standards, embedded pairing, security-gate policy across services, advisory handoff.",
     ],
   },
   {
     label: "Price",
-    values: ["Quoted after scope call", "Quoted after scope call"],
+    values: [
+      "from €9,000",
+      "from €18,000",
+      "from €30,000 — scoped after assessment",
+    ],
   },
 ];
 

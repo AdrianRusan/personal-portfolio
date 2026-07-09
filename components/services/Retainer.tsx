@@ -26,18 +26,14 @@ const rows: PricingRow[] = [
   {
     label: "Roughly",
     values: [
-      "~8–12 reviewed PRs/mo",
-      "~15–20 reviewed PRs/mo",
-      "~25+ reviewed PRs/mo, priority verify",
+      "~6–8 reviewed PRs/mo",
+      "~12–15 reviewed PRs/mo",
+      "~20+ reviewed PRs/mo, dedicated",
     ],
   },
   {
     label: "Price",
-    values: [
-      "Quoted after scope call",
-      "Quoted after scope call",
-      "Quoted after scope call",
-    ],
+    values: ["from €7,000/mo", "from €12,000/mo", "from €22,000/mo — 1 slot"],
   },
 ];
 

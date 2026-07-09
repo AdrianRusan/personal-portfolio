@@ -38,6 +38,10 @@ export const ServicesHero = () => {
           >
             Not ready to talk? See exactly how the pipeline works ↓
           </a>
+          <p className="text-xs text-white-200/70 mt-1">
+            First reviewed PR within 48 hours of repo access — or the sprint is
+            25% off.
+          </p>
         </div>
 
         <div className="flex flex-wrap justify-center items-center gap-x-3 gap-y-2 mt-10 max-w-3xl mx-auto">

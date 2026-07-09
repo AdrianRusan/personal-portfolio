@@ -48,7 +48,7 @@ const rows: PricingRow[] = [
   {
     label: "Roughly",
     values: [
-      "~5–8 reviewed PRs",
+      "~5–6 reviewed PRs",
       "~10–15 reviewed PRs",
       "~16–20+ reviewed PRs",
     ],
@@ -60,9 +60,9 @@ const rows: PricingRow[] = [
   {
     label: "Price",
     values: [
-      "from €4,000",
-      "Quoted after scope call",
-      "Quoted after scope call",
+      "from €7,500",
+      "from €14,500",
+      "from €24,000 — scoped after a 30-min assessment",
     ],
   },
 ];

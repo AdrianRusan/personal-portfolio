@@ -3,6 +3,7 @@ import { FloatingNav } from "@/components/ui/FloatingNav";
 import { ServicesHero } from "@/components/services/ServicesHero";
 import { ProcessSteps } from "@/components/services/ProcessSteps";
 import { DeliverySprint } from "@/components/services/DeliverySprint";
+import { TrustStrip } from "@/components/services/TrustStrip";
 import { Retainer } from "@/components/services/Retainer";
 import { HarnessSetup } from "@/components/services/HarnessSetup";
 import { Scarcity } from "@/components/services/Scarcity";
@@ -41,6 +42,7 @@ export default function ServicesPage() {
       <ServicesHero />
       <ProcessSteps />
       <DeliverySprint />
+      <TrustStrip />
       <Retainer />
       <HarnessSetup />
       <Scarcity />
