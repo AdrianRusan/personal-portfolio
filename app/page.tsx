@@ -1,40 +1,24 @@
 import Hero from "@/components/Hero";
+import ProofBand from "@/components/ProofBand";
+import ShipVerify from "@/components/ShipVerify";
+import Offers from "@/components/Offers";
+import CaseStudy from "@/components/CaseStudy";
+import WhoFor from "@/components/WhoFor";
+import FinalCta from "@/components/FinalCta";
 import { FloatingNav } from "@/components/ui/FloatingNav";
 import { navItems } from "@/data";
 import dynamic from "next/dynamic";
-import { Suspense } from "react";
-import { 
-  ProjectSkeleton, 
-  TestimonialSkeleton, 
-  ExperienceSkeleton 
+import {
+  TestimonialSkeleton,
+  ExperienceSkeleton,
 } from "@/components/ui/Skeleton";
-
-// Dynamic imports with loading components for better performance
-const About = dynamic(() => import("@/components/About"), {
-  loading: () => <div className="h-screen animate-pulse bg-slate-100 dark:bg-slate-800 rounded-lg" />
-});
-
-const Projects = dynamic(() => import("@/components/Projects"), {
-  loading: () => (
-    <section className="py-20" aria-label="Projects loading">
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
-        <ProjectSkeleton />
-        <ProjectSkeleton />
-      </div>
-    </section>
-  )
-});
 
 const Experience = dynamic(() => import("@/components/Experience"), {
   loading: () => (
     <section className="py-20" aria-label="Experience loading">
       <ExperienceSkeleton />
     </section>
-  )
-});
-
-const Approach = dynamic(() => import("@/components/Approach"), {
-  loading: () => <section className="h-96 animate-pulse bg-slate-100 dark:bg-slate-800 rounded-lg" aria-label="Approach loading" />
+  ),
 });
 
 const Testimonials = dynamic(() => import("@/components/Testimonials"), {
@@ -42,38 +26,38 @@ const Testimonials = dynamic(() => import("@/components/Testimonials"), {
     <section className="py-20" aria-label="Testimonials loading">
       <TestimonialSkeleton />
     </section>
-  )
+  ),
 });
 
 const Footer = dynamic(() => import("@/components/Footer"), {
-  loading: () => <footer className="h-32 animate-pulse bg-slate-100 dark:bg-slate-800" aria-label="Footer loading" />
+  loading: () => (
+    <footer
+      className="h-32 animate-pulse bg-slate-100 dark:bg-slate-800"
+      aria-label="Footer loading"
+    />
+  ),
 });
 
 export default function Home() {
   return (
-    <main className="relative dark:bg-black-100 bg-white flex justify-center items-center flex-col overflow-hidden mx-auto px-5 sm:px-10">
-      <div className="max-w-7xl w-full">
-        <FloatingNav
-          navItems={navItems}
-        />
-        <Hero />
-        <section id="about" aria-labelledby="about-heading">
-          <About />
-        </section>
-        <section id="experience" aria-labelledby="experience-heading">
+    <main className="relative dark:bg-black-100 bg-white overflow-hidden">
+      <FloatingNav navItems={navItems} />
+      <Hero />
+      <ProofBand />
+      <ShipVerify />
+      <Offers />
+      <CaseStudy />
+      <WhoFor />
+      <div className="max-w-7xl mx-auto px-5 sm:px-10">
+        <section aria-label="Track record">
           <Experience />
-          <div id="projects" aria-labelledby="projects-heading">
-            <Projects />
-          </div>
-        </section>
-        <section id="approach" aria-labelledby="approach-heading">
-          <Approach />
         </section>
         <section id="testimonials" aria-labelledby="testimonials-heading">
           <Testimonials />
         </section>
-        <Footer />
       </div>
+      <FinalCta />
+      <Footer />
     </main>
   );
 }
