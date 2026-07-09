@@ -1,5 +1,3 @@
-
-
 import React from "react";
 import { workExperience } from "@/data";
 import { Button } from "./ui/MovingBorders";
@@ -9,8 +7,13 @@ const Experience = () => {
   return (
     <div className="py-20 w-full">
       <h2 id="experience-heading" className="heading">
-        Work <span className="text-purple">Experience</span>
+        Where the <span className="text-purple">senior judgment</span> comes
+        from
       </h2>
+      <p className="text-center text-white-200 mt-3 max-w-2xl mx-auto">
+        The track record behind every review — the same judgment that catches
+        what the agents miss.
+      </p>
 
       <div className="w-full mt-12 grid lg:grid-cols-2 grid-cols-1 gap-10">
         {workExperience.map((card) => (
@@ -36,8 +39,14 @@ const Experience = () => {
                   title={`${card.company} company`}
                 />
                 <div className="lg:ms-5 space-y-2">
-                  <h3 id={`job-title-${card.id}`} className="text-start text-xl md:text-2xl font-bold text-purple-600">
-                    {card.title} at <br/><span className="text-lg md:text-xl text-gray-700 dark:text-gray-300">{card.company}</span>
+                  <h3
+                    id={`job-title-${card.id}`}
+                    className="text-start text-xl md:text-2xl font-bold text-purple-600"
+                  >
+                    {card.title} at <br />
+                    <span className="text-lg md:text-xl text-gray-700 dark:text-gray-300">
+                      {card.company}
+                    </span>
                   </h3>
                   <time className="text-start text-md md:text-lg text-gray-600 dark:text-gray-400 block">
                     {card.period}

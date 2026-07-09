@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "cross-env NODE_ENV=production next build",
     "start": "next start",
     "lint": "next lint",
-    "analyze": "cross-env ANALYZE=true next build",
+    "analyze": "cross-env NODE_ENV=production ANALYZE=true next build",
     "security-check": "node scripts/security-check.js",
     "verify:build": "node scripts/verify-build.js",
     "verify:tests": "node scripts/verify-tests.js",

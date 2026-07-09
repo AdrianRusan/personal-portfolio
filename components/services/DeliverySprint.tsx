@@ -60,11 +60,7 @@ const rows: PricingRow[] = [
   },
   {
     label: "Price",
-    values: [
-      "from €7,500",
-      "from €14,500",
-      "from €24,000 — scoped after a 30-min assessment",
-    ],
+    values: ["€7,500", "€14,500", "€24,000 — fixed on the scope call"],
   },
 ];
 
@@ -115,8 +111,9 @@ export const DeliverySprint = () => {
             ctaLabel="Book a scoping call"
           />
           <p className="text-xs text-white-200/70 mt-4 italic">
-            Every sprint is priced on the reviewed outcome, not hours logged.
-            The exact number is fixed on the scope call, before any work starts.
+            Every sprint is priced on the reviewed outcome, not hours logged —
+            locked on day 0, no runaway bill. The exact number is fixed on the
+            scope call, before any work starts.
           </p>
 
           <h3 className="text-lg font-semibold mt-10 mb-2">What this is NOT</h3>

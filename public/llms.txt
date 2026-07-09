@@ -1,0 +1,24 @@
+# Adrian Rusan
+
+> Senior software engineer offering Agent-Accelerated Delivery, Reviewed: a fleet of coding agents produces the volume, and a senior engineer personally security-reviews every pull request before it merges.
+
+Adrian Rusan is a senior software engineer who runs coding-agent fleets in parallel git worktrees to clear backlog quickly, then applies adversarial senior-level code review to every diff before it ships. The pitch to founders and CTOs is straightforward: agents give you speed, but unreviewed agent code is a security liability — the review step is what makes the speed safe to ship.
+
+## Services
+
+- [Delivery Sprints](https://www.adrian-rusan.com/services): Fixed-scope engineering sprints. An agent fleet implements the backlog; every pull request is manually security-reviewed by Adrian before merge. Built for founders and CTOs who want agent-speed delivery without trading away code safety.
+
+## Site
+
+- [Homepage](https://www.adrian-rusan.com/): Positioning, background, and how the agent-fleet-plus-senior-review workflow works.
+- [Blog](https://www.adrian-rusan.com/blog): Writing on AI-assisted software delivery, code review, and security practices for agent-written code.
+
+## Notable posts
+
+- [The Shell-Injection Bugs My Agents Wrote (and the Tests Passed)](https://www.adrian-rusan.com/blog/catching-shell-injection-agents-wrote): Why passing tests and green CI are not proof of safety, and what a senior human review catches that automated checks miss.
+- [What AI Coding Agents Get Wrong: A Field Taxonomy](https://www.adrian-rusan.com/blog/what-agents-get-wrong): Recurring failure categories in agent-generated code — fail-open security gates, scope creep, silently swallowed errors, and more.
+- [Claude Code Changed How I Ship Software](https://www.adrian-rusan.com/blog/claude-code-changed-how-i-ship-software): How orchestrating AI agents changes the role of a senior engineer, and why experience matters more, not less.
+
+## Book a call
+
+- [Scoping call](https://calendly.com/adrian-rusan/scoping-call): 30-minute call to scope a Delivery Sprint.

@@ -13,31 +13,24 @@ export const Scarcity = () => {
           safe to merge.
         </p>
         <p className="text-white-200 mt-4 leading-relaxed max-w-3xl">
-          So here&apos;s how the capacity actually works:
+          So here&apos;s the ceiling:
         </p>
         <ul className="flex flex-col gap-3 mt-4">
           <li className="flex gap-3 text-sm text-white-200 leading-relaxed">
             <span className="text-purple flex-none">+</span>
             <span>
               <span className="text-white font-medium">
-                Currently 2 Delivery Sprints run at a time.
+                I run at most 2 Delivery Sprints at a time
               </span>{" "}
-              When both slots are taken, new engagements join a dated waitlist.
-            </span>
-          </li>
-          <li className="flex gap-3 text-sm text-white-200 leading-relaxed">
-            <span className="text-purple flex-none">+</span>
-            <span>
-              <span className="text-white font-medium">
-                Retainers hold a permanent verify slot,
-              </span>{" "}
-              so only a couple run alongside the sprints at any time.
+              — the review layer is one person and doesn&apos;t parallelize. If
+              both slots are full when you reach out, I&apos;ll give you the
+              next honest start date rather than overcommit.
             </span>
           </li>
         </ul>
         <p className="text-white-200/80 mt-6 max-w-3xl leading-relaxed">
-          No countdown timers, no &quot;3 spots left today.&quot; The scarcity
-          is just the truth about how this works — and it&apos;s also the pitch.
+          No countdown timers, no &quot;3 spots left today.&quot; The limit is
+          just the truth about how this works — and it&apos;s also the pitch.
         </p>
       </div>
     </section>

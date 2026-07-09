@@ -19,7 +19,9 @@ const ProofBand = () => {
         ))}
       </div>
       <p className="max-w-7xl mx-auto text-center text-xs text-white-200/70 mt-4">
-        Real numbers from real work. No projections, no &quot;up to.&quot;
+        Every number here is from a run I did myself — the repo, the PRs, and
+        the review notes are real, and I&apos;ll walk you through them on a
+        call.
       </p>
     </section>
   );
