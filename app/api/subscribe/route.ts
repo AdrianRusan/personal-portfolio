@@ -1,8 +1,20 @@
 import { NextResponse } from "next/server";
 
-// Simple, pragmatic email check — good enough to reject garbage input without
-// rejecting valid-but-unusual addresses.
+// Lead-magnet capture → Resend. On submit we add the contact to the audience
+// (for nurture) and email them the checklist. No SDK — Resend's REST API over
+// fetch keeps the dependency surface small.
+//
+// Required env (unset = safe dev no-op):
+//   RESEND_API_KEY       server-side API key (never exposed to the client)
+//   RESEND_AUDIENCE_ID   the audience contacts are added to
+//   EMAIL_FROM           verified sender, e.g. "Adrian Rusan <hello@adrian-rusan.com>"
+// Optional:
+//   NEXT_PUBLIC_SITE_URL used to build the checklist download link
+
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.adrian-rusan.com";
+const CHECKLIST_URL = `${SITE_URL}/agent-pr-review-checklist.pdf`;
 
 export async function POST(request: Request) {
   let body: unknown;
@@ -30,37 +42,71 @@ export async function POST(request: Request) {
 
   const sanitizedEmail = email.trim().toLowerCase();
 
-  const espApiKey = process.env.EMAIL_API_KEY;
+  const apiKey = process.env.RESEND_API_KEY;
+  const audienceId = process.env.RESEND_AUDIENCE_ID;
+  const from = process.env.EMAIL_FROM;
 
-  if (!espApiKey) {
-    // No ESP configured yet — no-op success so the UI works in dev/staging.
+  if (!apiKey || !from) {
+    // Not configured yet — no-op success so the UI works in dev/staging.
     console.warn(
-      "[subscribe] EMAIL_API_KEY is not set. Skipping ESP forward for:",
+      "[subscribe] RESEND_API_KEY/EMAIL_FROM not set. Skipping capture for:",
       sanitizedEmail,
     );
     return NextResponse.json({ ok: true });
   }
 
+  const authHeaders = {
+    Authorization: `Bearer ${apiKey}`,
+    "Content-Type": "application/json",
+  };
+
+  // 1. Add to the audience (best-effort — nurture, not the primary value).
+  if (audienceId) {
+    try {
+      const res = await fetch(
+        `https://api.resend.com/audiences/${audienceId}/contacts`,
+        {
+          method: "POST",
+          headers: authHeaders,
+          body: JSON.stringify({ email: sanitizedEmail, unsubscribed: false }),
+        },
+      );
+      if (!res.ok && res.status !== 409) {
+        // 409 = already a contact; anything else is worth a log, not a failure.
+        console.warn("[subscribe] Resend audience add returned:", res.status);
+      }
+    } catch (error) {
+      console.warn("[subscribe] Resend audience add failed:", error);
+    }
+  }
+
+  // 2. Send the checklist (the actual thing the visitor asked for).
   try {
-    // Forward to the configured ESP. Provider-specific request shape can be
-    // filled in once a real ESP is wired — this keeps the contract stable.
-    const response = await fetch(process.env.EMAIL_API_URL ?? "", {
+    const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${espApiKey}`,
-      },
-      body: JSON.stringify({ email: sanitizedEmail }),
+      headers: authHeaders,
+      body: JSON.stringify({
+        from,
+        to: sanitizedEmail,
+        subject: "The Agent PR Review Checklist",
+        html: `
+          <p>Here it is — the checks that catch bugs the tests pass clean:</p>
+          <p><a href="${CHECKLIST_URL}">Download The Agent PR Review Checklist (PDF)</a></p>
+          <p>Run passes 1&nbsp;&rarr;&nbsp;4 in order, security first. Don't merge on green — merge on a completed checklist.</p>
+          <p>If you'd want your backlog shipped this way — reviewed before it reaches you — <a href="${SITE_URL}/services">book a 30-minute scoping call</a>.</p>
+          <p>— Adrian</p>
+        `,
+      }),
     });
 
-    if (!response.ok) {
-      throw new Error(`ESP responded with status ${response.status}`);
+    if (!res.ok) {
+      throw new Error(`Resend send responded with ${res.status}`);
     }
 
     return NextResponse.json({ ok: true });
   } catch (error) {
-    console.error("[subscribe] Failed to forward subscription to ESP:", error);
-    // Fail gracefully — never surface ESP/provider details to the client.
+    console.error("[subscribe] Failed to send checklist email:", error);
+    // Never surface provider details to the client.
     return NextResponse.json(
       { ok: false, error: "Something went wrong. Please try again." },
       { status: 502 },

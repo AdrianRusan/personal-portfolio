@@ -1,7 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import { cn } from "@/lib/utils";
+
+// TODO: swap this initials avatar for a real photo at public/adrian.jpg — a real
+// face materially strengthens the "one accountable human reviews your code" pitch.
 
 const Bio = ({ className }: { className?: string }) => {
   return (
@@ -12,13 +14,12 @@ const Bio = ({ className }: { className?: string }) => {
         className,
       )}
     >
-      <Image
-        src="/adrian.jpg"
-        alt="Adrian Rusan, senior software engineer"
-        width={96}
-        height={96}
-        className="rounded-full border border-white/10 object-cover shrink-0"
-      />
+      <div
+        aria-hidden="true"
+        className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full border border-purple/40 bg-purple/15 text-2xl font-bold tracking-tight text-purple"
+      >
+        AR
+      </div>
       <div>
         <h3 id="bio-heading" className="text-lg font-semibold tracking-tight">
           Who actually reviews your code
