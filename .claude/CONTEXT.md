@@ -6,7 +6,8 @@ Living context. Update after each session (`/context-save`). Keep under 200 line
 - [2026-07-09] Implemented P0/P1 audit fixes (branch `audit-p0-p1-implementation`, commit ae8f347) via 12-agent workflow
   - 27 files: positioning/SEO metadata, honesty copy reframes (CaseStudy/ProofBand/Scarcity), funnel (nav CTA, footer, EmailCapture+Bio+/api/subscribe, pricing "from" drop), blog type fixes
   - tsc app-clean + lint clean; build blocked by pre-existing P0 Html bug (see below)
-  - **Open user actions (blockers)**: create Calendly `scoping-call` event; add photo `public/adrian.jpg`; wire ESP (`EMAIL_API_KEY`); one ICP testimonial to replace Tim Claes; confirm Bono Fintech + reconcile with workExperience; Google verification token; positioning OG card image
+  - **Done since**: Calendly `scoping-call` 30-min event created (#1); ESP wired to Resend (`/api/subscribe`, needs `RESEND_API_KEY`/`RESEND_AUDIENCE_ID`/`EMAIL_FROM` env in Vercel); OG cards built; lead-magnet PDF at `public/agent-pr-review-checklist.pdf`
+  - **Open user actions**: add real photo `public/adrian.jpg` (Bio uses AR initials fallback for now); one ICP testimonial to replace Tim Claes; confirm Bono Fintech + reconcile with workExperience; Google verification token (`GOOGLE_SITE_VERIFICATION`); set the Resend env vars + verify sending domain
 - [2026-07-09] Ran multi-agent lead-gen audit → `audits/portfolio-audit-2026-07-09.md` (71 findings)
 - [2026-07-09] Bootstrapped `.claude/` harness (`/init-project`)
   - Added: `.claude/CLAUDE.md`, `.claude/CONTEXT.md`, `.claude/codebase-profile.md`
