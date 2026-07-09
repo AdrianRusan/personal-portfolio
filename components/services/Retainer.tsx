@@ -34,7 +34,7 @@ const rows: PricingRow[] = [
   },
   {
     label: "Price",
-    values: ["from €7,000/mo", "from €12,000/mo", "from €22,000/mo — 1 slot"],
+    values: ["€7,000/mo", "€12,000/mo", "€22,000/mo — 1 slot"],
   },
 ];
 
@@ -76,6 +76,10 @@ export const Retainer = () => {
           ctaHref={CALENDLY_URL}
           ctaLabel="Book a scoping call"
         />
+        <p className="text-xs text-white-200/70 mt-4 italic">
+          Your monthly band is locked on day 0, no runaway bill — overflow rolls
+          forward instead of surprise invoicing.
+        </p>
 
         <h3 className="text-lg font-semibold mt-10 mb-4">Terms</h3>
         <ul className="flex flex-col gap-3">

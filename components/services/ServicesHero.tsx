@@ -13,7 +13,8 @@ export const ServicesHero = () => {
     <section className="px-5 sm:px-10 pt-28 sm:pt-32 pb-16">
       <div className="max-w-5xl mx-auto text-center">
         <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-balance max-w-3xl mx-auto">
-          Reviewed outcomes at agent speed — priced before we start
+          Your backlog, shipped at agent speed — every PR security-reviewed
+          before you see it
         </h1>
         <p className="text-white-200 mt-5 leading-relaxed max-w-2xl mx-auto">
           This is fixed-scope, fixed-price delivery, not a timesheet. You agree

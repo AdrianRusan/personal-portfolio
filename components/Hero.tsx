@@ -16,24 +16,20 @@ const Hero = () => {
       <div className="min-h-[100vh] flex justify-center items-center relative z-10 py-28">
         <div className="max-w-[89vw] md:max-w-2xl lg:max-w-[62vw] flex justify-center items-center flex-col">
           <p className="uppercase tracking-widest text-xs text-center text-blue-100 max-w-80">
-            AI-Native Delivery · Ship / Verify
+            Agent speed · Every PR senior-reviewed
           </p>
 
-          <h1 id="hero-heading" className="sr-only">
-            Agent-speed delivery you can actually merge — AI-native delivery
-            with adversarial security review by Adrian Rusan
-          </h1>
-
           <TextGenerateEffect
+            id="hero-heading"
             className="text-center text-[40px] md:text-5xl lg:text-6xl"
             words="Agent-speed delivery you can actually merge."
           />
 
           <p className="text-center tracking-wide mb-2 mt-2 text-sm md:text-lg lg:text-xl text-white-200 max-w-3xl">
-            I run fleets of Claude Code agents to ship production software 2-3x
-            faster — then I adversarially review every pull request myself,
-            because I&apos;ve caught the shell-injection bugs the agents wrote
-            that the tests passed clean.
+            I run fleets of Claude Code agents to clear your backlog fast — then
+            I adversarially review every pull request myself, because I&apos;ve
+            caught the shell-injection bugs the agents wrote that the tests
+            passed clean.
           </p>
 
           <p className="text-center font-mono text-xs md:text-sm text-purple mt-4 border-l-2 border-purple pl-3">

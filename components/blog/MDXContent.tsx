@@ -1,14 +1,17 @@
-import { MDXRemote } from 'next-mdx-remote/rsc';
-import rehypePrettyCode from 'rehype-pretty-code';
-import rehypeSlug from 'rehype-slug';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import { mdxComponents } from './PostBody';
+import { MDXRemote } from "next-mdx-remote/rsc";
+import rehypePrettyCode from "rehype-pretty-code";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import { mdxComponents } from "./PostBody";
 
-const rehypePlugins = [
+type MDXRemoteOptions = NonNullable<Parameters<typeof MDXRemote>[0]["options"]>;
+type MDXOptions = NonNullable<MDXRemoteOptions["mdxOptions"]>;
+
+const rehypePlugins: MDXOptions["rehypePlugins"] = [
   rehypeSlug,
-  [rehypeAutolinkHeadings, { behavior: 'wrap' }],
-  [rehypePrettyCode, { theme: 'one-dark-pro', keepBackground: true }],
-] as Parameters<typeof MDXRemote>[0]['options']['mdxOptions']['rehypePlugins'];
+  [rehypeAutolinkHeadings, { behavior: "wrap" }],
+  [rehypePrettyCode, { theme: "one-dark-pro", keepBackground: true }],
+];
 
 interface MDXContentProps {
   source: string;

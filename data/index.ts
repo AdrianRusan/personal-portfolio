@@ -1,11 +1,11 @@
-export const CALENDLY_URL = "https://calendly.com/adrian-rusan";
+// event slug must exist in Calendly ("scoping-call" 20-min event)
+export const CALENDLY_URL = "https://calendly.com/adrian-rusan/scoping-call";
 
 export const navItems = [
   { name: "How it works", link: "#ship-verify" },
   { name: "Services", link: "#offers" },
   { name: "Work", link: "#work" },
   { name: "Blog", link: "/blog" },
-  { name: "Contact", link: "#contact" },
 ];
 
 // --- Ship / Verify homepage content ---
@@ -131,7 +131,7 @@ export const gridItems = [
 
   {
     id: 5,
-    title: "Currently building a JS Animation library",
+    title: "Always exploring new tools, frameworks, and techniques",
     description: "The Inside Scoop",
     className: "md:col-span-3 md:row-span-2",
     imgClassName: "absolute right-0 bottom-0 md:w-96 w-60",
@@ -270,7 +270,7 @@ export const workExperience = [
     title: "Full Stack Developer",
     company: "PGL Esports SRL",
     period: "Oct 2020 - Oct 2022",
-    desc: "Created real-time graphics, interactive leaderboards, and player stats for major esports events, elevating the experience for millions of global fans.",
+    desc: "Built the real-time broadcast graphics, interactive leaderboards, and player-stats overlays for live esports events.",
     className: "md:col-span-2",
     thumbnail:
       "https://utfs.io/a/23x7w9tiht/9ae30726-e9a7-43bc-a28c-bce3e44eba67-1v1di.svg",
@@ -280,7 +280,7 @@ export const workExperience = [
     title: "Frontend Developer",
     company: "Ipsos Interactive Services SRL",
     period: "Jun 2016 - Sep 2020",
-    desc: "Delivered over 300 projects of varying complexity for high-profile clients like Google, Coca-Cola, and P&G, ensuring consistent quality and client satisfaction.",
+    desc: "Built and shipped 300+ interactive survey and data-collection microsites under tight deadlines for enterprise research accounts.",
     className: "md:col-span-2",
     thumbnail:
       "https://utfs.io/a/23x7w9tiht/48a6ace0-6271-444c-873a-5cf82e04d3fc-1v1dj.svg",

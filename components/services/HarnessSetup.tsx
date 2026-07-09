@@ -36,11 +36,7 @@ const rows: PricingRow[] = [
   },
   {
     label: "Price",
-    values: [
-      "from €9,000",
-      "from €18,000",
-      "from €30,000 — scoped after assessment",
-    ],
+    values: ["€9,000", "€18,000", "€30,000 — fixed on the scope call"],
   },
 ];
 
@@ -82,6 +78,10 @@ export const HarnessSetup = () => {
           ctaHref={CALENDLY_URL}
           ctaLabel="Book a scoping call"
         />
+        <p className="text-xs text-white-200/70 mt-4 italic">
+          Locked on day 0, no runaway bill — the price is fixed on the scope
+          call, before any work starts.
+        </p>
 
         <h3 className="text-lg font-semibold mt-10 mb-4">Terms</h3>
         <ul className="flex flex-col gap-3">
