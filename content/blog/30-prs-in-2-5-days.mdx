@@ -1,0 +1,108 @@
+---
+title: "30 PRs in 2.5 Days: Anatomy of Nine Agent Batches"
+date: "2026-07-08"
+tags: ["ai", "claude-code", "git-worktrees", "developer-productivity", "software-engineering"]
+description: "The mechanics behind 30 reviewed PRs in 2.5 days: parallel git worktrees, issue dispatch via CLAUDE.md, and why review — not generation — is the real bottleneck."
+published: false
+language: "en"
+---
+
+> **TL;DR:** I shipped 30 reviewed pull requests across 9 batches of Claude Code agents in 2.5 days. The mechanics: each agent works in its own git worktree, issues get dispatched through a `CLAUDE.md` contract, and every PR passes an adversarial security review before it merges. The generation was never the slow part. Review was. That's the whole lesson — the bottleneck moved, it didn't disappear.
+
+People hear "30 PRs in 2.5 days" and assume one of two things: either I'm exaggerating, or I merged a pile of unreviewed slop. Neither is true, and the gap between those two assumptions is exactly where the interesting part lives. This is the receipts post — the actual mechanics of how nine agent batches produced thirty mergeable pull requests, what broke along the way, and the one thing the number doesn't tell you until you've done it: the constraint is review, not code generation.
+
+## The setup: one agent per issue, one worktree per agent
+
+The unit of work is an issue. Not a feature, not an epic — a single, scoped issue with a clear contract for what "done" means. Each issue gets its own Claude Code agent, and each agent gets its own **git worktree**.
+
+If you haven't used worktrees at scale, this is the part worth internalizing. A worktree lets you check out multiple branches of the same repository into separate directories simultaneously, all backed by one `.git` database. So nine agents can be editing nine branches at once without stepping on each other's files, without stashing, without the merge chaos you'd get from nine agents sharing one working directory.
+
+```bash
+git worktree add ../repo-issue-142 -b 142-add-rate-limiter
+git worktree add ../repo-issue-143 -b 143-webhook-retry
+# ...one per dispatched issue
+```
+
+The worktree is the isolation boundary. It's what makes "parallel" mean actually-parallel instead of "I ran them one after another and rounded up." An agent that goes off the rails in worktree 142 cannot corrupt the branch in worktree 143. When a PR lands, I remove that worktree and the slot is free for the next issue.
+
+## CLAUDE.md is the dispatch contract, not documentation
+
+The thing that makes this work — and the thing most people get wrong — is that `CLAUDE.md` is not a README for humans. It's the contract every agent reads before it touches a line of code.
+
+A dispatch-grade `CLAUDE.md` states four things, and resists the temptation to state a fifth:
+
+1. **Goal** — what this repo is and what "correct" looks like.
+2. **Constraints** — the non-negotiables (auth model, no secrets in commits, layer boundaries).
+3. **Verification contract** — the exact order to validate in: types → lint → build → test. An agent that can't articulate how it verified didn't verify.
+4. **Output format** — branch naming, commit format, PR body shape, how it links back to the issue.
+
+What it does *not* contain is a step-by-step recipe for how to think. That's the mistake I see in most agent setups: people encode a fixed sequence of "first do this, then do that," and it caps the agent at the author's understanding and rots the day the model gets smarter. State the *what* — the goal, the constraints, the verification — and let the model find the *how*. (I go deep on this in a separate post on writing a `CLAUDE.md` that actually dispatches work.)
+
+The dispatch itself is boring by design: pick the next N ready issues, spin up a worktree and an agent for each, hand each one the issue plus the shared `CLAUDE.md`, and let them run.
+
+## Batch rhythm: dispatch → generate → review gate → merge
+
+A batch is one wave of parallel agents. Nine batches got me to 30 PRs, so the batches averaged a little over three PRs each — some fatter, some thinner, depending on how many issues were genuinely independent at that moment.
+
+> **NEEDS FROM ADI:** the actual per-batch PR counts and the repo/feature area (or a generalized description if it's the codin harness itself / client-confidential). Right now I'm stating the average that's implied by 30 across 9; a real breakdown ("batch 1: 5 PRs on the auth layer, batch 2: 2 PRs...") is far more citable and honest.
+
+The rhythm of each batch:
+
+1. **Dispatch.** Ready issues go out to agents in fresh worktrees.
+2. **Generate.** Agents write the code, run the verification order themselves, and open a PR. This phase is fast. Uncomfortably fast, the first time you watch it.
+3. **Review gate.** Every PR gets an adversarial read by me before it goes anywhere near the main branch. This is the phase that costs real time.
+4. **Merge.** Green CI plus a passed human review, then squash-merge and delete the branch. Worktree removed, slot freed.
+
+Batches don't have to be synchronized. While I'm reviewing batch 4, batch 5's agents can already be generating. The worktree isolation is what lets those phases overlap instead of blocking each other.
+
+## What broke
+
+The honest part. Speed is not free, and I'd rather name the failure modes than pretend nine batches ran clean.
+
+- **Three shell-injection vulnerabilities.** Agents wrote code that built shell commands from input in an unsafe way. The test suites went green. CI was happy. I caught all three in review — and if I hadn't, they'd have merged looking perfectly healthy. This is the load-bearing story of the whole practice: *passing tests proved the code did what the tests checked, not that it was safe.* I have a full write-up of these three on the blog; they're the reason the review gate is non-negotiable, not a nicety.
+
+- **Scope creep past the issue.** More than one agent "helpfully" refactored things I didn't ask for, gold-plating beyond the issue contract. Extra surface area is extra review time and extra risk. A tight issue contract in `CLAUDE.md` reduces this; it doesn't eliminate it.
+
+- **Merge-order collisions.** Parallel branches that each looked fine in isolation touched the same module and conflicted on merge. Worktrees prevent file-level chaos during generation, but they don't resolve semantic conflicts between two independently "correct" PRs. Sequencing the merges — cheapest, most foundational PRs first — is manual judgment the agents can't do for you.
+
+> **NEEDS FROM ADI:** any other recurring break you remember from those 9 batches (silent error-swallowing, hallucinated API usage, a specific test that lied). Concrete named examples here are the highest-value, most-shareable content in the piece.
+
+None of these are reasons not to run agents. They're reasons not to run agents *without a reviewer*. Every one of them was invisible to green CI.
+
+## The bottleneck is review, not generation
+
+Here's the thing the "30 PRs in 2.5 days" number hides until you've lived it.
+
+I did not spend 2.5 days waiting on agents to write code. Generation is the cheap phase now — a batch of agents produces a stack of PRs faster than I can read one carefully. The 2.5 days was almost entirely *review*: reading every diff adversarially, assuming it's wrong until proven safe, checking the security gates, the error paths, the scope against the issue, and whether the tests actually exercise the risk instead of dancing around it.
+
+That inversion is the real story of AI-native delivery. For most of my nine years, generation was the constraint — you were limited by how fast a human could write correct code. Now generation is nearly free and **review is the scarce resource.** The multiplier you can safely run is set entirely by how much code one senior engineer can adversarially review, not by how much the agents can produce.
+
+Which is also why I say **4–5x, not 100x.** Anyone quoting you a 100x multiplier has quietly dropped the review step — because if they were reviewing the output the way I review it, they'd hit the same ceiling I do. The agents can generate 100x. You cannot safely *merge* 100x. The honest number is bounded by the bottleneck, and the bottleneck is a human reading carefully.
+
+## FAQ
+
+### Can you run multiple AI coding agents in parallel?
+
+Yes. The clean way is one git worktree per agent — each agent checks out its own branch into its own directory, all sharing one repository. That isolation lets several agents write code simultaneously without file collisions. I ran nine such batches to produce 30 pull requests in 2.5 days.
+
+### How many PRs can one engineer ship with AI agents?
+
+In my measured case: 30 reviewed PRs across 9 batches in 2.5 days — roughly a 4–5x speedup over solo senior pace. The cap isn't how much the agents generate; it's how much code one person can adversarially review before merging. Bigger multipliers usually mean the review step was skipped.
+
+### What is a git worktree and why use it for AI agents?
+
+A git worktree checks out a branch into a separate directory backed by the same `.git` database, so you can have many branches open at once. For parallel agents it's the isolation boundary: an agent going wrong on one branch can't corrupt another, which is what makes parallel dispatch safe.
+
+### How do you dispatch work to AI coding agents?
+
+Through a `CLAUDE.md` contract that every agent reads first. It states the goal, the constraints, the verification order (types → lint → build → test), and the output format (branch/commit/PR shape). Each ready issue gets one agent in one worktree; the contract keeps their output consistent.
+
+---
+
+## This is what a sprint looks like
+
+Thirty PRs in 2.5 days isn't a demo trick — it's the delivery model I run for clients as an **Agent-Accelerated Delivery Sprint**: fixed scope, fixed price, N reviewed PRs shipped in days, every one adversarially reviewed for security before it merges. You get the throughput of a small team with a senior human accountable for what lands.
+
+If you've got a backlog and you're tired of choosing between "fast and unreviewed" and "safe and slow," [book a scoping call](/#contact) and we'll size a sprint against a real slice of your work.
+
+*Related reading: [The shell-injection bugs my agents wrote — and the tests passed](/blog/catching-shell-injection-agents-wrote) · [4–5x, not 100x: the honest number for AI coding speed](/blog/4-5x-not-100x) · A CLAUDE.md that actually dispatches work to agents (coming soon).*

@@ -1,0 +1,109 @@
+---
+title: "4-5x, Not 100x: The Honest Number for AI Coding Speed"
+date: "2026-07-08"
+tags: ["ai", "developer-productivity", "claude-code", "software-engineering"]
+description: "How much faster is AI coding really? The measured answer is 4-5x, not 10-100x. Here's the methodology — 30 reviewed PRs in 2.5 days — and what the multiplier leaves out."
+published: false
+language: "en"
+---
+
+**The real, sustained, reviewed multiplier for AI coding is 4-5x — not 10x, not 100x. I measured it: 30 production PRs shipped across 9 agent batches in 2.5 days, every one adversarially reviewed before merge, against my own solo-senior baseline of roughly two weeks for the same work. Any number bigger than that is measuring generation, not delivery — it means nobody reviewed the output.**
+
+I keep seeing the same claim: AI made someone 10x faster. 30x. One post said 100x. And every time, I want to ask one question — *did anyone review the code?*
+
+Because I run coding agents in production every week. Fleets of them, in parallel git worktrees, dispatched by a CLAUDE.md contract. I have shipped a lot of software this way, fast. And the honest number, the one I would put in a contract and stake my name on, is **4-5x**. Not because the agents are slow. Because shipping isn't generating — and the gap between those two words is the whole story the hype skips.
+
+This is the number, how I got it, and what it deliberately leaves out.
+
+## Where "100x" comes from — and why it's a tell
+
+The big multipliers are real measurements of the wrong thing. Here's the sleight of hand.
+
+An agent can generate a 400-line pull request in ninety seconds. A senior engineer writing that by hand might take three hours. Divide one by the other and yes, you get a number like 100x. That number is true. It is also useless, because *generation is not the job.* The job is code that merges and doesn't page you at 3 a.m.
+
+The moment you measure the actual delivery pipeline — read the diff, catch what's wrong, fix it, verify it's safe, merge it — the multiplier collapses. Not to 1x. Agents genuinely clear backlog faster than I can alone. But to something around 4-5x, because a new, expensive step appears that didn't exist before: **reviewing code you didn't write, written by something that is confidently wrong in ways a human junior never would be.**
+
+So when someone quotes you 10x, 30x, 100x, that number isn't a lie exactly. It's a confession. It tells you they're timing the generator and calling it delivery. It tells you nobody stood between the agent and production. In most software that's a bug that ships. In fintech — where I spend my days — that's the company.
+
+> If someone promises you 100x, they haven't reviewed the code. That's not cynicism. It's arithmetic.
+
+## How I measured 4-5x
+
+I don't want you to take "4-5x" on faith either. Here's the actual run.
+
+**The receipts: 30 reviewed PRs, 9 agent batches, 2.5 days.**
+
+- **30 pull requests**, all shipped to production standard — typed, tested, and passed through an adversarial security review before merge. Not 30 drafts. 30 merged.
+- **9 batches** of parallel agents. Each agent got one issue, one worktree, and the CLAUDE.md dispatch contract. I ran them concurrently, not one after another — that parallelism is where the speed actually comes from.
+- **2.5 working days**, start to merged.
+
+Now the baseline, which is the part most "multiplier" claims quietly omit. The comparison isn't *me versus me typing slower*. It's the same 30 PRs delivered by me alone, the way I did it for nine years: pick up the issue, write it, test it, review my own work, ship. For a batch of this size and complexity, that's roughly **two working weeks** of solo-senior effort.
+
+> **NEEDS FROM ADI:** confirm the solo baseline estimate you'd actually stand behind for this specific batch (2 weeks assumed) and, if you can, one line on what the 30 PRs covered (feature area / repo type) without breaching client confidentiality.
+
+Two weeks of work in two and a half days. That's the 4-5x. Measured across the whole pipeline, including the step everyone else drops.
+
+It is not a peak. It is not the best ninety seconds of the run extrapolated to a year. It's the sustained, door-to-door, reviewed-and-merged rate — the only rate you can plan a roadmap against.
+
+## What the 4-5x does NOT include
+
+Honesty about a number means being honest about its edges. Here is what I explicitly did *not* count as speedup, because counting it would be lying to you.
+
+### It does not include review time as free
+
+Review is the bottleneck, and I count it against the clock, not around it. Reading a diff an agent wrote is *slower* per line than reading a colleague's, because you can't assume intent — the agent will do exactly what it was told and something adjacent that it invented, with equal confidence. In that 2.5 days, review was the single largest block of my time. The 4-5x is the number *after* paying that tax. Strip the review out and I could quote you a bigger figure. I'd also be handing you the exact number that gets a breach shipped.
+
+### It does not include the failures
+
+The agents got things wrong. Not occasionally — reliably, in recognizable categories. In the reviews behind runs like this one, I've caught **3 shell-injection vulnerabilities** that agents wrote and that the automated tests passed clean. Green CI, real vulnerability. There was scope creep — agents gold-plating past the issue. There was confidently-wrong logic that looked right until you traced it. None of that is in the multiplier as a win. It's in there as *time I spent catching it*, which is exactly why the number isn't 20x.
+
+### It does not include net-new greenfield magic
+
+This was backlog and feature work against real, existing systems with real constraints. Agents are strongest with a clear issue, a defined contract, and a codebase to pattern-match against. Point them at a vague "build me a startup" and the multiplier goes the other way while you rewrite everything. The 4-5x assumes the thing all delivery assumes: someone senior scoped the work first.
+
+### It does not include the ramp
+
+Getting to a reliable 4-5x took building the harness — the CLAUDE.md dispatch, the hooks, the review discipline. Your first week running agents will not be 4-5x. It'll be slower than doing it yourself while you learn what they get wrong. The number is what the practice produces once it's built, not what you get on day one.
+
+## Why the honest number is the only one you can plan against
+
+Here's the practical case for 4-5x over the fantasy figures, and it's got nothing to do with modesty.
+
+**You can build a roadmap on 4-5x.** If I tell a VP of Engineering that a quarter of backlog compresses to a few focused weeks, that's a commitment we can both hold. If I told them 100x, I'd be setting a date I'd miss and eroding the one thing this work runs on — trust that the number is real.
+
+**4-5x survives the review gate; 100x doesn't.** The bigger claims only exist in a world with no review step. The instant you add the senior human who's accountable for what merges — the entire point of the service — the multiplier settles into the honest range. A number that only holds if you delete the safety step isn't a productivity number. It's a liability.
+
+Here's the comparison I'd actually put in front of a buyer, by what's being measured:
+
+- **Raw code generation** (agent vs. hand-typing) — *10-100x*. Costs you nothing, until it reaches prod unreviewed.
+- **"Vibe-coded," shipped without a review gate** — *"10x," unaccountable*. Costs you the breach nobody caught.
+- **Reviewed, merged, production delivery (what I sell)** — ***4-5x, sustained***. Costs you review time, counted honestly.
+- **One senior engineer, no agents (the old baseline)** — *1x*. Costs you the two weeks you no longer have.
+
+The 4-5x row is the only one where the number and the safety hold at the same time. That's not a weaker claim. It's the only claim you can merge.
+
+## FAQ
+
+**Is AI coding really 10x faster?**
+For raw code generation in isolation, sometimes more — an agent drafts a PR far faster than a human types one. For actual production delivery, including reading, reviewing, fixing, and safely merging the code, the honest sustained figure is 4-5x. A 10x-or-higher delivery claim almost always means the review step was skipped.
+
+**What's a realistic AI coding speedup?**
+Around 4-5x for reviewed, production-grade delivery against an existing codebase with scoped work. I measured 30 reviewed PRs across 9 parallel agent batches in 2.5 days versus roughly two weeks solo. Expect less than that during the first weeks while you build the harness and learn the failure patterns.
+
+**Why do people claim 100x if it's really 4-5x?**
+Because they're measuring generation speed, not delivery speed. An agent produces code in seconds, so the generation multiplier is enormous — and meaningless, since generation isn't the job. Once you add review, fixing, and verification, the number drops to 4-5x. A 100x claim is a reliable signal that nobody reviewed the output.
+
+**Does the 4-5x include time spent reviewing the AI's code?**
+Yes. Review is the bottleneck and it's counted against the clock, not excluded from it. Reviewing agent code is slower per line than reviewing a colleague's because you can't assume intent. The 4-5x is the rate after paying that review tax — which is exactly why it isn't higher.
+
+---
+
+## Plan your roadmap on the real number
+
+If you're weighing agent-accelerated delivery, you deserve a figure you can build a quarter around — not a multiplier that evaporates the moment someone reviews the code.
+
+I run an **Agent-Accelerated Delivery Sprint**: fixed scope, fixed price, N reviewed PRs shipped in days. Every PR is adversarially reviewed for security before it merges, and you get a report of what was flagged and fixed — not just what shipped. 4-5x, measured, with a senior human accountable for every line.
+
+**[Book a scoping call →](/#contact)** and I'll tell you the honest number for your backlog.
+
+*Related reading: [Claude Code Changed How I Ship Software](/blog/claude-code-changed-how-i-ship-software) · [The Shell-Injection Bugs My Agents Wrote (and the Tests Passed)](/blog/catching-shell-injection-agents-wrote) · How to buy AI-accelerated delivery without getting burned (coming soon).*

