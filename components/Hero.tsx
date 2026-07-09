@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { GridBackground } from "./ui/GridBackground";
 import MagicButton from "./ui/MagicButton";
 import { TextGenerateEffect } from "./ui/TextGenerateEffect";
@@ -7,46 +6,54 @@ import SpotlightBackground from "./ui/SpotlightBackground";
 
 const Hero = () => {
   return (
-    <section className="h-[100vh]" id="home" aria-labelledby="hero-heading">
+    <section className="min-h-[100vh]" id="home" aria-labelledby="hero-heading">
       <SpotlightBackground />
       <div>
         <GridBackground />
       </div>
 
-      <div className="h-full flex justify-center items-center relative z-10">
-        <div className="max-w-[89vw] md:max-w-2xl lg:max-w-[60vw] flex justify-center items-center flex-col">
+      <div className="min-h-[100vh] flex justify-center items-center relative z-10 py-28">
+        <div className="max-w-[89vw] md:max-w-2xl lg:max-w-[62vw] flex justify-center items-center flex-col">
           <p className="uppercase tracking-widest text-xs text-center text-blue-100 max-w-80">
-            Dynamic Web Magic with Next.js
+            AI-Native Delivery · Ship / Verify
           </p>
 
           <h1 id="hero-heading" className="sr-only">
-            Adrian Rusan - Full-Stack Engineer Portfolio
+            Agent-speed delivery you can actually merge — AI-native delivery
+            with adversarial security review by Adrian Rusan
           </h1>
 
           <TextGenerateEffect
             className="text-center text-[40px] md:text-5xl lg:text-6xl"
-            words="Transforming Concepts into Seamless User Experiences"
+            words="Agent-speed delivery you can actually merge."
           />
 
-          <p className="text-center tracking-wider mb-4 text-sm md:text-lg lg:text-2xl">
-            Hi, I&apos;m <strong>Adrian Rusan</strong>, a{" "}
-            <strong>Full-Stack Engineer</strong> based in{" "}
-            <strong>Romania</strong> with{" "}
-            <strong>10+ years of experience</strong> in modern web development.
+          <p className="text-center tracking-wide mb-2 mt-2 text-sm md:text-lg lg:text-xl text-white-200 max-w-3xl">
+            I run fleets of Claude Code agents to ship production software 2-3x
+            faster — then I adversarially review every pull request myself,
+            because I&apos;ve caught the shell-injection bugs the agents wrote
+            that the tests passed clean.
           </p>
 
-          <Link
-            href="https://utfs.io/a/23x7w9tiht/7iidzn1TwzukCxvpcPXoxIjwOYaTyPZtGk0mVdeKgr9LH8hD"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Download Adrian Rusan's Resume (opens in new tab)"
-          >
-            <MagicButton
-              title="See my Resume"
-              icon={<FaLocationArrow />}
-              position="right"
-            />
-          </Link>
+          <p className="text-center font-mono text-xs md:text-sm text-purple mt-4 border-l-2 border-purple pl-3">
+            2-3x, not 100x — and here&apos;s what the agents get wrong.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 mt-2">
+            <a href="#contact" aria-label="Book a scoping call">
+              <MagicButton
+                title="Book a scoping call"
+                icon={<FaLocationArrow />}
+                position="right"
+              />
+            </a>
+            <a
+              href="#offers"
+              className="text-sm font-medium text-blue-100 hover:text-purple transition-colors md:mt-10"
+            >
+              See how the sprint works →
+            </a>
+          </div>
         </div>
       </div>
     </section>
