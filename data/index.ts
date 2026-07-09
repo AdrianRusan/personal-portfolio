@@ -1,4 +1,4 @@
-// event slug must exist in Calendly ("scoping-call" 20-min event)
+// event slug must exist in Calendly ("scoping-call" 30-min event)
 export const CALENDLY_URL = "https://calendly.com/adrian-rusan/scoping-call";
 
 export const navItems = [

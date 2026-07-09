@@ -11,7 +11,7 @@ export const ServicesFinalCta = () => {
           Tell me the backlog. I&apos;ll tell you the number.
         </h2>
         <p className="text-white-200 mt-4 max-w-2xl mx-auto">
-          A 20-minute call to shape the scope and fix the price. No obligation,
+          A 30-minute call to shape the scope and fix the price. No obligation,
           and no &quot;100x&quot; — just the honest version of what an agent
           fleet plus a senior reviewer can ship for you.
         </p>
