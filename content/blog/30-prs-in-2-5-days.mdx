@@ -71,7 +71,7 @@ Here's the thing the "30 PRs in 2.5 days" number hides until you've lived it.
 
 I did not spend 2.5 days waiting on agents to write code. Generation is the cheap phase now — a batch of agents produces a stack of PRs faster than I can read one carefully. The 2.5 days was almost entirely *review*: reading every diff adversarially, assuming it's wrong until proven safe, checking the security gates, the error paths, the scope against the issue, and whether the tests actually exercise the risk instead of dancing around it.
 
-That inversion is the real story of AI-native delivery. For most of my nine years, generation was the constraint — you were limited by how fast a human could write correct code. Now generation is nearly free and **review is the scarce resource.** The multiplier you can safely run is set entirely by how much code one senior engineer can adversarially review, not by how much the agents can produce.
+That inversion is the real story of AI-native delivery. For most of my 10+ years, generation was the constraint — you were limited by how fast a human could write correct code. Now generation is nearly free and **review is the scarce resource.** The multiplier you can safely run is set entirely by how much code one senior engineer can adversarially review, not by how much the agents can produce.
 
 Which is also why I say **2–3x, not 100x.** Anyone quoting you a 100x multiplier has quietly dropped the review step — because if they were reviewing the output the way I review it, they'd hit the same ceiling I do. The agents can generate 100x. You cannot safely *merge* 100x. The honest number is bounded by the bottleneck, and the bottleneck is a human reading carefully.
 
