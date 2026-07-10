@@ -3,9 +3,11 @@
  */
 import { POST } from "@/app/api/subscribe/route";
 
-// The route no-ops (returns ok:true without any network call) when the ESP env
-// vars are unset — so these tests exercise the input-validation guard in
-// isolation. Ensure no Resend config leaks in from the environment.
+// Outside production the route no-ops (returns ok:true without any network
+// call) when the ESP env vars are unset — so these guard tests exercise the
+// input-validation path in isolation. In production that same unset-env path
+// fails closed (Sentry alert + 500); covered by the separate describe below.
+// Ensure no Resend config leaks in from the environment.
 beforeEach(() => {
   delete process.env.RESEND_API_KEY;
   delete process.env.EMAIL_FROM;
@@ -45,5 +47,45 @@ describe("POST /api/subscribe — input guard", () => {
     const res = await post(JSON.stringify({ email: "Founder@Startup.io" }));
     expect(res.status).toBe(200);
     expect((await res.json()).ok).toBe(true);
+  });
+});
+
+describe("POST /api/subscribe — production misconfig fails closed", () => {
+  const ORIGINAL_NODE_ENV = process.env.NODE_ENV;
+  // @types/node types NODE_ENV as read-only; assign through the index signature.
+  const setNodeEnv = (value: string | undefined) => {
+    (process.env as Record<string, string | undefined>).NODE_ENV = value;
+  };
+
+  afterEach(() => {
+    setNodeEnv(ORIGINAL_NODE_ENV);
+    jest.dontMock("@sentry/nextjs");
+    jest.resetModules();
+  });
+
+  it("alerts Sentry once and returns 500 (never a fake ok:true) when the ESP env is unset in prod", async () => {
+    const captureMessage = jest.fn();
+    jest.resetModules();
+    jest.doMock("@sentry/nextjs", () => ({ captureMessage }));
+    setNodeEnv("production");
+    delete process.env.RESEND_API_KEY;
+    delete process.env.EMAIL_FROM;
+
+    const { POST: ProdPOST } = await import("@/app/api/subscribe/route");
+    const res = await ProdPOST(
+      new Request("http://localhost/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: "founder@startup.io" }),
+      }),
+    );
+
+    expect(res.status).toBe(500);
+    expect((await res.json()).ok).toBe(false);
+    expect(captureMessage).toHaveBeenCalledTimes(1);
+    expect(captureMessage).toHaveBeenCalledWith(
+      expect.stringContaining("lead capture dropped"),
+      "error",
+    );
   });
 });

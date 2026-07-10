@@ -76,8 +76,7 @@ project-root/
 ├── context/                       # React context providers
 │   └── theme-provider.tsx         # "use client" wrapper for next-themes
 │
-├── hooks/                         # Custom React hooks
-│   └── usePerformance.ts          # Core Web Vitals observer; reports to gtag
+├── hooks/                         # Custom React hooks (currently none)
 │
 ├── config/                        # Configuration
 │   └── environment.ts             # Feature flags, site config, env validation
@@ -159,7 +158,7 @@ project-root/
   - Source maps hidden in production (security); trace sampling at 100% in dev
   - Server and edge runtimes instrumented; client-side via Next.js wrapper
 - **Analytics:** Vercel Analytics + Speed Insights (production only)
-- **Performance:** `usePerformance` hook monitors Core Web Vitals (FCP, LCP, FID, CLS, TTFB)
+- **Performance:** Vercel Speed Insights reports Core Web Vitals (production only)
 - **Errors:** Custom error boundaries can be added per page/segment
 
 ### 6. **Image Optimization**
@@ -182,7 +181,7 @@ project-root/
 
 ### File & Directory Naming
 - **Components:** PascalCase (`Hero.tsx`, `TextGenerateEffect.tsx`)
-- **Utilities/Hooks:** camelCase (`usePerformance.ts`, `blog.ts`, `utils.ts`)
+- **Utilities/Hooks:** camelCase (`blog.ts`, `utils.ts`)
 - **Styles:** Global in `app/globals.css`; no separate CSS files (Tailwind only)
 - **Content:** kebab-case for MDX slugs (`2-3x-not-100x.mdx`, `catching-shell-injection-agents-wrote.mdx`)
 - **Config:** lowercase or camelCase (`environment.ts`, `sentry.server.config.ts`)
@@ -288,15 +287,12 @@ Parsed by gray-matter; `published` flag controls visibility; tags used for filte
 ### Environment Variables
 - `SENTRY_DSN` — optional; enables error tracking if set
 - `NEXT_PUBLIC_SITE_URL` — required in production
-- `NEXT_PUBLIC_GA_ID` — optional; Google Analytics
 - `ANALYZE=true` — enables bundle analyzer (`npm run analyze`)
 
 ## Performance & Observability
 
 ### Core Web Vitals
-- Monitored via `usePerformance` hook (FCP, LCP, FID, CLS, TTFB)
-- Reported to Google Analytics (if gtag available) and console (dev only)
-- Vercel Speed Insights tracks in production
+- Tracked via Vercel Speed Insights in production (FCP, LCP, INP, CLS, TTFB)
 
 ### Optimization Techniques
 - Image optimization (WebP, AVIF, responsive sizing)
@@ -368,5 +364,5 @@ Parsed by gray-matter; `published` flag controls visibility; tags used for filte
 - **Blog Pipeline:** `lib/blog.ts`, `lib/blog-types.ts`, `components/blog/MDXContent.tsx`, `components/blog/PostBody.tsx`
 - **Data & Routes:** `data/index.ts`, `app/page.tsx`, `app/blog/page.tsx`, `app/services/page.tsx`
 - **Sentry & Observability:** `instrumentation.ts`, `sentry.server.config.ts`, `next.config.mjs` (withSentryConfig)
-- **Performance & Styling:** `hooks/usePerformance.ts`, `tailwind.config.ts`, `lib/utils.ts`
+- **Performance & Styling:** `tailwind.config.ts`, `lib/utils.ts`
 - **Environment:** `config/environment.ts`, `context/theme-provider.tsx`

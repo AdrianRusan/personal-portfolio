@@ -42,5 +42,5 @@ Living context. Update after each session (`/context-save`). Keep under 200 line
 - Blog content pipeline is ready but under-used — thought-leadership posts for organic + trust
 
 ## Environment
-- Node/npm. Required prod env: `NEXT_PUBLIC_SITE_URL`. Optional: `NEXT_PUBLIC_GA_ID`, `SENTRY_DSN`.
+- Node/npm. Required prod env: `NEXT_PUBLIC_SITE_URL`. Optional: `SENTRY_DSN`.
 - Remote: `git@github-personal:AdrianRusan/personal-portfolio.git` (gh account `AdrianRusan`).
