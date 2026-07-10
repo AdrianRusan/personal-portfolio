@@ -1,40 +1,40 @@
-import '@testing-library/jest-dom'
+import "@testing-library/jest-dom";
 
 // Mock Next.js Image component
-jest.mock('next/image', () => ({
+jest.mock("next/image", () => ({
   __esModule: true,
   default: (props) => {
-    return <img {...props} />
+    return <img {...props} />;
   },
-}))
+}));
 
 // Mock Next.js Link component
-jest.mock('next/link', () => ({
+jest.mock("next/link", () => ({
   __esModule: true,
   default: ({ children, ...rest }) => {
-    return <a {...rest}>{children}</a>
+    return <a {...rest}>{children}</a>;
   },
-}))
+}));
 
 // Mock next/dynamic
-jest.mock('next/dynamic', () => () => {
-  const DynamicComponent = () => null
-  DynamicComponent.displayName = 'LoadableComponent'
-  DynamicComponent.preload = jest.fn()
-  return DynamicComponent
-})
+jest.mock("next/dynamic", () => () => {
+  const DynamicComponent = () => null;
+  DynamicComponent.displayName = "LoadableComponent";
+  DynamicComponent.preload = jest.fn();
+  return DynamicComponent;
+});
 
 // Mock framer-motion
-jest.mock('framer-motion', () => ({
+jest.mock("framer-motion", () => ({
   motion: {
-    div: 'div',
-    nav: 'nav',
-    span: 'span',
-    h1: 'h1',
-    h2: 'h2',
-    p: 'p',
-    section: 'section',
-    article: 'article',
+    div: "div",
+    nav: "nav",
+    span: "span",
+    h1: "h1",
+    h2: "h2",
+    p: "p",
+    section: "section",
+    article: "article",
   },
   AnimatePresence: ({ children }) => children,
   useScroll: () => ({
@@ -43,28 +43,30 @@ jest.mock('framer-motion', () => ({
   useMotionValueEvent: () => {},
   useTransform: () => 0,
   useSpring: () => 0,
-}))
+}));
 
 // Mock react-lottie
-jest.mock('react-lottie', () => ({
+jest.mock("react-lottie", () => ({
   __esModule: true,
   default: () => <div data-testid="lottie-animation" />,
-}))
+}));
 
-// Mock window.matchMedia
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: jest.fn().mockImplementation(query => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: jest.fn(), // deprecated
-    removeListener: jest.fn(), // deprecated
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-  })),
-})
+// Mock window.matchMedia (jsdom only — skipped in node-env test files)
+if (typeof window !== "undefined") {
+  Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    value: jest.fn().mockImplementation((query) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(), // deprecated
+      removeListener: jest.fn(), // deprecated
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    })),
+  });
+}
 
 // Mock IntersectionObserver
 global.IntersectionObserver = class IntersectionObserver {
@@ -72,7 +74,7 @@ global.IntersectionObserver = class IntersectionObserver {
   disconnect() {}
   observe() {}
   unobserve() {}
-}
+};
 
 // Mock ResizeObserver
 global.ResizeObserver = class ResizeObserver {
@@ -80,4 +82,4 @@ global.ResizeObserver = class ResizeObserver {
   disconnect() {}
   observe() {}
   unobserve() {}
-}
+};
