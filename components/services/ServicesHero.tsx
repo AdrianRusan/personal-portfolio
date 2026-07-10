@@ -65,6 +65,11 @@ export const ServicesHero = () => {
             </span>
           ))}
         </div>
+        <p className="text-[11px] md:text-xs text-white-200/50 mt-3 max-w-2xl mx-auto">
+          From a build I ran end-to-end on my own repo — the PRs, the review
+          notes, and the findings are real, and I&apos;ll walk you through them
+          on the call.
+        </p>
       </div>
     </section>
   );
