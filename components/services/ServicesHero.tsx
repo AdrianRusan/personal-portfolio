@@ -1,5 +1,5 @@
 import MagicButton from "@/components/ui/MagicButton";
-import { CALENDLY_URL } from "@/data";
+import { CALENDLY_URL, GUARANTEE } from "@/data";
 import { FaLocationArrow } from "react-icons/fa6";
 
 const proofItems = [
@@ -44,10 +44,7 @@ export const ServicesHero = () => {
           >
             Not ready to talk? See exactly how the pipeline works ↓
           </a>
-          <p className="text-xs text-white-200/70 mt-1">
-            If the first reviewed PR isn&apos;t merge-ready to your standard,
-            you don&apos;t pay for it.
-          </p>
+          <p className="text-xs text-white-200/70 mt-1">{GUARANTEE}</p>
         </div>
 
         <div className="flex flex-wrap justify-center items-center gap-x-3 gap-y-2 mt-10 max-w-3xl mx-auto">

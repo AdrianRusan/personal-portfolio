@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CALENDLY_URL } from "@/data";
+import { CALENDLY_URL, GUARANTEE } from "@/data";
 
 const CaseStudy = () => {
   return (
@@ -38,6 +38,7 @@ const CaseStudy = () => {
             Book a scoping call
           </a>
         </div>
+        <p className="text-xs text-white-200/70 mt-6">{GUARANTEE}</p>
       </div>
     </section>
   );

@@ -1,6 +1,13 @@
 // event slug must exist in Calendly ("scoping-call" 30-min event)
 export const CALENDLY_URL = "https://calendly.com/adrian-rusan/scoping-call";
 
+// Async intake inbox for offers that don't require a call.
+export const CONTACT_EMAIL = "contact@adrian-rusan.com";
+
+// Single risk-reversal guarantee, reused verbatim at every money CTA.
+export const GUARANTEE =
+  "If the first reviewed PR isn't merge-ready to your standard, you don't pay for it.";
+
 export const navItems = [
   { name: "How it works", link: "#ship-verify" },
   { name: "Services", link: "#offers" },

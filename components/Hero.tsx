@@ -4,7 +4,7 @@ import MagicButton from "./ui/MagicButton";
 import { TextGenerateEffect } from "./ui/TextGenerateEffect";
 import { FaLocationArrow } from "react-icons/fa6";
 import SpotlightBackground from "./ui/SpotlightBackground";
-import { CALENDLY_URL } from "@/data";
+import { CALENDLY_URL, GUARANTEE } from "@/data";
 
 const Hero = () => {
   return (
@@ -23,7 +23,7 @@ const Hero = () => {
           <TextGenerateEffect
             id="hero-heading"
             className="text-center text-[40px] md:text-5xl lg:text-6xl"
-            words="Agent-speed delivery you can actually merge."
+            words="Ship the roadmap you can't hire for."
           />
 
           <p className="text-center tracking-wide mb-2 mt-2 text-sm md:text-lg lg:text-xl text-white-200 max-w-3xl">
@@ -50,18 +50,22 @@ const Hero = () => {
 
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 mt-2">
             <MagicButton
-              title="Book a scoping call"
+              title="Get a free teardown"
               icon={<FaLocationArrow />}
               position="right"
-              href={CALENDLY_URL}
+              href="/teardown"
             />
             <a
-              href="/services"
+              href={CALENDLY_URL}
               className="text-sm font-medium text-blue-100 hover:text-purple transition-colors md:mt-10"
             >
-              See how the sprint works →
+              Or book a scoping call →
             </a>
           </div>
+
+          <p className="text-center text-xs text-white-200/70 mt-5 max-w-xl">
+            {GUARANTEE}
+          </p>
         </div>
       </div>
     </section>
