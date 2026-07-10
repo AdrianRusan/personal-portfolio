@@ -19,10 +19,10 @@ Freelance/consultant portfolio + lead-gen funnel for Adrian Rusan (Full-Stack En
 | Task | Command | Notes |
 |---|---|---|
 | Dev | `npm run dev` | localhost:3000 |
-| Build | `npm run build` | **ignores type errors** (`next.config.mjs` `ignoreBuildErrors: true`) |
+| Build | `npm run build` | `cross-env NODE_ENV=production next build` — now type-checks (ignoreBuildErrors removed) |
 | Lint | `npm run lint` | eslint-config-next |
-| Typecheck | `npx tsc --noEmit` | **NOT wired to build** — run manually; currently has known errors (see CONTEXT) |
-| Unit tests | `npx jest` | jest 30; no test files yet |
+| Typecheck | `npx tsc --noEmit` | still NOT wired to build; run manually. Currently clean (e2e/playwright excluded from app tsconfig) |
+| Unit tests | `npm test` | jest 30; 14 tests across `__tests__/` (utils, blog, api-subscribe) |
 | E2E | `npx playwright test` | no npm script; `e2e/portfolio-journey.spec.ts`, `e2e/error-scenarios.spec.ts` |
 | Security | `npm run security-check` | `scripts/security-check.js` |
 | Verify all | `npm run verify:all` | tests → build → security |
@@ -61,9 +61,8 @@ e2e/                 Playwright specs
 
 ## Gotchas
 
-- **Build hides type errors** — `ignoreBuildErrors: true`. A green `npm run build` does NOT mean types are clean. Always run `npx tsc --noEmit` separately.
-- **`config.features.blog === false`** in `config/environment.ts` while the blog is shipped and routed. Flag is stale/unused — don't trust it to gate blog rendering; verify actual routing before relying on it.
-- **Jest configured, zero unit tests** — `verify:tests` / `npx jest` pass vacuously. Coverage claims are hollow until tests exist.
-- **`@playwright/test` types not resolved by `tsc`** — playwright runs fine (`npx playwright test`), but e2e specs show up as type errors under `tsc --noEmit`. Filter e2e noise when reading typecheck output.
+- **`next build` needs `NODE_ENV=production`** — shell profile exports `NODE_ENV=development`; a raw `next build` leaks it and re-triggers a `<Html>/pages/_document` prerender failure. Always build via `npm run build` (pins `cross-env NODE_ENV=production`). Build now type-checks (`ignoreBuildErrors` removed), but `tsc --noEmit` is still the manual pre-commit gate.
+- **`verify:tests` script is flaky** — its Playwright/e2e orchestration step is environment-dependent and can fail independent of unit tests. `npm test` (jest, 14 tests) is the reliable unit gate.
+- **e2e/playwright excluded from app `tsconfig`** — `tsc --noEmit` no longer type-checks `e2e/*.spec.ts` (they need `@playwright/test`). Run `npx playwright test` for e2e; don't expect tsc to cover them.
 - **Images**: only `utfs.io` / `ufs.sh` (uploadthing) remote patterns allowed in `next.config.mjs`; adding an external image host requires editing `remotePatterns`. `dangerouslyAllowSVG` is on with a strict CSP.
 - **Env**: `NEXT_PUBLIC_SITE_URL` is required in production (`validateEnvironment` throws). Analytics/Sentry gated on env + `isProduction`.

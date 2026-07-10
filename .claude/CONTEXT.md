@@ -3,6 +3,8 @@
 Living context. Update after each session (`/context-save`). Keep under 200 lines.
 
 ## Recent Changes
+- [2026-07-10] Docs cleanup: consolidated 3 root PRD vision docs → `docs/prd-archive.md`; removed originals; refreshed stale CLAUDE.md gotchas/commands (build type-checks, tests exist, blog flag fixed). Branch `docs-consolidate-prd-archive`.
+- [2026-07-10] Added real Jest unit coverage (PR #17): 14 tests, fixed scaffolded-but-uninstalled jest harness.
 - [2026-07-09] Implemented P0/P1 audit fixes (branch `audit-p0-p1-implementation`, commit ae8f347) via 12-agent workflow
   - 27 files: positioning/SEO metadata, honesty copy reframes (CaseStudy/ProofBand/Scarcity), funnel (nav CTA, footer, EmailCapture+Bio+/api/subscribe, pricing "from" drop), blog type fixes
   - tsc app-clean + lint clean; build blocked by pre-existing P0 Html bug (see below)
@@ -26,11 +28,11 @@ Living context. Update after each session (`/context-save`). Keep under 200 line
 ## Known Issues
 - **RESOLVED 2026-07-09**: local `npm run build` `<Html>`/`pages/_document` prerender failure — root cause was shell `NODE_ENV=development` leaking into `next build`; fixed by pinning `NODE_ENV=production` in the build script (commit adf2e2c). Was NOT Sentry.
 - **RESOLVED 2026-07-09**: type gate — `tsc --noEmit` clean, e2e/playwright excluded from app tsconfig, `ignoreBuildErrors` removed; `npm run build` now type-checks and passes green (tech-3 closed).
-- **P2**: Zero Jest unit tests despite jest config — `verify:tests` passes vacuously; no real unit coverage.
+- **RESOLVED 2026-07-10**: Jest unit tests added (PR #17) — 14 tests across `__tests__/` (utils/blog/api-subscribe); `jest` + `jest-environment-jsdom` + `@testing-library/jest-dom` now real devDeps; `npm test` green. Was P2 (vacuous `verify:tests`).
+- **RESOLVED 2026-07-10**: 3 overlapping root PRD docs consolidated into `docs/prd-archive.md` (dated, deduped, marks shipped vs abandoned); originals `git rm`'d (full text in git history). `PROJECT_OVERVIEW.md` refreshed in #16. Was P3.
+- **RESOLVED (#16)**: `config.features.blog` flipped `true` — stale flag fixed.
 - Note: shell profile exports `NODE_ENV=development` — any raw `next build` (not via `npm run build`) will re-trigger the `<Html>` bug. Always build through the npm script.
-- **P2**: `config.features.blog === false` while blog is live — stale feature flag, misleading.
-- **P3**: `@playwright/test` types unresolved under `tsc` — e2e specs pollute typecheck output.
-- **P3**: 3 overlapping PRD docs at repo root (Enhancement / Enterprise-Systems / NextJS-Vercel) + stale `PROJECT_OVERVIEW.md` (says React 18, 8 yrs, blog "future"). Consolidate/date them.
+- **P3**: `verify:tests` script is flaky (env-dependent Playwright/e2e step) — unrelated to unit tests; `npm test` is the reliable unit gate.
 
 ## Backlog / Opportunities (from /skills review)
 - CRO audit of `/services` + homepage funnel (highest ROI)
