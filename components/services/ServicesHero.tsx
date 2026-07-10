@@ -45,8 +45,8 @@ export const ServicesHero = () => {
             Not ready to talk? See exactly how the pipeline works ↓
           </a>
           <p className="text-xs text-white-200/70 mt-1">
-            First reviewed PR within 48 hours of repo access — or the sprint is
-            25% off.
+            If the first reviewed PR isn&apos;t merge-ready to your standard,
+            you don&apos;t pay for it.
           </p>
         </div>
 

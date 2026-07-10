@@ -12,8 +12,8 @@ import { ServicesFaq } from "@/components/services/ServicesFaq";
 import { ServicesFinalCta } from "@/components/services/ServicesFinalCta";
 
 export const metadata: Metadata = {
-  title:
-    "Services — Agent-Accelerated Delivery Sprints, Reviewed | Adrian Rusan",
+  // Bare title — the root layout's title.template appends "| Adrian Rusan"
+  title: "Services — Agent-Accelerated Delivery Sprints, Reviewed",
   description:
     "Fixed-scope, fixed-price sprints: an agent fleet ships the volume, a senior engineer security-reviews every PR before you see it.",
   openGraph: {
