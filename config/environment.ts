@@ -33,7 +33,7 @@ export const config = {
 
   // Feature flags
   features: {
-    blog: false, // Enable when blog is implemented
+    blog: true, // Blog is live at /blog (MDX pipeline shipped)
     contactForm: true,
     testimonials: true,
     darkMode: true,
