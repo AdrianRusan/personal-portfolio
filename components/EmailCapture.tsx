@@ -56,7 +56,8 @@ const EmailCapture = ({
       </h3>
       <p className="text-sm text-white-200 leading-relaxed mt-2">
         Get the Agent PR Review Checklist — the checks that catch bugs the tests
-        pass clean. No pitch.
+        pass clean. Plus an occasional email on shipping AI-written code safely
+        — unsubscribe anytime.
       </p>
 
       {status === "success" ? (

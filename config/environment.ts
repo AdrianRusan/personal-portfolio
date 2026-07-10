@@ -19,7 +19,6 @@ export const config = {
 
   // Analytics
   analytics: {
-    googleAnalyticsId: process.env.NEXT_PUBLIC_GA_ID,
     vercelAnalytics: isProduction,
     sentryDsn: process.env.SENTRY_DSN,
   },

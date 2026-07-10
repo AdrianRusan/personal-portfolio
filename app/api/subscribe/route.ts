@@ -1,20 +1,27 @@
 import { NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 
 // Lead-magnet capture → Resend. On submit we add the contact to the audience
 // (for nurture) and email them the checklist. No SDK — Resend's REST API over
 // fetch keeps the dependency surface small.
 //
-// Required env (unset = safe dev no-op):
+// Required env (unset = safe dev no-op; in PRODUCTION unset fails closed so a
+// misconfiguration can't silently black-hole every lead behind a fake success):
 //   RESEND_API_KEY       server-side API key (never exposed to the client)
-//   RESEND_AUDIENCE_ID   the audience contacts are added to
 //   EMAIL_FROM           verified sender, e.g. "Adrian Rusan <hello@adrian-rusan.com>"
 // Optional:
+//   RESEND_AUDIENCE_ID   audience contacts are added to (best-effort nurture only)
 //   NEXT_PUBLIC_SITE_URL used to build the checklist download link
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.adrian-rusan.com";
 const CHECKLIST_URL = `${SITE_URL}/agent-pr-review-checklist.pdf`;
+
+// Fire the prod-misconfig alert at most once per warm instance so a flood
+// against this unauthenticated endpoint during a misconfig window can't burn
+// Sentry quota or bury the signal. The 500 still fires on every request.
+let misconfigAlerted = false;
 
 export async function POST(request: Request) {
   let body: unknown;
@@ -47,7 +54,23 @@ export async function POST(request: Request) {
   const from = process.env.EMAIL_FROM;
 
   if (!apiKey || !from) {
-    // Not configured yet — no-op success so the UI works in dev/staging.
+    if (process.env.NODE_ENV === "production") {
+      // Misconfiguration in prod is a silent black-hole: the visitor sees
+      // success but no contact is stored and no checklist is sent. Alert
+      // loudly (once per warm instance) and fail closed rather than faking a 200.
+      if (!misconfigAlerted) {
+        Sentry.captureMessage(
+          "[subscribe] RESEND_API_KEY/EMAIL_FROM unset in production — lead capture dropped",
+          "error",
+        );
+        misconfigAlerted = true;
+      }
+      return NextResponse.json(
+        { ok: false, error: "Something went wrong. Please try again." },
+        { status: 500 },
+      );
+    }
+    // Dev/staging without Resend configured — no-op success so the UI works.
     console.warn(
       "[subscribe] RESEND_API_KEY/EMAIL_FROM not set. Skipping capture for:",
       sanitizedEmail,

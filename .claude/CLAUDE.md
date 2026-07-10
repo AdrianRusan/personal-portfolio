@@ -45,7 +45,7 @@ config/environment.ts  Site config, feature flags, env validation
 data/index.ts        Static content (projects, experience, testimonials) — hardcoded, no CMS yet
 content/blog/        MDX posts (frontmatter via gray-matter)
 context/             theme-provider
-hooks/               usePerformance (Core Web Vitals)
+hooks/               (currently empty; Core Web Vitals via Vercel Speed Insights)
 scripts/             verify-*.js, security-check.js, performance scripts
 e2e/                 Playwright specs
 ```
