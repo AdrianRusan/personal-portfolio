@@ -1,5 +1,5 @@
 import MagicButton from "@/components/ui/MagicButton";
-import { CALENDLY_URL } from "@/data";
+import { CalendlyLink } from "@/components/CalendlyLink";
 import { FaLocationArrow } from "react-icons/fa6";
 
 // The primary conversion module: two low-commitment ways in, ordered by
@@ -43,6 +43,10 @@ export const StartBand = () => {
                 icon={<FaLocationArrow />}
                 position="right"
                 href="/teardown"
+                trackEvent={{
+                  event: "cta_click",
+                  props: { cta: "teardown", source: "startband" },
+                }}
               />
             </div>
           </div>
@@ -60,13 +64,14 @@ export const StartBand = () => {
               we&apos;ll fix the scope and the price before anything starts.
             </p>
             <div className="mt-6">
-              <a
-                href={CALENDLY_URL}
+              <CalendlyLink
+                source="startband_secondary"
+                newTab={false}
                 className="inline-flex items-center gap-2 text-sm font-medium text-blue-100 hover:text-purple transition-colors"
               >
                 Book a call
                 <FaLocationArrow className="text-xs" aria-hidden="true" />
-              </a>
+              </CalendlyLink>
             </div>
           </div>
         </div>

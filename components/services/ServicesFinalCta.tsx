@@ -25,6 +25,10 @@ export const ServicesFinalCta = () => {
             icon={<FaLocationArrow />}
             position="right"
             href={CALENDLY_URL}
+            trackEvent={{
+              event: "calendly_click",
+              props: { source: "services_final_cta" },
+            }}
           />
         </div>
         <Link

@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { track } from "@/lib/analytics";
 
 export interface PricingColumn {
   name: string;
@@ -16,6 +19,7 @@ export interface PricingTableProps {
   rows: PricingRow[];
   ctaHref: string;
   ctaLabel: string;
+  trackSource?: string;
 }
 
 export const PricingTable = ({
@@ -23,6 +27,7 @@ export const PricingTable = ({
   rows,
   ctaHref,
   ctaLabel,
+  trackSource,
 }: PricingTableProps) => {
   return (
     <div className="overflow-x-auto">
@@ -85,6 +90,13 @@ export const PricingTable = ({
                 <Link
                   href={ctaHref}
                   aria-label={ctaLabel}
+                  onClick={() =>
+                    trackSource &&
+                    track("calendly_click", {
+                      source: trackSource,
+                      tier: column.name,
+                    })
+                  }
                   {...(ctaHref.startsWith("http")
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}

@@ -119,6 +119,10 @@ export default function TeardownPage() {
               icon={<FaLocationArrow />}
               position="right"
               href={CALENDLY_URL}
+              trackEvent={{
+                event: "calendly_click",
+                props: { source: "teardown_book" },
+              }}
             />
             <a
               href="/services"

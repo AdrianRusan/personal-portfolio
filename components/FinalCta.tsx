@@ -22,6 +22,10 @@ const FinalCta = () => {
             icon={<FaLocationArrow />}
             position="right"
             href={CALENDLY_URL}
+            trackEvent={{
+              event: "calendly_click",
+              props: { source: "final_cta" },
+            }}
           />
         </div>
         <p className="text-xs text-white-200/60 mt-6 max-w-xl mx-auto">

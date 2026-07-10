@@ -4,7 +4,8 @@ import MagicButton from "./ui/MagicButton";
 import { TextGenerateEffect } from "./ui/TextGenerateEffect";
 import { FaLocationArrow } from "react-icons/fa6";
 import SpotlightBackground from "./ui/SpotlightBackground";
-import { CALENDLY_URL, GUARANTEE } from "@/data";
+import { CalendlyLink } from "@/components/CalendlyLink";
+import { GUARANTEE } from "@/data";
 
 const Hero = () => {
   return (
@@ -54,13 +55,18 @@ const Hero = () => {
               icon={<FaLocationArrow />}
               position="right"
               href="/teardown"
+              trackEvent={{
+                event: "cta_click",
+                props: { cta: "teardown", source: "hero" },
+              }}
             />
-            <a
-              href={CALENDLY_URL}
+            <CalendlyLink
+              source="hero_secondary"
+              newTab={false}
               className="text-sm font-medium text-blue-100 hover:text-purple transition-colors md:mt-10"
             >
               Or book a scoping call →
-            </a>
+            </CalendlyLink>
           </div>
 
           <p className="text-center text-xs text-white-200/70 mt-5 max-w-xl">

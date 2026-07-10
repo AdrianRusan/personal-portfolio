@@ -32,6 +32,10 @@ const Footer = () => {
             icon={<FaLocationArrow />}
             position="right"
             href={CALENDLY_URL}
+            trackEvent={{
+              event: "calendly_click",
+              props: { source: "footer" },
+            }}
           />
           <a
             href="mailto:rusan.adrian.ionut@gmail.com"

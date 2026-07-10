@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "./button";
+import { track, type AnalyticsEvent, type EventProps } from "@/lib/analytics";
 
 const magicClasses =
   "relative w-full inline-flex h-12 overflow-hidden rounded-lg p-[1px] focus:outline-none md:w-60 md:mt-10";
@@ -11,6 +14,7 @@ const MagicButton = ({
   handleClick,
   otherClasses,
   href,
+  trackEvent,
 }: {
   title: string;
   icon: React.ReactNode;
@@ -18,7 +22,14 @@ const MagicButton = ({
   handleClick?: () => void;
   otherClasses?: string;
   href?: string;
+  // Serializable so server components can request tracking without passing a
+  // function across the server/client boundary.
+  trackEvent?: { event: AnalyticsEvent; props?: EventProps };
 }) => {
+  const fireTrack = () => {
+    if (trackEvent) track(trackEvent.event, trackEvent.props);
+  };
+
   const inner = (
     <>
       <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] motion-reduce:animate-none bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
@@ -40,6 +51,7 @@ const MagicButton = ({
       <Button asChild className={magicClasses}>
         <Link
           href={href}
+          onClick={fireTrack}
           {...(isExternal
             ? { target: "_blank", rel: "noopener noreferrer" }
             : {})}
@@ -51,7 +63,13 @@ const MagicButton = ({
   }
 
   return (
-    <Button className={magicClasses} onClick={handleClick}>
+    <Button
+      className={magicClasses}
+      onClick={() => {
+        handleClick?.();
+        fireTrack();
+      }}
+    >
       {inner}
     </Button>
   );

@@ -117,6 +117,7 @@ export const DeliverySprint = () => {
             rows={rows}
             ctaHref={CALENDLY_URL}
             ctaLabel="Book a scoping call"
+            trackSource="deliverysprint_pricing"
           />
           <p className="text-xs text-white-200/70 mt-4 italic">
             Every sprint is priced on the reviewed outcome, not hours logged —
@@ -188,6 +189,10 @@ export const DeliverySprint = () => {
               icon={<FaLocationArrow />}
               position="right"
               href={CALENDLY_URL}
+              trackEvent={{
+                event: "calendly_click",
+                props: { source: "deliverysprint_bottom" },
+              }}
             />
           </div>
         </div>
