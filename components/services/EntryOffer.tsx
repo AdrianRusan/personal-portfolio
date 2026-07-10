@@ -1,5 +1,5 @@
 import MagicButton from "@/components/ui/MagicButton";
-import { CALENDLY_URL } from "@/data";
+import { CALENDLY_URL, CONTACT_EMAIL } from "@/data";
 import { FaLocationArrow } from "react-icons/fa6";
 
 const steps = [
@@ -47,13 +47,23 @@ export const EntryOffer = () => {
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-4 mt-8">
+        <div className="flex flex-wrap items-center gap-4 mt-8">
           <MagicButton
             title="Start with one PR"
             icon={<FaLocationArrow />}
             position="right"
             href={CALENDLY_URL}
           />
+          <a
+            href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+              "Reviewed PR (€1,000)",
+            )}&body=${encodeURIComponent(
+              "Repo or ticket link:\n\nWhat needs shipping:\n",
+            )}`}
+            className="text-sm font-medium text-blue-100 hover:text-purple transition-colors"
+          >
+            Prefer email? Send the ticket, skip the call →
+          </a>
         </div>
       </div>
     </section>
