@@ -19,9 +19,16 @@ const ProofBand = () => {
         ))}
       </div>
       <p className="max-w-7xl mx-auto text-center text-xs text-white-200/70 mt-4">
-        Every number here is from a run I did myself — the repo, the PRs, and
-        the review notes are real, and I&apos;ll walk you through them on a
-        call.
+        These are from a benchmark I ran end-to-end on my own repo — the PRs,
+        the review notes, and the caught vulnerabilities are all real and
+        documented, not a paying-client engagement (those case studies are in
+        progress). Want the same review on your code?{" "}
+        <a
+          href="/teardown"
+          className="text-blue-100 hover:text-purple transition-colors font-medium"
+        >
+          Send me a repo for a free teardown →
+        </a>
       </p>
     </section>
   );
