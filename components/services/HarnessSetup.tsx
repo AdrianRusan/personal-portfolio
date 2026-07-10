@@ -68,6 +68,10 @@ export const HarnessSetup = () => {
               icon={<FaLocationArrow />}
               position="right"
               href={CALENDLY_URL}
+              trackEvent={{
+                event: "calendly_click",
+                props: { source: "harness_top" },
+              }}
             />
           </div>
         </div>
@@ -107,6 +111,10 @@ export const HarnessSetup = () => {
             icon={<FaLocationArrow />}
             position="right"
             href={CALENDLY_URL}
+            trackEvent={{
+              event: "calendly_click",
+              props: { source: "harness_bottom" },
+            }}
           />
         </div>
       </div>

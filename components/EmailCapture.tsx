@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -35,6 +36,7 @@ const EmailCapture = ({
         throw new Error("Subscription request failed");
       }
 
+      track("email_submit", { variant });
       setStatus("success");
       setEmail("");
     } catch {

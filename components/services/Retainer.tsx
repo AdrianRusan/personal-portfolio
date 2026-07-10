@@ -1,5 +1,5 @@
-import Link from "next/link";
 import MagicButton from "@/components/ui/MagicButton";
+import { CalendlyLink } from "@/components/CalendlyLink";
 import { CALENDLY_URL } from "@/data";
 import { FaLocationArrow } from "react-icons/fa6";
 
@@ -68,17 +68,11 @@ export const Retainer = () => {
             card; specifics are scoped on the call.
           </p>
           <div className="mt-6">
-            <Link
-              href={CALENDLY_URL}
-              aria-label="Book a scoping call"
-              {...(CALENDLY_URL.startsWith("http")
-                ? { target: "_blank", rel: "noopener noreferrer" }
-                : {})}
-            >
+            <CalendlyLink source="retainer_top" ariaLabel="Book a scoping call">
               <span className="inline-flex items-center rounded-lg border border-purple/40 px-4 py-2 text-xs font-medium text-purple hover:bg-purple/10 transition-colors">
                 Book a scoping call
               </span>
-            </Link>
+            </CalendlyLink>
           </div>
         </div>
         <p className="text-xs text-white-200/70 mt-4 italic">
@@ -131,6 +125,10 @@ export const Retainer = () => {
             icon={<FaLocationArrow />}
             position="right"
             href={CALENDLY_URL}
+            trackEvent={{
+              event: "calendly_click",
+              props: { source: "retainer_bottom" },
+            }}
           />
         </div>
       </div>

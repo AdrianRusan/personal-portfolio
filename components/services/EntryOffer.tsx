@@ -53,6 +53,10 @@ export const EntryOffer = () => {
             icon={<FaLocationArrow />}
             position="right"
             href={CALENDLY_URL}
+            trackEvent={{
+              event: "calendly_click",
+              props: { source: "entry_offer" },
+            }}
           />
           <a
             href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(

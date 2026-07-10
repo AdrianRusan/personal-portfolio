@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { CALENDLY_URL, GUARANTEE } from "@/data";
+import { CalendlyLink } from "@/components/CalendlyLink";
+import { GUARANTEE } from "@/data";
 
 const CaseStudy = () => {
   return (
@@ -29,14 +30,12 @@ const CaseStudy = () => {
             Read the anatomy of nine agent batches →
           </Link>
           <span className="text-white-200/40">·</span>
-          <a
-            href={CALENDLY_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <CalendlyLink
+            source="casestudy"
             className="text-sm font-medium text-blue-100 hover:text-purple transition-colors"
           >
             Book a scoping call
-          </a>
+          </CalendlyLink>
         </div>
         <p className="text-xs text-white-200/70 mt-6">{GUARANTEE}</p>
       </div>

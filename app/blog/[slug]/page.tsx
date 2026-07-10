@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPost, getPosts } from "@/lib/blog";
-import { CALENDLY_URL } from "@/data";
+import { CalendlyLink } from "@/components/CalendlyLink";
 import PostHeader from "@/components/blog/PostHeader";
 import MDXContent from "@/components/blog/MDXContent";
 import TableOfContents from "@/components/blog/TableOfContents";
@@ -101,14 +101,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
               <p className="text-sm text-white-200 text-center">
                 Have a backlog you&apos;d want reviewed this way?{" "}
-                <a
-                  href={CALENDLY_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <CalendlyLink
+                  source="blog"
                   className="text-purple hover:text-purple/80 underline underline-offset-2 decoration-purple/40 transition-colors"
                 >
                   Book a scoping call →
-                </a>
+                </CalendlyLink>
               </p>
             </div>
           </div>
