@@ -4,6 +4,7 @@ import {
   ladderServiceJsonLd,
   CREDIT_TERMS,
 } from "@/data/ladder";
+import { workshops, workshopJsonLd } from "@/data/workshops";
 import { STRATEGY_CALL_URL } from "@/data";
 
 // The guide's ladder table (2026-10-10), verbatim. EUR, ex-VAT, global.
@@ -116,5 +117,19 @@ describe("ladderServiceJsonLd", () => {
       valueAddedTaxIncluded: false,
       unitCode: "MON",
     });
+  });
+
+  it("takes workshop prices from data/workshops.ts and links its Services", () => {
+    const offer = ladder.find((o) => o.id === "workshop")!;
+    expect(offer.prices.map((p) => p.amount)).toEqual([
+      workshops["half-day"].price,
+      workshops["full-day"].price,
+    ]);
+    const node = ladderServiceJsonLd().find((s) => s.name === offer.name)!;
+    expect(node.isRelatedTo).toEqual(
+      (["half-day", "full-day"] as const).map((slug) => ({
+        "@id": workshopJsonLd(workshops[slug])["@id"],
+      })),
+    );
   });
 });

@@ -141,9 +141,13 @@ export const workshops: Record<WorkshopSlug, Workshop> = {
   "half-day": withPrice(halfDay),
 };
 
+export const workshopServiceId = (slug: WorkshopSlug) =>
+  `${SITE_URL}/workshops/${slug}#service`;
+
 export const workshopJsonLd = (w: Workshop) => ({
   "@context": "https://schema.org",
   "@type": "Service",
+  "@id": workshopServiceId(w.slug),
   name: w.name,
   serviceType: "Team workshop",
   description: w.description,

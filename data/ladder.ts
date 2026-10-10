@@ -1,4 +1,9 @@
 import { CALENDLY_URL, GUARANTEE, STRATEGY_CALL_URL } from "@/data";
+import {
+  workshops,
+  workshopServiceId,
+  type WorkshopSlug,
+} from "@/data/workshops";
 
 // The credit window, stated once (#43 follow-up: the credit had no window).
 export const CREDIT_TERMS =
@@ -68,9 +73,10 @@ export const ladder: LadderOffer[] = [
     name: "Team workshop",
     summary:
       "Claude Code, orchestration, review gates and prompt/harness engineering, hands-on with your team. Up to 10 people.",
+    // One source for workshop prices: the workshop pages' own data.
     prices: [
-      { amount: 2000, label: "half-day" },
-      { amount: 3500, label: "full day" },
+      { amount: workshops["half-day"].price, label: "half-day" },
+      { amount: workshops["full-day"].price, label: "full day" },
     ],
     duration: "4–8 h",
     assurance: "Fixed price for up to 10 people, agenda agreed in advance.",
@@ -87,7 +93,8 @@ export const ladder: LadderOffer[] = [
       "One n8n workflow or LLM pipeline, built with evals and cost controls from the start.",
     prices: [{ amount: 3000, from: true }],
     duration: "1–3 wk",
-    assurance: "Fixed price before I start; evals prove it works before handoff.",
+    assurance:
+      "Fixed price before I start; evals prove it works before handoff.",
     ctas: [{ label: "Scope an automation", href: CALENDLY_URL }],
   },
   {
@@ -98,7 +105,8 @@ export const ladder: LadderOffer[] = [
       "The ship/verify agent harness I run, installed in your repo and handed over to your team.",
     prices: [{ amount: 4000, from: true }],
     duration: "1 wk",
-    assurance: "Your team ships a reviewed PR through it, or sessions continue free.",
+    assurance:
+      "Your team ships a reviewed PR through it, or sessions continue free.",
     ctas: [{ label: "What's included", href: "#harness" }],
   },
   {
@@ -121,7 +129,8 @@ export const ladder: LadderOffer[] = [
     prices: [{ amount: 7500, from: true }],
     duration: "1–2 wk",
     limited: true,
-    assurance: "First PR not merge-ready? You don't pay for it. Missed vulnerabilities get fixed free.",
+    assurance:
+      "First PR not merge-ready? You don't pay for it. Missed vulnerabilities get fixed free.",
     ctas: [{ label: "What's included", href: "#sprint" }],
   },
   {
@@ -149,6 +158,17 @@ export const formatPrice = ({ prices, perMonth }: LadderOffer): string =>
     )
     .join(" / ") + (perMonth ? "/month" : "");
 
+const relatedWorkshops = ({ ctas }: LadderOffer) => {
+  const ids = ctas
+    .filter((c) => c.href.startsWith("/workshops/"))
+    .map((c) => ({
+      "@id": workshopServiceId(
+        c.href.slice("/workshops/".length) as WorkshopSlug,
+      ),
+    }));
+  return ids.length ? { isRelatedTo: ids } : {};
+};
+
 // One schema.org Service per ladder offer (brief R15). Prices are ex-VAT, so
 // each Offer carries a priceSpecification saying so; "from" becomes minPrice.
 export const ladderServiceJsonLd = (
@@ -163,6 +183,8 @@ export const ladderServiceJsonLd = (
     serviceType: offer.tier,
     areaServed,
     provider: { "@id": "https://www.adrian-rusan.com/#person" },
+    // Ladder entries that link to a workshop page point at that page's Service.
+    ...relatedWorkshops(offer),
     offers: offer.prices.map((p) => ({
       "@type": "Offer",
       // A top-level price reads as exact, so "from" offers carry only minPrice.
