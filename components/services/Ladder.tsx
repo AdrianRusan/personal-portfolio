@@ -30,7 +30,7 @@ export const Ladder = () => {
                 .map((offer) => (
                   <div
                     key={offer.id}
-                    className="flex flex-col flex-1 rounded-xl border border-white/10 bg-black-200/40 p-5"
+                    className="flex flex-col rounded-xl border border-white/10 bg-black-200/40 p-5"
                   >
                     {offer.limited && (
                       <span className="self-start font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-blue-100 border border-blue-100/30 rounded-full px-2 py-0.5 mb-3">
