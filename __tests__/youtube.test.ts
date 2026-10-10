@@ -43,6 +43,13 @@ describe("parseYouTubeFeed", () => {
   });
 });
 
+describe("parseYouTubeFeed entities", () => {
+  it("decodes numeric and hex character references in titles", () => {
+    const xml = "<entry><yt:videoId>x1</yt:videoId><title>I&#8217;m &#x27;in&#x27; &amp; out</title></entry>";
+    expect(parseYouTubeFeed(xml)[0]?.title).toBe("I\u2019m 'in' & out");
+  });
+});
+
 describe("getLatestVideos", () => {
   const realFetch = global.fetch;
   afterEach(() => {
@@ -63,13 +70,20 @@ describe("getLatestVideos", () => {
     expect(videos).toHaveLength(3);
     expect(global.fetch).toHaveBeenCalledWith(
       "https://www.youtube.com/feeds/videos.xml?channel_id=UC123",
-      { next: { revalidate: 3600 } },
+      expect.objectContaining({ next: { revalidate: 3600 } }),
     );
   });
 
   it("falls back to [] when the fetch rejects", async () => {
     global.fetch = jest.fn().mockRejectedValue(new Error("offline"));
     await expect(getLatestVideos("UC123")).resolves.toEqual([]);
+  });
+
+  it("aborts a stalled fetch after a timeout", async () => {
+    global.fetch = jest.fn().mockResolvedValue(new Response("<feed/>"));
+    await getLatestVideos("UC123");
+    const init = (global.fetch as jest.Mock).mock.calls[0][1];
+    expect(init.signal).toBeInstanceOf(AbortSignal);
   });
 
   it("falls back to [] on a non-200 response", async () => {
