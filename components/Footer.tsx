@@ -1,6 +1,6 @@
 import { FaLocationArrow } from "react-icons/fa6";
 
-import { socialMedia, CALENDLY_URL } from "@/data";
+import { socialMedia, CALENDLY_URL, CONTACT_EMAIL } from "@/data";
 import MagicButton from "./ui/MagicButton";
 import Image from "next/image";
 import Link from "next/link";
@@ -38,9 +38,7 @@ const Footer = () => {
             }}
           />
           <a
-            href="mailto:rusan.adrian.ionut@gmail.com"
-            target="_blank"
-            rel="noopener noreferrer"
+            href={`mailto:${CONTACT_EMAIL}`}
             aria-label="Send email to Adrian Rusan"
             className="text-xs text-white-200/60 hover:text-white-200 transition-colors mt-4"
           >

@@ -1,8 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { track, type AnalyticsEvent, type EventProps } from "@/lib/analytics";
 
-// Plain anchor that fires one analytics event on click, for non-Calendly CTAs
+// next/link (so internal links don't reload the page) that fires one analytics event on click, for non-Calendly CTAs
 // inside server components (CalendlyLink owns calendly_click).
 export const TrackedLink = ({
   href,
@@ -17,7 +18,7 @@ export const TrackedLink = ({
   className?: string;
   children: React.ReactNode;
 }) => (
-  <a href={href} onClick={() => track(event, props)} className={className}>
+  <Link href={href} onClick={() => track(event, props)} className={className}>
     {children}
-  </a>
+  </Link>
 );

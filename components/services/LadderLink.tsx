@@ -1,10 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { track } from "@/lib/analytics";
+import { track, type AnalyticsEvent, type EventProps } from "@/lib/analytics";
 
-// In-page anchors stay untracked; booking links fire calendly_click, mailto
-// fallbacks fire cta_click — the same funnel events as every other CTA.
+// Booking links fire calendly_click; mailto fallbacks and in-page anchors fire
+// cta_click. Props carry `cta` like every other CTA, plus the ladder offer.
+export const ladderEvent = (
+  href: string,
+  offer: string,
+  source: string,
+): [AnalyticsEvent, EventProps] => [
+  href.includes("calendly.com") ? "calendly_click" : "cta_click",
+  { cta: offer, source, offer },
+];
+
 export const LadderLink = ({
   href,
   offer,
@@ -18,18 +27,11 @@ export const LadderLink = ({
   className?: string;
   children: React.ReactNode;
 }) => {
-  const isAnchor = href.startsWith("#");
   const isExternal = href.startsWith("http");
   return (
     <Link
       href={href}
-      onClick={() => {
-        if (isAnchor) return;
-        track(href.includes("calendly.com") ? "calendly_click" : "cta_click", {
-          source,
-          offer,
-        });
-      }}
+      onClick={() => track(...ladderEvent(href, offer, source))}
       {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       className={className}
     >
