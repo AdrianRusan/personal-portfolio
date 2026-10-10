@@ -7,11 +7,13 @@ import { track } from "@/lib/analytics";
 export const LadderLink = ({
   href,
   offer,
+  source = "services_ladder",
   className,
   children,
 }: {
   href: string;
   offer: string;
+  source?: string;
   className?: string;
   children: React.ReactNode;
 }) => {
@@ -23,7 +25,7 @@ export const LadderLink = ({
       onClick={() => {
         if (isAnchor) return;
         track(href.includes("calendly.com") ? "calendly_click" : "cta_click", {
-          source: "services_ladder",
+          source,
           offer,
         });
       }}
