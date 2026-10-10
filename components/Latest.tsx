@@ -23,7 +23,12 @@ const Latest = async () => {
       <h2 id="latest-heading" className="heading">
         Latest from{" "}
         <span className="text-purple">
-          {videos.length > 0 ? "YouTube and the blog" : "the blog"}
+          {[
+            videos.length > 0 && "YouTube",
+            latestPosts.length > 0 && "the blog",
+          ]
+            .filter(Boolean)
+            .join(" and ")}
         </span>
       </h2>
       <p className="text-white-200 text-center mt-4">
@@ -52,7 +57,8 @@ const Latest = async () => {
                     {video.title}
                   </h3>
                   <p className="text-xs text-white-200/70 mt-2">
-                    {video.published && `${formatDate(video.published)} · `}
+                    {video.published &&
+                      `${formatDate(video.published.slice(0, 10))} · `}
                     Watch on YouTube
                   </p>
                 </div>
@@ -66,20 +72,22 @@ const Latest = async () => {
         <ul className="grid gap-6 md:grid-cols-3 mt-10">
           {latestPosts.map((post) => (
             <li key={post.slug}>
-              <PostCard post={post} />
+              <PostCard post={post} headingLevel="h3" />
             </li>
           ))}
         </ul>
       )}
 
-      <div className="text-center mt-8">
-        <Link
-          href="/blog"
-          className="text-sm font-semibold text-purple hover:underline underline-offset-4"
-        >
-          All posts →
-        </Link>
-      </div>
+      {latestPosts.length > 0 && (
+        <div className="text-center mt-8">
+          <Link
+            href="/blog"
+            className="text-sm font-semibold text-purple hover:underline underline-offset-4"
+          >
+            All posts →
+          </Link>
+        </div>
+      )}
     </section>
   );
 };
