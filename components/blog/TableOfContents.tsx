@@ -38,7 +38,7 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
 
   return (
     <nav aria-label="Table of contents">
-      <p className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-3">
+      <p className="text-xs font-semibold uppercase tracking-widest text-white-200/75 mb-3">
         On this page
       </p>
       <ul className="space-y-1">
