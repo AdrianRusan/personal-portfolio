@@ -81,6 +81,18 @@ describe("case-study honesty guard", () => {
     await expect(getPosts(dir)).rejects.toThrow(/TODO\(adi\)/);
   });
 
+  it("also catches the marker in frontmatter and in other spellings", async () => {
+    const fs = await import("fs");
+    const os = await import("os");
+    const path = await import("path");
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "work-"));
+    fs.writeFileSync(
+      path.join(dir, "draft.mdx"),
+      '---\ntitle: "t"\ndescription: "TODO (Adi): real number"\ndate: "2026-10-10"\ntags: []\npublished: true\n---\n\nbody\n',
+    );
+    await expect(getPosts(dir)).rejects.toThrow(/TODO\(adi\)/);
+  });
+
   it("lets the finished honesty-gate case study through the gate", async () => {
     await expect(getPosts(WORK_DIR)).resolves.toBeDefined();
   });

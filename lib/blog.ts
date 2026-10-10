@@ -62,8 +62,13 @@ export async function getPosts(dir = BLOG_DIR): Promise<BlogPost[]> {
     })
     .filter((post) => {
       if (!post.frontmatter.published) return false;
-      // Honesty gate: fail the build rather than publish unfinished copy.
-      if (post.content.includes("TODO(adi)")) {
+      // Honesty gate (case studies only, so a blog post may quote the marker):
+      // fail the build rather than publish unfinished copy.
+      const { title, description } = post.frontmatter;
+      if (
+        dir !== BLOG_DIR &&
+        /TODO\s*\(adi\)/i.test(`${title}\n${description}\n${post.content}`)
+      ) {
         throw new Error(`Published ${post.slug} still contains TODO(adi)`);
       }
       return true;

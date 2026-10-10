@@ -100,7 +100,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
             >
               Case study
             </Link>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mt-3 mb-5">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mt-3 mb-5">
               {study.frontmatter.title}
             </h1>
             <p className="text-white-200 text-lg leading-relaxed">
