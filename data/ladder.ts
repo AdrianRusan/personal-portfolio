@@ -45,7 +45,7 @@ export const ladder: LadderOffer[] = [
       "60 minutes 1:1 on the AI question in front of you, plus a written summary you keep.",
     prices: [{ amount: 200 }],
     duration: "1 h",
-    cta: { label: "Book the €200 call", href: STRATEGY_CALL_URL },
+    cta: { label: "Request the €200 call", href: STRATEGY_CALL_URL },
   },
   {
     id: "audit",
@@ -151,7 +151,8 @@ export const ladderServiceJsonLd = () =>
     provider: { "@id": "https://www.adrian-rusan.com/#person" },
     offers: offer.prices.map((p) => ({
       "@type": "Offer",
-      price: String(p.amount),
+      // A top-level price reads as exact, so "from" offers carry only minPrice.
+      ...(p.from ? {} : { price: String(p.amount) }),
       priceCurrency: "EUR",
       ...(p.label ? { name: `${offer.name}, ${p.label}` } : {}),
       priceSpecification: {
@@ -159,7 +160,7 @@ export const ladderServiceJsonLd = () =>
         [p.from ? "minPrice" : "price"]: p.amount,
         priceCurrency: "EUR",
         valueAddedTaxIncluded: false,
-        ...(offer.perMonth ? { unitText: "MONTH" } : {}),
+        ...(offer.perMonth ? { unitCode: "MON" } : {}),
       },
     })),
   }));

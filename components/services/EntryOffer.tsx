@@ -11,7 +11,7 @@ const steps = [
 
 export const EntryOffer = () => {
   return (
-    <section id="entry-offer" className="px-5 sm:px-10 py-20">
+    <section id="entry-offer" className="px-5 sm:px-10 py-20 scroll-mt-24">
       <div className="max-w-6xl mx-auto rounded-2xl border border-white/10 bg-black-200/40 p-6 md:p-10">
         <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100">
           Not ready for a full sprint?

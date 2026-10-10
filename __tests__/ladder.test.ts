@@ -62,7 +62,11 @@ describe("ladderServiceJsonLd", () => {
       for (const offer of node.offers) {
         expect(offer["@type"]).toBe("Offer");
         expect(offer.priceCurrency).toBe("EUR");
-        expect(offer.price).toMatch(/^\d+$/);
+        const spec = offer.priceSpecification;
+        // An exact price, or a minimum for "from" offers — never both.
+        expect(spec.valueAddedTaxIncluded).toBe(false);
+        expect(Number.isFinite(spec.price ?? spec.minPrice)).toBe(true);
+        expect(offer.price === undefined).toBe(spec.price === undefined);
       }
     }
     const workshop = nodes.find(
@@ -76,12 +80,13 @@ describe("ladderServiceJsonLd", () => {
 
   it("marks 'from' prices as a minimum, ex-VAT, monthly for the retainer", () => {
     const retainer = nodes.find((n: { name: string }) => n.name === "Retainer");
+    expect(retainer.offers[0].price).toBeUndefined();
     expect(retainer.offers[0].priceSpecification).toEqual({
       "@type": "UnitPriceSpecification",
       minPrice: 4000,
       priceCurrency: "EUR",
       valueAddedTaxIncluded: false,
-      unitText: "MONTH",
+      unitCode: "MON",
     });
   });
 });
