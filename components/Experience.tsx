@@ -34,13 +34,10 @@ const Experience = ({ copy = en }: { copy?: ExperienceCopy }) => {
             <Button
               duration={Math.floor(Math.random() * 10000) + 10000}
               borderRadius="1.75rem"
-              style={{
-                background: "rgb(4,7,29)",
-                backgroundColor:
-                  "linear-gradient(90deg, rgba(4,7,29,1) 0%, rgba(12,14,35,1) 100%)",
-                borderRadius: `calc(1.75rem* 0.96)`,
-              }}
-              className="flex-1 text-neutral-50 border-slate-800"
+              style={{ borderRadius: `calc(1.75rem* 0.96)` }}
+              // Light: same surface as the other light cards. Dark: the original rgb(4,7,29).
+              containerClassName="bg-black-200/40 dark:bg-[rgb(4,7,29)]"
+              className="flex-1 text-slate-900 dark:text-neutral-50 border-white/10 dark:border-slate-800"
             >
               <div className="flex lg:flex-row flex-col lg:items-center p-3 py-6 md:p-5 lg:p-10 gap-2">
                 <Image
@@ -54,19 +51,19 @@ const Experience = ({ copy = en }: { copy?: ExperienceCopy }) => {
                 <div className="lg:ms-5 space-y-2">
                   <h3
                     id={`job-title-${card.id}`}
-                    className="text-start text-xl md:text-2xl font-bold text-violet-300"
+                    className="text-start text-xl md:text-2xl font-bold text-violet-700 dark:text-violet-300"
                   >
                     {card.title}
                     {` ${copy.at} `}
                     <br />
-                    <span className="text-lg md:text-xl text-gray-300">
+                    <span className="text-lg md:text-xl text-slate-700 dark:text-gray-300">
                       {card.company}
                     </span>
                   </h3>
-                  <time className="text-start text-md md:text-lg text-gray-400 block">
+                  <time className="text-start text-md md:text-lg text-slate-500 dark:text-gray-400 block">
                     {card.period}
                   </time>
-                  <p className="text-start text-gray-200 mt-3 font-semibold">
+                  <p className="text-start text-slate-600 dark:text-gray-200 mt-3 font-semibold">
                     {card.desc}
                   </p>
                 </div>
