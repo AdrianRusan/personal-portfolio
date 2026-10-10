@@ -57,9 +57,18 @@ export async function getPosts(dir = BLOG_DIR): Promise<BlogPost[]> {
         frontmatter: data as BlogFrontmatter,
         readingTime: rt.text,
         headings,
+        content,
       };
     })
-    .filter((post) => post.frontmatter.published)
+    .filter((post) => {
+      if (!post.frontmatter.published) return false;
+      // Honesty gate: fail the build rather than publish unfinished copy.
+      if (post.content.includes("TODO(adi)")) {
+        throw new Error(`Published ${post.slug} still contains TODO(adi)`);
+      }
+      return true;
+    })
+    .map(({ content: _content, ...post }) => post)
     .sort(
       (a, b) =>
         new Date(b.frontmatter.date).getTime() -

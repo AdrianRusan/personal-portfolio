@@ -69,11 +69,19 @@ describe("case studies (content/work via the dir param)", () => {
 });
 
 describe("case-study honesty guard", () => {
-  it("never publishes a case study that still holds a TODO(adi)", async () => {
-    const studies = await getPosts(WORK_DIR);
-    for (const { slug } of studies) {
-      const { source } = await getPost(slug, WORK_DIR);
-      expect(source).not.toContain("TODO(adi)");
-    }
+  it("fails the build when a published case study still holds a TODO(adi)", async () => {
+    const fs = await import("fs");
+    const os = await import("os");
+    const path = await import("path");
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "work-"));
+    fs.writeFileSync(
+      path.join(dir, "draft.mdx"),
+      '---\ntitle: "t"\ndescription: "d"\ndate: "2026-10-10"\ntags: []\npublished: true\n---\n\n{/* TODO(adi): fill */}\n',
+    );
+    await expect(getPosts(dir)).rejects.toThrow(/TODO\(adi\)/);
+  });
+
+  it("does not throw for the unpublished honesty-gate draft", async () => {
+    await expect(getPosts(WORK_DIR)).resolves.toBeDefined();
   });
 });

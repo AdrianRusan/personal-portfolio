@@ -42,7 +42,9 @@ const CaseStudyCards = async () => {
         >
           Proof from documented runs
         </h2>
-        <ul className="grid gap-5 md:grid-cols-3 mt-8">
+        <ul
+          className={`grid gap-5 mt-8 ${cards.length > 2 ? "md:grid-cols-3" : "md:grid-cols-2"}`}
+        >
           {cards.map((card) => (
             <li key={card.href}>
               <Link

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPost, getPosts, WORK_DIR } from "@/lib/blog";
 import MDXContent from "@/components/blog/MDXContent";
+import { CalendlyLink } from "@/components/CalendlyLink";
 import { FloatingNav } from "@/components/ui/FloatingNav";
 
 const workNavItems = [
@@ -61,6 +62,8 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   } catch {
     notFound();
   }
+  // Defense in depth: drafts never render, even if dynamicParams changes.
+  if (!study.frontmatter.published) notFound();
 
   const studyUrl = `https://www.adrian-rusan.com/work/${slug}`;
 
@@ -111,17 +114,22 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
 
           <aside className="mt-12 rounded-2xl border border-white/10 bg-black-200/40 p-6 md:p-8">
             <p className="text-lg font-semibold">
-              Want this gate on your own agents?
+              Want this level of review on your team&apos;s agent work?
             </p>
-            <p className="text-white-200 mt-2">
-              The Agent Harness Setup puts the same review gates into your repo.
-            </p>
-            <Link
-              href="/services"
-              className="inline-block mt-4 text-sm font-semibold text-purple hover:underline underline-offset-4"
-            >
-              See the Agent Harness Setup →
-            </Link>
+            <div className="flex flex-wrap items-center gap-4 mt-4">
+              <Link
+                href="/services"
+                className="text-sm font-semibold text-purple hover:underline underline-offset-4"
+              >
+                See the offers and prices →
+              </Link>
+              <CalendlyLink
+                source="work"
+                className="text-sm font-medium text-blue-100 hover:text-purple transition-colors"
+              >
+                Book a call
+              </CalendlyLink>
+            </div>
           </aside>
         </article>
       </div>
