@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og';
+import { notFound } from 'next/navigation';
 import { getPost } from '@/lib/blog';
 
 export const size = { width: 1200, height: 630 };
@@ -12,18 +13,15 @@ interface OGImageProps {
 export default async function OGImage({ params }: OGImageProps) {
   const { slug } = await params;
 
-  let title = 'Adrian Rusan Blog';
-  let description = 'Technical articles on web development';
-  let tags: string[] = [];
-
+  let post;
   try {
-    const post = await getPost(slug);
-    title = post.frontmatter.title;
-    description = post.frontmatter.description;
-    tags = post.frontmatter.tags?.slice(0, 3) ?? [];
+    post = await getPost(slug);
   } catch {
-    // fallback to defaults
+    // Missing or draft post: no card, same 404 as the page.
+    notFound();
   }
+  const { title, description } = post.frontmatter;
+  const tags = post.frontmatter.tags?.slice(0, 3) ?? [];
 
   return new ImageResponse(
     (

@@ -76,6 +76,8 @@ export async function getPost(slug: string): Promise<BlogPostWithSource> {
 
   const raw = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(raw);
+  // Drafts behave like missing posts everywhere (page, metadata, OG image).
+  if (!data.published) throw new Error(`Post not found: ${slug}`);
   const rt = readingTime(content);
   const headings = extractHeadings(content);
 
