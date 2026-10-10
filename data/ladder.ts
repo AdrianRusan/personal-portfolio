@@ -137,3 +137,29 @@ export const formatPrice = ({ prices, perMonth }: LadderOffer): string =>
         }`,
     )
     .join(" / ") + (perMonth ? "/month" : "");
+
+// One schema.org Service per ladder offer (brief R15). Prices are ex-VAT, so
+// each Offer carries a priceSpecification saying so; "from" becomes minPrice.
+export const ladderServiceJsonLd = () =>
+  ladder.map((offer) => ({
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: offer.name,
+    description: offer.summary,
+    serviceType: offer.tier,
+    areaServed: "Worldwide",
+    provider: { "@id": "https://www.adrian-rusan.com/#person" },
+    offers: offer.prices.map((p) => ({
+      "@type": "Offer",
+      price: String(p.amount),
+      priceCurrency: "EUR",
+      ...(p.label ? { name: `${offer.name}, ${p.label}` } : {}),
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        [p.from ? "minPrice" : "price"]: p.amount,
+        priceCurrency: "EUR",
+        valueAddedTaxIncluded: false,
+        ...(offer.perMonth ? { unitText: "MONTH" } : {}),
+      },
+    })),
+  }));

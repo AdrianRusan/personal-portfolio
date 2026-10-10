@@ -1,4 +1,4 @@
-import { ladder, formatPrice } from "@/data/ladder";
+import { ladder, formatPrice, ladderServiceJsonLd } from "@/data/ladder";
 
 // The guide's ladder table (2026-10-10), verbatim. EUR, ex-VAT, global.
 const GUIDE: Record<string, { tier: string; price: string; duration: string }> =
@@ -39,5 +39,47 @@ describe("ladder", () => {
       "sprint",
       "retainer",
     ]);
+  });
+});
+
+describe("ladderServiceJsonLd", () => {
+  const nodes = JSON.parse(JSON.stringify(ladderServiceJsonLd()));
+
+  it("emits one Service per ladder offer, provided by #person", () => {
+    expect(nodes).toHaveLength(ladder.length);
+    for (const node of nodes) {
+      expect(node["@context"]).toBe("https://schema.org");
+      expect(node["@type"]).toBe("Service");
+      expect(typeof node.name).toBe("string");
+      expect(node.provider).toEqual({
+        "@id": "https://www.adrian-rusan.com/#person",
+      });
+    }
+  });
+
+  it("gives every Service an EUR price, one Offer per price point", () => {
+    for (const node of nodes) {
+      for (const offer of node.offers) {
+        expect(offer["@type"]).toBe("Offer");
+        expect(offer.priceCurrency).toBe("EUR");
+        expect(offer.price).toMatch(/^\d+$/);
+      }
+    }
+    const workshop = nodes.find((n: { name: string }) => n.name === "Team workshop");
+    expect(workshop.offers.map((o: { price: string }) => o.price)).toEqual([
+      "2000",
+      "3500",
+    ]);
+  });
+
+  it("marks 'from' prices as a minimum, ex-VAT, monthly for the retainer", () => {
+    const retainer = nodes.find((n: { name: string }) => n.name === "Retainer");
+    expect(retainer.offers[0].priceSpecification).toEqual({
+      "@type": "UnitPriceSpecification",
+      minPrice: 4000,
+      priceCurrency: "EUR",
+      valueAddedTaxIncluded: false,
+      unitText: "MONTH",
+    });
   });
 });
