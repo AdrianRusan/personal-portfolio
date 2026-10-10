@@ -61,7 +61,7 @@ export const ladder: LadderOffer[] = [
     tier: "Advise",
     name: "AI Audit",
     summary:
-      "A review of your AI-written code or LLM workflow, delivered as a ranked report: what to fix first, and why.",
+      "A review of your AI-written code, LLM workflow or LLM spend, delivered as a ranked report: what to fix first, and why.",
     prices: [{ amount: 900, from: true }],
     duration: "2–3 days",
     assurance: "Fixed price before I start, credited toward the next tier.",
