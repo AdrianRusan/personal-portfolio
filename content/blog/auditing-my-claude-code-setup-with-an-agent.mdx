@@ -8,11 +8,11 @@ language: "en"
 cta: "harness"
 ---
 
-> **TL;DR:** Between July and October I had agents audit my own Claude Code setup ten times. The largest used 33 to 69 subagents, and in those every finding had to survive an agent told to refute it. The audits found that 43 of 65 skills had never fired, that most of my instructions taught the model how to think, and that the metric calling my agent dishonest was itself broken. Since then my `CLAUDE.md` has shrunk from 3,115 to 939 words, the rule files from 9,648 to 2,412, and the skills from 54 to 19.
+> **TL;DR:** Between July and October I had agents audit my own Claude Code setup ten times. The deepest one used 69 subagents and made every finding survive an agent told to refute it. The audits found that 43 of 65 skills had not fired in 70 days, that most of my instructions taught the model how to think, and that the metric calling my agent dishonest was itself broken. Since then my `CLAUDE.md` has shrunk from 3,115 to 939 words, the rule files from 9,648 to 2,412, and the skills from 53 to 19.
 
 Most Claude Code best practices are about the code the agent writes. Fewer are about the setup that runs it: the `CLAUDE.md`, rule files, skills, hooks and subagents that load into every session. That setup grows the way any codebase grows. Each piece solves a real problem when you add it, and nothing removes it when it stops paying.
 
-So I audit it the way I would audit a client's repo, with agents doing the reading and me deciding what to change. This post covers how the audits run, the five findings that mattered most, and what changed in the config afterwards. Every before-and-after number comes from the git history of my config.
+So I audit it the way I would audit a client's repo, with agents doing the reading and me deciding what to change. This post covers how the audits run, the five findings that mattered most, and what changed in the config afterwards. The config numbers come from the git history of my setup; the rest come from the audit reports.
 
 ## How the audit runs
 
@@ -32,7 +32,7 @@ The deepest audit ran in five phases:
 4. **Sweep.** New lenses (security, cost, a new joiner, failure modes) until two rounds find nothing new.
 5. **Critic.** One agent walks the whole tree and names anything no other agent covered.
 
-That run used 69 agents and produced 89 findings. The refuting pass killed or cut 22 claims, and it found 5 errors in my own brief. A separate cleanup audit the same morning used 33 agents and logged 149 findings, 9 of them refuted.
+That run used 69 agents and produced 89 findings. The refuting pass killed or cut 22 claims, and it found 5 errors in my own brief. An earlier cleanup audit that day used 33 agents and logged 149 findings, 9 of them refuted.
 
 Audits only propose. Each report ends with a short table of decisions only I can make, and the agents leave the config untouched.
 
@@ -58,7 +58,7 @@ The first audit estimated about 21,000 always-loaded tokens per session, 6,000 t
 
 A subagent runs on the session's model unless you say otherwise. Mine almost never said otherwise. The July usage audit found **81% of 4,994 subagent spawns ran on the top model tier**, and 324 of 431 Agent calls passed no model at all.
 
-The audit's sharper point was that the missing parameter was not the cause. Two accounts with a 27-point gap in how often they set `model:` had the same top-tier share, around 87%. The session default decided it.
+The audit's sharper point was that the missing parameter was not the cause. Two accounts with a 27-point gap in how often they set `model:` had almost the same top-tier share. The session default decided it.
 
 **What changed:** partly fixed. The session default is still the top tier, but stale model IDs that had reviewer agents running the previous generation were fixed on 7 October. Choosing models per role is still on my list.
 
@@ -71,7 +71,7 @@ The deep audit's one-line verdict: "The harness is not over-engineered, it is un
 3. 23 of 48 skills had no recorded use.
 4. Every prompt carried about 1.5 KB of stale warning banners.
 
-**What changed:** most of it went on 11 September in five commits. The three MCP servers, the memory layer and the stale banners were removed, and 19 skills, 2 orphaned agents and 2 orphaned scripts went in one commit. Tracked skills went from 54 in early July to 19 today. Dead weight also costs money: in my [cost case study](/work/agent-cost-per-commit), trimming always-loaded context is one of the changes that lines up with the cost per commit falling.
+**What changed:** most of it went in four commits on 11 September. The three MCP servers, the memory layer and the stale banners were removed, and 19 skills, 2 orphaned agents and 2 orphaned scripts went in one commit. Tracked skills went from 53 at the start of July to 19 today. Dead weight also costs money: in my [cost case study](/work/agent-cost-per-commit), trimming always-loaded context is one of the changes that lines up with the cost per commit falling.
 
 ## Finding 5: the instruments were lying, not the agent
 
