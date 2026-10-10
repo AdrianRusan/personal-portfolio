@@ -19,7 +19,8 @@ const Hero = () => {
       <div className="min-h-[100vh] flex justify-center items-center relative z-10 py-28">
         <div className="max-w-[89vw] md:max-w-2xl lg:max-w-[62vw] flex justify-center items-center flex-col">
           <p className="uppercase tracking-widest text-xs text-center text-blue-100 max-w-80">
-            Agent speed · Every PR senior-reviewed
+            Adrian Rusan · Senior engineer, 10+ years · AI agents, human
+            review
           </p>
 
           <TextGenerateEffect
@@ -29,10 +30,8 @@ const Hero = () => {
           />
 
           <p className="text-center tracking-wide mb-2 mt-2 text-sm md:text-lg lg:text-xl text-white-200 max-w-3xl">
-            I run fleets of Claude Code agents to clear your backlog fast — then
-            I adversarially review every pull request myself, because I&apos;ve
-            caught the shell-injection bugs the agents wrote that the tests
-            passed clean.
+            I clear your backlog with Claude Code agents, then review every
+            pull request myself, security first, before it reaches you.
           </p>
 
           <p className="text-center text-sm md:text-base text-blue-100 max-w-2xl">
