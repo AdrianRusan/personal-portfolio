@@ -66,7 +66,7 @@ const rows: PricingRow[] = [
 
 export const DeliverySprint = () => {
   return (
-    <section id="sprint" className="px-5 sm:px-10 py-20">
+    <section id="sprint" className="px-5 sm:px-10 py-20 scroll-mt-24">
       <div className="max-w-6xl mx-auto">
         <div className="relative rounded-2xl border border-purple shadow-[inset_0_0_0_1px_#CBACF9] bg-black-200/40 p-6 md:p-10">
           <span className="absolute -top-3 left-6 md:left-10 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-purple bg-black-100 px-3 py-1 rounded-full border border-purple">

@@ -19,7 +19,7 @@ const terms = [
 
 export const HarnessSetup = () => {
   return (
-    <section className="px-5 sm:px-10 py-20">
+    <section id="harness" className="px-5 sm:px-10 py-20 scroll-mt-24">
       <div className="max-w-6xl mx-auto rounded-2xl border border-white/10 bg-black-200/40 p-6 md:p-10">
         <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100">
           Teach your team to fish
@@ -54,7 +54,7 @@ export const HarnessSetup = () => {
             Harness setup
           </span>
           <p className="text-3xl md:text-4xl font-bold tracking-tight mt-2">
-            Starts at €9,000
+            Starts at €4,000
           </p>
           <p className="text-sm text-white-200/80 mt-3 leading-relaxed">
             One repo: agent fleet config, CI security gates, review rubric,

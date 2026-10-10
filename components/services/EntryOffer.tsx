@@ -11,7 +11,7 @@ const steps = [
 
 export const EntryOffer = () => {
   return (
-    <section id="entry-offer" className="px-5 sm:px-10 py-20">
+    <section id="entry-offer" className="px-5 sm:px-10 py-20 scroll-mt-24">
       <div className="max-w-6xl mx-auto rounded-2xl border border-white/10 bg-black-200/40 p-6 md:p-10">
         <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100">
           Not ready for a full sprint?
@@ -35,17 +35,6 @@ export const EntryOffer = () => {
             </li>
           ))}
         </ul>
-
-        <div className="rounded-xl border border-purple bg-black-200/60 p-5 md:p-6 mt-8 max-w-2xl">
-          <p className="text-sm text-white font-medium leading-relaxed">
-            Fully credited toward any Delivery Sprint you book within 30 days.
-          </p>
-          <p className="text-sm text-white-200/80 mt-2 leading-relaxed">
-            If you move to a Pilot, Standard, or Scale Sprint within a month,
-            the €1,000 comes straight off the price — this is a free look at the
-            work, not a separate purchase.
-          </p>
-        </div>
 
         <div className="flex flex-wrap items-center gap-4 mt-8">
           <MagicButton
