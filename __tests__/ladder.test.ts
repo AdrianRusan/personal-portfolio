@@ -65,7 +65,9 @@ describe("ladderServiceJsonLd", () => {
         expect(offer.price).toMatch(/^\d+$/);
       }
     }
-    const workshop = nodes.find((n: { name: string }) => n.name === "Team workshop");
+    const workshop = nodes.find(
+      (n: { name: string }) => n.name === "Team workshop",
+    );
     expect(workshop.offers.map((o: { price: string }) => o.price)).toEqual([
       "2000",
       "3500",

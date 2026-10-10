@@ -36,17 +36,6 @@ export const EntryOffer = () => {
           ))}
         </ul>
 
-        <div className="rounded-xl border border-purple bg-black-200/60 p-5 md:p-6 mt-8 max-w-2xl">
-          <p className="text-sm text-white font-medium leading-relaxed">
-            Fully credited toward any Delivery Sprint you book within 30 days.
-          </p>
-          <p className="text-sm text-white-200/80 mt-2 leading-relaxed">
-            If you move to a Pilot, Standard, or Scale Sprint within a month,
-            the €1,000 comes straight off the price — this is a free look at the
-            work, not a separate purchase.
-          </p>
-        </div>
-
         <div className="flex flex-wrap items-center gap-4 mt-8">
           <MagicButton
             title="Start with one PR"

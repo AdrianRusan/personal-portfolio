@@ -27,8 +27,8 @@ export const ServicesHero = () => {
           2-3x, not 100x — and here&apos;s what the agents get wrong.
         </p>
         <p className="font-mono text-xs md:text-sm text-white-200/60 mt-3">
-          Delivery Sprints start at €7,500 — most land €12–18k, fixed on the
-          scope call.
+          Every offer is priced up front, from a €200 call to a monthly
+          retainer.
         </p>
 
         <div className="flex flex-col items-center gap-4 mt-6">
@@ -43,10 +43,10 @@ export const ServicesHero = () => {
             }}
           />
           <a
-            href="#process"
+            href="#ladder"
             className="text-sm font-medium text-blue-100 hover:text-purple transition-colors"
           >
-            Not ready to talk? See exactly how the pipeline works ↓
+            Not ready to talk? See the four tiers and prices ↓
           </a>
           <p className="text-xs text-white-200/70 mt-1">{GUARANTEE}</p>
         </div>
