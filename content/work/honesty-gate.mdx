@@ -1,38 +1,79 @@
 ---
-title: "The Honesty Gate: Stopping Agents From Inventing Facts on a Live Site"
+title: "The Honesty Gate: Blocking Invented Facts in Agent-Built Sites"
 date: "2026-10-10"
 tags: ["ai", "claude-code", "code-review", "agent-harness"]
-description: "How a review gate catches unsourced claims in agent-written copy before a customer reads them."
-published: false
+description: "A landing page labelled a launch count as real. The true count was 0. Here is the gate that now traces every rendered string to a source."
+published: true
 language: "en"
 ---
 
-{/*
-  DRAFT, BLOCKED (WP5 / #31). Do not set `published: true` until:
-  1. The owners of the agent-built SaaS repo give their OK to describe the run.
-  2. Every TODO(adi) below is replaced with a fact traceable to a file in that repo.
-  A jest test (__tests__/blog.test.ts) fails if a published case study still holds a TODO(adi).
-  Keep the product unnamed ("an agent-built SaaS platform"). No client names, no client numbers.
-  Rewrite the description from the real run once the facts are cleared.
-  Target: 400-700 words, one inline-SVG architecture diagram.
-*/}
-
 ## The problem
 
-{/* TODO(adi): what the agents shipped. The inflated "real number" counter and the invented facts on the demo site, and who would have read them. */}
+I work on an agent-built SaaS platform that generates demo sites. Agents write most of its code and copy, and I review it.
+
+Before launch, the landing page carried a proof line for each of five industries: a count of businesses that had launched their site with us this month, two or three per industry, labelled "real number, from delivered orders". The count was hardcoded. At launch the true number was 0.
+
+It was not the only one. A strip of sites "made by us" linked three domains, and two of them did not resolve. The generated demo sites had the same disease: the fixtures that seed a demo shipped testimonials, a 4.9 rating and "127 Google reviews" across five business types, with nothing marking them as examples.
+
+Nobody decided to lie. The numbers arrived in a design comp, the agents carried them forward faithfully, and each one looked plausible on its own.
 
 ## The constraint
 
-{/* TODO(adi): why a human couldn't just proofread every page (volume, number of parallel sessions, copy regenerated on every run). */}
+Proofreading does not scale here, for three reasons I found in the run itself.
+
+First, fan-out. One poisoned source field reached five places in the output: two SEO descriptions, two social descriptions and the structured data. Fix the field and a render path nobody remembered still ships the claim.
+
+Second, a digit regex is easy to defeat. Spell it out, as in "over two hundred happy clients", and there is no digit to match, though the claim is exactly as invented as "200+ clients".
+
+Third, gates that exist are not gates that run. An earlier pipeline exported ten gate functions. Only two were wired to anything that could stop a publish. The other eight were tested, exported and never consulted.
 
 ## What I built
 
-{/* TODO(adi): the gate. Where it runs in the pipeline, what counts as a claim, what evidence a claim needs, what happens when it has none. Add the inline-SVG diagram here. */}
+The fix moved honesty out of the prompt and into the data.
+
+<figure>
+  <svg viewBox="0 0 360 470" role="img" aria-label="Facts carry provenance into rendering. The rendered page and its provenance map pass two honesty gates. Any failure, or a gate that cannot run, blocks the publish." className="block w-full max-w-md mx-auto">
+    <g fill="none" stroke="#CBACF9" strokeWidth="1.5">
+      <rect x="20" y="10" width="320" height="64" rx="10" />
+      <rect x="20" y="104" width="320" height="64" rx="10" />
+      <rect x="20" y="198" width="150" height="80" rx="10" />
+      <rect x="190" y="198" width="150" height="80" rx="10" />
+      <rect x="20" y="320" width="150" height="56" rx="10" />
+      <rect x="190" y="320" width="150" height="56" rx="10" stroke="#F87171" />
+      <path d="M180 74 V100 M180 168 V194 M95 278 V316 M265 278 V316 M170 238 H186" />
+    </g>
+    <g fill="currentColor" fontFamily="sans-serif" fontSize="13" textAnchor="middle">
+      <text x="180" y="36" fontWeight="700">Facts with provenance</text>
+      <text x="180" y="56" fontSize="11">owner · places · derived · unknown</text>
+      <text x="180" y="130" fontWeight="700">Render: every string tagged</text>
+      <text x="180" y="150" fontSize="11">unknown → visibly marked, fillable slot</text>
+      <text x="95" y="226" fontWeight="700">Trace gate</text>
+      <text x="95" y="246" fontSize="11">every rendered string</text>
+      <text x="95" y="262" fontSize="11">maps to a source</text>
+      <text x="265" y="226" fontWeight="700">Proof scan</text>
+      <text x="265" y="246" fontSize="11">numbers, number words,</text>
+      <text x="265" y="262" fontSize="11">ratings, urgency</text>
+      <text x="95" y="353" fontWeight="700">Publish</text>
+      <text x="265" y="345" fontWeight="700">Block</text>
+      <text x="265" y="363" fontSize="11">incl. "gate couldn't run"</text>
+      <text x="180" y="410" fontSize="11">Both gates read the final rendered output,</text>
+      <text x="180" y="428" fontSize="11">not the source fields.</text>
+    </g>
+  </svg>
+</figure>
+
+Every fact about a business carries provenance: the owner typed it, it came from a public listing, it was derived, or it is unknown. An unknown fact renders as a visibly marked slot the owner can fill, never as prose. Inventing a claim now means forging a provenance value, not writing a convincing sentence.
+
+Two gates then read the final rendered page. The trace gate walks every string, roughly 1,400 per page, and requires each to map back to a fact, a catalog constant or a marked slot. The proof scan trusts nothing: any count, rating or urgency phrase, including counts spelled out from a 64-entry number-word lexicon, needs a backing fact. Ratings markup is emitted only from verified reviews. If either gate cannot run, the answer is the same as a failure: blocked.
+
+The landing page got the same rule. The count now comes from real go-live events and the whole line stays hidden until it reaches 2.
 
 ## The number
 
-{/* TODO(adi): one number from the run, with the file it comes from (claims blocked, pages checked, or runs gated). */}
+**0.** That was the honest value of the "real number" on launch day, so the line does not render. The trace gate checks the whole page in about 90 milliseconds, and the proof scan takes about 40.
 
 ## The lesson
 
-{/* TODO(adi): the one-line rule other teams can take away. */}
+A prompt that says "don't make things up" stops nothing on its own. What held was making every rendered string prove where it came from, checking the output instead of the source, and treating a check that couldn't run as a failure.
+
+If your team ships agent-written code or copy, the [AI Audit](/services) runs this kind of review on your pipeline, and the team workshop teaches the review gates behind it.

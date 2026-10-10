@@ -57,7 +57,7 @@ describe("case studies (content/work via the dir param)", () => {
     expect(studies.some((s) => s.slug === "30-prs-in-2-5-days")).toBe(false);
   });
 
-  it("reads a draft case study by slug from content/work", async () => {
+  it("reads a case study by slug from content/work", async () => {
     const study = await getPost("honesty-gate", WORK_DIR);
     expect(study.slug).toBe("honesty-gate");
     expect(study.source.length).toBeGreaterThan(0);
@@ -81,7 +81,7 @@ describe("case-study honesty guard", () => {
     await expect(getPosts(dir)).rejects.toThrow(/TODO\(adi\)/);
   });
 
-  it("does not throw for the unpublished honesty-gate draft", async () => {
+  it("lets the finished honesty-gate case study through the gate", async () => {
     await expect(getPosts(WORK_DIR)).resolves.toBeDefined();
   });
 });
