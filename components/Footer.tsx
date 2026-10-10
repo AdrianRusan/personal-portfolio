@@ -21,7 +21,7 @@ const Footer = () => {
         <section className="flex flex-col gap-5 md:gap-0 items-center mb-10">
           <h2 id="contact-heading" className="heading lg:max-w-[45vw]">
             Not sure <span className="text-purple">which tier</span> fits?
-            Book a scoping call.
+            Book a 30-minute scoping call.
           </h2>
           <p className="text-white-200 md:mt-10 my-5 text-center">
             Tell me what you want built or shipped. You&apos;ll leave knowing
