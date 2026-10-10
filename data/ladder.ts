@@ -1,8 +1,4 @@
-import { CALENDLY_URL, CONTACT_EMAIL } from "@/data";
-
-// Placeholder until Adi creates the paid €200 Calendly event (brief R3).
-// ponytail: WP1 adds the same constant to data/index.ts — import it from there once both merge.
-export const STRATEGY_CALL_URL = `mailto:${CONTACT_EMAIL}?subject=AI%20Strategy%20Call%20(%E2%82%AC200)`;
+import { CALENDLY_URL, STRATEGY_CALL_URL } from "@/data";
 
 export type Tier = "Advise" | "Train" | "Build" | "Ship";
 
@@ -32,7 +28,7 @@ export interface LadderOffer {
   duration: string;
   // True only where capacity is genuinely capped — brief R6. No countdowns.
   limited?: boolean;
-  cta: { label: string; href: string };
+  ctas: { label: string; href: string }[];
 }
 
 // Prices are the guide's ladder table (2026-10-10): EUR, ex-VAT, global.
@@ -45,7 +41,7 @@ export const ladder: LadderOffer[] = [
       "60 minutes 1:1 on the AI question in front of you, plus a written summary you keep.",
     prices: [{ amount: 200 }],
     duration: "1 h",
-    cta: { label: "Request the €200 call", href: STRATEGY_CALL_URL },
+    ctas: [{ label: "Request the €200 call", href: STRATEGY_CALL_URL }],
   },
   {
     id: "audit",
@@ -55,7 +51,7 @@ export const ladder: LadderOffer[] = [
       "A review of your AI-written code or LLM workflow, delivered as a ranked report: what to fix first, and why.",
     prices: [{ amount: 900, from: true }],
     duration: "2–3 days",
-    cta: { label: "Scope an audit", href: CALENDLY_URL },
+    ctas: [{ label: "Scope an audit", href: CALENDLY_URL }],
   },
   {
     id: "workshop",
@@ -68,10 +64,10 @@ export const ladder: LadderOffer[] = [
       { amount: 3500, label: "full day" },
     ],
     duration: "4–8 h",
-    cta: {
-      label: "Ask about dates",
-      href: `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Team workshop")}`,
-    },
+    ctas: [
+      { label: "Half-day agenda", href: "/workshops/half-day" },
+      { label: "Full-day agenda", href: "/workshops/full-day" },
+    ],
   },
   {
     id: "automation",
@@ -81,7 +77,7 @@ export const ladder: LadderOffer[] = [
       "One n8n workflow or LLM pipeline, built with evals and cost controls from the start.",
     prices: [{ amount: 3000, from: true }],
     duration: "1–3 wk",
-    cta: { label: "Scope an automation", href: CALENDLY_URL },
+    ctas: [{ label: "Scope an automation", href: CALENDLY_URL }],
   },
   {
     id: "harness",
@@ -91,7 +87,7 @@ export const ladder: LadderOffer[] = [
       "The ship/verify agent harness I run, installed in your repo and handed over to your team.",
     prices: [{ amount: 4000, from: true }],
     duration: "1 wk",
-    cta: { label: "What's included", href: "#harness" },
+    ctas: [{ label: "What's included", href: "#harness" }],
   },
   {
     id: "reviewed-pr",
@@ -101,7 +97,7 @@ export const ladder: LadderOffer[] = [
       "One real ticket from your backlog, shipped by an agent and security-reviewed line by line.",
     prices: [{ amount: 1000 }],
     duration: "~48 h",
-    cta: { label: "What's included", href: "#entry-offer" },
+    ctas: [{ label: "What's included", href: "#entry-offer" }],
   },
   {
     id: "sprint",
@@ -112,7 +108,7 @@ export const ladder: LadderOffer[] = [
     prices: [{ amount: 7500, from: true }],
     duration: "1–2 wk",
     limited: true,
-    cta: { label: "What's included", href: "#sprint" },
+    ctas: [{ label: "What's included", href: "#sprint" }],
   },
   {
     id: "retainer",
@@ -124,7 +120,7 @@ export const ladder: LadderOffer[] = [
     perMonth: true,
     duration: "monthly",
     limited: true,
-    cta: { label: "What's included", href: "#retainer" },
+    ctas: [{ label: "What's included", href: "#retainer" }],
   },
 ];
 
