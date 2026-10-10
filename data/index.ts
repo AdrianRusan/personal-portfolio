@@ -4,7 +4,6 @@ export const CALENDLY_URL = "https://calendly.com/adrian-rusan/scoping-call";
 // Async intake inbox for offers that don't require a call.
 export const CONTACT_EMAIL = "contact@adrian-rusan.com";
 
-// Single risk-reversal guarantee, reused verbatim at every money CTA.
 // Paid 1:1 advice call (€200). Mailto until the paid Calendly event exists;
 // swap to that event's URL once Adi creates it.
 export const STRATEGY_CALL_URL = `mailto:${CONTACT_EMAIL}?subject=AI%20Strategy%20Call%20(%E2%82%AC200)`;
@@ -12,6 +11,7 @@ export const STRATEGY_CALL_URL = `mailto:${CONTACT_EMAIL}?subject=AI%20Strategy%
 // Set to the channel URL once it's live; null hides every YouTube link.
 export const YOUTUBE_URL: string | null = null;
 
+// Single risk-reversal guarantee, reused verbatim at every money CTA.
 export const GUARANTEE =
   "If the first reviewed PR isn't merge-ready to your standard, you don't pay for it.";
 

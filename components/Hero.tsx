@@ -5,6 +5,7 @@ import { TextGenerateEffect } from "./ui/TextGenerateEffect";
 import { FaLocationArrow } from "react-icons/fa6";
 import SpotlightBackground from "./ui/SpotlightBackground";
 import { CalendlyLink } from "@/components/CalendlyLink";
+import { TrackedLink } from "@/components/TrackedLink";
 import { GUARANTEE, STRATEGY_CALL_URL } from "@/data";
 
 const Hero = () => {
@@ -75,14 +76,14 @@ const Hero = () => {
 
           <p className="text-center text-sm text-white-200 mt-4">
             Only need advice?{" "}
-            <CalendlyLink
-              source="hero_strategy_call"
+            <TrackedLink
               href={STRATEGY_CALL_URL}
-              newTab={false}
+              event="cta_click"
+              props={{ cta: "strategy_call", source: "hero" }}
               className="font-medium text-blue-100 underline-offset-2 hover:underline hover:text-purple transition-colors"
             >
               Book a 1:1 AI session, €200.
-            </CalendlyLink>
+            </TrackedLink>
           </p>
         </div>
       </div>
