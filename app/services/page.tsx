@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { FloatingNav } from "@/components/ui/FloatingNav";
+import { PageShell } from "@/components/PageShell";
 import { ServicesHero } from "@/components/services/ServicesHero";
 import { ProcessSteps } from "@/components/services/ProcessSteps";
 import { DeliverySprint } from "@/components/services/DeliverySprint";
@@ -59,15 +59,14 @@ const servicesNavItems = [
   { name: "How it works", link: "#process" },
   { name: "Work", link: "/work" },
   { name: "Blog", link: "/blog" },
-  { name: "Contact", link: "/#contact" },
+  { name: "Contact", link: "#contact" },
 ];
 
 export default function ServicesPage() {
   return (
-    <main className="relative dark:bg-black-100 bg-white overflow-hidden">
+    <PageShell navItems={servicesNavItems}>
       <ServicesFaqJsonLd />
       <ServicesJsonLd />
-      <FloatingNav navItems={servicesNavItems} />
       <ServicesHero />
       <Ladder />
       <ProcessSteps />
@@ -79,6 +78,6 @@ export default function ServicesPage() {
       <Scarcity />
       <ServicesFaq />
       <ServicesFinalCta />
-    </main>
+    </PageShell>
   );
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import BlogNav from '@/components/blog/BlogNav';
+import { PageShell } from '@/components/PageShell';
 
 export const metadata: Metadata = {
   title: {
@@ -15,11 +15,18 @@ export const metadata: Metadata = {
   },
 };
 
+const blogNavItems = [
+  { name: 'Home', link: '/' },
+  { name: 'Blog', link: '/blog' },
+  { name: 'Services', link: '/services' },
+  { name: 'Work', link: '/#work' },
+  { name: 'RSS', link: '/feed.xml' },
+];
+
 export default function BlogLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen dark:bg-black-100 bg-white">
-      <BlogNav />
-      <main>{children}</main>
-    </div>
+    <PageShell navItems={blogNavItems}>
+      <div className="pt-32 sm:pt-36">{children}</div>
+    </PageShell>
   );
 }

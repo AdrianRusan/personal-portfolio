@@ -32,7 +32,7 @@ const steps: ProcessStep[] = [
         and it&apos;s the whole reason this service exists.{" "}
         <Link
           href="/#ship-verify"
-          className="text-purple hover:underline underline-offset-4"
+          className="text-purple underline underline-offset-4"
         >
           Read how the review layer works in depth →
         </Link>
@@ -60,7 +60,7 @@ export const ProcessSteps = () => {
           it.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-white/10 border border-white/10 rounded-xl overflow-hidden mt-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-black-300 border border-white/10 rounded-xl overflow-hidden mt-10">
           {steps.map((step) => (
             <div
               key={step.tag}
@@ -84,7 +84,7 @@ export const ProcessSteps = () => {
                 {step.body}
               </p>
               {step.caption && (
-                <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-white-200/60 mt-4">
+                <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-white-200/75 mt-4">
                   {step.caption}
                 </p>
               )}

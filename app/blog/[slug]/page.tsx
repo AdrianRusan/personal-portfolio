@@ -7,7 +7,6 @@ import PostHeader from "@/components/blog/PostHeader";
 import MDXContent from "@/components/blog/MDXContent";
 import TableOfContents from "@/components/blog/TableOfContents";
 import ShareButtons from "@/components/blog/ShareButtons";
-import EmailCapture from "@/components/EmailCapture";
 import AuthorBox from "@/components/blog/AuthorBox";
 import PostCta from "@/components/blog/PostCta";
 import RelatedPosts from "@/components/blog/RelatedPosts";
@@ -117,16 +116,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   Book a call →
                 </CalendlyLink>
               </p>
-              <EmailCapture />
             </div>
 
             <RelatedPosts posts={related} />
           </div>
 
           {post.headings.length > 0 && (
-            <aside className="hidden lg:block w-56 flex-shrink-0 sticky top-24">
+            <div className="hidden lg:block w-56 flex-shrink-0 sticky top-24">
               <TableOfContents headings={post.headings} />
-            </aside>
+            </div>
           )}
         </div>
       </article>

@@ -1,18 +1,8 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
-import { FloatingNav } from "@/components/ui/FloatingNav";
+import { PageShell } from "@/components/PageShell";
 import TeardownForm from "@/components/TeardownForm";
 import { LEDGER_PROOF } from "@/data";
 import { CalendlyLink } from "@/components/CalendlyLink";
-
-const Footer = dynamic(() => import("@/components/Footer"), {
-  loading: () => (
-    <footer
-      className="h-32 animate-pulse bg-slate-100 dark:bg-slate-800"
-      aria-label="Footer loading"
-    />
-  ),
-});
 
 const TITLE =
   "Free AI Code Teardown — a 15-min Loom of what your AI-generated code is hiding";
@@ -54,8 +44,7 @@ const steps = [
 
 export default function TeardownPage() {
   return (
-    <main className="relative dark:bg-black-100 bg-white overflow-hidden">
-      <FloatingNav navItems={teardownNavItems} />
+    <PageShell navItems={teardownNavItems}>
 
       <section className="px-5 sm:px-10 pt-28 sm:pt-32 pb-16">
         <div className="max-w-5xl mx-auto text-center">
@@ -146,7 +135,6 @@ export default function TeardownPage() {
         </div>
       </section>
 
-      <Footer />
-    </main>
+    </PageShell>
   );
 }

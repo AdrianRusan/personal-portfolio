@@ -10,7 +10,7 @@ type MDXOptions = NonNullable<MDXRemoteOptions["mdxOptions"]>;
 const rehypePlugins: MDXOptions["rehypePlugins"] = [
   rehypeSlug,
   [rehypeAutolinkHeadings, { behavior: "wrap" }],
-  [rehypePrettyCode, { theme: "one-dark-pro", keepBackground: true }],
+  [rehypePrettyCode, { theme: "github-dark-high-contrast", keepBackground: true }],
 ];
 
 interface MDXContentProps {

@@ -62,29 +62,32 @@ export const FloatingNav = ({
           duration: 0.2,
         }}
         className={cn(
-          "flex max-w-fit md:min-w-[70vw] lg:min-w-fit fixed z-[5000] top-10 inset-x-0 mx-auto px-10 py-5 rounded-lg border border-black/10 dark:border-white/10 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] items-center justify-center space-x-4",
+          "flex w-fit max-w-[calc(100vw-1.5rem)] sm:max-w-fit md:min-w-[70vw] lg:min-w-fit fixed z-[5000] top-10 inset-x-0 mx-auto px-3 sm:px-10 py-3 sm:py-5 rounded-lg border border-black/10 dark:border-white/10 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] items-center justify-center space-x-3 sm:space-x-4",
           className,
           "floating-nav",
         )}
       >
-        {navItems.map((navItem: any, idx: number) => (
-          <Link
-            key={navItem.link}
-            href={navItem.link}
-            className={cn(
-              "relative dark:text-neutral-50 items-center  flex space-x-1 text-neutral-600 dark:hover:text-neutral-300 hover:text-neutral-500",
-            )}
-          >
-            <span className="block sm:hidden">{navItem.icon}</span>
-            <span className=" text-sm !cursor-pointer">{navItem.name}</span>
-          </Link>
-        ))}
+        {/* Links scroll sideways on narrow screens so the CTA always fits. */}
+        <div className="flex min-w-0 items-center space-x-3 sm:space-x-4 overflow-x-auto">
+          {navItems.map((navItem: any) => (
+            <Link
+              key={navItem.link}
+              href={navItem.link}
+              className={cn(
+                "relative dark:text-neutral-50 items-center  flex space-x-1 whitespace-nowrap text-neutral-600 dark:hover:text-neutral-300 hover:text-neutral-500",
+              )}
+            >
+              <span className="block sm:hidden">{navItem.icon}</span>
+              <span className="text-xs sm:text-sm !cursor-pointer">{navItem.name}</span>
+            </Link>
+          ))}
+        </div>
         <a
           href={CALENDLY_URL}
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => track("calendly_click", { source: ctaSource })}
-          className="relative rounded-lg bg-purple px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-purple/80 !cursor-pointer"
+          className="relative shrink-0 whitespace-nowrap rounded-lg bg-purple px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-black-100 transition-colors hover:bg-purple/80 !cursor-pointer"
         >
           {ctaLabel}
         </a>

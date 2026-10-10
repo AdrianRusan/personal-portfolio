@@ -63,7 +63,7 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
                     <p className="text-xl font-bold text-white mt-2">
                       {content.format(offer)}
                     </p>
-                    <p className="font-mono text-[11px] text-white-200/60 mt-1">
+                    <p className="font-mono text-[11px] text-white-200/75 mt-1">
                       {offer.duration}
                     </p>
                     {offer.assurance && (

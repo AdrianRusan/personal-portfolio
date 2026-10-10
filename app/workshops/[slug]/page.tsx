@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import dynamic from "next/dynamic";
-import { FloatingNav } from "@/components/ui/FloatingNav";
+import { PageShell } from "@/components/PageShell";
 import MagicButton from "@/components/ui/MagicButton";
 import {
   workshops,
@@ -10,15 +9,6 @@ import {
   type WorkshopSlug,
 } from "@/data/workshops";
 import { FaLocationArrow } from "react-icons/fa6";
-
-const Footer = dynamic(() => import("@/components/Footer"), {
-  loading: () => (
-    <footer
-      className="h-32 animate-pulse bg-slate-100 dark:bg-slate-800"
-      aria-label="Footer loading"
-    />
-  ),
-});
 
 interface WorkshopPageProps {
   params: Promise<{ slug: WorkshopSlug }>;
@@ -71,13 +61,12 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
     w.slug === "full-day" ? workshops["half-day"] : workshops["full-day"];
 
   return (
-    <main className="relative dark:bg-black-100 bg-white overflow-hidden">
+    <PageShell navItems={navItems}>
       <script
         type="application/ld+json"
         // Safe: JSON.stringify of static data from data/workshops.ts
         dangerouslySetInnerHTML={{ __html: JSON.stringify(workshopJsonLd(w)) }}
       />
-      <FloatingNav navItems={navItems} />
 
       <section className="px-5 sm:px-10 pt-28 sm:pt-32 pb-16">
         <div className="max-w-5xl mx-auto text-center">
@@ -90,7 +79,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
           <p className="text-white-200 mt-5 leading-relaxed max-w-2xl mx-auto">
             {w.intro}
           </p>
-          <p className="font-mono text-xs md:text-sm text-white-200/60 mt-5">
+          <p className="font-mono text-xs md:text-sm text-white-200/75 mt-5">
             {euro(w.price)} for the {w.length} · EUR, ex-VAT
           </p>
           <div className="flex justify-center">
@@ -206,7 +195,6 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
         </div>
       </section>
 
-      <Footer />
-    </main>
+    </PageShell>
   );
 }

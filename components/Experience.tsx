@@ -27,7 +27,7 @@ const Experience = () => {
                   "linear-gradient(90deg, rgba(4,7,29,1) 0%, rgba(12,14,35,1) 100%)",
                 borderRadius: `calc(1.75rem* 0.96)`,
               }}
-              className="flex-1 text-black dark:text-white border-neutral-200 dark:border-slate-800"
+              className="flex-1 text-neutral-50 border-slate-800"
             >
               <div className="flex lg:flex-row flex-col lg:items-center p-3 py-6 md:p-5 lg:p-10 gap-2">
                 <Image
@@ -41,17 +41,17 @@ const Experience = () => {
                 <div className="lg:ms-5 space-y-2">
                   <h3
                     id={`job-title-${card.id}`}
-                    className="text-start text-xl md:text-2xl font-bold text-purple-600"
+                    className="text-start text-xl md:text-2xl font-bold text-violet-300"
                   >
                     {card.title} at <br />
-                    <span className="text-lg md:text-xl text-gray-700 dark:text-gray-300">
+                    <span className="text-lg md:text-xl text-gray-300">
                       {card.company}
                     </span>
                   </h3>
-                  <time className="text-start text-md md:text-lg text-gray-600 dark:text-gray-400 block">
+                  <time className="text-start text-md md:text-lg text-gray-400 block">
                     {card.period}
                   </time>
-                  <p className="text-start text-gray-800 dark:text-gray-200 mt-3 font-semibold">
+                  <p className="text-start text-gray-200 mt-3 font-semibold">
                     {card.desc}
                   </p>
                 </div>

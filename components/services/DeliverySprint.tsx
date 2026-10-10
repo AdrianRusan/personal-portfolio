@@ -169,7 +169,7 @@ export const DeliverySprint = () => {
               </p>
             </div>
           </div>
-          <p className="text-xs text-white-200/60 mt-4 max-w-2xl">
+          <p className="text-xs text-white-200/75 mt-4 max-w-2xl">
             There is deliberately no blanket &quot;money back if unhappy&quot;
             guarantee. It invites scope disputes and it&apos;s not how a senior
             operator works. These two put my skin in the game where it actually
