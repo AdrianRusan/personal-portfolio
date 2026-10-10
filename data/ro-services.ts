@@ -44,8 +44,8 @@ export const roServicesHero: ServicesHeroCopy = {
     "Dintr-un proiect pe care l-am dus cap-coadă pe propriul repo — PR-urile, notițele de review și problemele găsite sunt reale, și ți le arăt pe toate în discuție.",
 };
 
-// The global ladder links its Build/Ship offers to the sections below; the RO
-// data points them at Calendly because /ro/servicii had no such sections.
+// The global ladder links its Build/Ship offers to in-page sections; /ro/servicii
+// has the same sections, so the RO ladder uses the same anchors.
 const roLadderAnchors: Record<string, string> = {
   harness: "#harness",
   "reviewed-pr": "#entry-offer",

@@ -90,7 +90,7 @@ export const FloatingNav = ({
           href={switchLocalePath(pathname)}
           hrefLang={isRo ? "en" : "ro"}
           lang={isRo ? "en" : "ro"}
-          aria-label={isRo ? "Read in English" : "Citește în română"}
+          aria-label={isRo ? "EN, read in English" : "RO, citește în română"}
           className="relative flex-none text-xs sm:text-sm font-medium text-neutral-600 dark:text-neutral-50 hover:text-purple dark:hover:text-purple !cursor-pointer"
         >
           {isRo ? "EN" : "RO"}

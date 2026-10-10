@@ -7,7 +7,7 @@ import Link from "next/link";
 import { GridBackground } from "./ui/GridBackground";
 import SpotlightBackground from "./ui/SpotlightBackground";
 import EmailCapture, { type EmailCaptureCopy } from "./EmailCapture";
-import { switchLocalePath, type Locale } from "@/lib/locale";
+import { LocaleSwitch } from "@/components/LocaleSwitch";
 
 const en = {
   headingBefore: "Not sure ",
@@ -22,16 +22,7 @@ const en = {
 };
 export type FooterCopy = typeof en;
 
-const switchLabel = { en: "Română", ro: "English" };
-
-const Footer = ({
-  copy = en,
-  locale = "en",
-}: {
-  copy?: FooterCopy;
-  locale?: Locale;
-}) => {
-  const other = locale === "ro" ? "en" : "ro";
+const Footer = ({ copy = en }: { copy?: FooterCopy }) => {
   return (
     <footer className="" id="contact" aria-labelledby="contact-heading">
       <SpotlightBackground />
@@ -78,14 +69,7 @@ const Footer = ({
             <p className="md:text-base text-sm md:font-normal font-light">
               Copyright © {new Date().getFullYear()} Adrian Rusan
             </p>
-            <Link
-              href={switchLocalePath(locale === "ro" ? "/ro" : "/")}
-              hrefLang={other}
-              lang={other}
-              className="text-sm text-white-200 hover:text-purple transition-colors"
-            >
-              {switchLabel[locale]}
-            </Link>
+            <LocaleSwitch className="text-sm text-white-200 hover:text-purple transition-colors" />
           </div>
 
           <nav

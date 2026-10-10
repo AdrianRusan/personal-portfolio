@@ -105,7 +105,7 @@ export default function RoServicesPage() {
       <Scarcity copy={roScarcity} />
       <ServicesFaq copy={roServicesFaq} />
       <ServicesFinalCta copy={roServicesFinalCta} />
-      <Footer copy={roFooter} locale="ro" />
+      <Footer copy={roFooter} />
     </main>
   );
 }

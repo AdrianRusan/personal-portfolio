@@ -130,7 +130,7 @@ export default function RoHome() {
       <ServicesFaq copy={roServicesFaq} />
       <CallSteps source="home_call_steps" copy={roCallSteps} />
       <FinalCta copy={roFinalCta} />
-      <Footer copy={roFooter} locale="ro" />
+      <Footer copy={roFooter} />
     </main>
   );
 }

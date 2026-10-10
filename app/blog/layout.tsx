@@ -19,7 +19,7 @@ const blogNavItems = [
   { name: 'Home', link: '/' },
   { name: 'Blog', link: '/blog' },
   { name: 'Services', link: '/services' },
-  { name: 'Work', link: '/#work' },
+  { name: 'Work', link: '/work' },
   { name: 'RSS', link: '/feed.xml' },
 ];
 

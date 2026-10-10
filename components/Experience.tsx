@@ -59,7 +59,7 @@ const Experience = ({ copy = en }: { copy?: ExperienceCopy }) => {
                     {card.title}
                     {` ${copy.at} `}
                     <br />
-                    <span className="text-lg md:text-xl text-gray-700 dark:text-gray-300">
+                    <span className="text-lg md:text-xl text-gray-300">
                       {card.company}
                     </span>
                   </h3>
