@@ -43,7 +43,7 @@ export default async function WorkIndexPage() {
     <PageShell navItems={workNavItems}>
       <div className="max-w-5xl mx-auto px-5 sm:px-10 pt-32 sm:pt-36 pb-20">
         <div className="mb-12">
-          <h1 className="text-4xl sm:text-5xl font-bold text-black-100 dark:text-white mb-4">
+          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">
             Case studies
           </h1>
           <p className="text-white-200 text-lg max-w-xl">{DESCRIPTION}</p>
@@ -69,7 +69,7 @@ export default async function WorkIndexPage() {
                     </div>
                   )}
                   <div className="flex flex-col flex-1">
-                    <h2 className="text-lg md:text-xl font-semibold text-balance text-black-100 dark:text-white">
+                    <h2 className="text-lg md:text-xl font-semibold text-balance text-white">
                       {study.frontmatter.title}
                     </h2>
                     <p className="text-sm text-white-200 mt-3 leading-relaxed flex-1">
