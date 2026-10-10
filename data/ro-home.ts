@@ -243,7 +243,7 @@ export const roExperience: ExperienceCopy = {
 export const roTestimonials: TestimonialsCopy = {
   headingBefore: "Ce spune un client despre",
   headingAccent: "colaborarea cu mine",
-  note: "Dintr-un proiect de dezvoltare web full-stack (citat original, în engleză). Studiile de caz din pipeline-ul cu agenți revizuiți sunt în lucru. Pentru o dovadă pe codul tău chiar azi,",
+  note: "Dintr-un proiect de dezvoltare web full-stack, dinainte de pipeline-ul cu agenți (citat original, în engleză). Dovezile pipeline-ului sunt în studiile de caz de mai sus. Pentru o dovadă pe codul tău chiar azi,",
   noteLink: "cere un teardown gratuit",
 };
 

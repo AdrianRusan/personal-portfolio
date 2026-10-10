@@ -3,7 +3,7 @@ import { testimonials } from "@/data";
 const en = {
   headingBefore: "What a client says about",
   headingAccent: "working with me",
-  note: "From a full-stack web delivery engagement. Case studies from the reviewed-agent pipeline are in progress — for proof on your own code today,",
+  note: "From a full-stack web delivery engagement, before the agent pipeline. The pipeline's own proof is in the case studies above — for proof on your own code today,",
   noteLink: "get a free teardown",
 };
 export type TestimonialsCopy = typeof en;
