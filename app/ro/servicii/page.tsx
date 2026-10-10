@@ -46,7 +46,7 @@ export const metadata: Metadata = {
 const roLadderContent: LadderContent = {
   offers: roLadder,
   tiers: roTiers,
-  tierName: (tier) => roTierNames[tier as keyof typeof roTierNames],
+  tierName: (tier) => roTierNames[tier],
   format: formatPriceRo,
   eyebrow: "Consultanță → Training → Implementare → Livrare",
   heading: "Patru moduri de a lucra împreună, toate cu prețul afișat",
@@ -68,7 +68,11 @@ export default function RoServicesPage() {
           __html: JSON.stringify(ladderServiceJsonLd(roLadder, "Romania")),
         }}
       />
-      <FloatingNav navItems={roNavItems} ctaLabel="Programează" />
+      <FloatingNav
+        navItems={roNavItems}
+        ctaLabel="Programează"
+        ctaSource="ro_floating_nav"
+      />
 
       <section className="px-5 sm:px-10 pt-28 sm:pt-32 pb-8">
         <div className="max-w-5xl mx-auto text-center">

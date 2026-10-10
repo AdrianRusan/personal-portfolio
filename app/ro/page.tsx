@@ -53,7 +53,11 @@ const proofItems = [
 export default function RoHome() {
   return (
     <main className="relative overflow-hidden">
-      <FloatingNav navItems={roNavItems} ctaLabel="Programează" />
+      <FloatingNav
+        navItems={roNavItems}
+        ctaLabel="Programează"
+        ctaSource="ro_floating_nav"
+      />
 
       <section className="px-5 sm:px-10 pt-28 sm:pt-32 pb-16">
         <div className="max-w-5xl mx-auto text-center">

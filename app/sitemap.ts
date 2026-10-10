@@ -6,8 +6,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://www.adrian-rusan.com";
   const lastModified = new Date();
   // hreflang pairs, listed on both sides (brief R7)
-  const home = { en: baseUrl, ro: `${baseUrl}/ro` };
-  const services = { en: `${baseUrl}/services`, ro: `${baseUrl}/ro/servicii` };
+  const home = { en: baseUrl, ro: `${baseUrl}/ro`, "x-default": baseUrl };
+  const services = {
+    en: `${baseUrl}/services`,
+    ro: `${baseUrl}/ro/servicii`,
+    "x-default": `${baseUrl}/services`,
+  };
 
   const posts = await getPosts();
   const blogEntries: MetadataRoute.Sitemap = posts.map((post) => ({

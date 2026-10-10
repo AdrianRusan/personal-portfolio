@@ -16,6 +16,7 @@ export const FloatingNav = ({
   navItems,
   className,
   ctaLabel = "Book a call",
+  ctaSource = "floating_nav",
 }: {
   navItems: {
     name: string;
@@ -24,6 +25,7 @@ export const FloatingNav = ({
   }[];
   className?: string;
   ctaLabel?: string;
+  ctaSource?: string;
 }) => {
   const { scrollYProgress } = useScroll();
 
@@ -81,7 +83,7 @@ export const FloatingNav = ({
           href={CALENDLY_URL}
           target="_blank"
           rel="noopener noreferrer"
-          onClick={() => track("calendly_click", { source: "floating_nav" })}
+          onClick={() => track("calendly_click", { source: ctaSource })}
           className="relative rounded-lg bg-purple px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-purple/80 !cursor-pointer"
         >
           {ctaLabel}

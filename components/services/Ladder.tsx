@@ -1,10 +1,10 @@
-import { formatPrice, ladder, tiers } from "@/data/ladder";
+import { formatPrice, ladder, tiers, type Tier } from "@/data/ladder";
 import { LadderLink } from "./LadderLink";
 
 const en = {
   offers: ladder,
   tiers,
-  tierName: (tier: string) => tier,
+  tierName: (tier: Tier): string => tier,
   format: formatPrice,
   eyebrow: "Advise → Train → Build → Ship",
   heading: "Four ways to work together, every one priced",
@@ -18,30 +18,29 @@ const en = {
 export type LadderContent = typeof en;
 
 export const Ladder = ({ content = en }: { content?: LadderContent }) => {
-  const c = content;
   return (
     <section id="ladder" className="px-5 sm:px-10 py-20 scroll-mt-24">
       <div className="max-w-6xl mx-auto">
         <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-purple">
-          {c.eyebrow}
+          {content.eyebrow}
         </span>
         <h2 className="text-2xl md:text-4xl font-bold tracking-tight mt-3 text-balance">
-          {c.heading}
+          {content.heading}
         </h2>
         <p className="text-white-200 mt-5 leading-relaxed max-w-3xl">
-          {c.intro}
+          {content.intro}
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mt-12">
-          {c.tiers.map(({ tier, tagline }) => (
+          {content.tiers.map(({ tier, tagline }) => (
             <div key={tier} className="flex flex-col gap-4">
               <div>
                 <h3 className="font-mono text-xs font-bold uppercase tracking-[0.12em] text-purple">
-                  {c.tierName(tier)}
+                  {content.tierName(tier)}
                 </h3>
                 <p className="text-sm text-white-200/80 mt-1">{tagline}</p>
               </div>
-              {c.offers
+              {content.offers
                 .filter((offer) => offer.tier === tier)
                 .map((offer) => (
                   <div
@@ -50,14 +49,14 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
                   >
                     {offer.limited && (
                       <span className="self-start font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-blue-100 border border-blue-100/30 rounded-full px-2 py-0.5 mb-3">
-                        {c.limited}
+                        {content.limited}
                       </span>
                     )}
                     <h4 className="text-base font-semibold text-white">
                       {offer.name}
                     </h4>
                     <p className="text-xl font-bold text-white mt-2">
-                      {c.format(offer)}
+                      {content.format(offer)}
                     </p>
                     <p className="font-mono text-[11px] text-white-200/60 mt-1">
                       {offer.duration}
@@ -68,7 +67,7 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
                     <LadderLink
                       href={offer.cta.href}
                       offer={offer.id}
-                      source={c.source}
+                      source={content.source}
                       className="text-sm font-medium text-purple hover:underline underline-offset-4 mt-4"
                     >
                       {offer.cta.label}{" "}
@@ -81,7 +80,7 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
         </div>
 
         <p className="text-sm text-white-200/80 mt-10 max-w-3xl">
-          {c.capacity}
+          {content.capacity}
         </p>
       </div>
     </section>
