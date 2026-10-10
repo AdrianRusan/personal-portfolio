@@ -39,3 +39,20 @@ export function parseYouTubeFeed(xml: string): YouTubeVideo[] {
     ];
   });
 }
+
+export async function getLatestVideos(
+  channelId: string | null,
+): Promise<YouTubeVideo[]> {
+  if (!channelId) return [];
+  try {
+    const res = await fetch(
+      `https://www.youtube.com/feeds/videos.xml?channel_id=${encodeURIComponent(channelId)}`,
+      { next: { revalidate: 3600 } },
+    );
+    if (!res.ok) return [];
+    return parseYouTubeFeed(await res.text()).slice(0, 3);
+  } catch {
+    // The homepage must render even when YouTube is down; blog-only is the fallback.
+    return [];
+  }
+}

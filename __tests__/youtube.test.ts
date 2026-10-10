@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import { parseYouTubeFeed } from "@/lib/youtube";
+import { getLatestVideos, parseYouTubeFeed } from "@/lib/youtube";
 
 // Trimmed shape of https://www.youtube.com/feeds/videos.xml?channel_id=…
 const FEED = `<?xml version="1.0" encoding="UTF-8"?>
@@ -40,5 +40,42 @@ describe("parseYouTubeFeed", () => {
         thumbnail: "https://i.ytimg.com/vi/zzz999/hqdefault.jpg",
       },
     ]);
+  });
+});
+
+describe("getLatestVideos", () => {
+  const realFetch = global.fetch;
+  afterEach(() => {
+    global.fetch = realFetch;
+  });
+
+  it("returns [] without fetching when no channel id is set", async () => {
+    global.fetch = jest.fn();
+    await expect(getLatestVideos(null)).resolves.toEqual([]);
+    expect(global.fetch).not.toHaveBeenCalled();
+  });
+
+  it("fetches the channel feed hourly and returns at most 3 videos", async () => {
+    const entry = FEED.match(/<entry>[\s\S]*?<\/entry>/)![0];
+    const four = `<feed>${entry.repeat(4)}</feed>`;
+    global.fetch = jest.fn().mockResolvedValue(new Response(four));
+    const videos = await getLatestVideos("UC123");
+    expect(videos).toHaveLength(3);
+    expect(global.fetch).toHaveBeenCalledWith(
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UC123",
+      { next: { revalidate: 3600 } },
+    );
+  });
+
+  it("falls back to [] when the fetch rejects", async () => {
+    global.fetch = jest.fn().mockRejectedValue(new Error("offline"));
+    await expect(getLatestVideos("UC123")).resolves.toEqual([]);
+  });
+
+  it("falls back to [] on a non-200 response", async () => {
+    global.fetch = jest
+      .fn()
+      .mockResolvedValue(new Response("nope", { status: 404 }));
+    await expect(getLatestVideos("UC123")).resolves.toEqual([]);
   });
 });
