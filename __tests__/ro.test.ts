@@ -38,22 +38,22 @@ describe("roLadder", () => {
 
   it("prices every point at 55% of global, within 2% rounding", () => {
     roLadder.forEach((ro, i) => {
-      const global = ladder[i];
+      const global = ladder[i]!;
       expect(ro.prices).toHaveLength(global.prices.length);
       ro.prices.forEach((p, j) => {
-        const target = global.prices[j].amount * 0.55;
+        const target = global.prices[j]!.amount * 0.55;
         expect(Math.abs(p.amount - target) / target).toBeLessThanOrEqual(0.02);
-        expect(p.from).toBe(global.prices[j].from);
+        expect(p.from).toBe(global.prices[j]!.from);
       });
     });
   });
 
   it("emits Service JSON-LD with RO prices, served in Romania", () => {
     const nodes = JSON.parse(
-      JSON.stringify(ladderServiceJsonLd(roLadder, "RO")),
+      JSON.stringify(ladderServiceJsonLd(roLadder, "Romania")),
     );
     expect(nodes).toHaveLength(8);
-    expect(nodes[0].areaServed).toBe("RO");
+    expect(nodes[0].areaServed).toBe("Romania");
     expect(nodes[0].offers[0].price).toBe("110");
     expect(nodes[7].offers[0].priceSpecification.minPrice).toBe(2200);
   });
