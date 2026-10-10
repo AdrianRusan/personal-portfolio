@@ -26,7 +26,7 @@ const Testimonials = () => {
             today,{" "}
             <a
               href="/teardown"
-              className="text-blue-100 hover:text-purple transition-colors"
+              className="text-blue-100 underline underline-offset-4 hover:text-purple transition-colors"
             >
               get a free teardown
             </a>
