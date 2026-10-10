@@ -1,4 +1,7 @@
-import { getPosts, getRelatedPosts } from "@/lib/blog";
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+import { getRelatedPosts } from "@/lib/blog";
 import { BLOG_CTAS, getPostCta } from "@/lib/blog-cta";
 import type { BlogFrontmatter, BlogPost } from "@/lib/blog-types";
 
@@ -42,11 +45,18 @@ describe("getPostCta", () => {
     }
   });
 
-  it("is set explicitly on every post file", async () => {
-    const posts = await getPosts();
-    for (const p of posts) {
-      expect(Object.keys(BLOG_CTAS)).toContain(p.frontmatter.cta);
+  it("is set explicitly on every post file, drafts included", () => {
+    const dir = path.join(process.cwd(), "content/blog");
+    for (const file of fs.readdirSync(dir).filter((f) => f.endsWith(".mdx"))) {
+      const { data } = matter(fs.readFileSync(path.join(dir, file), "utf-8"));
+      expect(Object.keys(BLOG_CTAS)).toContain(data.cta);
     }
+  });
+
+  it("ignores prototype keys", () => {
+    expect(getPostCta(fm({ cta: "constructor" as never }))).toBe(
+      BLOG_CTAS.teardown,
+    );
   });
 });
 

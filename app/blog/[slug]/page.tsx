@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPost, getPosts, getRelatedPosts } from "@/lib/blog";
 import { getPostCta } from "@/lib/blog-cta";
+import { CalendlyLink } from "@/components/CalendlyLink";
 import PostHeader from "@/components/blog/PostHeader";
 import MDXContent from "@/components/blog/MDXContent";
 import TableOfContents from "@/components/blog/TableOfContents";
@@ -10,6 +11,10 @@ import EmailCapture from "@/components/EmailCapture";
 import AuthorBox from "@/components/blog/AuthorBox";
 import PostCta from "@/components/blog/PostCta";
 import RelatedPosts from "@/components/blog/RelatedPosts";
+
+// Only the generated slugs exist; also stops [slug] from swallowing the
+// sibling /blog/opengraph-image route at prerender.
+export const dynamicParams = false;
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -103,6 +108,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
             <div className="mt-10 space-y-6">
               <PostCta cta={getPostCta(post.frontmatter)} />
+              <p className="text-sm text-white-200 text-center">
+                Rather talk it through first?{" "}
+                <CalendlyLink
+                  source="blog"
+                  className="text-purple hover:text-purple/80 underline underline-offset-2 decoration-purple/40 transition-colors"
+                >
+                  Book a call →
+                </CalendlyLink>
+              </p>
               <EmailCapture />
             </div>
 

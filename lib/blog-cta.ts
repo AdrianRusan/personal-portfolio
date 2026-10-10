@@ -51,5 +51,6 @@ export const BLOG_CTAS: Record<BlogCta, BlogCtaCopy> = {
   },
 };
 
-export const getPostCta = (frontmatter: BlogFrontmatter): BlogCtaCopy =>
-  BLOG_CTAS[frontmatter.cta as BlogCta] ?? BLOG_CTAS.teardown;
+// hasOwn so a stray value like "constructor" can't resolve to a prototype key.
+export const getPostCta = ({ cta }: BlogFrontmatter): BlogCtaCopy =>
+  cta && Object.hasOwn(BLOG_CTAS, cta) ? BLOG_CTAS[cta] : BLOG_CTAS.teardown;

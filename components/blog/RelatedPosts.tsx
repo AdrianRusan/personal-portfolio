@@ -4,7 +4,10 @@ import PostCard from "./PostCard";
 
 export default function RelatedPosts({ posts }: { posts: BlogPost[] }) {
   return (
-    <section aria-labelledby="related-heading" className="mt-16">
+    <section
+      {...(posts.length > 0 ? { "aria-labelledby": "related-heading" } : {})}
+      className="mt-16"
+    >
       {posts.length > 0 && (
         <>
           <h2
