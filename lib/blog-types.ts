@@ -1,3 +1,6 @@
+// End-of-post offer a post sells; see lib/blog-cta.ts. Defaults to teardown.
+export type BlogCta = 'teardown' | 'audit' | 'workshop' | 'harness';
+
 export interface BlogFrontmatter {
   title: string;
   description: string;
@@ -7,6 +10,7 @@ export interface BlogFrontmatter {
   featured?: boolean;
   image?: string;
   language?: string;
+  cta?: BlogCta;
 }
 
 export interface Heading {

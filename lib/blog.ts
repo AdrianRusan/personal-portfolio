@@ -88,6 +88,31 @@ export async function getPost(slug: string): Promise<BlogPostWithSource> {
   };
 }
 
+// Up to `limit` other posts ranked by shared-tag count, newest first on ties.
+// Posts sharing no tag are never "related".
+export function getRelatedPosts(
+  post: BlogPost,
+  posts: BlogPost[],
+  limit = 2,
+): BlogPost[] {
+  const tags = new Set(post.frontmatter.tags ?? []);
+  return posts
+    .filter((p) => p.slug !== post.slug)
+    .map((p) => ({
+      p,
+      shared: (p.frontmatter.tags ?? []).filter((t) => tags.has(t)).length,
+    }))
+    .filter(({ shared }) => shared > 0)
+    .sort(
+      (a, b) =>
+        b.shared - a.shared ||
+        new Date(b.p.frontmatter.date).getTime() -
+          new Date(a.p.frontmatter.date).getTime(),
+    )
+    .slice(0, limit)
+    .map(({ p }) => p);
+}
+
 export async function getAllTags(): Promise<string[]> {
   const posts = await getPosts();
   const tags = posts.flatMap((post) => post.frontmatter.tags ?? []);
