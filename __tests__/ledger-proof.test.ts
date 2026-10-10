@@ -9,9 +9,11 @@ describe("LEDGER_PROOF", () => {
     expect(LEDGER_PROOF).not.toMatch(/review/i);
   });
 
+  // Pinned verbatim: any rewording must be re-checked for client or repo names
+  // (R1), and listing those names here would publish them.
   it("names no client or repo", () => {
-    expect(LEDGER_PROOF).not.toMatch(
-      /bono|site2go|softboys|weasweb|dentstore|dentotal|brikka|github\.com/i,
+    expect(LEDGER_PROOF).toBe(
+      "Across all my work: 1,163 PRs merged and 3,644 commits in the 91 days from 12 Jul to 10 Oct 2026, counted from my own session ledger.",
     );
   });
 });
