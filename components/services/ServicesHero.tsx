@@ -1,5 +1,5 @@
 import MagicButton from "@/components/ui/MagicButton";
-import { CALENDLY_URL, GUARANTEE } from "@/data";
+import { CALENDLY_URL, GUARANTEE, LEDGER_PROOF } from "@/data";
 import { FaLocationArrow } from "react-icons/fa6";
 
 const proofItems = [
@@ -70,6 +70,9 @@ export const ServicesHero = () => {
           From a build I ran end-to-end on my own repo — the PRs, the review
           notes, and the findings are real, and I&apos;ll walk you through them
           on the call.
+        </p>
+        <p className="font-mono text-[11px] md:text-xs text-white-200/80 mt-3 max-w-2xl mx-auto">
+          {LEDGER_PROOF}
         </p>
       </div>
     </section>
