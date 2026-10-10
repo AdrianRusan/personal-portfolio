@@ -30,7 +30,7 @@ export interface LadderOffer {
   prices: Price[];
   perMonth?: boolean;
   duration: string;
-  // True only where capacity is genuinely capped (Dentstore hours) — brief R6.
+  // True only where capacity is genuinely capped — brief R6. No countdowns.
   limited?: boolean;
   cta: { label: string; href: string };
 }
