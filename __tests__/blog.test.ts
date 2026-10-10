@@ -1,4 +1,4 @@
-import { getPosts, getPost, getAllTags } from "@/lib/blog";
+import { getPosts, getPost, getAllTags, WORK_DIR } from "@/lib/blog";
 
 describe("getPosts", () => {
   it("returns only published posts", async () => {
@@ -46,5 +46,34 @@ describe("getAllTags", () => {
     const tags = await getAllTags();
     expect(new Set(tags).size).toBe(tags.length); // unique
     expect([...tags].sort()).toEqual(tags); // sorted
+  });
+});
+
+describe("case studies (content/work via the dir param)", () => {
+  it("lists only published case studies from content/work", async () => {
+    const studies = await getPosts(WORK_DIR);
+    expect(studies.every((s) => s.frontmatter.published === true)).toBe(true);
+    // the blog list must not leak into the work list
+    expect(studies.some((s) => s.slug === "30-prs-in-2-5-days")).toBe(false);
+  });
+
+  it("reads a draft case study by slug from content/work", async () => {
+    const study = await getPost("honesty-gate", WORK_DIR);
+    expect(study.slug).toBe("honesty-gate");
+    expect(study.source.length).toBeGreaterThan(0);
+  });
+
+  it("keeps the blog as the default directory", async () => {
+    await expect(getPost("honesty-gate")).rejects.toThrow(/Post not found/);
+  });
+});
+
+describe("case-study honesty guard", () => {
+  it("never publishes a case study that still holds a TODO(adi)", async () => {
+    const studies = await getPosts(WORK_DIR);
+    for (const { slug } of studies) {
+      const { source } = await getPost(slug, WORK_DIR);
+      expect(source).not.toContain("TODO(adi)");
+    }
   });
 });
