@@ -68,7 +68,7 @@ The setup has three parts.
 
 **A brief that answers questions before they are asked.** It lists verified facts, numbered rulings and which files each package owns. When an agent hits a choice, the orchestrator answers from the brief instead of waking me up. File ownership keeps merges cheap: new content goes in new data files, and only one package edits the shared one.
 
-**One worktree per agent.** I use [Herdr](/blog/how-i-run-8-claude-code-agents-in-parallel) to start each agent in its own git worktree, on its own branch, in its own terminal pane. Nine agents edit nine branches at once without touching each other's files.
+**One worktree per agent.** I use [Herdr](/blog/how-i-run-8-claude-code-agents-in-parallel) to start each agent in its own git worktree, on its own branch, in its own terminal pane. Agents run side by side on separate branches without touching each other's files. The brief capped it at three building at a time, because each one runs its own production build.
 
 **A gate before my review.** Each agent runs the same ladder before it may mark its PR ready: typecheck, lint, production build, unit tests, a curl of every route it touched, and before/after screenshots. Then it runs a code review on its own diff, fixes what is real and lists the rest. The PR body carries all of it, so I review evidence instead of re-running checks.
 

@@ -72,7 +72,7 @@ On the nine-PR afternoon, seven PR bodies recorded a review count: 46 findings, 
 
 A few things go wrong once you pass four or five agents.
 
-**Machine resources.** Several Next.js production builds at once will eat a laptop's memory. My brief for the afternoon run capped concurrent builds at three. Agents can be open in parallel without building in parallel.
+**Machine resources.** Several Next.js production builds at once will eat a laptop's memory. My brief for the afternoon run capped it at three executors at a time, because each one runs its own production build. The brief had the next one start as soon as a slot freed up.
 
 **Usage limits.** Many sessions burn through a plan's limits faster than one. The orchestrator should do little work itself and leave the tokens to the executors.
 
