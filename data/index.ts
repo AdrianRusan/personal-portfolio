@@ -8,8 +8,12 @@ export const CONTACT_EMAIL = "contact@adrian-rusan.com";
 // swap to that event's URL once Adi creates it.
 export const STRATEGY_CALL_URL = `mailto:${CONTACT_EMAIL}?subject=AI%20Strategy%20Call%20(%E2%82%AC200)`;
 
-// Set to the channel URL once it's live; null hides every YouTube link.
-export const YOUTUBE_URL: string | null = null;
+// YouTube channel id (starts with "UC"). One value drives every YouTube
+// surface: null hides the Bio/schema links and keeps the Latest block blog-only.
+export const YOUTUBE_CHANNEL_ID: string | null = null;
+export const YOUTUBE_URL = YOUTUBE_CHANNEL_ID
+  ? `https://www.youtube.com/channel/${YOUTUBE_CHANNEL_ID}`
+  : null;
 
 // Single risk-reversal guarantee, reused verbatim at every money CTA.
 export const GUARANTEE =
@@ -237,6 +241,3 @@ export const socialMedia = [
     alt: "Adrian Rusan LinkedIn Profile",
   },
 ];
-
-// YouTube channel id (starts with "UC"). null = homepage Latest block stays blog-only.
-export const YOUTUBE_CHANNEL_ID: string | null = null;

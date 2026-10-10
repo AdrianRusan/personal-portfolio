@@ -64,15 +64,19 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
                     <p className="text-sm text-white-200 leading-relaxed mt-3 flex-1">
                       {offer.summary}
                     </p>
-                    <LadderLink
-                      href={offer.cta.href}
-                      offer={offer.id}
-                      source={content.source}
-                      className="text-sm font-medium text-purple hover:underline underline-offset-4 mt-4"
-                    >
-                      {offer.cta.label}{" "}
-                      {offer.cta.href.startsWith("#") ? "↓" : "→"}
-                    </LadderLink>
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 mt-4">
+                      {offer.ctas.map((cta) => (
+                        <LadderLink
+                          key={cta.href}
+                          href={cta.href}
+                          offer={offer.id}
+                          source={content.source}
+                          className="text-sm font-medium text-purple hover:underline underline-offset-4"
+                        >
+                          {cta.label} {cta.href.startsWith("#") ? "↓" : "→"}
+                        </LadderLink>
+                      ))}
+                    </div>
                   </div>
                 ))}
             </div>

@@ -39,6 +39,11 @@ describe("getPost", () => {
       /Post not found/,
     );
   });
+
+  it("throws for an unpublished draft, so its page and OG image 404", async () => {
+    // hello-world.mdx is published: false
+    await expect(getPost("hello-world")).rejects.toThrow(/Post not found/);
+  });
 });
 
 describe("getAllTags", () => {

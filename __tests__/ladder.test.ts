@@ -1,4 +1,5 @@
 import { ladder, formatPrice, ladderServiceJsonLd } from "@/data/ladder";
+import { STRATEGY_CALL_URL } from "@/data";
 
 // The guide's ladder table (2026-10-10), verbatim. EUR, ex-VAT, global.
 const GUIDE: Record<string, { tier: string; price: string; duration: string }> =
@@ -18,6 +19,20 @@ const GUIDE: Record<string, { tier: string; price: string; duration: string }> =
   };
 
 describe("ladder", () => {
+  it("links the workshop tier to both workshop pages", () => {
+    const offer = ladder.find((o) => o.id === "workshop")!;
+    // Same order as the prices: half-day, then full day.
+    expect(offer.ctas.map((c) => c.href)).toEqual([
+      "/workshops/half-day",
+      "/workshops/full-day",
+    ]);
+  });
+
+  it("sends the €200 call to the one STRATEGY_CALL_URL in data/index.ts", () => {
+    const offer = ladder.find((o) => o.id === "strategy-call")!;
+    expect(offer.ctas.map((c) => c.href)).toEqual([STRATEGY_CALL_URL]);
+  });
+
   it("holds exactly the guide's eight offers, in ladder order", () => {
     expect(ladder.map((o) => o.id)).toEqual(Object.keys(GUIDE));
   });

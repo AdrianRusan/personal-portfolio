@@ -28,7 +28,7 @@ export const roTiers: { tier: Tier; tagline: string }[] = [
 // Brief R7 (2026-10-10): 55% of the global ladder, rounded clean. EUR, ex-VAT.
 const ro: Record<
   string,
-  Pick<LadderOffer, "name" | "summary" | "duration" | "cta"> & {
+  Pick<LadderOffer, "name" | "summary" | "duration" | "ctas"> & {
     prices: Price[];
   }
 > = {
@@ -38,7 +38,7 @@ const ro: Record<
       "60 de minute 1:1 pe întrebarea despre AI pe care o ai acum, plus un rezumat scris pe care îl păstrezi.",
     prices: [{ amount: 110 }],
     duration: "1 oră",
-    cta: { label: "Cere sesiunea de 110 €", href: RO_STRATEGY_CALL_URL },
+    ctas: [{ label: "Cere sesiunea de 110 €", href: RO_STRATEGY_CALL_URL }],
   },
   audit: {
     name: "Audit AI",
@@ -46,7 +46,7 @@ const ro: Record<
       "Analizez codul scris de AI sau fluxul tău LLM. Primești un raport ordonat după prioritate: ce repari întâi și de ce.",
     prices: [{ amount: 500, from: true }],
     duration: "2–3 zile",
-    cta: { label: "Programează un audit", href: CALENDLY_URL },
+    ctas: [{ label: "Programează un audit", href: CALENDLY_URL }],
   },
   workshop: {
     name: "Workshop pentru echipă",
@@ -57,10 +57,12 @@ const ro: Record<
       { amount: 1900, label: "o zi întreagă" },
     ],
     duration: "4–8 ore",
-    cta: {
-      label: "Întreabă de date libere",
-      href: `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Workshop pentru echipă")}`,
-    },
+    ctas: [
+      {
+        label: "Întreabă de date libere",
+        href: `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Workshop pentru echipă")}`,
+      },
+    ],
   },
   automation: {
     name: "Automatizare AI",
@@ -68,7 +70,7 @@ const ro: Record<
       "Un workflow n8n sau un pipeline LLM, construit de la început cu evaluări și control al costurilor.",
     prices: [{ amount: 1650, from: true }],
     duration: "1–3 săpt.",
-    cta: { label: "Discută o automatizare", href: CALENDLY_URL },
+    ctas: [{ label: "Discută o automatizare", href: CALENDLY_URL }],
   },
   harness: {
     name: "Configurare agent harness",
@@ -76,7 +78,7 @@ const ro: Record<
       "Harness-ul ship/verify pe care îl folosesc zilnic, instalat în repo-ul tău și predat echipei.",
     prices: [{ amount: 2200, from: true }],
     duration: "1 săpt.",
-    cta: { label: "Discută configurarea", href: CALENDLY_URL },
+    ctas: [{ label: "Discută configurarea", href: CALENDLY_URL }],
   },
   "reviewed-pr": {
     name: "PR revizuit",
@@ -84,7 +86,7 @@ const ro: Record<
       "Un tichet real din backlog-ul tău, livrat de un agent și verificat linie cu linie pentru securitate.",
     prices: [{ amount: 550 }],
     duration: "~48 h",
-    cta: { label: "Începe cu un PR", href: CALENDLY_URL },
+    ctas: [{ label: "Începe cu un PR", href: CALENDLY_URL }],
   },
   sprint: {
     name: "Sprint de livrare",
@@ -92,7 +94,7 @@ const ro: Record<
       "Un set fix de PR-uri gata de merge și verificate pentru securitate, la un preț stabilit înainte să începem.",
     prices: [{ amount: 4100, from: true }],
     duration: "1–2 săpt.",
-    cta: { label: "Stabilește scope-ul", href: CALENDLY_URL },
+    ctas: [{ label: "Stabilește scope-ul", href: CALENDLY_URL }],
   },
   retainer: {
     name: "Retainer lunar",
@@ -100,7 +102,7 @@ const ro: Record<
       "PR-uri revizuite în fiecare lună, într-un ritm constant, cu un loc de review rezervat pentru tine.",
     prices: [{ amount: 2200, from: true }],
     duration: "lunar",
-    cta: { label: "Discută un retainer", href: CALENDLY_URL },
+    ctas: [{ label: "Discută un retainer", href: CALENDLY_URL }],
   },
 };
 

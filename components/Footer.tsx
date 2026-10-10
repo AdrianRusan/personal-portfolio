@@ -20,12 +20,12 @@ const Footer = () => {
         <div />
         <section className="flex flex-col gap-5 md:gap-0 items-center mb-10">
           <h2 id="contact-heading" className="heading lg:max-w-[45vw]">
-            Still weighing it? Book a{" "}
-            <span className="text-purple">30-minute</span> scoping call.
+            Not sure <span className="text-purple">which tier</span> fits?
+            Book a 30-minute scoping call.
           </h2>
           <p className="text-white-200 md:mt-10 my-5 text-center">
-            You&apos;ll leave with a fixed scope and a fixed price — no
-            obligation.
+            Tell me what you want built or shipped. You&apos;ll leave knowing
+            which offer fits, what it covers and what it costs. No obligation.
           </p>
           <MagicButton
             title="Book a scoping call"

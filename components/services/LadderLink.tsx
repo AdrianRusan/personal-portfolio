@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { track } from "@/lib/analytics";
 
 // In-page anchors stay untracked; booking links fire calendly_click, mailto
@@ -20,7 +21,7 @@ export const LadderLink = ({
   const isAnchor = href.startsWith("#");
   const isExternal = href.startsWith("http");
   return (
-    <a
+    <Link
       href={href}
       onClick={() => {
         if (isAnchor) return;
@@ -33,6 +34,6 @@ export const LadderLink = ({
       className={className}
     >
       {children}
-    </a>
+    </Link>
   );
 };
