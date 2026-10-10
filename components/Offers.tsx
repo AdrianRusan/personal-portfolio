@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { formatPrice, ladder, tiers } from "@/data/ladder";
+import { CREDIT_TERMS, formatPrice, ladder, tiers } from "@/data/ladder";
 
 const Offers = () => {
   return (
@@ -10,7 +10,7 @@ const Offers = () => {
         </h2>
         <p className="text-white-200 text-center mt-3 max-w-2xl mx-auto">
           Four tiers: Advise, Train, Build, Ship. Every offer has a price before
-          we talk, and each tier credits toward the next.
+          we talk. {CREDIT_TERMS}
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-12">
@@ -35,6 +35,11 @@ const Offers = () => {
                       <span className="block text-sm text-white-200">
                         {formatPrice(offer)}
                       </span>
+                      {offer.assurance && (
+                        <span className="block text-xs text-blue-100 mt-1">
+                          {offer.assurance}
+                        </span>
+                      )}
                     </li>
                   ))}
               </ul>

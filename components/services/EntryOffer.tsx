@@ -1,5 +1,5 @@
 import MagicButton from "@/components/ui/MagicButton";
-import { CALENDLY_URL, CONTACT_EMAIL } from "@/data";
+import { CALENDLY_URL, CONTACT_EMAIL, GUARANTEE } from "@/data";
 import { FaLocationArrow } from "react-icons/fa6";
 
 const steps = [
@@ -58,6 +58,7 @@ export const EntryOffer = () => {
             Prefer email? Send the ticket, skip the call →
           </a>
         </div>
+        <p className="text-xs text-white-200/70 mt-4">{GUARANTEE}</p>
       </div>
     </section>
   );

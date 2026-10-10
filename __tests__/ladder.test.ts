@@ -1,4 +1,9 @@
-import { ladder, formatPrice, ladderServiceJsonLd } from "@/data/ladder";
+import {
+  ladder,
+  formatPrice,
+  ladderServiceJsonLd,
+  CREDIT_TERMS,
+} from "@/data/ladder";
 import { STRATEGY_CALL_URL } from "@/data";
 
 // The guide's ladder table (2026-10-10), verbatim. EUR, ex-VAT, global.
@@ -48,6 +53,14 @@ describe("ladder", () => {
       }).toEqual(expected);
     },
   );
+
+  it("puts a risk-reversal line next to every price (brief R6)", () => {
+    for (const offer of ladder) expect(offer.assurance).toMatch(/\w{3}/);
+  });
+
+  it("states the credit window once, in the shared terms", () => {
+    expect(CREDIT_TERMS).toMatch(/within 30 days/);
+  });
 
   it("marks only Delivery Sprint and Retainer as limited availability", () => {
     expect(ladder.filter((o) => o.limited).map((o) => o.id)).toEqual([

@@ -13,7 +13,7 @@ const deliverables = [
 const terms = [
   "Throughput is a band, not unlimited. Overflow rolls to the next month or a top-up sprint. The exact band is scoped on the call.",
   "Not 24/7 on-call incident response — that can be added as a named line item, priced separately.",
-  "Month-to-month after an initial 3-month commitment. Cancel anytime after that with 30 days' notice. Long enough to prove it works, short enough to be honest. No lock-in beyond the proof period.",
+  "An initial 3-month commitment, with month 1 as a trial: if we miss the agreed reviewed-PR cadence, you can stop at the end of it. Month-to-month after the 3 months, with 30 days' notice. No lock-in beyond the proof period.",
 ];
 
 export const Retainer = () => {

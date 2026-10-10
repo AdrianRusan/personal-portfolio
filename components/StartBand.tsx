@@ -83,7 +83,7 @@ export const StartBand = () => {
             className="text-blue-100 hover:text-purple transition-colors font-medium"
           >
             Start with one Reviewed PR — €1,000, ~48h, credited toward a sprint
-            →
+            booked within 30 days →
           </a>
         </p>
       </div>

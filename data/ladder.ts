@@ -1,4 +1,8 @@
-import { CALENDLY_URL, STRATEGY_CALL_URL } from "@/data";
+import { CALENDLY_URL, GUARANTEE, STRATEGY_CALL_URL } from "@/data";
+
+// The credit window, stated once (#43 follow-up: the credit had no window).
+export const CREDIT_TERMS =
+  "Each tier's fee credits in full toward the next tier you book within 30 days.";
 
 export type Tier = "Advise" | "Train" | "Build" | "Ship";
 
@@ -28,6 +32,9 @@ export interface LadderOffer {
   duration: string;
   // True only where capacity is genuinely capped — brief R6. No countdowns.
   limited?: boolean;
+  // Risk reversal shown next to the price (brief R6). Optional so localized
+  // ladders render without it until translated.
+  assurance?: string;
   ctas: { label: string; href: string }[];
 }
 
@@ -41,6 +48,7 @@ export const ladder: LadderOffer[] = [
       "60 minutes 1:1 on the AI question in front of you, plus a written summary you keep.",
     prices: [{ amount: 200 }],
     duration: "1 h",
+    assurance: "The €200 credits in full toward the next tier.",
     ctas: [{ label: "Request the €200 call", href: STRATEGY_CALL_URL }],
   },
   {
@@ -51,6 +59,7 @@ export const ladder: LadderOffer[] = [
       "A review of your AI-written code or LLM workflow, delivered as a ranked report: what to fix first, and why.",
     prices: [{ amount: 900, from: true }],
     duration: "2–3 days",
+    assurance: "Fixed price before I start, credited toward the next tier.",
     ctas: [{ label: "Scope an audit", href: CALENDLY_URL }],
   },
   {
@@ -64,6 +73,7 @@ export const ladder: LadderOffer[] = [
       { amount: 3500, label: "full day" },
     ],
     duration: "4–8 h",
+    assurance: "Fixed price for up to 10 people, agenda agreed in advance.",
     ctas: [
       { label: "Half-day agenda", href: "/workshops/half-day" },
       { label: "Full-day agenda", href: "/workshops/full-day" },
@@ -77,6 +87,7 @@ export const ladder: LadderOffer[] = [
       "One n8n workflow or LLM pipeline, built with evals and cost controls from the start.",
     prices: [{ amount: 3000, from: true }],
     duration: "1–3 wk",
+    assurance: "Fixed price before I start; evals prove it works before handoff.",
     ctas: [{ label: "Scope an automation", href: CALENDLY_URL }],
   },
   {
@@ -87,6 +98,7 @@ export const ladder: LadderOffer[] = [
       "The ship/verify agent harness I run, installed in your repo and handed over to your team.",
     prices: [{ amount: 4000, from: true }],
     duration: "1 wk",
+    assurance: "Your team ships a reviewed PR through it, or sessions continue free.",
     ctas: [{ label: "What's included", href: "#harness" }],
   },
   {
@@ -97,6 +109,7 @@ export const ladder: LadderOffer[] = [
       "One real ticket from your backlog, shipped by an agent and security-reviewed line by line.",
     prices: [{ amount: 1000 }],
     duration: "~48 h",
+    assurance: GUARANTEE,
     ctas: [{ label: "What's included", href: "#entry-offer" }],
   },
   {
@@ -108,6 +121,7 @@ export const ladder: LadderOffer[] = [
     prices: [{ amount: 7500, from: true }],
     duration: "1–2 wk",
     limited: true,
+    assurance: "First PR not merge-ready? You don't pay for it. Missed vulnerabilities get fixed free.",
     ctas: [{ label: "What's included", href: "#sprint" }],
   },
   {
@@ -120,6 +134,7 @@ export const ladder: LadderOffer[] = [
     perMonth: true,
     duration: "monthly",
     limited: true,
+    assurance: "Month 1 is a trial: miss the agreed cadence and you can stop.",
     ctas: [{ label: "What's included", href: "#retainer" }],
   },
 ];
