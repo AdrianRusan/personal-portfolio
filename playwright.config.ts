@@ -22,7 +22,8 @@ export default defineConfig({
   webServer: {
     command: `npm start -- -p ${port}`,
     url: `http://localhost:${port}`,
-    reuseExistingServer: !process.env.CI,
+    // Never reuse: another worktree's server on this port would give false results.
+    reuseExistingServer: false,
     timeout: 60 * 1000,
   },
 });
