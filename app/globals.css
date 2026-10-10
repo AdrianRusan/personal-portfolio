@@ -45,6 +45,18 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
+
+    /* Brand tokens (space-separated RGB so Tailwind opacity modifiers work). Light: */
+    --fg: 15 23 42;
+    --black-100: 255 255 255;
+    --black-200: 241 245 249;
+    --black-300: rgba(15, 23, 42, 0.12);
+    --white-100: 100 116 139;
+    --white-200: 71 85 105;
+    --blue-100: 67 56 202;
+    --purple: 124 58 237;
+    --nav-bg: rgba(255, 255, 255, 0.8);
+    --nav-border: rgba(15, 23, 42, 0.1);
   }
 
   .dark {
@@ -75,6 +87,18 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+
+    --fg: 255 255 255;
+    --black-100: 0 3 25;
+    /* rgba(17,25,40,.75) flattened over black-100, so bare bg-black-200 looks unchanged */
+    --black-200: 13 20 36;
+    --black-300: rgba(255, 255, 255, 0.125);
+    --white-100: 190 193 221;
+    --white-200: 193 194 211;
+    --blue-100: 228 236 255;
+    --purple: 203 172 249;
+    --nav-bg: rgba(17, 25, 40, 0.75);
+    --nav-border: rgba(255, 255, 255, 0.125);
   }
 
   body {
@@ -93,9 +117,9 @@
 
   .floating-nav {
     backdrop-filter: blur(16px) saturate(180%);
-    background-color: rgba(17, 25, 40, 0.75);
+    background-color: var(--nav-bg);
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.125);
+    border: 1px solid var(--nav-border);
   }
 }
 
