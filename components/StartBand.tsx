@@ -1,6 +1,7 @@
 import MagicButton from "@/components/ui/MagicButton";
 import { CalendlyLink } from "@/components/CalendlyLink";
 import { FaLocationArrow } from "react-icons/fa6";
+import { CREDIT_DAYS } from "@/data";
 
 // The primary conversion module: two low-commitment ways in, ordered by
 // friction. Free async teardown is the default path (converts cold traffic
@@ -83,7 +84,7 @@ export const StartBand = () => {
             className="text-blue-100 hover:text-purple transition-colors font-medium"
           >
             Start with one Reviewed PR — €1,000, ~48h, credited toward a sprint
-            booked within 30 days →
+            booked within {CREDIT_DAYS} days →
           </a>
         </p>
       </div>

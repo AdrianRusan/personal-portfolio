@@ -15,6 +15,11 @@ export const YOUTUBE_URL = YOUTUBE_CHANNEL_ID
   ? `https://www.youtube.com/channel/${YOUTUBE_CHANNEL_ID}`
   : null;
 
+// Tier credit window (#43 follow-up: the credit had no window). Every credit
+// mention derives from these two, so the page and FAQPage JSON-LD agree.
+export const CREDIT_DAYS = 30;
+export const CREDIT_TERMS = `Each tier's fee credits in full toward the next tier you book within ${CREDIT_DAYS} days.`;
+
 // Single risk-reversal guarantee, reused verbatim at every money CTA.
 export const GUARANTEE =
   "If the first reviewed PR isn't merge-ready to your standard, you don't pay for it.";
@@ -90,7 +95,8 @@ export const faqs: { question: string; answer: string }[] = [
       "Then I fix it or write it myself. The agents are how the draft gets written; the price covers the reviewed result. A failed agent run costs me time, not you money, and nothing reaches you until it passes review.",
   },
   {
-    question: "Unsupervised agents ship vulnerabilities. How do you handle security?",
+    question:
+      "Unsupervised agents ship vulnerabilities. How do you handle security?",
     answer:
       "Correct, they do. That's why this isn't a cheaper \"just run the agents\" service. Security is the first pass of every review: injection, auth, secrets, access control. The review has caught 3 shell-injection vulnerabilities the agents wrote that passed the automated tests. The guarantee is in writing: an in-scope vulnerability found in a PR I marked reviewed gets fixed free.",
   },
@@ -111,13 +117,17 @@ export const faqs: { question: string; answer: string }[] = [
   },
   {
     question: "How do payment terms work?",
-    answer:
-      "Every price is fixed before work starts, in EUR, excluding VAT. The strategy call is paid up front. Sprints are 50% to book the slot and 50% on handoff. The Reviewed PR is paid only if it's merge-ready to your standard. Retainers bill monthly. Each tier's fee credits in full toward the next tier if you book it within 30 days.",
+    answer: `Every price is fixed before work starts, in EUR, excluding VAT. The strategy call is paid up front. Sprints are 50% to book the slot and 50% on handoff. The Reviewed PR is paid only if it's merge-ready to your standard. Retainers bill monthly. ${CREDIT_TERMS}`,
   },
   {
     question: "What if it doesn't work out?",
     answer:
       "If the first reviewed PR isn't merge-ready to your standard, you don't pay for it. Your risk is highest before I've shipped anything, so the guarantee sits there. Scope is fixed on day 0, so there's no runaway bill. On a retainer, month 1 is a trial: if we miss the agreed reviewed-PR cadence, you can stop at the end of it.",
+  },
+  {
+    question: "Can you work as a normal contractor by the day?",
+    answer:
+      "Ongoing capacity is the retainer, from €4,000/month. It isn't the recommended way in: a sprint sells a reviewed outcome at a price agreed up front, which is a better deal than buying time. Start with one Reviewed PR if you want to test the working relationship first.",
   },
   {
     question: "Why not hire an agency, or more engineers?",

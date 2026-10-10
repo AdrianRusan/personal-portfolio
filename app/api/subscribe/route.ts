@@ -117,7 +117,7 @@ export async function POST(request: Request) {
           <p>Here it is — the checks that catch bugs the tests pass clean:</p>
           <p><a href="${CHECKLIST_URL}">Download The Agent PR Review Checklist (PDF)</a></p>
           <p>Run passes 1&nbsp;&rarr;&nbsp;4 in order, security first. Don't merge on green — merge on a completed checklist.</p>
-          <p>If you'd want your backlog shipped this way — reviewed before it reaches you — <a href="${CALENDLY_URL}">book a 30-minute scoping call</a>.</p>
+          <p>If you'd want your backlog shipped this way — reviewed before it reaches you — <a href="${CALENDLY_URL}?utm_source=welcome_email">book a 30-minute scoping call</a>.</p>
           <p>— Adrian</p>
         `,
       }),

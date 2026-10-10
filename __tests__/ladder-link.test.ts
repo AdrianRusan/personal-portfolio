@@ -17,14 +17,20 @@ describe("ladderEvent (#43 follow-up)", () => {
     ).toEqual(["calendly_click", props]);
   });
 
-  it("tracks mailto and in-page anchors as cta_click", () => {
+  it("tracks mailto links as cta_click", () => {
     expect(ladderEvent("mailto:x@y.z", "audit", "services_ladder")).toEqual([
       "cta_click",
       props,
     ]);
-    expect(ladderEvent("#harness", "audit", "services_ladder")).toEqual([
-      "cta_click",
-      props,
-    ]);
+  });
+
+  it("leaves in-page anchors untracked (scrolling, not a money action)", () => {
+    expect(ladderEvent("#harness", "harness", "services_ladder")).toBeNull();
+  });
+
+  it("uses the hero's cta key for the strategy call", () => {
+    expect(
+      ladderEvent("mailto:x@y.z", "strategy-call", "services_ladder")?.[1].cta,
+    ).toBe("strategy_call");
   });
 });

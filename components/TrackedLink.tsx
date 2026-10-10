@@ -18,7 +18,14 @@ export const TrackedLink = ({
   className?: string;
   children: React.ReactNode;
 }) => (
-  <Link href={href} onClick={() => track(event, props)} className={className}>
+  <Link
+    href={href}
+    onClick={() => track(event, props)}
+    {...(href.startsWith("http")
+      ? { target: "_blank", rel: "noopener noreferrer" }
+      : {})}
+    className={className}
+  >
     {children}
   </Link>
 );

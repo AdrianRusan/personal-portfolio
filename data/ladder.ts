@@ -1,13 +1,17 @@
-import { CALENDLY_URL, GUARANTEE, STRATEGY_CALL_URL } from "@/data";
+import {
+  CALENDLY_URL,
+  CREDIT_DAYS,
+  CREDIT_TERMS,
+  GUARANTEE,
+  STRATEGY_CALL_URL,
+} from "@/data";
 import {
   workshops,
   workshopServiceId,
   type WorkshopSlug,
 } from "@/data/workshops";
 
-// The credit window, stated once (#43 follow-up: the credit had no window).
-export const CREDIT_TERMS =
-  "Each tier's fee credits in full toward the next tier you book within 30 days.";
+export { CREDIT_TERMS };
 
 export type Tier = "Advise" | "Train" | "Build" | "Ship";
 
@@ -53,7 +57,7 @@ export const ladder: LadderOffer[] = [
       "60 minutes 1:1 on the AI question in front of you, plus a written summary you keep.",
     prices: [{ amount: 200 }],
     duration: "1 h",
-    assurance: "The €200 credits in full toward the next tier.",
+    assurance: `Credited in full toward the next tier within ${CREDIT_DAYS} days.`,
     ctas: [{ label: "Request the €200 call", href: STRATEGY_CALL_URL }],
   },
   {
@@ -64,7 +68,7 @@ export const ladder: LadderOffer[] = [
       "A review of your AI-written code, LLM workflow or LLM spend, delivered as a ranked report: what to fix first, and why.",
     prices: [{ amount: 900, from: true }],
     duration: "2–3 days",
-    assurance: "Fixed price before I start, credited toward the next tier.",
+    assurance: `Fixed price before I start, credited toward the next tier within ${CREDIT_DAYS} days.`,
     ctas: [{ label: "Scope an audit", href: CALENDLY_URL }],
   },
   {
@@ -158,14 +162,13 @@ export const formatPrice = ({ prices, perMonth }: LadderOffer): string =>
     )
     .join(" / ") + (perMonth ? "/month" : "");
 
+// Matched against the known slugs, so a stray href can't mint a dangling @id.
 const relatedWorkshops = ({ ctas }: LadderOffer) => {
+  const slugs = Object.keys(workshops) as WorkshopSlug[];
   const ids = ctas
-    .filter((c) => c.href.startsWith("/workshops/"))
-    .map((c) => ({
-      "@id": workshopServiceId(
-        c.href.slice("/workshops/".length) as WorkshopSlug,
-      ),
-    }));
+    .map((c) => slugs.find((slug) => c.href === `/workshops/${slug}`))
+    .filter((slug): slug is WorkshopSlug => slug !== undefined)
+    .map((slug) => ({ "@id": workshopServiceId(slug) }));
   return ids.length ? { isRelatedTo: ids } : {};
 };
 

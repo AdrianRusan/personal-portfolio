@@ -1,5 +1,8 @@
 import { TrackedLink } from "@/components/TrackedLink";
 import { callSteps, STRATEGY_CALL_URL } from "@/data";
+import { formatPrice, ladder } from "@/data/ladder";
+
+const strategyCall = ladder.find((o) => o.id === "strategy-call")!;
 
 // Lowers the cost of the booking click: shows exactly what the call is and
 // what comes after it. No button here; the CTA section that follows owns it.
@@ -43,7 +46,8 @@ export const CallSteps = ({ source }: { source: string }) => {
             props={{ cta: "strategy_call", source }}
             className="font-medium text-blue-100 underline-offset-2 hover:underline hover:text-purple transition-colors"
           >
-            The AI Strategy Call is 60 minutes 1:1 with a written summary, €200.
+            The {strategyCall.name}: {strategyCall.duration}, 1:1, with a
+            written summary, {formatPrice(strategyCall)}.
           </TrackedLink>
         </p>
       </div>
