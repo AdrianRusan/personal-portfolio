@@ -8,9 +8,11 @@ import {
   useMotionValueEvent,
 } from "framer-motion";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { CALENDLY_URL } from "@/data";
 import { track } from "@/lib/analytics";
+import { localeOf, switchLocalePath } from "@/lib/locale";
 
 export const FloatingNav = ({
   navItems,
@@ -28,6 +30,8 @@ export const FloatingNav = ({
   ctaSource?: string;
 }) => {
   const { scrollYProgress } = useScroll();
+  const pathname = usePathname();
+  const isRo = localeOf(pathname) === "ro";
 
   const [visible, setVisible] = useState(true);
 
@@ -79,6 +83,15 @@ export const FloatingNav = ({
             <span className=" text-sm !cursor-pointer">{navItem.name}</span>
           </Link>
         ))}
+        <Link
+          href={switchLocalePath(pathname)}
+          hrefLang={isRo ? "en" : "ro"}
+          lang={isRo ? "en" : "ro"}
+          aria-label={isRo ? "Read in English" : "Citește în română"}
+          className="relative text-sm font-medium text-neutral-600 dark:text-neutral-50 hover:text-purple dark:hover:text-purple !cursor-pointer"
+        >
+          {isRo ? "EN" : "RO"}
+        </Link>
         <a
           href={CALENDLY_URL}
           target="_blank"

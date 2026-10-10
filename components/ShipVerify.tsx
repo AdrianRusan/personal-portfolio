@@ -1,35 +1,42 @@
 import { shipVerify } from "@/data";
 
-const ShipVerify = () => {
+const en = {
+  heading:
+    "You have the backlog. You don't have the headcount. And you've seen what unsupervised agents ship.",
+  body: "You're months behind on a roadmap you can't hire your way out of fast enough. The AI-agent pitch is tempting — everyone's promising 10x, 100x, a team-in-a-box. But you've read the code agents write. You know it goes green on tests and still carries a confident vulnerability into your payment flow. And you're the name on the incident report if it does.",
+  punch:
+    "Speed without review isn't velocity. It's a liability with a shorter fuse.",
+  stepsHeading:
+    "The whole thing is two steps. Most vendors only sell you the first.",
+  steps: shipVerify,
+  footnote:
+    "Speed you can buy anywhere now. The verify layer is the part that's rare — and the part that's accountable.",
+};
+export type ShipVerifyCopy = typeof en;
+
+const ShipVerify = ({ copy = en }: { copy?: ShipVerifyCopy }) => {
   return (
     <section id="ship-verify" className="px-5 sm:px-10 py-20">
       <div className="max-w-5xl mx-auto">
         {/* The problem */}
         <div className="max-w-3xl">
           <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-balance">
-            You have the backlog. You don&apos;t have the headcount. And
-            you&apos;ve seen what unsupervised agents ship.
+            {copy.heading}
           </h2>
           <p className="text-white-200 mt-5 leading-relaxed">
-            You&apos;re months behind on a roadmap you can&apos;t hire your way
-            out of fast enough. The AI-agent pitch is tempting — everyone&apos;s
-            promising 10x, 100x, a team-in-a-box. But you&apos;ve read the code
-            agents write. You know it goes green on tests and still carries a
-            confident vulnerability into your payment flow. And you&apos;re the
-            name on the incident report if it does.
+            {copy.body}
           </p>
           <p className="text-white mt-4 font-medium">
-            Speed without review isn&apos;t velocity. It&apos;s a liability with
-            a shorter fuse.
+            {copy.punch}
           </p>
         </div>
 
         {/* The two-step */}
         <h3 className="text-xl md:text-2xl font-bold mt-16 mb-6 text-balance">
-          The whole thing is two steps. Most vendors only sell you the first.
+          {copy.stepsHeading}
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/10 border border-white/10 rounded-xl overflow-hidden">
-          {shipVerify.map((step) => (
+          {copy.steps.map((step) => (
             <div
               key={step.tag}
               className={`p-6 md:p-8 ${step.tag === "VERIFY" ? "bg-black-200/60 border-l-2 border-purple" : "bg-black-200/30"}`}
@@ -49,8 +56,7 @@ const ShipVerify = () => {
           ))}
         </div>
         <p className="text-sm text-white-200/80 mt-4">
-          Speed you can buy anywhere now. The verify layer is the part
-          that&apos;s rare — and the part that&apos;s accountable.
+          {copy.footnote}
         </p>
       </div>
     </section>
