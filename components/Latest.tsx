@@ -6,7 +6,18 @@ import { getPosts, formatDate } from "@/lib/blog";
 import { getLatestVideos } from "@/lib/youtube";
 
 // Server component: posts come from disk, videos from the channel RSS (cached 1 h).
-const Latest = async () => {
+const en = {
+  headingBefore: "Latest from",
+  youtube: "YouTube",
+  blog: "the blog",
+  and: " and ",
+  intro: "How I run Claude Code agents and review what they ship.",
+  watch: "Watch on YouTube",
+  all: "All posts →",
+};
+export type LatestCopy = typeof en;
+
+const Latest = async ({ copy = en }: { copy?: LatestCopy }) => {
   const [posts, videos] = await Promise.all([
     getPosts(),
     getLatestVideos(YOUTUBE_CHANNEL_ID),
@@ -21,19 +32,17 @@ const Latest = async () => {
       className="max-w-7xl mx-auto px-5 sm:px-10 py-20"
     >
       <h2 id="latest-heading" className="heading">
-        Latest from{" "}
+        {copy.headingBefore}{" "}
         <span className="text-purple">
           {[
-            videos.length > 0 && "YouTube",
-            latestPosts.length > 0 && "the blog",
+            videos.length > 0 && copy.youtube,
+            latestPosts.length > 0 && copy.blog,
           ]
             .filter(Boolean)
-            .join(" and ")}
+            .join(copy.and)}
         </span>
       </h2>
-      <p className="text-white-200 text-center mt-4">
-        How I run Claude Code agents and review what they ship.
-      </p>
+      <p className="text-white-200 text-center mt-4">{copy.intro}</p>
 
       {videos.length > 0 && (
         <ul className="grid gap-6 md:grid-cols-3 mt-10">
@@ -59,7 +68,7 @@ const Latest = async () => {
                   <p className="text-xs text-white-200/70 mt-2">
                     {video.published &&
                       `${formatDate(video.published.slice(0, 10))} · `}
-                    Watch on YouTube
+                    {copy.watch}
                   </p>
                 </div>
               </a>
@@ -84,7 +93,7 @@ const Latest = async () => {
             href="/blog"
             className="text-sm font-semibold text-purple hover:underline underline-offset-4"
           >
-            All posts →
+            {copy.all}
           </Link>
         </div>
       )}

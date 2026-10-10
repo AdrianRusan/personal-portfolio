@@ -67,12 +67,8 @@ const EmailCapture = ({
         className,
       )}
     >
-      <h3 className="text-lg font-semibold tracking-tight">
-        {copy.heading}
-      </h3>
-      <p className="text-sm text-white-200 leading-relaxed mt-2">
-        {copy.body}
-      </p>
+      <h3 className="text-lg font-semibold tracking-tight">{copy.heading}</h3>
+      <p className="text-sm text-white-200 leading-relaxed mt-2">{copy.body}</p>
 
       {status === "success" ? (
         <p

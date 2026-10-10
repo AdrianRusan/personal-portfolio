@@ -2,42 +2,46 @@ import Link from "next/link";
 import { CalendlyLink } from "@/components/CalendlyLink";
 import { GUARANTEE } from "@/data";
 
-const CaseStudy = () => {
+const en = {
+  eyebrow: "Method demo — my own repo",
+  heading:
+    "30 reviewed PRs in 2.5 days — and the 3 vulnerabilities that almost shipped.",
+  body: "This wasn't a client engagement — it was my own admin dashboard, run end-to-end to stress-test the method. Nine agent batches ran a real backlog through the harness in parallel. The agents produced 30 PRs. The tests passed. The adversarial review still caught 3 shell-injection vulnerabilities before any of them merged. That's what the honest 2-3x actually looks like — including what the agents got wrong.",
+  read: "Read the anatomy of nine agent batches →",
+  call: "Book a scoping call",
+  guarantee: GUARANTEE,
+};
+export type CaseStudyCopy = typeof en;
+
+const CaseStudy = ({ copy = en }: { copy?: CaseStudyCopy }) => {
   return (
     <section id="work" className="px-5 sm:px-10 py-20">
       <div className="max-w-5xl mx-auto rounded-2xl border border-white/10 bg-black-200/40 p-8 md:p-12">
         <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100">
-          Method demo — my own repo
+          {copy.eyebrow}
         </span>
         <h2 className="text-2xl md:text-4xl font-bold tracking-tight mt-3 text-balance">
-          30 reviewed PRs in 2.5 days — and the 3 vulnerabilities that almost
-          shipped.
+          {copy.heading}
         </h2>
         <p className="text-white-200 mt-5 leading-relaxed max-w-3xl">
-          This wasn&apos;t a client engagement — it was my own admin dashboard,
-          run end-to-end to stress-test the method. Nine agent batches ran a
-          real backlog through the harness in parallel. The agents produced 30
-          PRs. The tests passed. The adversarial review still caught 3
-          shell-injection vulnerabilities before any of them merged. That&apos;s
-          what the honest 2-3x actually looks like — including what the agents
-          got wrong.
+          {copy.body}
         </p>
         <div className="flex flex-wrap items-center gap-4 mt-8">
           <Link
             href="/blog/30-prs-in-2-5-days"
             className="text-sm font-semibold text-purple hover:underline underline-offset-4"
           >
-            Read the anatomy of nine agent batches →
+            {copy.read}
           </Link>
           <span className="text-white-200/40">·</span>
           <CalendlyLink
             source="casestudy"
             className="text-sm font-medium text-blue-100 hover:text-purple transition-colors"
           >
-            Book a scoping call
+            {copy.call}
           </CalendlyLink>
         </div>
-        <p className="text-xs text-white-200/70 mt-6">{GUARANTEE}</p>
+        <p className="text-xs text-white-200/70 mt-6">{copy.guarantee}</p>
       </div>
     </section>
   );
