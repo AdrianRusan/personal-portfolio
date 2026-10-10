@@ -60,7 +60,7 @@ export const ProcessSteps = ({ copy = en }: { copy?: ProcessStepsCopy }) => {
           {copy.intro}
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-black-300 border border-white/10 rounded-xl overflow-hidden mt-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-black-300 border border-white/10 rounded-xl overflow-hidden mt-10">
           {copy.steps.map((step) => (
             <div
               key={step.tag}
