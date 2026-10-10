@@ -67,7 +67,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   return (
     <main className="relative dark:bg-black-100 bg-white min-h-screen">
       <FloatingNav navItems={workNavItems} />
-      <div className="max-w-3xl mx-auto px-5 sm:px-10 pt-24 pb-20">
+      <div className="max-w-3xl mx-auto px-5 sm:px-10 pt-40 pb-20">
         <script
           type="application/ld+json"
           // Safe: JSON.stringify of our own frontmatter (Schema.org JSON-LD)
