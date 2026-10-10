@@ -5,7 +5,7 @@ const en = {
   heading: "From a €200 call to a monthly retainer",
   intro:
     "Four tiers: Advise, Train, Build, Ship. Every offer has a price before we talk, and each tier credits toward the next.",
-  tiers: tiers.map((t) => ({ ...t, name: t.tier })),
+  tiers: tiers.map((t) => ({ ...t, name: t.tier as string })),
   ladder,
   formatPrice,
   href: "/services#ladder",
