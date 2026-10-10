@@ -18,7 +18,13 @@ export const YOUTUBE_URL = YOUTUBE_CHANNEL_ID
 // Tier credit window (#43 follow-up: the credit had no window). Every credit
 // mention derives from these two, so the page and FAQPage JSON-LD agree.
 export const CREDIT_DAYS = 30;
-export const CREDIT_TERMS = `Each tier's fee credits in full toward the next tier you book within ${CREDIT_DAYS} days.`;
+export const CREDIT_TERMS = `Move up a tier within ${CREDIT_DAYS} days and what you already paid counts toward it.`;
+
+// Aggregate 90-day proof from Adi's own session ledger (engineering-ledger
+// data.json, rows d >= 2026-07-12; PRs = authors starting "AdrianRusan").
+// Merged, not "reviewed": the ledger records merges. No client or repo names (R1).
+export const LEDGER_PROOF =
+  "1,163 PRs merged and 3,644 commits in 90 days (12 Jul – 10 Oct 2026), counted from my own session ledger.";
 
 // Single risk-reversal guarantee, reused verbatim at every money CTA.
 export const GUARANTEE =
@@ -122,7 +128,7 @@ export const faqs: { question: string; answer: string }[] = [
   {
     question: "What if it doesn't work out?",
     answer:
-      "If the first reviewed PR isn't merge-ready to your standard, you don't pay for it. Your risk is highest before I've shipped anything, so the guarantee sits there. Scope is fixed on day 0, so there's no runaway bill. On a retainer, month 1 is a trial: if we miss the agreed reviewed-PR cadence, you can stop at the end of it.",
+      "If the first reviewed PR isn't merge-ready to your standard, you don't pay for it. Your risk is highest before I've shipped anything, so the guarantee sits there. Scope is fixed on day 0, so there's no runaway bill. On a retainer, if month 1 misses the pace we agreed, you can stop there.",
   },
   {
     question: "Can you work as a normal contractor by the day?",

@@ -40,7 +40,7 @@ export const BLOG_CTAS: Record<BlogCta, BlogCtaCopy> = {
   },
   harness: {
     cta: "harness",
-    eyebrow: "Agent Harness Setup · from €4,000 · 1 week",
+    eyebrow: "Agent Fleet Setup · from €4,000 · 1 week",
     heading: "Want this setup in your repo?",
     body: "I install the agent harness I run in your repo: project rules, the worktree and dispatch workflow, and review gates your team keeps.",
     label: "See what the setup includes",

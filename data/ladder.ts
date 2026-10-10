@@ -57,7 +57,7 @@ export const ladder: LadderOffer[] = [
       "60 minutes 1:1 on the AI question in front of you, plus a written summary you keep.",
     prices: [{ amount: 200 }],
     duration: "1 h",
-    assurance: `Credited in full toward the next tier within ${CREDIT_DAYS} days.`,
+    assurance: `Move up a tier within ${CREDIT_DAYS} days and the €200 counts toward it.`,
     ctas: [{ label: "Request the €200 call", href: STRATEGY_CALL_URL }],
   },
   {
@@ -65,10 +65,10 @@ export const ladder: LadderOffer[] = [
     tier: "Advise",
     name: "AI Audit",
     summary:
-      "A review of your AI-written code, LLM workflow or LLM spend, delivered as a ranked report: what to fix first, and why.",
+      "Your AI-written code, LLM workflow or LLM spend, reviewed: security gaps, cost per merged PR, cache use and wasted agent runs, in a ranked report of what to fix first.",
     prices: [{ amount: 900, from: true }],
     duration: "2–3 days",
-    assurance: `Fixed price before I start, credited toward the next tier within ${CREDIT_DAYS} days.`,
+    assurance: `Price agreed before I start. Move up within ${CREDIT_DAYS} days and it counts toward the next tier.`,
     ctas: [{ label: "Scope an audit", href: CALENDLY_URL }],
   },
   {
@@ -76,7 +76,7 @@ export const ladder: LadderOffer[] = [
     tier: "Train",
     name: "Team workshop",
     summary:
-      "Claude Code, orchestration, review gates and prompt/harness engineering, hands-on with your team. Up to 10 people.",
+      "Claude Code, orchestration, review gates and harness engineering, hands-on. Your team leaves with its first rules file and a worktree-per-agent setup running on your repo. Up to 10 people.",
     // One source for workshop prices: the workshop pages' own data.
     prices: [
       { amount: workshops["half-day"].price, label: "half-day" },
@@ -94,7 +94,7 @@ export const ladder: LadderOffer[] = [
     tier: "Build",
     name: "AI Automation",
     summary:
-      "One n8n workflow or LLM pipeline, built with evals and cost controls from the start.",
+      "One n8n workflow or LLM pipeline, built with evals and cost controls from the start. Where it writes for customers, it gets a gate that stops it inventing numbers or facts.",
     prices: [{ amount: 3000, from: true }],
     duration: "1–3 wk",
     assurance:
@@ -104,9 +104,9 @@ export const ladder: LadderOffer[] = [
   {
     id: "harness",
     tier: "Build",
-    name: "Agent Harness Setup",
+    name: "Agent Fleet Setup",
     summary:
-      "The ship/verify agent harness I run, installed in your repo and handed over to your team.",
+      "The harness I run: parallel agents in git worktrees, a review-bot loop and review gates, installed in your repo and handed over to your team.",
     prices: [{ amount: 4000, from: true }],
     duration: "1 wk",
     assurance:
@@ -147,7 +147,7 @@ export const ladder: LadderOffer[] = [
     perMonth: true,
     duration: "monthly",
     limited: true,
-    assurance: "Month 1 is a trial: miss the agreed cadence and you can stop.",
+    assurance: "If month 1 misses the pace we agreed, you can stop there.",
     ctas: [{ label: "What's included", href: "#retainer" }],
   },
 ];

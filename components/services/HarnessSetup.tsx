@@ -25,7 +25,7 @@ export const HarnessSetup = () => {
           Teach your team to fish
         </span>
         <h2 className="text-2xl md:text-4xl font-bold tracking-tight mt-3 text-balance">
-          Set Up Your Agent Harness
+          Agent Fleet Setup: the harness I run, in your repo
         </h2>
         <p className="text-white-200 mt-5 leading-relaxed max-w-3xl">
           I install and harden the exact ship/verify agent harness I run — in

@@ -83,8 +83,8 @@ export const StartBand = () => {
             href="/services#entry-offer"
             className="text-blue-100 hover:text-purple transition-colors font-medium"
           >
-            Start with one Reviewed PR — €1,000, ~48h, credited toward a sprint
-            booked within {CREDIT_DAYS} days →
+            Start with one Reviewed PR — €1,000, ~48h. Book a sprint within{" "}
+            {CREDIT_DAYS} days and it counts toward it →
           </a>
         </p>
       </div>
