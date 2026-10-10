@@ -17,7 +17,7 @@ July looked expensive. Across the full month the ledger shows $35.0k of replacem
 
 ## The constraint
 
-I did not want to save money by doing less. Commits and merged PRs had to hold up, and every PR still had to pass the same review gates.
+I did not want to save money by doing less. Output had to hold up, and every PR still had to pass the same review gates.
 
 The ledger also has limits I had to respect:
 
@@ -62,7 +62,7 @@ I matched the weekly cost curve against the commit history of my Claude Code con
 
 The pattern is the same in all three: stop paying for context on every turn when it earns nothing.
 
-The biggest drop does not match any of them. Subagent turns per prompt halved in the first week of August, before any config change. My workflow changed that week, but no file records how, so I do not claim a cause.
+The first drop does not match any of them. Subagent turns per prompt halved in the first week of August, before any config change. My workflow changed that week, but no file records how, so I do not claim a cause.
 
 ## The number
 
@@ -72,7 +72,10 @@ July to August, full calendar months, same counting method:
 - Cost per merged PR: $73 → $32
 - Total replacement cost: $35.0k → $12.5k
 - Commits: 995 → 1,091
+- Merged PRs: 477 → 395
 - Subagent turns: 144k → 43k
+
+Merged PRs fell while commits rose, so cost per PR is the stricter measure. It still fell by 57%.
 
 Cache reads barely moved: 99.6% of the read and output tokens the ledger records in July, 99.7% in August. The cache was already doing its job. The savings came from sending fewer tokens through it.
 
@@ -80,6 +83,6 @@ Moving two of three review agents to a cheaper model on 10 August saves real mon
 
 ## The lesson
 
-Most of the cost of an agent workflow is context reread on every turn: rules, skill lists, injected reminders and subagents that each reload all of it. Trimming those cut the cost per commit by two thirds while output went up. You can only see that once you measure cost per unit of output, not per month.
+Most of the cost of an agent workflow is context reread on every turn: rules, skill lists, injected reminders and subagents that each reload all of it. Trimming those cut the cost per commit by two thirds while commits went up. You can only see that once you measure cost per unit of output, not per month.
 
 If your team's LLM bill is growing faster than its output, an [AI audit](/services#ladder) measures where the tokens go and ranks the fixes, in 2–3 days.
