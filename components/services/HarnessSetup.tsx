@@ -51,7 +51,7 @@ export const HarnessSetup = () => {
         <h3 className="text-lg font-semibold mt-10 mb-4">Pricing</h3>
         <div className="rounded-xl border border-white/10 bg-black-200/60 p-6 md:p-8 max-w-2xl">
           <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100">
-            Harness setup
+            Agent Fleet Setup
           </span>
           <p className="text-3xl md:text-4xl font-bold tracking-tight mt-2">
             Starts at €4,000

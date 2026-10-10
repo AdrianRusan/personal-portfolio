@@ -19,12 +19,12 @@ export const metadata: Metadata = {
   // Bare title — the root layout's title.template appends "| Adrian Rusan"
   title: "Services — AI Strategy, Workshops, Automation and Reviewed Delivery",
   description:
-    "From a €200 AI strategy call to a monthly retainer: audits, team workshops, automations, harness setup and reviewed delivery sprints, each priced up front.",
+    "From a €200 AI strategy call to a monthly retainer: audits, team workshops, automations, Agent Fleet Setup and reviewed delivery sprints, each priced up front.",
   openGraph: {
     title:
       "Services — AI Strategy, Workshops, Automation and Reviewed Delivery | Adrian Rusan",
     description:
-      "From a €200 AI strategy call to a monthly retainer: audits, team workshops, automations, harness setup and reviewed delivery sprints, each priced up front.",
+      "From a €200 AI strategy call to a monthly retainer: audits, team workshops, automations, Agent Fleet Setup and reviewed delivery sprints, each priced up front.",
     type: "website",
   },
   alternates: {
