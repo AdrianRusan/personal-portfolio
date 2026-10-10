@@ -11,7 +11,6 @@ import { Scarcity } from "@/components/services/Scarcity";
 import { ServicesFaq } from "@/components/services/ServicesFaq";
 import { ServicesFinalCta } from "@/components/services/ServicesFinalCta";
 import { Ladder } from "@/components/services/Ladder";
-import { CallSteps } from "@/components/CallSteps";
 import { ladderServiceJsonLd } from "@/data/ladder";
 import { faqPageJsonLd } from "@/data";
 
@@ -79,7 +78,6 @@ export default function ServicesPage() {
       <HarnessSetup />
       <Scarcity />
       <ServicesFaq />
-      <CallSteps source="services_call_steps" />
       <ServicesFinalCta />
     </main>
   );

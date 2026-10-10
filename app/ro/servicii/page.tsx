@@ -9,8 +9,6 @@ import { Retainer } from "@/components/services/Retainer";
 import { HarnessSetup } from "@/components/services/HarnessSetup";
 import { Scarcity } from "@/components/services/Scarcity";
 import { ServicesFaq } from "@/components/services/ServicesFaq";
-import { CallSteps } from "@/components/CallSteps";
-import { roCallSteps } from "@/data/ro-home";
 import { ServicesFinalCta } from "@/components/services/ServicesFinalCta";
 import { Ladder } from "@/components/services/Ladder";
 import { ladderServiceJsonLd } from "@/data/ladder";
@@ -104,7 +102,6 @@ export default function RoServicesPage() {
       <HarnessSetup copy={roHarnessSetup} />
       <Scarcity copy={roScarcity} />
       <ServicesFaq copy={roServicesFaq} />
-      <CallSteps source="services_call_steps" copy={roCallSteps} />
       <ServicesFinalCta copy={roServicesFinalCta} />
     </main>
   );
