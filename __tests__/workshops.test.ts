@@ -18,7 +18,7 @@ describe("workshops data", () => {
   it("half day is the full-day morning plus a one-hour review-gates block", () => {
     expect(half.agenda[0]).toBe(full.agenda[0]);
     expect(half.agenda).toHaveLength(2);
-    expect(half.agenda[1].duration).toBe("1 hour");
+    expect(half.agenda[1]?.duration).toBe("1 hour");
   });
 
   it("CTA is an email ask, never the scoping-call link", () => {
