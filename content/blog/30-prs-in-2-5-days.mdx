@@ -5,6 +5,7 @@ tags: ["ai", "claude-code", "git-worktrees", "developer-productivity", "software
 description: "The mechanics behind 30 reviewed PRs in 2.5 days: parallel git worktrees, issue dispatch via CLAUDE.md, and why review — not generation — is the real bottleneck."
 published: true
 language: "en"
+cta: "harness"
 ---
 
 > **TL;DR:** I shipped 30 reviewed pull requests across 9 batches of Claude Code agents in 2.5 days. The mechanics: each agent works in its own git worktree, issues get dispatched through a `CLAUDE.md` contract, and every PR passes an adversarial security review before it merges. The generation was never the slow part. Review was. That's the whole lesson — the bottleneck moved, it didn't disappear.

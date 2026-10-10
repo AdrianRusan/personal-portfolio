@@ -5,6 +5,7 @@ tags: ["ai", "code-review", "security", "claude-code", "software-engineering"]
 description: "Six recurring failure categories I catch reviewing AI-generated code — fail-open security gates, scope creep, silent error swallowing, and more. All pass tests. Here's what to look for."
 published: true
 language: "en"
+cta: "audit"
 ---
 
 > **The short version:** Across 30 reviewed PRs written by Claude Code agents in one 2.5-day batch, the defects clustered into six recurring categories: security gates that fail open, scope creep past the ticket, silently swallowed errors, confidently-wrong logic, premature abstraction, and stale or hallucinated APIs. Every one of them looked correct on read and passed the test suite. They fail on the class of input the tests never exercised. This is what a human reviewer is actually for.
