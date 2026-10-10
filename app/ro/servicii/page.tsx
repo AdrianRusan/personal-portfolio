@@ -89,7 +89,7 @@ export default function RoServicesPage() {
       />
       <FloatingNav
         navItems={roServicesNavItems}
-        ctaLabel="Programează"
+        ctaLabel="Rezervă"
         ctaSource="ro_floating_nav"
       />
       <ServicesHero copy={roServicesHero} />

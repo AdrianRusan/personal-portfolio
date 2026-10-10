@@ -97,7 +97,7 @@ export default function RoHome() {
     <main className="relative dark:bg-black-100 bg-white overflow-hidden">
       <FloatingNav
         navItems={roNavItems}
-        ctaLabel="Programează"
+        ctaLabel="Rezervă"
         ctaSource="ro_floating_nav"
       />
       <Hero copy={roHero} />
