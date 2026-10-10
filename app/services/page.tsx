@@ -105,7 +105,7 @@ const servicesNavItems = [
   { name: "How it works", link: "#process" },
   { name: "Work", link: "/#work" },
   { name: "Blog", link: "/blog" },
-  { name: "Contact", link: "/#contact" },
+  { name: "Contact", link: "#contact" },
 ];
 
 export default function ServicesPage() {
