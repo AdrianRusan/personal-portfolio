@@ -237,3 +237,6 @@ export const socialMedia = [
     alt: "Adrian Rusan LinkedIn Profile",
   },
 ];
+
+// YouTube channel id (starts with "UC"). null = homepage Latest block stays blog-only.
+export const YOUTUBE_CHANNEL_ID: string | null = null;

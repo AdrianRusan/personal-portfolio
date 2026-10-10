@@ -7,9 +7,14 @@ import TagBadge from './TagBadge';
 interface PostCardProps {
   post: BlogPost;
   featured?: boolean;
+  headingLevel?: 'h2' | 'h3';
 }
 
-export default function PostCard({ post, featured = false }: PostCardProps) {
+export default function PostCard({
+  post,
+  featured = false,
+  headingLevel: Heading = 'h2',
+}: PostCardProps) {
   const { slug, frontmatter, readingTime } = post;
 
   return (
@@ -29,14 +34,14 @@ export default function PostCard({ post, featured = false }: PostCardProps) {
             </span>
           )}
 
-          <h2
+          <Heading
             className={[
               'font-semibold text-white group-hover:text-purple transition-colors',
               featured ? 'text-xl md:text-2xl' : 'text-lg',
             ].join(' ')}
           >
             {frontmatter.title}
-          </h2>
+          </Heading>
 
           <p className="text-white-200 text-sm leading-relaxed line-clamp-3">
             {frontmatter.description}
