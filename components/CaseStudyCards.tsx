@@ -12,6 +12,7 @@ const en = {
   eyebrow: "Case studies",
   heading: "Proof from documented runs",
   read: "Read it →",
+  all: "See all case studies →",
 };
 export type CaseStudyCardsCopy = typeof en;
 
@@ -76,6 +77,12 @@ const CaseStudyCards = async ({ copy = en }: { copy?: CaseStudyCardsCopy }) => {
             </li>
           ))}
         </ul>
+        <Link
+          href="/work"
+          className="inline-block text-sm font-semibold text-purple hover:underline underline-offset-4 mt-6"
+        >
+          {copy.all}
+        </Link>
       </div>
     </section>
   );

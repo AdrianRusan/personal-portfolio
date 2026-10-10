@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 const teardownNavItems = [
   { name: "Home", link: "/" },
   { name: "Services", link: "/services" },
-  { name: "Work", link: "/#work" },
+  { name: "Work", link: "/work" },
   { name: "Blog", link: "/blog" },
 ];
 

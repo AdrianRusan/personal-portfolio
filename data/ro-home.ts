@@ -160,6 +160,7 @@ export const roCaseStudyCards: CaseStudyCardsCopy = {
   eyebrow: "Studii de caz (în engleză)",
   heading: "Dovezi din rulări documentate",
   read: "Citește →",
+  all: "Toate studiile de caz →",
 };
 
 export const roStartBand: StartBandCopy = {

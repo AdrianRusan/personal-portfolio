@@ -6,12 +6,12 @@ export const roNavItems = [
   { name: "Blog", link: "/blog" },
 ];
 
-// Mirrors servicesNavItems (app/services/page.tsx) for /ro/servicii.
+// Mirrors servicesNavItems (app/services/page.tsx) for /ro/servicii. /work is EN-only.
 export const roServicesNavItems = [
   { name: "Acasă", link: "/ro" },
   { name: "Prețuri", link: "#ladder" },
   { name: "Metoda", link: "#process" },
-  { name: "Proiecte", link: "/ro#work" },
+  { name: "Proiecte", link: "/work" },
   { name: "Blog", link: "/blog" },
   { name: "Contact", link: "/ro#contact" },
 ];
