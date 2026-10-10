@@ -12,10 +12,19 @@ import { FloatingNav } from "@/components/ui/FloatingNav";
 import { StartBand } from "@/components/StartBand";
 import { navItems } from "@/data";
 import dynamic from "next/dynamic";
+import type { Metadata } from "next";
 import {
   TestimonialSkeleton,
   ExperienceSkeleton,
 } from "@/components/ui/Skeleton";
+
+// Only the alternates override the layout; canonical restated since this replaces it.
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://www.adrian-rusan.com",
+    languages: { en: "/", ro: "/ro", "x-default": "/" },
+  },
+};
 
 const Experience = dynamic(() => import("@/components/Experience"), {
   loading: () => (

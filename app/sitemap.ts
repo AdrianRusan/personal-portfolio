@@ -5,6 +5,9 @@ import { workshops } from "@/data/workshops";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://www.adrian-rusan.com";
   const lastModified = new Date();
+  // hreflang pairs, listed on both sides (brief R7)
+  const home = { en: baseUrl, ro: `${baseUrl}/ro` };
+  const services = { en: `${baseUrl}/services`, ro: `${baseUrl}/ro/servicii` };
 
   const posts = await getPosts();
   const blogEntries: MetadataRoute.Sitemap = posts.map((post) => ({
@@ -20,12 +23,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: lastModified,
       changeFrequency: "monthly",
       priority: 1.0,
+      alternates: { languages: home },
     },
     {
       url: `${baseUrl}/services`,
       lastModified: lastModified,
       changeFrequency: "monthly",
       priority: 0.9,
+      alternates: { languages: services },
+    },
+    {
+      url: `${baseUrl}/ro`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.8,
+      alternates: { languages: home },
+    },
+    {
+      url: `${baseUrl}/ro/servicii`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.8,
+      alternates: { languages: services },
     },
     {
       url: `${baseUrl}/teardown`,

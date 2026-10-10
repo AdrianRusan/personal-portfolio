@@ -27,6 +27,11 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "/services",
+    languages: {
+      en: "/services",
+      ro: "/ro/servicii",
+      "x-default": "/services",
+    },
   },
 };
 
