@@ -1,4 +1,4 @@
-import { proofStats } from "@/data";
+import { LEDGER_PROOF, proofStats } from "@/data";
 import { getPosts, WORK_DIR } from "@/lib/blog";
 import { cn } from "@/lib/utils";
 
@@ -10,6 +10,7 @@ const en = {
     "These are from a benchmark I ran end-to-end on my own repo — the PRs, the review notes, and the caught vulnerabilities are all real and documented, not a paying-client engagement (those case studies are in progress). ",
   teardownBefore: "Want the same review on your code?",
   teardownLink: "Send me a repo for a free teardown →",
+  ledger: LEDGER_PROOF,
   honesty:
     "No invented stats, no fake urgency. The numbers here come from documented runs.",
 };
@@ -53,6 +54,10 @@ const ProofBand = async ({ copy = en }: { copy?: ProofBandCopy }) => {
         >
           {copy.teardownLink}
         </a>
+      </p>
+      {/* After the benchmark note, so "These" refers to the stats only. */}
+      <p className="max-w-7xl mx-auto text-center font-mono text-xs text-white-200 mt-2">
+        {copy.ledger}
       </p>
       <p className="max-w-7xl mx-auto text-center text-xs font-medium text-white-200 mt-2">
         {copy.honesty}

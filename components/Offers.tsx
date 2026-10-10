@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { formatPrice, ladder, tiers } from "@/data/ladder";
+import { CREDIT_TERMS, formatPrice, ladder, tiers } from "@/data/ladder";
 
 const en = {
   heading: "From a €200 call to a monthly retainer",
   intro:
-    "Four tiers: Advise, Train, Build, Ship. Every offer has a price before we talk, and each tier credits toward the next.",
+    "Four tiers: Advise, Train, Build, Ship. Every offer has a price before we talk. ",
+  credit: CREDIT_TERMS,
   tiers: tiers.map((t) => ({ ...t, name: t.tier as string })),
   ladder,
   formatPrice,
@@ -24,6 +25,7 @@ const Offers = ({ copy = en }: { copy?: OffersCopy }) => {
         </h2>
         <p className="text-white-200 text-center mt-3 max-w-2xl mx-auto">
           {copy.intro}
+          {copy.credit}
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-12">
@@ -48,6 +50,11 @@ const Offers = ({ copy = en }: { copy?: OffersCopy }) => {
                       <span className="block text-sm text-white-200">
                         {copy.formatPrice(offer)}
                       </span>
+                      {offer.assurance && (
+                        <span className="block text-xs text-blue-100 mt-1">
+                          {offer.assurance}
+                        </span>
+                      )}
                     </li>
                   ))}
               </ul>

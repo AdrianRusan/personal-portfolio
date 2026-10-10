@@ -1,5 +1,5 @@
 import { FaLocationArrow } from "react-icons/fa6";
-import Link from "next/link";
+import { TrackedLink } from "@/components/TrackedLink";
 import MagicButton from "@/components/ui/MagicButton";
 import type { BlogCtaCopy } from "@/lib/blog-cta";
 
@@ -30,12 +30,14 @@ export default function PostCta({ cta }: { cta: BlogCtaCopy }) {
         }}
       />
       {cta.secondary && (
-        <Link
+        <TrackedLink
           href={cta.secondary.href}
+          event="cta_click"
+          props={{ cta: `${cta.cta}_secondary`, source: "blog_post_end" }}
           className="block text-sm text-purple hover:underline underline-offset-4 mt-3"
         >
           {cta.secondary.label} →
-        </Link>
+        </TrackedLink>
       )}
     </section>
   );

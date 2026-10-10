@@ -9,9 +9,10 @@ import { TrackedLink } from "@/components/TrackedLink";
 import { GUARANTEE, STRATEGY_CALL_URL } from "@/data";
 
 const en = {
-  eyebrow: "Agent speed · Every PR senior-reviewed",
+  eyebrow:
+    "Adrian Rusan · Senior engineer, 10+ years · AI agents, human review",
   heading: "Ship the roadmap you can't hire for.",
-  body: "I run fleets of Claude Code agents to clear your backlog fast — then I adversarially review every pull request myself, because I've caught the shell-injection bugs the agents wrote that the tests passed clean.",
+  body: "I clear your backlog with Claude Code agents, then review every pull request myself, security first, before it reaches you.",
   promise: "Your roadmap ships — without a security incident on your name.",
   honestBefore: "2-3x, not 100x — and",
   honestLink: "here's what the agents get wrong",

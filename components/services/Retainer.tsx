@@ -34,14 +34,14 @@ const en = {
     },
     {
       title: "2. Proof-month guarantee",
-      body: "Month 1 is the trial: we agree the reviewed-PR cadence up front, and if it isn't hit, you cancel at the end of month 1 with no further commitment. You confirm the retainer is working before you're locked into the full 3 months.",
+      body: "We agree the pace of reviewed PRs up front. If month 1 misses it, you can stop there, with nothing more owed. You see the retainer working before the full three months.",
     },
   ],
   termsHeading: "Terms",
   terms: [
     "Throughput is a band, not unlimited. Overflow rolls to the next month or a top-up sprint. The exact band is scoped on the call.",
     "Not 24/7 on-call incident response — that can be added as a named line item, priced separately.",
-    "Month-to-month after an initial 3-month commitment. Cancel anytime after that with 30 days' notice. Long enough to prove it works, short enough to be honest. No lock-in beyond the proof period.",
+    "Three months to start. If month 1 misses the pace we agreed, you can stop there. After the three months it's month to month: give me 30 days' notice when you want to stop.",
   ],
 };
 

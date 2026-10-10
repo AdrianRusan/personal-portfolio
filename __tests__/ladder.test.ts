@@ -1,4 +1,10 @@
-import { ladder, formatPrice, ladderServiceJsonLd } from "@/data/ladder";
+import {
+  ladder,
+  formatPrice,
+  ladderServiceJsonLd,
+  CREDIT_TERMS,
+} from "@/data/ladder";
+import { workshops, workshopJsonLd } from "@/data/workshops";
 import { STRATEGY_CALL_URL } from "@/data";
 
 // The guide's ladder table (2026-10-10), verbatim. EUR, ex-VAT, global.
@@ -48,6 +54,14 @@ describe("ladder", () => {
       }).toEqual(expected);
     },
   );
+
+  it("puts a risk-reversal line next to every price (brief R6)", () => {
+    for (const offer of ladder) expect(offer.assurance).toMatch(/\w{3}/);
+  });
+
+  it("states the credit window once, in the shared terms", () => {
+    expect(CREDIT_TERMS).toMatch(/within 30 days/);
+  });
 
   it("marks only Delivery Sprint and Retainer as limited availability", () => {
     expect(ladder.filter((o) => o.limited).map((o) => o.id)).toEqual([
@@ -103,5 +117,19 @@ describe("ladderServiceJsonLd", () => {
       valueAddedTaxIncluded: false,
       unitCode: "MON",
     });
+  });
+
+  it("takes workshop prices from data/workshops.ts and links its Services", () => {
+    const offer = ladder.find((o) => o.id === "workshop")!;
+    expect(offer.prices.map((p) => p.amount)).toEqual([
+      workshops["half-day"].price,
+      workshops["full-day"].price,
+    ]);
+    const node = ladderServiceJsonLd().find((s) => s.name === offer.name)!;
+    expect(node.isRelatedTo).toEqual(
+      (["half-day", "full-day"] as const).map((slug) => ({
+        "@id": workshopJsonLd(workshops[slug])["@id"],
+      })),
+    );
   });
 });

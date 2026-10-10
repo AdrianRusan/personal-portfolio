@@ -13,12 +13,16 @@ import Bio from "@/components/Bio";
 import Latest from "@/components/Latest";
 import { FloatingNav } from "@/components/ui/FloatingNav";
 import { StartBand } from "@/components/StartBand";
+import { CallSteps } from "@/components/CallSteps";
+import { ServicesFaq } from "@/components/services/ServicesFaq";
 import {
   TestimonialSkeleton,
   ExperienceSkeleton,
 } from "@/components/ui/Skeleton";
+import { roServicesFaq } from "@/data/ro-services";
 import {
   roBio,
+  roCallSteps,
   roCaseStudy,
   roCaseStudyCards,
   roEmailCapture,
@@ -123,6 +127,8 @@ export default function RoHome() {
         </section>
       </div>
       <Latest copy={roLatest} />
+      <ServicesFaq copy={roServicesFaq} />
+      <CallSteps source="home_call_steps" copy={roCallSteps} />
       <FinalCta copy={roFinalCta} />
       <Footer copy={roFooter} locale="ro" />
     </main>

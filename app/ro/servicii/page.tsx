@@ -9,6 +9,8 @@ import { Retainer } from "@/components/services/Retainer";
 import { HarnessSetup } from "@/components/services/HarnessSetup";
 import { Scarcity } from "@/components/services/Scarcity";
 import { ServicesFaq } from "@/components/services/ServicesFaq";
+import { CallSteps } from "@/components/CallSteps";
+import { roCallSteps } from "@/data/ro-home";
 import { ServicesFinalCta } from "@/components/services/ServicesFinalCta";
 import { Ladder } from "@/components/services/Ladder";
 import { ladderServiceJsonLd } from "@/data/ladder";
@@ -30,7 +32,7 @@ import { roServicesNavItems } from "../nav";
 
 const title = "Servicii AI, de la o sesiune de 110 € la un retainer lunar";
 const description =
-  "Sesiune de strategie AI, audit, workshop pentru echipă, automatizări, agent harness și sprinturi de livrare revizuite. Prețuri în EUR, fără TVA, pentru România.";
+  "Sesiune de strategie AI, audit, workshop pentru echipă, automatizări, Agent Fleet Setup și sprinturi de livrare revizuite. Prețuri în EUR, fără TVA, pentru România.";
 
 export const metadata: Metadata = {
   // Bare title — the root layout's title.template appends "| Adrian Rusan"
@@ -102,6 +104,7 @@ export default function RoServicesPage() {
       <HarnessSetup copy={roHarnessSetup} />
       <Scarcity copy={roScarcity} />
       <ServicesFaq copy={roServicesFaq} />
+      <CallSteps source="services_call_steps" copy={roCallSteps} />
       <ServicesFinalCta copy={roServicesFinalCta} />
     </main>
   );

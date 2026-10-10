@@ -1,8 +1,9 @@
 import MagicButton from "@/components/ui/MagicButton";
-import { CALENDLY_URL, CONTACT_EMAIL } from "@/data";
+import { CALENDLY_URL, CONTACT_EMAIL, GUARANTEE } from "@/data";
 import { FaLocationArrow } from "react-icons/fa6";
 
 const en = {
+  guarantee: GUARANTEE,
   eyebrow: "Not ready for a full sprint?",
   heading: "The Reviewed PR — €1,000",
   intro:
@@ -67,6 +68,7 @@ export const EntryOffer = ({ copy = en }: { copy?: EntryOfferCopy }) => {
             {copy.emailLink}
           </a>
         </div>
+        <p className="text-xs text-white-200/70 mt-4">{copy.guarantee}</p>
       </div>
     </section>
   );

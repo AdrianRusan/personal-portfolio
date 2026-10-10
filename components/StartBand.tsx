@@ -1,6 +1,7 @@
 import MagicButton from "@/components/ui/MagicButton";
 import { CalendlyLink } from "@/components/CalendlyLink";
 import { FaLocationArrow } from "react-icons/fa6";
+import { CREDIT_DAYS } from "@/data";
 
 // The primary conversion module: two low-commitment ways in, ordered by
 // friction. Free async teardown is the default path (converts cold traffic
@@ -23,8 +24,7 @@ const en = {
     "Know you want your backlog shipped this way? Book 30 minutes and we'll fix the scope and the price before anything starts.",
   callLink: "Book a call",
   betweenBefore: "Somewhere in between?",
-  betweenLink:
-    "Start with one Reviewed PR — €1,000, ~48h, credited toward a sprint →",
+  betweenLink: `Start with one Reviewed PR — €1,000, ~48h. Book a sprint within ${CREDIT_DAYS} days and it counts toward it →`,
   betweenHref: "/services#entry-offer",
 };
 export type StartBandCopy = typeof en;

@@ -15,6 +15,17 @@ export const YOUTUBE_URL = YOUTUBE_CHANNEL_ID
   ? `https://www.youtube.com/channel/${YOUTUBE_CHANNEL_ID}`
   : null;
 
+// Tier credit window (#43 follow-up: the credit had no window). Every credit
+// mention derives from these two, so the page and FAQPage JSON-LD agree.
+export const CREDIT_DAYS = 30;
+export const CREDIT_TERMS = `Move up a tier within ${CREDIT_DAYS} days and what you already paid counts toward it.`;
+
+// Aggregate 90-day proof from Adi's own session ledger (engineering-ledger
+// data.json, rows d >= 2026-07-12; PRs = authors starting "AdrianRusan").
+// Merged, not "reviewed": the ledger records merges. No client or repo names (R1).
+export const LEDGER_PROOF =
+  "Across all my work: 1,163 PRs merged and 3,644 commits in the 91 days from 12 Jul to 10 Oct 2026, counted from my own session ledger.";
+
 // Single risk-reversal guarantee, reused verbatim at every money CTA.
 export const GUARANTEE =
   "If the first reviewed PR isn't merge-ready to your standard, you don't pay for it.";
@@ -60,29 +71,86 @@ export const shipVerify = [
   },
 ];
 
-export const offers = [
+// "How a call works": what happens after someone clicks a booking CTA.
+export const callSteps = [
   {
-    id: 1,
-    badge: "Start here",
-    title: "Agent-Accelerated Delivery Sprint, Reviewed",
-    body: "A fixed batch of production-ready PRs, each one adversarially reviewed for security, shipped in days at a price you agree before we start.",
-    featured: true,
+    heading: "Pick a 30-minute slot",
+    body: "Book on Calendly and add one line on what you want built or shipped. No deck, no prep.",
   },
   {
-    id: 2,
-    badge: "",
-    title: "AI-Native Delivery Retainer, Reviewed",
-    body: "A steady flow of security-reviewed PRs every month — agent-speed delivery that runs continuously, not in bursts, with the review layer never dropped.",
-    featured: false,
+    heading: "We look at the real work",
+    body: "Your backlog, your repo or your AI question. I tell you which tier fits and what it costs, or that it isn't a fit.",
   },
   {
-    id: 3,
-    badge: "",
-    title: "Set Up Your Agent Harness",
-    body: "I install and harden the exact ship/verify harness I run — in your repo, tuned to your stack — so your own team can ship at agent speed with the guardrails already in place.",
-    featured: false,
+    heading: "You get it in writing",
+    body: "Within one working day: the scope, the fixed price and a start date, by email. You decide. Nobody chases you.",
   },
 ];
+
+// Objection-handling FAQ. One source for the visible FAQ (/ and /services) and
+// the /services FAQPage JSON-LD, so the schema can't drift from the page.
+export const faqs: { question: string; answer: string }[] = [
+  {
+    question: "How is the quality any good if AI agents wrote it?",
+    answer:
+      "Because agent output is the draft, not the deliverable. Every PR goes through a line-by-line senior review that assumes the agent got it wrong until it's proven right. Agents give you 2-3x throughput, not 100x, and they get specific things wrong. The review is where those get caught, and every sprint ships you a log of what got caught in your codebase.",
+  },
+  {
+    question: "What if the agents get it wrong, or can't do the ticket?",
+    answer:
+      "Then I fix it or write it myself. The agents are how the draft gets written; the price covers the reviewed result. A failed agent run costs me time, not you money, and nothing reaches you until it passes review.",
+  },
+  {
+    question:
+      "Unsupervised agents ship vulnerabilities. How do you handle security?",
+    answer:
+      "Correct, they do. That's why this isn't a cheaper \"just run the agents\" service. Security is the first pass of every review: injection, auth, secrets, access control. The review has caught 3 shell-injection vulnerabilities the agents wrote that passed the automated tests. The guarantee is in writing: an in-scope vulnerability found in a PR I marked reviewed gets fixed free.",
+  },
+  {
+    question: "Who owns the code? Will you sign an NDA?",
+    answer:
+      "You own everything from the first commit: your repo, your branches, your IP. I sign your NDA or DPA before I get repo access, work happens in your repository under your access controls, and access is revoked at handoff unless you're on a retainer.",
+  },
+  {
+    question: "What happens to our data and code with the AI tools?",
+    answer:
+      "Which AI tools touch your code is agreed in writing before access. If your policy rules a tool or provider out, it doesn't run on your repo. Your code is never reused in another client's work or published anywhere.",
+  },
+  {
+    question: "What timezone do you work in?",
+    answer:
+      "Romania (EET/EEST, UTC+2/+3). That's a full overlap with European working hours and the morning of US East Coast teams. Day to day runs async in writing: you get the PRs, the review notes and a short written update, so nobody waits on a meeting.",
+  },
+  {
+    question: "How do payment terms work?",
+    answer: `Every price is fixed before work starts, in EUR, excluding VAT. The strategy call is paid up front. Sprints are 50% to book the slot and 50% on handoff. The Reviewed PR is paid only if it's merge-ready to your standard. Retainers bill monthly. ${CREDIT_TERMS}`,
+  },
+  {
+    question: "What if it doesn't work out?",
+    answer:
+      "If the first reviewed PR isn't merge-ready to your standard, you don't pay for it. Your risk is highest before I've shipped anything, so the guarantee sits there. Scope is fixed on day 0, so there's no runaway bill. On a retainer, if month 1 misses the pace we agreed, you can stop there.",
+  },
+  {
+    question: "Can you work as a normal contractor by the day?",
+    answer:
+      "Ongoing capacity is the retainer, from €4,000/month. It isn't the recommended way in: a sprint sells a reviewed outcome at a price agreed up front, which is a better deal than buying time. Start with one Reviewed PR if you want to test the working relationship first.",
+  },
+  {
+    question: "Why not hire an agency, or more engineers?",
+    answer:
+      "An agency sells a team's hours with a markup, and new headcount takes months to hire and ramp. This sells reviewed outcomes in days, from one senior engineer running an agent fleet: no coordination overhead and no junior work billed at senior rates. Agencies using agents rarely put a senior adversarial review on top. Here that review is the product.",
+  },
+];
+
+export const faqPageJsonLd = () => ({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map(({ question, answer }) => ({
+    "@type": "Question",
+    name: question,
+    acceptedAnswer: { "@type": "Answer", text: answer },
+  })),
+});
 
 export const whoFor = {
   forList: [

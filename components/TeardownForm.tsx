@@ -6,6 +6,9 @@ import { cn } from "@/lib/utils";
 
 type Status = "idle" | "loading" | "success" | "error";
 
+// Only the API's validation text is shown verbatim; network errors are not.
+class ApiValidationError extends Error {}
+
 const TeardownForm = ({ className }: { className?: string }) => {
   const [email, setEmail] = useState("");
   const [repoUrl, setRepoUrl] = useState("");
@@ -29,6 +32,18 @@ const TeardownForm = ({ className }: { className?: string }) => {
       });
 
       if (!response.ok) {
+        // The API's field-validation 400s start "Please provide a valid…" and
+        // tell the visitor what to fix. Any other body gets the generic retry.
+        const data =
+          response.status === 400
+            ? await response.json().catch(() => null)
+            : null;
+        if (
+          typeof data?.error === "string" &&
+          data.error.startsWith("Please ")
+        ) {
+          throw new ApiValidationError(data.error);
+        }
         throw new Error("Teardown request failed");
       }
 
@@ -38,9 +53,13 @@ const TeardownForm = ({ className }: { className?: string }) => {
       setEmail("");
       setRepoUrl("");
       setNote("");
-    } catch {
+    } catch (error) {
       setStatus("error");
-      setErrorMessage("Something went wrong. Please try again in a moment.");
+      setErrorMessage(
+        error instanceof ApiValidationError
+          ? error.message
+          : "Something went wrong. Please try again in a moment.",
+      );
     }
   };
 
@@ -56,9 +75,9 @@ const TeardownForm = ({ className }: { className?: string }) => {
     >
       {status === "success" ? (
         <div role="status" aria-live="polite">
-          <h3 className="text-lg font-semibold tracking-tight text-purple">
+          <h2 className="text-lg font-semibold tracking-tight text-purple">
             Got it — your teardown is on the way.
-          </h3>
+          </h2>
           <p className="text-sm text-white-200 leading-relaxed mt-2">
             Check your inbox for a confirmation. You&apos;ll have the Loom
             within 2&ndash;3 business days, no call required.

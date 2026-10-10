@@ -4,7 +4,7 @@ import { FaLocationArrow } from "react-icons/fa6";
 
 const en = {
   eyebrow: "Teach your team to fish",
-  heading: "Set Up Your Agent Harness",
+  heading: "Agent Fleet Setup: the harness I run, in your repo",
   intro:
     "I install and harden the exact ship/verify agent harness I run — in your repo, tuned to your stack and conventions — so your own team can ship at agent speed with the safety rails already in place.",
   deliveredHeading: "Exactly what's delivered",
@@ -16,7 +16,7 @@ const en = {
     "2 weeks of async follow-up support after handover as your team adopts it.",
   ],
   pricingHeading: "Pricing",
-  pricingEyebrow: "Harness setup",
+  pricingEyebrow: "Agent Fleet Setup",
   price: "Starts at €4,000",
   pricingBody:
     "One repo: agent fleet config, CI security gates, review rubric, handover playbook, and follow-up support. Scope grows with multi-repo rollout, extra workshops, and embedded pairing — scoped and fixed on the call, before any work starts.",

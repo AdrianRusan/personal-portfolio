@@ -1,4 +1,5 @@
 import type { BioCopy } from "@/components/Bio";
+import type { CallStepsCopy } from "@/components/CallSteps";
 import type { CaseStudyCopy } from "@/components/CaseStudy";
 import type { CaseStudyCardsCopy } from "@/components/CaseStudyCards";
 import type { EmailCaptureCopy } from "@/components/EmailCapture";
@@ -13,26 +14,32 @@ import type { ShipVerifyCopy } from "@/components/ShipVerify";
 import type { StartBandCopy } from "@/components/StartBand";
 import type { TestimonialsCopy } from "@/components/Testimonials";
 import type { WhoForCopy } from "@/components/WhoFor";
-import { shipVerify, workExperience } from "@/data";
+import { CREDIT_DAYS, shipVerify, workExperience } from "@/data";
 import { tiers } from "@/data/ladder";
 import {
   formatPriceRo,
+  RO_CREDIT_TERMS,
+  RO_GUARANTEE,
   RO_STRATEGY_CALL_URL,
   roLadder,
   roTierNames,
   roTiers,
 } from "@/data/ro";
 
+// RO twin of LEDGER_PROOF (data/index.ts): same numbers, same source.
+export const RO_LEDGER_PROOF =
+  "În toată munca mea: 1.163 de PR-uri cu merge și 3.644 de commit-uri în cele 91 de zile dintre 12 iulie și 10 octombrie 2026, numărate din propriul meu jurnal de sesiuni.";
+
 // Romanian copy for the /ro homepage. Same sections and numbers as the English
 // page; RO prices come from data/ro.ts (brief R7).
 
-export const RO_GUARANTEE =
-  "Dacă primul PR revizuit nu e gata de merge după standardul tău, nu îl plătești.";
+export { RO_GUARANTEE } from "@/data/ro";
 
 export const roHero: HeroCopy = {
-  eyebrow: "Viteză de agent · Fiecare PR revizuit de un senior",
+  eyebrow:
+    "Adrian Rusan · Inginer senior, peste 10 ani · Agenți AI, review uman",
   heading: "Livrează roadmap-ul pentru care nu poți angaja.",
-  body: "Folosesc flote de agenți Claude Code ca să-ți golesc rapid backlog-ul, apoi verific eu fiecare pull request, adversarial. Am prins buguri de shell injection scrise de agenți, care treceau toate testele.",
+  body: "Îți golesc backlog-ul cu agenți Claude Code, apoi verific eu fiecare pull request, întâi pentru securitate, înainte să ajungă la tine.",
   promise:
     "Roadmap-ul tău se livrează, fără un incident de securitate pe numele tău.",
   honestBefore: "De 2–3 ori, nu de 100 de ori, și",
@@ -67,6 +74,7 @@ export const roProofBand: ProofBandCopy = {
     "Cifrele vin dintr-un benchmark rulat cap-coadă pe propriul meu repo. PR-urile, notele de review și vulnerabilitățile prinse sunt reale și documentate, dar nu e un proiect plătit de un client (studiile de caz cu clienți sunt în lucru). ",
   teardownBefore: "Vrei același review pe codul tău?",
   teardownLink: "Trimite-mi un repo pentru un teardown gratuit →",
+  ledger: RO_LEDGER_PROOF,
   honesty:
     "Fără statistici inventate și fără urgență falsă. Cifrele de aici vin din rulări documentate.",
 };
@@ -121,7 +129,8 @@ const roTagline = Object.fromEntries(roTiers.map((t) => [t.tier, t.tagline]));
 export const roOffers: OffersCopy = {
   heading: "De la o sesiune de 110 € la un retainer lunar",
   intro:
-    "Patru niveluri: Consultanță, Training, Implementare, Livrare. Fiecare ofertă are prețul afișat înainte să vorbim, iar ce plătești la un nivel se scade din următorul.",
+    "Patru niveluri: Consultanță, Training, Implementare, Livrare. Fiecare ofertă are prețul afișat înainte să vorbim. ",
+  credit: RO_CREDIT_TERMS,
   tiers: tiers.map(({ tier }) => ({
     tier,
     name: roTierNames[tier],
@@ -170,8 +179,7 @@ export const roStartBand: StartBandCopy = {
     "Știi deja că vrei backlog-ul livrat așa? Rezervă 30 de minute și stabilim scope-ul și prețul înainte să înceapă ceva.",
   callLink: "Programează",
   betweenBefore: "Undeva la mijloc?",
-  betweenLink:
-    "Începe cu un singur PR revizuit: 550 €, ~48 h, scăzut din prețul unui sprint →",
+  betweenLink: `Începe cu un singur PR revizuit: 550 €, ~48 h. Rezervă un sprint în ${CREDIT_DAYS} de zile și se scade din preț →`,
   betweenHref: "/ro/servicii#entry-offer",
 };
 
@@ -257,6 +265,30 @@ export const roFinalCta: FinalCtaCopy = {
   button: "Programează o discuție",
   capacity:
     "Stratul de verificare e un singur om senior și nu se poate paraleliza, așa că rulează doar câteva sprinturi în același timp. Când locurile sunt ocupate, proiectele noi intră pe o listă de așteptare, cu dată.",
+};
+
+const roStrategyCall = roLadder.find((o) => o.id === "strategy-call")!;
+
+export const roCallSteps: CallStepsCopy = {
+  eyebrow: "Ce se întâmplă după ce rezervi",
+  heading: "Cum decurge o discuție",
+  steps: [
+    {
+      heading: "Alegi un interval de 30 de minute",
+      body: "Rezervi pe Calendly și scrii un rând despre ce vrei să construiești sau să livrezi. Fără prezentări, fără pregătire.",
+    },
+    {
+      heading: "Ne uităm la munca reală",
+      body: "Backlog-ul tău, repo-ul tău sau întrebarea ta despre AI. Îți spun ce nivel se potrivește și cât costă, sau că nu e potrivit.",
+    },
+    {
+      heading: "Primești totul în scris",
+      body: "În cel mult o zi lucrătoare: scope-ul, prețul fix și data de start, pe email. Tu decizi. Nu te sună nimeni să insiste.",
+    },
+  ],
+  adviceBefore: "Ai nevoie doar de sfaturi?",
+  adviceLink: `${roStrategyCall.name}: ${roStrategyCall.duration}, 1:1, cu un rezumat scris, ${formatPriceRo(roStrategyCall)}.`,
+  adviceHref: RO_STRATEGY_CALL_URL,
 };
 
 export const roFooter: FooterCopy = {

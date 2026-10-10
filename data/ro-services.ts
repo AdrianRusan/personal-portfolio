@@ -1,4 +1,4 @@
-import { RO_GUARANTEE } from "@/data/ro-home";
+import { RO_LEDGER_PROOF } from "@/data/ro-home";
 import type { DeliverySprintCopy } from "@/components/services/DeliverySprint";
 import type { EntryOfferCopy } from "@/components/services/EntryOffer";
 import type { HarnessSetupCopy } from "@/components/services/HarnessSetup";
@@ -10,7 +10,14 @@ import type { ServicesFaqCopy } from "@/components/services/ServicesFaq";
 import type { ServicesFinalCtaCopy } from "@/components/services/ServicesFinalCta";
 import type { ServicesHeroCopy } from "@/components/services/ServicesHero";
 import type { TrustStripCopy } from "@/components/services/TrustStrip";
-import { formatPriceRo, roLadder, roTierNames, roTiers } from "@/data/ro";
+import {
+  formatPriceRo,
+  RO_CREDIT_TERMS,
+  RO_GUARANTEE,
+  roLadder,
+  roTierNames,
+  roTiers,
+} from "@/data/ro";
 
 // /ro/servicii copy. Prices follow data/ro.ts (55% of the global ladder).
 
@@ -27,6 +34,7 @@ export const roServicesHero: ServicesHeroCopy = {
   tiersLink:
     "Nu ești gata de o discuție? Vezi cele patru niveluri și prețurile ↓",
   guarantee: RO_GUARANTEE,
+  ledger: RO_LEDGER_PROOF,
   proofItems: [
     "30 de PR-uri revizuite · 9 loturi de agenți · 2,5 zile",
     "3 vulnerabilități de tip shell injection prinse, deși trecuseră de teste",
@@ -57,8 +65,7 @@ export const roServicesLadder: LadderContent = {
   format: formatPriceRo,
   eyebrow: "Consultanță → Training → Implementare → Livrare",
   heading: "Patru moduri de a lucra împreună, toate cu prețul afișat",
-  intro:
-    "Începe cu o sesiune de 110 € sau mergi direct la un sprint. Ce plătești la un nivel se scade din prețul următorului. Toate prețurile sunt în EUR, fără TVA.",
+  intro: `Începe cu o sesiune de 110 € sau mergi direct la un sprint. ${RO_CREDIT_TERMS} Toate prețurile sunt în EUR, fără TVA.`,
   limited: "Disponibilitate limitată",
   capacity:
     "Stratul de verificare e un singur om senior și nu se poate paraleliza.",
@@ -204,6 +211,7 @@ export const roDeliverySprint: DeliverySprintCopy = {
 };
 
 export const roEntryOffer: EntryOfferCopy = {
+  guarantee: RO_GUARANTEE,
   eyebrow: "Nu ești gata pentru un sprint întreg?",
   heading: "PR-ul revizuit — 550 €",
   intro:
@@ -260,20 +268,21 @@ export const roRetainer: RetainerCopy = {
     securityGuarantee,
     {
       title: "2. Garanția primei luni",
-      body: "Prima lună e perioada de probă: stabilim de la început ritmul de PR-uri revizuite, iar dacă nu e atins, poți renunța la finalul primei luni, fără alte obligații. Te convingi că retainerul funcționează înainte să te angajezi pentru toate cele 3 luni.",
+      body: "Stabilim de la început ritmul de PR-uri revizuite. Dacă luna 1 nu îl atinge, te poți opri acolo, fără să mai datorezi nimic. Vezi retainerul funcționând înainte de cele trei luni întregi.",
     },
   ],
   termsHeading: "Condiții",
   terms: [
     "Volumul e o bandă, nu e nelimitat. Ce depășește trece în luna următoare sau într-un sprint suplimentar. Banda exactă se stabilește în discuție.",
     "Nu include răspuns la incidente 24/7 — se poate adăuga ca serviciu separat, cu preț separat.",
-    "Lună de lună după un angajament inițial de 3 luni. După aceea poți renunța oricând, cu 30 de zile preaviz. Destul de lung cât să dovedească că funcționează, destul de scurt cât să fie corect. Niciun angajament peste perioada de probă.",
+    "Începem cu trei luni. Dacă luna 1 nu atinge ritmul stabilit, te poți opri acolo. După cele trei luni mergem lună de lună: îmi dai un preaviz de 30 de zile când vrei să te oprești.",
   ],
 };
 
 export const roHarnessSetup: HarnessSetupCopy = {
   eyebrow: "Învață-ți echipa să pescuiască",
-  heading: "Configurează-ți agent harness-ul",
+  heading:
+    "Agent Fleet Setup: harness-ul pe care îl folosesc eu, în repo-ul tău",
   intro:
     "Instalez și întăresc exact harness-ul ship/verify pe care îl folosesc eu — în repo-ul tău, adaptat stack-ului și convențiilor tale — ca echipa ta să poată livra în ritmul agenților, cu plasele de siguranță deja puse.",
   deliveredHeading: "Ce primești, exact",
@@ -285,7 +294,7 @@ export const roHarnessSetup: HarnessSetupCopy = {
     "2 săptămâni de suport async după predare, cât echipa ta preia fluxul.",
   ],
   pricingHeading: "Preț",
-  pricingEyebrow: "Configurare harness",
+  pricingEyebrow: "Agent Fleet Setup",
   price: "De la 2.200 €",
   pricingBody:
     "Un repo: configurarea flotei de agenți, gate-uri de securitate în CI, criteriile de review, playbook-ul de predare și suportul de după. Scope-ul crește dacă extindem pe mai multe repo-uri, adăugăm workshop-uri sau lucrăm în pair cu echipa — totul stabilit și fixat în discuție, înainte să înceapă orice lucru.",
@@ -317,40 +326,60 @@ export const roScarcity: ScarcityCopy = {
     "Fără cronometre, fără „au mai rămas 3 locuri azi”. Limita e pur și simplu adevărul despre cum funcționează asta — și e, totodată, argumentul de vânzare.",
 };
 
+// Same questions, same order as `faqs` (data/index.ts); RO prices from R7.
 export const roServicesFaq: ServicesFaqCopy = {
   heading: "Răspunsuri directe la întrebările pe care le primesc de fapt",
   items: [
     {
       question: "Cum poate fi calitatea bună dacă codul l-au scris agenți AI?",
       answer:
-        "Pentru că ce scriu agenții e ciorna, nu livrabilul. Fiecare PR trece printr-un review senior linie cu linie, care pornește de la premisa că agentul a greșit până se dovedește contrariul — același review pe care un senior bun îl face pe PR-ul unui junior, dar în ritmul agenților. Agenții îți dau de 2-3 ori mai mult volum, nu de 100 de ori, și greșesc lucruri anume. Review-ul e locul unde sunt prinse, iar fiecare sprint vine cu un registru cu exact ce s-a prins în codul tău.",
+        "Pentru că ce scriu agenții e ciorna, nu livrabilul. Fiecare PR trece printr-un review senior, linie cu linie, care pornește de la ideea că agentul a greșit până se dovedește contrariul. Agenții îți dau de 2–3 ori mai mult volum, nu de 100 de ori, și greșesc lucruri anume. Review-ul e locul unde sunt prinse, iar fiecare sprint vine cu un registru cu ce s-a prins în codul tău.",
     },
     {
       question:
-        "Mă îngrijorează în special securitatea. Agenții nesupravegheați livrează vulnerabilități.",
+        "Ce se întâmplă dacă agenții greșesc sau nu se descurcă cu tichetul?",
       answer:
-        "Corect — chiar livrează. Tocmai de aceea există serviciul ăsta, și nu o variantă mai ieftină de tip „pornim agenții și gata”. Exemplu real: review-ul adversarial a prins 3 vulnerabilități de tip shell injection scrise de agenți, care trecuseră de testele automate. Securitatea e prima verificare din fiecare review, iar tu primești un registru scris cu problemele găsite pe tot sprintul. Garanția de securitate e în scris: o vulnerabilitate din aria review-ului, găsită într-un PR marcat de mine ca revizuit, se repară gratuit.",
+        "Atunci îl repar sau îl scriu eu. Agenții sunt felul în care se scrie ciorna; prețul acoperă rezultatul revizuit. O rulare eșuată mă costă pe mine timp, nu pe tine bani, și nimic nu ajunge la tine până nu trece de review.",
     },
     {
       question:
-        "De ce să nu angajez pur și simplu o agenție sau mai mulți ingineri?",
+        "Agenții nesupravegheați livrează vulnerabilități. Cum tratezi securitatea?",
       answer:
-        "O agenție îți vinde orele unei echipe, cu adaos; angajările durează luni până găsești oamenii și îi pui pe picioare. Aici cumperi rezultate revizuite în câteva zile, de la un singur profesionist senior care coordonează o flotă de agenți — fără overhead de coordonare, fără perioadă de acomodare, fără muncă de junior facturată la tarif de senior. Și diferența reală: o agenție care folosește agenți are rareori un strat senior de verificare adversarială deasupra. Stratul ăsta e tot rostul serviciului, nu un extra.",
+        "Așa e, livrează. Tocmai de aceea nu e un serviciu mai ieftin de tipul „pornim agenții și gata”. Securitatea e prima trecere din fiecare review: injection, autentificare, secrete, controlul accesului. Review-ul a prins 3 vulnerabilități de shell injection scrise de agenți, care treceau testele automate. Garanția e în scris: o vulnerabilitate din aria review-ului, găsită într-un PR marcat de mine ca revizuit, se repară gratuit.",
     },
     {
-      question: "Al cui e codul și cum se asigură confidențialitatea?",
+      question: "Al cui e codul? Semnezi un NDA?",
       answer:
-        "Totul e al tău — repo-ul, branch-urile, proprietatea intelectuală, de la primul commit. Lucrez în repository-ul tău, cu controalele tale de acces. Semnez NDA-ul sau DPA-ul tău înainte să primesc acces la repo; accesul se revocă la predare, dacă nu ai un retainer. Codul clienților nu e folosit la antrenarea vreunui model și nu e refolosit nicăieri. Pentru clienții din fintech, review-ul de securitate acoperă standard gestionarea secretelor și controlul accesului.",
+        "Totul e al tău de la primul commit: repo-ul, branch-urile, proprietatea intelectuală. Semnez NDA-ul sau DPA-ul tău înainte să primesc acces la repo, lucrez în repository-ul tău, sub controalele tale de acces, iar accesul se revocă la predare, dacă nu ai un retainer.",
     },
     {
-      question: "Ce se întâmplă dacă nu merge sau dacă lucrezi prea încet?",
+      question: "Ce se întâmplă cu datele și codul nostru în uneltele de AI?",
       answer:
-        "Dacă primul PR revizuit nu e gata de merge la standardul tău, nu plătești pentru el — riscul tău e cel mai mare înainte să fi livrat ceva, așa că garanția stă exact acolo. În rest, scope-ul se fixează în ziua 0, deci nu există facturi care o iau razna.",
+        "Ce unelte de AI ating codul tău stabilim în scris, înainte de acces. Dacă politica voastră exclude o unealtă sau un furnizor, nu rulează pe repo-ul vostru. Codul tău nu e refolosit niciodată în munca pentru alt client și nu e publicat nicăieri.",
     },
     {
-      question: "Poți lucra pur și simplu ca un contractor obișnuit, la zi?",
+      question: "În ce fus orar lucrezi?",
       answer:
-        "Se poate, sub formă de retainer, de la 2.200 €/lună, dar nu e varianta pe care o recomand pentru început. Sprintul îți vinde un rezultat revizuit, la un preț stabilit de la început — o afacere mai bună pentru tine decât să cumperi timp și să speri. Retainerul are aceeași garanție de securitate, plus o lună de probă: prima lună e test și poți renunța la finalul ei dacă nu am atins ritmul de PR-uri revizuite stabilit. Dacă vrei să vezi cum lucrăm împreună cu risc mic, începe cu un Sprint Pilot.",
+        "România (EET/EEST, UTC+2/+3). Asta înseamnă suprapunere completă cu orele de lucru din Europa și cu dimineața echipelor de pe Coasta de Est a SUA. Zi de zi lucrăm async, în scris: primești PR-urile, notele de review și un update scurt, așa că nimeni nu așteaptă după o ședință.",
+    },
+    {
+      question: "Cum funcționează plata?",
+      answer: `Fiecare preț e fix înainte să înceapă munca, în EUR, fără TVA. Sesiunea de strategie se plătește în avans. Sprinturile: 50% ca să rezervi slotul, 50% la predare. PR-ul revizuit se plătește doar dacă e gata de merge după standardul tău. Retainerele se facturează lunar. ${RO_CREDIT_TERMS}`,
+    },
+    {
+      question: "Ce se întâmplă dacă nu merge?",
+      answer:
+        "Dacă primul PR revizuit nu e gata de merge după standardul tău, nu îl plătești. Riscul tău e cel mai mare înainte să fi livrat ceva, așa că garanția stă exact acolo. Scope-ul se fixează în ziua 0, deci nu există facturi care o iau razna. La retainer, dacă luna 1 nu atinge ritmul stabilit, te poți opri acolo.",
+    },
+    {
+      question: "Poți lucra ca un contractor obișnuit, la zi?",
+      answer:
+        "Capacitatea continuă e retainerul, de la 2.200 €/lună. Nu e varianta pe care o recomand pentru început: un sprint îți vinde un rezultat revizuit, la un preț stabilit dinainte, ceea ce e mai avantajos decât să cumperi timp. Începe cu un singur PR revizuit dacă vrei să testezi întâi colaborarea.",
+    },
+    {
+      question: "De ce să nu angajez o agenție sau mai mulți ingineri?",
+      answer:
+        "O agenție îți vinde orele unei echipe, cu adaos, iar oamenii noi se angajează și se acomodează în luni de zile. Aici cumperi rezultate revizuite în câteva zile, de la un singur inginer senior care conduce o flotă de agenți: fără costuri de coordonare și fără muncă de junior facturată la tarif de senior. Agențiile care folosesc agenți pun rar un review senior adversarial deasupra. Aici, review-ul e produsul.",
     },
   ],
 };

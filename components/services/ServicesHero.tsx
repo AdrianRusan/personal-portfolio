@@ -1,5 +1,5 @@
 import MagicButton from "@/components/ui/MagicButton";
-import { CALENDLY_URL, GUARANTEE } from "@/data";
+import { CALENDLY_URL, GUARANTEE, LEDGER_PROOF } from "@/data";
 import { FaLocationArrow } from "react-icons/fa6";
 
 const en = {
@@ -14,6 +14,7 @@ const en = {
   ctaSource: "services_hero",
   tiersLink: "Not ready to talk? See the four tiers and prices ↓",
   guarantee: GUARANTEE,
+  ledger: LEDGER_PROOF,
   proofItems: [
     "30 reviewed PRs · 9 agent batches · 2.5 days",
     "3 shell-injection vulnerabilities caught that passed the tests",
@@ -79,6 +80,9 @@ export const ServicesHero = ({ copy = en }: { copy?: ServicesHeroCopy }) => {
         </div>
         <p className="text-[11px] md:text-xs text-white-200/50 mt-3 max-w-2xl mx-auto">
           {copy.proofNote}
+        </p>
+        <p className="font-mono text-[11px] md:text-xs text-white-200/80 mt-3 max-w-2xl mx-auto">
+          {copy.ledger}
         </p>
       </div>
     </section>
