@@ -15,6 +15,7 @@ import { track } from "@/lib/analytics";
 export const FloatingNav = ({
   navItems,
   className,
+  ctaLabel = "Book a call",
 }: {
   navItems: {
     name: string;
@@ -22,6 +23,7 @@ export const FloatingNav = ({
     icon?: JSX.Element;
   }[];
   className?: string;
+  ctaLabel?: string;
 }) => {
   const { scrollYProgress } = useScroll();
 
@@ -82,7 +84,7 @@ export const FloatingNav = ({
           onClick={() => track("calendly_click", { source: "floating_nav" })}
           className="relative rounded-lg bg-purple px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-purple/80 !cursor-pointer"
         >
-          Book a call
+          {ctaLabel}
         </a>
       </motion.nav>
     </AnimatePresence>
