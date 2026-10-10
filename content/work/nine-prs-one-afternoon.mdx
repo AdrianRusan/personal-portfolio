@@ -1,0 +1,92 @@
+---
+title: "Nine Reviewed PRs in One Afternoon: The Agent Org That Rebuilt This Site"
+date: "2026-10-10"
+tags: ["ai", "claude-code", "parallel-agents", "git-worktrees", "agent-harness"]
+description: "One orchestrator, nine Claude Code agents in parallel worktrees, nine merged PRs in 100 minutes. Every one went through a review gate first."
+published: true
+language: "en"
+---
+
+## The problem
+
+On 10 October I wrote a brief for the site you are reading: an offer ladder with a price on every tier, workshop pages, a case-study route, a Romanian section, blog fixes and new structured data. The brief split the work into nine packages and scheduled them over three weekends.
+
+Before any of that, the fact check in the brief turned up an outage. The booking link behind every "book a call" button pointed at a Calendly event that no longer existed. The live site carried that link 8 times on the homepage and 20 times on `/services`, and every one of them landed on a 404 page. A site whose job is to book calls was booking none.
+
+## The constraint
+
+The work was too wide for one session and too small to justify a team. One agent doing nine packages in sequence would take the three weekends the brief allowed. Nine agents sharing one checkout would overwrite each other's files.
+
+The bigger constraint was review. I am the only senior reviewer, and that does not parallelize. Whatever ran in parallel had to arrive at my desk already checked, with its evidence attached, or the bottleneck would just move to me.
+
+## What I built
+
+<figure className="my-8">
+  <svg viewBox="0 0 360 400" role="img" aria-label="A brief with facts and rulings feeds one orchestrator. The orchestrator starts nine agents, each in its own git worktree. Each agent runs the validation ladder and a code review, then opens a pull request with its evidence. One human reviews and merges." className="block w-full max-w-md mx-auto">
+    <defs>
+      <marker id="np-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0 0 L10 5 L0 10 z" fill="#CBACF9" />
+      </marker>
+    </defs>
+    <g fill="none" stroke="#CBACF9" strokeWidth="1.5">
+      <rect x="65" y="8" width="230" height="52" rx="10" />
+      <rect x="65" y="92" width="230" height="52" rx="10" />
+      <rect x="10" y="176" width="100" height="60" rx="10" />
+      <rect x="130" y="176" width="100" height="60" rx="10" />
+      <rect x="250" y="176" width="100" height="60" rx="10" />
+      <rect x="65" y="268" width="230" height="52" rx="10" />
+      <rect x="65" y="348" width="230" height="44" rx="10" />
+      <path d="M180 60 V88" markerEnd="url(#np-arrow)" />
+      <path d="M150 144 L60 172" markerEnd="url(#np-arrow)" />
+      <path d="M180 144 V172" markerEnd="url(#np-arrow)" />
+      <path d="M210 144 L300 172" markerEnd="url(#np-arrow)" />
+      <path d="M60 236 L150 264" markerEnd="url(#np-arrow)" />
+      <path d="M180 236 V264" markerEnd="url(#np-arrow)" />
+      <path d="M300 236 L210 264" markerEnd="url(#np-arrow)" />
+      <path d="M180 320 V344" markerEnd="url(#np-arrow)" />
+    </g>
+    <g fill="currentColor" fontSize="13" textAnchor="middle">
+      <text x="180" y="31" fontWeight="700">Brief</text>
+      <text x="180" y="49" fontSize="11">facts · rulings · file ownership</text>
+      <text x="180" y="115" fontWeight="700">Orchestrator session</text>
+      <text x="180" y="133" fontSize="11">answers from the brief</text>
+      <text x="60" y="202" fontWeight="700">Agent 1</text>
+      <text x="60" y="220" fontSize="10">own worktree</text>
+      <text x="180" y="202" fontWeight="700">Agent 2 … 8</text>
+      <text x="180" y="220" fontSize="10">own worktrees</text>
+      <text x="300" y="202" fontWeight="700">Agent 9</text>
+      <text x="300" y="220" fontSize="10">own worktree</text>
+      <text x="180" y="291" fontWeight="700">Ladder + code review</text>
+      <text x="180" y="309" fontSize="11">PR opens with its evidence</text>
+      <text x="180" y="375" fontWeight="700">One human merges</text>
+    </g>
+  </svg>
+  <figcaption className="text-center text-sm text-white-200 mt-3">Agents run in parallel. Review still ends at one person, so every PR arrives pre-checked.</figcaption>
+</figure>
+
+The setup has three parts.
+
+**A brief that answers questions before they are asked.** It lists verified facts, numbered rulings and which files each package owns. When an agent hits a choice, the orchestrator answers from the brief instead of waking me up. File ownership keeps merges cheap: new content goes in new data files, and only one package edits the shared one.
+
+**One worktree per agent.** I use [Herdr](/blog/how-i-run-8-claude-code-agents-in-parallel) to start each agent in its own git worktree, on its own branch, in its own terminal pane. Nine agents edit nine branches at once without touching each other's files.
+
+**A gate before my review.** Each agent runs the same ladder before it may mark its PR ready: typecheck, lint, production build, unit tests, a curl of every route it touched, and before/after screenshots. Then it runs a code review on its own diff, fixes what is real and lists the rest. The PR body carries all of it, so I review evidence instead of re-running checks.
+
+The outage went first. The one-line fix shipped as its own PR, marked ready from the start, and it was the first one merged.
+
+## The number
+
+**9 pull requests merged in 100 minutes**, from the brief at 15:31 to the last merge at 17:11, in work planned for three weekends. From GitHub:
+
+- 9 issues closed, 57 commits, 2,970 lines added and 282 removed across the 9 PRs
+- First PR opened 5 minutes after the brief; first merge 30 minutes after it
+- 7 PR bodies recorded a code-review count: 46 findings, 17 fixed inside the PR, the rest deferred or rejected with a stated reason
+- 28 dead booking links fixed by a PR that added 15 lines, most of them a test
+
+## The lesson
+
+Parallel agents did not make me faster at reviewing. They made the review smaller. Each PR arrived with its checks run, its screenshots attached and its review findings already sorted into fixed and deferred, so my part was reading evidence and merging.
+
+The other half is the brief. Every decision it settled up front was one an agent did not have to stop and ask about.
+
+If you want this setup in your own repo, the [Agent Harness Setup](/services#harness) installs it in a week. If you want your team to run it, the [team workshop](/workshops/full-day) teaches it in a day.
