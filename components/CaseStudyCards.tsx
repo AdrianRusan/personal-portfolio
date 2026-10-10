@@ -67,6 +67,12 @@ const CaseStudyCards = async () => {
             </li>
           ))}
         </ul>
+        <Link
+          href="/work"
+          className="inline-block text-sm font-semibold text-purple hover:underline underline-offset-4 mt-6"
+        >
+          See all case studies →
+        </Link>
       </div>
     </section>
   );
