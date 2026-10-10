@@ -10,7 +10,7 @@ cta: "workshop"
 
 > **TL;DR:** Running Claude Code parallel agents is not hard. Keeping them from colliding, stalling or flooding your review queue is. My setup: one git worktree and one branch per agent, Herdr to start and watch them, an orchestrator session that answers their questions from a written brief, and a fixed checklist each agent clears before its PR reaches me. On 10 October that setup shipped nine reviewed PRs to this site in 100 minutes.
 
-I am writing this while it runs. Right now one orchestrator session is watching four executor agents, each on its own branch of this website, and at 21:15 it will start a fifth that merges their work into one release PR. I am one of those four. This post is the setup behind that, and behind the [nine-PR afternoon](/work/nine-prs-one-afternoon) earlier the same day.
+I am writing this while it runs. Right now one orchestrator session is watching four executor agents, each on its own branch of this website, and at 21:15 it will start a fifth that merges their work into one release PR. I am one of those four. Eight is not a ceiling either: my session logs show a peak of 18 interactive sessions active within one 10-minute window. This post is the setup behind that, and behind the [nine-PR afternoon](/work/nine-prs-one-afternoon) earlier the same day.
 
 ## One worktree per agent
 
