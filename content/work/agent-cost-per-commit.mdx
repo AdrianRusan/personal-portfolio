@@ -1,0 +1,85 @@
+---
+title: "Reduce LLM API Costs Without Shipping Less: Agent Cost per Commit Down 68%"
+date: "2026-10-10"
+tags: ["ai", "claude-code", "llm-costs", "agent-harness"]
+description: "From July to August my agent spend per commit fell from $35 to $11 while commits rose. What changed, what I can trace, and what I can't."
+published: true
+language: "en"
+---
+
+## The problem
+
+I wanted to reduce LLM API costs in my own agent workflow without shipping less. To do that I first had to measure it. I keep a private ledger that records, per day, my Claude Code token usage from session transcripts, the commits in my repos and my merged pull requests.
+
+One caveat up front. The dollar figures below are **replacement cost**: the tokens priced at one model's public list price. They are not an invoice, and they are not what I paid. They measure how much compute the work used, in a unit that is easy to compare.
+
+July looked expensive. Across the full month the ledger shows $35.0k of replacement cost for 995 commits and 477 merged PRs. That is $35 per commit.
+
+## The constraint
+
+I did not want to save money by doing less. Commits and merged PRs had to hold up, and every PR still had to pass the same review gates.
+
+The ledger also has limits I had to respect:
+
+1. **One price for every token.** Moving a task to a cheaper model does not lower the ledger's dollars. Only fewer tokens do.
+2. **The counting method changed on 11 September.** Days before it count each transcript entry, which roughly doubles the numbers. July and August use the same method, so they compare cleanly. September does not, so I leave its dollars out.
+
+## What changed
+
+<figure className="my-8">
+  <svg viewBox="0 0 360 330" role="img" aria-label="Timeline from July to late August. Early August: cost per commit drops, no config change explains it. 10 August: a per-message hook is removed and ten unused skills are parked. 23 August: the rules files shrink from 9,976 to 4,106 words. 24 August: fifteen orphaned skills are removed." className="block w-full max-w-md mx-auto">
+    <g fill="none" stroke="#CBACF9" strokeWidth="1.5">
+      <path d="M40 20 V310" />
+      <circle cx="40" cy="40" r="6" />
+      <circle cx="40" cy="110" r="6" stroke="#F87171" />
+      <circle cx="40" cy="180" r="6" />
+      <circle cx="40" cy="245" r="6" />
+      <circle cx="40" cy="300" r="6" />
+    </g>
+    <g fill="currentColor" fontSize="13">
+      <text x="60" y="36" fontWeight="700">July</text>
+      <text x="60" y="54" fontSize="11">$35 per commit · 144k subagent turns</text>
+      <text x="60" y="106" fontWeight="700">Early August</text>
+      <text x="60" y="124" fontSize="11">first drop · no config change explains it</text>
+      <text x="60" y="176" fontWeight="700">10 Aug</text>
+      <text x="60" y="194" fontSize="11">per-message hook off · 10 unused skills parked</text>
+      <text x="60" y="241" fontWeight="700">23 Aug</text>
+      <text x="60" y="259" fontSize="11">rules: 9,976 → 4,106 words</text>
+      <text x="60" y="296" fontWeight="700">24 Aug</text>
+      <text x="60" y="314" fontSize="11">15 orphaned skills removed</text>
+    </g>
+  </svg>
+  <figcaption className="text-center text-sm text-black-100/70 dark:text-white-200 mt-3">Every dated change is a commit in my harness config. The early-August drop is not.</figcaption>
+</figure>
+
+I matched the weekly cost curve against the commit history of my Claude Code config. Three changes line up with it.
+
+**Less text injected into every turn (10 August).** A hook added a reminder to every message I sent, and nothing had ever shown it saved anything. I turned it off. The same change parked ten skills for stacks I was not using, because every installed skill adds its description to the list each session loads.
+
+**Shorter rules (23 August).** An audit of my own instructions cut `CLAUDE.md` and the rule files from 9,976 words to 4,106. Sessions load them at the start, and the model rereads them from the cache on every turn.
+
+**Fewer skills on the always-loaded list (24 August).** Fifteen orphaned skills came off it.
+
+The pattern is the same in all three: stop paying for context on every turn when it earns nothing.
+
+The biggest drop does not match any of them. Subagent turns per prompt halved in the first week of August, before any config change. My workflow changed that week, but no file records how, so I do not claim a cause.
+
+## The number
+
+July to August, full calendar months, same counting method:
+
+- **Cost per commit: $35 → $11 (68% lower)**
+- Cost per merged PR: $73 → $32
+- Total replacement cost: $35.0k → $12.5k
+- Commits: 995 → 1,091
+- Subagent turns: 144k → 43k
+
+Cache reads barely moved: 99.6% of the read and output tokens the ledger records in July, 99.7% in August. The cache was already doing its job. The savings came from sending fewer tokens through it.
+
+Moving two of three review agents to a cheaper model on 10 August saves real money on an invoice. It does not show up here, because the ledger prices every token the same.
+
+## The lesson
+
+Most of the cost of an agent workflow is context reread on every turn: rules, skill lists, injected reminders and subagents that each reload all of it. Trimming those cut the cost per commit by two thirds while output went up. You can only see that once you measure cost per unit of output, not per month.
+
+If your team's LLM bill is growing faster than its output, an [AI audit](/services#ladder) measures where the tokens go and ranks the fixes, in 2–3 days.
