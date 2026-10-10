@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { getPost, getPosts, WORK_DIR } from "@/lib/blog";
 import MDXContent from "@/components/blog/MDXContent";
 import { CalendlyLink } from "@/components/CalendlyLink";
-import { FloatingNav } from "@/components/ui/FloatingNav";
+import { PageShell } from "@/components/PageShell";
 
 const workNavItems = [
   { name: "Home", link: "/" },
@@ -68,8 +68,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const studyUrl = `https://www.adrian-rusan.com/work/${slug}`;
 
   return (
-    <main className="relative dark:bg-black-100 bg-white min-h-screen">
-      <FloatingNav navItems={workNavItems} />
+    <PageShell navItems={workNavItems}>
       <div className="max-w-3xl mx-auto px-5 sm:px-10 pt-40 pb-20">
         <script
           type="application/ld+json"
@@ -133,6 +132,6 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
           </aside>
         </article>
       </div>
-    </main>
+    </PageShell>
   );
 }
