@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import BlogNav from "@/components/blog/BlogNav";
+import { PageShell } from "@/components/PageShell";
 import { getPosts, WORK_DIR } from "@/lib/blog";
 import { caseStudyResults } from "@/data/work";
 
@@ -26,17 +26,22 @@ export const metadata: Metadata = {
   alternates: { canonical: "/work" },
 };
 
-// Same shell as /blog (BlogNav + page background), so the index reads as part
-// of the content section. Lists every published study from the work loader.
+const workNavItems = [
+  { name: "Home", link: "/" },
+  { name: "Services", link: "/services" },
+  { name: "Work", link: "/work" },
+  { name: "Blog", link: "/blog" },
+];
+
+// Same shell as every other page. Lists every published study from the work loader.
 export default async function WorkIndexPage() {
   const studies = await getPosts(WORK_DIR);
   // No empty index: R10 allows no "coming soon" pages.
   if (studies.length === 0) notFound();
 
   return (
-    <div className="min-h-screen dark:bg-black-100 bg-white">
-      <BlogNav />
-      <main className="max-w-5xl mx-auto px-5 sm:px-10 pb-20">
+    <PageShell navItems={workNavItems}>
+      <div className="max-w-5xl mx-auto px-5 sm:px-10 pt-32 sm:pt-36 pb-20">
         <div className="mb-12">
           <h1 className="text-4xl sm:text-5xl font-bold text-black-100 dark:text-white mb-4">
             Case studies
@@ -79,7 +84,7 @@ export default async function WorkIndexPage() {
             );
           })}
         </ul>
-      </main>
-    </div>
+      </div>
+    </PageShell>
   );
 }

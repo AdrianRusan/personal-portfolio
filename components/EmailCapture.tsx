@@ -6,12 +6,26 @@ import { cn } from "@/lib/utils";
 
 type Status = "idle" | "loading" | "success" | "error";
 
+const en = {
+  heading: "Not ready to book?",
+  body: "Get the Agent PR Review Checklist — the checks that catch bugs the tests pass clean. Plus an occasional email on shipping AI-written code safely — unsubscribe anytime.",
+  success: "Check your inbox.",
+  label: "Email address",
+  placeholder: "you@company.com",
+  sending: "Sending…",
+  submit: "Get the checklist",
+  error: "Something went wrong. Please try again in a moment.",
+};
+export type EmailCaptureCopy = typeof en;
+
 const EmailCapture = ({
   variant = "inline",
   className,
+  copy = en,
 }: {
   variant?: "inline" | "footer";
   className?: string;
+  copy?: EmailCaptureCopy | undefined;
 }) => {
   // Two captures can share a page (inline + footer), so ids must be unique.
   const inputId = useId();
@@ -45,7 +59,7 @@ const EmailCapture = ({
       setEmail("");
     } catch {
       setStatus("error");
-      setErrorMessage("Something went wrong. Please try again in a moment.");
+      setErrorMessage(copy.error);
     }
   };
 
@@ -58,13 +72,9 @@ const EmailCapture = ({
       )}
     >
       <Heading className="text-lg font-semibold tracking-tight">
-        Not ready to book?
+        {copy.heading}
       </Heading>
-      <p className="text-sm text-white-200 leading-relaxed mt-2">
-        Get the Agent PR Review Checklist — the checks that catch bugs the tests
-        pass clean. Plus an occasional email on shipping AI-written code safely
-        — unsubscribe anytime.
-      </p>
+      <p className="text-sm text-white-200 leading-relaxed mt-2">{copy.body}</p>
 
       {status === "success" ? (
         <p
@@ -72,7 +82,7 @@ const EmailCapture = ({
           role="status"
           aria-live="polite"
         >
-          Check your inbox.
+          {copy.success}
         </p>
       ) : (
         <form
@@ -82,7 +92,7 @@ const EmailCapture = ({
         >
           <div className="flex-1">
             <label htmlFor={inputId} className="sr-only">
-              Email address
+              {copy.label}
             </label>
             <input
               id={inputId}
@@ -90,7 +100,7 @@ const EmailCapture = ({
               type="email"
               required
               autoComplete="email"
-              placeholder="you@company.com"
+              placeholder={copy.placeholder}
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               disabled={status === "loading"}
@@ -105,7 +115,7 @@ const EmailCapture = ({
             disabled={status === "loading"}
             className="h-11 shrink-0 rounded-lg bg-purple px-5 text-sm font-medium text-black-100 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:ring-offset-2 focus-visible:ring-offset-black-100 disabled:opacity-50"
           >
-            {status === "loading" ? "Sending…" : "Get the checklist"}
+            {status === "loading" ? copy.sending : copy.submit}
           </button>
         </form>
       )}

@@ -1,17 +1,44 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import MagicButton from "@/components/ui/MagicButton";
+import dynamic from "next/dynamic";
+import Hero from "@/components/Hero";
+import ProofBand from "@/components/ProofBand";
+import ShipVerify from "@/components/ShipVerify";
+import Offers from "@/components/Offers";
+import CaseStudy from "@/components/CaseStudy";
+import CaseStudyCards from "@/components/CaseStudyCards";
+import WhoFor from "@/components/WhoFor";
+import FinalCta from "@/components/FinalCta";
+import EmailCapture from "@/components/EmailCapture";
+import Bio from "@/components/Bio";
+import Latest from "@/components/Latest";
 import { FloatingNav } from "@/components/ui/FloatingNav";
-import { LadderLink } from "@/components/services/LadderLink";
-import { CALENDLY_URL } from "@/data";
+import { StartBand } from "@/components/StartBand";
+import { CallSteps } from "@/components/CallSteps";
+import { ServicesFaq } from "@/components/services/ServicesFaq";
 import {
-  RO_STRATEGY_CALL_URL,
-  roTierFrom,
-  roTierNames,
-  roTiers,
-} from "@/data/ro";
+  TestimonialSkeleton,
+  ExperienceSkeleton,
+} from "@/components/ui/Skeleton";
+import { roServicesFaq } from "@/data/ro-services";
+import {
+  roBio,
+  roCallSteps,
+  roCaseStudy,
+  roCaseStudyCards,
+  roEmailCapture,
+  roExperience,
+  roFinalCta,
+  roFooter,
+  roHero,
+  roLatest,
+  roOffers,
+  roProofBand,
+  roShipVerify,
+  roStartBand,
+  roTestimonials,
+  roWhoFor,
+} from "@/data/ro-home";
 import { roNavItems } from "./nav";
-import { FaLocationArrow } from "react-icons/fa6";
 
 const title = "Livrare de software cu agenți AI, revizuită de un senior";
 const description =
@@ -43,113 +70,67 @@ export const metadata: Metadata = {
   },
 };
 
-// Same proof as the English /services hero (components/services/ServicesHero.tsx).
-const proofItems = [
-  "30 de PR-uri revizuite · 9 loturi de agenți · 2,5 zile",
-  "3 vulnerabilități de tip shell injection prinse, deși testele treceau",
-  "Peste 10 ani de cod în producție",
-];
+// Same sections, order and shell as app/page.tsx; only the copy differs.
+const Experience = dynamic(() => import("@/components/Experience"), {
+  loading: () => (
+    <section className="py-20" aria-label="Se încarcă experiența">
+      <ExperienceSkeleton />
+    </section>
+  ),
+});
+
+const Testimonials = dynamic(() => import("@/components/Testimonials"), {
+  loading: () => (
+    <section className="py-20" aria-label="Se încarcă recomandările">
+      <TestimonialSkeleton />
+    </section>
+  ),
+});
+
+const Footer = dynamic(() => import("@/components/Footer"), {
+  loading: () => (
+    <footer
+      className="h-32 animate-pulse bg-slate-100 dark:bg-slate-800"
+      aria-label="Se încarcă subsolul"
+    />
+  ),
+});
 
 export default function RoHome() {
   return (
-    <main className="relative overflow-hidden">
+    <main className="relative dark:bg-black-100 bg-white overflow-hidden">
       <FloatingNav
         navItems={roNavItems}
-        ctaLabel="Programează"
+        ctaLabel="Rezervă"
         ctaSource="ro_floating_nav"
       />
-
-      <section className="px-5 sm:px-10 pt-28 sm:pt-32 pb-16">
-        <div className="max-w-5xl mx-auto text-center">
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-balance max-w-3xl mx-auto">
-            Cod livrat în ritmul agenților AI, cu fiecare PR verificat de un
-            inginer senior
-          </h1>
-          <p className="text-white-200 mt-5 leading-relaxed max-w-2xl mx-auto">
-            Agenții AI scriu volumul. Eu citesc fiecare pull request linie cu
-            linie și îl verific pentru securitate înainte să ajungă la tine.
-            Câștigul real e de 2–3 ori, nu de 100 de ori, și îți arăt exact ce
-            greșesc agenții.
-          </p>
-          <div className="flex flex-col items-center gap-4 mt-8">
-            <MagicButton
-              title="Programează o discuție"
-              icon={<FaLocationArrow />}
-              position="right"
-              href={CALENDLY_URL}
-              trackEvent={{
-                event: "calendly_click",
-                props: { source: "ro_hero" },
-              }}
-            />
-            <LadderLink
-              href={RO_STRATEGY_CALL_URL}
-              offer="strategy-call"
-              source="ro_hero"
-              className="text-sm font-medium text-blue-100 hover:text-purple transition-colors"
-            >
-              Ai nevoie doar de sfaturi? Rezervă o sesiune 1:1 de strategie AI,
-              110 €.
-            </LadderLink>
-          </div>
-          <ul className="flex flex-col sm:flex-row flex-wrap justify-center gap-x-6 gap-y-2 mt-10 font-mono text-[11px] md:text-xs text-white-200/80">
-            {proofItems.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <section id="niveluri" className="px-5 sm:px-10 py-16">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-balance">
-            Patru niveluri, fiecare cu prețul afișat
-          </h2>
-          <p className="text-white-200 mt-4 max-w-3xl">
-            Prețuri în EUR, fără TVA. Ce plătești la un nivel se scade din
-            prețul următorului.
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-10">
-            {roTiers.map(({ tier, tagline }) => (
-              <div
-                key={tier}
-                className="rounded-xl border border-white/10 bg-black-200/40 p-5"
-              >
-                <h3 className="font-mono text-xs font-bold uppercase tracking-[0.12em] text-purple">
-                  {roTierNames[tier]}
-                </h3>
-                <p className="text-xl font-bold text-white mt-3">
-                  {roTierFrom(tier)}
-                </p>
-                <p className="text-sm text-white-200 mt-2">{tagline}</p>
-              </div>
-            ))}
-          </div>
-          <Link
-            href="/ro/servicii"
-            className="inline-block text-sm font-medium text-purple hover:underline underline-offset-4 mt-8"
-          >
-            Vezi toate ofertele și prețurile →
-          </Link>
-        </div>
-      </section>
-
-      <section className="px-5 sm:px-10 py-16">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
-            Cine face review-ul
-          </h2>
-          <p className="text-white-200 mt-4 leading-relaxed">
-            Adrian Rusan, Founding Engineer la Bono Fintech din 2024. Am peste
-            10 ani de cod în producție, la Ipsos, PGL Esports, GoSocial și Bono
-            Fintech. Fiecare PR pe care îl primești a trecut pe la mine.
-          </p>
-          <p className="text-sm text-white-200/70 mt-6 border-l-2 border-purple pl-3">
-            Fără statistici inventate și fără urgență falsă. Cifrele de aici vin
-            din rulări documentate.
-          </p>
-        </div>
-      </section>
+      <Hero copy={roHero} />
+      <ProofBand copy={roProofBand} />
+      <div id="subscribe" className="max-w-7xl mx-auto px-5 sm:px-10 py-10">
+        <EmailCapture copy={roEmailCapture} />
+      </div>
+      <ShipVerify copy={roShipVerify} />
+      <div className="max-w-7xl mx-auto px-5 sm:px-10 py-10">
+        <Bio copy={roBio} />
+      </div>
+      <Offers copy={roOffers} />
+      <CaseStudy copy={roCaseStudy} />
+      <CaseStudyCards copy={roCaseStudyCards} />
+      <StartBand copy={roStartBand} />
+      <WhoFor copy={roWhoFor} />
+      <div className="max-w-7xl mx-auto px-5 sm:px-10">
+        <section aria-label="Experiență">
+          <Experience copy={roExperience} />
+        </section>
+        <section id="testimonials" aria-labelledby="testimonials-heading">
+          <Testimonials copy={roTestimonials} />
+        </section>
+      </div>
+      <Latest copy={roLatest} />
+      <ServicesFaq copy={roServicesFaq} />
+      <CallSteps source="home_call_steps" copy={roCallSteps} />
+      <FinalCta copy={roFinalCta} />
+      <Footer copy={roFooter} locale="ro" />
     </main>
   );
 }

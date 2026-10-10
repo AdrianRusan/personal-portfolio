@@ -1,14 +1,22 @@
 import { testimonials } from "@/data";
 
-const Testimonials = () => {
+const en = {
+  headingBefore: "What a client says about",
+  headingAccent: "working with me",
+  note: "From a full-stack web delivery engagement. Case studies from the reviewed-agent pipeline are in progress — for proof on your own code today,",
+  noteLink: "get a free teardown",
+};
+export type TestimonialsCopy = typeof en;
+
+const Testimonials = ({ copy = en }: { copy?: TestimonialsCopy }) => {
   const testimonial = testimonials[0];
   if (!testimonial) return null;
 
   return (
     <>
       <h2 id="testimonials-heading" className="heading">
-        What a client says about{" "}
-        <span className="text-purple">working with me</span>
+        {copy.headingBefore}{" "}
+        <span className="text-purple">{copy.headingAccent}</span>
       </h2>
 
       <div className="flex justify-center mt-10">
@@ -21,14 +29,12 @@ const Testimonials = () => {
             <span className="text-white-200/70"> — {testimonial.title}</span>
           </figcaption>
           <p className="text-xs text-white-200/75 mt-4 leading-relaxed">
-            From a full-stack web delivery engagement. Case studies from the
-            reviewed-agent pipeline are in progress — for proof on your own code
-            today,{" "}
+            {copy.note}{" "}
             <a
               href="/teardown"
               className="text-blue-100 underline underline-offset-4 hover:text-purple transition-colors"
             >
-              get a free teardown
+              {copy.noteLink}
             </a>
             .
           </p>

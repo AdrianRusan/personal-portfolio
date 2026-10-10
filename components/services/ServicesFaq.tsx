@@ -1,16 +1,22 @@
 import { faqs } from "@/data";
 
+const en = {
+  heading: "Straight answers to the questions I actually get",
+  items: faqs,
+};
+export type ServicesFaqCopy = typeof en;
+
 // Objection handling before the final CTA. Native <details> keeps it
 // server-rendered and keyboard-accessible with no client JS.
-export const ServicesFaq = () => {
+export const ServicesFaq = ({ copy = en }: { copy?: ServicesFaqCopy }) => {
   return (
     <section id="faq" className="px-5 sm:px-10 py-20 scroll-mt-24">
       <div className="max-w-5xl mx-auto">
         <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-balance">
-          Straight answers to the questions I actually get
+          {copy.heading}
         </h2>
         <div className="flex flex-col gap-4 mt-10">
-          {faqs.map((item) => (
+          {copy.items.map((item) => (
             <details
               key={item.question}
               className="group rounded-xl border border-white/10 bg-black-200/30 p-6"

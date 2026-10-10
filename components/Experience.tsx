@@ -3,20 +3,33 @@ import { workExperience } from "@/data";
 import { Button } from "./ui/MovingBorders";
 import Image from "next/image";
 
-const Experience = () => {
+const en = {
+  headingBefore: "Where the ",
+  headingAccent: "senior judgment",
+  headingAfter: " comes from",
+  intro:
+    "The track record behind every review — the same judgment that catches what the agents miss.",
+  at: "at",
+  companyIcon: "company icon",
+  company: "company",
+  jobs: workExperience,
+};
+export type ExperienceCopy = typeof en;
+
+const Experience = ({ copy = en }: { copy?: ExperienceCopy }) => {
   return (
     <div className="py-20 w-full">
       <h2 id="experience-heading" className="heading">
-        Where the <span className="text-purple">senior judgment</span> comes
-        from
+        {copy.headingBefore}
+        <span className="text-purple">{copy.headingAccent}</span>
+        {copy.headingAfter}
       </h2>
       <p className="text-center text-white-200 mt-3 max-w-2xl mx-auto">
-        The track record behind every review — the same judgment that catches
-        what the agents miss.
+        {copy.intro}
       </p>
 
       <div className="w-full mt-12 grid lg:grid-cols-2 grid-cols-1 gap-10">
-        {workExperience.map((card) => (
+        {copy.jobs.map((card) => (
           <article key={card.id} aria-labelledby={`job-title-${card.id}`}>
             <Button
               duration={Math.floor(Math.random() * 10000) + 10000}
@@ -32,19 +45,21 @@ const Experience = () => {
               <div className="flex lg:flex-row flex-col lg:items-center p-3 py-6 md:p-5 lg:p-10 gap-2">
                 <Image
                   src={card.thumbnail}
-                  alt={`${card.company} company icon`}
+                  alt={`${card.company} ${copy.companyIcon}`}
                   className="lg:w-32 md:w-20 w-16"
                   width={100}
                   height={100}
-                  title={`${card.company} company`}
+                  title={`${card.company} ${copy.company}`}
                 />
                 <div className="lg:ms-5 space-y-2">
                   <h3
                     id={`job-title-${card.id}`}
                     className="text-start text-xl md:text-2xl font-bold text-violet-300"
                   >
-                    {card.title} at <br />
-                    <span className="text-lg md:text-xl text-gray-300">
+                    {card.title}
+                    {` ${copy.at} `}
+                    <br />
+                    <span className="text-lg md:text-xl text-gray-700 dark:text-gray-300">
                       {card.company}
                     </span>
                   </h3>
