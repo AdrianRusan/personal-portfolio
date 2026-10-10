@@ -1,0 +1,118 @@
+---
+title: "66 Days of Claude Code, by the Numbers"
+date: "2026-10-10"
+tags: ["claude-code", "ai", "parallel-agents", "developer-productivity", "agent-harness"]
+description: "463 sessions, 335 hours, 3,599 subagents and 45 billion tokens. What my own Claude Code logs say about best practices, counted by a script, not remembered."
+published: true
+language: "en"
+cta: "harness"
+---
+
+> **TL;DR:** I counted 66 days of my own Claude Code logs with a script. 463 interactive sessions, 335 wall-clock hours, 3,599 subagent sessions, 928 `gh pr create` calls and 37 times I hit a usage limit. The numbers back up the Claude Code best practices I already followed, and they showed me one habit I had not noticed.
+
+Most advice on Claude Code best practices comes from memory: "I run a few agents, I review everything, it is about twice as fast." I wanted the counted version. So I wrote a streaming script over my own session transcripts and prompt history and let it count. This post is what came out.
+
+## How I counted
+
+The transcripts on my machine start on 6 August 2026, so the window is 6 August to 10 October: 66 days. The prompt history goes back further, to 12 July, so prompt numbers cover 91 days, and I typed prompts on 76 of them. I say which is which below.
+
+Some rules the script followed:
+
+1. **Interactive only, where it describes me.** My logs also contain over 600 headless runs (scripted `claude -p` calls). They inflate everything, so the headline numbers below count only sessions I opened in a terminal, plus the subagents those sessions started.
+2. **Deduplicated.** Transcripts repeat events, so tokens are counted once per API request, messages once per message ID and tool calls once per call ID.
+3. **Aggregate only.** Most of my working directories are client work. Nothing here names a client or a project.
+
+The numbers come from my session logs. The script and its raw output stay on my machine.
+
+## The headline numbers
+
+**Time and sessions**
+
+1. Interactive sessions: 463
+2. Active days: 53 of 66
+3. Wall-clock active hours: 335
+4. Session-hours, with overlaps counted: 890
+5. Subagent sessions: 3,599
+
+**What the agents ran** (all sessions)
+
+1. Tool calls: 172,480
+2. `git commit`: 4,920 · `gh pr create`: 928 · `git worktree add`: 454
+3. Test runs: 6,981 · typecheck runs: 2,835
+
+**Me**
+
+1. Prompts I typed: 10,511 (on 76 days of the 91-day prompt window)
+2. Usage-limit episodes: 37
+
+"Active" means a gap of less than 15 minutes between events. A session left open over lunch does not count as working.
+
+## Number 1: 2.7 sessions per hour of my time
+
+The two hour counts are the most useful pair in the table. Summed session by session, my sessions were active for 890 hours. Measured on the wall clock, with overlapping sessions merged, I was working for 335. That is about 2.7 sessions running for every hour I was at the keyboard.
+
+My busiest 10-minute window had 18 interactive sessions active at once. A median active day was about 6 hours on the clock, with 7 or 8 new sessions started.
+
+That ratio is the honest version of "AI makes me faster." It is not 100x. It is close to the [2–3x I wrote about](/blog/2-3x-not-100x) in June, and now I have a count behind it. Parallel sessions are where most of it comes from, which is why [one worktree per agent](/blog/how-i-run-claude-code-agents-in-parallel) is the first practice I set up in any repo.
+
+## Number 2: 4,920 commits, 928 PRs
+
+Across all sessions, agents ran `git commit` 4,920 times and `git push` 4,158 times. That is the "commit after every working step" rule from my [rules file](/blog/the-rules-file-my-agents-follow) showing up in the data. Small commits are recovery points. When an agent goes wrong, I roll back one step, not an afternoon.
+
+`gh pr create` ran 928 times. Not every call produced a PR that merged, and some were retries, so treat it as an upper bound on PRs opened. It still means a reviewable unit of work every few sessions, not one giant branch at the end.
+
+Testing kept pace: 6,981 test runs and 2,835 typecheck runs. That is about 1.4 test runs per commit. The agents check their work more often than they save it.
+
+## Number 3: one subagent in five is a reviewer
+
+My sessions spawned 1,119 subagents through the Agent tool. The breakdown:
+
+1. General-purpose: 615
+2. Read-only search (Explore): 132
+3. Reviewers: 252, split across three roles (correctness, security, completeness)
+4. Other roles, or no type given: 120
+
+So 22.5% of all spawned subagents had one job: review another agent's work. That is the practice I would defend hardest. An agent that wrote the code is a poor judge of it, and a fresh agent with a narrow brief catches what the author missed. The reviewers do not replace my review. They mean that by the time a PR reaches me, the obvious problems are gone.
+
+The 3,599 subagent sessions in the table are counted from transcript files, a different source from these 1,119 Agent calls, so the two numbers do not match.
+
+## Number 4: the cache does the heavy lifting
+
+Token counts, deduplicated per request:
+
+- Cache reads: 43.97 billion
+- Cache writes: 950 million
+- Output: 83 million
+- Fresh input: 627 thousand
+
+That is about 45 billion tokens, and 97.7% of them were cache reads. Long sessions reread the same rules file, the same code and the same conversation many times, and the prompt cache serves almost all of it.
+
+The lesson for cost is structural. Stable context at the start of a session (rules, project notes, the brief) gets cached and reread cheaply. Context that changes every turn does not. If your agent bill is high, check the cache-read share before you check the model.
+
+On models: 90% of assistant messages came from the top-tier Opus models, 7% from Sonnet and the rest from smaller or newer models. I use the cheaper tiers for read-only exploration and keep the strongest one for writing and review.
+
+## Number 5: 37 usage-limit hits
+
+The script found 37 distinct episodes where a session hit a usage limit, counted once per day and reset message. With 18 sessions running at peak, that is not surprising. It is also the main practical limit on parallel agents: you run out of plan before you run out of ideas. My fix is to keep the orchestrating session lean and let the executors spend the tokens.
+
+## The habit I did not notice: short prompts
+
+I typed 10,511 prompts in 91 days, on 76 of which I typed at least one. The median prompt was **10 words**. 1,620 of them were slash commands, and I interrupted a running agent 288 times.
+
+I assumed I wrote long, careful prompts. I do not. The long text lives in briefs, rules files and skills, written once and loaded every time. The prompt itself is usually "continue", a slash command or a one-line correction. (Pasted text shows up in my history as a short placeholder, so long pastes are undercounted. The median holds anyway.)
+
+That is the real best practice the numbers point to. Put the effort into files the agent rereads, not into the message you type.
+
+## What the numbers do not show
+
+Counts are not quality. 4,920 commits say nothing about whether the code was good. What makes the volume safe is the part a script cannot count well: the gates each PR clears before I see it, and the review I do after. The [nine-PR afternoon](/work/nine-prs-one-afternoon) shows what that looks like on a single run.
+
+## Claude Code best practices, backed by the count
+
+1. **One worktree per agent.** 454 worktrees in 66 days, and a peak of 18 sessions at once.
+2. **Commit every working step.** 4,920 commits; rollbacks cost one step.
+3. **Review with fresh agents.** 22.5% of subagents were reviewers.
+4. **Keep stable context stable.** 97.7% of tokens were cache reads.
+5. **Write the brief, not the prompt.** Median prompt: 10 words.
+
+If you want this measured on your own team's setup, or want the harness installed in your repo, the [Agent Harness Setup](/services#harness) does both in a week.

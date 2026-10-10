@@ -1,0 +1,94 @@
+---
+title: "Auditing My Own Claude Code Setup With an Agent"
+date: "2026-10-10"
+tags: ["claude-code", "agent-harness", "claude-md", "ai", "code-review"]
+description: "Ten audits of my own Claude Code setup, run by agents. Most skills never fired, the rules taught how to think, and the metrics were broken. Here is what changed."
+published: true
+language: "en"
+cta: "harness"
+---
+
+> **TL;DR:** Between July and October I had agents audit my own Claude Code setup ten times. The deepest one used 69 subagents and made every finding survive an agent told to refute it. The audits found that 43 of 65 skills had not fired in 70 days, that most of my instructions taught the model how to think, and that the metric calling my agent dishonest was itself broken. Since then my `CLAUDE.md` has shrunk from 3,115 to 939 words, the rule files from 9,648 to 2,412, and the skills from 53 to 19.
+
+Most Claude Code best practices are about the code the agent writes. Fewer are about the setup that runs it: the `CLAUDE.md`, rule files, skills, hooks and subagents that load into every session. That setup grows the way any codebase grows. Each piece solves a real problem when you add it, and nothing removes it when it stops paying.
+
+So I audit it the way I would audit a client's repo, with agents doing the reading and me deciding what to change. This post covers how the audits run, the five findings that mattered most, and what changed in the config afterwards. The config numbers come from the git history of my setup; the rest come from the audit reports.
+
+## How the audit runs
+
+The brief for each audit states a goal, a scope, read-only rules and an output format. It does not prescribe a method. Two lines from the deep-audit brief do most of the work:
+
+```md
+A claim without a path and a line number or a count does not go in.
+Prefer deletion; for every KEEP you must be able to say what breaks
+if it is removed.
+```
+
+The deepest audit ran in five phases:
+
+1. **Map.** One agent per area (rules, skills, hooks, settings, scripts) records facts only.
+2. **Find, then refute.** Finder agents report problems. A second set of agents is told to disprove each one, and a finding counts as refuted unless it survives.
+3. **Simplify.** For each part: what would this be if I built it today?
+4. **Sweep.** New lenses (security, cost, a new joiner, failure modes) until two rounds find nothing new.
+5. **Critic.** One agent walks the whole tree and names anything no other agent covered.
+
+That run used 69 agents and produced 89 findings. The refuting pass killed or cut 22 claims, and it found 5 errors in my own brief. An earlier cleanup audit that day used 33 agents and logged 149 findings, 9 of them refuted.
+
+Audits only propose. Each report ends with a short table of decisions only I can make, and the agents leave the config untouched.
+
+One more rule came out of this: counts beat estimates. One subagent estimated about 1,000 uses for each of three MCP servers. It had counted transcripts that merely listed the tool names. The real call counts were much lower.
+
+## Finding 1: most skills never fired
+
+A rule in my setup said every skill description must be one line of 80 characters or fewer. It looked tidy. It was a disaster.
+
+Claude decides whether to load a skill by matching the request against that description and nothing else. My descriptions had a median of 74 characters. External skills that did fire had a median of 657. The audit found that **43 of 65 skills had not fired once in 70 days**. A hand-written routing table in `CLAUDE.md` existed only to make up for the short descriptions.
+
+**What changed:** the cap went on 10 August, replaced by "There is no length cap" and the reason why. Descriptions now list the phrases a user actually types. The routing table left `CLAUDE.md` on 19 August.
+
+## Finding 2: the rules taught how to think
+
+Most of my always-loaded instructions were recipes: phase sequences, routing tables, confidence rituals, role scripts. Each one helped an older model. Each one costs tokens on every turn and caps a newer model at my old understanding.
+
+The first audit estimated about 21,000 always-loaded tokens per session, 6,000 to 8,000 of them removable. It also found a trap. One "ritual", a `confidence: N` line at the end of a reply, was parsed by a script that gated an unattended pipeline. So every deletion started with a search for anything that read it.
+
+**What changed:** `CLAUDE.md` went from 3,115 to 1,781 words on 6 July, and the rule files from 8,803 to 2,823 words on 23 August. Since October, a check at session start flags when the running model differs from the one the setup was last audited against. A model upgrade now triggers the next deletion pass instead of relying on me to remember. I wrote up the [rules that survived](/blog/the-rules-file-my-agents-follow) separately.
+
+## Finding 3: subagents inherited the most expensive model
+
+A subagent runs on the session's model unless you say otherwise. Mine almost never said otherwise. The July usage audit found **81% of 4,994 subagent spawns ran on the top model tier**, and 324 of 431 Agent calls passed no model at all.
+
+The audit's sharper point was that the missing parameter was not the cause. Two accounts with a 27-point gap in how often they set `model:` had almost the same top-tier share. The session default decided it.
+
+**What changed:** partly fixed. The session default is still the top tier, but stale model IDs that had reviewer agents running the previous generation were fixed on 7 October. Choosing models per role is still on my list.
+
+## Finding 4: dead weight was never collected
+
+The deep audit's one-line verdict: "The harness is not over-engineered, it is un-garbage-collected."
+
+1. Three MCP servers had 0, 2 and 5 calls all-time. One kept a 102 MB database and started a process every session.
+2. A custom memory layer had passed its own kill line: 4 organic writes against a threshold of 10.
+3. 23 of 48 skills had no recorded use.
+4. Every prompt carried about 1.5 KB of stale warning banners.
+
+**What changed:** most of it went in four commits on 11 September. The three MCP servers, the memory layer and the stale banners were removed, and 19 skills, 2 orphaned agents and 2 orphaned scripts went in one commit. Tracked skills went from 53 at the start of July to 19 today. Dead weight also costs money: in my [cost case study](/work/agent-cost-per-commit), trimming always-loaded context is one of the changes that lines up with the cost per commit falling.
+
+## Finding 5: the instruments were lying, not the agent
+
+My setup measured how often the agent's completion claims checked out. It said the agent was dishonest in a quarter of them. The audit traced that to the instruments: a regex that could not read markdown, a repo resolved from the wrong directory, and commits checked against deleted worktrees.
+
+After the fixes, the honesty rate on the same 7-day window went from 0.75 to 0.941, and failed claims went from 11 to 0. The script test suite had reported "25/25" and could not fail. Repaired, it reported 130 of 133 and exited non-zero, as it should.
+
+The lesson generalizes. Before you conclude an agent is lying, check the thing that told you so.
+
+## What I would tell you to audit first
+
+1. **Skill descriptions.** Count how often each skill fires. A skill that never fires is either dead or badly described.
+2. **Always-loaded words.** Add up `CLAUDE.md` and every rule file. Anything that describes *how* to think instead of *what* must be true is a deletion candidate.
+3. **Subagent models.** Check what model your spawned agents actually run on, not what you think they run on.
+4. **Things nobody uses.** MCP servers, hooks and memory layers with near-zero calls cost tokens and attention every session.
+5. **Your metrics.** Make each check fail on purpose once. A test that cannot fail is not a test.
+
+Have the agents count and refute, then decide yourself. The numbers in this post came from agent reports, and I rechecked the headline config numbers against git before using them.
+
+If you want this audit run on your team's Claude Code setup, or the trimmed harness installed in your repo, that is the [Agent Harness Setup](/services#harness).
