@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getPost, getPosts } from "@/lib/blog";
-import { CalendlyLink } from "@/components/CalendlyLink";
+import { getPost, getPosts, getRelatedPosts } from "@/lib/blog";
+import { getPostCta } from "@/lib/blog-cta";
 import PostHeader from "@/components/blog/PostHeader";
 import MDXContent from "@/components/blog/MDXContent";
 import TableOfContents from "@/components/blog/TableOfContents";
 import ShareButtons from "@/components/blog/ShareButtons";
 import EmailCapture from "@/components/EmailCapture";
+import AuthorBox from "@/components/blog/AuthorBox";
+import PostCta from "@/components/blog/PostCta";
+import RelatedPosts from "@/components/blog/RelatedPosts";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -56,6 +59,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   const postUrl = `https://www.adrian-rusan.com/blog/${slug}`;
+  const related = getRelatedPosts(post, await getPosts());
 
   return (
     <div className="max-w-5xl mx-auto px-5 sm:px-10 pb-20">
@@ -95,20 +99,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <div className="flex-1 min-w-0 blog-prose">
             <MDXContent source={post.source} />
             <ShareButtons title={post.frontmatter.title} slug={slug} />
+            <AuthorBox />
 
             <div className="mt-10 space-y-6">
+              <PostCta cta={getPostCta(post.frontmatter)} />
               <EmailCapture />
-
-              <p className="text-sm text-white-200 text-center">
-                Have a backlog you&apos;d want reviewed this way?{" "}
-                <CalendlyLink
-                  source="blog"
-                  className="text-purple hover:text-purple/80 underline underline-offset-2 decoration-purple/40 transition-colors"
-                >
-                  Book a scoping call →
-                </CalendlyLink>
-              </p>
             </div>
+
+            <RelatedPosts posts={related} />
           </div>
 
           {post.headings.length > 0 && (
