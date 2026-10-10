@@ -1,5 +1,5 @@
-// event slug must exist in Calendly ("scoping-call" 30-min event)
-export const CALENDLY_URL = "https://calendly.com/adrian-rusan/scoping-call";
+// event slug must exist in Calendly (active "Scoping Call" event, slug "new-meeting")
+export const CALENDLY_URL = "https://calendly.com/adrian-rusan/new-meeting";
 
 // Async intake inbox for offers that don't require a call.
 export const CONTACT_EMAIL = "contact@adrian-rusan.com";
