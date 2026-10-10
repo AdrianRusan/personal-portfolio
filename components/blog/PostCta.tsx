@@ -1,4 +1,5 @@
 import { FaLocationArrow } from "react-icons/fa6";
+import Link from "next/link";
 import MagicButton from "@/components/ui/MagicButton";
 import type { BlogCtaCopy } from "@/lib/blog-cta";
 
@@ -28,6 +29,14 @@ export default function PostCta({ cta }: { cta: BlogCtaCopy }) {
           props: { cta: cta.cta, source: "blog_post_end" },
         }}
       />
+      {cta.secondary && (
+        <Link
+          href={cta.secondary.href}
+          className="block text-sm text-purple hover:underline underline-offset-4 mt-3"
+        >
+          {cta.secondary.label} →
+        </Link>
+      )}
     </section>
   );
 }

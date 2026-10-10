@@ -40,7 +40,7 @@ describe("getPostCta", () => {
   it("gives every CTA a label, href and tracked cta id", () => {
     for (const [key, c] of Object.entries(BLOG_CTAS)) {
       expect(c.label.length).toBeGreaterThan(0);
-      expect(c.href).toMatch(/^(\/|mailto:)/);
+      expect(c.href).toMatch(/^\//);
       expect(c.cta).toBe(key);
     }
   });
@@ -51,6 +51,18 @@ describe("getPostCta", () => {
       const { data } = matter(fs.readFileSync(path.join(dir, file), "utf-8"));
       expect(Object.keys(BLOG_CTAS)).toContain(data.cta);
     }
+  });
+
+  it.each([
+    ["audit", "/services#ladder"],
+    ["harness", "/services#harness"],
+    ["workshop", "/workshops/full-day"],
+  ] as const)("points the %s CTA at its page, not email", (cta, href) => {
+    expect(BLOG_CTAS[cta].href).toBe(href);
+  });
+
+  it("offers the half-day workshop as the workshop CTA's second link", () => {
+    expect(BLOG_CTAS.workshop.secondary?.href).toBe("/workshops/half-day");
   });
 
   it("ignores prototype keys", () => {
