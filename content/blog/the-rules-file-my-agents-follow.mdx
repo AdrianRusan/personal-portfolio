@@ -40,9 +40,9 @@ I wrote about one of these bugs in [the shell-injection post](/blog/catching-she
 ## Rule 2: commit after every working step
 
 ```md
-- **Commit after every working step** on a feature branch, and push it
-  where the active context says every-commit.
-- Scan the diff for secrets before every checkpoint.
+- **Commit after every working step** on a feature branch, and **push it
+  immediately** where the active context's `## Delivery Cadence` says
+  every-commit. Scan the diff for secrets before every checkpoint.
 ```
 
 Left alone, an agent saves everything for one big commit at the end. That loses the recovery points and hides the work until it is done. A checkpoint commit is cheap: a secrets scan and nothing else. The full validation ladder (typecheck, lint, build, test) runs only on the commit that ships.
@@ -53,7 +53,8 @@ The push rule depends on the context. For my own projects, every commit is pushe
 
 ```md
 When fixing a bug, do not tighten adjacent budgets, thresholds, or
-limits "while you're there". Name them in the PR body as follow-ups.
+limits "while you're there". Name them in the PR body as follow-up
+candidates.
 ```
 
 An agent fixing a timeout will also lower three other timeouts it thinks are too generous. Each change is defensible. Together they turn a one-line fix into a review of six files, and one of them breaks something nobody asked about. The rule keeps the diff to the bug and moves the rest into the PR body, where I can decide.
@@ -93,4 +94,4 @@ The deletions had the same cause. Each rule described *how* to do something: a f
 
 A rules file does not make the model smarter. It removes the five or six defaults that cost you the most review time, and the gates and the review are what make it safe.
 
-If you want this setup in your repo, with the rules, the worktree workflow and the review gates, that is what the [Agent Harness Setup](/services#harness) installs. For how the same rules run across several agents at once, see [how I run 8 Claude Code agents in parallel](/blog/how-i-run-8-claude-code-agents-in-parallel).
+If you want this setup in your repo, with the rules, the worktree workflow and the review gates, that is what the [Agent Harness Setup](/services#harness) installs. For how the same rules run across several agents at once, see [how I run Claude Code agents in parallel](/blog/how-i-run-claude-code-agents-in-parallel).

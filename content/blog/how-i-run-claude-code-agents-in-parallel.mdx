@@ -1,5 +1,5 @@
 ---
-title: "How I Run 8 Claude Code Agents in Parallel (Worktrees, Herdr, One Brief)"
+title: "How I Run Claude Code Agents in Parallel (Worktrees, Herdr, One Brief)"
 date: "2026-10-10"
 tags: ["claude-code", "parallel-agents", "git-worktrees", "ai", "developer-productivity"]
 description: "Claude Code parallel agents in practice: one git worktree per agent, a terminal multiplexer to run them, a brief that answers their questions, and review as the only serial step."
@@ -10,7 +10,7 @@ cta: "workshop"
 
 > **TL;DR:** Running Claude Code parallel agents is not hard. Keeping them from colliding, stalling or flooding your review queue is. My setup: one git worktree and one branch per agent, Herdr to start and watch them, an orchestrator session that answers their questions from a written brief, and a fixed checklist each agent clears before its PR reaches me. On 10 October that setup shipped nine reviewed PRs to this site in 100 minutes.
 
-I am writing this while it runs. Right now one orchestrator session is watching four executor agents, each on its own branch of this website, and at 21:15 it will start a fifth that merges their work into one release PR. I am one of those four. Eight is not a ceiling either: my session logs show a peak of 18 interactive sessions active within one 10-minute window. This post is the setup behind that, and behind the [nine-PR afternoon](/work/nine-prs-one-afternoon) earlier the same day.
+On the evening of 10 October, while this post was being drafted, one orchestrator session was watching four executor agents, each on its own branch of this website, with a fifth scheduled to merge their work into one release PR. My busiest 10-minute window on record had 18 interactive sessions active at once. This post is the setup behind runs like that, and behind the [nine-PR afternoon](/work/nine-prs-one-afternoon) earlier the same day.
 
 ## One worktree per agent
 
@@ -50,10 +50,10 @@ So before any agent starts, I write a brief. It has four parts:
 
 1. **Facts, verified.** Routes, commands, the current state of `main`, what is live. The fact check is where the first run found its outage: every booking link on this site pointed at a deleted calendar event.
 2. **Rulings.** Numbered decisions, written once. "Prices come from this table." "Never name a client." "No invented numbers." When an agent hits a choice, the orchestrator answers by citing a ruling.
-3. **File ownership.** Which agent owns which files. One agent owns the Romanian pages, another owns styling, another (me, tonight) owns blog content. When two must touch the same file, the edit stays minimal and a later merge resolves the rest.
+3. **File ownership.** Which agent owns which files. One agent owns the Romanian pages, another owns styling, another owns blog content, including this post. When two must touch the same file, the edit stays minimal and a later merge resolves the rest.
 4. **A definition of done.** The exact checks each PR must show before it can be marked ready.
 
-The brief also says what the agents may decide alone. Tonight's says: decide, record the decision in the PR body, keep going. That one line removes most of the waiting.
+The brief also says what the agents may decide alone. The evening run's said: decide, record the decision in the PR body, keep going. That one line removes most of the waiting.
 
 ## Review stays serial, so make it small
 
@@ -76,7 +76,7 @@ A few things go wrong once you pass four or five agents.
 
 **Usage limits.** Many sessions burn through a plan's limits faster than one. The orchestrator should do little work itself and leave the tokens to the executors.
 
-**Merge order.** Branches that each pass on their own can conflict when combined. Tonight's run ends with an integrator agent that merges the branches in a fixed order, resolves conflicts and runs the full checks again on the result. I merge that one PR, not four.
+**Merge order.** Branches that each pass on their own can conflict when combined. So the evening run's plan ends with an integrator agent: it merges the branches in a fixed order, resolves conflicts and reruns the full checks on the result. I review and merge one PR, not four.
 
 **Workspaces you did not start.** My machine usually has client work running in other Herdr workspaces. Every brief says to touch only the workspace the orchestrator created.
 
