@@ -31,10 +31,7 @@ const ProofBand = async () => {
           </div>
         ))}
       </div>
-      <p className="max-w-7xl mx-auto text-center font-mono text-xs text-white-200 mt-4">
-        {LEDGER_PROOF}
-      </p>
-      <p className="max-w-7xl mx-auto text-center text-xs text-white-200/70 mt-2">
+      <p className="max-w-7xl mx-auto text-center text-xs text-white-200/70 mt-4">
         {hasCaseStudy
           ? "From a documented benchmark run on my own repo. "
           : "These are from a benchmark I ran end-to-end on my own repo — the PRs, the review notes, and the caught vulnerabilities are all real and documented, not a paying-client engagement (those case studies are in progress). "}
@@ -45,6 +42,10 @@ const ProofBand = async () => {
         >
           Send me a repo for a free teardown →
         </a>
+      </p>
+      {/* After the benchmark note, so "These" refers to the stats only. */}
+      <p className="max-w-7xl mx-auto text-center font-mono text-xs text-white-200 mt-2">
+        {LEDGER_PROOF}
       </p>
       <p className="max-w-7xl mx-auto text-center text-xs font-medium text-white-200 mt-2">
         No invented stats, no fake urgency. The numbers here come from

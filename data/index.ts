@@ -24,7 +24,7 @@ export const CREDIT_TERMS = `Move up a tier within ${CREDIT_DAYS} days and what 
 // data.json, rows d >= 2026-07-12; PRs = authors starting "AdrianRusan").
 // Merged, not "reviewed": the ledger records merges. No client or repo names (R1).
 export const LEDGER_PROOF =
-  "1,163 PRs merged and 3,644 commits in 90 days (12 Jul – 10 Oct 2026), counted from my own session ledger.";
+  "Across all my work: 1,163 PRs merged and 3,644 commits in the 91 days from 12 Jul to 10 Oct 2026, counted from my own session ledger.";
 
 // Single risk-reversal guarantee, reused verbatim at every money CTA.
 export const GUARANTEE =

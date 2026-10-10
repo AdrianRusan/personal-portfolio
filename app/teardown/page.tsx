@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { FloatingNav } from "@/components/ui/FloatingNav";
-import MagicButton from "@/components/ui/MagicButton";
 import TeardownForm from "@/components/TeardownForm";
 import { LEDGER_PROOF } from "@/data";
 import { CalendlyLink } from "@/components/CalendlyLink";

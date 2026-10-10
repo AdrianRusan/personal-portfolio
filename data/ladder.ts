@@ -106,7 +106,7 @@ export const ladder: LadderOffer[] = [
     tier: "Build",
     name: "Agent Fleet Setup",
     summary:
-      "The harness I run: parallel agents in git worktrees, a review-bot loop and review gates, installed in your repo and handed over to your team.",
+      "The harness I run: parallel agents in git worktrees, project rules and review gates wired into CI, installed in your repo and handed over to your team.",
     prices: [{ amount: 4000, from: true }],
     duration: "1 wk",
     assurance:

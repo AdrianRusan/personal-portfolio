@@ -98,10 +98,9 @@ export const Retainer = () => {
               2. Proof-month guarantee
             </p>
             <p className="text-sm text-white-200 leading-relaxed">
-              Month 1 is the trial: we agree the reviewed-PR cadence up front,
-              and if it isn&apos;t hit, you cancel at the end of month 1 with no
-              further commitment. You confirm the retainer is working before
-              you&apos;re locked into the full 3 months.
+              We agree the pace of reviewed PRs up front. If month 1 misses it,
+              you can stop there, with nothing more owed. You see the retainer
+              working before the full three months.
             </p>
           </div>
         </div>

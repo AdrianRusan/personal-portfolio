@@ -32,14 +32,16 @@ const TeardownForm = ({ className }: { className?: string }) => {
       });
 
       if (!response.ok) {
-        // 400s carry the API's own validation message ("Please provide a valid
-        // repo or PR URL."), which tells the visitor what to fix. Anything else
-        // falls through to the generic retry message.
+        // The API's field-validation 400s start "Please provide a valid…" and
+        // tell the visitor what to fix. Any other body gets the generic retry.
         const data =
           response.status === 400
             ? await response.json().catch(() => null)
             : null;
-        if (typeof data?.error === "string") {
+        if (
+          typeof data?.error === "string" &&
+          data.error.startsWith("Please ")
+        ) {
           throw new ApiValidationError(data.error);
         }
         throw new Error("Teardown request failed");
@@ -73,9 +75,9 @@ const TeardownForm = ({ className }: { className?: string }) => {
     >
       {status === "success" ? (
         <div role="status" aria-live="polite">
-          <h3 className="text-lg font-semibold tracking-tight text-purple">
+          <h2 className="text-lg font-semibold tracking-tight text-purple">
             Got it — your teardown is on the way.
-          </h3>
+          </h2>
           <p className="text-sm text-white-200 leading-relaxed mt-2">
             Check your inbox for a confirmation. You&apos;ll have the Loom
             within 2&ndash;3 business days, no call required.
