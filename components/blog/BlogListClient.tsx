@@ -52,7 +52,7 @@ export default function BlogListClient({
             placeholder="Search posts..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-black-200 border border-black-300 text-white placeholder-white-200/40 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:border-purple/40 transition-colors"
+            className="w-full bg-black-200 border border-black-300 text-white placeholder-white-200/75 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-purple transition-colors"
           />
           {search && (
             <button
@@ -89,14 +89,14 @@ export default function BlogListClient({
 
       {/* Results count */}
       {(search || activeTag) && (
-        <p className="text-sm text-white-200/50 mb-6">
+        <p className="text-sm text-white-200/75 mb-6">
           {filtered.length} {filtered.length === 1 ? 'post' : 'posts'} found
         </p>
       )}
 
       {/* Posts grid */}
       {filtered.length === 0 ? (
-        <div className="text-center py-20 text-white-200/50">
+        <div className="text-center py-20 text-white-200/75">
           <p className="text-lg">No posts found.</p>
           <button
             onClick={() => {

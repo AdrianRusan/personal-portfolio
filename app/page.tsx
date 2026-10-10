@@ -11,6 +11,8 @@ import Bio from "@/components/Bio";
 import Latest from "@/components/Latest";
 import { FloatingNav } from "@/components/ui/FloatingNav";
 import { StartBand } from "@/components/StartBand";
+import { CallSteps } from "@/components/CallSteps";
+import { ServicesFaq } from "@/components/services/ServicesFaq";
 import { navItems } from "@/data";
 import dynamic from "next/dynamic";
 import type { Metadata } from "next";
@@ -79,6 +81,8 @@ export default function Home() {
         </section>
       </div>
       <Latest />
+      <ServicesFaq />
+      <CallSteps source="home_call_steps" />
       <FinalCta />
       <Footer />
     </main>

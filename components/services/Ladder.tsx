@@ -1,4 +1,10 @@
-import { formatPrice, ladder, tiers, type Tier } from "@/data/ladder";
+import {
+  CREDIT_TERMS,
+  formatPrice,
+  ladder,
+  tiers,
+  type Tier,
+} from "@/data/ladder";
 import { LadderLink } from "./LadderLink";
 
 const en = {
@@ -8,8 +14,7 @@ const en = {
   format: formatPrice,
   eyebrow: "Advise → Train → Build → Ship",
   heading: "Four ways to work together, every one priced",
-  intro:
-    "Start with a €200 call or go straight to a sprint. Each tier credits toward the next. All prices are in EUR, excluding VAT.",
+  intro: `Start with a €200 call or go straight to a sprint. ${CREDIT_TERMS} All prices are in EUR, excluding VAT.`,
   limited: "Limited availability",
   capacity: "The verify layer is one senior human and doesn't parallelize.",
   source: "services_ladder",
@@ -58,9 +63,14 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
                     <p className="text-xl font-bold text-white mt-2">
                       {content.format(offer)}
                     </p>
-                    <p className="font-mono text-[11px] text-white-200/60 mt-1">
+                    <p className="font-mono text-[11px] text-white-200/75 mt-1">
                       {offer.duration}
                     </p>
+                    {offer.assurance && (
+                      <p className="text-xs text-blue-100 mt-2">
+                        {offer.assurance}
+                      </p>
+                    )}
                     <p className="text-sm text-white-200 leading-relaxed mt-3 flex-1">
                       {offer.summary}
                     </p>

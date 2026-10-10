@@ -6,6 +6,9 @@ import { cn } from "@/lib/utils";
 
 type Status = "idle" | "loading" | "success" | "error";
 
+// Only the API's validation text is shown verbatim; network errors are not.
+class ApiValidationError extends Error {}
+
 const TeardownForm = ({ className }: { className?: string }) => {
   const [email, setEmail] = useState("");
   const [repoUrl, setRepoUrl] = useState("");
@@ -29,6 +32,18 @@ const TeardownForm = ({ className }: { className?: string }) => {
       });
 
       if (!response.ok) {
+        // The API's field-validation 400s start "Please provide a valid…" and
+        // tell the visitor what to fix. Any other body gets the generic retry.
+        const data =
+          response.status === 400
+            ? await response.json().catch(() => null)
+            : null;
+        if (
+          typeof data?.error === "string" &&
+          data.error.startsWith("Please ")
+        ) {
+          throw new ApiValidationError(data.error);
+        }
         throw new Error("Teardown request failed");
       }
 
@@ -38,14 +53,18 @@ const TeardownForm = ({ className }: { className?: string }) => {
       setEmail("");
       setRepoUrl("");
       setNote("");
-    } catch {
+    } catch (error) {
       setStatus("error");
-      setErrorMessage("Something went wrong. Please try again in a moment.");
+      setErrorMessage(
+        error instanceof ApiValidationError
+          ? error.message
+          : "Something went wrong. Please try again in a moment.",
+      );
     }
   };
 
   const inputClass =
-    "w-full h-11 rounded-lg border border-white/10 bg-black-200/60 px-4 text-sm text-white placeholder:text-white-200/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:border-purple disabled:opacity-50";
+    "w-full h-11 rounded-lg border border-white/10 bg-black-200/60 px-4 text-sm text-white placeholder:text-white-200/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:border-purple disabled:opacity-50";
 
   return (
     <div
@@ -56,9 +75,9 @@ const TeardownForm = ({ className }: { className?: string }) => {
     >
       {status === "success" ? (
         <div role="status" aria-live="polite">
-          <h3 className="text-lg font-semibold tracking-tight text-purple">
+          <h2 className="text-lg font-semibold tracking-tight text-purple">
             Got it — your teardown is on the way.
-          </h3>
+          </h2>
           <p className="text-sm text-white-200 leading-relaxed mt-2">
             Check your inbox for a confirmation. You&apos;ll have the Loom
             within 2&ndash;3 business days, no call required.
@@ -121,7 +140,7 @@ const TeardownForm = ({ className }: { className?: string }) => {
               className="block text-sm font-medium mb-2"
             >
               Anything I should focus on?{" "}
-              <span className="text-white-200/60 font-normal">(optional)</span>
+              <span className="text-white-200/75 font-normal">(optional)</span>
             </label>
             <textarea
               id="teardown-note"
@@ -132,7 +151,7 @@ const TeardownForm = ({ className }: { className?: string }) => {
               value={note}
               onChange={(event) => setNote(event.target.value)}
               disabled={status === "loading"}
-              className="w-full rounded-lg border border-white/10 bg-black-200/60 px-4 py-3 text-sm text-white placeholder:text-white-200/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:border-purple disabled:opacity-50 resize-y"
+              className="w-full rounded-lg border border-white/10 bg-black-200/60 px-4 py-3 text-sm text-white placeholder:text-white-200/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:border-purple disabled:opacity-50 resize-y"
             />
           </div>
 
@@ -146,7 +165,7 @@ const TeardownForm = ({ className }: { className?: string }) => {
               : "Send it — get my free teardown"}
           </button>
 
-          <p className="text-xs text-white-200/60 leading-relaxed">
+          <p className="text-xs text-white-200/75 leading-relaxed">
             Free. No call. I&apos;ll only email you the teardown and the
             occasional note on shipping AI-written code safely — unsubscribe
             anytime.

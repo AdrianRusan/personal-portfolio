@@ -27,22 +27,28 @@ const config = {
       },
     },
     extend: {
+      // "white" text and borders mean foreground in this dark-first codebase,
+      // so they flip in light mode; bg-white stays literal white.
+      textColor: { white: { DEFAULT: "rgb(var(--fg) / <alpha-value>)" } },
+      borderColor: { white: { DEFAULT: "rgb(var(--fg) / <alpha-value>)" } },
+      placeholderColor: { white: { DEFAULT: "rgb(var(--fg) / <alpha-value>)" } },
       colors: {
+        // Brand tokens flip with the theme; values live in app/globals.css.
         black: {
           DEFAULT: "#000",
-          100: "#000319",
-          200: "rgba(17, 25, 40, 0.75)",
-          300: "rgba(255, 255, 255, 0.125)",
+          100: "rgb(var(--black-100) / <alpha-value>)",
+          200: "rgb(var(--black-200) / <alpha-value>)",
+          300: "var(--black-300)",
         },
         white: {
           DEFAULT: "#FFF",
-          100: "#BEC1DD",
-          200: "#C1C2D3",
+          100: "rgb(var(--white-100) / <alpha-value>)",
+          200: "rgb(var(--white-200) / <alpha-value>)",
         },
         blue: {
-          "100": "#E4ECFF",
+          "100": "rgb(var(--blue-100) / <alpha-value>)",
         },
-        purple: "#CBACF9",
+        purple: "rgb(var(--purple) / <alpha-value>)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

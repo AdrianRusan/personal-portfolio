@@ -1,0 +1,94 @@
+---
+title: "How I Run Claude Code Agents in Parallel (Worktrees, Herdr, One Brief)"
+date: "2026-10-10"
+tags: ["claude-code", "parallel-agents", "git-worktrees", "ai", "developer-productivity"]
+description: "Claude Code parallel agents in practice: one git worktree per agent, a terminal multiplexer to run them, a brief that answers their questions, and review as the only serial step."
+published: true
+language: "en"
+cta: "workshop"
+---
+
+> **TL;DR:** Running Claude Code parallel agents is not hard. Keeping them from colliding, stalling or flooding your review queue is. My setup: one git worktree and one branch per agent, Herdr to start and watch them, an orchestrator session that answers their questions from a written brief, and a fixed checklist each agent clears before its PR reaches me. On 10 October that setup shipped nine reviewed PRs to this site in 100 minutes.
+
+On the evening of 10 October, while this post was being drafted, one orchestrator session was watching four executor agents, each on its own branch of this website, with a fifth scheduled to merge their work into one release PR. My busiest 10-minute window on record had 18 interactive sessions active at once. This post is the setup behind runs like that, and behind the [nine-PR afternoon](/work/nine-prs-one-afternoon) earlier the same day.
+
+## One worktree per agent
+
+The first rule of parallel agents is that they never share a working directory. Two agents in one checkout will edit the same file, run builds against each other's half-finished changes and stash each other's work.
+
+Git worktrees fix that. One repository, many checked-out branches, each in its own folder:
+
+```bash
+git worktree add ../portfolio-p3 -b feat/46-mined-case-study-posts origin/main
+git worktree add ../portfolio-p4 -b feat/47-cro-sell-pass origin/main
+```
+
+Each agent gets its own folder and its own branch. A broken build in one cannot touch another. When the PR lands, the worktree is removed.
+
+Two practical notes. A worktree has no `node_modules`, so each one runs `npm ci` before its first build. And the git stash is shared across all worktrees of a repo, so agents never use a bare `git stash`. They commit work in progress instead.
+
+## Herdr runs the fleet
+
+Opening eight terminals by hand and pasting prompts into each does not scale past three. I use [Herdr](https://herdr.dev), a terminal multiplexer built for coding agents. It creates the worktree, opens a pane in it, starts a Claude Code session and sends the first prompt:
+
+```bash
+herdr worktree create --cwd ~/Code/personal/personal-portfolio \
+  --branch feat/46-mined-case-study-posts --base origin/main --label "P3" --no-focus
+herdr agent start p3 --kind claude --pane <pane>
+herdr agent prompt p3 "/goal $(cat p3.prompt.txt)"
+```
+
+The orchestrator then waits on each agent (`herdr agent wait p3`) and wakes up when one finishes or gets stuck. Herdr tracks each agent's status, so I can see at a glance which one is working and which one is waiting on me.
+
+Herdr is not the important part. Any tool that gives you one pane per worktree and a way to see who is stuck will do. What matters is that starting agent number six is one command, not ten minutes of setup.
+
+## The brief does the thinking up front
+
+Parallel agents fail in a boring way: they stop and ask. Which branch name? Can I touch this file? Is this price right? Each question waits for a human, and with eight agents a human is always the bottleneck.
+
+So before any agent starts, I write a brief. It has four parts:
+
+1. **Facts, verified.** Routes, commands, the current state of `main`, what is live. The fact check is where the first run found its outage: every booking link on this site pointed at a deleted calendar event.
+2. **Rulings.** Numbered decisions, written once. "Prices come from this table." "Never name a client." "No invented numbers." When an agent hits a choice, the orchestrator answers by citing a ruling.
+3. **File ownership.** Which agent owns which files. One agent owns the Romanian pages, another owns styling, another owns blog content, including this post. When two must touch the same file, the edit stays minimal and a later merge resolves the rest.
+4. **A definition of done.** The exact checks each PR must show before it can be marked ready.
+
+The brief also says what the agents may decide alone. The evening run's said: decide, record the decision in the PR body, keep going. That one line removes most of the waiting.
+
+## Review stays serial, so make it small
+
+Generation parallelizes. Review does not. I am one senior reviewer, and eight PRs landing at once is eight reviews. If each PR shows up raw, parallel agents just move the queue from writing to reading. I covered that in [30 PRs in 2.5 days](/blog/30-prs-in-2-5-days): the bottleneck moves, it does not disappear.
+
+So no PR reaches me until it has cleared the same checklist:
+
+1. Typecheck, lint, production build and unit tests, with exit codes in the PR body.
+2. Every route it touched fetched on a production build: status 200, one `<h1>`, a description, an OG image and valid structured data.
+3. Before and after screenshots at phone and desktop widths.
+4. A code review of its own diff, with each finding marked fixed or deferred with a reason.
+
+On the nine-PR afternoon, seven PR bodies recorded a review count: 46 findings, 17 fixed before I saw the PR. My review was reading evidence, not re-running it.
+
+## Limits that bite
+
+A few things go wrong once you pass four or five agents.
+
+**Machine resources.** Several Next.js production builds at once will eat a laptop's memory. My brief for the afternoon run capped it at three executors at a time, because each one runs its own production build. The brief had the next one start as soon as a slot freed up.
+
+**Usage limits.** Many sessions burn through a plan's limits faster than one. The orchestrator should do little work itself and leave the tokens to the executors.
+
+**Merge order.** Branches that each pass on their own can conflict when combined. So the evening run's plan ends with an integrator agent: it merges the branches in a fixed order, resolves conflicts and reruns the full checks on the result. I review and merge one PR, not four.
+
+**Workspaces you did not start.** My machine usually has client work running in other Herdr workspaces. Every brief says to touch only the workspace the orchestrator created.
+
+## Where to start
+
+You do not need eight agents. Start with two:
+
+1. Write a one-page brief for two independent tasks: facts, rulings, which files each may touch, and what done looks like.
+2. Create two worktrees and start one Claude Code session in each.
+3. Make each session open a draft PR at its first push, with the checks in the body.
+4. Review both PRs as evidence, then merge.
+
+When two runs without you answering questions, try four.
+
+If you want your team running this way, the [team workshop](/workshops/full-day) covers worktrees, orchestration and review gates in a day, with your own repo as the example.

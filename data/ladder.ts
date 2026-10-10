@@ -1,4 +1,17 @@
-import { CALENDLY_URL, STRATEGY_CALL_URL } from "@/data";
+import {
+  CALENDLY_URL,
+  CREDIT_DAYS,
+  CREDIT_TERMS,
+  GUARANTEE,
+  STRATEGY_CALL_URL,
+} from "@/data";
+import {
+  workshops,
+  workshopServiceId,
+  type WorkshopSlug,
+} from "@/data/workshops";
+
+export { CREDIT_TERMS };
 
 export type Tier = "Advise" | "Train" | "Build" | "Ship";
 
@@ -28,6 +41,9 @@ export interface LadderOffer {
   duration: string;
   // True only where capacity is genuinely capped — brief R6. No countdowns.
   limited?: boolean;
+  // Risk reversal shown next to the price (brief R6). Optional so localized
+  // ladders render without it until translated.
+  assurance?: string;
   ctas: { label: string; href: string }[];
 }
 
@@ -41,6 +57,7 @@ export const ladder: LadderOffer[] = [
       "60 minutes 1:1 on the AI question in front of you, plus a written summary you keep.",
     prices: [{ amount: 200 }],
     duration: "1 h",
+    assurance: `Move up a tier within ${CREDIT_DAYS} days and the €200 counts toward it.`,
     ctas: [{ label: "Request the €200 call", href: STRATEGY_CALL_URL }],
   },
   {
@@ -48,9 +65,10 @@ export const ladder: LadderOffer[] = [
     tier: "Advise",
     name: "AI Audit",
     summary:
-      "A review of your AI-written code or LLM workflow, delivered as a ranked report: what to fix first, and why.",
+      "Your AI-written code, LLM workflow or LLM spend, reviewed: security gaps, cost per merged PR, cache use and wasted agent runs, in a ranked report of what to fix first.",
     prices: [{ amount: 900, from: true }],
     duration: "2–3 days",
+    assurance: `Price agreed before I start. Move up within ${CREDIT_DAYS} days and it counts toward the next tier.`,
     ctas: [{ label: "Scope an audit", href: CALENDLY_URL }],
   },
   {
@@ -58,12 +76,14 @@ export const ladder: LadderOffer[] = [
     tier: "Train",
     name: "Team workshop",
     summary:
-      "Claude Code, orchestration, review gates and prompt/harness engineering, hands-on with your team. Up to 10 people.",
+      "Claude Code, orchestration, review gates and harness engineering, hands-on. Your team leaves with its first rules file and a worktree-per-agent setup running on your repo. Up to 10 people.",
+    // One source for workshop prices: the workshop pages' own data.
     prices: [
-      { amount: 2000, label: "half-day" },
-      { amount: 3500, label: "full day" },
+      { amount: workshops["half-day"].price, label: "half-day" },
+      { amount: workshops["full-day"].price, label: "full day" },
     ],
     duration: "4–8 h",
+    assurance: "Fixed price for up to 10 people, agenda agreed in advance.",
     ctas: [
       { label: "Half-day agenda", href: "/workshops/half-day" },
       { label: "Full-day agenda", href: "/workshops/full-day" },
@@ -74,19 +94,23 @@ export const ladder: LadderOffer[] = [
     tier: "Build",
     name: "AI Automation",
     summary:
-      "One n8n workflow or LLM pipeline, built with evals and cost controls from the start.",
+      "One n8n workflow or LLM pipeline, built with evals and cost controls from the start. Where it writes for customers, it gets a gate that stops it inventing numbers or facts.",
     prices: [{ amount: 3000, from: true }],
     duration: "1–3 wk",
+    assurance:
+      "Fixed price before I start; evals prove it works before handoff.",
     ctas: [{ label: "Scope an automation", href: CALENDLY_URL }],
   },
   {
     id: "harness",
     tier: "Build",
-    name: "Agent Harness Setup",
+    name: "Agent Fleet Setup",
     summary:
-      "The ship/verify agent harness I run, installed in your repo and handed over to your team.",
+      "The harness I run: parallel agents in git worktrees, project rules and review gates wired into CI, installed in your repo and handed over to your team.",
     prices: [{ amount: 4000, from: true }],
     duration: "1 wk",
+    assurance:
+      "Your team ships a reviewed PR through it, or sessions continue free.",
     ctas: [{ label: "What's included", href: "#harness" }],
   },
   {
@@ -97,6 +121,7 @@ export const ladder: LadderOffer[] = [
       "One real ticket from your backlog, shipped by an agent and security-reviewed line by line.",
     prices: [{ amount: 1000 }],
     duration: "~48 h",
+    assurance: GUARANTEE,
     ctas: [{ label: "What's included", href: "#entry-offer" }],
   },
   {
@@ -108,6 +133,8 @@ export const ladder: LadderOffer[] = [
     prices: [{ amount: 7500, from: true }],
     duration: "1–2 wk",
     limited: true,
+    assurance:
+      "First PR not merge-ready? You don't pay for it. Missed vulnerabilities get fixed free.",
     ctas: [{ label: "What's included", href: "#sprint" }],
   },
   {
@@ -120,6 +147,7 @@ export const ladder: LadderOffer[] = [
     perMonth: true,
     duration: "monthly",
     limited: true,
+    assurance: "If month 1 misses the pace we agreed, you can stop there.",
     ctas: [{ label: "What's included", href: "#retainer" }],
   },
 ];
@@ -133,6 +161,16 @@ export const formatPrice = ({ prices, perMonth }: LadderOffer): string =>
         }`,
     )
     .join(" / ") + (perMonth ? "/month" : "");
+
+// Matched against the known slugs, so a stray href can't mint a dangling @id.
+const relatedWorkshops = ({ ctas }: LadderOffer) => {
+  const slugs = Object.keys(workshops) as WorkshopSlug[];
+  const ids = ctas
+    .map((c) => slugs.find((slug) => c.href === `/workshops/${slug}`))
+    .filter((slug): slug is WorkshopSlug => slug !== undefined)
+    .map((slug) => ({ "@id": workshopServiceId(slug) }));
+  return ids.length ? { isRelatedTo: ids } : {};
+};
 
 // One schema.org Service per ladder offer (brief R15). Prices are ex-VAT, so
 // each Offer carries a priceSpecification saying so; "from" becomes minPrice.
@@ -148,6 +186,8 @@ export const ladderServiceJsonLd = (
     serviceType: offer.tier,
     areaServed,
     provider: { "@id": "https://www.adrian-rusan.com/#person" },
+    // Ladder entries that link to a workshop page point at that page's Service.
+    ...relatedWorkshops(offer),
     offers: offer.prices.map((p) => ({
       "@type": "Offer",
       // A top-level price reads as exact, so "from" offers carry only minPrice.

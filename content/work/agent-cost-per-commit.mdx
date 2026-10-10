@@ -1,0 +1,83 @@
+---
+title: "Reduce LLM API Costs: My Agent Cost per Commit Fell 68%, Then Came Back"
+date: "2026-10-10"
+tags: ["ai", "claude-code", "llm-costs", "agent-harness"]
+description: "July to August, my agent cost per commit fell 68% while commits rose. By October it was back. What I can trace, what I can't, and why I now measure every week."
+published: true
+language: "en"
+---
+
+## The problem
+
+I wanted to reduce LLM API costs in my own agent workflow without shipping less. To do that I first had to measure it. I keep a private ledger that records, per day, my Claude Code token usage from session transcripts, the commits in my repos and my merged pull requests.
+
+The dollar figures below are **replacement cost**: the tokens priced at one model's public list price. They are not an invoice and not what I paid. Read them as a measure of compute used, and trust the ratios more than the totals.
+
+## The constraint
+
+I did not want to save money by doing less. Output had to hold up, and every PR still had to pass review.
+
+The ledger has two limits I had to respect:
+
+1. **One price for every token.** Moving a task to a cheaper model does not lower the ledger's dollars. Only fewer tokens do.
+2. **The counting changed on 11 September.** Before that date, the ledger counted each transcript entry, which roughly doubles every figure. From 11 September it counts each API response once. July and August use the old count, so they compare with each other. September and October use the new one.
+
+## What changed
+
+<figure className="my-8">
+  <svg viewBox="0 0 360 330" role="img" aria-label="Timeline. July: 35 dollars per commit. Early August: first drop, with no config change to explain it. 10 August: a per-message hook is removed and ten unused skills are parked. 23 August: CLAUDE.md and the rules shrink from 9,976 to 4,106 words. September and October: cost per commit rises again." className="block w-full max-w-md mx-auto">
+    <g fill="none" stroke="#CBACF9" strokeWidth="1.5">
+      <path d="M40 20 V310" />
+      <circle cx="40" cy="40" r="6" />
+      <circle cx="40" cy="110" r="6" stroke="#F87171" />
+      <circle cx="40" cy="180" r="6" />
+      <circle cx="40" cy="245" r="6" />
+      <circle cx="40" cy="300" r="6" stroke="#F87171" />
+    </g>
+    <g fill="currentColor" fontSize="13">
+      <text x="60" y="36" fontWeight="700">July</text>
+      <text x="60" y="54" fontSize="11">$35 per commit · 144k subagent turns</text>
+      <text x="60" y="106" fontWeight="700">Early August</text>
+      <text x="60" y="124" fontSize="11">first drop · no config change explains it</text>
+      <text x="60" y="176" fontWeight="700">10 Aug</text>
+      <text x="60" y="194" fontSize="11">per-message hook off · 10 unused skills parked</text>
+      <text x="60" y="241" fontWeight="700">23 Aug</text>
+      <text x="60" y="259" fontSize="11">CLAUDE.md + rules: 9,976 → 4,106 words</text>
+      <text x="60" y="296" fontWeight="700">Sep–Oct</text>
+      <text x="60" y="314" fontSize="11">cost per commit climbs back</text>
+    </g>
+  </svg>
+  <figcaption className="text-center text-sm text-black-100/70 dark:text-white-200 mt-3">The two dated changes are commits in my harness config. The red points are not explained by any commit.</figcaption>
+</figure>
+
+I matched the weekly cost curve against the commit history of my Claude Code config.
+
+**The first drop came before any change.** Subagent turns per prompt halved in the first week of August, and cost per commit fell with them. No config commit landed that week. My workflow changed, but no file records how, so I do not claim a cause.
+
+**Less text injected into every turn (10 August).** A hook added a reminder to every message I sent, and nothing had shown it saved anything. I turned it off. The same change parked ten skills for stacks I was not using, because every installed skill adds its description to the list each session loads.
+
+**Shorter instructions (23 August).** An audit of my own setup cut `CLAUDE.md` and the rule files together from 9,976 words to 4,106. Sessions load them at the start, and the model rereads them from the cache on every turn.
+
+The weekly cost per commit dropped again in the week after the 10 August change and stayed low after the 23 August one. I can show that they line up. I cannot show how much of the drop they caused.
+
+## The number
+
+July to August, full calendar months, same counting method:
+
+- **Cost per commit: $35 → $11 (68% lower)**
+- Cost per merged PR: $73 → $32 (57% lower)
+- Commits: 995 → 1,091
+- Merged PRs: 477 → 395
+- Subagent turns: 144k → 43k
+
+Merged PRs fell while commits rose, so cost per PR is the stricter measure. Cache-read volume fell by 59%, but its share of the tokens barely moved: 99.6% of cache-read plus output tokens in July, 99.7% in August. The cache was already working. The savings came from sending fewer tokens through it.
+
+**Then it came back.** On the new count, September cost $11.55 per commit. That is roughly $23 on the old count, twice August. The first ten days of October cost $33 per commit on the new count, back above July. One traceable change: in those ten days, 618 of my 770 sessions were headless scripted runs rather than sessions I drove. I have not measured how much of the cost they account for.
+
+## The lesson
+
+Trimming context that loads on every turn helped. I can date those changes and the curve moved after them. But one month's win is not a result. A new habit, such as more scripted runs or more subagents, can quietly take it back.
+
+What lasted is the measurement: cost per commit and per merged PR, every week, with the counting method written down. Without the ledger I would have reported "68% lower" and never seen October.
+
+If your team's LLM bill is growing faster than its output, an [AI audit](/services#ladder) measures where the tokens go and ranks the fixes, in 2–3 days.

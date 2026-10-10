@@ -8,7 +8,24 @@ import { CalendlyLink } from "@/components/CalendlyLink";
 import { TrackedLink } from "@/components/TrackedLink";
 import { GUARANTEE, STRATEGY_CALL_URL } from "@/data";
 
-const Hero = () => {
+const en = {
+  eyebrow:
+    "Adrian Rusan · Senior engineer, 10+ years · AI agents, human review",
+  heading: "Ship the roadmap you can't hire for.",
+  body: "I clear your backlog with Claude Code agents, then review every pull request myself, security first, before it reaches you.",
+  promise: "Your roadmap ships — without a security incident on your name.",
+  honestBefore: "2-3x, not 100x — and",
+  honestLink: "here's what the agents get wrong",
+  teardown: "Get a free teardown",
+  call: "Or book a scoping call →",
+  guarantee: GUARANTEE,
+  adviceBefore: "Only need advice?",
+  adviceLink: "Book a 1:1 AI session, €200.",
+  adviceHref: STRATEGY_CALL_URL,
+};
+export type HeroCopy = typeof en;
+
+const Hero = ({ copy = en }: { copy?: HeroCopy }) => {
   return (
     <section className="min-h-[100vh]" id="home" aria-labelledby="hero-heading">
       <SpotlightBackground />
@@ -19,40 +36,37 @@ const Hero = () => {
       <div className="min-h-[100vh] flex justify-center items-center relative z-10 py-28">
         <div className="max-w-[89vw] md:max-w-2xl lg:max-w-[62vw] flex justify-center items-center flex-col">
           <p className="uppercase tracking-widest text-xs text-center text-blue-100 max-w-80">
-            Agent speed · Every PR senior-reviewed
+            {copy.eyebrow}
           </p>
 
           <TextGenerateEffect
             id="hero-heading"
             className="text-center text-[40px] md:text-5xl lg:text-6xl"
-            words="Ship the roadmap you can't hire for."
+            words={copy.heading}
           />
 
           <p className="text-center tracking-wide mb-2 mt-2 text-sm md:text-lg lg:text-xl text-white-200 max-w-3xl">
-            I run fleets of Claude Code agents to clear your backlog fast — then
-            I adversarially review every pull request myself, because I&apos;ve
-            caught the shell-injection bugs the agents wrote that the tests
-            passed clean.
+            {copy.body}
           </p>
 
           <p className="text-center text-sm md:text-base text-blue-100 max-w-2xl">
-            Your roadmap ships — without a security incident on your name.
+            {copy.promise}
           </p>
 
           <p className="text-center font-mono text-xs md:text-sm text-purple mt-4 border-l-2 border-purple pl-3">
-            2-3x, not 100x — and{" "}
+            {copy.honestBefore}{" "}
             <Link
               href="/blog/what-agents-get-wrong"
               className="underline-offset-2 hover:underline"
             >
-              here&apos;s what the agents get wrong
+              {copy.honestLink}
             </Link>
             .
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 mt-2">
             <MagicButton
-              title="Get a free teardown"
+              title={copy.teardown}
               icon={<FaLocationArrow />}
               position="right"
               href="/teardown"
@@ -66,23 +80,23 @@ const Hero = () => {
               newTab={false}
               className="text-sm font-medium text-blue-100 hover:text-purple transition-colors md:mt-10"
             >
-              Or book a scoping call →
+              {copy.call}
             </CalendlyLink>
           </div>
 
           <p className="text-center text-xs text-white-200/70 mt-5 max-w-xl">
-            {GUARANTEE}
+            {copy.guarantee}
           </p>
 
           <p className="text-center text-sm text-white-200 mt-4">
-            Only need advice?{" "}
+            {copy.adviceBefore}{" "}
             <TrackedLink
-              href={STRATEGY_CALL_URL}
+              href={copy.adviceHref}
               event="cta_click"
               props={{ cta: "strategy_call", source: "hero" }}
               className="font-medium text-blue-100 underline-offset-2 hover:underline hover:text-purple transition-colors"
             >
-              Book a 1:1 AI session, €200.
+              {copy.adviceLink}
             </TrackedLink>
           </p>
         </div>

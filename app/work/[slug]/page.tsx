@@ -4,12 +4,12 @@ import { notFound } from "next/navigation";
 import { getPost, getPosts, WORK_DIR } from "@/lib/blog";
 import MDXContent from "@/components/blog/MDXContent";
 import { CalendlyLink } from "@/components/CalendlyLink";
-import { FloatingNav } from "@/components/ui/FloatingNav";
+import { PageShell } from "@/components/PageShell";
 
 const workNavItems = [
   { name: "Home", link: "/" },
   { name: "Services", link: "/services" },
-  { name: "Work", link: "/#work" },
+  { name: "Work", link: "/work" },
   { name: "Blog", link: "/blog" },
 ];
 
@@ -68,8 +68,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const studyUrl = `https://www.adrian-rusan.com/work/${slug}`;
 
   return (
-    <main className="relative dark:bg-black-100 bg-white min-h-screen">
-      <FloatingNav navItems={workNavItems} />
+    <PageShell navItems={workNavItems}>
       <div className="max-w-3xl mx-auto px-5 sm:px-10 pt-40 pb-20">
         <script
           type="application/ld+json"
@@ -95,7 +94,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
         <article>
           <header className="mb-10 pb-8 border-b border-black-300">
             <Link
-              href="/#work"
+              href="/work"
               className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100 hover:text-purple transition-colors"
             >
               Case study
@@ -112,7 +111,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
             <MDXContent source={study.source} />
           </div>
 
-          <aside className="mt-12 rounded-2xl border border-white/10 bg-black-200/40 p-6 md:p-8">
+          <div className="mt-12 rounded-2xl border border-white/10 bg-black-200/40 p-6 md:p-8">
             <p className="text-lg font-semibold">
               Want this level of review on your team&apos;s agent work?
             </p>
@@ -130,9 +129,9 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
                 Book a call
               </CalendlyLink>
             </div>
-          </aside>
+          </div>
         </article>
       </div>
-    </main>
+    </PageShell>
   );
 }

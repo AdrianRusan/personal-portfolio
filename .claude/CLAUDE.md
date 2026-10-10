@@ -23,12 +23,12 @@ Freelance/consultant portfolio + lead-gen funnel for Adrian Rusan (Full-Stack En
 | Lint | `npm run lint` | eslint-config-next |
 | Typecheck | `npx tsc --noEmit` | still NOT wired to build; run manually. Currently clean (e2e/playwright excluded from app tsconfig) |
 | Unit tests | `npm test` | jest 30; 14 tests across `__tests__/` (utils, blog, api-subscribe) |
-| E2E | `npx playwright test` | no npm script; `e2e/portfolio-journey.spec.ts`, `e2e/error-scenarios.spec.ts` |
+| E2E | `npm run e2e` | `e2e/smoke.spec.ts` against `npm start` on :3045 (run `npm run build` first); every EN route at 1440 + 390 |
 | Security | `npm run security-check` | `scripts/security-check.js` |
 | Verify all | `npm run verify:all` | tests → build → security |
 | Bundle analyze | `npm run analyze` | `ANALYZE=true` |
 
-**Validation order before commit**: `npx tsc --noEmit` → `npm run lint` → `npm run build` → `npx playwright test`. Because build ignores type errors, `tsc --noEmit` is the real type gate — don't skip it.
+**Validation order before commit**: `npx tsc --noEmit` → `npm run lint` → `npm run build` → `npm test` → `npm run e2e`. Because build ignores type errors, `tsc --noEmit` is the real type gate — don't skip it.
 
 ## Architecture
 
@@ -63,6 +63,6 @@ e2e/                 Playwright specs
 
 - **`next build` needs `NODE_ENV=production`** — shell profile exports `NODE_ENV=development`; a raw `next build` leaks it and re-triggers a `<Html>/pages/_document` prerender failure. Always build via `npm run build` (pins `cross-env NODE_ENV=production`). Build now type-checks (`ignoreBuildErrors` removed), but `tsc --noEmit` is still the manual pre-commit gate.
 - **`verify:tests` script is flaky** — its Playwright/e2e orchestration step is environment-dependent and can fail independent of unit tests. `npm test` (jest, 14 tests) is the reliable unit gate.
-- **e2e/playwright excluded from app `tsconfig`** — `tsc --noEmit` no longer type-checks `e2e/*.spec.ts` (they need `@playwright/test`). Run `npx playwright test` for e2e; don't expect tsc to cover them.
+- **e2e/playwright excluded from app `tsconfig`** — `tsc --noEmit` no longer type-checks `e2e/*.spec.ts` (they need `@playwright/test`). Run `npm run e2e` for e2e; don't expect tsc to cover them.
 - **Images**: only `utfs.io` / `ufs.sh` (uploadthing) remote patterns allowed in `next.config.mjs`; adding an external image host requires editing `remotePatterns`. `dangerouslyAllowSVG` is on with a strict CSP.
 - **Env**: `NEXT_PUBLIC_SITE_URL` is required in production (`validateEnvironment` throws). Analytics/Sentry gated on env + `isProduction`.

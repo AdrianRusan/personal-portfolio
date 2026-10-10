@@ -6,7 +6,17 @@ const BENCHMARK_SLUG = "30-prs-in-2-5-days";
 
 // Renders nothing until at least one case study is published (R2/R10:
 // no "coming soon" cards, and the benchmark alone would repeat the demo above).
-const CaseStudyCards = async () => {
+const en = {
+  study: "Case study",
+  benchmark: "Benchmark · my own repo",
+  eyebrow: "Case studies",
+  heading: "Proof from documented runs",
+  read: "Read it →",
+  all: "See all case studies →",
+};
+export type CaseStudyCardsCopy = typeof en;
+
+const CaseStudyCards = async ({ copy = en }: { copy?: CaseStudyCardsCopy }) => {
   const studies = await getPosts(WORK_DIR);
   if (studies.length === 0) return null;
 
@@ -14,7 +24,7 @@ const CaseStudyCards = async () => {
   const cards = [
     ...studies.map((s) => ({
       href: `/work/${s.slug}`,
-      label: "Case study",
+      label: copy.study,
       title: s.frontmatter.title,
       body: s.frontmatter.description,
     })),
@@ -22,7 +32,7 @@ const CaseStudyCards = async () => {
       ? [
           {
             href: `/blog/${benchmark.slug}`,
-            label: "Benchmark · my own repo",
+            label: copy.benchmark,
             title: benchmark.frontmatter.title,
             body: benchmark.frontmatter.description,
           },
@@ -34,13 +44,13 @@ const CaseStudyCards = async () => {
     <section aria-labelledby="case-studies-heading" className="px-5 sm:px-10 pb-20">
       <div className="max-w-5xl mx-auto">
         <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100">
-          Case studies
+          {copy.eyebrow}
         </span>
         <h2
           id="case-studies-heading"
           className="text-2xl md:text-3xl font-bold tracking-tight mt-3"
         >
-          Proof from documented runs
+          {copy.heading}
         </h2>
         <ul
           className={`grid gap-5 mt-8 ${cards.length > 2 ? "md:grid-cols-3" : "md:grid-cols-2"}`}
@@ -61,12 +71,18 @@ const CaseStudyCards = async () => {
                   {card.body}
                 </p>
                 <span className="text-sm font-semibold text-purple mt-5">
-                  Read it →
+                  {copy.read}
                 </span>
               </Link>
             </li>
           ))}
         </ul>
+        <Link
+          href="/work"
+          className="inline-block text-sm font-semibold text-purple hover:underline underline-offset-4 mt-6"
+        >
+          {copy.all}
+        </Link>
       </div>
     </section>
   );

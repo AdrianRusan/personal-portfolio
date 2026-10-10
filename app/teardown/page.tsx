@@ -1,19 +1,8 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
-import { FloatingNav } from "@/components/ui/FloatingNav";
-import MagicButton from "@/components/ui/MagicButton";
+import { PageShell } from "@/components/PageShell";
 import TeardownForm from "@/components/TeardownForm";
-import { CALENDLY_URL } from "@/data";
-import { FaLocationArrow } from "react-icons/fa6";
-
-const Footer = dynamic(() => import("@/components/Footer"), {
-  loading: () => (
-    <footer
-      className="h-32 animate-pulse bg-slate-100 dark:bg-slate-800"
-      aria-label="Footer loading"
-    />
-  ),
-});
+import { LEDGER_PROOF } from "@/data";
+import { CalendlyLink } from "@/components/CalendlyLink";
 
 const TITLE =
   "Free AI Code Teardown — a 15-min Loom of what your AI-generated code is hiding";
@@ -36,20 +25,26 @@ export const metadata: Metadata = {
 const teardownNavItems = [
   { name: "Home", link: "/" },
   { name: "Services", link: "/services" },
-  { name: "Work", link: "/#work" },
+  { name: "Work", link: "/work" },
   { name: "Blog", link: "/blog" },
 ];
 
+// Answers the objections that stop the form being sent.
+const trustNotes = [
+  "Private repo? Paste the link anyway. I'll reply asking for read-only access, and you can remove it once the Loom is sent.",
+  "Need an NDA first? Say so in the note and I'll sign yours before I look.",
+  "Your code and the findings stay between us. Nothing is published or reused.",
+];
+
 const steps = [
-  "Paste a repo or PR link below — something real you've shipped with Copilot, Cursor, or Claude Code.",
+  "Paste a repo or PR link above — something real you've shipped with Copilot, Cursor, or Claude Code.",
   "I run the same adversarial security review every sprint PR gets — injection, auth, secrets, access control — assuming the agent got it wrong until it's proven right.",
   "You get a ~15-minute Loom walking through exactly what I found, usually within 2–3 business days. Free.",
 ];
 
 export default function TeardownPage() {
   return (
-    <main className="relative dark:bg-black-100 bg-white overflow-hidden">
-      <FloatingNav navItems={teardownNavItems} />
+    <PageShell navItems={teardownNavItems}>
 
       <section className="px-5 sm:px-10 pt-28 sm:pt-32 pb-16">
         <div className="max-w-5xl mx-auto text-center">
@@ -66,6 +61,20 @@ export default function TeardownPage() {
             caught shell-injection vulnerabilities that every automated check
             waved through. No call, no pitch, no signup beyond your email.
           </p>
+          <p className="font-mono text-[11px] md:text-xs text-white-200/80 mt-4 max-w-2xl mx-auto">
+            {LEDGER_PROOF}
+          </p>
+        </div>
+      </section>
+
+      <section className="px-5 sm:px-10 pb-16" aria-label="Request a teardown">
+        <div className="max-w-2xl mx-auto">
+          <TeardownForm />
+          <ul className="flex flex-col gap-2 mt-5 text-xs text-white-200/80 leading-relaxed">
+            {trustNotes.map((note) => (
+              <li key={note}>{note}</li>
+            ))}
+          </ul>
         </div>
       </section>
 
@@ -93,12 +102,6 @@ export default function TeardownPage() {
         </div>
       </section>
 
-      <section className="px-5 sm:px-10 pb-16" aria-label="Request a teardown">
-        <div className="max-w-2xl mx-auto">
-          <TeardownForm />
-        </div>
-      </section>
-
       <section className="px-5 sm:px-10 pb-20" aria-label="Why free">
         <div className="max-w-3xl mx-auto rounded-2xl border border-white/10 bg-black-200/40 p-6 md:p-8">
           <h2 className="text-lg font-semibold tracking-tight">
@@ -114,16 +117,14 @@ export default function TeardownPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-8">
-            <MagicButton
-              title="Prefer to talk? Book a scoping call"
-              icon={<FaLocationArrow />}
-              position="right"
-              href={CALENDLY_URL}
-              trackEvent={{
-                event: "calendly_click",
-                props: { source: "teardown_book" },
-              }}
-            />
+            {/* A link, not a button: the form above is this page's one primary CTA. */}
+            <CalendlyLink
+              source="teardown_book"
+              newTab={false}
+              className="text-sm font-medium text-blue-100 hover:text-purple transition-colors"
+            >
+              Prefer to talk? Book a scoping call →
+            </CalendlyLink>
             <a
               href="/services"
               className="text-sm font-medium text-blue-100 hover:text-purple transition-colors"
@@ -134,7 +135,6 @@ export default function TeardownPage() {
         </div>
       </section>
 
-      <Footer />
-    </main>
+    </PageShell>
   );
 }

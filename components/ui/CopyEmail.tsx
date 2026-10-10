@@ -35,7 +35,7 @@ const CopyEmail = () => {
               <div className="w-2 h-2 bg-purple-400 rounded absolute top-6 left-6 animate-bounce delay-150"></div>
               <div className="w-2 h-2 bg-pink-400 rounded absolute bottom-5 right-1 animate-bounce delay-250"></div>
             </div>
-            <div className="relative z-10 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">
+            <div className="relative z-10 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-neutral-50 font-bold">
               ✓
             </div>
           </div>
