@@ -60,6 +60,22 @@ export const shipVerify = [
   },
 ];
 
+// "How a call works": what happens after someone clicks a booking CTA.
+export const callSteps = [
+  {
+    heading: "Pick a 30-minute slot",
+    body: "Book on Calendly and add one line on what you want built or shipped. No deck, no prep.",
+  },
+  {
+    heading: "We look at the real work",
+    body: "Your backlog, your repo or your AI question. I tell you which tier fits and what it costs, or that it isn't a fit.",
+  },
+  {
+    heading: "You get it in writing",
+    body: "Within one working day: the scope, the fixed price and a start date, by email. You decide. Nobody chases you.",
+  },
+];
+
 // Objection-handling FAQ. One source for the visible FAQ (/ and /services) and
 // the /services FAQPage JSON-LD, so the schema can't drift from the page.
 export const faqs: { question: string; answer: string }[] = [
