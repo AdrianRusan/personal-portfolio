@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useId, useState, type FormEvent } from "react";
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
@@ -13,6 +13,10 @@ const EmailCapture = ({
   variant?: "inline" | "footer";
   className?: string;
 }) => {
+  // Two captures can share a page (inline + footer), so ids must be unique.
+  const inputId = useId();
+  const errorId = useId();
+  const Heading = variant === "footer" ? "h3" : "h2";
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -53,9 +57,9 @@ const EmailCapture = ({
         className,
       )}
     >
-      <h3 className="text-lg font-semibold tracking-tight">
+      <Heading className="text-lg font-semibold tracking-tight">
         Not ready to book?
-      </h3>
+      </Heading>
       <p className="text-sm text-white-200 leading-relaxed mt-2">
         Get the Agent PR Review Checklist — the checks that catch bugs the tests
         pass clean. Plus an occasional email on shipping AI-written code safely
@@ -77,11 +81,11 @@ const EmailCapture = ({
           noValidate
         >
           <div className="flex-1">
-            <label htmlFor="email-capture-input" className="sr-only">
+            <label htmlFor={inputId} className="sr-only">
               Email address
             </label>
             <input
-              id="email-capture-input"
+              id={inputId}
               name="email"
               type="email"
               required
@@ -91,9 +95,9 @@ const EmailCapture = ({
               onChange={(event) => setEmail(event.target.value)}
               disabled={status === "loading"}
               aria-describedby={
-                status === "error" ? "email-capture-error" : undefined
+                status === "error" ? errorId : undefined
               }
-              className="w-full h-11 rounded-lg border border-white/10 bg-black-200/60 px-4 text-sm text-white placeholder:text-white-200/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:border-purple disabled:opacity-50"
+              className="w-full h-11 rounded-lg border border-white/10 bg-black-200/60 px-4 text-sm text-white placeholder:text-white-200/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:border-purple disabled:opacity-50"
             />
           </div>
           <button
@@ -108,7 +112,7 @@ const EmailCapture = ({
 
       {status === "error" && (
         <p
-          id="email-capture-error"
+          id={errorId}
           className="text-sm text-red-400 mt-3"
           role="alert"
         >
