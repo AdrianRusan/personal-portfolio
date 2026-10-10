@@ -44,7 +44,7 @@ export default function CodeBlock({ children, className, ...props }: CodeBlockPr
         {copied ? (
           <Check size={13} className="text-green-400" />
         ) : (
-          <Copy size={13} className="text-white/60 hover:text-white" />
+          <Copy size={13} className="text-neutral-50/60 hover:text-neutral-50" />
         )}
       </button>
     </div>

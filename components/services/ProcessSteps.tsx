@@ -60,7 +60,7 @@ export const ProcessSteps = () => {
           it.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-white/10 border border-white/10 rounded-xl overflow-hidden mt-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-black-300 border border-white/10 rounded-xl overflow-hidden mt-10">
           {steps.map((step) => (
             <div
               key={step.tag}

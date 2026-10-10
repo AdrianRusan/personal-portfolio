@@ -51,8 +51,9 @@
     --black-100: 255 255 255;
     --black-200: 241 245 249;
     --black-300: rgba(15, 23, 42, 0.12);
-    --white-100: 100 116 139;
-    --white-200: 71 85 105;
+    --white-100: 71 85 105;
+    /* slate-700: still >= 4.5:1 at the /75 muted opacity on white and slate-100 */
+    --white-200: 51 65 85;
     --blue-100: 67 56 202;
     --purple: 124 58 237;
     --nav-bg: rgba(255, 255, 255, 0.8);

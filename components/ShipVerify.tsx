@@ -28,7 +28,7 @@ const ShipVerify = () => {
         <h3 className="text-xl md:text-2xl font-bold mt-16 mb-6 text-balance">
           The whole thing is two steps. Most vendors only sell you the first.
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/10 border border-white/10 rounded-xl overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-black-300 border border-white/10 rounded-xl overflow-hidden">
           {shipVerify.map((step) => (
             <div
               key={step.tag}
