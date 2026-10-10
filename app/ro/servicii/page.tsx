@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { FloatingNav } from "@/components/ui/FloatingNav";
+import Footer from "@/components/Footer";
 import { ServicesHero } from "@/components/services/ServicesHero";
 import { ProcessSteps } from "@/components/services/ProcessSteps";
 import { DeliverySprint } from "@/components/services/DeliverySprint";
@@ -13,6 +14,7 @@ import { ServicesFinalCta } from "@/components/services/ServicesFinalCta";
 import { Ladder } from "@/components/services/Ladder";
 import { ladderServiceJsonLd } from "@/data/ladder";
 import { roLadder } from "@/data/ro";
+import { roFooter } from "@/data/ro-home";
 import {
   roDeliverySprint,
   roEntryOffer,
@@ -76,7 +78,7 @@ const faqJsonLd = {
 // Same sections, order and layout as /services, with Romanian copy.
 export default function RoServicesPage() {
   return (
-    <main className="relative dark:bg-black-100 bg-white overflow-hidden">
+    <main className="relative dark:bg-black-100 bg-white overflow-x-clip">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
@@ -103,6 +105,7 @@ export default function RoServicesPage() {
       <Scarcity copy={roScarcity} />
       <ServicesFaq copy={roServicesFaq} />
       <ServicesFinalCta copy={roServicesFinalCta} />
+      <Footer copy={roFooter} locale="ro" />
     </main>
   );
 }

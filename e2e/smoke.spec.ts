@@ -1,15 +1,28 @@
 import { test, expect } from '@playwright/test';
 
-// Every public EN route. Keep in sync with app/sitemap.ts.
+// Every public route, EN and RO. Keep in sync with app/sitemap.ts.
 const routes = [
   '/',
   '/services',
   '/teardown',
   '/blog',
+  '/blog/2-3x-not-100x',
+  '/blog/30-prs-in-2-5-days',
+  '/blog/66-days-of-claude-code-by-the-numbers',
+  '/blog/auditing-my-claude-code-setup-with-an-agent',
+  '/blog/catching-shell-injection-agents-wrote',
+  '/blog/claude-code-changed-how-i-ship-software',
+  '/blog/how-i-run-claude-code-agents-in-parallel',
+  '/blog/the-rules-file-my-agents-follow',
   '/blog/what-agents-get-wrong',
+  '/work',
+  '/work/agent-cost-per-commit',
   '/work/honesty-gate',
+  '/work/nine-prs-one-afternoon',
   '/workshops/full-day',
   '/workshops/half-day',
+  '/ro',
+  '/ro/servicii',
 ];
 
 for (const route of routes) {
