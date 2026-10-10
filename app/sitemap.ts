@@ -1,5 +1,5 @@
 import { MetadataRoute } from "next";
-import { getPosts } from "@/lib/blog";
+import { getPosts, WORK_DIR } from "@/lib/blog";
 import { workshops } from "@/data/workshops";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -12,6 +12,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(post.frontmatter.date),
     changeFrequency: "monthly",
     priority: 0.7,
+  }));
+
+  const studies = await getPosts(WORK_DIR);
+  const workEntries: MetadataRoute.Sitemap = studies.map((study) => ({
+    url: `${baseUrl}/work/${study.slug}`,
+    lastModified: new Date(study.frontmatter.date),
+    changeFrequency: "monthly",
+    priority: 0.8,
   }));
 
   return [
@@ -45,6 +53,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 0.8,
     },
+    ...workEntries,
     ...blogEntries,
   ];
 }

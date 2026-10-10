@@ -1,4 +1,4 @@
-import { getPosts, getPost, getAllTags } from "@/lib/blog";
+import { getPosts, getPost, getAllTags, WORK_DIR } from "@/lib/blog";
 
 describe("getPosts", () => {
   it("returns only published posts", async () => {
@@ -46,5 +46,54 @@ describe("getAllTags", () => {
     const tags = await getAllTags();
     expect(new Set(tags).size).toBe(tags.length); // unique
     expect([...tags].sort()).toEqual(tags); // sorted
+  });
+});
+
+describe("case studies (content/work via the dir param)", () => {
+  it("lists only published case studies from content/work", async () => {
+    const studies = await getPosts(WORK_DIR);
+    expect(studies.every((s) => s.frontmatter.published === true)).toBe(true);
+    // the blog list must not leak into the work list
+    expect(studies.some((s) => s.slug === "30-prs-in-2-5-days")).toBe(false);
+  });
+
+  it("reads a case study by slug from content/work", async () => {
+    const study = await getPost("honesty-gate", WORK_DIR);
+    expect(study.slug).toBe("honesty-gate");
+    expect(study.source.length).toBeGreaterThan(0);
+  });
+
+  it("keeps the blog as the default directory", async () => {
+    await expect(getPost("honesty-gate")).rejects.toThrow(/Post not found/);
+  });
+});
+
+describe("case-study honesty guard", () => {
+  it("fails the build when a published case study still holds a TODO(adi)", async () => {
+    const fs = await import("fs");
+    const os = await import("os");
+    const path = await import("path");
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "work-"));
+    fs.writeFileSync(
+      path.join(dir, "draft.mdx"),
+      '---\ntitle: "t"\ndescription: "d"\ndate: "2026-10-10"\ntags: []\npublished: true\n---\n\n{/* TODO(adi): fill */}\n',
+    );
+    await expect(getPosts(dir)).rejects.toThrow(/TODO\(adi\)/);
+  });
+
+  it("also catches the marker in frontmatter and in other spellings", async () => {
+    const fs = await import("fs");
+    const os = await import("os");
+    const path = await import("path");
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "work-"));
+    fs.writeFileSync(
+      path.join(dir, "draft.mdx"),
+      '---\ntitle: "t"\ndescription: "TODO (Adi): real number"\ndate: "2026-10-10"\ntags: []\npublished: true\n---\n\nbody\n',
+    );
+    await expect(getPosts(dir)).rejects.toThrow(/TODO\(adi\)/);
+  });
+
+  it("lets the finished honesty-gate case study through the gate", async () => {
+    await expect(getPosts(WORK_DIR)).resolves.toBeDefined();
   });
 });

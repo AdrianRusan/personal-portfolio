@@ -1,0 +1,91 @@
+---
+title: "The Honesty Gate: Blocking Invented Facts in Agent-Built Sites"
+date: "2026-10-10"
+tags: ["ai", "claude-code", "code-review", "agent-harness"]
+description: "A landing page labelled a launch count as real. The true count was 0. Here is the gate that now traces every rendered string to a source."
+published: true
+language: "en"
+---
+
+## The problem
+
+I work on an agent-built SaaS platform that generates demo sites. Agents write most of its code and copy, and I review it.
+
+Before launch, the landing page carried a proof line for each of five industries: a count of businesses that had launched their site with us this month, two or three per industry, labelled "real number, from delivered orders". The count was hardcoded. At launch the true number was 0.
+
+It was not the only one. A strip of sites "made by us" linked three domains, and two of them did not resolve. The generated demo sites had the same disease: the fixtures that seed a demo shipped testimonials, a 4.9 rating and a count of 127 reviews across five business types, with nothing marking them as examples.
+
+Nobody decided to lie. The numbers arrived in a design comp, the agents carried them forward faithfully, and each one looked plausible on its own.
+
+## The constraint
+
+Proofreading does not scale here, for three reasons I found in the run itself.
+
+First, fan-out. One poisoned source field reached five places in the output: two SEO descriptions, two social descriptions and the structured data. Fix the field and a render path nobody remembered still ships the claim.
+
+Second, a digit regex is easy to defeat. Spell it out, as in "over two hundred happy clients", and there is no digit to match, though the claim is exactly as invented as "200+ clients".
+
+Third, gates that exist are not gates that run. An earlier pipeline exported ten gate functions. Only two were wired to anything that could stop a publish. The other eight were tested, exported and never consulted.
+
+## What I built
+
+The fix moved honesty out of the prompt and into the data.
+
+<figure className="my-8">
+  <svg viewBox="0 0 360 416" role="img" aria-label="Facts carry provenance into rendering. The rendered page must pass the trace gate and then the proof scan to publish. A failure at either gate, or a gate that cannot run, blocks the publish." className="block w-full max-w-md mx-auto">
+    <defs>
+      <marker id="hg-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0 0 L10 5 L0 10 z" fill="#CBACF9" />
+      </marker>
+      <marker id="hg-arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0 0 L10 5 L0 10 z" fill="#F87171" />
+      </marker>
+    </defs>
+    <g fill="none" stroke="#CBACF9" strokeWidth="1.5">
+      <rect x="10" y="8" width="230" height="56" rx="10" />
+      <rect x="10" y="96" width="230" height="56" rx="10" />
+      <rect x="10" y="184" width="230" height="56" rx="10" />
+      <rect x="10" y="272" width="230" height="56" rx="10" />
+      <rect x="10" y="360" width="230" height="48" rx="10" />
+      <rect x="262" y="210" width="88" height="92" rx="10" stroke="#F87171" />
+      <path d="M125 64 V92" markerEnd="url(#hg-arrow)" />
+      <path d="M125 152 V180" markerEnd="url(#hg-arrow)" />
+      <path d="M125 240 V268" markerEnd="url(#hg-arrow)" />
+      <path d="M125 328 V356" markerEnd="url(#hg-arrow)" />
+      <path d="M240 212 H258" stroke="#F87171" markerEnd="url(#hg-arrow-red)" />
+      <path d="M240 300 H258" stroke="#F87171" markerEnd="url(#hg-arrow-red)" />
+    </g>
+    <g fill="currentColor" fontSize="13" textAnchor="middle">
+      <text x="125" y="32" fontWeight="700">Facts with provenance</text>
+      <text x="125" y="51" fontSize="11">owner · places · derived · unknown</text>
+      <text x="125" y="120" fontWeight="700">Render, every string tagged</text>
+      <text x="125" y="139" fontSize="11">unknown → marked, fillable slot</text>
+      <text x="125" y="208" fontWeight="700">Trace gate</text>
+      <text x="125" y="227" fontSize="11">every string maps to a source</text>
+      <text x="125" y="296" fontWeight="700">Proof scan</text>
+      <text x="125" y="315" fontSize="11">counts, number words, ratings</text>
+      <text x="125" y="389" fontWeight="700">Publish</text>
+      <text x="306" y="246" fontWeight="700">Block</text>
+      <text x="306" y="265" fontSize="10">on failure, or</text>
+      <text x="306" y="279" fontSize="10">if a gate</text>
+      <text x="306" y="293" fontSize="10">cannot run</text>
+    </g>
+  </svg>
+  <figcaption className="text-center text-sm text-white-200 mt-3">Both gates read the final rendered page, not the source fields.</figcaption>
+</figure>
+
+Every fact about a business carries provenance: the owner typed it, it came from a public listing, it was derived, or it is unknown. An unknown fact renders as a visibly marked slot the owner can fill, never as prose. Inventing a claim now means forging a provenance value, not writing a convincing sentence.
+
+Two gates then read the final rendered page. The trace gate walks every string, roughly 1,400 per page, and requires each to map back to a fact, a catalog constant or a marked slot. The proof scan trusts nothing: any count, rating or urgency phrase, including counts spelled out from a 64-entry number-word lexicon, needs a backing fact. Ratings markup is emitted only from verified reviews. If either gate cannot run, the answer is the same as a failure: blocked.
+
+The landing page got the same rule. The count now comes from real go-live events and the whole line stays hidden until it reaches 2.
+
+## The number
+
+**0.** That was the honest value of the "real number" on launch day, so the line does not render. The trace gate checks the whole page in about 90 milliseconds, and the proof scan takes about 40.
+
+## The lesson
+
+A prompt that says "don't make things up" stops nothing on its own. What held was making every rendered string prove where it came from, checking the output instead of the source, and treating a check that couldn't run as a failure.
+
+If your team ships agent-written code or copy, I can [audit your pipeline](/services) for gaps like these, or run a [team workshop](/workshops/half-day) on the review gates behind them.
