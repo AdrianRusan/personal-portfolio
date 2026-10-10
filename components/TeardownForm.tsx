@@ -6,6 +6,9 @@ import { cn } from "@/lib/utils";
 
 type Status = "idle" | "loading" | "success" | "error";
 
+// Only the API's validation text is shown verbatim; network errors are not.
+class ApiValidationError extends Error {}
+
 const TeardownForm = ({ className }: { className?: string }) => {
   const [email, setEmail] = useState("");
   const [repoUrl, setRepoUrl] = useState("");
@@ -29,6 +32,16 @@ const TeardownForm = ({ className }: { className?: string }) => {
       });
 
       if (!response.ok) {
+        // 400s carry the API's own validation message ("Please provide a valid
+        // repo or PR URL."), which tells the visitor what to fix. Anything else
+        // falls through to the generic retry message.
+        const data =
+          response.status === 400
+            ? await response.json().catch(() => null)
+            : null;
+        if (typeof data?.error === "string") {
+          throw new ApiValidationError(data.error);
+        }
         throw new Error("Teardown request failed");
       }
 
@@ -38,9 +51,13 @@ const TeardownForm = ({ className }: { className?: string }) => {
       setEmail("");
       setRepoUrl("");
       setNote("");
-    } catch {
+    } catch (error) {
       setStatus("error");
-      setErrorMessage("Something went wrong. Please try again in a moment.");
+      setErrorMessage(
+        error instanceof ApiValidationError
+          ? error.message
+          : "Something went wrong. Please try again in a moment.",
+      );
     }
   };
 
