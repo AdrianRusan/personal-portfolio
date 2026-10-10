@@ -3,6 +3,7 @@ import ProofBand from "@/components/ProofBand";
 import ShipVerify from "@/components/ShipVerify";
 import Offers from "@/components/Offers";
 import CaseStudy from "@/components/CaseStudy";
+import CaseStudyCards from "@/components/CaseStudyCards";
 import WhoFor from "@/components/WhoFor";
 import FinalCta from "@/components/FinalCta";
 import EmailCapture from "@/components/EmailCapture";
@@ -56,6 +57,7 @@ export default function Home() {
       </div>
       <Offers />
       <CaseStudy />
+      <CaseStudyCards />
       <StartBand />
       <WhoFor />
       <div className="max-w-7xl mx-auto px-5 sm:px-10">
