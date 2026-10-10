@@ -1,13 +1,32 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import MagicButton from "@/components/ui/MagicButton";
 import { FloatingNav } from "@/components/ui/FloatingNav";
-import { Ladder, type LadderContent } from "@/components/services/Ladder";
+import { ServicesHero } from "@/components/services/ServicesHero";
+import { ProcessSteps } from "@/components/services/ProcessSteps";
+import { DeliverySprint } from "@/components/services/DeliverySprint";
+import { EntryOffer } from "@/components/services/EntryOffer";
+import { TrustStrip } from "@/components/services/TrustStrip";
+import { Retainer } from "@/components/services/Retainer";
+import { HarnessSetup } from "@/components/services/HarnessSetup";
+import { Scarcity } from "@/components/services/Scarcity";
+import { ServicesFaq } from "@/components/services/ServicesFaq";
+import { ServicesFinalCta } from "@/components/services/ServicesFinalCta";
+import { Ladder } from "@/components/services/Ladder";
 import { ladderServiceJsonLd } from "@/data/ladder";
-import { CALENDLY_URL } from "@/data";
-import { formatPriceRo, roLadder, roTierNames, roTiers } from "@/data/ro";
-import { roNavItems } from "../nav";
-import { FaLocationArrow } from "react-icons/fa6";
+import { roLadder } from "@/data/ro";
+import {
+  roDeliverySprint,
+  roEntryOffer,
+  roHarnessSetup,
+  roProcessSteps,
+  roRetainer,
+  roScarcity,
+  roServicesFaq,
+  roServicesFinalCta,
+  roServicesHero,
+  roServicesLadder,
+  roTrustStrip,
+} from "@/data/ro-services";
+import { roServicesNavItems } from "../nav";
 
 const title = "Servicii AI, de la o sesiune de 110 € la un retainer lunar";
 const description =
@@ -43,100 +62,47 @@ export const metadata: Metadata = {
   },
 };
 
-const roLadderContent: LadderContent = {
-  offers: roLadder,
-  tiers: roTiers,
-  tierName: (tier) => roTierNames[tier],
-  format: formatPriceRo,
-  eyebrow: "Consultanță → Training → Implementare → Livrare",
-  heading: "Patru moduri de a lucra împreună, toate cu prețul afișat",
-  intro:
-    "Începe cu o sesiune de 110 € sau mergi direct la un sprint. Ce plătești la un nivel se scade din prețul următorului. Toate prețurile sunt în EUR, fără TVA.",
-  limited: "Disponibilitate limitată",
-  capacity:
-    "Stratul de verificare e un singur om senior și nu se poate paraleliza.",
-  source: "ro_services_ladder",
+// Static data, JSON.stringify()-escaped — same pattern as /services.
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: roServicesFaq.items.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
 };
 
+// Same sections, order and layout as /services, with Romanian copy.
 export default function RoServicesPage() {
   return (
-    <main className="relative overflow-hidden">
+    <main className="relative dark:bg-black-100 bg-white overflow-hidden">
       <script
         type="application/ld+json"
-        // Static data, JSON.stringify()-escaped — same pattern as /services.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(ladderServiceJsonLd(roLadder, "Romania")),
         }}
       />
       <FloatingNav
-        navItems={roNavItems}
+        navItems={roServicesNavItems}
         ctaLabel="Programează"
         ctaSource="ro_floating_nav"
       />
-
-      <section className="px-5 sm:px-10 pt-28 sm:pt-32 pb-8">
-        <div className="max-w-5xl mx-auto text-center">
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-balance max-w-3xl mx-auto">
-            {title}
-          </h1>
-          <p className="text-white-200 mt-5 leading-relaxed max-w-2xl mx-auto">
-            Strategie, audituri, workshop-uri, automatizări și livrare de cod
-            revizuit. Fiecare ofertă are prețul afișat de la început, iar
-            fiecare PR trece printr-un review de securitate făcut de mine.
-          </p>
-          <div className="flex flex-col items-center gap-4 mt-6">
-            <MagicButton
-              title="Programează o discuție"
-              icon={<FaLocationArrow />}
-              position="right"
-              href={CALENDLY_URL}
-              trackEvent={{
-                event: "calendly_click",
-                props: { source: "ro_services_hero" },
-              }}
-            />
-            <a
-              href="#ladder"
-              className="text-sm font-medium text-blue-100 hover:text-purple transition-colors"
-            >
-              Vezi nivelurile și prețurile ↓
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <Ladder content={roLadderContent} />
-
-      <section className="px-5 sm:px-10 py-16">
-        <div className="max-w-5xl mx-auto rounded-2xl border border-white/10 bg-black-200/60 p-10 md:p-16 text-center">
-          <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-balance max-w-3xl mx-auto">
-            Spune-mi ce ai în backlog. Îți spun cât costă.
-          </h2>
-          <p className="text-white-200 mt-4 max-w-2xl mx-auto">
-            O discuție de 30 de minute în care stabilim scope-ul și prețul, fără
-            nicio obligație.
-          </p>
-          <div className="flex justify-center mt-8">
-            <MagicButton
-              title="Programează o discuție"
-              icon={<FaLocationArrow />}
-              position="right"
-              href={CALENDLY_URL}
-              trackEvent={{
-                event: "calendly_click",
-                props: { source: "ro_services_final_cta" },
-              }}
-            />
-          </div>
-          <Link
-            href="/services"
-            hrefLang="en"
-            className="inline-block text-sm font-medium text-blue-100 hover:text-purple transition-colors mt-6"
-          >
-            Detaliile complete ale fiecărei oferte, în engleză →
-          </Link>
-        </div>
-      </section>
+      <ServicesHero copy={roServicesHero} />
+      <Ladder content={roServicesLadder} />
+      <ProcessSteps copy={roProcessSteps} />
+      <DeliverySprint copy={roDeliverySprint} />
+      <EntryOffer copy={roEntryOffer} />
+      <TrustStrip copy={roTrustStrip} />
+      <Retainer copy={roRetainer} />
+      <HarnessSetup copy={roHarnessSetup} />
+      <Scarcity copy={roScarcity} />
+      <ServicesFaq copy={roServicesFaq} />
+      <ServicesFinalCta copy={roServicesFinalCta} />
     </main>
   );
 }
