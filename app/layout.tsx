@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/context/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { personJsonLd } from "@/lib/person-schema";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
@@ -83,73 +84,7 @@ const structuredData = () => (
           },
           inLanguage: "en-US",
         },
-        {
-          "@context": "https://schema.org",
-          "@type": "Person",
-          "@id": "https://www.adrian-rusan.com/#person",
-          name: "Adrian Rusan",
-          givenName: "Adrian",
-          familyName: "Rusan",
-          jobTitle: "Agent-Accelerated Delivery Engineer",
-          description:
-            "Adrian Rusan runs an AI agent fleet that ships backlog work while personally security-reviewing every pull request before delivery, offering fixed-scope delivery sprints for startup & scale-up founders and CTOs.",
-          url: "https://www.adrian-rusan.com",
-          image: {
-            "@type": "ImageObject",
-            url: "https://utfs.io/a/23x7w9tiht/7iidzn1Twzuk3ZQYpyCbRtXkfi51QxyWTOLMcl8HhG4CZF2s",
-            width: 400,
-            height: 400,
-          },
-          sameAs: [
-            "https://github.com/AdrianRusan",
-            "https://www.linkedin.com/in/adrian-rusan/",
-          ],
-          worksFor: {
-            "@type": "Organization",
-            name: "Rusan Adrian-Ionuț PFA",
-            url: "https://www.adrian-rusan.com",
-          },
-          knowsAbout: [
-            "React",
-            "Next.js",
-            "TypeScript",
-            "JavaScript",
-            "Node.js",
-            "HTML5",
-            "CSS3",
-            "Tailwind CSS",
-            "MongoDB",
-            "SQL",
-            "REST API",
-            "GraphQL",
-            "Docker",
-            "Git",
-            "Agile Development",
-            "Test-Driven Development",
-            "Web Performance Optimization",
-            "User Experience Design",
-            "Responsive Web Design",
-          ],
-          hasOccupation: {
-            "@type": "Occupation",
-            name: "Full-Stack Engineer",
-            description:
-              "Develops both frontend and backend solutions for web applications",
-            skills:
-              "React, Next.js, TypeScript, Node.js, Database Management, API Development",
-          },
-          address: {
-            "@type": "PostalAddress",
-            addressCountry: "RO",
-            addressLocality: "Romania",
-          },
-          email: "rusan.adrian.ionut@gmail.com",
-          contactPoint: {
-            "@type": "ContactPoint",
-            contactType: "professional",
-            email: "rusan.adrian.ionut@gmail.com",
-          },
-        },
+        personJsonLd,
         {
           "@context": "https://schema.org",
           "@type": "WebPage",
