@@ -5,7 +5,7 @@ import { TextGenerateEffect } from "./ui/TextGenerateEffect";
 import { FaLocationArrow } from "react-icons/fa6";
 import SpotlightBackground from "./ui/SpotlightBackground";
 import { CalendlyLink } from "@/components/CalendlyLink";
-import { GUARANTEE } from "@/data";
+import { GUARANTEE, STRATEGY_CALL_URL } from "@/data";
 
 const Hero = () => {
   return (
@@ -71,6 +71,18 @@ const Hero = () => {
 
           <p className="text-center text-xs text-white-200/70 mt-5 max-w-xl">
             {GUARANTEE}
+          </p>
+
+          <p className="text-center text-sm text-white-200 mt-4">
+            Only need advice?{" "}
+            <CalendlyLink
+              source="hero_strategy_call"
+              href={STRATEGY_CALL_URL}
+              newTab={false}
+              className="font-medium text-blue-100 underline-offset-2 hover:underline hover:text-purple transition-colors"
+            >
+              Book a 1:1 AI session, €200.
+            </CalendlyLink>
           </p>
         </div>
       </div>
