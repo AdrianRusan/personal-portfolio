@@ -19,7 +19,10 @@ describe("/work index", () => {
     (slug, { figure }) => {
       const file = path.join(WORK_DIR, `${slug}.mdx`);
       if (!fs.existsSync(file)) return; // study not merged on this branch yet
-      expect(fs.readFileSync(file, "utf8")).toContain(figure);
+      // Body only (frontmatter dates hold digits), and not part of a longer number.
+      const body = fs.readFileSync(file, "utf8").replace(/^---[\s\S]*?---/, "");
+      const escaped = figure.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      expect(body).toMatch(new RegExp(`(^|[^\\d,])${escaped}(?![\\d,]\\d)`));
     },
   );
 });

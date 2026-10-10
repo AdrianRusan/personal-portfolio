@@ -58,7 +58,7 @@ const servicesNavItems = [
   { name: "Home", link: "/" },
   { name: "Pricing", link: "#ladder" },
   { name: "How it works", link: "#process" },
-  { name: "Work", link: "/#work" },
+  { name: "Work", link: "/work" },
   { name: "Blog", link: "/blog" },
   { name: "Contact", link: "/#contact" },
 ];

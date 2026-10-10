@@ -9,7 +9,7 @@ import { FloatingNav } from "@/components/ui/FloatingNav";
 const workNavItems = [
   { name: "Home", link: "/" },
   { name: "Services", link: "/services" },
-  { name: "Work", link: "/#work" },
+  { name: "Work", link: "/work" },
   { name: "Blog", link: "/blog" },
 ];
 
@@ -95,7 +95,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
         <article>
           <header className="mb-10 pb-8 border-b border-black-300">
             <Link
-              href="/#work"
+              href="/work"
               className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100 hover:text-purple transition-colors"
             >
               Case study

@@ -76,12 +76,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 0.8,
     },
-    {
-      url: `${baseUrl}/work`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
+    // The index 404s with no studies, so it is listed only when it has some.
+    ...(studies.length
+      ? [
+          {
+            url: `${baseUrl}/work`,
+            lastModified,
+            changeFrequency: "weekly" as const,
+            priority: 0.8,
+          },
+        ]
+      : []),
     ...workEntries,
     ...blogEntries,
   ];

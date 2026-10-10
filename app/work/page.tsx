@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import BlogNav from "@/components/blog/BlogNav";
 import { getPosts, WORK_DIR } from "@/lib/blog";
 import { caseStudyResults } from "@/data/work";
@@ -14,6 +15,13 @@ export const metadata: Metadata = {
     title: "Case studies | Adrian Rusan",
     description: DESCRIPTION,
     type: "website",
+    url: "https://www.adrian-rusan.com/work",
+    siteName: "Adrian Rusan",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Case studies | Adrian Rusan",
+    description: DESCRIPTION,
   },
   alternates: { canonical: "/work" },
 };
@@ -22,13 +30,15 @@ export const metadata: Metadata = {
 // of the content section. Lists every published study from the work loader.
 export default async function WorkIndexPage() {
   const studies = await getPosts(WORK_DIR);
+  // No empty index: R10 allows no "coming soon" pages.
+  if (studies.length === 0) notFound();
 
   return (
     <div className="min-h-screen dark:bg-black-100 bg-white">
       <BlogNav />
       <main className="max-w-5xl mx-auto px-5 sm:px-10 pb-20">
         <div className="mb-12">
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">
+          <h1 className="text-4xl sm:text-5xl font-bold text-black-100 dark:text-white mb-4">
             Case studies
           </h1>
           <p className="text-white-200 text-lg max-w-xl">{DESCRIPTION}</p>
@@ -54,7 +64,7 @@ export default async function WorkIndexPage() {
                     </div>
                   )}
                   <div className="flex flex-col flex-1">
-                    <h2 className="text-lg md:text-xl font-semibold text-balance text-white">
+                    <h2 className="text-lg md:text-xl font-semibold text-balance text-black-100 dark:text-white">
                       {study.frontmatter.title}
                     </h2>
                     <p className="text-sm text-white-200 mt-3 leading-relaxed flex-1">

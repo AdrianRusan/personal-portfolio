@@ -6,9 +6,8 @@ export const caseStudyResults: Record<
   { figure: string; label: string }
 > = {
   "honesty-gate": {
-    figure: "0",
-    label:
-      "real launches behind a count labelled “real number”, now blocked by a gate",
+    figure: "1,400",
+    label: "strings per page traced to a source before anything publishes",
   },
   "agent-cost-per-commit": {
     figure: "68%",
