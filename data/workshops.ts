@@ -72,7 +72,7 @@ const fullDay: Workshop = {
   maxPeople: 10,
   title: "Full-day Claude Code workshop for engineering teams",
   description:
-    "A full-day, hands-on Claude Code workshop for up to 10 engineers: parallel agents in git worktrees in the morning, review gates and the honesty rule in the afternoon. €3,500 ex-VAT.",
+    "A full-day, hands-on Claude Code workshop for up to 10 engineers: parallel agents in git worktrees in the morning, review gates and the honesty rule in the afternoon.",
   headline:
     "Teach your team to run Claude Code agents in parallel, then review what they ship",
   intro:
@@ -107,7 +107,7 @@ const halfDay: Workshop = {
   maxPeople: 10,
   title: "Half-day Claude Code workshop for engineering teams",
   description:
-    "A half-day, hands-on Claude Code workshop for up to 10 engineers: parallel agents in git worktrees, a rules file, and a condensed hour on review gates. €2,000 ex-VAT.",
+    "A half-day, hands-on Claude Code workshop for up to 10 engineers: parallel agents in git worktrees, a rules file, and a condensed hour on review gates.",
   headline:
     "Get your team running Claude Code agents in parallel in half a day",
   intro:
@@ -128,9 +128,17 @@ const halfDay: Workshop = {
   cta: { label: "Ask about dates", href: ask("half day") },
 };
 
+export const euro = (n: number) => `€${n.toLocaleString("en-US")}`;
+
+// Price is appended here, from the numeric field, so meta/OG/JSON-LD copy can't drift from Offer.price
+const withPrice = (w: Workshop): Workshop => ({
+  ...w,
+  description: `${w.description} ${euro(w.price)} ex-VAT.`,
+});
+
 export const workshops: Record<WorkshopSlug, Workshop> = {
-  "full-day": fullDay,
-  "half-day": halfDay,
+  "full-day": withPrice(fullDay),
+  "half-day": withPrice(halfDay),
 };
 
 export const workshopJsonLd = (w: Workshop) => ({
@@ -145,5 +153,6 @@ export const workshopJsonLd = (w: Workshop) => ({
     "@type": "Offer",
     price: w.price,
     priceCurrency: "EUR",
+    url: `${SITE_URL}/workshops/${w.slug}`,
   },
 });

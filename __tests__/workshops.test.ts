@@ -21,6 +21,11 @@ describe("workshops data", () => {
     expect(half.agenda[1]?.duration).toBe("1 hour");
   });
 
+  it("meta description states the same price as the Offer", () => {
+    expect(full.description).toContain("€3,500 ex-VAT");
+    expect(half.description).toContain("€2,000 ex-VAT");
+  });
+
   it("CTA is an email ask, never the scoping-call link", () => {
     for (const w of [full, half]) {
       expect(w.cta.href.startsWith("mailto:")).toBe(true);

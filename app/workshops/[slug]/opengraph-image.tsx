@@ -6,6 +6,8 @@ export const contentType = OG_CONTENT_TYPE;
 export const alt =
   "Claude Code team workshop: parallel agents, worktrees and review gates.";
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return Object.keys(workshops).map((slug) => ({ slug }));
 }

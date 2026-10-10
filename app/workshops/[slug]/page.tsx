@@ -3,7 +3,12 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { FloatingNav } from "@/components/ui/FloatingNav";
 import MagicButton from "@/components/ui/MagicButton";
-import { workshops, workshopJsonLd, type WorkshopSlug } from "@/data/workshops";
+import {
+  workshops,
+  workshopJsonLd,
+  euro,
+  type WorkshopSlug,
+} from "@/data/workshops";
 import { FaLocationArrow } from "react-icons/fa6";
 
 const Footer = dynamic(() => import("@/components/Footer"), {
@@ -34,10 +39,20 @@ export async function generateMetadata({
     // Bare title — the root layout's title.template appends "| Adrian Rusan"
     title: w.title,
     description: w.description,
+    // Page-level openGraph/twitter replace the layout's, so restate the shared fields
     openGraph: {
       title: `${w.title} | Adrian Rusan`,
       description: w.description,
       type: "website",
+      locale: "en_US",
+      url: `https://www.adrian-rusan.com/workshops/${w.slug}`,
+      siteName: "Adrian Rusan Portfolio",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${w.title} | Adrian Rusan`,
+      description: w.description,
+      creator: "@adrian_rusan",
     },
     alternates: { canonical: `/workshops/${w.slug}` },
   };
@@ -49,8 +64,6 @@ const navItems = [
   { name: "Agenda", link: "#agenda" },
   { name: "Blog", link: "/blog" },
 ];
-
-const euro = (n: number) => `€${n.toLocaleString("en-US")}`;
 
 export default async function WorkshopPage({ params }: WorkshopPageProps) {
   const w = workshops[(await params).slug];
