@@ -8,6 +8,7 @@ import WhoFor from "@/components/WhoFor";
 import FinalCta from "@/components/FinalCta";
 import EmailCapture from "@/components/EmailCapture";
 import Bio from "@/components/Bio";
+import Latest from "@/components/Latest";
 import { FloatingNav } from "@/components/ui/FloatingNav";
 import { StartBand } from "@/components/StartBand";
 import { navItems } from "@/data";
@@ -68,6 +69,7 @@ export default function Home() {
           <Testimonials />
         </section>
       </div>
+      <Latest />
       <FinalCta />
       <Footer />
     </main>

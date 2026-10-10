@@ -18,7 +18,7 @@ const terms = [
 
 export const Retainer = () => {
   return (
-    <section className="px-5 sm:px-10 py-20">
+    <section id="retainer" className="px-5 sm:px-10 py-20 scroll-mt-24">
       <div className="max-w-6xl mx-auto rounded-2xl border border-white/10 bg-black-200/40 p-6 md:p-10">
         <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100">
           Ongoing capacity
@@ -53,8 +53,8 @@ export const Retainer = () => {
             Starts at
           </p>
           <p className="text-3xl md:text-4xl font-bold text-white">
-            €9,000
-            <span className="text-base font-normal text-white-200">/mo</span>
+            €4,000
+            <span className="text-base font-normal text-white-200">/month</span>
           </p>
           <p className="text-sm text-white-200 mt-4 leading-relaxed max-w-2xl">
             A permanently reserved senior-review slot and a committed monthly

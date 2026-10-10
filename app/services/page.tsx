@@ -10,17 +10,19 @@ import { HarnessSetup } from "@/components/services/HarnessSetup";
 import { Scarcity } from "@/components/services/Scarcity";
 import { ServicesFaq } from "@/components/services/ServicesFaq";
 import { ServicesFinalCta } from "@/components/services/ServicesFinalCta";
+import { Ladder } from "@/components/services/Ladder";
+import { ladderServiceJsonLd } from "@/data/ladder";
 
 export const metadata: Metadata = {
   // Bare title — the root layout's title.template appends "| Adrian Rusan"
-  title: "Services — Agent-Accelerated Delivery Sprints, Reviewed",
+  title: "Services — AI Strategy, Workshops, Automation and Reviewed Delivery",
   description:
-    "Fixed-scope, fixed-price sprints: an agent fleet ships the volume, a senior engineer security-reviews every PR before you see it.",
+    "From a €200 AI strategy call to a monthly retainer: audits, team workshops, automations, harness setup and reviewed delivery sprints, each priced up front.",
   openGraph: {
     title:
-      "Services — Agent-Accelerated Delivery Sprints, Reviewed | Adrian Rusan",
+      "Services — AI Strategy, Workshops, Automation and Reviewed Delivery | Adrian Rusan",
     description:
-      "Fixed-scope, fixed-price sprints: an agent fleet ships the volume, a senior engineer security-reviews every PR before you see it.",
+      "From a €200 AI strategy call to a monthly retainer: audits, team workshops, automations, harness setup and reviewed delivery sprints, each priced up front.",
     type: "website",
   },
   alternates: {
@@ -58,7 +60,7 @@ const servicesFaqStructuredData = [
   {
     question: "Can you just work as a normal contractor by the day?",
     answer:
-      "That's available as a retainer, starting at €9,000/mo, but it's not the recommended way in. The sprint sells you a reviewed outcome for a price you agree up front, which is a better deal for you than buying time and hoping. The retainer carries the same security guarantee, plus a proof-month: month 1 is a trial, and you can cancel at the end of it if we haven't hit the agreed reviewed-PR cadence. Start with a Pilot Sprint if you want to test the working relationship at low risk first.",
+      "That's available as a retainer, starting at €4,000/month, but it's not the recommended way in. The sprint sells you a reviewed outcome for a price you agree up front, which is a better deal for you than buying time and hoping. The retainer carries the same security guarantee, plus a proof-month: month 1 is a trial, and you can cancel at the end of it if we haven't hit the agreed reviewed-PR cadence. Start with a Pilot Sprint if you want to test the working relationship at low risk first.",
   },
 ];
 
@@ -84,8 +86,17 @@ const ServicesFaqJsonLd = () => (
   />
 );
 
+const ServicesJsonLd = () => (
+  <script
+    type="application/ld+json"
+    // Static data, JSON.stringify()-escaped — same pattern as the FAQ JSON-LD.
+    dangerouslySetInnerHTML={{ __html: JSON.stringify(ladderServiceJsonLd()) }}
+  />
+);
+
 const servicesNavItems = [
   { name: "Home", link: "/" },
+  { name: "Pricing", link: "#ladder" },
   { name: "How it works", link: "#process" },
   { name: "Work", link: "/#work" },
   { name: "Blog", link: "/blog" },
@@ -96,8 +107,10 @@ export default function ServicesPage() {
   return (
     <main className="relative dark:bg-black-100 bg-white overflow-hidden">
       <ServicesFaqJsonLd />
+      <ServicesJsonLd />
       <FloatingNav navItems={servicesNavItems} />
       <ServicesHero />
+      <Ladder />
       <ProcessSteps />
       <DeliverySprint />
       <EntryOffer />

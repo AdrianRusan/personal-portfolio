@@ -1,4 +1,5 @@
-const employers = ["Ipsos", "PGL Esports", "GoSocial", "Bono Fintech"];
+// Newest first.
+const employers = ["Bono Fintech", "GoSocial", "PGL Esports", "Ipsos"];
 
 export const TrustStrip = () => {
   return (

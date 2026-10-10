@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { getPosts, WORK_DIR } from "@/lib/blog";
+import { workshops } from "@/data/workshops";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://www.adrian-rusan.com";
@@ -40,6 +41,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.9,
     },
+    ...Object.keys(workshops).map((slug) => ({
+      url: `${baseUrl}/workshops/${slug}`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
     {
       url: `${baseUrl}/blog`,
       lastModified,

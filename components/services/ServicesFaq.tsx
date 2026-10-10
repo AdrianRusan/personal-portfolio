@@ -33,7 +33,7 @@ const faqItems: FaqItem[] = [
   {
     question: "Can you just work as a normal contractor by the day?",
     answer:
-      "That's available as a retainer, starting at €9,000/mo, but it's not the recommended way in. The sprint sells you a reviewed outcome for a price you agree up front, which is a better deal for you than buying time and hoping. The retainer carries the same security guarantee, plus a proof-month: month 1 is a trial, and you can cancel at the end of it if we haven't hit the agreed reviewed-PR cadence. Start with a Pilot Sprint if you want to test the working relationship at low risk first.",
+      "That's available as a retainer, starting at €4,000/month, but it's not the recommended way in. The sprint sells you a reviewed outcome for a price you agree up front, which is a better deal for you than buying time and hoping. The retainer carries the same security guarantee, plus a proof-month: month 1 is a trial, and you can cancel at the end of it if we haven't hit the agreed reviewed-PR cadence. Start with a Pilot Sprint if you want to test the working relationship at low risk first.",
   },
 ];
 

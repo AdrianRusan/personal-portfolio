@@ -1,8 +1,15 @@
-// event slug must exist in Calendly ("scoping-call" 30-min event)
-export const CALENDLY_URL = "https://calendly.com/adrian-rusan/scoping-call";
+// event slug must exist in Calendly (active "Scoping Call" event, slug "new-meeting")
+export const CALENDLY_URL = "https://calendly.com/adrian-rusan/new-meeting";
 
 // Async intake inbox for offers that don't require a call.
 export const CONTACT_EMAIL = "contact@adrian-rusan.com";
+
+// Paid 1:1 advice call (€200). Mailto until the paid Calendly event exists;
+// swap to that event's URL once Adi creates it.
+export const STRATEGY_CALL_URL = `mailto:${CONTACT_EMAIL}?subject=AI%20Strategy%20Call%20(%E2%82%AC200)`;
+
+// Set to the channel URL once it's live; null hides every YouTube link.
+export const YOUTUBE_URL: string | null = null;
 
 // Single risk-reversal guarantee, reused verbatim at every money CTA.
 export const GUARANTEE =
@@ -29,6 +36,10 @@ export const proofStats = [
   {
     figure: "10+ yrs",
     label: "in production: Ipsos → PGL Esports → GoSocial → Bono Fintech",
+  },
+  {
+    figure: "187",
+    label: "agent sessions · ~500 agent-hours · 6 weeks",
   },
 ];
 
@@ -75,6 +86,7 @@ export const whoFor = {
     "You're drowning in backlog and can't hire your way out fast enough.",
     "You want agent-speed throughput but need a senior human accountable for what merges.",
     "You'd rather hear the real multiplier than the flattering one.",
+    "You run a small team and want AI automation without hiring.",
   ],
   notForList: [
     "You're shopping purely on hourly rate. The review layer is the value you'd be pricing out.",
@@ -154,11 +166,21 @@ export const testimonials = [
 
 export const workExperience = [
   {
+    id: 5,
+    title: "Founding Engineer",
+    company: "Bono Fintech",
+    period: "2024 - Present",
+    desc: "Founding engineer at a fintech company, building the product across the stack.",
+    className: "md:col-span-2",
+    thumbnail:
+      "https://utfs.io/a/23x7w9tiht/9ae30726-e9a7-43bc-a28c-bce3e44eba67-1v1di.svg",
+  },
+  {
     id: 1,
     title: "Full Stack Engineer",
     company: "Rusan Adrian-Ionuț PFA",
     period: "Dec 2022 - Present",
-    desc: "Built full-stack solutions for fintech apps, web scrapers, video conferencing, and custom dashboards using React, Node.js, and Next.js for diverse client projects.",
+    desc: "AI builds end to end: a receipt classification pipeline, an LLM presentation platform, and an agent-built SaaS platform run by a multi-session agent org.",
     className: "md:col-span-2",
     thumbnail:
       "https://utfs.io/a/23x7w9tiht/5204c033-6bdb-4b06-9c15-7965e18e5561-1v1dh.svg",
@@ -205,8 +227,8 @@ export const socialMedia = [
   {
     id: 2,
     img: "https://23x7w9tiht.ufs.sh/f/53382907-a497-4b6e-b3b9-92ce21e0be2b-24lbi.svg",
-    url: "https://twitter.com/adrian_rusan",
-    alt: "Adrian Rusan Twitter Profile",
+    url: "https://x.com/adrian_rusan",
+    alt: "Adrian Rusan on X",
   },
   {
     id: 3,
@@ -215,3 +237,6 @@ export const socialMedia = [
     alt: "Adrian Rusan LinkedIn Profile",
   },
 ];
+
+// YouTube channel id (starts with "UC"). null = homepage Latest block stays blog-only.
+export const YOUTUBE_CHANNEL_ID: string | null = null;

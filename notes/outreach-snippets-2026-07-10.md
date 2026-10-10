@@ -2,7 +2,7 @@
 
 Initiative 1 (D1-2). Paste-ready, value-first, ≤5 sentences. Lead with the offer, not the site. Swap `{placeholders}`. Default async hook = free teardown (lowest friction).
 
-Links: teardown → deliver manually for now (they email a repo/PR link, you reply with a Loom); once `/teardown` ships, use `https://www.adrian-rusan.com/teardown`. Booking → `https://calendly.com/adrian-rusan/scoping-call`. Add `?utm_source=warm&utm_medium=dm` (or `linkedin` / `coldemail`) to any link you send so the dashboard can attribute it.
+Links: teardown → deliver manually for now (they email a repo/PR link, you reply with a Loom); once `/teardown` ships, use `https://www.adrian-rusan.com/teardown`. Booking → `https://calendly.com/adrian-rusan/new-meeting`. Add `?utm_source=warm&utm_medium=dm` (or `linkedin` / `coldemail`) to any link you send so the dashboard can attribute it.
 
 ---
 

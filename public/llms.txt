@@ -21,4 +21,4 @@ Adrian Rusan is a senior software engineer who runs coding-agent fleets in paral
 
 ## Book a call
 
-- [Scoping call](https://calendly.com/adrian-rusan/scoping-call): 30-minute call to scope a Delivery Sprint.
+- [Scoping call](https://calendly.com/adrian-rusan/new-meeting): 30-minute call to scope a Delivery Sprint.
