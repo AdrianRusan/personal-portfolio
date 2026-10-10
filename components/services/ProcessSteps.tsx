@@ -32,7 +32,7 @@ const steps: ProcessStep[] = [
         and it&apos;s the whole reason this service exists.{" "}
         <Link
           href="/#ship-verify"
-          className="text-purple hover:underline underline-offset-4"
+          className="text-purple underline underline-offset-4"
         >
           Read how the review layer works in depth →
         </Link>
@@ -84,7 +84,7 @@ export const ProcessSteps = () => {
                 {step.body}
               </p>
               {step.caption && (
-                <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-white-200/60 mt-4">
+                <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-white-200/75 mt-4">
                   {step.caption}
                 </p>
               )}

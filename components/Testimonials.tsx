@@ -20,7 +20,7 @@ const Testimonials = () => {
             <span className="font-semibold text-white">{testimonial.name}</span>
             <span className="text-white-200/70"> — {testimonial.title}</span>
           </figcaption>
-          <p className="text-xs text-white-200/60 mt-4 leading-relaxed">
+          <p className="text-xs text-white-200/75 mt-4 leading-relaxed">
             From a full-stack web delivery engagement. Case studies from the
             reviewed-agent pipeline are in progress — for proof on your own code
             today,{" "}

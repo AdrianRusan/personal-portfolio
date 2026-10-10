@@ -79,7 +79,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
           <p className="text-white-200 mt-5 leading-relaxed max-w-2xl mx-auto">
             {w.intro}
           </p>
-          <p className="font-mono text-xs md:text-sm text-white-200/60 mt-5">
+          <p className="font-mono text-xs md:text-sm text-white-200/75 mt-5">
             {euro(w.price)} for the {w.length} · EUR, ex-VAT
           </p>
           <div className="flex justify-center">

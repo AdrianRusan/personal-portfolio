@@ -34,7 +34,9 @@ export const PricingTable = ({
       <table className="w-full min-w-[560px] border-collapse text-sm">
         <thead>
           <tr>
-            <th className="text-left align-bottom pb-4 pr-4 w-1/4" />
+            <th className="text-left align-bottom pb-4 pr-4 w-1/4">
+              <span className="sr-only">Feature</span>
+            </th>
             {columns.map((column) => (
               <th
                 key={column.name}

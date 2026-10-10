@@ -28,7 +28,7 @@ const FinalCta = () => {
             }}
           />
         </div>
-        <p className="text-xs text-white-200/60 mt-6 max-w-xl mx-auto">
+        <p className="text-xs text-white-200/75 mt-6 max-w-xl mx-auto">
           The verify layer is one senior human and doesn&apos;t parallelize — so
           only a few sprints run at once. When the slots are full, new
           engagements join a dated waitlist.

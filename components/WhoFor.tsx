@@ -25,7 +25,7 @@ const WhoFor = () => {
             </ul>
           </div>
           <div className="rounded-xl border border-white/10 bg-black-200/30 p-6">
-            <h3 className="font-mono text-xs uppercase tracking-[0.1em] text-white-200/60 mb-4">
+            <h3 className="font-mono text-xs uppercase tracking-[0.1em] text-white-200/75 mb-4">
               This isn&apos;t for you if
             </h3>
             <ul className="flex flex-col gap-3">

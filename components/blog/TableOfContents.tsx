@@ -61,7 +61,7 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
                 'block text-sm py-0.5 transition-colors leading-snug',
                 activeId === heading.id
                   ? 'text-purple font-medium'
-                  : 'text-white-200/60 hover:text-white-200',
+                  : 'text-white-200/75 hover:text-white-200',
               ].join(' ')}
             >
               {heading.text}

@@ -124,9 +124,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
 
           {post.headings.length > 0 && (
-            <aside className="hidden lg:block w-56 flex-shrink-0 sticky top-24">
+            <div className="hidden lg:block w-56 flex-shrink-0 sticky top-24">
               <TableOfContents headings={post.headings} />
-            </aside>
+            </div>
           )}
         </div>
       </article>

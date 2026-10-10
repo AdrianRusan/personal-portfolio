@@ -111,7 +111,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
             <MDXContent source={study.source} />
           </div>
 
-          <aside className="mt-12 rounded-2xl border border-white/10 bg-black-200/40 p-6 md:p-8">
+          <div className="mt-12 rounded-2xl border border-white/10 bg-black-200/40 p-6 md:p-8">
             <p className="text-lg font-semibold">
               Want this level of review on your team&apos;s agent work?
             </p>
@@ -129,7 +129,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
                 Book a call
               </CalendlyLink>
             </div>
-          </aside>
+          </div>
         </article>
       </div>
     </PageShell>

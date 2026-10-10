@@ -5,7 +5,7 @@ import { Button } from "./button";
 import { track, type AnalyticsEvent, type EventProps } from "@/lib/analytics";
 
 const magicClasses =
-  "relative w-full inline-flex h-12 overflow-hidden rounded-lg p-[1px] focus:outline-none md:w-60 md:mt-10";
+  "relative w-full inline-flex h-12 overflow-hidden rounded-lg p-[1px] focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:ring-offset-2 focus-visible:ring-offset-black-100 md:w-60 md:mt-10";
 
 const MagicButton = ({
   title,

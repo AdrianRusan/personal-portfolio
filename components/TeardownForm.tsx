@@ -45,7 +45,7 @@ const TeardownForm = ({ className }: { className?: string }) => {
   };
 
   const inputClass =
-    "w-full h-11 rounded-lg border border-white/10 bg-black-200/60 px-4 text-sm text-white placeholder:text-white-200/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:border-purple disabled:opacity-50";
+    "w-full h-11 rounded-lg border border-white/10 bg-black-200/60 px-4 text-sm text-white placeholder:text-white-200/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:border-purple disabled:opacity-50";
 
   return (
     <div
@@ -121,7 +121,7 @@ const TeardownForm = ({ className }: { className?: string }) => {
               className="block text-sm font-medium mb-2"
             >
               Anything I should focus on?{" "}
-              <span className="text-white-200/60 font-normal">(optional)</span>
+              <span className="text-white-200/75 font-normal">(optional)</span>
             </label>
             <textarea
               id="teardown-note"
@@ -132,7 +132,7 @@ const TeardownForm = ({ className }: { className?: string }) => {
               value={note}
               onChange={(event) => setNote(event.target.value)}
               disabled={status === "loading"}
-              className="w-full rounded-lg border border-white/10 bg-black-200/60 px-4 py-3 text-sm text-white placeholder:text-white-200/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:border-purple disabled:opacity-50 resize-y"
+              className="w-full rounded-lg border border-white/10 bg-black-200/60 px-4 py-3 text-sm text-white placeholder:text-white-200/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:border-purple disabled:opacity-50 resize-y"
             />
           </div>
 
@@ -146,7 +146,7 @@ const TeardownForm = ({ className }: { className?: string }) => {
               : "Send it — get my free teardown"}
           </button>
 
-          <p className="text-xs text-white-200/60 leading-relaxed">
+          <p className="text-xs text-white-200/75 leading-relaxed">
             Free. No call. I&apos;ll only email you the teardown and the
             occasional note on shipping AI-written code safely — unsubscribe
             anytime.

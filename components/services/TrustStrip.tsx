@@ -8,7 +8,7 @@ export const TrustStrip = () => {
       className="px-5 sm:px-10 py-16"
     >
       <div className="max-w-5xl mx-auto">
-        <p className="text-center font-mono text-[11px] uppercase tracking-[0.12em] text-white-200/60">
+        <p className="text-center font-mono text-[11px] uppercase tracking-[0.12em] text-white-200/75">
           10+ years shipping production software
         </p>
         <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-3 mt-5">

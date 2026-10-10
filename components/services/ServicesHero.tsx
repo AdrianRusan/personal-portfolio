@@ -26,7 +26,7 @@ export const ServicesHero = () => {
         <p className="inline-block text-center font-mono text-xs md:text-sm text-purple mt-5 border-l-2 border-purple pl-3">
           2-3x, not 100x — and here&apos;s what the agents get wrong.
         </p>
-        <p className="font-mono text-xs md:text-sm text-white-200/60 mt-3">
+        <p className="font-mono text-xs md:text-sm text-white-200/75 mt-3">
           Every offer is priced up front, from a €200 call to a monthly
           retainer.
         </p>
@@ -66,7 +66,7 @@ export const ServicesHero = () => {
             </span>
           ))}
         </div>
-        <p className="text-[11px] md:text-xs text-white-200/50 mt-3 max-w-2xl mx-auto">
+        <p className="text-[11px] md:text-xs text-white-200/75 mt-3 max-w-2xl mx-auto">
           From a build I ran end-to-end on my own repo — the PRs, the review
           notes, and the findings are real, and I&apos;ll walk you through them
           on the call.
