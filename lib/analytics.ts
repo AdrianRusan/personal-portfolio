@@ -1,4 +1,5 @@
 import { track as vercelTrack } from "@vercel/analytics";
+import { localeOf } from "@/lib/locale";
 
 // Local, side-effect-free production check. Deliberately NOT imported from
 // config/environment (whose module runs validateEnvironment() at load) so this
@@ -40,5 +41,6 @@ export const track = (event: AnalyticsEvent, props?: EventProps): void => {
     if (props) assertNoPii(props);
     return;
   }
-  vercelTrack(event, props);
+  // /ro reuses the EN components and their sources; the locale keeps the funnels apart.
+  vercelTrack(event, { ...props, locale: localeOf(window.location.pathname) });
 };

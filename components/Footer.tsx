@@ -7,7 +7,7 @@ import Link from "next/link";
 import { GridBackground } from "./ui/GridBackground";
 import SpotlightBackground from "./ui/SpotlightBackground";
 import EmailCapture, { type EmailCaptureCopy } from "./EmailCapture";
-import type { Locale } from "@/lib/locale";
+import { switchLocalePath, type Locale } from "@/lib/locale";
 
 const en = {
   headingBefore: "Not sure ",
@@ -22,11 +22,7 @@ const en = {
 };
 export type FooterCopy = typeof en;
 
-// The language switch always points at the other locale's homepage.
-const switchLink = {
-  en: { href: "/ro", lang: "ro", label: "Română" },
-  ro: { href: "/", lang: "en", label: "English" },
-};
+const switchLabel = { en: "Română", ro: "English" };
 
 const Footer = ({
   copy = en,
@@ -35,7 +31,7 @@ const Footer = ({
   copy?: FooterCopy;
   locale?: Locale;
 }) => {
-  const other = switchLink[locale];
+  const other = locale === "ro" ? "en" : "ro";
   return (
     <footer className="" id="contact" aria-labelledby="contact-heading">
       <SpotlightBackground />
@@ -85,12 +81,12 @@ const Footer = ({
               Copyright © {new Date().getFullYear()} Adrian Rusan
             </p>
             <Link
-              href={other.href}
-              hrefLang={other.lang}
-              lang={other.lang}
+              href={switchLocalePath(locale === "ro" ? "/ro" : "/")}
+              hrefLang={other}
+              lang={other}
               className="text-sm text-white-200 hover:text-purple transition-colors"
             >
-              {other.label}
+              {switchLabel[locale]}
             </Link>
           </div>
 

@@ -82,6 +82,18 @@ export const roEmailCapture: EmailCaptureCopy = {
   error: "Ceva n-a mers. Încearcă din nou peste câteva momente.",
 };
 
+// Keyed by tag so a reordered or added EN step can't pick up the wrong copy.
+const roSteps: Record<string, { heading: string; body: string }> = {
+  SHIP: {
+    heading: "Agenții scriu volumul",
+    body: "Flote de agenți Claude Code lucrează în paralel, în git worktrees separate. Fiecare primește un tichet și urmează convențiile din CLAUDE.md-ul tău. De aici vine câștigul de 2–3 ori: throughput-ul unei echipe mici, de la un singur operator și un harness.",
+  },
+  VERIFY: {
+    heading: "Un senior verifică fiecare PR",
+    body: "Fiecare PR scris de un agent trece printr-un review adversarial, linie cu linie, înainte să ajungă la tine. Întâi securitatea (injection, autentificare, secrete, control al accesului), apoi corectitudinea și scope-ul. Pornesc de la ideea că agentul a greșit până se dovedește contrariul. Asta e partea rară, și partea pentru care cineva răspunde.",
+  },
+};
+
 export const roShipVerify: ShipVerifyCopy = {
   heading:
     "Ai backlog-ul. Nu ai oamenii. Și ai văzut ce livrează agenții lăsați nesupravegheați.",
@@ -90,19 +102,7 @@ export const roShipVerify: ShipVerifyCopy = {
     "Viteza fără review nu e productivitate. E un risc cu fitilul mai scurt.",
   stepsHeading:
     "Totul are doi pași. Majoritatea furnizorilor îți vând doar primul.",
-  steps: shipVerify.map((step, i) => ({
-    ...step,
-    ...[
-      {
-        heading: "Agenții scriu volumul",
-        body: "Flote de agenți Claude Code lucrează în paralel, în git worktrees separate. Fiecare primește un tichet și urmează convențiile din CLAUDE.md-ul tău. De aici vine câștigul de 2–3 ori: throughput-ul unei echipe mici, de la un singur operator și un harness.",
-      },
-      {
-        heading: "Un senior verifică fiecare PR",
-        body: "Fiecare PR scris de un agent trece printr-un review adversarial, linie cu linie, înainte să ajungă la tine. Întâi securitatea (injection, autentificare, secrete, control al accesului), apoi corectitudinea și scope-ul. Pornesc de la ideea că agentul a greșit până se dovedește contrariul. Asta e partea rară, și partea pentru care cineva răspunde.",
-      },
-    ][i],
-  })),
+  steps: shipVerify.map((step) => ({ ...step, ...roSteps[step.tag] })),
   footnote:
     "Viteza o găsești oriunde acum. Stratul de verificare e partea rară, și partea pentru care cineva răspunde.",
 };

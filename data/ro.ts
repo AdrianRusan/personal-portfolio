@@ -123,13 +123,3 @@ export const formatPriceRo = ({ prices, perMonth }: LadderOffer): string =>
         `${p.from ? "de la " : ""}${euro(p.amount)}${p.label ? ` ${p.label}` : ""}`,
     )
     .join(" / ") + (perMonth ? "/lună" : "");
-
-// Lowest entry price per tier, for the /ro ladder summary.
-export const roTierFrom = (tier: Tier): string =>
-  `de la ${euro(
-    Math.min(
-      ...roLadder
-        .filter((o) => o.tier === tier)
-        .flatMap((o) => o.prices.map((p) => p.amount)),
-    ),
-  )}`;

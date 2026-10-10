@@ -1,3 +1,4 @@
+import { RO_GUARANTEE } from "@/data/ro-home";
 import type { DeliverySprintCopy } from "@/components/services/DeliverySprint";
 import type { EntryOfferCopy } from "@/components/services/EntryOffer";
 import type { HarnessSetupCopy } from "@/components/services/HarnessSetup";
@@ -18,16 +19,14 @@ export const roServicesHero: ServicesHeroCopy = {
     "Backlog-ul tău, livrat în ritmul agenților — fiecare PR verificat pentru securitate înainte să ajungă la tine",
   intro:
     "Livrare cu scope fix și preț fix, nu pontaj. Stabilim de la început setul de pull request-uri și prețul. O flotă de agenți scrie volumul; eu fac un review de securitate adversarial pe fiecare PR înainte să ajungă la tine. Nimic nu ajunge la tine fără să fi fost verificat personal de un inginer senior.",
-  tagline:
-    "De 2-3 ori mai rapid, nu de 100 de ori — și uite ce greșesc agenții.",
+  tagline: "De 2–3 ori, nu de 100 de ori, și iată ce greșesc agenții.",
   priced:
     "Fiecare ofertă are prețul stabilit de la început, de la o sesiune de 110 € până la un retainer lunar.",
   cta: "Programează o discuție",
   ctaSource: "ro_services_hero",
   tiersLink:
     "Nu ești gata de o discuție? Vezi cele patru niveluri și prețurile ↓",
-  guarantee:
-    "Dacă primul PR revizuit nu e gata de merge la standardul tău, nu plătești pentru el.",
+  guarantee: RO_GUARANTEE,
   proofItems: [
     "30 de PR-uri revizuite · 9 loturi de agenți · 2,5 zile",
     "3 vulnerabilități de tip shell injection prinse, deși trecuseră de teste",
