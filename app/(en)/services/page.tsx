@@ -52,7 +52,7 @@ export const metadata: Metadata = {
 const ServicesFaqJsonLd = () => (
   <script
     type="application/ld+json"
-    // Static data, JSON.stringify()-escaped. Built from the same `faqs` the
+    // Static data, JSON.stringify()-escaped. Built from the same items the
     // visible FAQ renders, so the schema can't drift from the page.
     dangerouslySetInnerHTML={{
       __html: JSON.stringify(faqJsonLd(servicesFaqCopy.items)),

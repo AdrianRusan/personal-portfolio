@@ -60,16 +60,18 @@ export const sprintSizes: SprintSize[] = [
 ];
 
 // R2-F1: the per-PR claim is computed, never typed: the cheapest and dearest
-// PR across all sizes, rounded to the nearest 100.
+// PR across all sizes, rounded outward to 50 so the band always contains both.
 export const perPrBand = (sizes: SprintSize[]): [number, number] => {
   const per = sizes.flatMap(({ price, prs }) => prs.map((n) => price / n));
-  const round = (v: number) => Math.round(v / 100) * 100;
-  return [round(Math.min(...per)), round(Math.max(...per))];
+  return [
+    Math.floor(Math.min(...per) / 50) * 50,
+    Math.ceil(Math.max(...per) / 50) * 50,
+  ];
 };
 
 const perPrLabel = (sizes: SprintSize[]) => {
   const [lo, hi] = perPrBand(sizes);
-  return `€${lo.toLocaleString("en-US")}–\u2060${hi.toLocaleString("en-US")} per PR`;
+  return `€${lo.toLocaleString("en-US")}–${hi.toLocaleString("en-US")} per PR`;
 };
 
 // Prices are the guide's ladder table (2026-10-10): EUR, ex-VAT, global.

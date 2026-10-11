@@ -2,6 +2,7 @@ import { CALENDLY_URL, CONTACT_EMAIL, CREDIT_DAYS } from "@/data";
 import {
   ladder,
   perPrBand,
+  sprintSizes,
   withOfferPrefill,
   type SprintSize,
   type LadderOffer,
@@ -50,13 +51,11 @@ export const roTiers: { tier: Tier; tagline: string }[] = [
 ];
 
 // RO Delivery Sprint sizes: same PR counts as sprintSizes, RO prices.
-export const roSprintSizes: SprintSize[] = [
-  { price: 4100, prs: [5, 6] },
-  { price: 8000, prs: [10, 15] },
-  { price: 13200, prs: [16, 20] },
-];
+export const roSprintSizes: SprintSize[] = [4100, 8000, 13200].map(
+  (price, i) => ({ ...sprintSizes[i]!, price }),
+);
 const [roPerPrLo, roPerPrHi] = perPrBand(roSprintSizes);
-const roPerPr = `${roPerPrLo}–\u2060${roPerPrHi} €`;
+const roPerPr = `${roPerPrLo}–${roPerPrHi} €`;
 
 // Brief R7 (2026-10-10): 55% of the global ladder, rounded clean. EUR, ex-VAT.
 const ro: Record<
@@ -167,7 +166,7 @@ const ro: Record<
 export const roSprintDurations = ["~1 săpt.", "1–2 săpt.", "2–3 săpt."];
 
 // Romanian convention: dot thousands separator, euro sign after the amount.
-const euro = (amount: number) =>
+export const euro = (amount: number) =>
   `${amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} €`;
 
 export const formatPriceRo = ({ prices, perMonth }: LadderOffer): string =>

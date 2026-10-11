@@ -6,6 +6,7 @@ import {
   type Tier,
 } from "@/data/ladder";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { keepRangesWhole } from "@/lib/utils";
 import { LadderLink } from "./LadderLink";
 
 const en = {
@@ -85,7 +86,7 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
                         {offer.duration}
                       </p>
                       <p className="text-sm text-white-200 leading-relaxed mt-3 flex-1">
-                        {offer.summary}
+                        {keepRangesWhole(offer.summary)}
                       </p>
                       {offer.assurance && (
                         <p className="text-xs text-white-200/80 mt-3">

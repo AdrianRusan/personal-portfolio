@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { keepRangesWhole } from "@/lib/utils";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 interface ProcessStep {
@@ -25,7 +26,7 @@ const en = {
     {
       tag: "2 · Ship",
       heading: "Agents write the code (days 1–N)",
-      body: "Each ticket goes to a Claude Code agent in its own git worktree, following your CLAUDE.md. Several run in parallel, which is where the 2–\u20603x comes from.",
+      body: "Each ticket goes to a Claude Code agent in its own git worktree, following your CLAUDE.md. Several run in parallel, which is where the 2–3x comes from.",
     },
     {
       tag: "3 · Review",
@@ -74,7 +75,7 @@ export const ProcessSteps = ({ copy = en }: { copy?: ProcessStepsCopy }) => {
                 {step.heading}
               </h3>
               <p className="text-sm text-white-200 leading-relaxed flex-1">
-                {step.body}
+                {keepRangesWhole(step.body)}
                 {step.link && (
                   <>
                     {" "}

@@ -12,6 +12,7 @@ import type { ServicesFinalCtaCopy } from "@/components/services/ServicesFinalCt
 import type { ServicesHeroCopy } from "@/components/services/ServicesHero";
 import type { TrustStripCopy } from "@/components/services/TrustStrip";
 import {
+  euro,
   formatPriceRo,
   RO_CREDIT_TERMS,
   RO_GUARANTEE,
@@ -24,9 +25,7 @@ import {
 
 // /ro/servicii copy. Prices follow data/ro.ts (55% of the global ladder).
 
-// Romanian convention: dot thousands separator, euro sign after the amount.
-const eur = (n: number) =>
-  `${n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} €`;
+const eur = euro;
 const prs = (i: number) => roSprintSizes[i]!.prs.join("–");
 const standard = roSprintSizes[1]!;
 
@@ -88,7 +87,7 @@ export const roProcessSteps: ProcessStepsCopy = {
     {
       tag: "2 · Livrare",
       heading: "Agenții scriu codul (zilele 1–N)",
-      body: "Fiecare tichet merge la un agent Claude Code în propriul git worktree, după CLAUDE.md-ul tău. Mai mulți rulează în paralel, și de aici vine accelerarea de 2–\u20603 ori.",
+      body: "Fiecare tichet merge la un agent Claude Code în propriul git worktree, după CLAUDE.md-ul tău. Mai mulți rulează în paralel, și de aici vine accelerarea de 2–3 ori.",
     },
     {
       tag: "3 · Review",
@@ -312,7 +311,7 @@ export const roServicesPageFaq: ServicesFaqCopy = {
       question:
         "Cât de bun e codul dacă l-au scris agenți AI, și ce se întâmplă dacă agenții greșesc?",
       answer:
-        "Ce scriu agenții e o ciornă. Fiecare PR trece printr-un review linie cu linie care pornește de la ideea că agentul a greșit până când codul arată contrariul. Când un agent nu se descurcă cu un tichet, îl repar sau îl scriu eu: o rulare eșuată mă costă pe mine timp, iar prețul acoperă rezultatul revizuit. Agenții îți dau de 2–3 ori mai mult volum și greșesc lucruri anume, așa că fiecare sprint vine cu un registru cu ce a prins review-ul în codul tău.",
+        "Codul scris de agenți e doar punctul de plecare. Fiecare PR trece printr-un review linie cu linie care pornește de la ideea că agentul a greșit până când codul arată contrariul. Când un agent nu se descurcă cu un tichet, îl repar sau îl scriu eu: o rulare eșuată mă costă pe mine timp, iar prețul acoperă rezultatul revizuit. Agenții îți dau de 2–3 ori mai mult volum și greșesc lucruri anume, așa că fiecare sprint vine cu un registru cu ce a prins review-ul în codul tău.",
     },
     {
       question:
@@ -364,13 +363,13 @@ export const roServicesFaq: ServicesFaqCopy = {
     {
       question: "Cum poate fi calitatea bună dacă codul l-au scris agenți AI?",
       answer:
-        "Pentru că ce scriu agenții e ciorna, nu livrabilul. Fiecare PR trece printr-un review senior, linie cu linie, care pornește de la ideea că agentul a greșit până se dovedește contrariul. Agenții îți dau de 2–3 ori mai mult volum, nu de 100 de ori, și greșesc lucruri anume. Review-ul e locul unde sunt prinse, iar fiecare sprint vine cu un registru cu ce s-a prins în codul tău.",
+        "Pentru că codul scris de agenți e doar punctul de plecare. Fiecare PR trece printr-un review senior, linie cu linie, care pornește de la ideea că agentul a greșit până se dovedește contrariul. Agenții îți dau de 2–3 ori mai mult volum, nu de 100 de ori, și greșesc lucruri anume. Review-ul e locul unde sunt prinse, iar fiecare sprint vine cu un registru cu ce s-a prins în codul tău.",
     },
     {
       question:
         "Ce se întâmplă dacă agenții greșesc sau nu se descurcă cu tichetul?",
       answer:
-        "Atunci îl repar sau îl scriu eu. Agenții sunt felul în care se scrie ciorna; prețul acoperă rezultatul revizuit. O rulare eșuată mă costă pe mine timp, nu pe tine bani, și nimic nu ajunge la tine până nu trece de review.",
+        "Atunci îl repar sau îl scriu eu. Agenții scriu prima variantă, iar prețul acoperă rezultatul revizuit. O rulare eșuată mă costă pe mine timp, pe tine nimic, și nimic nu ajunge la tine până nu trece de review.",
     },
     {
       question:
@@ -410,7 +409,7 @@ export const roServicesFaq: ServicesFaqCopy = {
     {
       question: "De ce să nu angajez o agenție sau mai mulți ingineri?",
       answer:
-        "O agenție îți vinde orele unei echipe, cu adaos, iar oamenii noi se angajează și se acomodează în luni de zile. Aici primești primul PR revizuit în câteva zile, de la un singur inginer senior care conduce o flotă de agenți: fără costuri de coordonare și fără muncă de junior facturată la tarif de senior. Agențiile care folosesc agenți pun rar un review senior adversarial deasupra. Aici, review-ul e produsul.",
+        "O agenție îți vinde orele unei echipe, cu adaos, iar oamenii noi se angajează și se acomodează în luni de zile. Aici primești primul PR revizuit în câteva zile, de la un singur inginer senior care lucrează cu mai mulți agenți Claude Code în paralel: fără costuri de coordonare și fără muncă de junior facturată la tarif de senior. Agențiile care folosesc agenți pun rar un review senior deasupra.",
     },
     {
       question: "Ce stack-uri și limbaje verifici?",

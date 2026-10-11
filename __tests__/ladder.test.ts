@@ -178,20 +178,31 @@ describe("sprint durations", () => {
 
 // R2-F1: the per-PR claim must equal price ÷ PR count, worked by hand here.
 describe("per-PR price", () => {
-  it("matches the sprint sizes: €966.67 (Standard, 15 PRs) to €1,500", () => {
-    // 14,500 / 15 = 966.67 → 1,000; 7,500 / 5 = 24,000 / 16 = 1,500.
-    expect(perPrBand(sprintSizes)).toEqual([1000, 1500]);
-    expect(ladder.find((o) => o.id === "sprint")!.summary.replace(/\u2060/g, "")).toContain(
-      "€1,000–1,500 per PR",
+  it("contains every size's per-PR price: €966.67 (Standard, 15 PRs) to €1,500", () => {
+    // 14,500 / 15 = 966.67 → floor 950; 7,500 / 5 = 24,000 / 16 = 1,500.
+    expect(perPrBand(sprintSizes)).toEqual([950, 1500]);
+    expect(ladder.find((o) => o.id === "sprint")!.summary).toContain(
+      "€950–1,500 per PR",
     );
   });
 
-  it("matches the RO sizes: 533 € (Standard, 15 PRs) to 825 €", () => {
-    // 8.000 / 15 = 533 → 500; 13.200 / 16 = 825 → 800.
-    expect(perPrBand(roSprintSizes)).toEqual([500, 800]);
-    expect(roLadder.find((o) => o.id === "sprint")!.summary.replace(/\u2060/g, "")).toContain(
-      "500–800 € per PR",
+  it("contains every RO size's per-PR price: 533 € (Standard, 15 PRs) to 825 €", () => {
+    // 8.000 / 15 = 533 → floor 500; 13.200 / 16 = 825 → ceil 850.
+    expect(perPrBand(roSprintSizes)).toEqual([500, 850]);
+    expect(roLadder.find((o) => o.id === "sprint")!.summary).toContain(
+      "500–850 € per PR",
     );
+  });
+
+  it("never advertises a band narrower than the real prices", () => {
+    for (const sizes of [sprintSizes, roSprintSizes]) {
+      const [lo, hi] = perPrBand(sizes);
+      for (const { price, prs } of sizes)
+        for (const n of prs) {
+          expect(price / n).toBeGreaterThanOrEqual(lo);
+          expect(price / n).toBeLessThanOrEqual(hi);
+        }
+    }
   });
 
   it("keeps the old ≈€1,000/PR claim off both ladders", () => {

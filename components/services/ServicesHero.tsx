@@ -1,6 +1,7 @@
 import Link from "next/link";
 import MagicButton from "@/components/ui/MagicButton";
 import { CALENDLY_URL, GUARANTEE } from "@/data";
+import { keepRangesWhole } from "@/lib/utils";
 import { sprintSizes } from "@/data/ladder";
 
 const CASE_STUDY = "/work/30-reviewed-prs-3-vulnerabilities";
@@ -8,7 +9,7 @@ const CASE_STUDY = "/work/30-reviewed-prs-3-vulnerabilities";
 // R2-F7: H1, one subhead, one ask with a price link, the guarantee and one proof line.
 const en = {
   heading:
-    "Ship your backlog 2–\u20603x faster. I security\u2011review every PR before you see it.",
+    "Ship your backlog 2–3x faster. I security-review every PR before you see it.",
   intro:
     "You pick the tickets and I fix the price before we start. AI agents write the code. I review each PR line by line, security first, then send it to you.",
   cta: "Book a scoping call",
@@ -27,7 +28,7 @@ export const ServicesHero = ({ copy = en }: { copy?: ServicesHeroCopy }) => {
     <section className="px-5 sm:px-10 pt-36 pb-12 md:pb-16">
       <div className="container-section text-center">
         <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-balance max-w-3xl mx-auto">
-          {copy.heading}
+          {keepRangesWhole(copy.heading)}
         </h1>
         <p className="text-white-200 mt-5 leading-relaxed max-w-2xl mx-auto text-pretty">
           {copy.intro}
