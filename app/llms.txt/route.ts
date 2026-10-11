@@ -3,12 +3,13 @@ import { CALENDLY_URL } from "@/data";
 import { formatPrice, ladder } from "@/data/ladder";
 import { euro, workshops } from "@/data/workshops";
 import { byCaseStudyOrder } from "@/data/work";
+import { SITE_URL } from "@/lib/page-schema";
 
 // A1-06: built from the same data as the pages, so it can't drift.
 // Re-rendered hourly like the feed, so a dated post appears without a deploy.
 export const revalidate = 3600;
 
-const BASE_URL = "https://www.adrian-rusan.com";
+const BASE_URL = SITE_URL;
 
 const link = (title: string, path: string, note: string) =>
   `- [${title}](${BASE_URL}${path === "/" ? "" : path}): ${note}`;
