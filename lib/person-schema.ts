@@ -1,4 +1,4 @@
-import { YOUTUBE_URL } from "@/data";
+import { FINTECH_EMPLOYER, YOUTUBE_URL } from "@/data";
 
 // Person JSON-LD, rendered site-wide by app/layout.tsx. Lives here (not in the
 // layout) so a jest test can check its shape — layouts may only export Next fields.
@@ -26,7 +26,7 @@ export const personJsonLd = {
     ...(YOUTUBE_URL ? [YOUTUBE_URL] : []),
   ],
   worksFor: [
-    { "@type": "Organization", name: "Bono Fintech" },
+    { "@type": "Organization", name: FINTECH_EMPLOYER },
     {
       "@type": "Organization",
       name: "Rusan Adrian-Ionuț PFA",

@@ -13,6 +13,7 @@ import type { TestimonialsCopy } from "@/components/Testimonials";
 import type { WhoForCopy } from "@/components/WhoFor";
 import {
   CREDIT_DAYS,
+  FINTECH_EMPLOYER,
   shipVerify,
   workExperience,
   WORKFLOW_NUMBERS as W,
@@ -64,7 +65,7 @@ export const roProofBand: ProofBandCopy = {
     },
     {
       figure: "10+ ani",
-      label: "în producție: Ipsos → PGL Esports → GoSocial → Bono Fintech",
+      label: `în producție: Ipsos → PGL Esports → GoSocial → ${FINTECH_EMPLOYER}`,
     },
     {
       figure: `${W.sessions}`,
@@ -119,7 +120,7 @@ export const roShipVerify: ShipVerifyCopy = {
 
 export const roBio: BioCopy = {
   heading: "Cine îți verifică, de fapt, codul",
-  body: "Sunt Adrian Rusan, inginer software cu peste 10 ani de cod livrat în producție. Cel mai recent, Founding Engineer la Bono Fintech (din 2024), iar înainte la GoSocial, PGL Esports și Ipsos. În fiecare colaborare de aici, eu sunt omul senior care verifică fiecare PR livrat de agenți înainte să ajungă la tine.",
+  body: `Sunt Adrian Rusan, inginer software cu peste 10 ani de cod livrat în producție. Cel mai recent, Founding Engineer la ${FINTECH_EMPLOYER} (din 2024), iar înainte la GoSocial, PGL Esports și Ipsos. În fiecare colaborare de aici, eu sunt omul senior care verifică fiecare PR livrat de agenți înainte să ajungă la tine.`,
   onGithub: "Adrian Rusan pe GitHub",
   onLinkedin: "Adrian Rusan pe LinkedIn",
   onX: "Adrian Rusan pe X",
@@ -179,7 +180,7 @@ export const roWhoFor: WhoForCopy = {
 const roJobs: Record<number, { period: string; desc: string }> = {
   5: {
     period: "2024 – prezent",
-    desc: "Founding engineer într-un fintech românesc: am construit aplicațiile web, API-urile și procesarea de documente cu AI din spatele lor, cap-coadă.",
+    desc: `Founding engineer la ${FINTECH_EMPLOYER}, din 2024: inginerie de produs full-stack, cap-coadă.`,
   },
   1: {
     period: "dec. 2022 – prezent",

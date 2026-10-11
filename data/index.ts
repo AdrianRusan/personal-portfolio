@@ -15,6 +15,10 @@ export const YOUTUBE_URL = YOUTUBE_CHANNEL_ID
   ? `https://www.youtube.com/channel/${YOUTUBE_CHANNEL_ID}`
   : null;
 
+// Current employer, named with consent. Every mention on the site (EN, RO,
+// Person JSON-LD) reads this one constant.
+export const FINTECH_EMPLOYER = "Bono Fintech";
+
 // Tier credit window (#43 follow-up: the credit had no window). Every credit
 // mention derives from these two, so the page and FAQPage JSON-LD agree.
 export const CREDIT_DAYS = 30;
@@ -60,7 +64,7 @@ export const proofStats = [
   },
   {
     figure: "10+ yrs",
-    label: "in production: Ipsos → PGL Esports → GoSocial → Bono Fintech",
+    label: `in production: Ipsos → PGL Esports → GoSocial → ${FINTECH_EMPLOYER}`,
   },
   {
     figure: `${WORKFLOW_NUMBERS.sessions}`,
@@ -266,9 +270,10 @@ export const workExperience = [
   {
     id: 5,
     title: "Founding Engineer",
-    company: "Bono Fintech",
+    company: FINTECH_EMPLOYER,
     period: "2024 - Present",
-    desc: "Founding engineer at a Romanian fintech: built its web apps, APIs and the AI document-processing behind them, end to end.",
+    // #54: names no product, project, technology or number.
+    desc: `Founding engineer at ${FINTECH_EMPLOYER}, 2024–present: full-stack product engineering, end to end.`,
     className: "md:col-span-2",
     // Neutral generated card (#54 R5): no real logo asset, and never another
     // company's image.

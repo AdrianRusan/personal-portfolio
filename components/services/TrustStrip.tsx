@@ -1,8 +1,10 @@
+import { FINTECH_EMPLOYER } from "@/data";
+
 const en = {
   ariaLabel: "Track record and testimonial",
   eyebrow: "10+ years shipping production software",
   // Newest first.
-  employers: ["Bono Fintech", "GoSocial", "PGL Esports", "Ipsos"],
+  employers: [FINTECH_EMPLOYER, "GoSocial", "PGL Esports", "Ipsos"],
   quote:
     "I am very pleased with Adrian's efforts and progress on my project. I was informed on a daily basis about progress, and Adrian is very keen on delivering quality work. He made sure I was happy with the end result. I definitely recommend contacting Adrian if you are in need of any web related projects.",
   // Set when the quote's language differs from the page's (verbatim quotes stay untranslated).

@@ -1,5 +1,6 @@
 import { RO_LEDGER_PROOF } from "@/data/ro-home";
 import { offerById } from "@/data/ladder";
+import { FINTECH_EMPLOYER } from "@/data";
 import type { DeliverySprintCopy } from "@/components/services/DeliverySprint";
 import type { EntryOfferCopy } from "@/components/services/EntryOffer";
 import type { HarnessSetupCopy } from "@/components/services/HarnessSetup";
@@ -233,7 +234,7 @@ export const roEntryOffer: EntryOfferCopy = {
 export const roTrustStrip: TrustStripCopy = {
   ariaLabel: "Experiență și testimonial",
   eyebrow: "Peste 10 ani de software livrat în producție",
-  employers: ["Bono Fintech", "GoSocial", "PGL Esports", "Ipsos"],
+  employers: [FINTECH_EMPLOYER, "GoSocial", "PGL Esports", "Ipsos"],
   // A real client quote: kept verbatim in English rather than put words in his mouth.
   quote:
     "I am very pleased with Adrian's efforts and progress on my project. I was informed on a daily basis about progress, and Adrian is very keen on delivering quality work. He made sure I was happy with the end result. I definitely recommend contacting Adrian if you are in need of any web related projects.",
