@@ -17,6 +17,9 @@ const config = {
     "./data/**/*.{ts,tsx}",
     "./content/**/*.{md,mdx}",
   ],
+  // next-themes adds "dark" at runtime. Without a literal "dark" class in the
+  // scanned files, Tailwind purges the `.dark { … }` token block in globals.css.
+  safelist: ["dark"],
   prefix: "",
   theme: {
     container: {
