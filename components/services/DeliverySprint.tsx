@@ -1,19 +1,29 @@
-import MagicButton from "@/components/ui/MagicButton";
 import { CALENDLY_URL, SAMPLE_REPORT_URL } from "@/data";
-import { sprintDurations } from "@/data/ladder";
+import { sprintDurations, sprintSizes } from "@/data/ladder";
 import { withTierPrefill } from "@/lib/calendly";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Fold } from "./Fold";
 import { PricingTable } from "./PricingTable";
 import type { PricingColumn, PricingRow } from "./PricingTable";
 
-// C44: one price list feeds the Price row and each tier's Calendly prefill.
-const prices = ["€7,500", "€14,500", "€24,000"];
+const eur = (n: number) => `€${n.toLocaleString("en-US")}`;
+const prs = (i: number) => sprintSizes[i]!.prs.join("–");
+const standard = sprintSizes[1]!;
 
+// C44: one price list feeds the Price row and each tier's Calendly prefill.
+// R2-F3: Scale is a floor, so it reads "from".
+const prices = [
+  eur(sprintSizes[0]!.price),
+  eur(standard.price),
+  `from ${eur(sprintSizes[2]!.price)}`,
+];
+
+// R2-F2: Pilot first at every width, and it holds the filled button.
 const columns: PricingColumn[] = withTierPrefill(
   CALENDLY_URL,
   [
-    { name: "Pilot Sprint" },
-    { name: "Standard Sprint", badge: "Recommended", featured: true },
+    { name: "Pilot Sprint", badge: "First sprint", featured: true },
+    { name: "Standard Sprint", badge: "Best per-PR price" },
     { name: "Scale Sprint" },
   ],
   prices,
@@ -23,17 +33,17 @@ const rows: PricingRow[] = [
   {
     label: "Best for",
     values: [
-      "A low-risk first engagement — testing the working relationship",
-      "A senior contractor-month of output, reviewed, in two weeks",
-      "A larger surface, more PRs, more review depth",
+      "A first engagement, to see how we work together",
+      "A contractor-month of output, reviewed",
+      "A larger surface, with more PRs and deeper review",
     ],
   },
   {
     label: "Roughly",
     values: [
-      "A focused feature slice (~5–6 PRs)",
-      "A reviewed contractor-month (~10–15 PRs)",
-      "A major surface, in depth (~16–20+ PRs)",
+      `A focused feature slice (~${prs(0)} PRs)`,
+      `A reviewed contractor-month (~${prs(1)} PRs)`,
+      `A major surface, in depth (~${prs(2)}+ PRs)`,
     ],
   },
   {
@@ -42,76 +52,68 @@ const rows: PricingRow[] = [
   },
   {
     label: "Price",
-    values: [prices[0]!, prices[1]!, `${prices[2]} — fixed on the scope call`],
+    values: prices,
   },
 ];
 
 const en = {
-  badge: "Most teams start here",
-  eyebrow: "Primary offer",
+  eyebrow: "Main offer",
   heading: "Delivery Sprint",
-  subheading: "Agent-accelerated, every PR reviewed",
   intro:
-    "A fixed batch of production-ready, security-reviewed pull requests — shipped by an agent fleet, verified line by line by a senior engineer — delivered in weeks, not months, at a price you agree before we start.",
-  deliveredHeading: "Exactly what's delivered",
+    "A fixed batch of production-ready pull requests. AI agents write them, and I review each one line by line, security first. You agree the price before we start.",
+  deliveredHeading: "What you get",
   deliverables: [
     {
-      lead: "A fixed number of merge-ready PRs,",
-      rest: "on real branches in your repo, reviewed and green — ready for your team's final merge.",
+      lead: "A fixed number of merge-ready PRs",
+      rest: "on real branches in your repo, reviewed and ready for your team to merge.",
     },
     {
-      lead: "A per-PR review note:",
-      rest: "what the agent produced, what the review caught and changed, and the residual risk, if any.",
+      lead: "A review note per PR:",
+      rest: "what the agent wrote, what the review caught and changed, and any risk left.",
     },
     {
-      lead: "The Sprint Security Report (yours to keep)",
-      rest: "— every vulnerability class checked, everything caught and fixed, stated plainly. This is the artifact the sprint is selling.",
+      lead: "The security report, yours to keep:",
+      rest: "every vulnerability class checked, and everything found and fixed.",
     },
     {
-      lead: "The Agent Failure Map (yours to keep) —",
-      rest: "what shipped, what's left, and what the agents consistently got wrong in your codebase — a useful map for your team going forward.",
+      lead: "A list of what the agents got wrong",
+      rest: "in your codebase, so your team knows where to look from now on.",
     },
   ],
-  pricingHeading: "Pricing",
+  sampleLink: "See a sample security report →",
+  pricingHeading: "Sprint prices",
   rowHeader: "Feature",
-  sampleLink: "See a sample report →",
-  // D4: copy only, prices unchanged.
+  // R2-F1: the anchor sits below the Standard price, and the math is stated.
   pricingLead:
-    "A contractor-month costs €10–14k before anyone reviews it for security.",
-  pricingRest:
-    "A sprint works out at ≈€1,000/PR plus the Sprint Security Report, the Agent Failure Map and a reserved review slot. Standard: €14,500, fixed.",
+    "A senior contractor-month costs €10–14k, and nobody reviews that code for security.",
+  pricingRest: `A Standard Sprint is ${eur(standard.price)} for ${prs(1)} PRs, each one security-reviewed, plus the security report.`,
   columns,
   rows,
   cta: "Book a scoping call",
   pricingNote:
-    "Every sprint is priced on the reviewed outcome, not hours logged — locked on day 0, no runaway bill. The exact number is fixed on the scope call, before any work starts.",
-  notHeading: "What this is NOT",
-  notIntro: "Being clear up front saves us both a bad-fit call.",
+    "The exact price is fixed on the scope call, before any work starts.",
+  notHeading: "What this is not",
   notList: [
-    "Not open-ended. The PR count and scope are fixed on day 0. New scope is a new sprint, not a moving target.",
-    "Not a staff-augmentation seat. You're buying reviewed outcomes, not a body for standups.",
-    "Not greenfield architecture from zero. Designing a new system from scratch is a separate conversation.",
-    "Not an auto-merge to production. I deliver reviewed, green, merge-ready PRs. The final merge and deploy decision stays with your team — deliberately, so your change control stays intact.",
-    "Not ongoing maintenance. On-call and upkeep after handoff live in the retainer.",
+    "Open-ended work. The PR count and scope are fixed on day 0, and new scope is a new sprint.",
+    "A staff-augmentation seat. You buy reviewed PRs, and nobody joins your standups.",
+    "Greenfield architecture. Designing a new system from scratch is a separate conversation.",
+    "Auto-merge to production. The final merge and deploy stay with your team, so your change control stays intact.",
+    "Ongoing maintenance. On-call and upkeep after handoff belong to the retainer.",
   ],
-  guaranteesHeading: "The guarantees",
-  guaranteesIntro:
-    'Two, both concrete and checkable. No "double your revenue or your money back" theatre.',
+  guaranteesHeading: "Guarantees",
   guarantees: [
     {
-      title: "1. Security guarantee",
-      body: "Every delivered PR passes a documented adversarial security review before you see it. If a vulnerability that was in scope of that review is later found in a PR I marked reviewed, I fix it free and re-review the surrounding batch at no charge.",
+      title: "Security",
+      body: "Every PR gets a documented security review before you see it. If an in-scope vulnerability later turns up in a PR I marked reviewed, I fix it free and re-review the batch around it.",
     },
     {
-      title: "2. First-PR quality guarantee",
-      body: "If the first reviewed PR isn't merge-ready to your standard, you don't pay for it. Your risk is highest before I've shipped anything, so the guarantee sits right there.",
+      title: "First PR",
+      body: "If the first PR isn't one you'd merge, you don't pay for it. Your risk is highest before I've shipped anything.",
     },
   ],
-  guaranteesNote:
-    'There is deliberately no blanket "money back if unhappy" guarantee. It invites scope disputes and it\'s not how a senior operator works. These two put my skin in the game where it actually matters: quality and security.',
   paymentHeading: "Payment",
   payment:
-    "50% to book the slot, 50% on handoff. A Pilot Sprint can be paid in full up front. Running multiple sprints? That's the retainer, below.",
+    "50% to book the slot, 50% on handoff. A Pilot Sprint can be paid in full up front. Running sprints back to back? See the retainer below.",
 };
 
 export type DeliverySprintCopy = typeof en;
@@ -123,56 +125,40 @@ export const DeliverySprint = ({
 }) => {
   return (
     <section id="sprint" className="px-5 sm:px-10 py-12 md:py-20 scroll-mt-24">
-      <div className="max-w-6xl mx-auto">
-        <div className="relative rounded-2xl border border-purple shadow-[inset_0_0_0_1px_#CBACF9] bg-black-200/40 p-6 md:p-10">
-          <span className="absolute -top-3 left-6 md:left-10 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-purple bg-black-100 px-3 py-1 rounded-full border border-purple">
-            {copy.badge}
-          </span>
+      <div className="container-section">
+        <SectionHeading eyebrow={copy.eyebrow} lead={copy.intro}>
+          {copy.heading}
+        </SectionHeading>
 
-          <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-purple mt-4 block">
-            {copy.eyebrow}
-          </span>
-          <h2 className="text-2xl md:text-4xl font-bold tracking-tight mt-3 text-balance">
-            {copy.heading}
-          </h2>
-          <p className="font-mono text-xs md:text-sm text-white-200/80 mt-2">
-            {copy.subheading}
-          </p>
-          <p className="text-white-200 mt-5 leading-relaxed max-w-3xl">
-            {copy.intro}
-          </p>
-
-          <Fold title={copy.deliveredHeading}>
-            <ul className="flex flex-col gap-3">
+        <div className="mt-8">
+          <Fold title={copy.deliveredHeading} defaultOpen>
+            <ul className="flex flex-col gap-3 list-disc pl-5 marker:text-purple">
               {copy.deliverables.map((item) => (
                 <li
                   key={item.lead}
-                  className="flex gap-3 text-sm text-white-200 leading-relaxed"
+                  className="text-sm text-white-200 leading-relaxed"
                 >
-                  <span className="text-purple flex-none">+</span>
-                  <span>
-                    <span className="text-white font-medium">{item.lead}</span>{" "}
-                    {item.rest}
-                  </span>
+                  <span className="text-white font-medium">{item.lead}</span>{" "}
+                  {item.rest}
                 </li>
               ))}
             </ul>
+            {SAMPLE_REPORT_URL && (
+              <a
+                href={SAMPLE_REPORT_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block mt-4 text-sm font-medium text-purple underline underline-offset-4 hover:text-white transition-colors"
+              >
+                {copy.sampleLink}
+              </a>
+            )}
           </Fold>
-          {SAMPLE_REPORT_URL && (
-            <a
-              href={SAMPLE_REPORT_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block mt-4 text-sm font-medium text-purple underline underline-offset-4 hover:text-white transition-colors"
-            >
-              {copy.sampleLink}
-            </a>
-          )}
+        </div>
 
-          <h3 className="text-lg font-semibold mt-10 mb-4">
-            {copy.pricingHeading}
-          </h3>
-          <p className="text-white-200 mb-6 leading-relaxed max-w-3xl text-base md:text-lg">
+        <div className="border-t border-white/10 pt-8 pb-4">
+          <h3 className="text-lg font-semibold mb-3">{copy.pricingHeading}</h3>
+          <p className="text-white-200 mb-6 leading-relaxed max-w-3xl text-pretty">
             <span className="text-white font-semibold">{copy.pricingLead}</span>{" "}
             {copy.pricingRest}
           </p>
@@ -184,65 +170,41 @@ export const DeliverySprint = ({
             rowHeader={copy.rowHeader}
             trackSource="deliverysprint_pricing"
           />
-          <p className="text-xs text-white-200/70 mt-4 italic">
-            {copy.pricingNote}
-          </p>
-
-          <Fold title={copy.notHeading}>
-            <p className="text-sm text-white-200/70 mb-4">{copy.notIntro}</p>
-            <ul className="flex flex-col gap-3">
-              {copy.notList.map((item) => (
-                <li
-                  key={item}
-                  className="flex gap-3 text-sm text-white-200/80 leading-relaxed"
-                >
-                  <span className="text-white-200/40 flex-none">−</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </Fold>
-
-          {/* The one guarantees block on /services (C32): Retainer points here. */}
-          <Fold title={copy.guaranteesHeading}>
-            <p className="text-sm text-white-200/70 mb-4">
-              {copy.guaranteesIntro}
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {copy.guarantees.map((g) => (
-                <div
-                  key={g.title}
-                  className="rounded-xl border border-white/10 bg-black-200/30 p-5"
-                >
-                  <p className="font-mono text-xs text-purple mb-2">{g.title}</p>
-                  <p className="text-sm text-white-200 leading-relaxed">
-                    {g.body}
-                  </p>
-                </div>
-              ))}
-            </div>
-            <p className="text-xs text-white-200/75 mt-4 max-w-2xl">
-              {copy.guaranteesNote}
-            </p>
-          </Fold>
-
-          <Fold title={copy.paymentHeading}>
-            <p className="text-sm text-white-200 leading-relaxed max-w-2xl">
-              {copy.payment}
-            </p>
-          </Fold>
-
-          <div className="mt-8">
-            <MagicButton
-              title={copy.cta}
-              href={CALENDLY_URL}
-              trackEvent={{
-                event: "calendly_click",
-                props: { source: "deliverysprint_bottom" },
-              }}
-            />
-          </div>
+          <p className="text-xs text-white-200/75 mt-4">{copy.pricingNote}</p>
         </div>
+
+        {/* The one guarantees block on /services (C32): Retainer points here. */}
+        <Fold title={copy.guaranteesHeading} defaultOpen>
+          <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+            {copy.guarantees.map((g) => (
+              <div key={g.title}>
+                <dt className="text-sm font-semibold text-white">{g.title}</dt>
+                <dd className="text-sm text-white-200 leading-relaxed mt-1">
+                  {g.body}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </Fold>
+
+        <Fold title={copy.notHeading}>
+          <ul className="flex flex-col gap-3 list-disc pl-5 marker:text-white-200/40">
+            {copy.notList.map((item) => (
+              <li
+                key={item}
+                className="text-sm text-white-200/80 leading-relaxed"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        </Fold>
+
+        <Fold title={copy.paymentHeading}>
+          <p className="text-sm text-white-200 leading-relaxed max-w-2xl">
+            {copy.payment}
+          </p>
+        </Fold>
       </div>
     </section>
   );

@@ -11,7 +11,7 @@ import {
   perEngineer,
   type WorkshopSlug,
 } from "@/data/workshops";
-import { WORKFLOW_NUMBERS } from "@/data";
+import { CONTACT_EMAIL, WORKFLOW_NUMBERS } from "@/data";
 import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 import { getPosts } from "@/lib/blog";
 
@@ -66,7 +66,8 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
   );
 
   return (
-    <PageShell>
+    // R2-F5: the workshop card is this page's one ask.
+    <PageShell hideFooterCta>
       <JsonLd
         data={[
           workshopJsonLd(w),
@@ -82,24 +83,25 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
         ]}
       />
 
-      <section className="px-5 sm:px-10 pt-28 sm:pt-32 pb-16">
-        <div className="max-w-5xl mx-auto text-center">
-          <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100">
+      <section className="px-5 sm:px-10 pt-36 pb-12 md:pb-16">
+        <div className="container-section text-center">
+          <p className="eyebrow">
             Team workshop · {w.length} · up to {w.maxPeople} people
-          </span>
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-balance max-w-3xl mx-auto mt-4">
+          </p>
+          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-balance max-w-3xl mx-auto mt-3">
             {w.headline}
           </h1>
-          <p className="text-white-200 mt-5 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-white-200 mt-5 leading-relaxed max-w-2xl mx-auto text-pretty">
             {w.intro}
           </p>
-          <p className="font-mono text-xs md:text-sm text-white-200/75 mt-5">
+          <p className="text-sm text-white-200/80 mt-5">
             {euro(w.price)} for the {w.length} · {perEngineer(w)} · EUR, ex-VAT
           </p>
-          <div className="flex justify-center">
+          <div className="flex justify-center mt-6">
             <MagicButton
               title={w.cta.label}
               href={w.cta.href}
+              otherClasses="md:mt-0"
               trackEvent={{
                 event: "cta_click",
                 props: { cta: "workshop", source: `workshop_${w.slug}_hero` },
@@ -111,17 +113,17 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
 
       <section
         id="agenda"
-        className="px-5 sm:px-10 pb-16 scroll-mt-24"
+        className="px-5 sm:px-10 py-12 md:py-16 scroll-mt-24"
         aria-label="Agenda"
       >
-        <div className="max-w-3xl mx-auto">
+        <div className="container-prose">
           <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
             Agenda
           </h2>
           <div className="flex flex-col gap-10 mt-8">
             {w.agenda.map((part) => (
               <div key={part.label}>
-                <h3 className="font-mono text-xs uppercase tracking-[0.12em] text-purple">
+                <h3 className="text-sm font-semibold text-purple">
                   {part.label}
                   {part.duration && ` · ${part.duration}`}
                 </h3>
@@ -132,7 +134,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
                       className="rounded-2xl border border-white/10 bg-black-200/40 p-5 md:p-6"
                     >
                       {block.time && (
-                        <p className="font-mono text-xs text-purple mb-1">
+                        <p className="num text-xs text-purple mb-1">
                           {block.time}
                         </p>
                       )}
@@ -149,31 +151,27 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
         </div>
       </section>
 
-      <section className="px-5 sm:px-10 pb-16" aria-label="What you leave with">
-        <div className="max-w-3xl mx-auto">
+      <section className="px-5 sm:px-10 py-12 md:py-16" aria-label="What you leave with">
+        <div className="container-prose">
           <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
             What your team leaves with
           </h2>
           <p className="text-white mt-4 font-medium leading-relaxed">
             {w.managerOutcome}
           </p>
-          <ul className="flex flex-col gap-3 mt-6">
+          <ul className="flex flex-col gap-3 mt-6 list-disc pl-5 marker:text-purple">
             {w.outcomes.map((item) => (
               <li
                 key={item}
-                className="flex gap-3 text-sm md:text-base text-white-200 leading-relaxed"
+                className="text-sm md:text-base text-white-200 leading-relaxed"
               >
-                <span className="flex-none text-purple" aria-hidden="true">
-                  ✓
-                </span>
                 {item}
               </li>
             ))}
           </ul>
           <p className="text-sm text-white-200/80 mt-6 leading-relaxed">
-            Taught from my own runs: {WORKFLOW_NUMBERS.sessions} sessions and{" "}
-            {WORKFLOW_NUMBERS.hours} hours over {WORKFLOW_NUMBERS.days} days,
-            counted from my own session logs.
+            Taught from {WORKFLOW_NUMBERS.days} days of running agents daily on
+            real repos.
             {hubLive && (
               <>
                 {" "}
@@ -189,20 +187,17 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
         </div>
       </section>
 
-      <section className="px-5 sm:px-10 pb-16" aria-label="Logistics">
-        <div className="max-w-3xl mx-auto">
+      <section className="px-5 sm:px-10 py-12 md:py-16" aria-label="Logistics">
+        <div className="container-prose">
           <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
             Logistics
           </h2>
-          <ul className="flex flex-col gap-3 mt-6">
+          <ul className="flex flex-col gap-3 mt-6 list-disc pl-5 marker:text-purple">
             {workshopLogistics.map((item) => (
               <li
                 key={item}
-                className="flex gap-3 text-sm md:text-base text-white-200 leading-relaxed"
+                className="text-sm md:text-base text-white-200 leading-relaxed"
               >
-                <span className="flex-none text-purple" aria-hidden="true">
-                  ·
-                </span>
                 {item}
               </li>
             ))}
@@ -210,32 +205,44 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
         </div>
       </section>
 
-      <section className="px-5 sm:px-10 pb-20" aria-label="Book the workshop">
-        <div className="max-w-3xl mx-auto rounded-2xl border border-white/10 bg-black-200/60 p-6 md:p-10 text-center">
+      <section className="px-5 sm:px-10 pt-12 pb-20" aria-label="Book the workshop">
+        <div className="container-prose rounded-2xl border border-white/10 bg-black-200/60 p-6 md:p-10 text-center">
           <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-balance">
             Tell me your team size and a few dates that work
           </h2>
-          <p className="text-white-200 mt-4">
+          <p className="text-white-200 mt-4 text-pretty">
             {euro(w.price)} for up to {w.maxPeople} people, EUR, ex-VAT. I reply
             with the open dates and what to install beforehand.
           </p>
-          <div className="flex justify-center">
+          <div className="flex justify-center mt-6">
             <MagicButton
               title={w.cta.label}
               href={w.cta.href}
+              otherClasses="md:mt-0"
               trackEvent={{
                 event: "cta_click",
                 props: { cta: "workshop", source: `workshop_${w.slug}_final` },
               }}
             />
           </div>
-          {w.secondaryCta && (
+          {w.secondaryCta ? (
             <a
               href={w.secondaryCta.href}
-              className="inline-block mt-4 text-sm text-blue-100 underline underline-offset-4 hover:text-purple"
+              className="inline-block mt-4 text-sm text-white-200 underline underline-offset-4 hover:text-purple"
             >
               {w.secondaryCta.label}
             </a>
+          ) : (
+            // R2-F22: the address in plain sight for webmail users.
+            <p className="mt-4 text-sm text-white-200">
+              or write to{" "}
+              <a
+                href={w.cta.href}
+                className="font-medium underline underline-offset-4 hover:text-purple"
+              >
+                {CONTACT_EMAIL}
+              </a>
+            </p>
           )}
           <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 mt-8 text-sm font-medium">
             <Link

@@ -7,12 +7,14 @@ import { EntryOffer } from "@/components/services/EntryOffer";
 import { TrustStrip } from "@/components/services/TrustStrip";
 import { Retainer } from "@/components/services/Retainer";
 import { HarnessSetup } from "@/components/services/HarnessSetup";
-import { Scarcity } from "@/components/services/Scarcity";
-import { ServicesFaq } from "@/components/services/ServicesFaq";
+import {
+  ServicesFaq,
+  faqJsonLd,
+  servicesFaqCopy,
+} from "@/components/services/ServicesFaq";
 import { ServicesFinalCta } from "@/components/services/ServicesFinalCta";
 import { Ladder } from "@/components/services/Ladder";
 import { ladderServiceJsonLd } from "@/data/ladder";
-import { faqPageJsonLd } from "@/data";
 import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 
 const TITLE = "AI Services and Prices, From a €200 Call";
@@ -52,7 +54,9 @@ const ServicesFaqJsonLd = () => (
     type="application/ld+json"
     // Static data, JSON.stringify()-escaped. Built from the same `faqs` the
     // visible FAQ renders, so the schema can't drift from the page.
-    dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJsonLd()) }}
+    dangerouslySetInnerHTML={{
+      __html: JSON.stringify(faqJsonLd(servicesFaqCopy.items)),
+    }}
   />
 );
 
@@ -86,7 +90,6 @@ export default function ServicesPage() {
       <TrustStrip />
       <Retainer />
       <HarnessSetup />
-      <Scarcity />
       <ServicesFaq />
       <ServicesFinalCta />
     </PageShell>

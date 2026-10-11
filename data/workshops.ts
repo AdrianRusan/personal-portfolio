@@ -61,8 +61,13 @@ const ask = (length: string) =>
   `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Team workshop (${length})`)}`;
 
 // Same three blocks in both formats; the full day gives each more time.
-const morning = (times: [string, string, string]): AgendaPart => ({
-  label: "Morning",
+// R2-F29: parts are named by topic and length, not time of day.
+const setup = (
+  duration: string,
+  times: [string, string, string],
+): AgendaPart => ({
+  label: "Setup",
+  duration,
   blocks: [
     {
       time: times[0],
@@ -105,18 +110,20 @@ const fullDay: Workshop = {
   headline:
     "Teach your team to run Claude Code agents in parallel, then review what they ship",
   intro:
-    "The morning gets your engineers running several agents side by side on your own repo. The afternoon is the part most teams skip: the gates that catch what those agents get wrong before it reaches a customer. The honest target is 2–3x, not 100x.",
+    "The morning gets your engineers running several agents side by side on your own repo. The afternoon is the part most teams skip: the gates that catch what those agents get wrong before it reaches a customer. Expect 2–3x, not 100x.",
   agenda: [
-    morning(["09:00–10:00", "10:15–11:15", "11:15–12:30"]),
+    setup("3.5 hours", ["09:00–10:00", "10:15–11:15", "11:15–12:30"]),
     {
-      label: "Afternoon",
+      label: "Review gates",
+      duration: "3.5 hours",
       blocks: [
         { ...reviewGates, time: "13:30–14:45" },
         { ...honestyRule, time: "15:00–16:00" },
         {
           time: "16:00–17:00",
           title: "Live example: an agent-built SaaS",
-          body: "A walk through a real multi-session agent org that built a SaaS platform: how the work was split, how the agents were briefed, and where the review gates caught what the implementing agents got wrong.",
+          // A6: the client is named nowhere.
+          body: "A walk through a client's agent-built SaaS (under NDA): how the work was split across agent sessions, how the agents were briefed, and where the review gates caught what the implementing agents got wrong.",
         },
       ],
     },
@@ -143,11 +150,11 @@ const halfDay: Workshop = {
   headline:
     "Get your team running Claude Code agents in parallel in half a day",
   intro:
-    "Your engineers set up parallel agents on your own repo, write the rules file those agents follow, and finish with one hour on reviewing what the agents produce. The honest target is 2–3x, not 100x.",
+    "Your engineers set up parallel agents on your own repo, write the rules file those agents follow, and finish with one hour on reviewing what the agents produce. Expect 2–3x, not 100x.",
   agenda: [
-    morning(["09:00–09:45", "09:45–10:30", "10:45–11:30"]),
+    setup("2.5 hours", ["09:00–09:45", "09:45–10:30", "10:45–11:30"]),
     {
-      label: "Review gates, condensed",
+      label: "Review gates",
       duration: "1 hour",
       blocks: [
         { ...reviewGates, time: "11:30–12:00" },

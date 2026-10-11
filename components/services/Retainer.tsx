@@ -1,140 +1,124 @@
 import { CalendlyLink } from "@/components/CalendlyLink";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { ctaSecondary } from "@/components/ui/button";
 import { Fold } from "./Fold";
 
 const en = {
-  eyebrow: "Ongoing capacity",
   heading: "Retainer",
   intro:
-    "Senior AI-native delivery, every month: a committed flow of security-reviewed PRs for teams who've stopped asking whether agents are fast and now want them running continuously and safely.",
-  deliveredHeading: "What's delivered, monthly",
+    "Reviewed PRs every month, at a pace we agree up front. Your review slot is held for you.",
+  deliveredHeading: "What you get each month",
   deliverables: [
-    "A committed monthly PR throughput band, all adversarially reviewed — the same ship/verify pipeline as the sprint, on a continuous cadence.",
-    'A rolling security findings log and a monthly "what the agents got wrong in your codebase" report.',
-    "Standing async access to me for delivery and review questions.",
-    "Priority booking over one-off sprints — retainer clients hold a permanent verify slot.",
+    "An agreed number of PRs, each one reviewed the same way as in a sprint.",
+    "A running log of security findings, and a monthly note on what the agents got wrong in your codebase.",
+    "Async access to me for delivery and review questions.",
+    "First claim on my review time: retainer clients keep their slot ahead of one-off sprints.",
   ],
-  pricingHeading: "Pricing",
-  startsAt: "Starts at",
+  startsAt: "From",
   price: "€4,000",
   perMonth: "/month",
   // D4: the minimum sits at the price, not only in the terms.
   minimum: "3-month minimum, from €12,000",
   pricingBody:
-    "A permanently reserved senior-review slot and a committed monthly band of reviewed PRs, on the same ship/verify pipeline as the sprint. The exact band and per-PR rate are scoped on the call, against your repo and cadence — a 3-month initial commitment.",
-  pricingRate:
-    "The per-PR rate lands roughly 20–30% below the one-off Sprint rate — that's what the monthly commitment buys you. The exact band is scoped on the call.",
+    "The monthly PR count and per-PR rate are set on the call, against your repo and pace. The per-PR rate lands about 20–30% below a one-off sprint.",
   cta: "Book a scoping call",
-  bandNote:
-    "Your monthly band is locked on day 0, no runaway bill — overflow rolls forward instead of surprise invoicing.",
-  guaranteesHeading: "The guarantees",
-  // C32: the full security guarantee is printed once, in the sprint section.
-  securityNote:
-    "Plus the sprint's security guarantee on every retainer PR: an in-scope vulnerability later found in a PR I marked reviewed gets fixed free, and the surrounding batch re-reviewed.",
+  guaranteesHeading: "Guarantees",
   guarantees: [
     {
-      title: "Proof-month guarantee",
-      body: "We agree the pace of reviewed PRs up front. If month 1 misses it, you can stop there, with nothing more owed. You see the retainer working before the full three months.",
+      title: "First-month guarantee",
+      body: "We agree the pace up front. If month 1 misses it, you can stop there and owe nothing more.",
     },
   ],
+  // C32: the full security guarantee is printed once, in the sprint section.
+  securityNote:
+    "Every retainer PR also carries the sprint's security guarantee.",
   termsHeading: "Terms",
   terms: [
-    "Throughput is a band, not unlimited. Overflow rolls to the next month or a top-up sprint. The exact band is scoped on the call.",
-    "Not 24/7 on-call incident response — that can be added as a named line item, priced separately.",
-    "Three months to start. If month 1 misses the pace we agreed, you can stop there. After the three months it's month to month: give me 30 days' notice when you want to stop.",
+    "Monthly volume has a cap. Overflow moves to next month or a top-up sprint.",
+    "24/7 on-call isn't included. It can be added as a separate line item.",
+    "Three months to start, then month to month with 30 days' notice.",
   ],
 };
 
 export type RetainerCopy = typeof en;
 
+// R2-F14: price and deliverables side by side, so neither leaves half a row empty.
 export const Retainer = ({ copy = en }: { copy?: RetainerCopy }) => {
   return (
-    <section id="retainer" className="px-5 sm:px-10 py-12 md:py-20 scroll-mt-24">
-      <div className="max-w-6xl mx-auto rounded-2xl border border-white/10 bg-black-200/40 p-6 md:p-10">
-        <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100">
-          {copy.eyebrow}
-        </span>
-        <h2 className="text-2xl md:text-4xl font-bold tracking-tight mt-3 text-balance">
-          {copy.heading}
-        </h2>
-        <p className="text-white-200 mt-5 leading-relaxed max-w-3xl">
-          {copy.intro}
-        </p>
+    <section
+      id="retainer"
+      className="px-5 sm:px-10 py-12 md:py-20 scroll-mt-24"
+    >
+      <div className="container-section">
+        <SectionHeading lead={copy.intro}>{copy.heading}</SectionHeading>
 
-        <Fold title={copy.deliveredHeading}>
-          <ul className="flex flex-col gap-3">
-            {copy.deliverables.map((item) => (
-              <li
-                key={item}
-                className="flex gap-3 text-sm text-white-200 leading-relaxed"
-              >
-                <span className="text-purple flex-none">+</span>
-                {item}
-              </li>
-            ))}
-          </ul>
-        </Fold>
-
-        <h3 className="text-lg font-semibold mt-10 mb-4">
-          {copy.pricingHeading}
-        </h3>
-        <div className="rounded-xl border border-white/10 bg-black-200/30 p-6 md:p-8">
-          <p className="font-mono text-xs uppercase tracking-[0.1em] text-blue-100 mb-2">
-            {copy.startsAt}
-          </p>
-          <p className="text-3xl md:text-4xl font-bold text-white">
-            {copy.price}
-            <span className="text-base font-normal text-white-200">
-              {copy.perMonth}
-            </span>
-          </p>
-          <p className="font-mono text-xs md:text-sm text-white mt-2">
-            {copy.minimum}
-          </p>
-          <p className="text-sm text-white-200 mt-4 leading-relaxed max-w-2xl">
-            {copy.pricingBody}
-          </p>
-          <p className="text-sm text-white-200/80 mt-3 leading-relaxed max-w-2xl">
-            {copy.pricingRate}
-          </p>
-          <div className="mt-6">
-            <CalendlyLink source="retainer_top" ariaLabel={copy.cta}>
-              <span className="inline-flex items-center rounded-lg border border-purple/40 px-4 py-2 text-xs font-medium text-purple hover:bg-purple/10 transition-colors">
-                {copy.cta}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10 border-t border-white/10 pt-8">
+          <div>
+            <h3 className="text-lg font-semibold">{copy.deliveredHeading}</h3>
+            <ul className="flex flex-col gap-3 mt-4 list-disc pl-5 marker:text-purple">
+              {copy.deliverables.map((item) => (
+                <li
+                  key={item}
+                  className="text-sm text-white-200 leading-relaxed"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="rounded-xl border border-white/10 bg-black-200/40 p-6 md:p-8 self-start">
+            <p className="text-sm text-white-200/80">{copy.startsAt}</p>
+            <p className="num text-3xl md:text-4xl font-bold text-white mt-1">
+              {copy.price}
+              <span className="text-base font-normal text-white-200">
+                {copy.perMonth}
               </span>
-            </CalendlyLink>
+            </p>
+            <p className="text-sm text-white mt-2">{copy.minimum}</p>
+            <p className="text-sm text-white-200 mt-4 leading-relaxed text-pretty">
+              {copy.pricingBody}
+            </p>
+            <div className="mt-6">
+              <CalendlyLink
+                source="retainer_top"
+                ariaLabel={copy.cta}
+                className={ctaSecondary}
+              >
+                {copy.cta}
+              </CalendlyLink>
+            </div>
           </div>
         </div>
-        <p className="text-xs text-white-200/70 mt-4 italic">{copy.bandNote}</p>
 
-        <Fold title={copy.guaranteesHeading}>
-          {copy.guarantees.map((g) => (
-            <div
-              key={g.title}
-              className="rounded-xl border border-white/10 bg-black-200/30 p-5"
-            >
-              <p className="font-mono text-xs text-purple mb-2">{g.title}</p>
-              <p className="text-sm text-white-200 leading-relaxed">{g.body}</p>
-            </div>
-          ))}
-          <p className="text-sm text-white-200 mt-4 leading-relaxed">
-            {copy.securityNote}
-          </p>
-        </Fold>
-
-        <Fold title={copy.termsHeading}>
-          <ul className="flex flex-col gap-3">
-            {copy.terms.map((item) => (
-              <li
-                key={item}
-                className="flex gap-3 text-sm text-white-200/80 leading-relaxed"
+        <div className="mt-8">
+          <Fold title={copy.guaranteesHeading}>
+            {copy.guarantees.map((g) => (
+              <p
+                key={g.title}
+                className="text-sm text-white-200 leading-relaxed"
               >
-                <span className="text-white-200/40 flex-none">−</span>
-                {item}
-              </li>
+                <span className="font-semibold text-white">{g.title}.</span>{" "}
+                {g.body}
+              </p>
             ))}
-          </ul>
-        </Fold>
+            <p className="text-sm text-white-200 mt-3 leading-relaxed">
+              {copy.securityNote}
+            </p>
+          </Fold>
 
+          <Fold title={copy.termsHeading}>
+            <ul className="flex flex-col gap-3 list-disc pl-5 marker:text-white-200/40">
+              {copy.terms.map((item) => (
+                <li
+                  key={item}
+                  className="text-sm text-white-200/80 leading-relaxed"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </Fold>
+        </div>
       </div>
     </section>
   );

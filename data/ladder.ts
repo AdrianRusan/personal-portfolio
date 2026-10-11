@@ -1,8 +1,6 @@
 import {
   CALENDLY_URL,
-  CREDIT_DAYS,
   CREDIT_TERMS,
-  GUARANTEE,
   STRATEGY_CALL_CTA,
   STRATEGY_CALL_URL,
 } from "@/data";
@@ -18,11 +16,11 @@ export { CREDIT_TERMS };
 export type Tier = "Advise" | "Train" | "Build" | "Ship";
 
 export const tiers: { tier: Tier; tagline: string }[] = [
-  { tier: "Advise", tagline: "A straight answer, or a ranked list of fixes" },
+  { tier: "Advise", tagline: "An answer to one question, or a ranked list of fixes" },
   { tier: "Train", tagline: "Your team learns the workflow hands-on" },
   {
     tier: "Build",
-    tagline: "One automation or harness, built and handed over",
+    tagline: "One automation or agent setup, built and handed over",
   },
   { tier: "Ship", tagline: "Your backlog, shipped and reviewed" },
 ];
@@ -49,17 +47,43 @@ export interface LadderOffer {
   ctas: { label: string; href: string }[];
 }
 
+// Delivery Sprint sizes (Pilot, Standard, Scale): price and PR count. One
+// source for the pricing table, the per-PR band and the Calendly prefill.
+export interface SprintSize {
+  price: number;
+  prs: [number, number];
+}
+export const sprintSizes: SprintSize[] = [
+  { price: 7500, prs: [5, 6] },
+  { price: 14500, prs: [10, 15] },
+  { price: 24000, prs: [16, 20] },
+];
+
+// R2-F1: the per-PR claim is computed, never typed: the cheapest and dearest
+// PR across all sizes, rounded to the nearest 100.
+export const perPrBand = (sizes: SprintSize[]): [number, number] => {
+  const per = sizes.flatMap(({ price, prs }) => prs.map((n) => price / n));
+  const round = (v: number) => Math.round(v / 100) * 100;
+  return [round(Math.min(...per)), round(Math.max(...per))];
+};
+
+const perPrLabel = (sizes: SprintSize[]) => {
+  const [lo, hi] = perPrBand(sizes);
+  return `€${lo.toLocaleString("en-US")}–${hi.toLocaleString("en-US")} per PR`;
+};
+
 // Prices are the guide's ladder table (2026-10-10): EUR, ex-VAT, global.
 const offers: LadderOffer[] = [
   {
     id: "strategy-call",
     tier: "Advise",
     name: "AI Strategy Call",
+    // R2-F8: says why this paid hour differs from the free scoping call.
     summary:
-      "60 minutes 1:1 on the AI question in front of you, plus a written summary you keep.",
+      "The free 30-min call scopes a project. This hour is advice on your own question, with a written summary.",
     prices: [{ amount: 200 }],
     duration: "1 h",
-    assurance: `Move up a tier within ${CREDIT_DAYS} days and the €200 counts toward it.`,
+    assurance: "Fixed price, paid up front.",
     ctas: [{ label: STRATEGY_CALL_CTA, href: STRATEGY_CALL_URL }],
   },
   {
@@ -70,7 +94,7 @@ const offers: LadderOffer[] = [
       "Your AI-written code, LLM workflow or LLM spend, reviewed: security gaps, cost per merged PR, cache use and wasted agent runs, in a ranked report of what to fix first.",
     prices: [{ amount: 900, from: true }],
     duration: "2–3 days",
-    assurance: `Price agreed before I start. Move up within ${CREDIT_DAYS} days and it counts toward the next tier.`,
+    assurance: "Price agreed before I start.",
     ctas: [
       { label: "Scope an audit", href: CALENDLY_URL },
       { label: "Or start with a free teardown", href: "/teardown" },
@@ -81,13 +105,13 @@ const offers: LadderOffer[] = [
     tier: "Train",
     name: "Team workshop",
     summary:
-      "Claude Code, orchestration, review gates and harness engineering, hands-on. Your team leaves with its first rules file and a worktree-per-agent setup running on your repo. Up to 10 people.",
+      "Claude Code, parallel agents, a rules file and review gates, hands-on. Your team leaves with its first rules file and a worktree-per-agent setup running on your repo. Up to 10 people.",
     // One source for workshop prices: the workshop pages' own data.
     prices: [
       { amount: workshops["half-day"].price, label: "half-day" },
       { amount: workshops["full-day"].price, label: "full-day" },
     ],
-    duration: "4–8 h",
+    duration: "3.5 h / 8 h",
     assurance: "Fixed price for up to 10 people, agenda agreed in advance.",
     ctas: [
       { label: "Half-day agenda", href: "/workshops/half-day" },
@@ -114,11 +138,10 @@ const offers: LadderOffer[] = [
     tier: "Build",
     name: "Agent Fleet Setup",
     summary:
-      "The harness I run: parallel agents in git worktrees, project rules and review gates wired into CI, installed in your repo and handed over to your team.",
+      "The harness I run (the rules, scripts and CI checks that keep agents on track), with parallel agents in git worktrees, installed in your repo and handed over to your team.",
     prices: [{ amount: 4000, from: true }],
     duration: "1 wk",
-    assurance:
-      "Your team ships a reviewed PR through it, or sessions continue free.",
+    assurance: "Price fixed for one repo before I start.",
     ctas: [{ label: "What's included", href: "#harness" }],
   },
   {
@@ -129,7 +152,8 @@ const offers: LadderOffer[] = [
       "One real ticket from your backlog, shipped by an agent and security-reviewed line by line.",
     prices: [{ amount: 1000 }],
     duration: "~48 h",
-    assurance: GUARANTEE,
+    // The guarantee itself is printed once per page, in the hero (C-RULES).
+    assurance: "Paid after you've seen the PR.",
     ctas: [{ label: "What's included", href: "#entry-offer" }],
   },
   {
@@ -137,12 +161,11 @@ const offers: LadderOffer[] = [
     tier: "Ship",
     name: "Delivery Sprint",
     summary:
-      "A fixed batch of merge-ready, security-reviewed PRs at a price agreed before we start: ≈€1,000/PR plus the Sprint Security Report, the Agent Failure Map and a reserved review slot.",
-    prices: [{ amount: 7500, from: true }],
+      `A fixed batch of merge-ready, security-reviewed PRs at a price agreed before we start: ${perPrLabel(sprintSizes)}, security report included.`,
+    prices: [{ amount: sprintSizes[0]!.price, from: true }],
     duration: "1–2 wk · larger scopes 2–3 wk",
     limited: true,
-    assurance:
-      "First PR not merge-ready? You don't pay for it. Missed vulnerabilities get fixed free.",
+    assurance: "Price fixed on the scope call, before work starts.",
     ctas: [{ label: "What's included", href: "#sprint" }],
   },
   {
@@ -155,7 +178,7 @@ const offers: LadderOffer[] = [
     perMonth: true,
     duration: "monthly",
     limited: true,
-    assurance: "If month 1 misses the pace we agreed, you can stop there.",
+    assurance: "Three months to start, then month to month.",
     ctas: [{ label: "What's included", href: "#retainer" }],
   },
 ];

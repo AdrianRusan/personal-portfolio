@@ -1,7 +1,9 @@
 import { CALENDLY_URL, CONTACT_EMAIL, CREDIT_DAYS } from "@/data";
 import {
   ladder,
+  perPrBand,
   withOfferPrefill,
+  type SprintSize,
   type LadderOffer,
   type Price,
   type Tier,
@@ -37,15 +39,24 @@ export const roTiers: { tier: Tier; tagline: string }[] = [
   {
     tier: "Advise",
     tagline:
-      "Un răspuns direct sau o listă de reparații, în ordinea priorității",
+      "Un răspuns la o întrebare sau o listă de reparații, în ordinea priorității",
   },
   { tier: "Train", tagline: "Echipa ta învață fluxul de lucru, pe cod real" },
   {
     tier: "Build",
-    tagline: "O automatizare sau un harness, construit și predat",
+    tagline: "O automatizare sau un setup de agenți, construit și predat",
   },
   { tier: "Ship", tagline: "Backlog-ul tău, livrat și revizuit" },
 ];
+
+// RO Delivery Sprint sizes: same PR counts as sprintSizes, RO prices.
+export const roSprintSizes: SprintSize[] = [
+  { price: 4100, prs: [5, 6] },
+  { price: 8000, prs: [10, 15] },
+  { price: 13200, prs: [16, 20] },
+];
+const [roPerPrLo, roPerPrHi] = perPrBand(roSprintSizes);
+const roPerPr = `${roPerPrLo}–${roPerPrHi} €`;
 
 // Brief R7 (2026-10-10): 55% of the global ladder, rounded clean. EUR, ex-VAT.
 const ro: Record<
@@ -59,10 +70,10 @@ const ro: Record<
   "strategy-call": {
     name: "Sesiune de strategie AI",
     summary:
-      "60 de minute 1:1 pe întrebarea despre AI pe care o ai acum, plus un rezumat scris pe care îl păstrezi.",
+      "Discuția gratuită de 30 de minute stabilește scope-ul unui proiect. Ora asta e consultanță pe întrebarea ta, cu un rezumat scris.",
     prices: [{ amount: 110 }],
     duration: "1 oră",
-    assurance: `Treci la nivelul următor în ${CREDIT_DAYS} de zile și cei 110 € se scad din preț.`,
+    assurance: "Preț fix, plătit în avans.",
     ctas: [{ label: RO_STRATEGY_CALL_CTA, href: RO_STRATEGY_CALL_URL }],
   },
   audit: {
@@ -71,11 +82,11 @@ const ro: Record<
       "Îți verific codul scris de AI, fluxul LLM sau costurile cu LLM-urile: breșe de securitate, costul pe fiecare PR intrat în merge, folosirea cache-ului și rulările de agenți irosite. Primești un raport care îți spune ce repari întâi.",
     prices: [{ amount: 500, from: true }],
     duration: "2–3 zile",
-    assurance: `Prețul se stabilește înainte să încep. Treci mai sus în ${CREDIT_DAYS} de zile și se scade din nivelul următor.`,
+    assurance: "Prețul se stabilește înainte să încep.",
     ctas: [
       { label: "Programează un audit", href: CALENDLY_URL },
       {
-        label: "Sau începe cu un teardown gratuit (în engleză)",
+        label: "Sau începe cu un teardown gratuit (EN)",
         href: "/teardown",
       },
     ],
@@ -83,12 +94,12 @@ const ro: Record<
   workshop: {
     name: "Workshop pentru echipă",
     summary:
-      "Claude Code, orchestrare, review gates și harness engineering, lucrate practic. Echipa ta pleacă cu primul ei fișier de reguli și cu un setup cu un worktree pentru fiecare agent, pornit pe repo-ul vostru. Maximum 10 persoane.",
+      "Claude Code, agenți în paralel, un fișier de reguli și review gates, lucrate practic. Echipa ta pleacă cu primul ei fișier de reguli și cu un setup cu un worktree pentru fiecare agent, pornit pe repo-ul vostru. Maximum 10 persoane.",
     prices: [
       { amount: 1100, label: "jumătate de zi" },
       { amount: 1900, label: "o zi întreagă" },
     ],
-    duration: "4–8 ore",
+    duration: "3,5 ore / 8 ore",
     assurance:
       "Preț fix pentru până la 10 persoane, cu agenda stabilită dinainte.",
     ctas: [
@@ -109,7 +120,7 @@ const ro: Record<
     ctas: [
       { label: "Discută o automatizare", href: CALENDLY_URL },
       {
-        label: "Vezi filtrul de fapte construit de mine (în engleză)",
+        label: "Vezi filtrul de fapte construit de mine (EN)",
         href: "/work/honesty-gate",
       },
     ],
@@ -117,11 +128,10 @@ const ro: Record<
   harness: {
     name: "Agent Fleet Setup",
     summary:
-      "Harness-ul pe care îl folosesc eu: agenți în paralel în git worktrees, reguli de proiect și review gates legate în CI, instalate în repo-ul tău și predate echipei.",
+      "Harness-ul pe care îl folosesc eu (regulile, scripturile și verificările din CI care țin agenții pe drumul bun), cu agenți în paralel în git worktrees, instalat în repo-ul tău și predat echipei.",
     prices: [{ amount: 2200, from: true }],
     duration: "1 săpt.",
-    assurance:
-      "Echipa ta livrează un PR revizuit prin el, altfel sesiunile continuă gratuit.",
+    assurance: "Preț fix pentru un repo, stabilit înainte să încep.",
     ctas: [{ label: "Discută configurarea", href: CALENDLY_URL }],
   },
   "reviewed-pr": {
@@ -130,17 +140,16 @@ const ro: Record<
       "Un tichet real din backlog-ul tău, livrat de un agent și verificat linie cu linie pentru securitate.",
     prices: [{ amount: 550 }],
     duration: "~48 h",
-    assurance: RO_GUARANTEE,
+    assurance: "Plătești după ce vezi PR-ul.",
     ctas: [{ label: "Începe cu un PR", href: CALENDLY_URL }],
   },
   sprint: {
     name: "Sprint de livrare",
     summary:
-      "Un set fix de PR-uri gata de merge și verificate pentru securitate, la un preț stabilit înainte să începem: ≈550 €/PR plus raportul de securitate al sprintului, harta greșelilor agenților și un loc de review rezervat.",
-    prices: [{ amount: 4100, from: true }],
+      `Un set fix de PR-uri gata de merge și verificate pentru securitate, la un preț stabilit înainte să începem: ${roPerPr} per PR, cu raportul de securitate inclus.`,
+    prices: [{ amount: roSprintSizes[0]!.price, from: true }],
     duration: "1–2 săpt. · proiecte mai mari 2–3 săpt.",
-    assurance:
-      "Primul PR nu e gata de merge? Nu îl plătești. Vulnerabilitățile scăpate se repară gratuit.",
+    assurance: "Prețul se fixează la discuția de scope, înainte de orice lucru.",
     ctas: [{ label: "Discută un sprint", href: CALENDLY_URL }],
   },
   retainer: {
@@ -149,7 +158,7 @@ const ro: Record<
       "PR-uri revizuite în fiecare lună, într-un ritm constant, cu un loc de review rezervat pentru tine.",
     prices: [{ amount: 2200, from: true }],
     duration: "lunar",
-    assurance: "Dacă luna 1 nu atinge ritmul stabilit, te poți opri acolo.",
+    assurance: "Trei luni la început, apoi lună de lună.",
     ctas: [{ label: "Discută un retainer", href: CALENDLY_URL }],
   },
 };

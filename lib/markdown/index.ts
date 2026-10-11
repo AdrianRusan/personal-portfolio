@@ -10,7 +10,7 @@ import { ladderCopy } from "@/components/services/Ladder";
 import { processStepsCopy } from "@/components/services/ProcessSteps";
 import { servicesFaqCopy } from "@/components/services/ServicesFaq";
 import { servicesHeroCopy } from "@/components/services/ServicesHero";
-import { BLOG_DESCRIPTION, faqs, homeFaq, homeFaqs } from "@/data";
+import { BLOG_DESCRIPTION, homeFaq, homeFaqs } from "@/data";
 import {
   aboutPage,
   contactPage,
@@ -32,6 +32,7 @@ import {
 import {
   roProcessSteps,
   roServicesFaq,
+  roServicesPageFaq,
   roServicesHero,
   roServicesLadder,
 } from "@/data/ro-services";
@@ -80,14 +81,14 @@ const staticPages: Record<string, () => string> = {
       hero: servicesHeroCopy,
       ladder: ladderCopy,
       process: processStepsCopy,
-      faq: { ...servicesFaqCopy, items: faqs },
+      faq: servicesFaqCopy,
     }),
   "/ro/servicii": () =>
     servicesMd({
       hero: roServicesHero,
       ladder: roServicesLadder,
       process: roProcessSteps,
-      faq: roServicesFaq,
+      faq: roServicesPageFaq,
     }),
   "/teardown": teardownMd,
   "/privacy": () => proseMd(privacyPage),

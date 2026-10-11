@@ -1,16 +1,13 @@
-import Link from "next/link";
 import MagicButton from "@/components/ui/MagicButton";
-import { CALENDLY_URL } from "@/data";
+import { CALENDLY_URL, CONTACT_EMAIL } from "@/data";
 
+// The page's one closing ask (PageShell's shared one is off on /services).
 const en = {
   heading: "Tell me the backlog. I'll tell you the number.",
-  body: 'A 30-minute call to shape the scope and fix the price. No obligation, and no "100x" — just the honest version of what an agent fleet plus a senior reviewer can ship for you.',
-  proof:
-    "30 reviewed PRs in under 3 days. 3 shell-injection paths caught in review before merge. That's the job.",
+  body: "A 30-minute call. You'll leave with a scope and a fixed price.",
   cta: "Book a scoping call",
   ctaSource: "services_final_cta",
-  workLink: "See the 30-PR sprint in full →",
-  workHref: "/blog/30-prs-in-2-5-days",
+  emailBefore: "or email",
 };
 
 export type ServicesFinalCtaCopy = typeof en;
@@ -22,29 +19,41 @@ export const ServicesFinalCta = ({
 }) => {
   return (
     // id="contact": the /services sub-nav's "Contact" anchor.
-    <section id="contact" className="px-5 sm:px-10 py-12 md:py-20">
-      <div className="max-w-5xl mx-auto rounded-2xl border border-white/10 bg-black-200/60 p-10 md:p-16 text-center">
-        <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-balance max-w-3xl mx-auto">
+    <section
+      id="contact"
+      aria-labelledby="services-final-cta"
+      className="px-5 sm:px-10 pt-24 pb-12 md:pb-20 scroll-mt-24"
+    >
+      <div className="container-prose text-center">
+        <h2
+          id="services-final-cta"
+          className="text-3xl md:text-4xl font-bold tracking-tight text-balance"
+        >
           {copy.heading}
         </h2>
-        <p className="text-white-200 mt-4 max-w-2xl mx-auto">{copy.body}</p>
-        <p className="font-mono text-sm text-purple mt-6">{copy.proof}</p>
+        <p className="text-white-200 mt-4 max-w-xl mx-auto text-pretty">
+          {copy.body}
+        </p>
         <div className="flex justify-center mt-8">
           <MagicButton
             title={copy.cta}
             href={CALENDLY_URL}
+            otherClasses="md:mt-0"
             trackEvent={{
               event: "calendly_click",
               props: { source: copy.ctaSource },
             }}
           />
         </div>
-        <Link
-          href={copy.workHref}
-          className="inline-block text-sm font-medium text-blue-100 hover:text-purple transition-colors mt-6"
-        >
-          {copy.workLink}
-        </Link>
+        <p className="mt-5 text-sm text-white-200">
+          {copy.emailBefore}{" "}
+          <a
+            href={`mailto:${CONTACT_EMAIL}`}
+            className="font-medium underline underline-offset-4 hover:text-purple transition-colors"
+          >
+            {CONTACT_EMAIL}
+          </a>
+        </p>
       </div>
     </section>
   );

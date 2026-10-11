@@ -1,6 +1,7 @@
 import { faqs, faqPageJsonLd, homeFaq, homeFaqs } from "@/data";
 import { roCallFaq } from "@/data/ro-home";
-import { roServicesFaq } from "@/data/ro-services";
+import { roServicesFaq, roServicesPageFaq } from "@/data/ro-services";
+import { faqJsonLd, servicesFaqCopy } from "@/components/services/ServicesFaq";
 
 describe("FAQ", () => {
   // Brief R6: the objections a buyer raises before booking.
@@ -65,5 +66,55 @@ describe("homepage FAQ", () => {
     expect(ro.slice(0, 5).map((f) => roServicesFaq.items.indexOf(f))).toEqual(
       homeFaqs.slice(0, 5).map((f) => faqs.indexOf(f)),
     );
+  });
+});
+
+// R2-F10: /services and /ro/servicii show 8 merged questions that still cover
+// every objection above, and their FAQPage carries exactly those 8.
+describe("services FAQ", () => {
+  const items = servicesFaqCopy.items;
+
+  it("has 8 questions in EN and RO", () => {
+    expect(items).toHaveLength(8);
+    expect(roServicesPageFaq.items).toHaveLength(8);
+  });
+
+  it.each([
+    /data/i,
+    /own/i,
+    /NDA/,
+    /security/i,
+    /timezone/i,
+    /payment/i,
+    /agents get it wrong/i,
+    /stacks/i,
+    /LLM and API usage/i,
+    /one PR/i,
+    /invoices/i,
+  ])("still answers %s", (pattern) => {
+    expect(items.some((f) => pattern.test(f.question))).toBe(true);
+  });
+
+  it("keeps the LLM-cost and invoicing facts", () => {
+    const text = items.map((f) => f.answer).join(" ");
+    expect(text).toContain(
+      "LLM/API usage is included in the fixed price for sprints and reviewed PRs.",
+    );
+    expect(text).toContain("Invoiced in EUR by my Romanian company; USD on request.");
+    expect(text).not.toMatch(/reverse.charge/i);
+  });
+
+  it("builds FAQPage JSON-LD from the visible items, verbatim", () => {
+    for (const list of [items, roServicesPageFaq.items]) {
+      const ld = JSON.parse(JSON.stringify(faqJsonLd(list)));
+      expect(ld["@type"]).toBe("FAQPage");
+      expect(ld.mainEntity).toEqual(
+        list.map((f) => ({
+          "@type": "Question",
+          name: f.question,
+          acceptedAnswer: { "@type": "Answer", text: f.answer },
+        })),
+      );
+    }
   });
 });
