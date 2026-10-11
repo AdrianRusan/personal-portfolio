@@ -40,8 +40,8 @@ export const roServicesHero: ServicesHeroCopy = {
   guarantee: RO_GUARANTEE,
   ledger: RO_LEDGER_PROOF,
   proofItems: [
-    "30 de PR-uri revizuite · 9 loturi de agenți · 2,5 zile",
-    "3 vulnerabilități de tip shell injection prinse, deși trecuseră de teste",
+    "30 de PR-uri revizuite · 9 loturi de agenți · sub 3 zile",
+    "3 căi de shell injection din input-ul cererii, prinse în review înainte de merge",
     "Peste 10 ani în producție",
   ],
   proofNote:
@@ -303,7 +303,7 @@ export const roHarnessSetup: HarnessSetupCopy = {
   deliveredHeading: "Ce primești, exact",
   deliverables: [
     "Un agent harness Claude Code funcțional, configurat pe repo-ul tău: regulile de proiect din CLAUDE.md, fluxul cu worktree-uri și dispatch, plus integrarea în CI.",
-    "Checklist-ul de review de securitate adversarial pe care îl folosesc — cel care a prins 3 vulnerabilități reale de tip shell injection ce trecuseră de testele automate — adaptat stack-ului tău și predat ca să rămână la tine.",
+    "Checklist-ul de review de securitate adversarial pe care îl folosesc — cel care a prins 3 căi de shell injection din input-ul cererii, pe propria mea rulare de 30 de PR-uri — adaptat stack-ului tău și predat ca să rămână la tine.",
     "O sesiune practică de lucru (sau o serie scurtă): rulez un lot live pe backlog-ul tău cu echipa de față, apoi echipa ta rulează lotul următor, iar eu fac review.",
     "Un playbook scris: cum distribui tichetele, ce verifici întâi, ce greșeli să te aștepți să apară în codul tău și unde verificarea umană e obligatorie.",
     "2 săptămâni de suport async după predare, cât echipa ta preia fluxul.",
@@ -361,7 +361,7 @@ export const roServicesFaq: ServicesFaqCopy = {
       question:
         "Agenții nesupravegheați livrează vulnerabilități. Cum tratezi securitatea?",
       answer:
-        "Așa e, livrează. Tocmai de aceea nu e un serviciu mai ieftin de tipul „pornim agenții și gata”. Securitatea e prima trecere din fiecare review: injection, autentificare, secrete, controlul accesului. Review-ul a prins 3 vulnerabilități de shell injection scrise de agenți, care treceau testele automate. Garanția e în scris: o vulnerabilitate din aria review-ului, găsită într-un PR marcat de mine ca revizuit, se repară gratuit.",
+        "Așa e, livrează. Tocmai de aceea nu e un serviciu mai ieftin de tipul „pornim agenții și gata”. Securitatea e prima trecere din fiecare review: injection, autentificare, secrete, controlul accesului. Pe propria mea rulare de 30 de PR-uri, un repo fără teste, review-ul a prins 3 căi de shell injection din input-ul cererii înainte de merge. Garanția e în scris: o vulnerabilitate din aria review-ului, găsită într-un PR marcat de mine ca revizuit, se repară gratuit.",
     },
     {
       question: "Al cui e codul? Semnezi un NDA?",
@@ -424,7 +424,7 @@ export const roServicesFinalCta: ServicesFinalCtaCopy = {
   heading: "Spune-mi ce ai în backlog. Îți spun cât costă.",
   body: "O discuție de 30 de minute în care conturăm scope-ul și stabilim prețul. Fără nicio obligație și fără „100x” — doar varianta sinceră a ce pot livra pentru tine o flotă de agenți plus un reviewer senior.",
   proof:
-    "30 de PR-uri revizuite în 2,5 zile. 3 vulnerabilități de tip shell injection prinse, deși testele treceau. Asta e meseria.",
+    "30 de PR-uri revizuite în sub 3 zile. 3 căi de shell injection prinse în review înainte de merge. Asta e meseria.",
   cta: "Programează o discuție",
   ctaSource: "ro_services_final_cta",
   workLink: "Vezi sprintul de 30 de PR-uri în detaliu (în engleză) →",

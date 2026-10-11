@@ -15,7 +15,7 @@ const en = {
   deliveredHeading: "Exactly what's delivered",
   deliverables: [
     "A working Claude Code agent harness configured against your repo: CLAUDE.md project rules, the worktree and dispatch workflow, and CI wiring.",
-    "The adversarial security review checklist I use — the artifact that caught 3 real shell-injection vulnerabilities that passed automated tests — adapted to your stack and handed over as yours to keep.",
+    "The adversarial security review checklist I use — the one that caught 3 shell-injection paths from request input on my own 30-PR run — adapted to your stack and handed over as yours to keep.",
     "A hands-on working session (or short series): I run a live batch against your backlog with your team watching, then your team runs the next batch with me reviewing.",
     "A written playbook: how to dispatch, what to review first, the failure modes to expect in your codebase, and where the human verify layer is non-negotiable.",
     "2 weeks of async follow-up support after handover as your team adopts it.",

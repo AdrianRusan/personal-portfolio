@@ -67,11 +67,13 @@ export const navItems = [
 export const proofStats = [
   {
     figure: "30",
-    label: "reviewed PRs · 9 agent batches · 2.5 days",
+    label: "reviewed PRs · 9 agent batches · under 3 days",
   },
   {
     figure: "3",
-    label: "shell-injection vulnerabilities caught — that passed the tests",
+    // Canonical facts: goals/2026-10-11-30pr-canonical-facts.md. The repo had
+    // no tests or CI, so the stat makes no claim about tests.
+    label: "shell-injection paths from request input, caught in review before merge",
   },
   {
     figure: "10+ yrs",
@@ -132,7 +134,7 @@ export const faqs: { question: string; answer: string }[] = [
     question:
       "Unsupervised agents ship vulnerabilities. How do you handle security?",
     answer:
-      "Correct, they do. That's why this isn't a cheaper \"just run the agents\" service. Security is the first pass of every review: injection, auth, secrets, access control. The review has caught 3 shell-injection vulnerabilities the agents wrote that passed the automated tests. The guarantee is in writing: an in-scope vulnerability found in a PR I marked reviewed gets fixed free.",
+      "Correct, they do. That's why this isn't a cheaper \"just run the agents\" service. Security is the first pass of every review: injection, auth, secrets, access control. On my own 30-PR run, a repo with no test suite, the review caught 3 shell-injection paths from request input before merge. The guarantee is in writing: an in-scope vulnerability found in a PR I marked reviewed gets fixed free.",
   },
   {
     question: "Who owns the code? Will you sign an NDA?",

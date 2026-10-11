@@ -62,10 +62,10 @@ export const roHero: HeroCopy = {
 export const roProofBand: ProofBandCopy = {
   ariaLabel: "Dovezi în cifre",
   stats: [
-    { figure: "30", label: "PR-uri revizuite · 9 loturi de agenți · 2,5 zile" },
+    { figure: "30", label: "PR-uri revizuite · 9 loturi de agenți · sub 3 zile" },
     {
       figure: "3",
-      label: "vulnerabilități de shell injection prinse, deși testele treceau",
+      label: "căi de shell injection din input-ul cererii, prinse în review înainte de merge",
     },
     {
       figure: "10+ ani",
@@ -198,9 +198,9 @@ export const roPostTitles: PostTitles = {
       "Șase categorii de greșeli recurente pe care le prind în review-ul codului generat de AI: gate-uri de securitate care lasă totul să treacă la eroare, scope creep, erori înghițite în tăcere și altele. Toate trec testele. Iată ce să cauți.",
   },
   "catching-shell-injection-agents-wrote": {
-    title: "Bugurile de shell injection scrise de agenții mei (și testele au trecut)",
+    title: "Bugurile de shell injection scrise de agenții mei, prinse în review",
     description:
-      "Trei vulnerabilități reale de shell injection scrise de agenți, trecute de testele automate și prinse de un om senior înainte de merge. Dovada că un cod scris de AI are nevoie de review adversarial, nu doar de un CI verde.",
+      "Trei căi reale de shell injection din input-ul cererii, scrise de agenți și prinse de un om senior înainte de merge, pe un repo fără teste. Dovada că un cod scris de AI are nevoie de review adversarial.",
   },
   "2-3x-not-100x": {
     title: "De 2–3 ori, nu de 100 de ori: cifra sinceră despre viteza programării cu AI",

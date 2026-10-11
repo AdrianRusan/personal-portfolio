@@ -7,7 +7,7 @@ const en = {
   heading: "Tell me the backlog. I'll tell you the number.",
   body: 'A 30-minute call to shape the scope and fix the price. No obligation, and no "100x" — just the honest version of what an agent fleet plus a senior reviewer can ship for you.',
   proof:
-    "30 reviewed PRs in 2.5 days. 3 shell-injection bugs caught that the tests passed. That's the job.",
+    "30 reviewed PRs in under 3 days. 3 shell-injection paths caught in review before merge. That's the job.",
   cta: "Book a scoping call",
   ctaSource: "services_final_cta",
   workLink: "See the 30-PR sprint in full →",
