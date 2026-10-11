@@ -1,17 +1,4 @@
-// Mirrors navItems (data/index.ts) for /ro. The EN/RO switch lives in FloatingNav.
-export const roNavItems = [
-  { name: "Metoda", link: "#ship-verify" },
-  { name: "Servicii", link: "#offers" },
-  { name: "Proiecte", link: "#work" },
-  { name: "Blog", link: "/blog" },
-];
-
-// Mirrors servicesNavItems (app/services/page.tsx) for /ro/servicii. /work is EN-only.
-export const roServicesNavItems = [
-  { name: "Acasă", link: "/ro" },
-  { name: "Prețuri", link: "#ladder" },
-  { name: "Metoda", link: "#process" },
-  { name: "Proiecte", link: "/work" },
-  { name: "Blog", link: "/blog" },
-  { name: "Contact", link: "/ro#contact" },
-];
+// undefined = FloatingNav's shared RO nav (data/nav.ts) plus the /ro/servicii
+// sub-nav. Kept so the /ro route files compile until they stop passing navItems.
+export const roNavItems = undefined;
+export const roServicesNavItems = undefined;

@@ -9,9 +9,16 @@ const pairs: [en: string, ro: string][] = [
 export const localeOf = (pathname: string): Locale =>
   pathname === "/ro" || pathname.startsWith("/ro/") ? "ro" : "en";
 
+const twinOf = (pathname: string) => {
+  const ro = localeOf(pathname) === "ro";
+  return pairs.find(([en, roPath]) => (ro ? roPath : en) === pathname);
+};
+
+export const hasTwin = (pathname: string): boolean => !!twinOf(pathname);
+
 export const switchLocalePath = (pathname: string): string => {
   const ro = localeOf(pathname) === "ro";
-  const pair = pairs.find(([en, roPath]) => (ro ? roPath : en) === pathname);
+  const pair = twinOf(pathname);
   if (pair) return ro ? pair[0] : pair[1];
   return ro ? "/" : "/ro";
 };
