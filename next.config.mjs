@@ -121,6 +121,14 @@ export default withSentryConfig(nextConfig, {
   // Hides source maps from generated client bundles
   hideSourceMaps: true,
   
-  // Automatically tree-shake Sentry logger statements to reduce bundle size
   automaticVercelMonitors: true,
+
+  // Client error capture only (instrumentation-client.ts): strip tracing and Replay code from the bundle.
+  bundleSizeOptimizations: {
+    excludeTracing: true,
+    excludeReplayShadowDom: true,
+    excludeReplayIframe: true,
+    excludeReplayWorker: true,
+    excludeDebugStatements: true,
+  },
 });
