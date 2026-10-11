@@ -3,7 +3,7 @@ import * as Sentry from "@sentry/nextjs";
 
 // Free-teardown intake → Resend. On submit we notify Adrian of the request,
 // send the submitter a confirmation, and (best-effort) add them to the nurture
-// audience. No SDK — Resend's REST API over fetch keeps the surface small.
+// audience only when they ticked the opt-in box. No SDK — Resend's REST API over fetch keeps the surface small.
 //
 // Required env (unset = safe dev no-op; in PRODUCTION unset fails closed so a
 // misconfiguration can't silently drop lead requests behind a fake success):
@@ -11,7 +11,7 @@ import * as Sentry from "@sentry/nextjs";
 //   EMAIL_FROM           verified sender, e.g. "Adrian Rusan <hello@adrian-rusan.com>"
 // Optional:
 //   TEARDOWN_NOTIFY_TO   where the request notification lands (default contact@)
-//   RESEND_AUDIENCE_ID   audience the submitter is added to (best-effort nurture only)
+//   RESEND_AUDIENCE_ID   audience an opted-in submitter is added to (best-effort nurture only)
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const NOTIFY_TO = process.env.TEARDOWN_NOTIFY_TO ?? "contact@adrian-rusan.com";
@@ -61,6 +61,8 @@ export async function POST(request: Request) {
   const email = field("email");
   const repoUrl = field("repoUrl");
   const note = field("note");
+  // Nurture is opt-in: only an explicit `true` (a ticked box) joins the audience.
+  const optIn = field("optIn") === true;
 
   if (typeof email !== "string" || !EMAIL_PATTERN.test(email.trim())) {
     return NextResponse.json(
@@ -116,8 +118,8 @@ export async function POST(request: Request) {
 
   const audienceId = process.env.RESEND_AUDIENCE_ID;
 
-  // 1. Add to the audience (best-effort — nurture, not the primary value).
-  if (audienceId) {
+  // 1. Add to the audience if they opted in (best-effort — nurture, not the primary value).
+  if (audienceId && optIn) {
     try {
       const res = await fetch(
         `https://api.resend.com/audiences/${audienceId}/contacts`,
@@ -155,6 +157,7 @@ export async function POST(request: Request) {
           <p><strong>From:</strong> ${escapeHtml(sanitizedEmail)}</p>
           <p><strong>Repo/PR:</strong> <a href="${escapeHtml(sanitizedRepo)}">${escapeHtml(sanitizedRepo)}</a></p>
           ${noteBlock}
+          <p><strong>Opted in to occasional notes:</strong> ${optIn ? "yes" : "no"}</p>
         `,
       }),
     });

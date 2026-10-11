@@ -24,8 +24,6 @@ import {
   formatPriceRo,
   RO_CREDIT_TERMS,
   RO_GUARANTEE,
-  RO_STRATEGY_CALL_CALENDLY_URL,
-  RO_STRATEGY_CALL_URL,
   roLadder,
   roTierNames,
   roTiers,
@@ -50,13 +48,8 @@ export const roHero: HeroCopy = {
   honestBefore: "De 2–3 ori, nu de 100 de ori, și",
   honestLink: "iată ce greșesc agenții",
   teardown: "Cere un teardown gratuit (în engleză)",
-  call: "Sau programează o discuție →",
+  call: "Programează o discuție",
   guarantee: RO_GUARANTEE,
-  adviceBefore: "Ai nevoie doar de sfaturi?",
-  adviceLink: RO_STRATEGY_CALL_CALENDLY_URL
-    ? "Rezervă o sesiune 1:1 de strategie AI, 110 €."
-    : "Scrie-mi pentru o sesiune 1:1 de strategie AI, 110 €.",
-  adviceHref: RO_STRATEGY_CALL_URL,
 };
 
 export const roProofBand: ProofBandCopy = {
@@ -95,6 +88,8 @@ export const roEmailCapture: EmailCaptureCopy = {
   sending: "Se trimite…",
   submit: "Vreau checklist-ul",
   error: "Ceva n-a mers. Încearcă din nou peste câteva momente.",
+  invalid: "Te rog să introduci o adresă de email validă.",
+  privacy: "Cum îți folosesc datele (în engleză)",
 };
 
 // Keyed by tag so a reordered or added EN step can't pick up the wrong copy.
@@ -333,13 +328,14 @@ export const roCallFaq = {
 };
 
 export const roFooter: FooterCopy = {
-  headingBefore: "Nu știi ce ",
-  headingAccent: "nivel",
-  headingAfter: " ți se potrivește? Programează o discuție de 30 de minute.",
+  heading: "Vrei asta pe codul tău? Programează o discuție de 30 de minute.",
   body: "Spune-mi ce vrei să construiești sau să livrezi. Pleci știind ce ofertă ți se potrivește, ce acoperă și cât costă. Fără nicio obligație.",
   button: "Programează o discuție",
   emailAria: "Trimite un email lui Adrian Rusan",
   email: "sau scrie-mi un email",
+  teardown: "Sau trimite-mi un repo pentru un teardown gratuit de 15 minute (în engleză) →",
+  privacy: "Confidențialitate",
+  rss: "RSS",
   socialAria: "Rețele sociale",
   socialLabels: {
     1: "Adrian Rusan pe GitHub",

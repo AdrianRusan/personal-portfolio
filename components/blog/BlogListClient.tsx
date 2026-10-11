@@ -67,11 +67,11 @@ export default function BlogListClient({
 
       {/* Tags */}
       {allTags.length > 0 && (
-        <div className="flex flex-wrap gap-2 mb-8">
+        <div className="flex flex-nowrap sm:flex-wrap gap-2 mb-8 overflow-x-auto pb-1 -mx-5 px-5 sm:mx-0 sm:px-0">
           <button
             onClick={() => setActiveTag(null)}
             className={[
-              'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium transition-colors border',
+              'shrink-0 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium transition-colors border',
               activeTag === null
                 ? 'bg-purple/20 text-purple border-purple/40'
                 : 'bg-white/5 text-white-200 border-white/10 hover:bg-purple/10 hover:text-purple hover:border-purple/30',
@@ -80,7 +80,11 @@ export default function BlogListClient({
             All
           </button>
           {allTags.map((tag) => (
-            <button key={tag} onClick={() => setActiveTag(tag === activeTag ? null : tag)}>
+            <button
+              key={tag}
+              className="shrink-0"
+              onClick={() => setActiveTag(tag === activeTag ? null : tag)}
+            >
               <TagBadge tag={tag} active={tag === activeTag} />
             </button>
           ))}
