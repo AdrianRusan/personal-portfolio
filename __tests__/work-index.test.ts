@@ -22,7 +22,9 @@ describe("/work index", () => {
       // Body only (frontmatter dates hold digits), and not part of a longer number.
       const body = fs.readFileSync(file, "utf8").replace(/^---[\s\S]*?---/, "");
       const escaped = figure.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      expect(body).toMatch(new RegExp(`(^|[^\\d,])${escaped}(?![\\d,]\\d)`));
+      expect(body).toMatch(
+        new RegExp(`(^|[^\\d,])${escaped}(?![\\d,]\\d)`, "i"),
+      );
     },
   );
 

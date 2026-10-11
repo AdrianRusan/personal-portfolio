@@ -1,6 +1,6 @@
 import { RO_LEDGER_PROOF } from "@/data/ro-home";
 import { offerById } from "@/data/ladder";
-import { FINTECH_EMPLOYER } from "@/data";
+import { FINTECH_EMPLOYER, testimonials } from "@/data";
 import type { DeliverySprintCopy } from "@/components/services/DeliverySprint";
 import type { EntryOfferCopy } from "@/components/services/EntryOffer";
 import type { HarnessSetupCopy } from "@/components/services/HarnessSetup";
@@ -210,7 +210,7 @@ export const roDeliverySprint: DeliverySprintCopy = {
     "Intenționat nu există o garanție generală de tip „banii înapoi dacă nu ești mulțumit”. Duce la dispute de scope și nu așa lucrează un profesionist senior. Cele două de mai sus mă fac să răspund exact acolo unde contează: calitate și securitate.",
   paymentHeading: "Plată",
   payment:
-    "50% ca să rezervi slotul, 50% la predare. Un Sprint Pilot se poate plăti integral în avans, fiind o sumă mică. Vrei mai multe sprinturi la rând? Pentru asta e retainerul, mai jos.",
+    "50% ca să rezervi slotul, 50% la predare. Un Sprint Pilot se poate plăti integral în avans. Vrei mai multe sprinturi la rând? Pentru asta e retainerul, mai jos.",
 };
 
 export const roEntryOffer: EntryOfferCopy = {
@@ -236,10 +236,9 @@ export const roTrustStrip: TrustStripCopy = {
   eyebrow: "Peste 10 ani de software livrat în producție",
   employers: [FINTECH_EMPLOYER, "GoSocial", "PGL Esports", "Ipsos"],
   // A real client quote: kept verbatim in English rather than put words in his mouth.
-  quote:
-    "I am very pleased with Adrian's efforts and progress on my project. I was informed on a daily basis about progress, and Adrian is very keen on delivering quality work. He made sure I was happy with the end result. I definitely recommend contacting Adrian if you are in need of any web related projects.",
+  quote: testimonials[0].quote,
   quoteLang: "en",
-  author: "Tim Claes",
+  author: testimonials[0].name,
   role: "Inginer freelance, mobil și web",
 };
 
@@ -322,9 +321,9 @@ export const roScarcity: ScarcityCopy = {
   intro:
     "Stratul de verificare e un singur om senior — eu — și nu se paralelizează. Agenții scalează livrarea; review-ul nu. Nu e o limită de marketing, e blocajul real al modelului de lucru și e motivul pentru care totul poate intra în merge în siguranță.",
   ceiling: "Așa că limita e asta:",
-  limitLead: "Lucrez la un singur sprint sau retainer în același timp",
+  limitLead: "Lucrez la un singur sprint sau retainer în același timp.",
   limitRest:
-    "— review-ul e făcut de un singur om și nu se paralelizează. Dacă locul e ocupat când mă contactezi, îți spun sincer următoarea dată la care putem începe, în loc să promit mai mult decât pot duce.",
+    "Dacă locul e ocupat când mă contactezi, îți spun sincer următoarea dată la care putem începe, în loc să promit mai mult decât pot duce.",
   outro:
     "Fără cronometre, fără „au mai rămas 3 locuri azi”. Limita e pur și simplu adevărul despre cum funcționează asta — și e, totodată, argumentul de vânzare.",
 };

@@ -99,7 +99,7 @@ const en = {
     'There is deliberately no blanket "money back if unhappy" guarantee. It invites scope disputes and it\'s not how a senior operator works. These two put my skin in the game where it actually matters: quality and security.',
   paymentHeading: "Payment",
   payment:
-    "50% to book the slot, 50% on handoff. A Pilot Sprint can be paid 100% up front given the small ticket. Running multiple sprints? That's the retainer, below.",
+    "50% to book the slot, 50% on handoff. A Pilot Sprint can be paid in full up front. Running multiple sprints? That's the retainer, below.",
 };
 
 export type DeliverySprintCopy = typeof en;

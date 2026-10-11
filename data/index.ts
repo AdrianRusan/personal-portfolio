@@ -81,7 +81,7 @@ export const shipVerify = [
   {
     tag: "VERIFY",
     heading: "A senior human reviews every PR",
-    body: "Every agent PR goes through a line-by-line adversarial review before it reaches you. Security first — injection, auth, secrets, access control — then correctness and scope. The assumption is the agent got it wrong until it's proven right. This is the part that's rare, and accountable.",
+    body: "Every agent PR goes through a line-by-line adversarial review before it reaches you. Security first — injection, auth, secrets, access control — then correctness and scope. The assumption is the agent got it wrong until it's proven right.",
   },
 ];
 
@@ -283,7 +283,7 @@ export const workExperience = [
     id: 1,
     title: "Full Stack Engineer",
     company: "Rusan Adrian-Ionuț PFA",
-    period: "Dec 2022 - Present",
+    period: "Dec 2022 – Present",
     desc: "AI builds end to end: a receipt classification pipeline, an LLM presentation platform, and an agent-built SaaS platform run by a multi-session agent org.",
     className: "md:col-span-2",
     thumbnail:
@@ -293,7 +293,7 @@ export const workExperience = [
     id: 2,
     title: "Full-Stack Engineer",
     company: "GoSocial Development SRL",
-    period: "Sep 2023 - Sep 2024",
+    period: "Sep 2023 – Sep 2024",
     desc: "Built data parsers for multiple sources (-70% processing time), a Next.js/Nest.js Facebook Ads dashboard that removed 10 h/week of manual reporting, and Playwright E2E tests with GitHub Actions CI.",
     className: "md:col-span-2",
     thumbnail:
@@ -303,7 +303,7 @@ export const workExperience = [
     id: 3,
     title: "Full Stack Developer",
     company: "PGL Esports SRL",
-    period: "Oct 2020 - Oct 2022",
+    period: "Oct 2020 – Oct 2022",
     desc: "Built live overlay graphics and visualizations for PGL Major CS:GO streams with 2M+ concurrent viewers.",
     className: "md:col-span-2",
     thumbnail:
@@ -313,7 +313,7 @@ export const workExperience = [
     id: 4,
     title: "Frontend Developer",
     company: "Ipsos Interactive Services SRL",
-    period: "Jun 2016 - Sep 2020",
+    period: "Jun 2016 – Sep 2020",
     desc: "Delivered 300+ survey projects on time for enterprise research clients, and mentored three junior developers.",
     className: "md:col-span-2",
     thumbnail:
