@@ -22,7 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await getPosts();
   const blogEntries: MetadataRoute.Sitemap = posts.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(post.frontmatter.date),
+    lastModified: new Date(post.frontmatter.updated ?? post.frontmatter.date),
     changeFrequency: "monthly",
     priority: 0.7,
   }));
@@ -30,7 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const studies = await getPosts(WORK_DIR);
   const workEntries: MetadataRoute.Sitemap = studies.map((study) => ({
     url: `${baseUrl}/work/${study.slug}`,
-    lastModified: new Date(study.frontmatter.date),
+    lastModified: new Date(study.frontmatter.updated ?? study.frontmatter.date),
     changeFrequency: "monthly",
     priority: 0.8,
   }));

@@ -31,6 +31,7 @@ export async function GET() {
       <link>${url}</link>
       <guid isPermaLink="true">${url}</guid>
       <pubDate>${new Date(post.frontmatter.date).toUTCString()}</pubDate>
+      <dc:creator>Adrian Rusan</dc:creator>
       ${categories}
     </item>`;
     })
@@ -43,7 +44,7 @@ export async function GET() {
 >
   <channel>
     <title>Adrian Rusan Blog</title>
-    <description>Technical articles on React, Next.js, TypeScript, and modern web development.</description>
+    <description>Field notes on shipping production software with Claude Code agents and senior review.</description>
     <link>${BASE_URL}</link>
     <atom:link href="${BASE_URL}/feed.xml" rel="self" type="application/rss+xml"/>
     <language>en-US</language>
