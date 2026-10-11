@@ -180,7 +180,7 @@ export const roWhoFor: WhoForCopy = {
 const roJobs: Record<number, { period: string; desc: string }> = {
   5: {
     period: "2024 – prezent",
-    desc: `Founding engineer la ${FINTECH_EMPLOYER}, din 2024: inginerie de produs full-stack, cap-coadă.`,
+    desc: "Am construit o platformă headless care automatizează dosarele de înființare a firmelor și a redus timpul de procesare cu 80%. Am construit unelte interne cu AI pentru fluxurile de administrare și marketing. Am condus o echipă de doi ingineri care a livrat un site de marketing în patru săptămâni.",
   },
   1: {
     period: "dec. 2022 – prezent",
@@ -188,15 +188,15 @@ const roJobs: Record<number, { period: string; desc: string }> = {
   },
   2: {
     period: "sep. 2023 – sep. 2024",
-    desc: "Am dezvoltat soluții automate de web scraping cu Puppeteer și un dashboard integrat cu Facebook Marketing API, care au îmbunătățit procesarea datelor și administrarea reclamelor.",
+    desc: "Am construit parsere de date pentru mai multe surse (-70% timp de procesare), un dashboard Next.js/Nest.js pentru Facebook Ads care a eliminat 10 ore pe săptămână de raportare manuală și teste E2E cu Playwright, cu CI în GitHub Actions.",
   },
   3: {
     period: "oct. 2020 – oct. 2022",
-    desc: "Am construit grafica de broadcast în timp real, clasamentele interactive și overlay-urile cu statistici ale jucătorilor pentru evenimente esports live.",
+    desc: "Am construit grafica și vizualizările live din transmisiunile PGL Major CS:GO, urmărite de peste 2 milioane de spectatori simultan.",
   },
   4: {
     period: "iun. 2016 – sep. 2020",
-    desc: "Am construit și livrat peste 300 de microsite-uri interactive pentru sondaje și colectare de date, cu termene strânse, pentru clienți enterprise din cercetare de piață.",
+    desc: "Am livrat la termen peste 300 de proiecte de sondaje pentru clienți enterprise din cercetarea de piață și am fost mentor pentru trei developeri juniori.",
   },
 };
 

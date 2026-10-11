@@ -271,9 +271,9 @@ export const workExperience = [
     id: 5,
     title: "Founding Engineer",
     company: FINTECH_EMPLOYER,
-    period: "2024 - Present",
-    // #54: names no product, project, technology or number.
-    desc: `Founding engineer at ${FINTECH_EMPLOYER}, 2024–present: full-stack product engineering, end to end.`,
+    period: "2024 – Present",
+    // #54: the same level of detail as Adi's public LinkedIn, and no more.
+    desc: "Built a headless platform that automates company-formation filings, cutting processing time by 80%. Built AI-powered internal tools for admin and marketing workflows. Led a two-engineer squad that shipped a marketing site in four weeks.",
     className: "md:col-span-2",
     // Neutral generated card (#54 R5): no real logo asset, and never another
     // company's image.
@@ -294,7 +294,7 @@ export const workExperience = [
     title: "Full-Stack Engineer",
     company: "GoSocial Development SRL",
     period: "Sep 2023 - Sep 2024",
-    desc: "Developed automated web scraping solutions with Puppeteer and built a Facebook Marketing API-integrated dashboard, enhancing data handling efficiency and ad management capabilities.",
+    desc: "Built data parsers for multiple sources (-70% processing time), a Next.js/Nest.js Facebook Ads dashboard that removed 10 h/week of manual reporting, and Playwright E2E tests with GitHub Actions CI.",
     className: "md:col-span-2",
     thumbnail:
       "https://utfs.io/a/23x7w9tiht/44cbb969-d079-456a-8554-c62cc61ffb1f-1v1dg.svg",
@@ -304,7 +304,7 @@ export const workExperience = [
     title: "Full Stack Developer",
     company: "PGL Esports SRL",
     period: "Oct 2020 - Oct 2022",
-    desc: "Built the real-time broadcast graphics, interactive leaderboards, and player-stats overlays for live esports events.",
+    desc: "Built live overlay graphics and visualizations for PGL Major CS:GO streams with 2M+ concurrent viewers.",
     className: "md:col-span-2",
     thumbnail:
       "https://utfs.io/a/23x7w9tiht/9ae30726-e9a7-43bc-a28c-bce3e44eba67-1v1di.svg",
@@ -314,7 +314,7 @@ export const workExperience = [
     title: "Frontend Developer",
     company: "Ipsos Interactive Services SRL",
     period: "Jun 2016 - Sep 2020",
-    desc: "Built and shipped 300+ interactive survey and data-collection microsites under tight deadlines for enterprise research accounts.",
+    desc: "Delivered 300+ survey projects on time for enterprise research clients, and mentored three junior developers.",
     className: "md:col-span-2",
     thumbnail:
       "https://utfs.io/a/23x7w9tiht/48a6ace0-6271-444c-873a-5cf82e04d3fc-1v1dj.svg",
