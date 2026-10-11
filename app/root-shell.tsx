@@ -13,7 +13,9 @@ const inter = Inter({ subsets: ["latin"], display: "swap" });
 const DESCRIPTION =
   "An AI agent fleet ships your backlog and a senior engineer security-reviews every PR before you see it. Fixed-scope sprints for founders and CTOs.";
 
-export const metadata: Metadata = {
+// Shared by the (en) and (ro) root layouts (D1): each re-exports this and
+// renders <RootShell lang=…>, so <html lang> is true per route group.
+export const siteMetadata: Metadata = {
   metadataBase: new URL("https://www.adrian-rusan.com"),
   title: {
     default: "Adrian Rusan | Agent-Accelerated Delivery, Reviewed",
@@ -85,13 +87,14 @@ const siteJsonLd = [
   personJsonLd,
 ];
 
-export default function RootLayout({
+export function RootShell({
+  lang,
   children,
-}: Readonly<{
+}: {
+  lang: "en" | "ro";
   children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en" suppressHydrationWarning>
+}) {  return (
+    <html lang={lang} suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -114,7 +117,7 @@ export default function RootLayout({
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[6000] focus:rounded-md focus:bg-purple focus:px-4 focus:py-2 focus:text-black-100"
         >
-          Skip to content
+          {lang === "ro" ? "Sari la conținut" : "Skip to content"}
         </a>
         <ThemeProvider
           attribute="class"
