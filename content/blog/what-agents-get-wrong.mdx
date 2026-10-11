@@ -114,7 +114,7 @@ You see `array.findLast()` in an environment that doesn't have it, a deprecated 
 
 **None of the six is caught by a passing test suite.** Fail-open gates pass the happy-path test. Scope creep adds passing tests for the extra scope. Swallowed errors make tests greener, not redder. Confidently-wrong logic ships with confidently-wrong tests. Premature abstraction is fully tested; it just shouldn't exist. Hallucinated APIs that type-check, type-check.
 
-This is why I put the honest multiplier at 2–3x, not 100x. Generation is fast. Review is the bottleneck, and it's a senior, human bottleneck, because these six failure modes are the ones that hide from automation. Agents optimize their output to make tests go green. Safety is a different target, and they don't aim at it.
+This is why I put the multiplier at 2–3x. Generation is fast. Review is the bottleneck, and it's a senior, human bottleneck, because these six failure modes are the ones that hide from automation. Agents optimize their output to make tests go green. Safety is a different target, and they don't aim at it.
 
 If you're letting agents write production code, keep them: they earn the throughput. Put an adversarial reviewer between the green checkmark and the merge button, someone who assumes the code is wrong until proven safe and knows which six things to look for first.
 
