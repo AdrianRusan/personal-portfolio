@@ -65,9 +65,9 @@ for (const route of routes) {
     await expect(page.locator('footer')).toHaveCount(1);
     expect(await page.locator('img:not([alt])').count()).toBe(0);
 
-    // C01: a "Book…" link never opens an email client (EN "Book", RO "Rezervă").
+    // C01: a "Book…" link never opens an email client (EN "Book", RO "Programează"/"Rezervă").
     const mailtoLabels = await page.locator('a[href^="mailto:"]').allTextContents();
-    expect(mailtoLabels.filter((t) => /^\s*(book|rezervă)/i.test(t))).toEqual([]);
+    expect(mailtoLabels.filter((t) => /^\s*(book|programează|rezervă)/i.test(t))).toEqual([]);
 
     const overflow = await page.evaluate(
       () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
@@ -87,7 +87,8 @@ test('unknown route returns 404 with the site shell', async ({ page }) => {
 
 test('privacy is linked from the footer and from both forms', async ({ page }) => {
   await page.goto('/blog');
-  await expect(page.locator('footer a[href="/privacy"]')).toHaveCount(2); // footer row + checklist form
+  await expect(page.locator('footer a[href="/privacy"]')).toHaveCount(1);
+  await expect(page.locator('a[href="/privacy"]')).toHaveCount(2); // footer row + checklist form
   await page.goto('/teardown');
   await expect(page.locator('form a[href="/privacy"]')).toHaveCount(1);
 });
@@ -128,4 +129,30 @@ test('client-side navigation still gets the page, not Markdown', async ({ page }
   await page.locator('footer a[href="/about"]').click();
   await expect(page).toHaveURL(/\/about$/);
   await expect(page.locator('h1')).toHaveText('About Adrian Rusan');
+});
+
+// P1 (#66): one closing ask per page, and the footer itself asks for nothing.
+for (const path of ['/about', '/contact', '/blog', '/privacy', '/work/honesty-gate', '/does-not-exist', '/']) {
+  test(`${path} has exactly one closing ask`, async ({ page }) => {
+    await page.goto(path);
+    await expect(page.locator('#closing-cta-heading')).toHaveCount(1);
+    await expect(page.locator('footer a[href*="calendly.com"]')).toHaveCount(0);
+  });
+}
+
+test('the nav is one row and clears the H1 at scroll 0', async ({ page }) => {
+  for (const path of ['/', '/services', '/about']) {
+    await page.goto(path);
+    const nav = (await page.getByRole('navigation', { name: 'Main' }).boundingBox())!;
+    const h1 = (await page.locator('h1').boundingBox())!;
+    expect(nav.height).toBeLessThan(80);
+    expect(nav.y + nav.height).toBeLessThanOrEqual(h1.y);
+  }
+});
+
+test('the locale switch reads "RO", with no glyph, where no twin exists', async ({ page }) => {
+  for (const path of ['/teardown', '/does-not-exist']) {
+    await page.goto(path);
+    await expect(page.getByRole('navigation', { name: 'Main' }).locator('a[hreflang="ro"]')).toHaveText('RO');
+  }
 });

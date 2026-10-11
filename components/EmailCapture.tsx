@@ -4,12 +4,13 @@ import Link from "next/link";
 import { useId, useState, type FormEvent } from "react";
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
+import { ctaSecondary } from "@/components/ui/button";
 
 type Status = "idle" | "loading" | "success" | "error";
 
 const en = {
   heading: "Not ready to book?",
-  body: "Get the Agent PR Review Checklist — the checks that catch the bugs your tests let through. Plus an occasional email on shipping AI-written code safely — unsubscribe anytime.",
+  body: "Get the Agent PR Review Checklist: the checks that catch the bugs your tests let through. Plus an occasional email on shipping AI-written code safely. Unsubscribe anytime.",
   success: "Check your inbox.",
   label: "Email address",
   placeholder: "you@company.com",
@@ -89,8 +90,9 @@ const EmailCapture = ({
   return (
     <div
       className={cn(
-        "rounded-xl border border-white/10 bg-black-200/40 p-6 md:p-8",
-        variant === "footer" && "max-w-md",
+        // Solid in both themes, so nothing behind it shows through.
+        "rounded-xl border border-white/10 bg-white dark:bg-black-200 p-6 md:p-8",
+        variant === "footer" && "max-w-md p-5 md:p-6",
         className,
       )}
     >
@@ -137,7 +139,7 @@ const EmailCapture = ({
           <button
             type="submit"
             disabled={status === "loading"}
-            className="h-11 shrink-0 rounded-lg border border-purple px-5 text-sm font-semibold text-purple transition-colors hover:bg-purple/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:ring-offset-2 focus-visible:ring-offset-black-100 disabled:opacity-50"
+            className={cn(ctaSecondary, "min-h-11 shrink-0 px-5")}
           >
             {status === "loading" ? copy.sending : copy.submit}
           </button>

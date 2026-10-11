@@ -54,3 +54,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = "Button"
 
 export { Button, buttonVariants }
+
+// The site's two CTA styles (P1): one filled primary, one outline secondary.
+// Plain strings in a server-safe module, so forms (TeardownForm) and links reuse them.
+const ctaBase =
+  "inline-flex min-h-12 items-center justify-center rounded-lg px-7 py-3 text-center text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:ring-offset-2 focus-visible:ring-offset-black-100 disabled:pointer-events-none disabled:opacity-50"
+export const ctaPrimary = `${ctaBase} bg-purple text-black-100 hover:bg-purple/85`
+export const ctaSecondary = `${ctaBase} border border-purple text-purple hover:bg-purple/10`

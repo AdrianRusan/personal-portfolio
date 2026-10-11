@@ -93,7 +93,7 @@ export default function RoServicesPage() {
           }),
         ]}
       />
-      <FloatingNav ctaLabel="Rezervă" ctaSource="ro_floating_nav" />
+      <FloatingNav />
       <main id="main">
         <ServicesHero copy={roServicesHero} />
         <Ladder content={roServicesLadder} />

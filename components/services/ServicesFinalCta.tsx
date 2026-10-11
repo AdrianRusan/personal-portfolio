@@ -1,7 +1,6 @@
 import Link from "next/link";
 import MagicButton from "@/components/ui/MagicButton";
 import { CALENDLY_URL } from "@/data";
-import { FaLocationArrow } from "react-icons/fa6";
 
 const en = {
   heading: "Tell me the backlog. I'll tell you the number.",
@@ -32,8 +31,6 @@ export const ServicesFinalCta = ({
         <div className="flex justify-center mt-8">
           <MagicButton
             title={copy.cta}
-            icon={<FaLocationArrow />}
-            position="right"
             href={CALENDLY_URL}
             trackEvent={{
               event: "calendly_click",

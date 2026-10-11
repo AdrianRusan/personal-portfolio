@@ -12,7 +12,6 @@ import {
   type WorkshopSlug,
 } from "@/data/workshops";
 import { WORKFLOW_NUMBERS } from "@/data";
-import { FaLocationArrow } from "react-icons/fa6";
 import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 import { getPosts } from "@/lib/blog";
 
@@ -100,8 +99,6 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
           <div className="flex justify-center">
             <MagicButton
               title={w.cta.label}
-              icon={<FaLocationArrow />}
-              position="right"
               href={w.cta.href}
               trackEvent={{
                 event: "cta_click",
@@ -225,8 +222,6 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
           <div className="flex justify-center">
             <MagicButton
               title={w.cta.label}
-              icon={<FaLocationArrow />}
-              position="right"
               href={w.cta.href}
               trackEvent={{
                 event: "cta_click",

@@ -20,6 +20,7 @@ import {
   roCallFaq,
   roCaseStudyCards,
   roExperience,
+  roClosingCta,
   roFinalCta,
   roFooter,
   roHero,
@@ -96,7 +97,7 @@ export default function RoHome() {
           home: { name: "Acasă", path: "/ro" },
         })}
       />
-      <FloatingNav ctaLabel="Rezervă" ctaSource="ro_floating_nav" />
+      <FloatingNav />
       <main id="main">
         <Hero copy={roHero} />
         <ProofBand copy={roProofBand} />
@@ -119,7 +120,7 @@ export default function RoHome() {
             items: homeFaq(roServicesFaq.items, roCallFaq),
           }}
         />
-        <FinalCta copy={roFinalCta} />
+        <FinalCta copy={roFinalCta} closing={roClosingCta} />
       </main>
       <Footer copy={roFooter} />
     </div>

@@ -1,6 +1,5 @@
 import MagicButton from "@/components/ui/MagicButton";
 import { CALENDLY_URL, CONTACT_EMAIL, GUARANTEE } from "@/data";
-import { FaLocationArrow } from "react-icons/fa6";
 import { ladder, offerById } from "@/data/ladder";
 
 const en = {
@@ -52,8 +51,6 @@ export const EntryOffer = ({ copy = en }: { copy?: EntryOfferCopy }) => {
         <div className="flex flex-wrap items-center gap-4 mt-8">
           <MagicButton
             title={copy.cta}
-            icon={<FaLocationArrow />}
-            position="right"
             href={CALENDLY_URL}
             trackEvent={{
               event: "calendly_click",
