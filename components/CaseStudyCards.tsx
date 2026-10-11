@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getPosts, WORK_DIR } from "@/lib/blog";
 import { byCaseStudyOrder } from "@/data/work";
+import type { PostTitles } from "@/lib/blog-types";
 
 // The method-demo post doubles as the benchmark card next to the case studies.
 const BENCHMARK_SLUG = "30-prs-in-2-5-days";
@@ -14,6 +15,8 @@ const en = {
   heading: "Proof from documented runs",
   read: "Read it →",
   all: "See all case studies →",
+  // Per-slug title/description overrides; the links still go to the EN pages.
+  titles: {} as PostTitles,
 };
 export type CaseStudyCardsCopy = typeof en;
 
@@ -26,16 +29,18 @@ const CaseStudyCards = async ({ copy = en }: { copy?: CaseStudyCardsCopy }) => {
     ...studies.map((s) => ({
       href: `/work/${s.slug}`,
       label: copy.study,
-      title: s.frontmatter.title,
-      body: s.frontmatter.description,
+      title: copy.titles[s.slug]?.title ?? s.frontmatter.title,
+      body: copy.titles[s.slug]?.description ?? s.frontmatter.description,
     })),
     ...(benchmark
       ? [
           {
             href: `/blog/${benchmark.slug}`,
             label: copy.benchmark,
-            title: benchmark.frontmatter.title,
-            body: benchmark.frontmatter.description,
+            title: copy.titles[benchmark.slug]?.title ?? benchmark.frontmatter.title,
+            body:
+              copy.titles[benchmark.slug]?.description ??
+              benchmark.frontmatter.description,
           },
         ]
       : []),

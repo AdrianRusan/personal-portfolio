@@ -11,6 +11,7 @@ import type { ProofBandCopy } from "@/components/ProofBand";
 import type { ShipVerifyCopy } from "@/components/ShipVerify";
 import type { TestimonialsCopy } from "@/components/Testimonials";
 import type { WhoForCopy } from "@/components/WhoFor";
+import type { PostTitles } from "@/lib/blog-types";
 import {
   CREDIT_DAYS,
   FINTECH_EMPLOYER,
@@ -41,7 +42,7 @@ export { RO_GUARANTEE } from "@/data/ro";
 export const roHero: HeroCopy = {
   eyebrow:
     "Adrian Rusan · Inginer senior, peste 10 ani · Agenți AI, review uman",
-  heading: "Livrează roadmap-ul pentru care nu poți angaja.",
+  heading: "Livrează roadmap-ul pentru care nu găsești oameni.",
   body: "Îți golesc backlog-ul cu agenți Claude Code, apoi verific eu fiecare pull request, întâi pentru securitate, înainte să ajungă la tine.",
   promise:
     "Roadmap-ul tău se livrează, fără un incident de securitate pe numele tău.",
@@ -110,7 +111,7 @@ export const roShipVerify: ShipVerifyCopy = {
     "Ai backlog-ul. Nu ai oamenii. Și ai văzut ce livrează agenții lăsați nesupravegheați.",
   body: "Ești cu luni în urmă pe un roadmap pe care nu-l poți recupera angajând destul de repede. Promisiunea agenților AI e tentantă: toată lumea vinde 10x, 100x, o echipă la cutie. Dar ai citit codul pe care îl scriu agenții. Știi că trece testele și tot duce o vulnerabilitate, cu toată încrederea, direct în fluxul de plăți. Iar dacă se întâmplă, numele tău e pe raportul de incident.",
   punch:
-    "Viteza fără review nu e productivitate. E un risc cu fitilul mai scurt.",
+    "Viteza fără review nu e productivitate. E un risc cu fitil scurt.",
   stepsHeading:
     "Totul are doi pași. Majoritatea furnizorilor îți vând doar primul.",
   steps: shipVerify.map((step) => ({ ...step, ...roSteps[step.tag] })),
@@ -144,16 +145,77 @@ export const roOffers: OffersCopy = {
   href: "/ro/servicii#ladder",
   more: "Vezi ce include →",
   capacity:
-    "Stratul de review e un singur om senior, așa că rulez un singur sprint sau retainer odată.",
+    "Review-ul îl face un singur om senior, așa că lucrez la un singur sprint sau retainer în același timp.",
+};
+
+// RO titles and descriptions for the cards on /ro (case studies, benchmark,
+// Latest). The posts themselves stay in English; the cards say so once.
+export const roPostTitles: PostTitles = {
+  "honesty-gate": {
+    title: "Honesty gate: cum opresc faptele inventate în site-urile construite de agenți",
+    description:
+      "Un landing page prezenta ca real un număr de lansări. Numărul real era 0. Iată gate-ul care acum leagă fiecare text afișat de o sursă.",
+  },
+  "agent-cost-per-commit": {
+    title: "De ce măsor acum costul agenților în fiecare săptămână",
+    description:
+      "Când am redus contextul, costul pe commit al agenților a scăzut o lună, apoi economia a dispărut pe nesimțite. Ce am învățat, ce pot și ce nu pot explica și măsurătoarea săptămânală pe care un audit AI o pune în practică pentru echipa ta.",
+  },
+  "30-prs-in-2-5-days": {
+    title: "30 de PR-uri în 2,5 zile: anatomia a nouă loturi de agenți",
+    description:
+      "Mecanica din spatele a 30 de PR-uri revizuite în 2,5 zile: git worktrees în paralel, tichete distribuite prin CLAUDE.md și de ce review-ul, nu generarea, e adevăratul blocaj.",
+  },
+  "66-days-of-claude-code-by-the-numbers": {
+    title: "66 de zile de Claude Code, în cifre",
+    description:
+      "463 de sesiuni, 335 de ore, 3.599 de subagenți și 45 de miliarde de tokeni. Ce spun propriile mele jurnale Claude Code despre bunele practici, numărate de un script, nu din memorie.",
+  },
+  "the-rules-file-my-agents-follow": {
+    title: "Fișierul de reguli pe care îl urmează agenții mei: exemple de CLAUDE.md din 270 de commit-uri",
+    description:
+      "Exemple reale de CLAUDE.md dintr-un fișier de reguli ajustat de-a lungul a 270 de commit-uri: gate-uri care refuză când nu pot verifica, ritmul commit-urilor, repari doar bugul raportat și regulile pe care le-am șters.",
+  },
+  "how-i-run-claude-code-agents-in-parallel": {
+    title: "Cum rulez agenți Claude Code în paralel (worktrees, Herdr, un singur brief)",
+    description:
+      "Agenți Claude Code în paralel, în practică: un git worktree pentru fiecare agent, un terminal multiplexer care îi rulează, un brief care le răspunde la întrebări și review-ul ca singurul pas făcut pe rând.",
+  },
+  "auditing-my-claude-code-setup-with-an-agent": {
+    title: "Mi-am auditat propriul setup Claude Code cu un agent",
+    description:
+      "Zece audituri ale propriului meu setup Claude Code, rulate de agenți. Majoritatea skill-urilor nu porneau niciodată, regulile explicau cum să gândești, iar metricile erau greșite. Iată ce s-a schimbat.",
+  },
+  "what-agents-get-wrong": {
+    title: "Ce greșesc agenții AI care scriu cod: o clasificare din practică",
+    description:
+      "Șase categorii de greșeli recurente pe care le prind în review-ul codului generat de AI: gate-uri de securitate care lasă totul să treacă la eroare, scope creep, erori înghițite în tăcere și altele. Toate trec testele. Iată ce să cauți.",
+  },
+  "catching-shell-injection-agents-wrote": {
+    title: "Bugurile de shell injection scrise de agenții mei (și testele au trecut)",
+    description:
+      "Trei vulnerabilități reale de shell injection scrise de agenți, trecute de testele automate și prinse de un om senior înainte de merge. Dovada că un cod scris de AI are nevoie de review adversarial, nu doar de un CI verde.",
+  },
+  "2-3x-not-100x": {
+    title: "De 2–3 ori, nu de 100 de ori: cifra sinceră despre viteza programării cu AI",
+    description:
+      "Cu cât e mai rapidă, de fapt, programarea cu AI? Răspunsul măsurat e de 2–3 ori, nu de 10–100 de ori. Iată metodologia, 30 de PR-uri revizuite în 2,5 zile, și ce lasă deoparte multiplicatorul.",
+  },
+  "claude-code-changed-how-i-ship-software": {
+    title: "Claude Code a schimbat felul în care livrez software",
+    description:
+      "Cum am trecut de la a scrie fiecare linie la a coordona agenți AI și de ce peste 10 ani de engineering contează acum mai mult, nu mai puțin.",
+  },
 };
 
 export const roCaseStudyCards: CaseStudyCardsCopy = {
   study: "Studiu de caz",
   benchmark: "Benchmark · propriul meu repo",
-  eyebrow: "Studii de caz (în engleză)",
+  eyebrow: "Studii de caz · articolele sunt în engleză",
   heading: "Dovezi din rulări documentate",
   read: "Citește →",
   all: "Toate studiile de caz →",
+  titles: roPostTitles,
 };
 
 export const roWhoFor: WhoForCopy = {
@@ -184,7 +246,7 @@ const roJobs: Record<number, { period: string; desc: string }> = {
   },
   1: {
     period: "dec. 2022 – prezent",
-    desc: "Proiecte AI cap-coadă: un pipeline de clasificare a bonurilor fiscale, o platformă de prezentări cu LLM și o platformă SaaS construită de agenți, condusă de o organizație de agenți cu mai multe sesiuni.",
+    desc: "Proiecte AI cap-coadă: un pipeline care clasifică bonuri fiscale, o platformă de prezentări cu LLM și o platformă SaaS construită de agenți, coordonați pe mai multe sesiuni.",
   },
   2: {
     period: "sep. 2023 – sep. 2024",
@@ -224,9 +286,13 @@ export const roLatest: LatestCopy = {
   blog: "blog",
   and: " și ",
   intro:
-    "Cum lucrez cu agenții Claude Code și cum verific ce livrează. Articolele sunt în engleză.",
+    "Cum lucrez cu agenții Claude Code și cum verific ce livrează.",
   watch: "Vezi pe YouTube",
   all: "Toate articolele →",
+  dateLocale: "ro-RO",
+  featured: "Recomandat",
+  minRead: "min de citit",
+  titles: roPostTitles,
 };
 
 const roReviewedPr = offerById(roLadder, "reviewed-pr");
@@ -241,7 +307,7 @@ export const roFinalCta: FinalCtaCopy = {
   betweenLink: `Începe cu un singur PR revizuit: ${formatPriceRo(roReviewedPr)}, ${roReviewedPr.duration}. Rezervă un sprint în ${CREDIT_DAYS} de zile și se scade din preț →`,
   betweenHref: "/ro/servicii#entry-offer",
   capacity:
-    "Stratul de review e un singur om senior, așa că rulez un singur sprint sau retainer odată.",
+    "Review-ul îl face un singur om senior, așa că lucrez la un singur sprint sau retainer în același timp.",
 };
 
 // The call steps, folded into the homepage FAQ as one answer (#54 R3).

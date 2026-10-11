@@ -30,10 +30,13 @@ export interface BlogPostWithSource extends BlogPost {
   source: string;
 }
 
-export function formatDate(dateString: string): string {
-  return new Intl.DateTimeFormat('en-US', {
+export function formatDate(dateString: string, locale = 'en-US'): string {
+  return new Intl.DateTimeFormat(locale, {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   }).format(new Date(dateString));
 }
+
+// Localized card copy keyed by slug (the /ro homepage).
+export type PostTitles = Record<string, { title: string; description: string }>;
