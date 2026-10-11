@@ -30,10 +30,14 @@ describe("/work index", () => {
     },
   );
 
-  // #54 R2: honesty-gate leads, then the cost study; the nine-PR study is unpublished.
+  // F11: the 30-PR core-offer study leads, then #54's order; the nine-PR study is unpublished.
   it("orders the published studies", async () => {
     const slugs = byCaseStudyOrder(await getPosts(WORK_DIR)).map((p) => p.slug);
-    expect(slugs.slice(0, 2)).toEqual(["honesty-gate", "agent-cost-per-commit"]);
+    expect(slugs.slice(0, 3)).toEqual([
+      "30-reviewed-prs-3-vulnerabilities",
+      "honesty-gate",
+      "agent-cost-per-commit",
+    ]);
     expect(slugs).not.toContain("nine-prs-one-afternoon");
   });
 });

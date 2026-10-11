@@ -1,0 +1,57 @@
+---
+title: "30 Reviewed PRs, 3 Vulnerabilities Caught Before Merge"
+seoTitle: "30 Reviewed PRs, 3 Vulnerabilities Caught"
+date: "2026-10-11"
+tags: ["ai", "claude-code", "code-review", "security"]
+description: "My own admin dashboard, Feb 2026: 30 agent-written PRs in 2.5 days, each reviewed before merge. Tests passed all 3 vulnerabilities the review caught."
+published: true
+language: "en"
+cta: "reviewed-pr"
+---
+
+**Short answer:** Nine batches of Claude Code agents shipped 30 pull requests in 2.5 days, and I reviewed every one before it merged. The review caught three vulnerabilities: two shell injections and a security gate that failed open. Every test passed on all three. The run is the Delivery Sprint method, done on my own code.
+
+**Where this comes from:** my own admin dashboard, Feb 2026, not client work. The full mechanics are in [30 PRs in 2.5 Days](/blog/30-prs-in-2-5-days), and the three bugs are in [The Shell-Injection Bugs My Agents Wrote](/blog/catching-shell-injection-agents-wrote).
+
+## The problem
+
+I had a backlog of scoped issues for my own admin dashboard. Coding agents can produce that volume quickly. The question was whether the output could merge safely, or whether speed would mean shipping code nobody had really read.
+
+## The constraint
+
+Nothing merges without a senior review. That rule set the pace of the whole run.
+
+Agents optimise to make tests pass, and tests only send the inputs their author thought of. A shell-injection path triggers on a semicolon or a `$(...)`, which no happy-path test sends. So green CI could not be the gate. A person reading every diff, assuming it was wrong until shown safe, had to be.
+
+## What I built
+
+One agent per issue, one git worktree per agent. Each worktree is its own branch in its own directory, backed by one repository, so nine agents could edit at once without touching each other's files.
+
+Every agent read the same `CLAUDE.md` before writing code. It states the goal, the constraints, the verification order (types, lint, build, test) and the output format for branches, commits and PR bodies.
+
+Each batch ran the same loop:
+
+1. Dispatch the ready issues, one agent and one worktree each.
+2. Let the agents generate code, verify it themselves and open a PR.
+3. Review every PR adversarially before it goes near the main branch.
+4. Merge on green CI plus a passed review, then remove the worktree.
+
+Batches overlapped. While I reviewed one batch, the next was already generating.
+
+## The number
+
+- **30 PRs** merged, each one reviewed by me first.
+- **9 batches**, a little over 3 PRs each on average.
+- **2.5 days** from first dispatch to last merge.
+- **3 vulnerabilities** caught in review, all with passing tests:
+  1. A branch name interpolated into a shell command.
+  2. A secret-scanning gate that let commits through when the scanner could not run.
+  3. A user-supplied filename that broke out of its quotes into the shell.
+
+Review also caught agents refactoring past their issue and parallel PRs that conflicted on merge. Green CI showed none of it.
+
+## The lesson
+
+Generation was the cheap part. The 2.5 days went almost entirely on review. That is why the honest speed-up is 2–3x, not 100x: the ceiling is how much code one senior engineer can read carefully, not how much the agents can write.
+
+The review is also why the speed was safe to use. Without it, this run would have merged three vulnerabilities behind a green pipeline.

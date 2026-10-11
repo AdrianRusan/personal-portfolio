@@ -1,10 +1,13 @@
 ---
 title: "Why I Measure Agent Cost Weekly Now"
+seoTitle: "How to Reduce LLM API Costs: Measure Them Weekly"
 date: "2026-10-10"
 tags: ["ai", "claude-code", "llm-costs", "agent-harness"]
-description: "Trimming context cut my agent cost per commit for a month, then the savings quietly came back. What I learned, what I can and can't trace, and the weekly measure an AI audit sets up for your team."
+description: "Trimming context cut my agent cost per commit for a month, then the savings came back. How to reduce LLM API costs, and the weekly measure that lasted."
 published: true
 language: "en"
+updated: "2026-10-11"
+cta: "audit"
 ---
 
 **The short version:** one round of trimming cut my agent cost per commit, and the next two months quietly took the savings back. The cut was not what lasted. A weekly measurement, with the counting method written down, is. That measurement is what an [AI audit](/services#ladder) sets up for your team: where the tokens go and which fixes to make first.
@@ -75,6 +78,20 @@ July to August, full calendar months, same counting method:
 Merged PRs fell while commits rose, so cost per PR is the stricter measure. Cache-read volume fell by 59%, but its share of the tokens barely moved: 99.6% of cache-read plus output tokens in July, 99.7% in August. The cache was already working. The savings came from sending fewer tokens through it.
 
 **Then it came back.** On the new count, September cost $11.55 per commit. That is roughly $23 on the old count, twice August. The first ten days of October cost $33 per commit on the new count, back above July. One traceable change: in those ten days, 618 of my 770 sessions were headless scripted runs rather than sessions I drove. I have not measured how much of the cost they account for.
+
+## How to reduce LLM API costs: what I'd check first
+
+These come from this study, in the order I would check them on a team's setup:
+
+1. **Measure cost per commit and per merged PR every week.** Write the counting method down, and note the date when it changes. Without that, a one-month win looks permanent.
+2. **Cut text injected into every turn.** A hook that adds a reminder to every message costs tokens on every turn. If nothing shows it saves anything, turn it off.
+3. **Park skills you don't use.** Every installed skill adds its description to what each session loads. I parked ten.
+4. **Shorten the instructions that load at session start.** My `CLAUDE.md` and rule files went from 9,976 words to 4,106, and the model rereads them from the cache on every turn.
+5. **Check the cache hit rate before chasing it.** Mine was already at 99.6% of cache-read plus output tokens. The savings came from sending fewer tokens through the cache, not from caching more.
+6. **Watch subagent turns per prompt, and route them.** Subagent turns fell from 144k to 43k between July and August. Where a subagent's task holds up on a cheaper model, route it there. My ledger prices every token at one rate, so it can't show that saving, but an invoice will.
+7. **Count scripted runs separately.** In early October, 618 of my 770 sessions were headless scripted runs, and cost per commit was back above July.
+
+If you want this checked on your team's setup, an [AI audit](/services#ladder) measures where the tokens go and ranks the fixes.
 
 ## The lesson
 

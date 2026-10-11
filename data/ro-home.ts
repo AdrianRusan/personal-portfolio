@@ -153,6 +153,11 @@ export const roOffers: OffersCopy = {
 // RO titles and descriptions for the cards on /ro (case studies, benchmark,
 // Latest). The posts themselves stay in English; the cards say so once.
 export const roPostTitles: PostTitles = {
+  "30-reviewed-prs-3-vulnerabilities": {
+    title: "30 de PR-uri revizuite, 3 vulnerabilități prinse înainte de merge",
+    description:
+      "Propriul meu dashboard de administrare, februarie 2026: 30 de PR-uri scrise de agenți în 2,5 zile, fiecare revizuit înainte de merge. Testele au trecut de toate cele 3 vulnerabilități prinse în review.",
+  },
   "honesty-gate": {
     title: "Honesty gate: cum opresc faptele inventate în site-urile construite de agenți",
     description:
