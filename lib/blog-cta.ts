@@ -31,7 +31,7 @@ export const BLOG_CTAS: Record<BlogCta, BlogCtaCopy> = {
   },
   workshop: {
     cta: "workshop",
-    eyebrow: "Team workshop · €2,000 half-day · €3,500 full day",
+    eyebrow: "Team workshop · €2,000 half-day · €3,500 full-day",
     heading: "Teach your team this workflow",
     body: "A hands-on workshop for up to 10 people on Claude Code, agent orchestration, review gates and harness engineering.",
     label: "See the full-day agenda",

@@ -11,6 +11,7 @@ import {
 import { WORKFLOW_NUMBERS } from "@/data";
 import { FaLocationArrow } from "react-icons/fa6";
 import { JsonLd, pageJsonLd } from "@/lib/page-schema";
+import { getPosts } from "@/lib/blog";
 
 interface WorkshopPageProps {
   params: Promise<{ slug: WorkshopSlug }>;
@@ -18,6 +19,10 @@ interface WorkshopPageProps {
 
 // Only the two known workshops render; any other slug 404s.
 export const dynamicParams = false;
+// Hourly, so the hub link appears once its post goes live (#54 R4).
+export const revalidate = 3600;
+
+const PARALLEL_HUB = "how-i-run-claude-code-agents-in-parallel";
 
 export function generateStaticParams() {
   return Object.keys(workshops).map((slug) => ({ slug }));
@@ -61,6 +66,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
   const w = workshops[(await params).slug];
   const other =
     w.slug === "full-day" ? workshops["half-day"] : workshops["full-day"];
+  const hubLive = (await getPosts()).some((p) => p.slug === PARALLEL_HUB);
 
   return (
     <PageShell navItems={navItems}>
@@ -203,10 +209,18 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
             >
               All services and prices →
             </Link>
+            {/* A1-24: the how-i-run post is the hub for this term; linked once it is live. */}
+            {hubLive && (
+              <Link
+                href={`/blog/${PARALLEL_HUB}`}
+                className="text-blue-100 hover:text-purple transition-colors"
+              >
+                How I run Claude Code parallel agents →
+              </Link>
+            )}
           </div>
         </div>
       </section>
-
     </PageShell>
   );
 }
