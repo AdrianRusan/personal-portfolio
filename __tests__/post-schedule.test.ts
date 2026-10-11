@@ -47,3 +47,11 @@ describe("post schedule", () => {
     );
   });
 });
+
+describe("getPost slug", () => {
+  it("rejects anything but a plain slug", async () => {
+    await expect(getPost("../work/honesty-gate")).rejects.toThrow(
+      /Post not found/,
+    );
+  });
+});

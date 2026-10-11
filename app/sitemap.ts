@@ -5,9 +5,12 @@ import { workshops } from "@/data/workshops";
 // #54 R4: re-render hourly so a dated post appears without a deploy.
 export const revalidate = 3600;
 
+// Module scope: set once per deploy, not on every hourly regeneration, so the
+// static pages' lastmod doesn't churn.
+const lastModified = new Date();
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://www.adrian-rusan.com";
-  const lastModified = new Date();
   // hreflang pairs, listed on both sides (brief R7)
   const home = { en: baseUrl, ro: `${baseUrl}/ro`, "x-default": baseUrl };
   const services = {

@@ -93,7 +93,7 @@ export const callSteps = [
   },
   {
     heading: "We look at the real work",
-    body: "Your backlog, your repo or your AI question. I tell you which tier fits and what it costs, or that it isn't a fit.",
+    body: "We look at your backlog, your repo or your AI question. I tell you which tier fits and what it costs, or that it isn't a fit.",
   },
   {
     heading: "You get it in writing",

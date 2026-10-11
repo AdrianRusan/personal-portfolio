@@ -133,3 +133,12 @@ describe("ladderServiceJsonLd", () => {
     );
   });
 });
+
+// #54 R5: the copy says "four tiers, eight offers" (Offers, ServicesHero and
+// their RO twins). Change those strings if this fails.
+describe("ladder size", () => {
+  it("has four tiers and eight offers", () => {
+    expect(new Set(ladder.map((o) => o.tier)).size).toBe(4);
+    expect(ladder).toHaveLength(8);
+  });
+});

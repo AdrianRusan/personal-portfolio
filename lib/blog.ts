@@ -95,6 +95,9 @@ export async function getPost(
   slug: string,
   dir = BLOG_DIR,
 ): Promise<BlogPostWithSource> {
+  // dynamicParams lets any request slug reach here; never build a path from it
+  // unless it is a plain slug.
+  if (!/^[a-z0-9-]+$/.test(slug)) throw new Error(`Post not found: ${slug}`);
   const filePath = path.join(dir, `${slug}.mdx`);
 
   if (!fs.existsSync(filePath)) {

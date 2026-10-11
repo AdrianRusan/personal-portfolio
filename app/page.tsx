@@ -8,7 +8,10 @@ import FinalCta from "@/components/FinalCta";
 import Bio from "@/components/Bio";
 import Latest from "@/components/Latest";
 import { FloatingNav } from "@/components/ui/FloatingNav";
-import { ServicesFaq } from "@/components/services/ServicesFaq";
+import {
+  ServicesFaq,
+  servicesFaqCopy,
+} from "@/components/services/ServicesFaq";
 import Testimonials from "@/components/Testimonials";
 import { homeFaqs, navItems } from "@/data";
 import dynamic from "next/dynamic";
@@ -65,10 +68,7 @@ export default function Home() {
       </section>
       <Latest />
       <ServicesFaq
-        copy={{
-          heading: "Straight answers to the questions I actually get",
-          items: homeFaqs,
-        }}
+        copy={{ ...servicesFaqCopy, items: homeFaqs }}
       />
       <FinalCta />
       <Footer />

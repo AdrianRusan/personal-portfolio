@@ -108,7 +108,7 @@ export default function RoHome() {
       <Latest copy={roLatest} />
       <ServicesFaq
         copy={{
-          heading: roServicesFaq.heading,
+          ...roServicesFaq,
           items: homeFaq(roServicesFaq.items, roCallFaq),
         }}
       />
