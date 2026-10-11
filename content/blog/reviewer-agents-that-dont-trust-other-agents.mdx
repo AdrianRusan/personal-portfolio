@@ -1,9 +1,8 @@
 ---
 title: "Reviewer Agents That Don't Trust Other Agents"
-seoTitle: "Reviewer Agents That Don't Trust Other Agents"
 date: "2026-11-21"
 tags: ["claude-code", "code-review", "ai", "agent-harness", "security"]
-description: "How I review AI-generated code with agents: a three-role panel, a loop that triages review-bot comments, and refuters that assume every finding is wrong."
+description: "Reviewer agents built on distrust: a three-role panel where the strictest verdict wins, a loop that triages review-bot comments, and refuters for audits."
 published: false
 language: "en"
 cta: "audit"
@@ -72,7 +71,7 @@ The panel checks code. For audits, where an agent reports findings about a whole
 
 This is where distrust paid off most. In one audit of my own setup, the refuting pass refuted 9 of 149 findings. In a deeper audit the same week, it killed or cut 22 claims and found 5 errors in my own brief.
 
-Counts also beat estimates. One subagent estimated about 1,000 uses for each of three MCP servers I was thinking of removing. It had counted files that merely listed the tool names. The real call counts were 95, 5 and 2. The audit is written up in [Auditing My Own Claude Code Setup](/blog/auditing-my-claude-code-setup-with-an-agent).
+Counts also beat estimates. One subagent estimated about 1,000 uses for each of three MCP servers I was thinking of removing. It had counted transcripts that merely listed the tool names. The real call counts were much lower. The audit is written up in [Auditing My Own Claude Code Setup](/blog/auditing-my-claude-code-setup-with-an-agent).
 
 ## I don't trust the reviewers either
 

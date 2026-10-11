@@ -2,8 +2,8 @@
 title: "I Built a Gate That Stops My AI From Lying to Customers"
 seoTitle: "A Gate That Stops AI From Inventing Customer Facts"
 date: "2026-11-07"
-tags: ["ai", "claude-code", "code-review", "agent-harness", "claude-md"]
-description: "No CLAUDE.md rule stopped my agents from shipping invented numbers. A trace gate and a proof scan on the rendered page did. Here is how to build one."
+tags: ["ai", "claude-code", "code-review", "agent-harness"]
+description: "How to stop an AI agent from publishing invented numbers: give facts a source, then gate the rendered page with a trace check and a proof scan that fail closed."
 published: false
 language: "en"
 cta: "audit"
@@ -18,7 +18,7 @@ faq:
 
 **Short answer:** To stop an agent from publishing invented facts, give every fact a source field, render unknown facts as visibly marked slots, and run two gates on the final rendered page: one that traces every string back to a source and one that scans for claims (counts, ratings, number words) with nothing behind them. If either gate cannot run, block the publish.
 
-If you came looking for CLAUDE.md examples that stop an agent from making things up, I have bad news first: no rule file fixed this one. A landing page was ready to launch with a "real number" that was really zero, and what caught it was a gate. This post is the gate that fixed it, written as steps you can copy. The full case study, with the diagram, is [The Honesty Gate](/work/honesty-gate).
+If you came looking for [CLAUDE.md examples](/blog/the-rules-file-my-agents-follow) that stop an agent from making things up, I have bad news first: no rule file fixed this one. A landing page was ready to launch with a "real number" that was really zero, and what caught it was a gate. This post is the gate that fixed it, written as steps you can copy. The full case study, with the diagram, is [The Honesty Gate](/work/honesty-gate).
 
 ## What went wrong
 

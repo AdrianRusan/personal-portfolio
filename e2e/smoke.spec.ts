@@ -1,3 +1,4 @@
+import { readdirSync, readFileSync } from 'fs';
 import { test, expect } from '@playwright/test';
 
 // Every public route, EN and RO. Keep in sync with app/sitemap.ts.
@@ -41,12 +42,11 @@ for (const [route, date] of Object.entries(scheduled)) {
     });
 }
 
-// #79: unpublished drafts never render, whatever their date.
-for (const slug of [
-  'a-gate-that-stops-my-ai-lying-to-customers',
-  'hitting-usage-limits-with-18-sessions-open',
-  'reviewer-agents-that-dont-trust-other-agents',
-]) {
+// #79: any `published: false` post 404s, whatever its date.
+const drafts = readdirSync('content/blog')
+  .filter((f) => f.endsWith('.mdx') && /^published:\s*false\s*$/m.test(readFileSync(`content/blog/${f}`, 'utf-8')))
+  .map((f) => f.replace(/\.mdx$/, ''));
+for (const slug of drafts) {
   test(`/blog/${slug} is a draft and 404s`, async ({ page }) => {
     expect((await page.goto(`/blog/${slug}`))?.status()).toBe(404);
   });

@@ -3,22 +3,22 @@ title: "Hitting Usage Limits With 18 Sessions Open"
 seoTitle: "Hitting Claude Code Usage Limits With 18 Sessions Open"
 date: "2026-11-14"
 tags: ["claude-code", "llm-costs", "parallel-agents", "agent-harness", "ai"]
-description: "37 usage-limit episodes in 66 days, with up to 18 Claude Code sessions open at once. What the logs showed, and the changes that reduce LLM API costs and limit hits."
+description: "37 usage-limit episodes in 66 days, with up to 18 Claude Code sessions open at once. Where the tokens went, and what I changed: a lean orchestrator and stable context."
 published: false
 language: "en"
 cta: "workshop"
 faq:
   - q: "Why do parallel Claude Code sessions hit usage limits so fast?"
     a: "Every session rereads its whole context on every turn, and every subagent it starts does the same. With many sessions open, those rereads add up faster than the work does. In my logs 97.7% of all tokens were cache reads."
-  - q: "What is the cheapest way to reduce LLM API costs with agents?"
+  - q: "How do you use fewer tokens with parallel agents?"
     a: "Keep the context at the start of each session stable so the prompt cache serves it, keep the orchestrating session lean, and stop subagents from inheriting the most expensive model by default. Measure first: the cache-read share and the model mix tell you which of these matters for you."
   - q: "Do these numbers apply to a subscription plan?"
     a: "On a subscription the dollar saving is zero, because you pay a flat fee. What you gain is headroom: fewer hours stalled on a limit. On a pay-per-token API the same changes show up on the invoice."
 ---
 
-**Short answer:** Over 66 days my Claude Code sessions hit a usage limit in 37 separate episodes, with up to 18 sessions active at once. Two changes did most of the work: a lean orchestrator that dispatches and waits while executors spend the tokens, and a context that stays stable so the cache serves it. A third, model tiers for subagents, is still half done.
+**Short answer:** Over 66 days my Claude Code sessions hit a usage limit in 37 separate episodes, with up to 18 sessions active at once. 97.7% of the tokens were cache reads, so I went after context: a lean orchestrator that dispatches and waits while executors spend the tokens, and a context that stays stable so the cache serves it. A third change, model tiers for subagents, is half done. I cannot show the limit count falling yet.
 
-Most advice on how to reduce LLM API costs is about picking a cheaper model. My logs pointed somewhere else. When you run many agents in parallel, the expensive part is context that every session and subagent rereads on every turn. This post covers what 66 days of my own session logs say about usage limits, and what I changed.
+Most advice on how to reduce LLM API costs is about picking a cheaper model. My logs, and my [cost case study](/work/agent-cost-per-commit), pointed somewhere else. When you run many agents in parallel, the expensive part is context that every session and subagent rereads on every turn. This post covers what 66 days of my own session logs say about usage limits, and what I changed.
 
 The numbers come from a script I ran over my own transcripts, 6 August to 10 October 2026. The method is in [66 Days of Claude Code, Counted](/blog/66-days-of-claude-code-by-the-numbers).
 
@@ -74,15 +74,15 @@ A lean orchestrator also survives longer before its context needs compacting, wh
 
 The prompt cache works on prefixes. Whatever sits at the start of a session (the rules file, project notes, the brief) is cached once and reread cheaply, as long as it does not change. Anything that changes mid-session breaks the cache from that point on.
 
-So the always-loaded config got smaller and stopped moving:
+So the always-loaded config got smaller and stopped moving. From the git history of my config:
 
-| Date | `CLAUDE.md` + rules, words | Skills |
-| --- | ---: | ---: |
-| 20 July | 10,667 | 54 |
-| 23 August | 4,106 | 51 |
-| 10 October | 3,351 | 19 |
+| Date | `CLAUDE.md` + rules, words |
+| --- | ---: |
+| Before 23 August | 9,976 |
+| After 23 August | 4,106 |
+| 10 October | 3,351 |
 
-Those numbers come from the git history of my config. The October cleanup alone removed about 950 tokens from every session start. That sounds small until you count how many sessions and subagents start in a day. The audits behind the cuts are in [Auditing My Own Claude Code Setup](/blog/auditing-my-claude-code-setup-with-an-agent).
+Installed skills, whose descriptions load into every session, went from 53 at the start of July to 19. The October cleanup alone removed about 950 tokens from every session start. That sounds small until you count how many sessions and subagents start in a day. The audits behind the cuts are in [Auditing My Own Claude Code Setup](/blog/auditing-my-claude-code-setup-with-an-agent).
 
 Two habits keep the cache warm:
 
@@ -97,15 +97,13 @@ The fix is to name the tier per role: cheaper models for read-only exploration a
 
 ## What the ledger shows
 
-I also keep a ledger that prices each month's usage at list price. I pay a flat subscription, so this is the cost the same work would have had on the API, not money I spent. July to September:
+I also keep a ledger that prices each month's usage at list price. I pay a flat subscription, so this is the cost the same work would have had on the API, not money I spent. The full study is [Why I Measure Agent Cost Weekly Now](/work/agent-cost-per-commit). July to August, counted the same way:
 
-| Month | Commits | Subagent turns | List-price cost per commit |
-| --- | ---: | ---: | ---: |
-| July | 995 | 144,245 | $35.17 |
-| August | 1,091 | 43,247 | $11.44 |
-| September | 1,533 | 26,805 | $11.55 |
+- Cost per commit: $35 → $11
+- Commits: 995 → 1,091
+- Subagent turns: 144k → 43k
 
-Subagent turns fell by 81% while commits rose. The ledger does not say why. The config cuts above landed in the same months, so they are the likely cause, but I have not isolated them.
+Then it came back. The ledger's counting changed on 11 September, and on the old count September was about $23 per commit, twice August. The first drop also came a week before any config change, so I can show the cuts line up with the savings. I cannot show they caused them.
 
 What I cannot show yet is the limit count falling. 37 is a total over the whole window, and the script does not split it by month. That is the next thing I will measure.
 
