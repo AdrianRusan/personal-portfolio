@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CREDIT_TERMS, formatPrice, ladder, tiers } from "@/data/ladder";
+import { CAPACITY } from "@/data";
 
 const en = {
   heading: "From a €200 call to a monthly retainer",
@@ -11,8 +12,7 @@ const en = {
   formatPrice,
   href: "/services#ladder",
   more: "See what's included →",
-  capacity:
-    "The review layer is one senior human, so I run one sprint or retainer at a time.",
+  capacity: CAPACITY,
 };
 export type OffersCopy = typeof en;
 

@@ -4,6 +4,8 @@ export type Locale = "en" | "ro";
 const pairs: [en: string, ro: string][] = [
   ["/", "/ro"],
   ["/services", "/ro/servicii"],
+  ["/about", "/ro/despre"],
+  ["/contact", "/ro/contact"],
 ];
 
 export const localeOf = (pathname: string): Locale =>

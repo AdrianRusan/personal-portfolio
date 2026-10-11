@@ -5,6 +5,7 @@ import {
   tiers,
   type Tier,
 } from "@/data/ladder";
+import { CAPACITY } from "@/data";
 import { LadderLink } from "./LadderLink";
 
 const en = {
@@ -17,7 +18,7 @@ const en = {
   intro: `Start with a €200 call or go straight to a sprint. ${CREDIT_TERMS} All prices are in EUR, excluding VAT.`,
   limited: "One at a time",
   // Visible caption under the ladder; also the "One at a time" badge tooltip.
-  capacity: "The review layer is one senior human, so I run one sprint or retainer at a time.",
+  capacity: CAPACITY,
   source: "services_ladder",
 };
 
