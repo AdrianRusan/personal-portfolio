@@ -1,7 +1,6 @@
 import Link from "next/link";
 import MagicButton from "@/components/ui/MagicButton";
 import { CALENDLY_URL } from "@/data";
-import { FaLocationArrow } from "react-icons/fa6";
 
 const en = {
   heading: "Tell me the backlog. I'll tell you the number.",
@@ -22,7 +21,8 @@ export const ServicesFinalCta = ({
   copy?: ServicesFinalCtaCopy;
 }) => {
   return (
-    <section className="px-5 sm:px-10 py-12 md:py-20">
+    // id="contact": the /services sub-nav's "Contact" anchor.
+    <section id="contact" className="px-5 sm:px-10 py-12 md:py-20">
       <div className="max-w-5xl mx-auto rounded-2xl border border-white/10 bg-black-200/60 p-10 md:p-16 text-center">
         <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-balance max-w-3xl mx-auto">
           {copy.heading}
@@ -32,8 +32,6 @@ export const ServicesFinalCta = ({
         <div className="flex justify-center mt-8">
           <MagicButton
             title={copy.cta}
-            icon={<FaLocationArrow />}
-            position="right"
             href={CALENDLY_URL}
             trackEvent={{
               event: "calendly_click",

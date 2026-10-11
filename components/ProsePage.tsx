@@ -17,14 +17,14 @@ export function ProsePage({
   children?: ReactNode;
 }) {
   return (
-    <article className="px-5 sm:px-10 pt-28 sm:pt-32 pb-20">
-      <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl md:text-5xl font-bold tracking-tight">
+    <article className="px-5 sm:px-10 pt-32 sm:pt-40 pb-8">
+      <div className="container-prose">
+        <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-balance">
           {page.title}
         </h1>
         <p className="text-white-200 mt-5 leading-relaxed">{page.lead}</p>
         {page.updated && (
-          <p className="font-mono text-xs text-white-200/75 mt-3">
+          <p className="text-sm text-white-200/75 mt-3">
             {updatedLabel} {page.updated}
           </p>
         )}

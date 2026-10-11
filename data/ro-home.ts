@@ -4,6 +4,7 @@ import type { EmailCaptureCopy } from "@/components/EmailCapture";
 import type { ExperienceCopy } from "@/components/Experience";
 import type { FinalCtaCopy } from "@/components/FinalCta";
 import type { FooterCopy } from "@/components/Footer";
+import type { ClosingCtaCopy } from "@/components/ClosingCta";
 import type { HeroCopy } from "@/components/Hero";
 import type { LatestCopy } from "@/components/Latest";
 import type { OffersCopy } from "@/components/Offers";
@@ -304,7 +305,6 @@ export const roLatest: LatestCopy = {
 const roReviewedPr = offerById(roLadder, "reviewed-pr");
 
 export const roFinalCta: FinalCtaCopy = {
-  eyebrow: "De 2–3 ori, nu de 100 de ori, și iată ce greșesc agenții.",
   heading:
     "Adu-mi un backlog. Îl livrez în ritmul agenților și verific fiecare PR pentru securitate înainte să ajungă la tine.",
   body: "Tu prioritizezi și dai merge. Eu răspund pentru ce ajunge în cod.",
@@ -312,7 +312,6 @@ export const roFinalCta: FinalCtaCopy = {
   betweenBefore: "Undeva la mijloc?",
   betweenLink: `Începe cu un singur PR revizuit: ${formatPriceRo(roReviewedPr)}, ${roReviewedPr.duration}. Rezervă un sprint în ${CREDIT_DAYS} de zile și se scade din preț →`,
   betweenHref: "/ro/servicii#entry-offer",
-  capacity: RO_CAPACITY,
 };
 
 // The call steps, folded into the homepage FAQ as one answer (#54 R3).
@@ -331,13 +330,16 @@ export const roCallFaq = {
   ],
 };
 
-export const roFooter: FooterCopy = {
-  heading: "Vrei asta pe codul tău? Programează o discuție de 30 de minute.",
-  body: "Spune-mi ce vrei să construiești sau să livrezi. Pleci știind ce ofertă ți se potrivește, ce acoperă și cât costă. Fără nicio obligație.",
+export const roClosingCta: ClosingCtaCopy = {
+  heading: "Ai un backlog? Programează o discuție de 30 de minute.",
+  body: "Spune-mi ce vrei să construiești sau să livrezi. Pleci știind ce ofertă ți se potrivește și cât costă.",
   button: "Programează o discuție",
-  emailAria: "Trimite un email lui Adrian Rusan",
-  email: "sau scrie-mi un email",
-  teardown: "Sau trimite-mi un repo pentru un teardown gratuit de 15 minute (în engleză) →",
+  emailBefore: "sau scrie la",
+  teardown: "Sau trimite un repo pentru teardown gratuit (în engleză) →",
+  emailCapture: roEmailCapture,
+};
+
+export const roFooter: FooterCopy = {
   about: "Despre",
   aboutHref: "/ro/despre",
   contact: "Contact",
@@ -350,5 +352,4 @@ export const roFooter: FooterCopy = {
     2: "Adrian Rusan pe X",
     3: "Adrian Rusan pe LinkedIn",
   },
-  emailCapture: roEmailCapture,
 };

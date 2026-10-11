@@ -14,7 +14,8 @@ import { ServicesFinalCta } from "@/components/services/ServicesFinalCta";
 import { Ladder } from "@/components/services/Ladder";
 import { ladderServiceJsonLd } from "@/data/ladder";
 import { roLadder } from "@/data/ro";
-import { roFooter } from "@/data/ro-home";
+import { roClosingCta, roFooter } from "@/data/ro-home";
+import { ClosingCta } from "@/components/ClosingCta";
 import {
   roDeliverySprint,
   roEntryOffer,
@@ -93,7 +94,7 @@ export default function RoServicesPage() {
           }),
         ]}
       />
-      <FloatingNav ctaLabel="Rezervă" ctaSource="ro_floating_nav" />
+      <FloatingNav />
       <main id="main">
         <ServicesHero copy={roServicesHero} />
         <Ladder content={roServicesLadder} />
@@ -107,6 +108,7 @@ export default function RoServicesPage() {
         <ServicesFaq copy={roServicesFaq} />
         <ServicesFinalCta copy={roServicesFinalCta} />
       </main>
+      <ClosingCta hideCta copy={roClosingCta} />
       <Footer copy={roFooter} />
     </div>
   );

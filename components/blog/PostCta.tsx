@@ -1,4 +1,3 @@
-import { FaLocationArrow } from "react-icons/fa6";
 import { TrackedLink } from "@/components/TrackedLink";
 import MagicButton from "@/components/ui/MagicButton";
 import type { BlogCtaCopy } from "@/lib/blog-cta";
@@ -27,8 +26,6 @@ export default function PostCta({
       <p className="text-sm text-white-200 leading-relaxed mt-3">{cta.body}</p>
       <MagicButton
         title={cta.label}
-        icon={<FaLocationArrow />}
-        position="right"
         href={cta.href}
         trackEvent={{
           event: "cta_click",

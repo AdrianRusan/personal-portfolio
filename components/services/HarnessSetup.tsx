@@ -1,7 +1,6 @@
 import MagicButton from "@/components/ui/MagicButton";
 import { CALENDLY_URL } from "@/data";
 import Link from "next/link";
-import { FaLocationArrow } from "react-icons/fa6";
 import { getPosts } from "@/lib/blog";
 import { Fold } from "./Fold";
 
@@ -102,8 +101,6 @@ export const HarnessSetup = async ({
           <div className="mt-6">
             <MagicButton
               title={copy.cta}
-              icon={<FaLocationArrow />}
-              position="right"
               href={CALENDLY_URL}
               trackEvent={{
                 event: "calendly_click",

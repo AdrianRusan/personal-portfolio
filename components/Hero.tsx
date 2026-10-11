@@ -1,7 +1,6 @@
 import { GridBackground } from "./ui/GridBackground";
 import MagicButton from "./ui/MagicButton";
 import { TextGenerateEffect } from "./ui/TextGenerateEffect";
-import { FaLocationArrow } from "react-icons/fa6";
 import SpotlightBackground from "./ui/SpotlightBackground";
 import { TrackedLink } from "@/components/TrackedLink";
 import Link from "next/link";
@@ -70,8 +69,6 @@ const Hero = ({ copy = en }: { copy?: HeroCopy }) => {
             {/* Booking is the one filled button; the teardown is the outline one. */}
             <MagicButton
               title={copy.call}
-              icon={<FaLocationArrow />}
-              position="right"
               href={CALENDLY_URL}
               trackEvent={{
                 event: "calendly_click",

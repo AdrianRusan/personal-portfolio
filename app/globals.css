@@ -62,7 +62,7 @@ html {
     --blue-100: 67 56 202;
     /* violet-700: >= 4.5:1 for small purple text on its own /20 tint */
     --purple: 109 40 217;
-    --nav-bg: rgba(255, 255, 255, 0.8);
+    --nav-bg: rgba(255, 255, 255, 0.94);
     --nav-border: rgba(15, 23, 42, 0.1);
   }
 
@@ -104,12 +104,13 @@ html {
     --white-200: 193 194 211;
     --blue-100: 228 236 255;
     --purple: 203 172 249;
-    --nav-bg: rgba(17, 25, 40, 0.75);
+    --nav-bg: rgba(13, 20, 36, 0.94);
     --nav-border: rgba(255, 255, 255, 0.125);
   }
 
+  /* The one page background (P1): flat, the same on every page and in both themes. */
   body {
-    @apply bg-background text-foreground;
+    @apply bg-white dark:bg-black-100 text-foreground;
   }
 
   button {
@@ -120,6 +121,24 @@ html {
 @layer utilities {
   .heading {
     @apply font-bold text-4xl md:text-5xl text-center;
+  }
+
+  /* Design system (P1). Marketing sections sit in .container-section, prose in
+     .container-prose. Mono is for code and numbers only (.num). */
+  .container-section {
+    @apply mx-auto w-full max-w-5xl;
+  }
+
+  .container-prose {
+    @apply mx-auto w-full max-w-3xl;
+  }
+
+  .eyebrow {
+    @apply text-[13px] font-medium leading-5 text-purple;
+  }
+
+  .num {
+    @apply font-mono tabular-nums;
   }
 
   .floating-nav {

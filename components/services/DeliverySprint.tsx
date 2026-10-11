@@ -3,7 +3,6 @@ import { CALENDLY_URL, SAMPLE_REPORT_URL } from "@/data";
 import { sprintDurations } from "@/data/ladder";
 import { withTierPrefill } from "@/lib/calendly";
 import { Fold } from "./Fold";
-import { FaLocationArrow } from "react-icons/fa6";
 import { PricingTable } from "./PricingTable";
 import type { PricingColumn, PricingRow } from "./PricingTable";
 
@@ -236,8 +235,6 @@ export const DeliverySprint = ({
           <div className="mt-8">
             <MagicButton
               title={copy.cta}
-              icon={<FaLocationArrow />}
-              position="right"
               href={CALENDLY_URL}
               trackEvent={{
                 event: "calendly_click",

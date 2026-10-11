@@ -1,6 +1,5 @@
 import MagicButton from "@/components/ui/MagicButton";
 import { CALENDLY_URL, GUARANTEE, LEDGER_PROOF } from "@/data";
-import { FaLocationArrow } from "react-icons/fa6";
 
 const en = {
   heading:
@@ -46,8 +45,6 @@ export const ServicesHero = ({ copy = en }: { copy?: ServicesHeroCopy }) => {
         <div className="flex flex-col items-center gap-4 mt-6">
           <MagicButton
             title={copy.cta}
-            icon={<FaLocationArrow />}
-            position="right"
             href={CALENDLY_URL}
             trackEvent={{
               event: "calendly_click",

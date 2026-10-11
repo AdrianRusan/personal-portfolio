@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
 import MagicButton from '@/components/ui/MagicButton'
 import { PageShell } from '@/components/PageShell'
-import { FaLocationArrow } from 'react-icons/fa6'
 import Link from 'next/link'
 import { primaryNav } from '@/data/nav'
 
@@ -28,8 +27,6 @@ export default function NotFound() {
         </p>
         <MagicButton
           title="Back to the homepage"
-          icon={<FaLocationArrow />}
-          position="right"
           href="/"
         />
         <nav aria-label="Main pages" className="flex gap-6 mt-8 text-sm font-medium">

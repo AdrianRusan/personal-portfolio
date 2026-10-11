@@ -32,14 +32,10 @@ const linkClass =
 export const FloatingNav = ({
   navItems,
   className,
-  ctaLabel = "Book a call",
-  ctaSource = "floating_nav",
 }: {
   // Omit to use the shared nav (data/nav.ts) and the page's sub-nav.
   navItems?: NavItem[] | undefined;
   className?: string;
-  ctaLabel?: string;
-  ctaSource?: string;
 }) => {
   const pathname = usePathname();
   const isRo = localeOf(pathname) === "ro";
@@ -61,8 +57,8 @@ export const FloatingNav = ({
     <nav
       aria-label={isRo ? "Principal" : "Main"}
       className={cn(
-        "flex flex-wrap w-fit max-w-[calc(100vw-1.5rem)] sm:max-w-fit md:min-w-[70vw] lg:min-w-fit fixed z-[5000] inset-x-0 mx-auto px-3 sm:px-10 rounded-lg border border-black/10 dark:border-white/10 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] items-center justify-center gap-x-2 sm:gap-x-4 transition-[top,padding] duration-200",
-        scrolled ? "top-3 py-1.5 sm:py-3" : "top-10 py-3 sm:py-5",
+        "flex w-fit max-w-[calc(100vw-1.5rem)] sm:max-w-fit md:min-w-[70vw] lg:min-w-fit fixed z-[5000] inset-x-0 mx-auto px-3 sm:px-10 rounded-lg border border-black/10 dark:border-white/10 shadow-sm items-center justify-center gap-x-2 sm:gap-x-4 transition-[top,padding] duration-200",
+        scrolled ? "top-3 py-1.5 sm:py-3" : "top-4 sm:top-10 py-2 sm:py-5",
         className,
         "floating-nav",
       )}
@@ -82,8 +78,9 @@ export const FloatingNav = ({
           </Link>
         ))}
       </div>
+      {/* In-page anchors only from sm up, so the nav is one row on a phone. */}
       {subNav && (
-        <div className="order-last basis-full sm:order-none sm:basis-auto flex items-center justify-center gap-x-3 sm:gap-x-4 border-t sm:border-t-0 sm:border-l border-black/10 dark:border-white/10 sm:pl-4">
+        <div className="hidden sm:flex items-center gap-x-4 border-l border-black/10 dark:border-white/10 pl-4">
           {subNav.map((item) => (
             <Link key={item.link} href={item.link} className={linkClass}>
               {item.name}
@@ -107,16 +104,19 @@ export const FloatingNav = ({
         className="relative flex-none py-2 sm:py-0 text-xs sm:text-sm font-medium text-neutral-600 dark:text-neutral-50 hover:text-purple dark:hover:text-purple"
       >
         {isRo ? "EN" : "RO"}
-        {!twin && " ⌂"}
       </Link>
       <a
         href={CALENDLY_URL}
         target="_blank"
         rel="noopener noreferrer"
-        onClick={() => track("calendly_click", { source: ctaSource })}
+        onClick={() =>
+          track("calendly_click", {
+            source: isRo ? "ro_floating_nav" : "floating_nav",
+          })
+        }
         className="relative shrink-0 whitespace-nowrap rounded-lg bg-purple px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-black-100 transition-colors hover:bg-purple/80"
       >
-        {ctaLabel}
+        {isRo ? "Programează" : "Book a call"}
       </a>
     </nav>
   );
