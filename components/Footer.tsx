@@ -26,7 +26,7 @@ export type FooterCopy = typeof en;
 
 const Footer = ({ copy = en }: { copy?: FooterCopy }) => {
   return (
-    <footer className="" id="contact" aria-labelledby="contact-heading">
+    <footer className="relative overflow-hidden" id="contact" aria-labelledby="contact-heading">
       <SpotlightBackground />
       <div>
         <GridBackground />
