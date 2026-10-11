@@ -11,43 +11,50 @@ Freelance/consultant portfolio + lead-gen funnel for Adrian Rusan (Full-Stack En
 - **framer-motion 11** animations · **next-themes** dark/light · **lucide-react** + **react-icons**
 - **MDX blog**: `next-mdx-remote` + `gray-matter` + `rehype-pretty-code`/`shiki` (`lib/blog.ts`, `content/blog/*.mdx`)
 - **Observability**: Sentry (`@sentry/nextjs`, org `adrianrusan`), Vercel Analytics + Speed Insights (prod only)
-- **Tests**: Jest (unit — configured, currently 0 test files) · Playwright (`e2e/*.spec.ts`)
-- **Deploy**: Vercel, branch previews. Package manager: npm.
+- **Tests**: Jest 30 (unit + claim tests, `__tests__/`) · Playwright (`e2e/smoke.spec.ts`)
+- **Deploy**: Vercel (Node 24), branch previews. Package manager: npm.
 
-## Commands (verified 2026-07-09)
+## Commands (verified 2026-10-11 against package.json)
 
 | Task | Command | Notes |
 |---|---|---|
 | Dev | `npm run dev` | localhost:3000 |
-| Build | `npm run build` | `cross-env NODE_ENV=production next build` — now type-checks (ignoreBuildErrors removed) |
-| Lint | `npm run lint` | eslint-config-next |
-| Typecheck | `npx tsc --noEmit` | still NOT wired to build; run manually. Currently clean (e2e/playwright excluded from app tsconfig) |
-| Unit tests | `npm test` | jest 30; 14 tests across `__tests__/` (utils, blog, api-subscribe) |
-| E2E | `npm run e2e` | `e2e/smoke.spec.ts` against `npm start` on :3045 (run `npm run build` first); every EN route at 1440 + 390 |
+| Build | `npm run build` | `cross-env NODE_ENV=production next build`; type-checks |
+| Start | `npm start` | `next start`; pass `-- -p <port>` for a non-default port |
+| Lint | `npm run lint` | `next lint` (eslint-config-next) |
+| Typecheck | `npx tsc --noEmit` | no script; excludes `e2e/` |
+| Unit + claim tests | `npm test` | jest; 26 suites, 238 tests on 2026-10-11 |
+| E2E | `npm run e2e` | `playwright test`; starts `npm start` on :3045 (`E2E_PORT`), so run `npm run build` first; every route at 1440 + 390 |
 | Security | `npm run security-check` | `scripts/security-check.js` |
-| Verify all | `npm run verify:all` | tests → build → security |
-| Bundle analyze | `npm run analyze` | `ANALYZE=true` |
+| Verify all | `npm run verify:all` | `verify:build` → `verify:tests` → `verify:security` |
+| Bundle analyze | `npm run analyze` | `ANALYZE=true` production build |
 
-**Validation order before commit**: `npx tsc --noEmit` → `npm run lint` → `npm run build` → `npm test` → `npm run e2e`. Because build ignores type errors, `tsc --noEmit` is the real type gate — don't skip it.
+**Validation order before commit**: `npx tsc --noEmit` → `npm run lint` → `npm run build` → `npm test` → `npm run e2e`.
 
 ## Architecture
 
 ```
-app/                 App Router: layout.tsx (SEO/metadata), page.tsx (homepage, dynamic imports),
-  services/          /services offer page (pricing, risk-reversal, Calendly CTAs)
-  blog/[slug]/       MDX blog + opengraph-image.tsx
-  sitemap.ts robots.ts feed.xml/  SEO surface (Schema.org, AI-crawler allowlist, RSS)
-components/          Section components (Hero, Offers, Testimonials, CaseStudy, ShipVerify, ...)
-  ui/                shadcn + custom animated primitives (Spotlight, BentoGrid, MagicButton, ...)
-  blog/  services/   Feature-scoped components
-lib/                 blog.ts (MDX pipeline), utils.ts (cn), blog-types.ts
-config/environment.ts  Site config, feature flags, env validation
-data/index.ts        Static content (projects, experience, testimonials) — hardcoded, no CMS yet
-content/blog/        MDX posts (frontmatter via gray-matter)
-context/             theme-provider
-hooks/               (currently empty; Core Web Vitals via Vercel Speed Insights)
-scripts/             verify-*.js, security-check.js, performance scripts
-e2e/                 Playwright specs
+middleware.ts        Accept: text/markdown → rewrite to /api/markdown; Vary: Accept on HTML
+app/
+  (en)/              EN root layout + /, about, blog, contact, privacy, services, teardown, work, workshops
+  (ro)/ro/           RO root layout (<html lang="ro">) + /ro, despre, contact, servicii
+  api/               markdown/[[...path]] (Markdown twin of every page), subscribe (Resend), teardown
+  root-shell.tsx     shared shell for both root layouts
+  global-not-found.tsx  404 for unmatched URLs
+  sitemap.ts robots.ts feed.xml/ llms.txt/  SEO + agent surface (generated from data)
+components/          Section components; each exports a `*Copy` object reused by lib/markdown
+  ui/  blog/  services/
+lib/
+  markdown/          Markdown for every page from the same copy + data (HTML and Markdown can't drift)
+  blog.ts            MDX pipeline; posts hidden until published + isLive(date)
+  page-schema.tsx person-schema.ts  JSON-LD
+  analytics.ts calendly.ts locale.ts og.tsx
+data/                Single sources: index.ts (URLs, numbers, testimonials, work history),
+                     ladder.ts, work.ts, workshops.ts, teardown.ts, pages.ts, nav.ts, ro*.ts
+content/blog/ content/work/  MDX posts and case studies
+__tests__/           jest, incl. claim tests (thirty-pr-claims, workflow-numbers, experience, testimonials)
+e2e/                 Playwright smoke
+config/environment.ts  site config, feature flags, env validation
 ```
 
 ## Conventions
@@ -55,14 +62,18 @@ e2e/                 Playwright specs
 - **Server components by default**; add `"use client"` only for interactivity (animation, theme, forms). Heavy client components → `dynamic()` import with `Skeleton` fallback.
 - **Named exports**, `import type` for types, no `any` (repo already has strict violations — don't add more).
 - **Styling**: Tailwind utilities + `cn()`; no inline style objects for themeable values (use CSS vars / tokens).
-- **Content edits**: static site content lives in `data/index.ts`, not in components. Blog = MDX in `content/blog/`.
+- **Content edits**: site copy and numbers live in `data/*` (one constant per fact), not in components. Blog = MDX in `content/blog/`, case studies in `content/work/`. Change EN and RO together (`data/ro*.ts`).
+- **Claims**: no invented proof. New numbers or quotes need a real source; run `npm test` (claim tests) after any copy change. See `.claude/CONTEXT.md` Active Decisions for names, Bono and Calendly rules.
 - **SEO is load-bearing** (this site's discovery channel): touching `layout.tsx` metadata, `sitemap.ts`, `robots.ts`, or Schema.org JSON-LD → verify rich-results + OG tags still valid.
 - Solo context: gitmoji commit format, tracker = github-issues. Feature branch before commits.
 
 ## Gotchas
 
-- **`next build` needs `NODE_ENV=production`** — shell profile exports `NODE_ENV=development`; a raw `next build` leaks it and re-triggers a `<Html>/pages/_document` prerender failure. Always build via `npm run build` (pins `cross-env NODE_ENV=production`). Build now type-checks (`ignoreBuildErrors` removed), but `tsc --noEmit` is still the manual pre-commit gate.
-- **`verify:tests` script is flaky** — its Playwright/e2e orchestration step is environment-dependent and can fail independent of unit tests. `npm test` (jest, 14 tests) is the reliable unit gate.
-- **e2e/playwright excluded from app `tsconfig`** — `tsc --noEmit` no longer type-checks `e2e/*.spec.ts` (they need `@playwright/test`). Run `npm run e2e` for e2e; don't expect tsc to cover them.
-- **Images**: only `utfs.io` / `ufs.sh` (uploadthing) remote patterns allowed in `next.config.mjs`; adding an external image host requires editing `remotePatterns`. `dangerouslyAllowSVG` is on with a strict CSP.
+- **`next build` needs `NODE_ENV=production`**: the shell profile exports `NODE_ENV=development`, and a raw `next build` re-triggers a `<Html>/pages/_document` prerender failure. Always build via `npm run build`.
+- **Never `pkill`/`killall` or kill by pattern**: other projects' `next-server`s run on this machine. Use an explicit port; kill only your own PID.
+- **Vercel CLI here is on another account**: don't use it for this project. Vercel must run Node 24; after close merges, check production is on the latest commit and promote it if not.
+- **Calendly free plan**: never create or activate a Calendly event; it would deactivate the Scoping Call (`CALENDLY_URL`).
+- **`verify:tests` is environment-dependent**: `npm test` and `npm run e2e` are the reliable gates.
+- **e2e is excluded from the app `tsconfig`**: tsc doesn't check `e2e/*.spec.ts`.
+- **Images**: only `utfs.io` / `ufs.sh` remote patterns in `next.config.mjs`; a new host needs `remotePatterns`. `dangerouslyAllowSVG` is on with a strict CSP.
 - **Env**: `NEXT_PUBLIC_SITE_URL` is required in production (`validateEnvironment` throws). Analytics/Sentry gated on env + `isProduction`.
