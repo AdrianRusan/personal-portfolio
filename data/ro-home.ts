@@ -9,13 +9,16 @@ import type { LatestCopy } from "@/components/Latest";
 import type { OffersCopy } from "@/components/Offers";
 import type { ProofBandCopy } from "@/components/ProofBand";
 import type { ShipVerifyCopy } from "@/components/ShipVerify";
+import type { TestimonialsCopy } from "@/components/Testimonials";
 import type { WhoForCopy } from "@/components/WhoFor";
 import type { PostTitles } from "@/lib/blog-types";
 import {
   FINTECH_EMPLOYER,
   shipVerify,
+  testimonials,
   workExperience,
   WORKFLOW_NUMBERS as W,
+  type Testimonial,
 } from "@/data";
 import { offerById, tiers } from "@/data/ladder";
 import {
@@ -97,7 +100,6 @@ export const roShipVerify: ShipVerifyCopy = {
 export const roBio: BioCopy = {
   heading: "Cine îți verifică codul",
   body: `Sunt Adrian Rusan, inginer software cu peste 10 ani de cod livrat în producție. Lucrez independent, prin propria firmă, cel mai recent cu contract ca founding engineer pentru ${FINTECH_EMPLOYER}. Înainte: GoSocial, PGL Esports și Ipsos. În fiecare colaborare de aici, verific eu fiecare PR scris de agenți.`,
-  earlier: "Un proiect anterior pentru un client, dinainte de agenți (citat în engleză)",
   onGithub: "Adrian Rusan pe GitHub",
   onLinkedin: "Adrian Rusan pe LinkedIn",
   onX: "Adrian Rusan pe X",
@@ -307,4 +309,33 @@ export const roFooter: FooterCopy = {
     2: "Adrian Rusan pe X",
     3: "Adrian Rusan pe LinkedIn",
   },
+};
+
+// #76: the same quotes in Romanian, approved word for word.
+export const roTestimonials = {
+  tufeanu: {
+    ...testimonials.tufeanu,
+    quote: "Meticulos, smart și proactiv. Un mare meseriaș. Treabă beton.",
+  },
+  stroe: {
+    ...testimonials.stroe,
+    quote:
+      "Adrian a fost de încredere la fiecare pas. A dus două proiecte de produs în paralel, ne-a ținut la curent de fiecare dată și ne-a spus din timp când o estimare era prea optimistă. Preia problemele și le duce mai departe fără să fie nevoie să-l împingă cineva.",
+  },
+  doros: {
+    ...testimonials.doros,
+    quote:
+      "O analiză atentă. A prins contradicțiile din handoff înainte să se scrie cod, iar corecțiile lui au fost chiar utile.",
+    company: "agenție parteneră",
+  },
+  iojiban: {
+    ...testimonials.iojiban,
+    quote:
+      "Orice semnalam, rezolva imediat. Task-urile dispăreau la fel de repede cum le adăugam.",
+  },
+} satisfies Record<keyof typeof testimonials, Testimonial>;
+
+export const roTestimonialsSection: TestimonialsCopy = {
+  heading: "Ce spun oamenii cu care am lucrat",
+  items: [roTestimonials.tufeanu, roTestimonials.stroe],
 };

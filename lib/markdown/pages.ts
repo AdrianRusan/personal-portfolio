@@ -5,11 +5,12 @@ import type { HeroCopy } from "@/components/Hero";
 import type { OffersCopy } from "@/components/Offers";
 import type { ProofBandCopy } from "@/components/ProofBand";
 import type { ShipVerifyCopy } from "@/components/ShipVerify";
+import type { TestimonialsCopy } from "@/components/Testimonials";
 import type { WhoForCopy } from "@/components/WhoFor";
 import type { LadderContent } from "@/components/services/Ladder";
 import type { ProcessStepsCopy } from "@/components/services/ProcessSteps";
 import type { ServicesHeroCopy } from "@/components/services/ServicesHero";
-import { CALENDLY_URL, testimonials } from "@/data";
+import { CALENDLY_URL, type Testimonial } from "@/data";
 import type { ProsePage } from "@/data/pages";
 import { teardown } from "@/data/teardown";
 import {
@@ -55,11 +56,15 @@ const offersMd = (c: OffersCopy) =>
     c.capacity,
   );
 
+const quoteMd = ({ quote, name, role, company }: Testimonial) =>
+  `> ${quote}\n>\n> ${name}, ${role}, ${company}`;
+
 export interface HomeCopy {
   hero: HeroCopy;
   proof: ProofBandCopy;
   shipVerify: ShipVerifyCopy;
   caseStudies: { heading: string; lead: string; all: string };
+  testimonials: TestimonialsCopy;
   offers: OffersCopy;
   whoFor: WhoForCopy;
   bio: BioCopy;
@@ -69,9 +74,8 @@ export interface HomeCopy {
 }
 
 // Same sections and order as the home pages (P2).
-export const homeMd = (c: HomeCopy) => {
-  const quote = testimonials[0];
-  return blocks(
+export const homeMd = (c: HomeCopy) =>
+  blocks(
     `# ${c.hero.heading}`,
     c.hero.body,
     `> ${c.hero.guarantee}`,
@@ -89,6 +93,8 @@ export const homeMd = (c: HomeCopy) => {
     `## ${c.caseStudies.heading}`,
     c.caseStudies.lead,
     `[${c.caseStudies.all.replace(/ →$/, "")}](/work)`,
+    `## ${c.testimonials.heading}`,
+    ...c.testimonials.items.map(quoteMd),
     offersMd(c.offers),
     `## ${c.whoFor.heading}`,
     `### ${c.whoFor.forHeading}`,
@@ -97,24 +103,29 @@ export const homeMd = (c: HomeCopy) => {
     list(c.whoFor.notForList),
     `## ${c.bio.heading}`,
     c.bio.body,
-    quote &&
-      `${c.bio.earlier}:\n\n> ${quote.quote}\n>\n> ${quote.name}, ${quote.title}`,
     faqMd(c.faq),
     `## ${c.closing.heading}`,
     c.closing.body,
     `[${c.closing.button}](${CALENDLY_URL})`,
     `${c.between.before} [${c.between.link}](${c.between.href})`,
   );
-};
 
 export interface ServicesCopy {
   hero: ServicesHeroCopy;
   ladder: LadderContent;
   process: ProcessStepsCopy;
   faq: Faq;
+  // #76: the Reviewed PR/Sprint quote, then the Retainer quote.
+  quotes: Testimonial[];
 }
 
-export const servicesMd = ({ hero, ladder, process, faq }: ServicesCopy) =>
+export const servicesMd = ({
+  hero,
+  ladder,
+  process,
+  faq,
+  quotes,
+}: ServicesCopy) =>
   blocks(
     `# ${hero.heading}`,
     hero.intro,
@@ -137,6 +148,7 @@ export const servicesMd = ({ hero, ladder, process, faq }: ServicesCopy) =>
       ),
     ),
     ladder.capacity,
+    ...quotes.map(quoteMd),
     `## ${process.heading}`,
     process.intro,
     ...process.steps.map((s) => `### ${s.heading}\n\n${s.body}`),

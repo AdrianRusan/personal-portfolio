@@ -227,15 +227,43 @@ export const whoFor = {
   ],
 };
 
-export const testimonials = [
-  {
-    quote:
-      "I am very pleased with Adrian's efforts and progress on my project. I was informed on a daily basis about progress, and Adrian is very keen on delivering quality work. He made sure I was happy with the end result, I definitely recommend contacting Adrian if you are in need of any web related projects!",
-    name: "Tim Claes",
-    title: "Freelance mobile & web engineer",
-    img: "https://utfs.io/a/23x7w9tiht/7iidzn1TwzukCJ59vIyXoxIjwOYaTyPZtGk0mVdeKgr9LH8h",
+export type Testimonial = {
+  quote: string;
+  name: string;
+  role: string;
+  company: string;
+};
+
+// #76: client quotes, approved word for word. No photos or logos (calm proof).
+export const testimonials = {
+  tufeanu: {
+    quote: "Meticulous, smart and proactive. A true craftsman. Rock solid work.",
+    name: "Bogdan Tufeanu",
+    role: "CEO",
+    company: "DentStore",
   },
-];
+  stroe: {
+    quote:
+      "Adrian was reliable at every step. He ran two product builds in parallel, kept us informed every time, and told us up front when an estimate was too optimistic. He takes problems over and drives them forward without anyone having to push.",
+    name: "Alexandra Stroe",
+    role: "Co-founder & COO",
+    company: FINTECH_EMPLOYER,
+  },
+  doros: {
+    quote:
+      "A careful analysis. He caught the contradictions in the handoff before any code was written, and his corrections were genuinely useful.",
+    name: "Paul Doros",
+    role: "Lead Developer",
+    company: "partner agency",
+  },
+  iojiban: {
+    quote:
+      "Whatever I flagged, he handled right away. Tasks disappeared as fast as I could add them.",
+    name: "Teodora Iojiban",
+    role: "Project Manager",
+    company: FINTECH_EMPLOYER,
+  },
+} satisfies Record<string, Testimonial>;
 
 // P2 (A2): the PFA is the umbrella; Bono is a client engagement under it, at
 // LinkedIn level and no further (memory bono-contract-nda: no product detail

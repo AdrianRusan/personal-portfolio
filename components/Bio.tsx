@@ -3,7 +3,7 @@ import path from "node:path";
 import Image from "next/image";
 import Link from "next/link";
 import { FaGithub, FaLinkedin, FaXTwitter, FaYoutube } from "react-icons/fa6";
-import { FINTECH_EMPLOYER, YOUTUBE_URL, testimonials } from "@/data";
+import { FINTECH_EMPLOYER, YOUTUBE_URL } from "@/data";
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "./ui/SectionHeading";
 
@@ -38,8 +38,6 @@ export const Avatar = ({ className }: { className?: string }) =>
 const en = {
   heading: "Who reviews your code",
   body: `I'm Adrian Rusan, a software engineer with 10+ years shipping production software. I work independently through my own company, most recently on contract as founding engineer for ${FINTECH_EMPLOYER}. Before that: GoSocial, PGL Esports and Ipsos. On every engagement here, I review each PR the agents write.`,
-  // P2: the one client quote, folded in with a one-line source (O9, R1-F23).
-  earlier: "Earlier client work, before the agent pipeline",
   onGithub: "Adrian Rusan on GitHub",
   onLinkedin: "Adrian Rusan on LinkedIn",
   onX: "Adrian Rusan on X",
@@ -58,7 +56,6 @@ const social: { href: string; label: SocialLabel; Icon: typeof FaGithub }[] = [
 ];
 
 const Bio = ({ copy = en }: { copy?: BioCopy }) => {
-  const quote = testimonials[0];
   return (
     <section
       aria-labelledby="bio-heading"
@@ -85,20 +82,6 @@ const Bio = ({ copy = en }: { copy?: BioCopy }) => {
               </Link>
             ))}
           </div>
-          {quote && (
-            <figure className="mt-6 border-l-2 border-white/15 pl-5">
-              <figcaption className="text-sm text-white-200/80">
-                {copy.earlier}:
-              </figcaption>
-              <blockquote className="mt-2 text-sm text-white-200 leading-relaxed text-pretty">
-                &ldquo;{quote.quote}&rdquo;
-              </blockquote>
-              <p className="mt-2 text-sm">
-                <span className="font-semibold text-white">{quote.name}</span>
-                <span className="text-white-200/80">, {quote.title}</span>
-              </p>
-            </figure>
-          )}
         </div>
       </div>
     </section>
