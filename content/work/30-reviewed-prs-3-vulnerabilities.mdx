@@ -3,15 +3,17 @@ title: "30 Reviewed PRs, 3 Shell-Injection Paths Caught"
 seoTitle: "30 Reviewed PRs, 3 Shell-Injection Paths Caught"
 date: "2026-10-11"
 tags: ["ai", "claude-code", "code-review", "security"]
-description: "My own admin dashboard, March 2026: agents opened 31 PRs in under three days. No tests, no CI: review was the only gate. What it caught and missed."
+description: "My own admin dashboard, March 2026: agents opened 31 PRs in under three days and 30 were merged after review. No tests, no CI: review was the only gate."
 published: true
 language: "en"
 cta: "reviewed-pr"
+forYou: "If you're weighing agent-written PRs on a codebase with thin tests, this is what one reviewer caught and missed across 30 of them."
+meta: "Mar 2026 · Own project · under 3 days · Claude Code, Next.js, git worktrees"
 ---
 
-**Short answer:** In March 2026 Claude Code agents opened 31 pull requests on my own admin dashboard in under three days, and I reviewed and merged 30. The repo had no test suite and no CI, so my review was the only gate. It caught 3 shell-injection paths from request input before merge. It also missed one, which is the lesson.
+In March 2026 Claude Code agents opened 31 pull requests on my own admin dashboard in under three days, and I reviewed and merged 30. My review caught 3 shell-injection paths from request input before merge. It also missed one shell call, which is the lesson.
 
-**Where this comes from:** my own admin dashboard, March 2026, not client work. The mechanics are in [30 PRs in Under Three Days](/blog/30-prs-in-2-5-days), and the injection bugs are in [The Shell-Injection Bugs My Agents Wrote](/blog/catching-shell-injection-agents-wrote).
+The mechanics are in [30 PRs in Under Three Days](/blog/30-prs-in-2-5-days), and the code is in [The Shell-Injection Bugs My Agents Wrote](/blog/catching-shell-injection-agents-wrote).
 
 ## The problem
 
@@ -48,9 +50,9 @@ While I reviewed one wave, the next was already generating.
   2. A log-search query interpolated into a shell command, behind a character filter.
   3. A memory-search query, the same pattern as the log search.
 
-  Only the first was directly exploitable. The other two sat behind a character-stripping filter, which is not a fix.
+  Only the first was directly exploitable. The other two sat behind an allowlist regex that stripped shell characters: safe as written, and one careless edit away from open.
 - Review also caught a path traversal (a file path built from a route parameter with no containment) and 2 more shell-string calls on internal values.
-- **1 missed:** a shell-string call built from database values. I didn't catch it, and it is still open.
+- **1 missed:** a shell-string call built from database values. It is still open. The rows come from my overnight worker rather than a request, so it ranks below the three above.
 
 ## The lesson
 
@@ -58,4 +60,4 @@ Review was the only gate, and it caught a lot: three injection paths from reques
 
 The check that would have caught it is about the call, not the source: any shell string with a variable in it is a finding, wherever the variable came from. And a repo with no tests and no CI needs a second gate besides one reviewer, such as a lint rule or a CI grep for shell-string calls, so a single missed line doesn't ship.
 
-Generation was the cheap part of this run. Most of the time went on review, and that's why I put the honest speed-up at 2–3x, not 100x.
+Generation was the cheap part of this run. Most of the time went on review, which is why the speed-up I measure is [2–3x](/blog/2-3x-not-100x).
