@@ -40,14 +40,16 @@ const Experience = ({ copy = en }: { copy?: ExperienceCopy }) => {
               className="flex-1 text-slate-900 dark:text-neutral-50 border-white/10 dark:border-slate-800"
             >
               <div className="flex lg:flex-row flex-col lg:items-center p-3 py-6 md:p-5 lg:p-10 gap-2">
-                <Image
-                  src={card.thumbnail}
-                  alt={`${card.company} ${copy.companyIcon}`}
-                  className="lg:w-32 md:w-20 w-16"
-                  width={100}
-                  height={100}
-                  title={`${card.company} ${copy.company}`}
-                />
+                {card.thumbnail && (
+                  <Image
+                    src={card.thumbnail}
+                    alt={`${card.company} ${copy.companyIcon}`}
+                    className="lg:w-32 md:w-20 w-16"
+                    width={100}
+                    height={100}
+                    title={`${card.company} ${copy.company}`}
+                  />
+                )}
                 <div className="lg:ms-5 space-y-2">
                   <h3
                     id={`job-title-${card.id}`}
