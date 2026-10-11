@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { PageShell } from "@/components/PageShell";
 import TeardownForm from "@/components/TeardownForm";
-import { LEDGER_PROOF } from "@/data";
 import { teardown } from "@/data/teardown";
 import { CalendlyLink } from "@/components/CalendlyLink";
 import { JsonLd, pageJsonLd } from "@/lib/page-schema";
@@ -44,19 +43,17 @@ export default function TeardownPage() {
         })}
       />
 
-      <section className="px-5 sm:px-10 pt-28 sm:pt-32 pb-16">
-        <div className="max-w-5xl mx-auto text-center">
-          <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100">
-            {teardown.eyebrow}
-          </span>
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-balance max-w-3xl mx-auto mt-4">
+      <section className="px-5 sm:px-10 pt-36 pb-12">
+        <div className="container-section text-center">
+          <p className="eyebrow">{teardown.eyebrow}</p>
+          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-balance max-w-3xl mx-auto mt-3">
             {teardown.heading}
           </h1>
-          <p className="text-white-200 mt-5 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-white-200 mt-5 leading-relaxed max-w-2xl mx-auto text-pretty">
             {teardown.intro}
           </p>
-          <p className="font-mono text-[11px] md:text-xs text-white-200/80 mt-4 max-w-2xl mx-auto">
-            {LEDGER_PROOF}
+          <p className="text-sm text-white-200/80 mt-4 max-w-2xl mx-auto text-pretty">
+            {teardown.proof}
           </p>
         </div>
       </section>
@@ -76,28 +73,23 @@ export default function TeardownPage() {
         className="px-5 sm:px-10 pb-16"
         aria-label="How the teardown works"
       >
-        <div className="max-w-3xl mx-auto">
-          <ul className="flex flex-col gap-4">
-            {steps.map((item, index) => (
+        <div className="max-w-2xl mx-auto">
+          <h2 className="text-lg font-semibold tracking-tight">How it works</h2>
+          <ol className="flex flex-col gap-3 mt-4 list-decimal pl-5 marker:text-purple">
+            {steps.map((item) => (
               <li
                 key={item}
-                className="flex gap-4 text-sm md:text-base text-white-200 leading-relaxed"
+                className="text-sm md:text-base text-white-200 leading-relaxed"
               >
-                <span
-                  className="flex-none font-mono text-purple"
-                  aria-hidden="true"
-                >
-                  {index + 1}.
-                </span>
                 {item}
               </li>
             ))}
-          </ul>
+          </ol>
         </div>
       </section>
 
       <section className="px-5 sm:px-10 pb-20" aria-label="Why free">
-        <div className="max-w-3xl mx-auto rounded-2xl border border-white/10 bg-black-200/40 p-6 md:p-8">
+        <div className="max-w-2xl mx-auto border-t border-white/10 pt-8">
           <h2 className="text-lg font-semibold tracking-tight">
             {teardown.whyHeading}
           </h2>

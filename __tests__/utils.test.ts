@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn, keepRangesWhole } from "@/lib/utils";
 
 describe("cn", () => {
   it("joins class names", () => {
@@ -16,5 +16,13 @@ describe("cn", () => {
   it("dedupes conflicting Tailwind utilities (last wins)", () => {
     expect(cn("px-2", "px-4")).toBe("px-4");
     expect(cn("text-white-200", "text-purple")).toBe("text-purple");
+  });
+});
+
+describe("keepRangesWhole", () => {
+  it("joins digit ranges only", () => {
+    expect(keepRangesWhole("2–3x and €950–1,500, days 1–N")).toBe(
+      "2–⁠3x and €950–⁠1,500, days 1–N",
+    );
   });
 });

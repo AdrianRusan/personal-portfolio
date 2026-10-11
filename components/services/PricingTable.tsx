@@ -50,7 +50,7 @@ export const PricingTable = ({
           ? { target: "_blank", rel: "noopener noreferrer" }
           : {})}
       >
-        {/* The recommended tier gets the one filled booking button. */}
+        {/* The featured tier gets the one filled booking button. */}
         <span
           className={
             column.featured
@@ -64,15 +64,11 @@ export const PricingTable = ({
     );
   };
 
-  // Phones get stacked cards, recommended tier first; the table needs ≥md.
-  const cardOrder = columns
-    .map((column, index) => ({ column, index }))
-    .sort((a, b) => Number(!!b.column.featured) - Number(!!a.column.featured));
-
   return (
     <>
       <ul className="md:hidden flex flex-col gap-4">
-        {cardOrder.map(({ column, index }) => (
+        {/* Phones get stacked cards in table order (R2-F2); the table needs ≥md. */}
+        {columns.map((column, index) => (
           <li
             key={column.name}
             className={`rounded-xl border p-5 ${
@@ -82,7 +78,7 @@ export const PricingTable = ({
             }`}
           >
             {column.badge && (
-              <span className="block font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-purple mb-1">
+              <span className="block text-xs font-medium text-purple mb-1">
                 {column.badge}
               </span>
             )}
@@ -120,7 +116,7 @@ export const PricingTable = ({
                   }`}
                 >
                   {column.badge && (
-                    <span className="block font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-purple mb-1">
+                    <span className="block text-xs font-medium text-purple mb-1">
                       {column.badge}
                     </span>
                   )}

@@ -9,7 +9,7 @@ import type { WhoForCopy } from "@/components/WhoFor";
 import type { LadderContent } from "@/components/services/Ladder";
 import type { ProcessStepsCopy } from "@/components/services/ProcessSteps";
 import type { ServicesHeroCopy } from "@/components/services/ServicesHero";
-import { CALENDLY_URL, LEDGER_PROOF, testimonials } from "@/data";
+import { CALENDLY_URL, testimonials } from "@/data";
 import type { ProsePage } from "@/data/pages";
 import { teardown } from "@/data/teardown";
 import {
@@ -118,11 +118,11 @@ export const servicesMd = ({ hero, ladder, process, faq }: ServicesCopy) =>
   blocks(
     `# ${hero.heading}`,
     hero.intro,
-    hero.priced,
     `> ${hero.guarantee}`,
     `[${hero.cta}](${CALENDLY_URL})`,
+    `${hero.proof}. [${hero.proofLink.label}](${hero.proofLink.href})`,
     `## ${ladder.heading}`,
-    ladder.intro,
+    ladder.note ? `${ladder.intro} ${ladder.note}` : ladder.intro,
     ...ladder.tiers.map(({ tier, tagline }) =>
       blocks(
         `### ${ladder.tierName(tier)}: ${tagline}`,
@@ -140,7 +140,6 @@ export const servicesMd = ({ hero, ladder, process, faq }: ServicesCopy) =>
     `## ${process.heading}`,
     process.intro,
     ...process.steps.map((s) => `### ${s.heading}\n\n${s.body}`),
-    process.contract,
     faqMd(faq),
   );
 
@@ -160,7 +159,7 @@ export const teardownMd = () =>
     `# ${teardown.heading}`,
     teardown.eyebrow,
     teardown.intro,
-    LEDGER_PROOF,
+    teardown.proof,
     "## How it works",
     teardown.steps.map((s, i) => `${i + 1}. ${s}`).join("\n"),
     list(teardown.trustNotes),

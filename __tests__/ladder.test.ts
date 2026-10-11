@@ -4,8 +4,10 @@ import {
   ladderServiceJsonLd,
   CREDIT_TERMS,
   sprintDurations,
+  sprintSizes,
+  perPrBand,
 } from "@/data/ladder";
-import { roLadder, roSprintDurations } from "@/data/ro";
+import { roLadder, roSprintDurations, roSprintSizes } from "@/data/ro";
 import { workshops, workshopJsonLd } from "@/data/workshops";
 import { STRATEGY_CALL_URL } from "@/data";
 
@@ -17,7 +19,8 @@ const GUIDE: Record<string, { tier: string; price: string; duration: string }> =
     workshop: {
       tier: "Train",
       price: "€2,000 half-day / €3,500 full-day",
-      duration: "4–8 h",
+      // R2-F28: the half-day agenda runs 09:00–12:30.
+      duration: "3.5 h / 8 h",
     },
     automation: { tier: "Build", price: "from €3,000", duration: "1–3 wk" },
     harness: { tier: "Build", price: "from €4,000", duration: "1 wk" },
@@ -170,5 +173,46 @@ describe("sprint durations", () => {
     expect(en).toContain(sprintDurations[2]);
     expect(ro).toContain(roSprintDurations[1]);
     expect(ro).toContain(roSprintDurations[2]);
+  });
+});
+
+// R2-F1: the per-PR claim must equal price ÷ PR count, worked by hand here.
+describe("per-PR price", () => {
+  it("contains every size's per-PR price: €966.67 (Standard, 15 PRs) to €1,500", () => {
+    // 14,500 / 15 = 966.67 → floor 950; 7,500 / 5 = 24,000 / 16 = 1,500.
+    expect(perPrBand(sprintSizes)).toEqual([950, 1500]);
+    expect(ladder.find((o) => o.id === "sprint")!.summary).toContain(
+      "€950–1,500 per PR",
+    );
+  });
+
+  it("contains every RO size's per-PR price: 533 € (Standard, 15 PRs) to 825 €", () => {
+    // 8.000 / 15 = 533 → floor 500; 13.200 / 16 = 825 → ceil 850.
+    expect(perPrBand(roSprintSizes)).toEqual([500, 850]);
+    expect(roLadder.find((o) => o.id === "sprint")!.summary).toContain(
+      "500–850 € per PR",
+    );
+  });
+
+  it("never advertises a band narrower than the real prices", () => {
+    for (const sizes of [sprintSizes, roSprintSizes]) {
+      const [lo, hi] = perPrBand(sizes);
+      for (const { price, prs } of sizes)
+        for (const n of prs) {
+          expect(price / n).toBeGreaterThanOrEqual(lo);
+          expect(price / n).toBeLessThanOrEqual(hi);
+        }
+    }
+  });
+
+  it("keeps the old ≈€1,000/PR claim off both ladders", () => {
+    for (const offer of [...ladder, ...roLadder])
+      expect(offer.summary).not.toMatch(/≈/);
+  });
+
+  it("starts the ladder's sprint price at the Pilot size", () => {
+    expect(formatPrice(ladder.find((o) => o.id === "sprint")!)).toBe(
+      `from €${sprintSizes[0]!.price.toLocaleString("en-US")}`,
+    );
   });
 });

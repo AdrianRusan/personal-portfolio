@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { keepRangesWhole } from "@/lib/utils";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 
 interface ProcessStep {
   tag: string;
@@ -6,63 +8,55 @@ interface ProcessStep {
   body: string;
   // Optional trailing in-depth link, rendered after the body text.
   link?: { label: string; href: string };
-  caption?: string;
-  // Highlighted step (the verify layer).
+  // Highlighted step (the review).
   verify?: boolean;
 }
 
 const en = {
-  heading: "How the work actually runs",
+  heading: "How a sprint works",
+  // "No runaway bill" is said here and nowhere else on the page (R2-F11).
   intro:
-    "Four steps. The scope and price are locked on day 0, so there's no runaway bill — and no PR reaches you without a senior review behind it.",
+    "Four steps. Scope and price are fixed on day 0, so there's no runaway bill.",
   steps: [
     {
-      tag: "1 · SCOPE",
+      tag: "1 · Scope",
       heading: "Scope call (day 0)",
-      body: "We agree the PR batch, the definition of done for each item, repo access, and your conventions. Fixed scope and fixed price are locked here. This is also the sales conversation — if it's not a fit, you'll know on the call.",
+      body: "We agree the PRs, what done means for each, repo access and your conventions. Scope and price are fixed here. If it isn't a fit, you'll know on the call.",
     },
     {
-      tag: "2 · SHIP",
-      heading: "The agent fleet (days 1–N)",
-      body: "Tickets get dispatched to parallel Claude Code agents running in isolated git worktrees, driven by your CLAUDE.md conventions. This is where the volume comes from, and where the 2–3x lives.",
-      caption: "~2–3x throughput",
+      tag: "2 · Ship",
+      heading: "Agents write the code (days 1–N)",
+      body: "Each ticket goes to a Claude Code agent in its own git worktree, following your CLAUDE.md. Several run in parallel, which is where the 2–3x comes from.",
     },
     {
-      tag: "3 · VERIFY",
-      heading: "Senior adversarial review (continuous)",
-      body: "Every agent PR goes through my review layer before it's offered to you. Security first — injection, auth, secrets, access control — then correctness and scope. I assume the agent got it wrong until it's proven right. This is the part that doesn't scale with more agents, and it's the whole reason this service exists.",
+      tag: "3 · Review",
+      heading: "I review every PR (continuous)",
+      body: "Security first (injection, auth, secrets, access control), then correctness and scope. I assume the agent got it wrong until the code shows otherwise. More agents don't speed this step up, which is why I take one client at a time.",
       link: {
-        label: "Read how the review layer works in depth →",
+        label: "How the review works →",
         href: "/#ship-verify",
       },
-      caption: "does not parallelize — one senior human",
       verify: true,
     },
     {
-      tag: "4 · HANDOFF",
+      tag: "4 · Handoff",
       heading: "Handoff (final day)",
-      body: "You get the reviewed PRs on real branches in your repo, a security findings log for the whole sprint, and a wrap doc covering what shipped and what the agents consistently got wrong in your codebase. You triage and merge.",
+      body: "You get the reviewed PRs on real branches in your repo, the security findings for the whole sprint, and a note on what the agents kept getting wrong. You merge.",
     },
   ] as ProcessStep[],
-  contract: "Nothing reaches you unreviewed. That's the contract.",
 };
 
 export type ProcessStepsCopy = typeof en;
 
 export const ProcessSteps = ({ copy = en }: { copy?: ProcessStepsCopy }) => {
   return (
-    <section id="process" className="px-5 sm:px-10 py-20">
-      <div className="max-w-5xl mx-auto">
-        <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-balance">
-          {copy.heading}
-        </h2>
-        <p className="text-white-200 mt-4 max-w-2xl leading-relaxed">
-          {copy.intro}
-        </p>
+    <section id="process" className="px-5 sm:px-10 py-12 md:py-16 scroll-mt-24">
+      <div className="container-section">
+        <SectionHeading lead={copy.intro}>{copy.heading}</SectionHeading>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-black-300 border border-white/10 rounded-xl overflow-hidden mt-10">
+        <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-black-300 border border-white/10 rounded-xl overflow-hidden mt-10">
           {copy.steps.map((step) => (
-            <div
+            <li
               key={step.tag}
               className={`p-6 flex flex-col ${
                 step.verify
@@ -71,7 +65,7 @@ export const ProcessSteps = ({ copy = en }: { copy?: ProcessStepsCopy }) => {
               }`}
             >
               <span
-                className={`font-mono text-[11px] font-bold tracking-[0.1em] ${
+                className={`text-xs font-medium ${
                   step.verify ? "text-purple" : "text-blue-100"
                 }`}
               >
@@ -81,9 +75,10 @@ export const ProcessSteps = ({ copy = en }: { copy?: ProcessStepsCopy }) => {
                 {step.heading}
               </h3>
               <p className="text-sm text-white-200 leading-relaxed flex-1">
-                {step.link ? (
+                {keepRangesWhole(step.body)}
+                {step.link && (
                   <>
-                    {step.body}{" "}
+                    {" "}
                     <Link
                       href={step.link.href}
                       className="text-purple underline underline-offset-4"
@@ -91,22 +86,11 @@ export const ProcessSteps = ({ copy = en }: { copy?: ProcessStepsCopy }) => {
                       {step.link.label}
                     </Link>
                   </>
-                ) : (
-                  step.body
                 )}
               </p>
-              {step.caption && (
-                <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-white-200/75 mt-4">
-                  {step.caption}
-                </p>
-              )}
-            </div>
+            </li>
           ))}
-        </div>
-
-        <p className="text-center text-white font-medium mt-8 border border-white/10 rounded-xl py-4 bg-black-200/40">
-          {copy.contract}
-        </p>
+        </ol>
       </div>
     </section>
   );

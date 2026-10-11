@@ -4,6 +4,10 @@ import { FINTECH_EMPLOYER, workExperience } from "@/data";
 import { roWorkExperience } from "@/data/ro-home";
 import { aboutPage, roAboutPage } from "@/data/pages";
 
+// The confidential receipt project's phrases (EN and RO), not the English word.
+const RECEIPT_PROJECT =
+  /receipt[- ]?(platform|project|scan|app|process|captur|extract|ocr|pars)|bonuri|bon fiscal|chitan|\bOCR\b/i;
+
 describe("work experience", () => {
   // C30 (U12): one title spelling and en-dash periods.
   it("spells full-stack one way and uses en-dash periods", () => {
@@ -34,9 +38,14 @@ describe("work experience", () => {
         .map((f) => path.join(dir, f))
         .filter((f) => fs.statSync(f).isFile()),
     );
-    const hits = files.filter((f) =>
-      /receipt|bonuri|chitan|\bOCR\b/i.test(fs.readFileSync(f, "utf8")),
-    );
+    const hits = files.filter((f) => RECEIPT_PROJECT.test(fs.readFileSync(f, "utf8")));
     expect(hits).toEqual([]);
+  });
+
+  // "receipts" meaning proof (blog posts) is plain English, not the project.
+  it("bans the project's phrases, not the word 'receipts'", () => {
+    expect(RECEIPT_PROJECT.test("Here are the receipts: 30 reviewed PRs.")).toBe(false);
+    for (const phrase of ["receipt scanning", "receipt-processing app", "bonuri fiscale", "chitanțe", "OCR pipeline"])
+      expect(RECEIPT_PROJECT.test(phrase)).toBe(true);
   });
 });

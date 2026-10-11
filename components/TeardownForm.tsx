@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, type FormEvent } from "react";
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
+import { ctaPrimary } from "@/components/ui/button";
 
 type Status = "idle" | "loading" | "success" | "error";
 type Field = "repoUrl" | "email";
@@ -235,11 +236,9 @@ const TeardownForm = ({ className }: { className?: string }) => {
           <button
             type="submit"
             disabled={status === "loading"}
-            className="h-11 shrink-0 rounded-lg border border-purple px-5 text-sm font-semibold text-purple transition-colors hover:bg-purple/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:ring-offset-2 focus-visible:ring-offset-black-100 disabled:opacity-50"
+            className={cn(ctaPrimary, "w-full sm:w-auto sm:self-start")}
           >
-            {status === "loading"
-              ? "Sending…"
-              : "Send it — get my free teardown"}
+            {status === "loading" ? "Sending…" : "Send for a free teardown"}
           </button>
 
           <p className="text-xs text-white-200/75 leading-relaxed">
