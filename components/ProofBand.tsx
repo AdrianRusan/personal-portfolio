@@ -3,7 +3,7 @@ import { proofStats } from "@/data";
 const en = {
   ariaLabel: "Proof by the numbers",
   stats: proofStats,
-  note: "Own project: a documented 30-PR run on my own repo.",
+  note: "The 30 and the 3 come from one documented run on my own repo (own project).",
 };
 export type ProofBandCopy = typeof en;
 

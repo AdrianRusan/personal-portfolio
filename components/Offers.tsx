@@ -27,14 +27,13 @@ export type OffersCopy = typeof en;
 // P2: the home page shows the ladder as four rows (tier → offers → from-price);
 // the full cards live on /services.
 const Offers = ({ copy = en }: { copy?: OffersCopy }) => {
+  // The tier's cheapest price, keeping that offer's unit (e.g. /month).
   const fromPrice = (offers: LadderOffer[]) => {
-    const min = Math.min(
-      ...offers.flatMap((o) => o.prices.map((p) => p.amount)),
-    );
+    const low = (o: LadderOffer) => Math.min(...o.prices.map((p) => p.amount));
+    const cheapest = offers.reduce((a, b) => (low(b) < low(a) ? b : a));
     return copy.formatPrice({
-      ...offers[0]!,
-      prices: [{ amount: min, from: true }],
-      perMonth: false,
+      ...cheapest,
+      prices: [{ amount: low(cheapest), from: true }],
     });
   };
 
@@ -58,6 +57,7 @@ const Offers = ({ copy = en }: { copy?: OffersCopy }) => {
         <ul className="mt-8 border-t border-white/10">
           {copy.tiers.map(({ tier, name, tagline }) => {
             const offers = copy.ladder.filter((o) => o.tier === tier);
+            if (offers.length === 0) return null;
             return (
               <li
                 key={tier}

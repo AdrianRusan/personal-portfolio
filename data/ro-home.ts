@@ -53,7 +53,7 @@ export const roProofBand: ProofBandCopy = {
     { figure: "3", label: "căi de injection prinse înainte de merge" },
     { figure: "10+ ani", label: "în producție" },
   ],
-  note: "Proiect propriu: o rulare documentată de 30 de PR-uri pe propriul meu repo.",
+  note: "30 și 3 vin dintr-o singură rulare documentată pe propriul meu repo (proiect propriu).",
 };
 
 export const roEmailCapture: EmailCaptureCopy = {
@@ -97,7 +97,7 @@ export const roShipVerify: ShipVerifyCopy = {
 export const roBio: BioCopy = {
   heading: "Cine îți verifică codul",
   body: `Sunt Adrian Rusan, inginer software cu peste 10 ani de cod livrat în producție. Lucrez independent, prin propria firmă, cel mai recent cu contract ca founding engineer pentru ${FINTECH_EMPLOYER}. Înainte: GoSocial, PGL Esports și Ipsos. În fiecare colaborare de aici, verific eu fiecare PR scris de agenți.`,
-  earlier: "Un proiect anterior pentru un client, dinainte de agenți",
+  earlier: "Un proiect anterior pentru un client, dinainte de agenți (citat în engleză)",
   onGithub: "Adrian Rusan pe GitHub",
   onLinkedin: "Adrian Rusan pe LinkedIn",
   onX: "Adrian Rusan pe X",

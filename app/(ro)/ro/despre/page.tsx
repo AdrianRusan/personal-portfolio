@@ -16,7 +16,7 @@ export default function RoAboutPage() {
       <JsonLd
         data={pageJsonLd({
           path: roAboutPage.path,
-          name: roAboutPage.title,
+          name: "Despre Adrian Rusan",
           description: roAboutPage.description,
           type: "AboutPage",
           crumbs: [{ name: "Despre", path: roAboutPage.path }],

@@ -63,7 +63,11 @@ export const metadata: Metadata = {
 // Same sections, order and shell as app/(en)/page.tsx; only the copy differs.
 export default function RoHome() {
   return (
-    <PageShell ro closingSecondary={<BetweenLine copy={roBetween} />}>
+    <PageShell
+      ro
+      closingSecondary={<BetweenLine copy={roBetween} />}
+      closingSource="final_cta"
+    >
       <JsonLd
         data={pageJsonLd({
           path: "/ro",

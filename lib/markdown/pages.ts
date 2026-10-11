@@ -59,7 +59,7 @@ export interface HomeCopy {
   hero: HeroCopy;
   proof: ProofBandCopy;
   shipVerify: ShipVerifyCopy;
-  caseStudies: { heading: string; lead: string };
+  caseStudies: { heading: string; lead: string; all: string };
   offers: OffersCopy;
   whoFor: WhoForCopy;
   bio: BioCopy;
@@ -88,7 +88,7 @@ export const homeMd = (c: HomeCopy) => {
     `${c.shipVerify.multiplierBefore} [${c.shipVerify.multiplierLink.replace(/ →$/, "")}](/blog/what-agents-get-wrong)`,
     `## ${c.caseStudies.heading}`,
     c.caseStudies.lead,
-    "[Case studies](/work)",
+    `[${c.caseStudies.all.replace(/ →$/, "")}](/work)`,
     offersMd(c.offers),
     `## ${c.whoFor.heading}`,
     `### ${c.whoFor.forHeading}`,

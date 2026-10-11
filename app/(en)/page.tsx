@@ -62,7 +62,7 @@ const homeJsonLd = [
 // the testimonial sits in Bio; FinalCta became PageShell's ClosingCta.
 export default function Home() {
   return (
-    <PageShell closingSecondary={<BetweenLine />}>
+    <PageShell closingSecondary={<BetweenLine />} closingSource="final_cta">
       <JsonLd data={homeJsonLd} />
       <Hero />
       <ProofBand />

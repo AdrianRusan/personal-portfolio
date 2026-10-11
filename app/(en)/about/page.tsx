@@ -15,7 +15,7 @@ export default function AboutPage() {
       <JsonLd
         data={pageJsonLd({
           path: aboutPage.path,
-          name: aboutPage.title,
+          name: "About Adrian Rusan",
           description: aboutPage.description,
           type: "AboutPage",
           crumbs: [{ name: "About", path: aboutPage.path }],
