@@ -6,7 +6,7 @@ import MDXContent from "@/components/blog/MDXContent";
 import PostCta from "@/components/blog/PostCta";
 import { getPostCta } from "@/lib/blog-cta";
 import { pageTitle } from "@/lib/blog-types";
-import { JsonLd, SITE_URL, pageJsonLd } from "@/lib/page-schema";
+import { JsonLd, SITE_URL, ogImageUrl, pageJsonLd } from "@/lib/page-schema";
 import { PageShell } from "@/components/PageShell";
 
 
@@ -84,7 +84,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
               inLanguage: "en",
               author: { "@id": `${SITE_URL}/#person` },
               publisher: { "@id": `${SITE_URL}/#person` },
-              image: `${studyUrl}/opengraph-image/cover`,
+              image: ogImageUrl("/(en)/work/[slug]", { slug }, "cover"),
               mainEntityOfPage: { "@id": `${studyUrl}#webpage` },
             },
             pageJsonLd({

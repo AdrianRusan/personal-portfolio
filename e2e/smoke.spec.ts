@@ -48,8 +48,13 @@ for (const route of routes) {
     await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /\S/);
     await expect(page.locator('meta[property="og:image"]').first()).toHaveAttribute('content', /^https?:\/\//);
 
-    for (const json of await page.locator('script[type="application/ld+json"]').allTextContents()) {
-      expect(() => JSON.parse(json)).not.toThrow();
+    const ld = (await page.locator('script[type="application/ld+json"]').allTextContents())
+      .flatMap((json) => JSON.parse(json));
+    // The article image must be the card the page itself serves (route-group URLs are hashed).
+    const article = ld.find((d) => d['@type'] === 'BlogPosting' || d['@type'] === 'Article');
+    if (article) {
+      const og = await page.locator('meta[property="og:image"]').first().getAttribute('content');
+      expect(article.image).toBe(og?.split('?')[0]);
     }
 
     await expect(page.locator('main')).toHaveCount(1);

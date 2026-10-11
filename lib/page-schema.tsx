@@ -1,6 +1,18 @@
+import { fillMetadataSegment } from "next/dist/lib/metadata/get-metadata-route";
+
 // Per-page WebPage + BreadcrumbList JSON-LD (A1-05). The root layout carries
 // only WebSite + Person, so every page says what it is, not "the homepage".
 export const SITE_URL = "https://www.adrian-rusan.com";
+
+// URL of a file-based OG image. Inside a route group Next suffixes the route
+// with a hash of the group path (opengraph-image-<hash>), so build it with the
+// helper Next itself uses. e2e checks it equals the page's og:image.
+export const ogImageUrl = (
+  segment: string,
+  params: Record<string, string>,
+  id: string,
+) =>
+  `${SITE_URL}${fillMetadataSegment(segment, params, "opengraph-image")}/${id}`;
 
 export interface Crumb {
   name: string;

@@ -10,7 +10,13 @@ import AuthorBox from "@/components/blog/AuthorBox";
 import PostCta from "@/components/blog/PostCta";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import { pageTitle } from "@/lib/blog-types";
-import { JsonLd, SITE_URL, faqJsonLd, pageJsonLd } from "@/lib/page-schema";
+import {
+  JsonLd,
+  SITE_URL,
+  faqJsonLd,
+  ogImageUrl,
+  pageJsonLd,
+} from "@/lib/page-schema";
 
 // Visible FAQ, from the same frontmatter array as the FAQPage JSON-LD (A1-12).
 function PostFaq({ items }: { items: { q: string; a: string }[] }) {
@@ -110,7 +116,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             inLanguage: "en",
             author: { "@id": `${SITE_URL}/#person` },
             publisher: { "@id": `${SITE_URL}/#person` },
-            image: `${postUrl}/opengraph-image/cover`,
+            image: ogImageUrl("/(en)/blog/[slug]", { slug }, "cover"),
             mainEntityOfPage: { "@id": `${postUrl}#webpage` },
             keywords: post.frontmatter.tags?.join(", "),
           },
