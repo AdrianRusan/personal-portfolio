@@ -10,6 +10,7 @@ import {
 } from "@/data/workshops";
 import { WORKFLOW_NUMBERS } from "@/data";
 import { FaLocationArrow } from "react-icons/fa6";
+import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 
 interface WorkshopPageProps {
   params: Promise<{ slug: WorkshopSlug }>;
@@ -37,7 +38,7 @@ export async function generateMetadata({
       type: "website",
       locale: "en_US",
       url: `https://www.adrian-rusan.com/workshops/${w.slug}`,
-      siteName: "Adrian Rusan Portfolio",
+      siteName: "Adrian Rusan",
     },
     twitter: {
       card: "summary_large_image",
@@ -63,10 +64,19 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
 
   return (
     <PageShell navItems={navItems}>
-      <script
-        type="application/ld+json"
-        // Safe: JSON.stringify of static data from data/workshops.ts
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(workshopJsonLd(w)) }}
+      <JsonLd
+        data={[
+          workshopJsonLd(w),
+          pageJsonLd({
+            path: `/workshops/${w.slug}`,
+            name: w.title,
+            description: w.description,
+            crumbs: [
+              { name: "Services", path: "/services" },
+              { name: w.title, path: `/workshops/${w.slug}` },
+            ],
+          }),
+        ]}
       />
 
       <section className="px-5 sm:px-10 pt-28 sm:pt-32 pb-16">

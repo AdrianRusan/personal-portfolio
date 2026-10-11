@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { PageShell } from "@/components/PageShell";
 import { getPosts, WORK_DIR } from "@/lib/blog";
 import { byCaseStudyOrder, caseStudyResults } from "@/data/work";
+import { JsonLd, itemListJsonLd, pageJsonLd } from "@/lib/page-schema";
 
 const DESCRIPTION =
   "Case studies from documented runs: what broke, what I built, the number it moved, and what it taught me about shipping with AI agents.";
@@ -22,6 +23,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Case studies | Adrian Rusan",
     description: DESCRIPTION,
+    creator: "@adrian_rusan",
   },
   alternates: { canonical: "/work" },
 };
@@ -42,6 +44,18 @@ export default async function WorkIndexPage() {
   return (
     <PageShell navItems={workNavItems}>
       <div className="max-w-5xl mx-auto px-5 sm:px-10 pt-32 sm:pt-36 pb-20">
+        <JsonLd
+          data={[
+            pageJsonLd({
+              path: "/work",
+              name: "Case studies",
+              description: DESCRIPTION,
+              crumbs: [{ name: "Work", path: "/work" }],
+              type: "CollectionPage",
+            }),
+            itemListJsonLd(studies.map((s) => `/work/${s.slug}`)),
+          ]}
+        />
         <div className="mb-12">
           <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">
             Case studies

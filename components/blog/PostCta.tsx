@@ -3,7 +3,13 @@ import { TrackedLink } from "@/components/TrackedLink";
 import MagicButton from "@/components/ui/MagicButton";
 import type { BlogCtaCopy } from "@/lib/blog-cta";
 
-export default function PostCta({ cta }: { cta: BlogCtaCopy }) {
+export default function PostCta({
+  cta,
+  source = "blog_post_end",
+}: {
+  cta: BlogCtaCopy;
+  source?: string;
+}) {
   return (
     <section
       aria-labelledby="post-cta-heading"
@@ -26,14 +32,14 @@ export default function PostCta({ cta }: { cta: BlogCtaCopy }) {
         href={cta.href}
         trackEvent={{
           event: "cta_click",
-          props: { cta: cta.cta, source: "blog_post_end" },
+          props: { cta: cta.cta, source },
         }}
       />
       {cta.secondary && (
         <TrackedLink
           href={cta.secondary.href}
           event="cta_click"
-          props={{ cta: `${cta.cta}_secondary`, source: "blog_post_end" }}
+          props={{ cta: `${cta.cta}_secondary`, source }}
           className="block text-sm text-purple hover:underline underline-offset-4 mt-3"
         >
           {cta.secondary.label} →

@@ -13,18 +13,29 @@ import { ServicesFinalCta } from "@/components/services/ServicesFinalCta";
 import { Ladder } from "@/components/services/Ladder";
 import { ladderServiceJsonLd } from "@/data/ladder";
 import { faqPageJsonLd } from "@/data";
+import { JsonLd, pageJsonLd } from "@/lib/page-schema";
+
+const TITLE = "AI Services and Prices, From a €200 Call";
+const DESCRIPTION =
+  "From a €200 AI strategy call to a monthly retainer: audits, workshops, automations, Agent Fleet Setup and reviewed delivery sprints, each priced up front.";
 
 export const metadata: Metadata = {
   // Bare title — the root layout's title.template appends "| Adrian Rusan"
-  title: "Services — AI Strategy, Workshops, Automation and Reviewed Delivery",
-  description:
-    "From a €200 AI strategy call to a monthly retainer: audits, team workshops, automations, Agent Fleet Setup and reviewed delivery sprints, each priced up front.",
+  title: TITLE,
+  description: DESCRIPTION,
+  // Page-level openGraph/twitter replace the layout's, so restate the shared fields
   openGraph: {
-    title:
-      "Services — AI Strategy, Workshops, Automation and Reviewed Delivery | Adrian Rusan",
-    description:
-      "From a €200 AI strategy call to a monthly retainer: audits, team workshops, automations, Agent Fleet Setup and reviewed delivery sprints, each priced up front.",
+    title: `${TITLE} | Adrian Rusan`,
+    description: DESCRIPTION,
     type: "website",
+    url: "https://www.adrian-rusan.com/services",
+    siteName: "Adrian Rusan",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${TITLE} | Adrian Rusan`,
+    description: DESCRIPTION,
+    creator: "@adrian_rusan",
   },
   alternates: {
     canonical: "/services",
@@ -67,6 +78,14 @@ export default function ServicesPage() {
     <PageShell navItems={servicesNavItems}>
       <ServicesFaqJsonLd />
       <ServicesJsonLd />
+      <JsonLd
+        data={pageJsonLd({
+          path: "/services",
+          name: TITLE,
+          description: DESCRIPTION,
+          crumbs: [{ name: "Services", path: "/services" }],
+        })}
+      />
       <ServicesHero />
       <Ladder />
       <ProcessSteps />

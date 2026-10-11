@@ -3,11 +3,12 @@ import { PageShell } from "@/components/PageShell";
 import TeardownForm from "@/components/TeardownForm";
 import { LEDGER_PROOF } from "@/data";
 import { CalendlyLink } from "@/components/CalendlyLink";
+import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 
 const TITLE =
   "Free AI Code Teardown — a 15-min Loom of what your AI-generated code is hiding";
 const DESCRIPTION =
-  "Send a repo or a recent PR. I'll send back a free 15-minute Loom teardown of the security bugs your AI coding tools wrote that pass tests and merge anyway. No call, no pitch.";
+  "Send a repo or PR. Get a free 15-minute Loom of the security bugs your AI coding tools wrote that pass tests and merge anyway. No call, no pitch.";
 
 export const metadata: Metadata = {
   title: "Free AI Code Teardown — 15-min Loom, no call",
@@ -16,6 +17,14 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESCRIPTION,
     type: "website",
+    url: "https://www.adrian-rusan.com/teardown",
+    siteName: "Adrian Rusan",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    creator: "@adrian_rusan",
   },
   alternates: {
     canonical: "/teardown",
@@ -45,6 +54,14 @@ const steps = [
 export default function TeardownPage() {
   return (
     <PageShell navItems={teardownNavItems}>
+      <JsonLd
+        data={pageJsonLd({
+          path: "/teardown",
+          name: TITLE,
+          description: DESCRIPTION,
+          crumbs: [{ name: "Free teardown", path: "/teardown" }],
+        })}
+      />
 
       <section className="px-5 sm:px-10 pt-28 sm:pt-32 pb-16">
         <div className="max-w-5xl mx-auto text-center">

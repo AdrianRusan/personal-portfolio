@@ -3,7 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPost, getPosts, WORK_DIR } from "@/lib/blog";
 import MDXContent from "@/components/blog/MDXContent";
-import { CalendlyLink } from "@/components/CalendlyLink";
+import PostCta from "@/components/blog/PostCta";
+import { getPostCta } from "@/lib/blog-cta";
+import { JsonLd, SITE_URL, pageJsonLd } from "@/lib/page-schema";
 import { PageShell } from "@/components/PageShell";
 
 const workNavItems = [
@@ -31,20 +33,24 @@ export async function generateMetadata({
   const { slug } = await params;
   try {
     const study = await getPost(slug, WORK_DIR);
+    const { title, seoTitle, description, date, updated } = study.frontmatter;
     return {
-      title: study.frontmatter.title,
-      description: study.frontmatter.description,
+      title: seoTitle ?? title,
+      description,
       openGraph: {
-        title: study.frontmatter.title,
-        description: study.frontmatter.description,
+        title,
+        description,
         type: "article",
-        publishedTime: study.frontmatter.date,
+        publishedTime: date,
+        ...(updated ? { modifiedTime: updated } : {}),
         url: `https://www.adrian-rusan.com/work/${slug}`,
+        siteName: "Adrian Rusan",
       },
       twitter: {
         card: "summary_large_image",
-        title: study.frontmatter.title,
-        description: study.frontmatter.description,
+        title,
+        description,
+        creator: "@adrian_rusan",
       },
       alternates: { canonical: `/work/${slug}` },
     };
@@ -65,31 +71,37 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   // Defense in depth: drafts never render, even if dynamicParams changes.
   if (!study.frontmatter.published) notFound();
 
-  const studyUrl = `https://www.adrian-rusan.com/work/${slug}`;
+  const studyUrl = `${SITE_URL}/work/${slug}`;
 
   return (
     <PageShell navItems={workNavItems}>
       <div className="max-w-3xl mx-auto px-5 sm:px-10 pt-40 pb-20">
-        <script
-          type="application/ld+json"
-          // Safe: JSON.stringify of our own frontmatter (Schema.org JSON-LD)
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
+        <JsonLd
+          data={[
+            {
               "@context": "https://schema.org",
               "@type": "Article",
               headline: study.frontmatter.title,
               description: study.frontmatter.description,
+              url: studyUrl,
               datePublished: study.frontmatter.date,
-              dateModified: study.frontmatter.date,
-              author: {
-                "@type": "Person",
-                name: "Adrian Rusan",
-                url: "https://www.adrian-rusan.com",
-              },
+              dateModified: study.frontmatter.updated ?? study.frontmatter.date,
+              inLanguage: "en",
+              author: { "@id": `${SITE_URL}/#person` },
+              publisher: { "@id": `${SITE_URL}/#person` },
               image: `${studyUrl}/opengraph-image`,
-              mainEntityOfPage: { "@type": "WebPage", "@id": studyUrl },
+              mainEntityOfPage: { "@id": `${studyUrl}#webpage` },
+            },
+            pageJsonLd({
+              path: `/work/${slug}`,
+              name: study.frontmatter.title,
+              description: study.frontmatter.description,
+              crumbs: [
+                { name: "Work", path: "/work" },
+                { name: study.frontmatter.title, path: `/work/${slug}` },
+              ],
             }),
-          }}
+          ]}
         />
         <article>
           <header className="mb-10 pb-8 border-b border-black-300">
@@ -111,24 +123,9 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
             <MDXContent source={study.source} />
           </div>
 
-          <div className="mt-12 rounded-2xl border border-white/10 bg-black-200/40 p-6 md:p-8">
-            <p className="text-lg font-semibold">
-              Want this level of review on your team&apos;s agent work?
-            </p>
-            <div className="flex flex-wrap items-center gap-4 mt-4">
-              <Link
-                href="/services"
-                className="text-sm font-semibold text-purple hover:underline underline-offset-4"
-              >
-                See the offers and prices →
-              </Link>
-              <CalendlyLink
-                source="work"
-                className="text-sm font-medium text-blue-100 hover:text-purple transition-colors"
-              >
-                Book a call
-              </CalendlyLink>
-            </div>
+          {/* F14: each study sells its own offer (frontmatter `cta`). */}
+          <div className="mt-12">
+            <PostCta cta={getPostCta(study.frontmatter)} source="work_end" />
           </div>
         </article>
       </div>
