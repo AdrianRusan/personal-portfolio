@@ -152,7 +152,7 @@ export const faqs: { question: string; answer: string }[] = [
   {
     question: "Why not hire an agency, or more engineers?",
     answer:
-      "An agency sells a team's hours with a markup, and new headcount takes months to hire and ramp. This sells reviewed outcomes in days, from one senior engineer running an agent fleet: no coordination overhead and no junior work billed at senior rates. Agencies using agents rarely put a senior adversarial review on top. Here that review is the product.",
+      "An agency sells a team's hours with a markup, and new headcount takes months to hire and ramp. Here the first reviewed PR lands within days, from one senior engineer running an agent fleet: no coordination overhead and no junior work billed at senior rates. Agencies using agents rarely put a senior adversarial review on top. Here that review is the product.",
   },
 ];
 

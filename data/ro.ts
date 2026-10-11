@@ -110,7 +110,7 @@ const ro: Record<
     summary:
       "Un set fix de PR-uri gata de merge și verificate pentru securitate, la un preț stabilit înainte să începem.",
     prices: [{ amount: 4100, from: true }],
-    duration: "1–2 săpt.",
+    duration: "1–2 săpt. · proiecte mai mari 2–3 săpt.",
     assurance:
       "Primul PR nu e gata de merge? Nu îl plătești. Vulnerabilitățile scăpate se repară gratuit.",
     ctas: [{ label: "Stabilește scope-ul", href: CALENDLY_URL }],

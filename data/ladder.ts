@@ -131,7 +131,7 @@ export const ladder: LadderOffer[] = [
     summary:
       "A fixed batch of merge-ready, security-reviewed PRs at a price agreed before we start.",
     prices: [{ amount: 7500, from: true }],
-    duration: "1–2 wk",
+    duration: "1–2 wk · larger scopes 2–3 wk",
     limited: true,
     assurance:
       "First PR not merge-ready? You don't pay for it. Missed vulnerabilities get fixed free.",
@@ -152,8 +152,8 @@ export const ladder: LadderOffer[] = [
   },
 ];
 
-// #54 R5: Delivery Sprint sizes (Pilot, Standard, Scale), per the brief. The
-// ladder's "1–2 wk" is the typical sprint; Scale runs longer.
+// #54 R5: Delivery Sprint sizes (Pilot, Standard, Scale). The ladder line names
+// both ranges: "1–2 wk" for the "from" price, "larger scopes 2–3 wk" for Scale.
 export const sprintDurations = ["~1 wk", "1–2 wk", "2–3 wk"];
 
 export const offerById = (offers: LadderOffer[], id: string) =>
