@@ -70,6 +70,14 @@ export const privacyPage: ProsePage = {
 - **Sentry** stores the error logs.`,
     },
     {
+      // R3-F26, A8: Art. 13 legal basis and transfers.
+      heading: "Legal basis and transfers",
+      body: `- **Checklist and teardown emails**: your consent, which you can withdraw at any time.
+- **Error logs and analytics**: my legitimate interest in keeping the site working.
+
+Resend, Vercel and Sentry are US companies. Transfers outside the EEA rely on Standard Contractual Clauses and, where the provider is certified, the EU–US Data Privacy Framework.`,
+    },
+    {
       heading: "How long I keep it",
       body: `- Email list: until you unsubscribe (every email has a link) or ask me to delete you.
 - Teardown requests: up to 12 months after I send the teardown, unless we start working together.
