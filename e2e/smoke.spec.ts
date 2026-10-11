@@ -74,3 +74,8 @@ test('privacy is linked from the footer and from both forms', async ({ page }) =
   await page.goto('/teardown');
   await expect(page.locator('form a[href="/privacy"]')).toHaveCount(1);
 });
+
+test('/teardown has exactly one form', async ({ page }) => {
+  await page.goto('/teardown');
+  await expect(page.locator('form')).toHaveCount(1);
+});
