@@ -22,7 +22,7 @@ export const ServicesFinalCta = ({
     <section
       id="contact"
       aria-labelledby="services-final-cta"
-      className="px-5 sm:px-10 pt-24 pb-12 md:pb-20 scroll-mt-24"
+      className="px-5 sm:px-10 pt-24 pb-12 md:pb-16 scroll-mt-24"
     >
       <div className="container-prose text-center">
         <h2

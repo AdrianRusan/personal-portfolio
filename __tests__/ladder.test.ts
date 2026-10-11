@@ -181,7 +181,7 @@ describe("per-PR price", () => {
   it("matches the sprint sizes: €966.67 (Standard, 15 PRs) to €1,500", () => {
     // 14,500 / 15 = 966.67 → 1,000; 7,500 / 5 = 24,000 / 16 = 1,500.
     expect(perPrBand(sprintSizes)).toEqual([1000, 1500]);
-    expect(ladder.find((o) => o.id === "sprint")!.summary).toContain(
+    expect(ladder.find((o) => o.id === "sprint")!.summary.replace(/\u2060/g, "")).toContain(
       "€1,000–1,500 per PR",
     );
   });
@@ -189,7 +189,7 @@ describe("per-PR price", () => {
   it("matches the RO sizes: 533 € (Standard, 15 PRs) to 825 €", () => {
     // 8.000 / 15 = 533 → 500; 13.200 / 16 = 825 → 800.
     expect(perPrBand(roSprintSizes)).toEqual([500, 800]);
-    expect(roLadder.find((o) => o.id === "sprint")!.summary).toContain(
+    expect(roLadder.find((o) => o.id === "sprint")!.summary.replace(/\u2060/g, "")).toContain(
       "500–800 € per PR",
     );
   });

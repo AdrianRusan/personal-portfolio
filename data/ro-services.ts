@@ -88,7 +88,7 @@ export const roProcessSteps: ProcessStepsCopy = {
     {
       tag: "2 · Livrare",
       heading: "Agenții scriu codul (zilele 1–N)",
-      body: "Fiecare tichet merge la un agent Claude Code în propriul git worktree, după CLAUDE.md-ul tău. Mai mulți rulează în paralel, și de aici vine accelerarea de 2–3 ori.",
+      body: "Fiecare tichet merge la un agent Claude Code în propriul git worktree, după CLAUDE.md-ul tău. Mai mulți rulează în paralel, și de aici vine accelerarea de 2–\u20603 ori.",
     },
     {
       tag: "3 · Review",
@@ -159,7 +159,7 @@ export const roDeliverySprint: DeliverySprintCopy = {
       label: "Potrivit pentru",
       values: [
         "O primă colaborare, ca să vedem cum lucrăm împreună",
-        "Output-ul unei luni de contractor, revizuit",
+        "Un backlog constant, rezolvat în una sau două săptămâni",
         "O suprafață mai mare, cu mai multe PR-uri și review mai profund",
       ],
     },

@@ -26,7 +26,7 @@ export const EntryOffer = ({ copy = en }: { copy?: EntryOfferCopy }) => {
   return (
     <section
       id="entry-offer"
-      className="px-5 sm:px-10 py-12 md:py-20 scroll-mt-24"
+      className="px-5 sm:px-10 py-12 md:py-16 scroll-mt-24"
     >
       <div className="container-section">
         <SectionHeading eyebrow={copy.eyebrow} lead={copy.intro}>

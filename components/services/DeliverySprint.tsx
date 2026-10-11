@@ -34,7 +34,7 @@ const rows: PricingRow[] = [
     label: "Best for",
     values: [
       "A first engagement, to see how we work together",
-      "A contractor-month of output, reviewed",
+      "A steady backlog, cleared in one or two weeks",
       "A larger surface, with more PRs and deeper review",
     ],
   },
@@ -124,7 +124,7 @@ export const DeliverySprint = ({
   copy?: DeliverySprintCopy;
 }) => {
   return (
-    <section id="sprint" className="px-5 sm:px-10 py-12 md:py-20 scroll-mt-24">
+    <section id="sprint" className="px-5 sm:px-10 py-12 md:py-16 scroll-mt-24">
       <div className="container-section">
         <SectionHeading eyebrow={copy.eyebrow} lead={copy.intro}>
           {copy.heading}

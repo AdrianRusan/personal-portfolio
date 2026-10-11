@@ -75,7 +75,7 @@ export const ServicesFaq = ({
   copy?: ServicesFaqCopy;
 }) => {
   return (
-    <section id="faq" className="px-5 sm:px-10 py-12 md:py-20 scroll-mt-24">
+    <section id="faq" className="px-5 sm:px-10 py-12 md:py-16 scroll-mt-24">
       <div className="container-section">
         <SectionHeading>{copy.heading}</SectionHeading>
         <div className="mt-8 border-b border-white/10">

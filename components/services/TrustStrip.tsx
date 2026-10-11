@@ -24,10 +24,10 @@ export const TrustStrip = ({ copy = en }: { copy?: TrustStripCopy }) => {
   return (
     <section
       aria-label={copy.ariaLabel}
-      className="px-5 sm:px-10 py-12 md:py-20"
+      className="px-5 sm:px-10 py-12 md:py-16"
     >
       <div className="container-section">
-        <article className="rounded-xl border border-white/10 bg-black-200/40 p-6 md:p-8 max-w-3xl">
+        <article className="rounded-xl border border-white/10 bg-black-200/40 p-6 md:p-8">
           <p className="text-xs font-medium text-blue-100">{copy.study.tag}</p>
           <h2 className="text-xl md:text-2xl font-bold tracking-tight mt-2 text-balance">
             {copy.study.title}

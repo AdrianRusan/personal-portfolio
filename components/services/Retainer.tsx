@@ -47,7 +47,7 @@ export const Retainer = ({ copy = en }: { copy?: RetainerCopy }) => {
   return (
     <section
       id="retainer"
-      className="px-5 sm:px-10 py-12 md:py-20 scroll-mt-24"
+      className="px-5 sm:px-10 py-12 md:py-16 scroll-mt-24"
     >
       <div className="container-section">
         <SectionHeading lead={copy.intro}>{copy.heading}</SectionHeading>
@@ -68,7 +68,7 @@ export const Retainer = ({ copy = en }: { copy?: RetainerCopy }) => {
           </div>
           <div className="rounded-xl border border-white/10 bg-black-200/40 p-6 md:p-8 self-start">
             <p className="text-sm text-white-200/80">{copy.startsAt}</p>
-            <p className="num text-3xl md:text-4xl font-bold text-white mt-1">
+            <p className="tabular-nums text-3xl md:text-4xl font-bold text-white mt-1">
               {copy.price}
               <span className="text-base font-normal text-white-200">
                 {copy.perMonth}

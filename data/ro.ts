@@ -56,7 +56,7 @@ export const roSprintSizes: SprintSize[] = [
   { price: 13200, prs: [16, 20] },
 ];
 const [roPerPrLo, roPerPrHi] = perPrBand(roSprintSizes);
-const roPerPr = `${roPerPrLo}–${roPerPrHi} €`;
+const roPerPr = `${roPerPrLo}–\u2060${roPerPrHi} €`;
 
 // Brief R7 (2026-10-10): 55% of the global ladder, rounded clean. EUR, ex-VAT.
 const ro: Record<

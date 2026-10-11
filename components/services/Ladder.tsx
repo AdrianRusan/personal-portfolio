@@ -30,7 +30,7 @@ export type LadderContent = typeof en;
 // R2-F12: one full-width row per tier, so no column ends early.
 export const Ladder = ({ content = en }: { content?: LadderContent }) => {
   return (
-    <section id="ladder" className="px-5 sm:px-10 py-12 md:py-20 scroll-mt-24">
+    <section id="ladder" className="px-5 sm:px-10 py-12 md:py-16 scroll-mt-24">
       <div className="container-section">
         <SectionHeading
           lead={
@@ -78,7 +78,7 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
                           </span>
                         )}
                       </div>
-                      <p className="num text-lg font-bold text-white mt-2">
+                      <p className="tabular-nums text-lg font-bold text-white mt-2">
                         {content.format(offer)}
                       </p>
                       <p className="text-xs text-white-200/75 mt-1">
@@ -112,9 +112,11 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
           ))}
         </div>
 
-        <p className="text-sm text-white-200/80 border-t border-white/10 pt-6 max-w-3xl text-pretty">
-          {content.capacity}
-        </p>
+        <div className="border-t border-white/10 pt-6">
+          <p className="text-sm text-white-200/80 max-w-3xl text-pretty">
+            {content.capacity}
+          </p>
+        </div>
       </div>
     </section>
   );

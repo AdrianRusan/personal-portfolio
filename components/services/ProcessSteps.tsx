@@ -25,7 +25,7 @@ const en = {
     {
       tag: "2 · Ship",
       heading: "Agents write the code (days 1–N)",
-      body: "Each ticket goes to a Claude Code agent in its own git worktree, following your CLAUDE.md. Several run in parallel, which is where the 2–3x comes from.",
+      body: "Each ticket goes to a Claude Code agent in its own git worktree, following your CLAUDE.md. Several run in parallel, which is where the 2–\u20603x comes from.",
     },
     {
       tag: "3 · Review",
@@ -49,7 +49,7 @@ export type ProcessStepsCopy = typeof en;
 
 export const ProcessSteps = ({ copy = en }: { copy?: ProcessStepsCopy }) => {
   return (
-    <section id="process" className="px-5 sm:px-10 py-12 md:py-20 scroll-mt-24">
+    <section id="process" className="px-5 sm:px-10 py-12 md:py-16 scroll-mt-24">
       <div className="container-section">
         <SectionHeading lead={copy.intro}>{copy.heading}</SectionHeading>
 

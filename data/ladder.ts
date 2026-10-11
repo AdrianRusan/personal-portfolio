@@ -69,7 +69,7 @@ export const perPrBand = (sizes: SprintSize[]): [number, number] => {
 
 const perPrLabel = (sizes: SprintSize[]) => {
   const [lo, hi] = perPrBand(sizes);
-  return `€${lo.toLocaleString("en-US")}–${hi.toLocaleString("en-US")} per PR`;
+  return `€${lo.toLocaleString("en-US")}–\u2060${hi.toLocaleString("en-US")} per PR`;
 };
 
 // Prices are the guide's ladder table (2026-10-10): EUR, ex-VAT, global.
