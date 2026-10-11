@@ -157,6 +157,7 @@ export async function POST(request: Request) {
           <p><strong>From:</strong> ${escapeHtml(sanitizedEmail)}</p>
           <p><strong>Repo/PR:</strong> <a href="${escapeHtml(sanitizedRepo)}">${escapeHtml(sanitizedRepo)}</a></p>
           ${noteBlock}
+          <p><strong>Opted in to occasional notes:</strong> ${optIn ? "yes" : "no"}</p>
         `,
       }),
     });

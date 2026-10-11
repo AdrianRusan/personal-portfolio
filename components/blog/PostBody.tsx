@@ -89,7 +89,7 @@ export const mdxComponents: MDXComponents = {
   ),
   h4: ({ children, ...props }: ComponentPropsWithoutRef<"h4">) => (
     <h4
-      className="text-lg font-semibold text-white mt-6 mb-2 scroll-mt-20"
+      className="text-lg font-semibold text-white mt-6 mb-2 scroll-mt-20 group"
       {...props}
     >
       {children}

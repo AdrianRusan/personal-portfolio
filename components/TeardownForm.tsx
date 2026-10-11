@@ -73,6 +73,7 @@ const TeardownForm = ({ className }: { className?: string }) => {
         setStatus("idle");
         if (field) {
           setFieldErrors({ [field]: fieldMessages[field] });
+          (form.elements.namedItem(field) as HTMLInputElement | null)?.focus();
         } else {
           setStatus("error");
           setErrorMessage("Something went wrong. Please try again in a moment.");
@@ -92,6 +93,10 @@ const TeardownForm = ({ className }: { className?: string }) => {
       setErrorMessage("Something went wrong. Please try again in a moment.");
     }
   };
+
+  // A message goes as soon as its field is edited, so a fixed field isn't still announced invalid.
+  const clearFieldError = (key: Field) =>
+    setFieldErrors((errors) => ({ ...errors, [key]: undefined }));
 
   // aria-invalid + aria-describedby tie each message to its own input.
   const fieldProps = (key: Field) => ({
@@ -146,7 +151,10 @@ const TeardownForm = ({ className }: { className?: string }) => {
               inputMode="url"
               placeholder="https://github.com/you/your-repo/pull/42"
               value={repoUrl}
-              onChange={(event) => setRepoUrl(event.target.value)}
+              onChange={(event) => {
+                setRepoUrl(event.target.value);
+                clearFieldError("repoUrl");
+              }}
               disabled={status === "loading"}
               className={inputClass}
               {...fieldProps("repoUrl")}
@@ -169,7 +177,10 @@ const TeardownForm = ({ className }: { className?: string }) => {
               autoComplete="email"
               placeholder="you@company.com"
               value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              onChange={(event) => {
+                setEmail(event.target.value);
+                clearFieldError("email");
+              }}
               disabled={status === "loading"}
               className={inputClass}
               {...fieldProps("email")}

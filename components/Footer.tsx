@@ -20,8 +20,8 @@ const socialIcons: Record<number, typeof FaGithub> = {
   3: FaLinkedin,
 };
 
-// One generic CTA on every page (D9); pages that already end on their own CTA
-// pass hideCta, and /teardown also hides the second email form.
+// One generic CTA on every page (D9). PageShell's hideFooterCta/hideEmailCapture
+// turn it off where a page has its own (e.g. /teardown hides both).
 const en = {
   heading: "Want this on your codebase? Book a 30-minute scoping call.",
   body: "Tell me what you want built or shipped. You'll leave knowing which offer fits, what it covers and what it costs. No obligation.",
