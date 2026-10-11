@@ -1,6 +1,6 @@
 import { PageShell } from "@/components/PageShell";
 import { ProsePage, proseMetadata } from "@/components/ProsePage";
-import Bio from "@/components/Bio";
+import { Avatar } from "@/components/Bio";
 import { aboutPage } from "@/data/pages";
 import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 
@@ -15,14 +15,14 @@ export default function AboutPage() {
       <JsonLd
         data={pageJsonLd({
           path: aboutPage.path,
-          name: aboutPage.title,
+          name: "About Adrian Rusan",
           description: aboutPage.description,
           type: "AboutPage",
           crumbs: [{ name: "About", path: aboutPage.path }],
         })}
       />
       <ProsePage page={aboutPage}>
-        <Bio className="mt-8" />
+        <Avatar className="mt-8 h-16 w-16 text-lg" />
       </ProsePage>
     </PageShell>
   );

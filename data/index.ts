@@ -26,7 +26,8 @@ export const YOUTUBE_URL = YOUTUBE_CHANNEL_ID
   ? `https://www.youtube.com/channel/${YOUTUBE_CHANNEL_ID}`
   : null;
 
-// Current employer, named with consent. Every mention on the site (EN, RO,
+// Current client, named with consent (A2: listed as a client engagement under
+// the PFA, LinkedIn-level detail only). Every mention on the site (EN, RO,
 // Person JSON-LD) reads this one constant.
 export const FINTECH_EMPLOYER = "Bono Fintech";
 
@@ -51,7 +52,7 @@ export const WORKFLOW_NUMBERS = {
 const n = (v: number) => v.toLocaleString("en-US");
 export const LEDGER_PROOF = `${WORKFLOW_NUMBERS.sessions} sessions · ${WORKFLOW_NUMBERS.hours} hours · ${n(WORKFLOW_NUMBERS.commits)} commits · ${WORKFLOW_NUMBERS.prsOpened} PRs opened (upper bound, not all merged) — ${WORKFLOW_NUMBERS.days} days, 6 Aug–10 Oct 2026, counted from my own session logs.`;
 
-// The one capacity line (Offers, FinalCta, the ladder, /about).
+// The one capacity line (Offers, the ladder, /about).
 export const CAPACITY =
   "The review layer is one senior human, so I run one sprint or retainer at a time.";
 
@@ -61,40 +62,31 @@ export const GUARANTEE =
 
 // --- Ship / Verify homepage content ---
 
+// Three buyer-facing stats (P2). The workflow ledger lives on /about only.
 export const proofStats = [
-  {
-    figure: "30",
-    label: "reviewed PRs · 9 agent batches · under 3 days",
-  },
+  { figure: "30", label: "PRs reviewed in under 3 days" },
   {
     figure: "3",
     // Canonical facts: goals/2026-10-11-30pr-canonical-facts.md. The repo had
     // no tests or CI, so the stat makes no claim about tests.
-    label: "shell-injection paths from request input, caught in review before merge",
+    label: "injection paths caught before merge",
   },
-  {
-    figure: "10+ yrs",
-    label: `in production: Ipsos → PGL Esports → GoSocial → ${FINTECH_EMPLOYER}`,
-  },
-  {
-    figure: `${WORKFLOW_NUMBERS.sessions}`,
-    label: `sessions · ${WORKFLOW_NUMBERS.hours} h · ${WORKFLOW_NUMBERS.days} days`,
-  },
+  { figure: "10+ yrs", label: "in production" },
 ];
 
 export const shipVerify = [
   {
     tag: "SHIP",
-    label: "SHIP",
+    label: "Ship",
     heading: "The agents write the volume",
-    body: "Fleets of Claude Code agents run in parallel git worktrees, each dispatched a ticket and driven by your CLAUDE.md conventions. This is where the 2–3x comes from: a small team's throughput from one operator and a harness.",
+    body: "Several Claude Code agents run in parallel git worktrees. Each one gets a ticket and follows your CLAUDE.md conventions. That is where the 2–3x comes from: a small team's throughput from one operator and a harness.",
   },
   {
     // tag is the styling key; label is what the page shows (RO overrides it).
     tag: "VERIFY",
-    label: "VERIFY",
-    heading: "A senior human reviews every PR",
-    body: "Every agent PR goes through a line-by-line adversarial review before it reaches you. Security first — injection, auth, secrets, access control — then correctness and scope. The assumption is the agent got it wrong until it's proven right.",
+    label: "Verify",
+    heading: "I review every PR",
+    body: "Every agent PR gets a line-by-line adversarial review before it reaches you. Security comes first: injection, auth, secrets and access control. Then correctness and scope. I assume the agent got it wrong until the code shows otherwise.",
   },
 ];
 
@@ -120,7 +112,7 @@ export const faqs: { question: string; answer: string }[] = [
   {
     question: "How is the quality any good if AI agents wrote it?",
     answer:
-      "Because agent output is the draft, not the deliverable. Every PR goes through a line-by-line senior review that assumes the agent got it wrong until it's proven right. Agents give you 2–3x throughput, not 100x, and they get specific things wrong. The review is where those get caught, and every sprint ships you a log of what got caught in your codebase.",
+      "The agent writes a draft. I decide what merges. Every PR goes through a line-by-line senior review that assumes the agent got it wrong until it's proven right. Agents give you 2–3x throughput, not 100x, and they get specific things wrong. The review is where those get caught, and every sprint ships you a log of what got caught in your codebase.",
   },
   {
     question: "What if the agents get it wrong, or can't do the ticket?",
@@ -131,7 +123,7 @@ export const faqs: { question: string; answer: string }[] = [
     question:
       "Unsupervised agents ship vulnerabilities. How do you handle security?",
     answer:
-      "Correct, they do. That's why this isn't a cheaper \"just run the agents\" service. Security is the first pass of every review: injection, auth, secrets, access control. On my own 30-PR run, a repo with no test suite, the review caught 3 shell-injection paths from request input before merge. The guarantee is in writing: an in-scope vulnerability found in a PR I marked reviewed gets fixed free.",
+      "Correct, they do. Security is the first pass of every review: injection, auth, secrets, access control. On my own 30-PR run, a repo with no test suite, the review caught 3 shell-injection paths from request input before merge. The guarantee is in writing: an in-scope vulnerability found in a PR I marked reviewed gets fixed free.",
   },
   {
     question: "Who owns the code? Will you sign an NDA?",
@@ -165,7 +157,7 @@ export const faqs: { question: string; answer: string }[] = [
   {
     question: "Why not hire an agency, or more engineers?",
     answer:
-      "An agency sells a team's hours with a markup, and new headcount takes months to hire and ramp. Here the first reviewed PR lands within days, from one senior engineer running an agent fleet: no coordination overhead and no junior work billed at senior rates. Agencies using agents rarely put a senior adversarial review on top. Here that review is the product.",
+      "An agency sells a team's hours with a markup, and new headcount takes months to hire and ramp. Here the first reviewed PR lands within days, from one senior engineer running several Claude Code agents: no coordination overhead and no junior work billed at senior rates. Agencies using agents rarely put a senior adversarial review on top. Here that review is the product.",
   },
   // C16 (F12): the four objections the call kept raising. Appended, so the
   // homepage picks by index (HOME_FAQ_PICKS) stay the same.
@@ -193,8 +185,9 @@ export const faqs: { question: string; answer: string }[] = [
 
 // Homepage FAQ (#54 R3): five /services questions picked by index, so RO
 // (same order, data/ro-services.ts) picks the same ones, plus the call steps
-// folded into one answer, last because the final CTA follows.
-const HOME_FAQ_PICKS = [0, 2, 3, 6, 7];
+// folded into one answer, last because the closing CTA follows. P2: the
+// "doesn't work out" answer (7) repeats the hero guarantee, so 9 replaces it.
+const HOME_FAQ_PICKS = [0, 2, 3, 6, 9];
 export const homeFaq = (
   items: { question: string; answer: string }[],
   call: { question: string; steps: { body: string }[] },
@@ -202,6 +195,7 @@ export const homeFaq = (
   ...HOME_FAQ_PICKS.map((i) => items[i]!),
   { question: call.question, answer: call.steps.map((s) => s.body).join(" ") },
 ];
+export const HOME_FAQ_HEADING = "Questions CTOs ask";
 export const homeFaqs = homeFaq(faqs, {
   question: "What happens after I book a call?",
   steps: callSteps,
@@ -219,16 +213,16 @@ export const faqPageJsonLd = () => ({
 
 export const whoFor = {
   forList: [
-    "You lead engineering, found a company, or own delivery at a funded startup or scaleup — especially where a security review is non-negotiable: fintech, health, payments, anything handling money or PII.",
+    "You lead engineering, founded the company or own delivery at a funded startup or scaleup, especially where security review is non-negotiable: fintech, health, payments, anything handling money or PII.",
     "You're drowning in backlog and can't hire your way out fast enough.",
     "You want agent-speed throughput but need a senior human accountable for what merges.",
-    "You'd rather hear the real multiplier than the flattering one.",
+    "You want the multiplier measured on real work.",
     "You run a small team and want AI automation without hiring.",
   ],
   notForList: [
     "You're shopping purely on hourly rate. The review layer is the value you'd be pricing out.",
     'You want to hear "100x" and don\'t care who reviews the code.',
-    "You need a staff-aug seat with a badge and standups. This is outcome delivery, not headcount.",
+    "You need a staff-aug seat with a badge and standups. I sell reviewed PRs at a fixed price.",
     "You're pre-idea with no scope to fix a price against.",
   ],
 };
@@ -243,26 +237,24 @@ export const testimonials = [
   },
 ];
 
-export const workExperience = [
-  {
-    id: 5,
-    title: "Founding Engineer",
-    company: FINTECH_EMPLOYER,
-    period: "2024 – Present",
-    // #54: the same level of detail as Adi's public LinkedIn, and no more.
-    desc: "Built a headless platform that automates company-formation filings, cutting processing time by 80%. Built AI-powered internal tools for admin and marketing workflows. Led a two-engineer squad that shipped a marketing site in four weeks.",
-    className: "md:col-span-2",
-    // Neutral generated card (#54 R5): no real logo asset, and never another
-    // company's image. The other entries' clipart is gone (C30, U12).
-    thumbnail: "/experience-fintech.svg",
-  },
+// P2 (A2): the PFA is the umbrella; Bono is a client engagement under it, at
+// LinkedIn level and no further (memory bono-contract-nda: no product detail
+// or numbers).
+export const workExperience: {
+  id: number;
+  title: string;
+  company: string;
+  period: string;
+  desc: string;
+  client?: string;
+}[] = [
   {
     id: 1,
-    title: "Full-stack engineer",
-    company: "Independent consultant",
+    title: "Independent engineer",
+    company: "Rusan Adrian-Ionuț PFA",
     period: "Dec 2022 – Present",
-    desc: "AI builds end to end: a receipt classification pipeline, an LLM presentation platform, and an agent-built SaaS platform run by a multi-session agent org.",
-    className: "md:col-span-2",
+    client: `Client: ${FINTECH_EMPLOYER}, founding engineer (contract), Sep 2024 – present. Built the core platform and AI internal tools; led a two-engineer squad.`,
+    desc: "AI builds end to end: an LLM presentation platform and an agent-built SaaS run by a multi-session agent org.",
   },
   {
     id: 2,
@@ -270,7 +262,6 @@ export const workExperience = [
     company: "GoSocial Development SRL",
     period: "Sep 2023 – Sep 2024",
     desc: "Built data parsers for multiple sources (-70% processing time), a Next.js/Nest.js Facebook Ads dashboard that removed 10 h/week of manual reporting, and Playwright E2E tests with GitHub Actions CI.",
-    className: "md:col-span-2",
   },
   {
     id: 3,
@@ -278,7 +269,6 @@ export const workExperience = [
     company: "PGL Esports SRL",
     period: "Oct 2020 – Oct 2022",
     desc: "Built live overlay graphics and visualizations for PGL Major CS:GO streams with 2M+ concurrent viewers.",
-    className: "md:col-span-2",
   },
   {
     id: 4,
@@ -286,7 +276,6 @@ export const workExperience = [
     company: "Ipsos Interactive Services SRL",
     period: "Jun 2016 – Sep 2020",
     desc: "Delivered 300+ survey projects on time for enterprise research clients, and mentored three junior developers.",
-    className: "md:col-span-2",
   },
 ];
 

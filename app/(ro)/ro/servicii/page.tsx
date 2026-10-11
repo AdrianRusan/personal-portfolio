@@ -8,8 +8,7 @@ import { EntryOffer } from "@/components/services/EntryOffer";
 import { TrustStrip } from "@/components/services/TrustStrip";
 import { Retainer } from "@/components/services/Retainer";
 import { HarnessSetup } from "@/components/services/HarnessSetup";
-import { Scarcity } from "@/components/services/Scarcity";
-import { ServicesFaq } from "@/components/services/ServicesFaq";
+import { ServicesFaq, faqJsonLd } from "@/components/services/ServicesFaq";
 import { ServicesFinalCta } from "@/components/services/ServicesFinalCta";
 import { Ladder } from "@/components/services/Ladder";
 import { ladderServiceJsonLd } from "@/data/ladder";
@@ -22,8 +21,7 @@ import {
   roHarnessSetup,
   roProcessSteps,
   roRetainer,
-  roScarcity,
-  roServicesFaq,
+  roServicesPageFaq,
   roServicesFinalCta,
   roServicesHero,
   roServicesLadder,
@@ -65,24 +63,13 @@ export const metadata: Metadata = {
   },
 };
 
-// Static data, JSON.stringify()-escaped — same pattern as /services.
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: roServicesFaq.items.map((item) => ({
-    "@type": "Question",
-    name: item.question,
-    acceptedAnswer: { "@type": "Answer", text: item.answer },
-  })),
-};
-
 // Same sections, order and layout as /services, with Romanian copy.
 export default function RoServicesPage() {
   return (
     <div className="relative dark:bg-black-100 bg-white overflow-x-clip">
       <JsonLd
         data={[
-          faqJsonLd,
+          faqJsonLd(roServicesPageFaq.items),
           ...ladderServiceJsonLd(roLadder, "Romania"),
           pageJsonLd({
             path: "/ro/servicii",
@@ -104,8 +91,7 @@ export default function RoServicesPage() {
         <TrustStrip copy={roTrustStrip} />
         <Retainer copy={roRetainer} />
         <HarnessSetup copy={roHarnessSetup} />
-        <Scarcity copy={roScarcity} />
-        <ServicesFaq copy={roServicesFaq} />
+        <ServicesFaq copy={roServicesPageFaq} />
         <ServicesFinalCta copy={roServicesFinalCta} />
       </main>
       <ClosingCta hideCta copy={roClosingCta} />

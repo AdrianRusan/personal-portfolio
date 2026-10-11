@@ -12,7 +12,12 @@ describe("workshops data", () => {
   });
 
   it("full day is morning orchestration + afternoon review gates", () => {
-    expect(full.agenda.map((p) => p.label)).toEqual(["Morning", "Afternoon"]);
+    // R2-F29: topic and length, not time of day.
+    expect(full.agenda.map((p) => p.label)).toEqual(["Setup", "Review gates"]);
+    expect(half.agenda.map((p) => [p.label, p.duration])).toEqual([
+      ["Setup", "2.5 hours"],
+      ["Review gates", "1 hour"],
+    ]);
   });
 
   it("half day is the full-day morning plus a one-hour review-gates block", () => {

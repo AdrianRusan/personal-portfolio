@@ -1,14 +1,17 @@
 // C32: the detail blocks of an offer section (terms, guarantees, what's not
 // included) fold behind their heading, like the FAQ. Native <details> keeps it
-// server-rendered and keyboard-accessible with no client JS.
+// server-rendered and keyboard-accessible with no client JS. R2-F10: what is
+// being sold (deliverables, guarantees) starts open.
 export const Fold = ({
   title,
+  defaultOpen = false,
   children,
 }: {
   title: string;
+  defaultOpen?: boolean;
   children: React.ReactNode;
 }) => (
-  <details className="group mt-6 rounded-xl border border-white/10 bg-black-200/30 p-5">
+  <details open={defaultOpen} className="group border-t border-white/10 py-5">
     <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-semibold [&::-webkit-details-marker]:hidden">
       <h3>{title}</h3>
       <span

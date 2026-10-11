@@ -1,34 +1,28 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import Hero from "@/components/Hero";
 import ProofBand from "@/components/ProofBand";
 import ShipVerify from "@/components/ShipVerify";
 import Offers from "@/components/Offers";
 import CaseStudyCards from "@/components/CaseStudyCards";
 import WhoFor from "@/components/WhoFor";
-import FinalCta from "@/components/FinalCta";
 import Bio from "@/components/Bio";
 import Latest from "@/components/Latest";
-import { FloatingNav } from "@/components/ui/FloatingNav";
-import Testimonials from "@/components/Testimonials";
+import { BetweenLine } from "@/components/BetweenLine";
+import { PageShell } from "@/components/PageShell";
 import { ServicesFaq } from "@/components/services/ServicesFaq";
-import { ExperienceSkeleton } from "@/components/ui/Skeleton";
 import { homeFaq } from "@/data";
 import { roServicesFaq } from "@/data/ro-services";
 import {
+  roBetween,
   roBio,
   roCallFaq,
   roCaseStudyCards,
-  roExperience,
-  roClosingCta,
-  roFinalCta,
-  roFooter,
+  roFaqHeading,
   roHero,
   roLatest,
   roOffers,
   roProofBand,
   roShipVerify,
-  roTestimonials,
   roWhoFor,
 } from "@/data/ro-home";
 import { JsonLd, pageJsonLd } from "@/lib/page-schema";
@@ -66,27 +60,14 @@ export const metadata: Metadata = {
   },
 };
 
-// Same sections, order and shell as app/page.tsx; only the copy differs.
-const Experience = dynamic(() => import("@/components/Experience"), {
-  loading: () => (
-    <section className="py-20" aria-label="Se încarcă experiența">
-      <ExperienceSkeleton />
-    </section>
-  ),
-});
-
-const Footer = dynamic(() => import("@/components/Footer"), {
-  loading: () => (
-    <footer
-      className="h-32 animate-pulse bg-slate-100 dark:bg-slate-800"
-      aria-label="Se încarcă subsolul"
-    />
-  ),
-});
-
+// Same sections, order and shell as app/(en)/page.tsx; only the copy differs.
 export default function RoHome() {
   return (
-    <div className="relative dark:bg-black-100 bg-white overflow-hidden">
+    <PageShell
+      ro
+      closingSecondary={<BetweenLine copy={roBetween} />}
+      closingSource="final_cta"
+    >
       <JsonLd
         data={pageJsonLd({
           path: "/ro",
@@ -97,32 +78,20 @@ export default function RoHome() {
           home: { name: "Acasă", path: "/ro" },
         })}
       />
-      <FloatingNav />
-      <main id="main">
-        <Hero copy={roHero} />
-        <ProofBand copy={roProofBand} />
-        <ShipVerify copy={roShipVerify} />
-        <CaseStudyCards copy={roCaseStudyCards} />
-        <Offers copy={roOffers} />
-        <WhoFor copy={roWhoFor} />
-        <section
-          aria-label="Experiență"
-          className="max-w-7xl mx-auto px-5 sm:px-10 py-10"
-        >
-          <Bio copy={roBio} />
-          <Testimonials copy={roTestimonials} />
-          <Experience copy={roExperience} />
-        </section>
-        <Latest copy={roLatest} />
-        <ServicesFaq
-          copy={{
-            ...roServicesFaq,
-            items: homeFaq(roServicesFaq.items, roCallFaq),
-          }}
-        />
-        <FinalCta copy={roFinalCta} closing={roClosingCta} />
-      </main>
-      <Footer copy={roFooter} />
-    </div>
+      <Hero copy={roHero} />
+      <ProofBand copy={roProofBand} />
+      <ShipVerify copy={roShipVerify} />
+      <CaseStudyCards copy={roCaseStudyCards} />
+      <Offers copy={roOffers} />
+      <WhoFor copy={roWhoFor} />
+      <Bio copy={roBio} />
+      <Latest copy={roLatest} />
+      <ServicesFaq
+        copy={{
+          heading: roFaqHeading,
+          items: homeFaq(roServicesFaq.items, roCallFaq),
+        }}
+      />
+    </PageShell>
   );
 }
