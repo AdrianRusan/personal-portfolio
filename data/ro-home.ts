@@ -24,6 +24,7 @@ import {
   formatPriceRo,
   RO_CREDIT_TERMS,
   RO_GUARANTEE,
+  RO_STRATEGY_CALL_CALENDLY_URL,
   RO_STRATEGY_CALL_URL,
   roLadder,
   roTierNames,
@@ -48,11 +49,13 @@ export const roHero: HeroCopy = {
     "Roadmap-ul tău se livrează, fără un incident de securitate pe numele tău.",
   honestBefore: "De 2–3 ori, nu de 100 de ori, și",
   honestLink: "iată ce greșesc agenții",
-  teardown: "Cere un teardown gratuit",
+  teardown: "Cere un teardown gratuit (în engleză)",
   call: "Sau programează o discuție →",
   guarantee: RO_GUARANTEE,
   adviceBefore: "Ai nevoie doar de sfaturi?",
-  adviceLink: "Rezervă o sesiune 1:1 de strategie AI, 110 €.",
+  adviceLink: RO_STRATEGY_CALL_CALENDLY_URL
+    ? "Rezervă o sesiune 1:1 de strategie AI, 110 €."
+    : "Scrie-mi pentru o sesiune 1:1 de strategie AI, 110 €.",
   adviceHref: RO_STRATEGY_CALL_URL,
 };
 
@@ -77,7 +80,7 @@ export const roProofBand: ProofBandCopy = {
   longNote:
     "Cifrele vin dintr-un benchmark rulat cap-coadă pe propriul meu repo. PR-urile, notele de review și vulnerabilitățile prinse sunt reale și documentate, dar nu e un proiect plătit de un client (studiile de caz cu clienți sunt în lucru). ",
   teardownBefore: "Vrei același review pe codul tău?",
-  teardownLink: "Trimite-mi un repo pentru un teardown gratuit →",
+  teardownLink: "Trimite-mi un repo pentru un teardown gratuit (în engleză) →",
   ledger: RO_LEDGER_PROOF,
   honesty:
     "Fără statistici inventate și fără urgență falsă. Cifrele de aici vin din rulări documentate.",
@@ -279,7 +282,7 @@ export const roExperience: ExperienceCopy = {
 export const roTestimonials: TestimonialsCopy = {
   label: "Ce spune un client",
   note: "Dintr-un proiect de dezvoltare web full-stack, dinainte de pipeline-ul cu agenți (citat original, în engleză). Dovezile pipeline-ului sunt în studiile de caz de mai sus. Pentru o dovadă pe codul tău chiar azi,",
-  noteLink: "cere un teardown gratuit",
+  noteLink: "cere un teardown gratuit (în engleză)",
 };
 
 export const roLatest: LatestCopy = {

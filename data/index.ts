@@ -4,9 +4,20 @@ export const CALENDLY_URL = "https://calendly.com/adrian-rusan/new-meeting";
 // Async intake inbox for offers that don't require a call.
 export const CONTACT_EMAIL = "contact@adrian-rusan.com";
 
-// Paid 1:1 advice call (€200). Mailto until the paid Calendly event exists;
-// swap to that event's URL once Adi creates it.
-export const STRATEGY_CALL_URL = `mailto:${CONTACT_EMAIL}?subject=AI%20Strategy%20Call%20(%E2%82%AC200)`;
+// Paid 1:1 advice call (€200). null until Adi creates the paid Calendly event
+// (ADI-3); set it and every €200 CTA switches from email to booking, label too.
+export const STRATEGY_CALL_CALENDLY_URL: string | null = null;
+export const STRATEGY_CALL_URL =
+  STRATEGY_CALL_CALENDLY_URL ??
+  `mailto:${CONTACT_EMAIL}?subject=AI%20Strategy%20Call%20(%E2%82%AC200)`;
+export const STRATEGY_CALL_CTA = STRATEGY_CALL_CALENDLY_URL
+  ? "Book the €200 call"
+  : "Email me to book the €200 call";
+
+// Redacted sample of the sprint's Security Report (ADI-6), from my own 30-PR
+// run. Set to null to hide every "See a sample report" link.
+export const SAMPLE_REPORT_URL: string | null =
+  "/sample-sprint-security-report.pdf";
 
 // YouTube channel id (starts with "UC"). One value drives every YouTube
 // surface: null hides the Bio/schema links and keeps the Latest block blog-only.
@@ -77,7 +88,7 @@ export const shipVerify = [
     tag: "SHIP",
     label: "SHIP",
     heading: "The agents write the volume",
-    body: "Fleets of Claude Code agents run in parallel git worktrees, each dispatched a ticket and driven by your CLAUDE.md conventions. This is where the 2-3x comes from: a small team's throughput from one operator and a harness.",
+    body: "Fleets of Claude Code agents run in parallel git worktrees, each dispatched a ticket and driven by your CLAUDE.md conventions. This is where the 2–3x comes from: a small team's throughput from one operator and a harness.",
   },
   {
     // tag is the styling key; label is what the page shows (RO overrides it).
@@ -110,7 +121,7 @@ export const faqs: { question: string; answer: string }[] = [
   {
     question: "How is the quality any good if AI agents wrote it?",
     answer:
-      "Because agent output is the draft, not the deliverable. Every PR goes through a line-by-line senior review that assumes the agent got it wrong until it's proven right. Agents give you 2-3x throughput, not 100x, and they get specific things wrong. The review is where those get caught, and every sprint ships you a log of what got caught in your codebase.",
+      "Because agent output is the draft, not the deliverable. Every PR goes through a line-by-line senior review that assumes the agent got it wrong until it's proven right. Agents give you 2–3x throughput, not 100x, and they get specific things wrong. The review is where those get caught, and every sprint ships you a log of what got caught in your codebase.",
   },
   {
     question: "What if the agents get it wrong, or can't do the ticket?",
@@ -156,6 +167,28 @@ export const faqs: { question: string; answer: string }[] = [
     question: "Why not hire an agency, or more engineers?",
     answer:
       "An agency sells a team's hours with a markup, and new headcount takes months to hire and ramp. Here the first reviewed PR lands within days, from one senior engineer running an agent fleet: no coordination overhead and no junior work billed at senior rates. Agencies using agents rarely put a senior adversarial review on top. Here that review is the product.",
+  },
+  // C16 (F12): the four objections the call kept raising. Appended, so the
+  // homepage picks by index (HOME_FAQ_PICKS) stay the same.
+  {
+    question: "Which stacks and languages do you review?",
+    answer:
+      "TypeScript and JavaScript end to end: Node, Nest.js, React, Next.js, Tailwind, SQL and MongoDB. That's where 10+ years of production work went. The security pass (injection, auth, secrets, access control) applies to any language, but if your stack is outside that list I say so on the call instead of learning on your money.",
+  },
+  {
+    question: "Who pays for the LLM and API usage?",
+    answer:
+      "I do. LLM/API usage is included in the fixed price for sprints and reviewed PRs. No token bill arrives on top. Agent Fleet Setup is the exception: it runs on your team's own Claude Code licences, because the harness stays with you.",
+  },
+  {
+    question: "What counts as one PR?",
+    answer:
+      "One ticket from your backlog, shipped as one reviewable pull request: a bug fix, a small feature or a slice of a bigger one. A ticket too big to review well in one pass gets split on the scope call, before the price is fixed, so you know the PR count up front.",
+  },
+  {
+    question: "Who invoices, and in which currency?",
+    answer:
+      "Invoiced in EUR by my Romanian company; USD on request. The price on the invoice is the fixed price agreed before work started.",
   },
 ];
 

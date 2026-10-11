@@ -12,8 +12,29 @@ describe("FAQ", () => {
     ["timezone", /timezone/i],
     ["payment terms", /payment/i],
     ["agent failure", /agents get it wrong/i],
+    // C16 (F12)
+    ["stack", /stacks/i],
+    ["LLM cost", /LLM and API usage/i],
+    ["PR size", /one PR/i],
+    ["invoicing", /invoices/i],
   ])("answers the %s objection", (_topic, pattern) => {
     expect(faqs.some((f) => pattern.test(f.question))).toBe(true);
+  });
+
+  it("has 14 questions in EN and RO, and the FAQPage carries all 14", () => {
+    expect(faqs).toHaveLength(14);
+    expect(roServicesFaq.items).toHaveLength(14);
+    expect(faqPageJsonLd().mainEntity).toHaveLength(14);
+  });
+
+  // D5: usage included, EUR via the Romanian company, and no VAT-status claim.
+  it("states the LLM-cost and invoicing facts without a reverse-charge claim", () => {
+    const text = faqs.map((f) => f.answer).join(" ");
+    expect(text).toContain(
+      "LLM/API usage is included in the fixed price for sprints and reviewed PRs.",
+    );
+    expect(text).toContain("Invoiced in EUR by my Romanian company; USD on request.");
+    expect(text).not.toMatch(/reverse.charge/i);
   });
 
   it("builds FAQPage JSON-LD from the visible FAQ, verbatim", () => {

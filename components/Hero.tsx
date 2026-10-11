@@ -6,7 +6,11 @@ import { FaLocationArrow } from "react-icons/fa6";
 import SpotlightBackground from "./ui/SpotlightBackground";
 import { CalendlyLink } from "@/components/CalendlyLink";
 import { TrackedLink } from "@/components/TrackedLink";
-import { GUARANTEE, STRATEGY_CALL_URL } from "@/data";
+import {
+  GUARANTEE,
+  STRATEGY_CALL_CALENDLY_URL,
+  STRATEGY_CALL_URL,
+} from "@/data";
 
 const en = {
   eyebrow:
@@ -20,7 +24,9 @@ const en = {
   call: "Or book a scoping call →",
   guarantee: GUARANTEE,
   adviceBefore: "Only need advice?",
-  adviceLink: "Book a 1:1 AI session, €200.",
+  adviceLink: STRATEGY_CALL_CALENDLY_URL
+    ? "Book a 1:1 AI session, €200."
+    : "Email me for a 1:1 AI session, €200.",
   adviceHref: STRATEGY_CALL_URL,
 };
 export type HeroCopy = typeof en;

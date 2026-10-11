@@ -1,5 +1,6 @@
 import { track as vercelTrack } from "@vercel/analytics";
 import { localeOf } from "@/lib/locale";
+import { utmFrom, withAttribution, type Utm } from "@/lib/calendly";
 
 // Local, side-effect-free production check. Deliberately NOT imported from
 // config/environment (whose module runs validateEnvironment() at load) so this
@@ -44,3 +45,42 @@ export const track = (event: AnalyticsEvent, props?: EventProps): void => {
   // /ro reuses the EN components and their sources; the locale keeps the funnels apart.
   vercelTrack(event, { ...props, locale: localeOf(window.location.pathname) });
 };
+
+// C44: Calendly shows the source of each booking only if the link carries it.
+// The landing UTMs go to sessionStorage, and every Calendly link gets them
+// plus utm_content=<page> at click time. One document listener covers every
+// CTA component, since each of them imports this module.
+const UTM_STORE = "landing_utm";
+
+const storedUtm = (): Utm => {
+  try {
+    return JSON.parse(sessionStorage.getItem(UTM_STORE) ?? "{}") as Utm;
+  } catch {
+    return {};
+  }
+};
+
+const installUtmPassthrough = () => {
+  const landing = utmFrom(window.location.search);
+  if (Object.keys(landing).length) {
+    try {
+      sessionStorage.setItem(UTM_STORE, JSON.stringify(landing));
+    } catch {
+      // Storage blocked: this page's links still get utm_content.
+    }
+  }
+  const decorate = (e: MouseEvent) => {
+    const link = (e.target as Element | null)?.closest?.("a[href]");
+    if (!(link instanceof HTMLAnchorElement)) return;
+    link.href = withAttribution(
+      link.href,
+      { ...storedUtm(), ...landing },
+      window.location.pathname,
+    );
+  };
+  // Capture phase, so the href is final before the browser follows it.
+  document.addEventListener("click", decorate, true);
+  document.addEventListener("auxclick", decorate, true);
+};
+
+if (typeof window !== "undefined") installUtmPassthrough();

@@ -384,6 +384,26 @@ export const roServicesFaq: ServicesFaqCopy = {
       answer:
         "O agenție îți vinde orele unei echipe, cu adaos, iar oamenii noi se angajează și se acomodează în luni de zile. Aici primești primul PR revizuit în câteva zile, de la un singur inginer senior care conduce o flotă de agenți: fără costuri de coordonare și fără muncă de junior facturată la tarif de senior. Agențiile care folosesc agenți pun rar un review senior adversarial deasupra. Aici, review-ul e produsul.",
     },
+    {
+      question: "Ce stack-uri și limbaje verifici?",
+      answer:
+        "TypeScript și JavaScript cap-coadă: Node, Nest.js, React, Next.js, Tailwind, SQL și MongoDB. Acolo s-au dus cei peste 10 ani de lucru în producție. Trecerea de securitate (injection, autentificare, secrete, controlul accesului) se aplică în orice limbaj, dar dacă stack-ul tău e în afara listei, îți spun asta în discuție, în loc să învăț pe banii tăi.",
+    },
+    {
+      question: "Cine plătește consumul de LLM și API?",
+      answer:
+        "Eu. Consumul de LLM/API e inclus în prețul fix pentru sprinturi și PR-urile revizuite, deci nu vine o factură de tokeni pe deasupra. Excepția e Agent Fleet Setup: rulează pe licențele Claude Code ale echipei tale, pentru că harness-ul rămâne la voi.",
+    },
+    {
+      question: "Ce înseamnă un PR?",
+      answer:
+        "Un tichet din backlog-ul tău, livrat ca un singur pull request care se poate revizui: un bug reparat, o funcționalitate mică sau o bucată dintr-una mai mare. Un tichet prea mare ca să fie revizuit bine dintr-o trecere se împarte la discuția de scope, înainte să fixăm prețul, așa că știi de la început câte PR-uri primești.",
+    },
+    {
+      question: "Cine facturează și în ce monedă?",
+      answer:
+        "Facturez în EUR prin firma mea din România; în USD la cerere. Pe factură e prețul fix stabilit înainte să înceapă munca.",
+    },
   ],
 };
 
@@ -394,6 +414,6 @@ export const roServicesFinalCta: ServicesFinalCtaCopy = {
     "30 de PR-uri revizuite în 2,5 zile. 3 vulnerabilități de tip shell injection prinse, deși testele treceau. Asta e meseria.",
   cta: "Programează o discuție",
   ctaSource: "ro_services_final_cta",
-  workLink: "Vezi sprintul de 30 de PR-uri în detaliu →",
-  workHref: "/ro#work",
+  workLink: "Vezi sprintul de 30 de PR-uri în detaliu (în engleză) →",
+  workHref: "/blog/30-prs-in-2-5-days",
 };

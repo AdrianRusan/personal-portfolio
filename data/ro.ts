@@ -1,8 +1,21 @@
 import { CALENDLY_URL, CONTACT_EMAIL, CREDIT_DAYS } from "@/data";
-import { ladder, type LadderOffer, type Price, type Tier } from "@/data/ladder";
+import {
+  ladder,
+  withOfferPrefill,
+  type LadderOffer,
+  type Price,
+  type Tier,
+} from "@/data/ladder";
 
-// Placeholder until Adi creates a paid 110 € Calendly event (brief R3/R7).
-export const RO_STRATEGY_CALL_URL = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Sesiune de strategie AI (110 €)")}`;
+// Paid 110 € call (brief R3/R7). null until Adi creates the Calendly event;
+// set it and the RO CTAs switch from email to booking, label too.
+export const RO_STRATEGY_CALL_CALENDLY_URL: string | null = null;
+export const RO_STRATEGY_CALL_URL =
+  RO_STRATEGY_CALL_CALENDLY_URL ??
+  `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Sesiune de strategie AI (110 €)")}`;
+export const RO_STRATEGY_CALL_CTA = RO_STRATEGY_CALL_CALENDLY_URL
+  ? "Rezervă sesiunea de 110 €"
+  : "Scrie-mi ca să rezervi sesiunea de 110 €";
 
 export const RO_GUARANTEE =
   "Dacă primul PR revizuit nu e gata de merge după standardul tău, nu îl plătești.";
@@ -47,7 +60,7 @@ const ro: Record<
     prices: [{ amount: 110 }],
     duration: "1 oră",
     assurance: `Treci la nivelul următor în ${CREDIT_DAYS} de zile și cei 110 € se scad din preț.`,
-    ctas: [{ label: "Cere sesiunea de 110 €", href: RO_STRATEGY_CALL_URL }],
+    ctas: [{ label: RO_STRATEGY_CALL_CTA, href: RO_STRATEGY_CALL_URL }],
   },
   audit: {
     name: "Audit AI",
@@ -56,7 +69,13 @@ const ro: Record<
     prices: [{ amount: 500, from: true }],
     duration: "2–3 zile",
     assurance: `Prețul se stabilește înainte să încep. Treci mai sus în ${CREDIT_DAYS} de zile și se scade din nivelul următor.`,
-    ctas: [{ label: "Programează un audit", href: CALENDLY_URL }],
+    ctas: [
+      { label: "Programează un audit", href: CALENDLY_URL },
+      {
+        label: "Sau începe cu un teardown gratuit (în engleză)",
+        href: "/teardown",
+      },
+    ],
   },
   workshop: {
     name: "Workshop pentru echipă",
@@ -71,7 +90,7 @@ const ro: Record<
       "Preț fix pentru până la 10 persoane, cu agenda stabilită dinainte.",
     ctas: [
       {
-        label: "Întreabă de date libere",
+        label: "Scrie-mi pentru date libere",
         href: `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Workshop pentru echipă")}`,
       },
     ],
@@ -84,7 +103,13 @@ const ro: Record<
     duration: "1–3 săpt.",
     assurance:
       "Preț fix înainte să încep; evaluările dovedesc că funcționează înainte de predare.",
-    ctas: [{ label: "Discută o automatizare", href: CALENDLY_URL }],
+    ctas: [
+      { label: "Discută o automatizare", href: CALENDLY_URL },
+      {
+        label: "Vezi filtrul de fapte construit de mine (în engleză)",
+        href: "/work/honesty-gate",
+      },
+    ],
   },
   harness: {
     name: "Agent Fleet Setup",
@@ -108,7 +133,7 @@ const ro: Record<
   sprint: {
     name: "Sprint de livrare",
     summary:
-      "Un set fix de PR-uri gata de merge și verificate pentru securitate, la un preț stabilit înainte să începem.",
+      "Un set fix de PR-uri gata de merge și verificate pentru securitate, la un preț stabilit înainte să începem: ≈550 €/PR plus raportul de securitate al sprintului, harta greșelilor agenților și un loc de review rezervat.",
     prices: [{ amount: 4100, from: true }],
     duration: "1–2 săpt. · proiecte mai mari 2–3 săpt.",
     assurance:
@@ -129,12 +154,6 @@ const ro: Record<
 // RO twin of sprintDurations (data/ladder.ts), same order.
 export const roSprintDurations = ["~1 săpt.", "1–2 săpt.", "2–3 săpt."];
 
-// Same ids, tiers and availability flags as the global ladder; RO copy and prices.
-export const roLadder: LadderOffer[] = ladder.map((offer) => ({
-  ...offer,
-  ...ro[offer.id],
-}));
-
 // Romanian convention: dot thousands separator, euro sign after the amount.
 const euro = (amount: number) =>
   `${amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} €`;
@@ -146,3 +165,10 @@ export const formatPriceRo = ({ prices, perMonth }: LadderOffer): string =>
         `${p.from ? "de la " : ""}${euro(p.amount)}${p.label ? ` ${p.label}` : ""}`,
     )
     .join(" / ") + (perMonth ? "/lună" : "");
+
+// Same ids, tiers and availability flags as the global ladder; RO copy and
+// prices. Defined after formatPriceRo: the prefill formats every price at load.
+export const roLadder: LadderOffer[] = withOfferPrefill(
+  ladder.map((offer) => ({ ...offer, ...ro[offer.id] })),
+  formatPriceRo,
+);
