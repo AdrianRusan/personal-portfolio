@@ -14,6 +14,8 @@ import {
 } from "@/components/services/ServicesFaq";
 import { ServicesFinalCta } from "@/components/services/ServicesFinalCta";
 import { Ladder } from "@/components/services/Ladder";
+import { QuoteBand } from "@/components/Testimonials";
+import { testimonials } from "@/data";
 import { ladderServiceJsonLd } from "@/data/ladder";
 import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 
@@ -86,9 +88,11 @@ export default function ServicesPage() {
       <Ladder />
       <ProcessSteps />
       <DeliverySprint />
+      <QuoteBand testimonial={testimonials.doros} />
       <EntryOffer />
       <TrustStrip />
       <Retainer />
+      <QuoteBand testimonial={testimonials.iojiban} />
       <HarnessSetup />
       <ServicesFaq />
       <ServicesFinalCta />

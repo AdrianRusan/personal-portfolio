@@ -6,7 +6,9 @@ import {
   STRATEGY_CALL_CTA,
   STRATEGY_CALL_URL,
   callSteps,
+  earlierTestimonial,
   workExperience,
+  type Testimonial,
 } from "@/data";
 import { formatPrice, ladder, offerById } from "@/data/ladder";
 import {
@@ -34,6 +36,8 @@ export interface ProsePage {
   // Parallel choices rendered as option blocks under the lead (/contact).
   options?: { heading: string; body: string; cta: string; href: string }[];
   sections: { heading: string; body: string }[];
+  // A labelled client quote under the lead (/about, #76).
+  earlier?: { label: string; testimonial: Testimonial };
 }
 
 const firstSentence = (s: string) => s.slice(0, s.indexOf(".") + 1);
@@ -113,6 +117,7 @@ export const aboutPage: ProsePage = {
   description:
     "Adrian Rusan: senior software engineer in Bucharest with 10+ years in production. Claude Code agents ship the backlog; he reviews every pull request.",
   lead: "I'm Adrian Rusan, a senior software engineer in Bucharest, Romania. Claude Code agents ship backlog work, and I review every pull request myself, security first.",
+  earlier: { label: "Earlier client work", testimonial: earlierTestimonial },
   sections: [
     {
       heading: "How I work",
@@ -201,6 +206,10 @@ export const roAboutPage: ProsePage = {
   description:
     "Adrian Rusan: inginer software senior din București, cu peste 10 ani în producție. Agenții Claude Code livrează backlog-ul; el verifică fiecare PR.",
   lead: "Sunt Adrian Rusan, inginer software senior în București. Agenții Claude Code livrează backlog-ul, iar eu verific personal fiecare pull request, întâi pentru securitate.",
+  earlier: {
+    label: "Proiect anterior pentru un client",
+    testimonial: earlierTestimonial,
+  },
   sections: [
     {
       heading: "Cum lucrez",

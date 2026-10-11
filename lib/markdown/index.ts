@@ -6,12 +6,19 @@ import { heroCopy } from "@/components/Hero";
 import { offersCopy } from "@/components/Offers";
 import { proofBandCopy } from "@/components/ProofBand";
 import { shipVerifyCopy } from "@/components/ShipVerify";
+import { testimonialsCopy } from "@/components/Testimonials";
 import { whoForCopy } from "@/components/WhoFor";
 import { ladderCopy } from "@/components/services/Ladder";
 import { processStepsCopy } from "@/components/services/ProcessSteps";
 import { servicesFaqCopy } from "@/components/services/ServicesFaq";
 import { servicesHeroCopy } from "@/components/services/ServicesHero";
-import { BLOG_DESCRIPTION, HOME_FAQ_HEADING, homeFaq, homeFaqs } from "@/data";
+import {
+  BLOG_DESCRIPTION,
+  HOME_FAQ_HEADING,
+  homeFaq,
+  homeFaqs,
+  testimonials,
+} from "@/data";
 import {
   aboutPage,
   contactPage,
@@ -30,6 +37,8 @@ import {
   roOffers,
   roProofBand,
   roShipVerify,
+  roTestimonials,
+  roTestimonialsSection,
   roWhoFor,
 } from "@/data/ro-home";
 import {
@@ -63,6 +72,7 @@ const staticPages: Record<string, () => string> = {
       offers: offersCopy,
       whoFor: whoForCopy,
       caseStudies: caseStudyCardsCopy,
+      testimonials: testimonialsCopy,
       bio: bioCopy,
       faq: { heading: HOME_FAQ_HEADING, items: homeFaqs },
       closing: closingCtaCopy,
@@ -76,6 +86,7 @@ const staticPages: Record<string, () => string> = {
       offers: roOffers,
       whoFor: roWhoFor,
       caseStudies: roCaseStudyCards,
+      testimonials: roTestimonialsSection,
       bio: roBio,
       faq: {
         heading: roFaqHeading,
@@ -90,6 +101,7 @@ const staticPages: Record<string, () => string> = {
       ladder: ladderCopy,
       process: processStepsCopy,
       faq: servicesFaqCopy,
+      quotes: [testimonials.doros, testimonials.iojiban],
     }),
   "/ro/servicii": () =>
     servicesMd({
@@ -97,6 +109,7 @@ const staticPages: Record<string, () => string> = {
       ladder: roServicesLadder,
       process: roProcessSteps,
       faq: roServicesPageFaq,
+      quotes: [roTestimonials.doros, roTestimonials.iojiban],
     }),
   "/teardown": teardownMd,
   "/privacy": () => proseMd(privacyPage),

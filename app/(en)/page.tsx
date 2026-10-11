@@ -5,6 +5,7 @@ import Offers from "@/components/Offers";
 import CaseStudyCards from "@/components/CaseStudyCards";
 import WhoFor from "@/components/WhoFor";
 import Bio from "@/components/Bio";
+import Testimonials from "@/components/Testimonials";
 import Latest from "@/components/Latest";
 import { BetweenLine } from "@/components/BetweenLine";
 import { PageShell } from "@/components/PageShell";
@@ -59,7 +60,7 @@ const homeJsonLd = [
 ];
 
 // P2: nine sections, then the shared closing ask. Experience moved to /about;
-// the testimonial sits in Bio; FinalCta became PageShell's ClosingCta.
+// #76: client quotes follow the case studies; FinalCta became PageShell's ClosingCta.
 export default function Home() {
   return (
     <PageShell closingSecondary={<BetweenLine />} closingSource="final_cta">
@@ -68,6 +69,7 @@ export default function Home() {
       <ProofBand />
       <ShipVerify />
       <CaseStudyCards />
+      <Testimonials />
       <Offers />
       <WhoFor />
       <Bio />

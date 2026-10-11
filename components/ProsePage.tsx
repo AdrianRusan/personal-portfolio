@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import type { ProsePage as Page } from "@/data/pages";
 import { absoluteUrl } from "@/lib/page-schema";
+import { Quote } from "./Testimonials";
 
 // Text pages (/privacy, /about, /contact). Section bodies are plain Markdown
 // (format "md", so no JSX runs), the same strings agents get as Markdown.
@@ -29,6 +30,12 @@ export function ProsePage({
           </p>
         )}
         {children}
+        {page.earlier && (
+          <div className="mt-8">
+            <p className="text-sm text-white-200/80">{page.earlier.label}</p>
+            <Quote testimonial={page.earlier.testimonial} className="mt-2" />
+          </div>
+        )}
 
         {page.sections.map((section) => (
           <section key={section.heading} className="mt-10">

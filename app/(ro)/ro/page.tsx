@@ -6,6 +6,7 @@ import Offers from "@/components/Offers";
 import CaseStudyCards from "@/components/CaseStudyCards";
 import WhoFor from "@/components/WhoFor";
 import Bio from "@/components/Bio";
+import Testimonials from "@/components/Testimonials";
 import Latest from "@/components/Latest";
 import { BetweenLine } from "@/components/BetweenLine";
 import { PageShell } from "@/components/PageShell";
@@ -23,6 +24,7 @@ import {
   roOffers,
   roProofBand,
   roShipVerify,
+  roTestimonialsSection,
   roWhoFor,
 } from "@/data/ro-home";
 import { JsonLd, pageJsonLd } from "@/lib/page-schema";
@@ -82,6 +84,7 @@ export default function RoHome() {
       <ProofBand copy={roProofBand} />
       <ShipVerify copy={roShipVerify} />
       <CaseStudyCards copy={roCaseStudyCards} />
+      <Testimonials copy={roTestimonialsSection} />
       <Offers copy={roOffers} />
       <WhoFor copy={roWhoFor} />
       <Bio copy={roBio} />
