@@ -1,4 +1,5 @@
 import { getPosts, getPost, getAllTags, WORK_DIR } from "@/lib/blog";
+import { pageTitle } from "@/lib/blog-types";
 
 describe("getPosts", () => {
   it("returns only published posts", async () => {
@@ -100,5 +101,23 @@ describe("case-study honesty guard", () => {
 
   it("lets the finished honesty-gate case study through the gate", async () => {
     await expect(getPosts(WORK_DIR)).resolves.toBeDefined();
+  });
+});
+
+describe("search snippets (A1-09, A1-17)", () => {
+  const rendered = (t: string) => {
+    const r = pageTitle(t);
+    return typeof r === "string" ? `${r} | Adrian Rusan` : r.absolute;
+  };
+
+  it("keeps every post and case study <title> ≤60 and description ≤160", async () => {
+    const all = [...(await getPosts()), ...(await getPosts(WORK_DIR))];
+    for (const { slug, frontmatter: fm } of all) {
+      expect([slug, rendered(fm.seoTitle ?? fm.title).length <= 60]).toEqual([
+        slug,
+        true,
+      ]);
+      expect([slug, fm.description.length <= 160]).toEqual([slug, true]);
+    }
   });
 });

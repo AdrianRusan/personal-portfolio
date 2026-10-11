@@ -5,6 +5,7 @@ import { getPost, getPosts, WORK_DIR } from "@/lib/blog";
 import MDXContent from "@/components/blog/MDXContent";
 import PostCta from "@/components/blog/PostCta";
 import { getPostCta } from "@/lib/blog-cta";
+import { pageTitle } from "@/lib/blog-types";
 import { JsonLd, SITE_URL, pageJsonLd } from "@/lib/page-schema";
 import { PageShell } from "@/components/PageShell";
 
@@ -35,7 +36,7 @@ export async function generateMetadata({
     const study = await getPost(slug, WORK_DIR);
     const { title, seoTitle, description, date, updated } = study.frontmatter;
     return {
-      title: seoTitle ?? title,
+      title: pageTitle(seoTitle ?? title),
       description,
       openGraph: {
         title,
@@ -89,7 +90,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
               inLanguage: "en",
               author: { "@id": `${SITE_URL}/#person` },
               publisher: { "@id": `${SITE_URL}/#person` },
-              image: `${studyUrl}/opengraph-image`,
+              image: `${studyUrl}/opengraph-image/cover`,
               mainEntityOfPage: { "@id": `${studyUrl}#webpage` },
             },
             pageJsonLd({

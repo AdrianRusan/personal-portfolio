@@ -9,6 +9,7 @@ import ShareButtons from "@/components/blog/ShareButtons";
 import AuthorBox from "@/components/blog/AuthorBox";
 import PostCta from "@/components/blog/PostCta";
 import RelatedPosts from "@/components/blog/RelatedPosts";
+import { pageTitle } from "@/lib/blog-types";
 import { JsonLd, SITE_URL, faqJsonLd, pageJsonLd } from "@/lib/page-schema";
 
 // Visible FAQ, from the same frontmatter array as the FAQPage JSON-LD (A1-12).
@@ -49,7 +50,7 @@ export async function generateMetadata({
     const { title, seoTitle, description, date, updated, tags } =
       post.frontmatter;
     return {
-      title: seoTitle ?? title,
+      title: pageTitle(seoTitle ?? title),
       description,
       openGraph: {
         title,
@@ -109,7 +110,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             inLanguage: "en",
             author: { "@id": `${SITE_URL}/#person` },
             publisher: { "@id": `${SITE_URL}/#person` },
-            image: `${postUrl}/opengraph-image`,
+            image: `${postUrl}/opengraph-image/cover`,
             mainEntityOfPage: { "@id": `${postUrl}#webpage` },
             keywords: post.frontmatter.tags?.join(", "),
           },

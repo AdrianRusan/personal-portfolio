@@ -83,7 +83,7 @@ export default function RoServicesPage() {
       <JsonLd
         data={[
           faqJsonLd,
-          ladderServiceJsonLd(roLadder, "Romania"),
+          ...ladderServiceJsonLd(roLadder, "Romania"),
           pageJsonLd({
             path: "/ro/servicii",
             name: title,

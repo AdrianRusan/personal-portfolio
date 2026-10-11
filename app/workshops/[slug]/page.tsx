@@ -28,8 +28,8 @@ export async function generateMetadata({
 }: WorkshopPageProps): Promise<Metadata> {
   const w = workshops[(await params).slug];
   return {
-    // Bare title — the root layout's title.template appends "| Adrian Rusan"
-    title: w.title,
+    // Absolute: with the "| Adrian Rusan" suffix the title runs past 60 (A1-09).
+    title: { absolute: w.title },
     description: w.description,
     // Page-level openGraph/twitter replace the layout's, so restate the shared fields
     openGraph: {

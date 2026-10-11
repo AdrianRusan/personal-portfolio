@@ -4,16 +4,31 @@ import { getPost } from '@/lib/blog';
 
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
-export const alt = 'Blog post cover';
 // #54 R4: a pre-date 404 must not outlive the post's go-live.
 export const revalidate = 3600;
 
+// One card per post, with the post title as its alt text (A1-22). Its URL is
+// therefore /blog/<slug>/opengraph-image/cover. A missing post yields no entry,
+// so the image 404s like the page.
+export async function generateImageMetadata({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  try {
+    const post = await getPost(params.slug);
+    return [{ id: 'cover', alt: post.frontmatter.title, size, contentType }];
+  } catch {
+    return [];
+  }
+}
+
 interface OGImageProps {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }
 
 export default async function OGImage({ params }: OGImageProps) {
-  const { slug } = await params;
+  const { slug } = params;
 
   let post;
   try {
