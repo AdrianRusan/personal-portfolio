@@ -3,11 +3,14 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/PageShell";
 import { getPosts, WORK_DIR } from "@/lib/blog";
-import { byCaseStudyOrder, caseStudyResults } from "@/data/work";
+import {
+  WORK_DESCRIPTION,
+  byCaseStudyOrder,
+  caseStudyResults,
+} from "@/data/work";
 import { JsonLd, itemListJsonLd, pageJsonLd } from "@/lib/page-schema";
 
-const DESCRIPTION =
-  "Case studies from documented runs: what broke, what I built, the number it moved, and what it taught me about shipping with AI agents.";
+const DESCRIPTION = WORK_DESCRIPTION;
 
 export const metadata: Metadata = {
   title: "Case studies",

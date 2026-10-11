@@ -59,3 +59,6 @@ const FinalCta = ({ copy = en }: { copy?: FinalCtaCopy }) => {
 };
 
 export default FinalCta;
+
+// EN copy, also rendered as Markdown by lib/markdown (#64).
+export { en as finalCtaCopy };

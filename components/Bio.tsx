@@ -104,3 +104,6 @@ const Bio = ({
 };
 
 export default Bio;
+
+// EN copy, also rendered as Markdown by lib/markdown (#64).
+export { en as bioCopy };

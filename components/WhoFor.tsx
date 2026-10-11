@@ -56,3 +56,6 @@ const WhoFor = ({ copy = en }: { copy?: WhoForCopy }) => {
 };
 
 export default WhoFor;
+
+// EN copy, also rendered as Markdown by lib/markdown (#64).
+export { en as whoForCopy };

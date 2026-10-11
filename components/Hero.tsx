@@ -98,3 +98,6 @@ const Hero = ({ copy = en }: { copy?: HeroCopy }) => {
 };
 
 export default Hero;
+
+// EN copy, also rendered as Markdown by lib/markdown (#64).
+export { en as heroCopy };

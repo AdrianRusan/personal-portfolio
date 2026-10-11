@@ -36,3 +36,7 @@ export function byCaseStudyOrder<T extends { slug: string }>(studies: T[]) {
   };
   return [...studies].sort((a, b) => rank(a.slug) - rank(b.slug));
 }
+
+// The /work index description: page meta and its Markdown (#64).
+export const WORK_DESCRIPTION =
+  "Case studies from documented runs: what broke, what I built, the number it moved, and what it taught me about shipping with AI agents.";

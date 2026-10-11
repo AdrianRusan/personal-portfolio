@@ -74,3 +74,6 @@ const Offers = ({ copy = en }: { copy?: OffersCopy }) => {
 };
 
 export default Offers;
+
+// EN copy, also rendered as Markdown by lib/markdown (#64).
+export { en as offersCopy };

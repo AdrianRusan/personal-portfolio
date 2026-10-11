@@ -111,3 +111,6 @@ export const ProcessSteps = ({ copy = en }: { copy?: ProcessStepsCopy }) => {
     </section>
   );
 };
+
+// EN copy, also rendered as Markdown by lib/markdown (#64).
+export { en as processStepsCopy };

@@ -84,3 +84,6 @@ export const ServicesHero = ({ copy = en }: { copy?: ServicesHeroCopy }) => {
     </section>
   );
 };
+
+// EN copy, also rendered as Markdown by lib/markdown (#64).
+export { en as servicesHeroCopy };

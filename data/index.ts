@@ -310,3 +310,7 @@ export const socialMedia = [
     alt: "Adrian Rusan LinkedIn Profile",
   },
 ];
+
+// The /blog index description: page meta and its Markdown (#64).
+export const BLOG_DESCRIPTION =
+  "Field notes on shipping production software with a Claude Code agent fleet, and the senior review that catches what the agents miss.";

@@ -105,3 +105,6 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
     </section>
   );
 };
+
+// EN copy, also rendered as Markdown by lib/markdown (#64).
+export { en as ladderCopy };

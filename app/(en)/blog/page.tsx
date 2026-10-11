@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { BLOG_DESCRIPTION } from "@/data";
 import { getPosts, getAllTags } from "@/lib/blog";
 import BlogListClient from "@/components/blog/BlogListClient";
 import { JsonLd, itemListJsonLd, pageJsonLd } from "@/lib/page-schema";
@@ -6,8 +7,7 @@ import { JsonLd, itemListJsonLd, pageJsonLd } from "@/lib/page-schema";
 // #54 R4: re-render hourly so a dated post appears without a deploy.
 export const revalidate = 3600;
 
-const DESCRIPTION =
-  "Field notes on shipping production software with a Claude Code agent fleet, and the senior review that catches what the agents miss.";
+const DESCRIPTION = BLOG_DESCRIPTION;
 
 export const metadata: Metadata = {
   title: "Blog",
