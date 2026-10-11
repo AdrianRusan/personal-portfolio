@@ -1,43 +1,44 @@
 ---
 title: "Claude Code Changed How I Ship Software"
 date: "2026-03-30"
+updated: "2026-10-11"
 tags: ["ai", "claude-code", "developer-productivity", "software-engineering"]
-description: "How I went from writing every line to orchestrating AI agents — and why 10+ years of engineering experience matters more now, not less."
+description: "How Claude Code changed how I ship software: from writing every line to orchestrating AI agents, and why 10+ years of experience matters more now."
 published: true
 cta: "workshop"
 ---
 
-There's a debate right now about "vibe coders" — people who let AI write all their code without understanding what's happening. Traditionalists say real developers will outlast the prompt jockeys. AI maximalists say coding knowledge is about to be irrelevant.
+**Short answer:** Claude Code made me 2–3x faster, not 100x. I run agents in parallel git worktrees and review every pull request myself. In one 2.5-day batch of 30 PRs, review caught three shell-injection bugs that passed the tests. The agents write the first draft. Experience decides what is safe to merge.
 
-Both sides are wrong. I have the numbers to prove it.
+There's a debate right now about "vibe coders": people who let AI write all their code without understanding what's happening. Traditionalists say real developers will outlast the prompt jockeys. AI maximalists say coding knowledge is about to be irrelevant. My numbers below support neither side.
 
-## What I Actually Do
+## What does working with Claude Code look like day to day?
 
-I run multiple senior-level dev workloads. Not by working 16-hour days — by using Claude Code to multiply my output in ways I couldn't have imagined a year ago.
+I run multiple senior-level dev workloads. Not by working 16-hour days, but by using Claude Code to multiply my output.
 
 The workflow: Claude Code instances running in tmux panes, each working on a separate GitHub issue, using git worktrees so nothing conflicts. I review, steer, and merge.
 
-Last month I shipped an entire admin dashboard — 30 pull requests across 9 worker batches in 2.5 days. Real-time log viewers, cron job management, SSE live updates, a memory browser, disk usage dashboards, full PWA layer.
+In February 2026 I shipped an entire admin dashboard for my own use, not client work: 30 pull requests across 9 worker batches in 2.5 days. Real-time log viewers, cron job management, SSE live updates, a memory browser, disk usage dashboards, a full PWA layer.
 
-30 PRs. 2.5 days. Me and a bunch of AI agents.
+30 PRs. 2.5 days. Me and a set of AI agents.
 
 ## The Workflow
 
-Here's what the "vibe coding" critics miss: I'm not copy-pasting output and hoping for the best.
+The "vibe coding" critics assume I copy-paste output and hope for the best. I don't.
 
-**Triage and plan.** I review the GitHub board, group related issues, decide which can run in parallel without stepping on each other. This is pure engineering judgment. No AI involved.
+**Triage and plan.** I review the GitHub board, group related issues, and decide which can run in parallel without stepping on each other. This is engineering judgment. No AI involved.
 
-**Spin up agents.** Each Claude Code instance gets a specific issue, a project context file (a `CLAUDE.md` with architecture decisions, conventions, and hard boundaries), and clear constraints. Separate git worktrees, zero merge hell.
+**Spin up agents.** Each Claude Code instance gets a specific issue, a project context file (a `CLAUDE.md` with architecture decisions, conventions, and hard boundaries), and clear constraints. Separate git worktrees, no merge conflicts between agents.
 
-**Review ruthlessly.** This is where the engineering happens. In the dashboard batch alone I caught and fixed 15+ security issues — shell injection vulnerabilities, missing path traversal guards, input validation gaps. More on this below.
+**Review every PR.** This is where the engineering happens. In the dashboard batch alone I caught and fixed 15+ security issues: shell injection vulnerabilities, missing path traversal guards, input validation gaps. More on this below.
 
-**Merge and iterate.** Clean PRs go in. Broken ones get bounced back with specific feedback. Some issues took 3 attempts before they were right.
+**Merge and iterate.** Clean PRs go in. Broken ones go back with specific feedback. Some issues took 3 attempts before they were right.
 
 ## AI Agents Are Confidently Insecure
 
 This is the part that should make every "vibe coder" nervous.
 
-In one batch, three separate PRs had shell injection vulnerabilities. The code worked. The tests passed. It would've been a disaster in production.
+In one batch, three separate PRs had shell injection vulnerabilities. The code worked. The tests passed. It would have been a disaster in production.
 
 ```javascript
 // What Claude Code wrote (looks fine, right?)
@@ -47,38 +48,36 @@ const result = execSync(`git log --oneline ${branch}`);
 const result = execFileSync('git', ['log', '--oneline', branch]);
 ```
 
-If I didn't have 10+ years of knowing what `execSync` with string interpolation means, those vulnerabilities ship. That's the real argument for engineering experience in the AI age: not that you need to write every line, but that you need to catch the lines that could destroy you.
+Without 10+ years of knowing what `execSync` with string interpolation means, those vulnerabilities ship. That is the argument for engineering experience now: you don't need to write every line, but you do need to catch the lines that could take you down. I wrote all three up in [the shell-injection post](/blog/catching-shell-injection-agents-wrote).
 
-## The Honest Numbers
+## How much faster is Claude Code, really?
 
-I'm going to be specific because most AI productivity content is either breathless hype or hand-wavy dismissal.
+Here are the specific numbers, because most AI productivity content is either hype or a hand-wave.
 
-**Agent success rate: ~85%.** About 1 in 7 attempts fails outright — wrong approach, scope creep, or hallucinated APIs that don't exist.
+**Agent success rate: ~85%.** About 1 in 7 attempts fails outright: wrong approach, scope creep, or hallucinated APIs that don't exist.
 
-**Review overhead: 5-15 minutes per PR.** That's 2.5-7.5 hours of review for 30 PRs. Not free.
+**Review overhead: 5–15 minutes per PR.** That's 2.5–7.5 hours of review for 30 PRs.
 
-**Real throughput: 2-3x.** Not 100x. Not 10x. Two to three times more productive than working solo. That's still transformative, but let's not pretend it's magic.
+**Real throughput: 2–3x.** Not 100x. Not 10x. Two to three times more productive than working solo. That's a large gain, and it is not magic. The full method is in [2–3x, not 100x](/blog/2-3x-not-100x).
 
-**Cost: $50-80 for a heavy batch week.** Less than a junior dev's hourly rate for one afternoon.
+**Cost: $50–80 for a heavy batch week.** Less than a junior dev's hourly rate for one afternoon.
 
-**The highest-ROI investment isn't a better model — it's a better `CLAUDE.md`.** A well-written project context file (architecture, conventions, boundaries) changes the quality of everything an agent produces. I update mine multiple times a week.
+**The highest-return investment is a better `CLAUDE.md`, more than a better model.** A well-written project context file (architecture, conventions, boundaries) changes the quality of everything an agent produces. I update mine multiple times a week.
 
 ## What Actually Changed
 
-Before Claude Code, I was the bottleneck on everything. Multiple workloads meant constant context-switching. Side projects moved at a crawl because there were never enough hours.
+Before Claude Code, I was the bottleneck on everything. Multiple workloads meant constant context-switching. Side projects moved slowly because there were never enough hours.
 
-Now the gap between "this should exist" and "this exists" is radically smaller. This blog? Built by Claude Code in a single session — MDX rendering, RSS feeds, OG image generation, syntax highlighting — while I focused on other work.
+Now the gap between "this should exist" and "this exists" is much smaller. This blog was built by Claude Code in a single session (MDX rendering, RSS feeds, OG image generation, syntax highlighting) while I worked on other things.
 
-I still make every architecture decision. I still review every line that goes to production. I still catch the security issues AI introduces. But translating decisions into code is no longer the bottleneck. Thinking is the bottleneck, which is how it should've always been.
+I still make every architecture decision. I still review every line that goes to production. I still catch the security issues AI introduces. Translating decisions into code is no longer the bottleneck. Thinking is.
 
 ## What the Debate Gets Wrong
 
 The "vibe coding" discourse frames this as binary: either you're a real developer or you're an AI parrot.
 
-I am a real developer. I also let AI write most of my first drafts. These aren't contradictions — they're the same workflow writers, architects, and designers have used forever. The skilled professional sets direction, reviews output, catches what the tool misses.
+I am a real developer, and AI writes most of my first drafts. Writers, architects and designers have worked this way for a long time: the professional sets direction, reviews output, and catches what the tool misses.
 
 The developers who'll struggle aren't the ones using AI or avoiding it. They're the ones who can't tell the difference between code that works and code that's correct.
 
-If you're going to try this: start with 2 agents, not 4. Use git worktrees. Write a `CLAUDE.md` before you write a single prompt. Never skip security review — automated tests won't catch what AI introduces. And track your actual numbers, because "AI makes me faster" isn't useful. "4x faster with 15% failure rate" is a real decision-making input.
-
-The future isn't developers vs. AI. It's developers with AI, being honest about what that actually looks like.
+If you're going to try this: start with 2 agents, not 4. Use git worktrees. Write a `CLAUDE.md` before you write a single prompt. Never skip security review, because automated tests won't catch what AI introduces. And track your actual numbers. "AI makes me faster" isn't useful. "4x faster with a 15% failure rate" is a real input to a decision.

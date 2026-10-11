@@ -1,26 +1,30 @@
 ---
 title: "How I Run Claude Code Agents in Parallel (Worktrees, Herdr, One Brief)"
+seoTitle: "Claude Code Parallel Agents: Worktrees + One Brief"
 date: "2026-10-24"
 tags: ["claude-code", "parallel-agents", "git-worktrees", "ai", "developer-productivity"]
-description: "Claude Code parallel agents in practice: one git worktree per agent, a terminal multiplexer to run them, a brief that answers their questions, and review as the only serial step."
+description: "Claude Code parallel agents in practice: one git worktree per agent, a multiplexer to run them, a brief that answers their questions, and serial review."
 published: true
 language: "en"
 cta: "workshop"
 ---
 
-> **TL;DR:** Running Claude Code parallel agents is not hard. Keeping them from colliding, stalling or flooding your review queue is. My setup: one git worktree and one branch per agent, Herdr to start and watch them, an orchestrator session that answers their questions from a written brief, and a fixed checklist each agent clears before its PR reaches me. On 10 October that setup shipped nine reviewed PRs to this site in 100 minutes.
+**Short answer:** To run Claude Code agents in parallel, give each agent its own git worktree and branch, start and watch them from one multiplexer, answer their questions from a written brief, and make every PR clear a fixed checklist before you review it. On 10 October this setup shipped nine reviewed PRs to this site in 100 minutes.
 
 On the evening of 10 October, while this post was being drafted, one orchestrator session was watching four executor agents, each on its own branch of this website, with a fifth scheduled to merge their work into one release PR. My busiest 10-minute window on record had 18 interactive sessions active at once. This post is the setup behind runs like that.
 
-## One worktree per agent
+## Claude Code + git worktrees: one per agent
 
 The first rule of parallel agents is that they never share a working directory. Two agents in one checkout will edit the same file, run builds against each other's half-finished changes and stash each other's work.
 
-Git worktrees fix that. One repository, many checked-out branches, each in its own folder:
+[Git worktrees](https://git-scm.com/docs/git-worktree) fix that. One repository, many checked-out branches, each in its own folder:
 
 ```bash
-git worktree add ../portfolio-p3 -b feat/46-mined-case-study-posts origin/main
-git worktree add ../portfolio-p4 -b feat/47-cro-sell-pass origin/main
+git worktree add ../repo-agent-1 -b agent-1 origin/main
+git worktree add ../repo-agent-2 -b agent-2 origin/main
+git worktree list
+# after agent-1's PR merges:
+git worktree remove ../repo-agent-1
 ```
 
 Each agent gets its own folder and its own branch. A broken build in one cannot touch another. When the PR lands, the worktree is removed.
