@@ -38,6 +38,14 @@ function extractHeadings(content: string): Heading[] {
   return headings;
 }
 
+// The FAQ renders from frontmatter after the body, so the TOC gets its heading here.
+function headingsFor(content: string, data: { faq?: unknown[] }): Heading[] {
+  const headings = extractHeadings(content);
+  return data.faq?.length
+    ? [...headings, { id: "faq", text: "FAQ", level: 2 }]
+    : headings;
+}
+
 // #54 R4: a post goes live at 00:00 UTC on its frontmatter date. `now` is read
 // per call, so with `revalidate` on the pages a dated post appears within the
 // revalidate window, without a deploy.
@@ -57,7 +65,7 @@ export async function getPosts(dir = BLOG_DIR): Promise<BlogPost[]> {
       const raw = fs.readFileSync(path.join(dir, file), "utf-8");
       const { data, content } = matter(raw);
       const rt = readingTime(content);
-      const headings = extractHeadings(content);
+      const headings = headingsFor(content, data);
 
       return {
         slug,
@@ -112,7 +120,7 @@ export async function getPost(
     throw new Error(`Post not found: ${slug}`);
   }
   const rt = readingTime(content);
-  const headings = extractHeadings(content);
+  const headings = headingsFor(content, data);
 
   return {
     slug,

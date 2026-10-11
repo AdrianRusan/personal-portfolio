@@ -12,7 +12,10 @@ describe("Person JSON-LD", () => {
   });
 
   it("names the current role and employer", () => {
-    expect(person.jobTitle).toContain("Founding Engineer");
+    expect(person.jobTitle).toBe(
+      "Senior software engineer, agent-accelerated delivery",
+    );
+    expect(person.hasOccupation.name).toBe(person.jobTitle);
     const employers = [person.worksFor].flat();
     expect(employers).toContainEqual(
       expect.objectContaining({
@@ -20,6 +23,13 @@ describe("Person JSON-LD", () => {
         name: "Bono Fintech",
       }),
     );
+  });
+
+  it("lists the topics the site sells, not a CV keyword list", () => {
+    expect(person.knowsAbout).toEqual(
+      expect.arrayContaining(["Claude Code", "Code review", "Git worktrees"]),
+    );
+    expect(person.knowsAbout).not.toContain("HTML5");
   });
 
   it("links GitHub, LinkedIn and X (not twitter.com) with no empty entries", () => {

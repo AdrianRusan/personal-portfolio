@@ -14,6 +14,7 @@ const routes = [
   '/blog/claude-code-changed-how-i-ship-software',
   '/blog/what-agents-get-wrong',
   '/work',
+  '/work/30-reviewed-prs-3-vulnerabilities',
   '/work/agent-cost-per-commit',
   '/work/honesty-gate',
   '/workshops/full-day',
@@ -42,11 +43,18 @@ for (const route of routes) {
     expect(res?.status()).toBe(200);
 
     await expect(page.locator('h1')).toHaveCount(1);
+    // D1: the document language matches the route group.
+    await expect(page.locator('html')).toHaveAttribute('lang', route.startsWith('/ro') ? 'ro' : 'en');
     await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /\S/);
     await expect(page.locator('meta[property="og:image"]').first()).toHaveAttribute('content', /^https?:\/\//);
 
-    for (const json of await page.locator('script[type="application/ld+json"]').allTextContents()) {
-      expect(() => JSON.parse(json)).not.toThrow();
+    const ld = (await page.locator('script[type="application/ld+json"]').allTextContents())
+      .flatMap((json) => JSON.parse(json));
+    // The article image must be the card the page itself serves (route-group URLs are hashed).
+    const article = ld.find((d) => d['@type'] === 'BlogPosting' || d['@type'] === 'Article');
+    if (article) {
+      const og = await page.locator('meta[property="og:image"]').first().getAttribute('content');
+      expect(article.image).toBe(og?.split('?')[0]);
     }
 
     await expect(page.locator('main')).toHaveCount(1);
@@ -67,6 +75,7 @@ for (const route of routes) {
 test('unknown route returns 404 with the site shell', async ({ page }) => {
   const res = await page.goto('/does-not-exist');
   expect(res?.status()).toBe(404);
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   await expect(page.locator('h1')).toHaveCount(1);
   await expect(page.locator('main')).toHaveCount(1);
   await expect(page.getByRole('link', { name: /home/i }).first()).toBeVisible();

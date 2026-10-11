@@ -55,13 +55,6 @@ export const LEDGER_PROOF = `${WORKFLOW_NUMBERS.sessions} sessions · ${WORKFLOW
 export const GUARANTEE =
   "If the first reviewed PR isn't merge-ready to your standard, you don't pay for it.";
 
-export const navItems = [
-  { name: "How it works", link: "#ship-verify" },
-  { name: "Services", link: "#offers" },
-  { name: "Work", link: "#work" },
-  { name: "Blog", link: "/blog" },
-];
-
 // --- Ship / Verify homepage content ---
 
 export const proofStats = [

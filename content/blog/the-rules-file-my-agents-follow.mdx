@@ -1,5 +1,6 @@
 ---
 title: "The Rules File My Agents Follow: CLAUDE.md Examples From 270 Commits"
+seoTitle: "CLAUDE.md Examples From a 270-Commit Rules File"
 date: "2026-10-17"
 tags: ["claude-code", "claude-md", "agent-harness", "ai", "developer-productivity"]
 description: "Real CLAUDE.md examples from a rules file tuned over 270 commits: fail-closed gates, commit cadence, fix-only-the-bug, and the rules I deleted."
@@ -8,7 +9,7 @@ language: "en"
 cta: "harness"
 ---
 
-> **TL;DR:** Most CLAUDE.md examples online are style guides. Mine is a list of failures I watched happen and do not want to see again. It is about 3,350 words across one `CLAUDE.md` and eight rule files, with 270 commits of history. The rules that earned their place correct something the model gets wrong by default. Everything else got deleted.
+**Short answer:** Good CLAUDE.md examples list failures, not preferences. My rules file is about 3,350 words across one `CLAUDE.md` and eight rule files, tuned over 270 commits. Each rule that stayed corrects something the model gets wrong by default: fail-open gates, batched commits, fixes that tighten unrelated limits. Everything else got deleted.
 
 If you search for CLAUDE.md examples, you mostly find lists of preferences: use tabs, prefer functional components, write tests. Those are fine, but they are not why my agents behave. The model already writes decent code. What it gets wrong are a handful of specific defaults, the same ones every time, and a rules file is the cheapest place to correct them.
 
@@ -16,7 +17,7 @@ This post walks through the file my Claude Code sessions load every day: what is
 
 ## The shape: one index, small rule files
 
-The global `CLAUDE.md` is about 940 words. It does three jobs: load the active context (which client or project I am in), list the behaviors that override a default, and point to eight rule files for detail. The rule files cover git, security, taste, authoring, harness contracts, model choice and how output should be shaped for me to review.
+The global `CLAUDE.md` ([Anthropic's memory docs](https://docs.anthropic.com/en/docs/claude-code/memory) explain how Claude Code loads it) is about 940 words. It does three jobs: load the active context (which client or project I am in), list the behaviors that override a default, and point to eight rule files for detail. The rule files cover git, security, taste, authoring, harness contracts, model choice and how output should be shaped for me to review.
 
 Each client engagement has its own context file that overrides branch naming, commit format, PR body and which actions need my approval. The global rules never name a client. That split matters: an agent working on my own site should not inherit the approval gates of a client's production system, and the reverse is worse.
 
@@ -35,7 +36,7 @@ if (result.error || result.status === null || result.status !== 0) {
 
 Gating only on `status !== 0` turns a missing binary into a silent bypass. The same rule says an empty allowlist refuses everything, an unset required variable refuses instead of falling back, and a flag on a security tool is opt-out (`--no-strict`), never opt-in. The gate's "I don't know" must equal its "no."
 
-I wrote about one of these bugs in [the shell-injection post](/blog/catching-shell-injection-agents-wrote). The rule exists because I kept catching the same pattern in review.
+The rule exists because I kept catching the same pattern in review. The checks I run on agent-written shell calls are in [the shell-injection post](/blog/catching-shell-injection-agents-wrote).
 
 ## Rule 2: commit after every working step
 

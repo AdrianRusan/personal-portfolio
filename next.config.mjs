@@ -37,6 +37,8 @@ const nextConfig = {
   serverExternalPackages: ['next-mdx-remote', 'shiki'],
   experimental: {
     inlineCss: true,
+    // D1: with per-group root layouts, unmatched URLs need app/global-not-found.tsx.
+    globalNotFound: true,
     optimizePackageImports: ['framer-motion', 'lucide-react'],
   },
   async headers() {

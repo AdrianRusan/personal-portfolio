@@ -1,0 +1,61 @@
+---
+title: "30 Reviewed PRs, 3 Shell-Injection Paths Caught"
+seoTitle: "30 Reviewed PRs, 3 Shell-Injection Paths Caught"
+date: "2026-10-11"
+tags: ["ai", "claude-code", "code-review", "security"]
+description: "My own admin dashboard, March 2026: agents opened 31 PRs in under three days. No tests, no CI: review was the only gate. What it caught and missed."
+published: true
+language: "en"
+cta: "reviewed-pr"
+---
+
+**Short answer:** In March 2026 Claude Code agents opened 31 pull requests on my own admin dashboard in under three days, and I reviewed and merged 30. The repo had no test suite and no CI, so my review was the only gate. It caught 3 shell-injection paths from request input before merge. It also missed one, which is the lesson.
+
+**Where this comes from:** my own admin dashboard, March 2026, not client work. The mechanics are in [30 PRs in Under Three Days](/blog/30-prs-in-2-5-days), and the injection bugs are in [The Shell-Injection Bugs My Agents Wrote](/blog/catching-shell-injection-agents-wrote).
+
+## The problem
+
+I had a backlog of scoped issues for my own admin dashboard. Coding agents can produce that volume quickly. The question was whether the output could merge safely, or whether speed would mean shipping code nobody had really read.
+
+## The constraint
+
+The repo had no test suite and no CI. Nothing automated stood between an agent's PR and the main branch. So the rule was simple: nothing merges until I have read the diff, assuming it is wrong until it is shown safe.
+
+That made review the whole safety story, and it set the pace of the run.
+
+## What I built
+
+One agent per issue, one git worktree per agent. Each worktree is its own branch in its own directory, backed by one repository, so several agents could edit at once without touching each other's files.
+
+Every agent read the same `CLAUDE.md` before writing code: the goal, the constraints and the format for branches, commits and PR bodies.
+
+The run went in waves:
+
+1. Dispatch the ready issues, one agent and one worktree each.
+2. Let the agents write the code and open a PR.
+3. Review every PR adversarially, and push fix commits where the review found a problem.
+4. Merge by hand once the review passed, then remove the worktree.
+
+While I reviewed one wave, the next was already generating.
+
+## The number
+
+- **31 PRs** opened by agents, **30 merged**. The other one was closed and redone.
+- **9 worker waves**, under three days from the first PR to the last merge.
+- **25 of the 30** merged PRs got at least one fix commit from review before they merged.
+- **3 shell-injection paths from request input**, all caught and fixed before merge:
+  1. A job ID from the URL path interpolated into a shell command. The agent's rewrite had also deleted an allowlist an earlier security fix put there.
+  2. A log-search query interpolated into a shell command, behind a character filter.
+  3. A memory-search query, the same pattern as the log search.
+
+  Only the first was directly exploitable. The other two sat behind a character-stripping filter, which is not a fix.
+- Review also caught a path traversal (a file path built from a route parameter with no containment) and 2 more shell-string calls on internal values.
+- **1 missed:** a shell-string call built from database values. I didn't catch it, and it is still open.
+
+## The lesson
+
+Review was the only gate, and it caught a lot: three injection paths from request input never reached the main branch. It was not a perfect gate. The call I missed took its input from the database instead of the request. Data in the database came from somewhere, and a shell string built from it has the same problem as one built from a URL.
+
+The check that would have caught it is about the call, not the source: any shell string with a variable in it is a finding, wherever the variable came from. And a repo with no tests and no CI needs a second gate besides one reviewer, such as a lint rule or a CI grep for shell-string calls, so a single missed line doesn't ship.
+
+Generation was the cheap part of this run. Most of the time went on review, and that's why I put the honest speed-up at 2–3x, not 100x.

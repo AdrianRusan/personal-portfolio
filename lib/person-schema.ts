@@ -1,7 +1,9 @@
 import { FINTECH_EMPLOYER, YOUTUBE_URL } from "@/data";
 
-// Person JSON-LD, rendered site-wide by app/layout.tsx. Lives here (not in the
+// Person JSON-LD, rendered site-wide by app/root-shell.tsx. Lives here (not in the
 // layout) so a jest test can check its shape — layouts may only export Next fields.
+const JOB_TITLE = "Senior software engineer, agent-accelerated delivery";
+
 export const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
@@ -9,7 +11,7 @@ export const personJsonLd = {
   name: "Adrian Rusan",
   givenName: "Adrian",
   familyName: "Rusan",
-  jobTitle: ["Founding Engineer", "Agent-Accelerated Delivery Engineer"],
+  jobTitle: JOB_TITLE,
   description:
     "Adrian Rusan runs an AI agent fleet that ships backlog work while personally security-reviewing every pull request before delivery, offering fixed-scope delivery sprints for startup & scale-up founders and CTOs.",
   url: "https://www.adrian-rusan.com",
@@ -33,34 +35,26 @@ export const personJsonLd = {
       url: "https://www.adrian-rusan.com",
     },
   ],
+  // What the site sells and writes about (A1-08), not a CV keyword list.
   knowsAbout: [
-    "React",
-    "Next.js",
+    "Claude Code",
+    "AI coding agents",
+    "Code review",
+    "Application security",
+    "Git worktrees",
+    "LLM cost optimization",
     "TypeScript",
-    "JavaScript",
+    "Next.js",
+    "React",
     "Node.js",
-    "HTML5",
-    "CSS3",
-    "Tailwind CSS",
-    "MongoDB",
-    "SQL",
-    "REST API",
-    "GraphQL",
-    "Docker",
-    "Git",
-    "Agile Development",
-    "Test-Driven Development",
-    "Web Performance Optimization",
-    "User Experience Design",
-    "Responsive Web Design",
   ],
   hasOccupation: {
     "@type": "Occupation",
-    name: "Full-Stack Engineer",
+    name: JOB_TITLE,
     description:
-      "Develops both frontend and backend solutions for web applications",
+      "Ships backlog work with AI coding agents and security-reviews every pull request before delivery.",
     skills:
-      "React, Next.js, TypeScript, Node.js, Database Management, API Development",
+      "Claude Code, AI coding agents, code review, application security, TypeScript, Next.js, React, Node.js",
   },
   address: {
     "@type": "PostalAddress",
