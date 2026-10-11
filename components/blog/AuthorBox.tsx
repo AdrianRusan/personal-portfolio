@@ -25,7 +25,7 @@ export default function AuthorBox() {
       ) : (
         <div
           aria-hidden="true"
-          className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-purple/40 bg-purple/15 text-lg font-bold tracking-tight text-purple"
+          className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-black-300 bg-black-200 text-lg font-semibold tracking-tight text-white-100"
         >
           AR
         </div>

@@ -49,7 +49,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
           data={[
             pageJsonLd({
               path: "/blog",
-              name: "Field notes on agent-accelerated delivery",
+              name: "Notes from shipping with Claude Code agents",
               description: BLOG_DESCRIPTION,
               crumbs: [{ name: "Blog", path: "/blog" }],
               type: "CollectionPage",
@@ -58,14 +58,14 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
           ]}
         />
         <div className="mb-12">
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-            Field notes on agent-accelerated delivery
-          </h1>
-          <p className="text-white-200 text-lg max-w-xl">
-            How I ship production software with a Claude Code agent fleet — and
-            the senior review layer that catches what the agents miss. From 10+
-            years in production.
-          </p>
+          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4 text-balance">
+          Notes from shipping with Claude Code agents
+        </h1>
+        <p className="text-white-200 text-lg max-w-xl">
+          What my agents get wrong, what review catches, and the numbers from
+          my own logs. I&apos;m a full-stack engineer with 10+ years in
+          production.
+        </p>
         </div>
 
         <BlogListClient

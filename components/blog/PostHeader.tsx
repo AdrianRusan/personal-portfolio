@@ -27,7 +27,7 @@ export default function PostHeader({ frontmatter, readingTime }: PostHeaderProps
         {frontmatter.description}
       </p>
 
-      <div className="flex flex-wrap items-center gap-5 text-sm text-white-200/70 pb-8 border-b border-black-300">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-white-200/70 pb-8 border-b border-black-300">
         <div className="flex items-center gap-2">
           {hasPhoto ? (
             <Image
@@ -38,11 +38,15 @@ export default function PostHeader({ frontmatter, readingTime }: PostHeaderProps
               className="w-8 h-8 rounded-full object-cover border border-purple/30"
             />
           ) : (
-            <div className="w-8 h-8 rounded-full bg-purple/20 border border-purple/30 flex items-center justify-center text-purple font-semibold text-xs">
+            <div
+              aria-hidden="true"
+              className="w-8 h-8 rounded-full bg-black-200 border border-black-300 flex items-center justify-center text-white-100 font-semibold text-xs"
+            >
               AR
             </div>
           )}
-          <span className="text-white-100">Adrian Rusan</span>
+          {/* R3-F35: the avatar names him on phones; keeps the meta row on one line. */}
+          <span className="sr-only sm:not-sr-only text-white-100">Adrian Rusan</span>
         </div>
 
         <span className="flex items-center gap-1.5">

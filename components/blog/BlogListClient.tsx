@@ -6,6 +6,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { BlogPost } from '@/lib/blog-types';
 import PostCard from './PostCard';
 import TagBadge from './TagBadge';
+import { filterTags } from '@/lib/tags';
+
+// R3-F24: a search box only earns its space once there are enough posts.
+const SEARCH_MIN_POSTS = 15;
 
 interface BlogListClientProps {
   posts: BlogPost[];
@@ -26,7 +30,9 @@ export default function BlogListClient({
       const matchesSearch =
         search === '' ||
         post.frontmatter.title.toLowerCase().includes(search.toLowerCase()) ||
-        post.frontmatter.description.toLowerCase().includes(search.toLowerCase());
+        post.frontmatter.description
+          .toLowerCase()
+          .includes(search.toLowerCase());
 
       const matchesTag =
         activeTag === null || post.frontmatter.tags?.includes(activeTag);
@@ -35,39 +41,43 @@ export default function BlogListClient({
     });
   }, [posts, search, activeTag]);
 
+  const tags = filterTags(allTags, initialTag);
+  const showSearch = posts.length >= SEARCH_MIN_POSTS;
+
   const featuredPost = filtered.find((p) => p.frontmatter.featured);
   const regularPosts = filtered.filter((p) => !p.frontmatter.featured);
 
   return (
     <div>
-      {/* Search + Filters */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-8">
-        <div className="relative flex-1">
-          <Search
-            size={16}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-white-200/40"
-          />
-          <input
-            type="text"
-            placeholder="Search posts..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-black-200 border border-black-300 text-white placeholder-white-200/75 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-purple transition-colors"
-          />
-          {search && (
-            <button
-              onClick={() => setSearch('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-white-200/40 hover:text-white-200 transition-colors"
-            >
-              <X size={14} />
-            </button>
-          )}
+      {showSearch && (
+        <div className="flex flex-col sm:flex-row gap-4 mb-8">
+          <div className="relative flex-1">
+            <Search
+              size={16}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-white-200/40"
+            />
+            <input
+              type="text"
+              placeholder="Search posts..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full bg-black-200 border border-black-300 text-white placeholder-white-200/75 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-purple transition-colors"
+            />
+            {search && (
+              <button
+                onClick={() => setSearch('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-white-200/40 hover:text-white-200 transition-colors"
+              >
+                <X size={14} />
+              </button>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Tags */}
-      {allTags.length > 0 && (
-        <div className="flex flex-nowrap sm:flex-wrap gap-2 mb-8 overflow-x-auto pb-1 -mx-5 px-5 sm:mx-0 sm:px-0">
+      {/* Tags. On phones the row scrolls; the right-edge fade says so. */}
+      {tags.length > 0 && (
+        <div className="flex flex-nowrap sm:flex-wrap gap-2 mb-8 overflow-x-auto pb-1 -mx-5 px-5 sm:mx-0 sm:px-0 max-sm:[mask-image:linear-gradient(to_right,black_85%,transparent)]">
           <button
             onClick={() => setActiveTag(null)}
             className={[
@@ -79,7 +89,7 @@ export default function BlogListClient({
           >
             All
           </button>
-          {allTags.map((tag) => (
+          {tags.map((tag) => (
             <button
               key={tag}
               className="shrink-0"
@@ -129,7 +139,7 @@ export default function BlogListClient({
             )}
 
             {regularPosts.length > 0 && (
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-5 md:grid-cols-2">
                 {regularPosts.map((post) => (
                   <motion.div
                     key={post.slug}

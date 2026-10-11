@@ -313,4 +313,4 @@ export const socialMedia = [
 
 // The /blog index description: page meta and its Markdown (#64).
 export const BLOG_DESCRIPTION =
-  "Field notes on shipping production software with a Claude Code agent fleet, and the senior review that catches what the agents miss.";
+  "What my Claude Code agents get wrong, what review catches, and the numbers from my own logs.";
