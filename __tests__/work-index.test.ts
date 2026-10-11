@@ -22,9 +22,11 @@ describe("/work index", () => {
       // Body only (frontmatter dates hold digits), and not part of a longer number.
       const body = fs.readFileSync(file, "utf8").replace(/^---[\s\S]*?---/, "");
       const escaped = figure.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      expect(body).toMatch(
-        new RegExp(`(^|[^\\d,])${escaped}(?![\\d,]\\d)`, "i"),
-      );
+      // A word figure ("Weekly") must appear as a whole word, any case.
+      const pattern = /\d/.test(figure)
+        ? new RegExp(`(^|[^\\d,])${escaped}(?![\\d,]\\d)`)
+        : new RegExp(`\\b${escaped}\\b`, "i");
+      expect(body).toMatch(pattern);
     },
   );
 

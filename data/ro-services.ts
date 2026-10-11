@@ -121,7 +121,7 @@ export const roDeliverySprint: DeliverySprintCopy = {
   eyebrow: "Oferta principală",
   heading: "Sprint de livrare accelerat de agenți",
   intro:
-    "Un set fix de pull request-uri gata de producție, verificate pentru securitate — livrate de o flotă de agenți, verificate linie cu linie de un inginer senior — în 1–2 săptămâni, la un preț stabilit înainte să începem.",
+    "Un set fix de pull request-uri gata de producție, verificate pentru securitate — livrate de o flotă de agenți, verificate linie cu linie de un inginer senior — în săptămâni, nu în luni, la un preț stabilit înainte să începem.",
   deliveredHeading: "Ce primești, exact",
   deliverables: [
     {

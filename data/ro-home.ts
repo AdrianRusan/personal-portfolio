@@ -95,14 +95,14 @@ export const roEmailCapture: EmailCaptureCopy = {
 };
 
 // Keyed by tag so a reordered or added EN step can't pick up the wrong copy.
-const roSteps: Record<string, { tag: string; heading: string; body: string }> = {
+const roSteps: Record<string, { label: string; heading: string; body: string }> = {
   SHIP: {
-    tag: "LIVRARE",
+    label: "LIVRARE",
     heading: "Agenții scriu volumul",
     body: "Flote de agenți Claude Code lucrează în paralel, în git worktrees separate. Fiecare primește un tichet și urmează convențiile din CLAUDE.md-ul tău. De aici vine câștigul de 2–3 ori: throughput-ul unei echipe mici, de la un singur operator și un harness.",
   },
   VERIFY: {
-    tag: "VERIFICARE",
+    label: "VERIFICARE",
     heading: "Un senior verifică fiecare PR",
     body: "Fiecare PR scris de un agent trece printr-un review adversarial, linie cu linie, înainte să ajungă la tine. Întâi securitatea (injection, autentificare, secrete, control al accesului), apoi corectitudinea și scope-ul. Pornesc de la ideea că agentul a greșit până se dovedește contrariul.",
   },

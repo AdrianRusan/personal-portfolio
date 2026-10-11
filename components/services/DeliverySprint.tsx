@@ -43,7 +43,7 @@ const en = {
   eyebrow: "Primary offer",
   heading: "Agent-Accelerated Delivery Sprint",
   intro:
-    "A fixed batch of production-ready, security-reviewed pull requests — shipped by an agent fleet, verified line by line by a senior engineer — delivered in 1–2 weeks, at a price you agree before we start.",
+    "A fixed batch of production-ready, security-reviewed pull requests — shipped by an agent fleet, verified line by line by a senior engineer — delivered in weeks, not months, at a price you agree before we start.",
   deliveredHeading: "Exactly what's delivered",
   deliverables: [
     {

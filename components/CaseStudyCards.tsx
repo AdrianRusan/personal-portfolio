@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getPosts, WORK_DIR } from "@/lib/blog";
 import { byCaseStudyOrder } from "@/data/work";
-import type { PostTitles } from "@/lib/blog-types";
+import type { BlogPost, PostTitles } from "@/lib/blog-types";
 
 // The method-demo post doubles as the benchmark card next to the case studies.
 const BENCHMARK_SLUG = "30-prs-in-2-5-days";
@@ -25,22 +25,22 @@ const CaseStudyCards = async ({ copy = en }: { copy?: CaseStudyCardsCopy }) => {
   if (studies.length === 0) return null;
 
   const benchmark = (await getPosts()).find((p) => p.slug === BENCHMARK_SLUG);
+  const card = (p: BlogPost) => {
+    const { title, description } = { ...p.frontmatter, ...copy.titles[p.slug] };
+    return { title, body: description };
+  };
   const cards = [
     ...studies.map((s) => ({
       href: `/work/${s.slug}`,
       label: copy.study,
-      title: copy.titles[s.slug]?.title ?? s.frontmatter.title,
-      body: copy.titles[s.slug]?.description ?? s.frontmatter.description,
+      ...card(s),
     })),
     ...(benchmark
       ? [
           {
             href: `/blog/${benchmark.slug}`,
             label: copy.benchmark,
-            title: copy.titles[benchmark.slug]?.title ?? benchmark.frontmatter.title,
-            body:
-              copy.titles[benchmark.slug]?.description ??
-              benchmark.frontmatter.description,
+            ...card(benchmark),
           },
         ]
       : []),

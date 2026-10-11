@@ -75,11 +75,14 @@ export const proofStats = [
 export const shipVerify = [
   {
     tag: "SHIP",
+    label: "SHIP",
     heading: "The agents write the volume",
     body: "Fleets of Claude Code agents run in parallel git worktrees, each dispatched a ticket and driven by your CLAUDE.md conventions. This is where the 2-3x comes from: a small team's throughput from one operator and a harness.",
   },
   {
+    // tag is the styling key; label is what the page shows (RO overrides it).
     tag: "VERIFY",
+    label: "VERIFY",
     heading: "A senior human reviews every PR",
     body: "Every agent PR goes through a line-by-line adversarial review before it reaches you. Security first — injection, auth, secrets, access control — then correctness and scope. The assumption is the agent got it wrong until it's proven right.",
   },
@@ -261,7 +264,7 @@ export const testimonials = [
     quote:
       "I am very pleased with Adrian's efforts and progress on my project. I was informed on a daily basis about progress, and Adrian is very keen on delivering quality work. He made sure I was happy with the end result, I definitely recommend contacting Adrian if you are in need of any web related projects!",
     name: "Tim Claes",
-    title: "Freelance mobile & Web engineer",
+    title: "Freelance mobile & web engineer",
     img: "https://utfs.io/a/23x7w9tiht/7iidzn1TwzukCJ59vIyXoxIjwOYaTyPZtGk0mVdeKgr9LH8h",
   },
 ];
