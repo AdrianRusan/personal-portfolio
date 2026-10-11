@@ -11,9 +11,10 @@ import AuthorBox from "@/components/blog/AuthorBox";
 import PostCta from "@/components/blog/PostCta";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 
-// Only the generated slugs exist; also stops [slug] from swallowing the
-// sibling /blog/opengraph-image route at prerender.
-export const dynamicParams = false;
+// #54 R4: a post dated after the build renders on demand once its date passes;
+// until then getPost() throws and the page 404s. Re-rendered hourly.
+export const dynamicParams = true;
+export const revalidate = 3600;
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;

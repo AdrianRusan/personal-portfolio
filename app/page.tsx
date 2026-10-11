@@ -15,6 +15,9 @@ import dynamic from "next/dynamic";
 import type { Metadata } from "next";
 import { ExperienceSkeleton } from "@/components/ui/Skeleton";
 
+// #54 R4: re-render hourly so a dated post appears without a deploy.
+export const revalidate = 3600;
+
 // Only the alternates override the layout; canonical restated since this replaces it.
 export const metadata: Metadata = {
   alternates: {

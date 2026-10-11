@@ -32,6 +32,9 @@ import {
 } from "@/data/ro-home";
 import { roNavItems } from "./nav";
 
+// #54 R4: re-render hourly so a dated post appears without a deploy.
+export const revalidate = 3600;
+
 const title = "Livrare de software cu agenți AI, revizuită de un senior";
 const description =
   "Agenții AI scriu codul, un inginer senior verifică fiecare PR pentru securitate. Sesiuni de strategie, audituri, workshop-uri și sprinturi, cu prețuri în EUR pentru România.";

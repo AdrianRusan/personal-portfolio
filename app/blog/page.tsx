@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { getPosts, getAllTags } from "@/lib/blog";
 import BlogListClient from "@/components/blog/BlogListClient";
 
+// #54 R4: re-render hourly so a dated post appears without a deploy.
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: "Blog",
   description:

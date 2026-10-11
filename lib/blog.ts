@@ -38,6 +38,13 @@ function extractHeadings(content: string): Heading[] {
   return headings;
 }
 
+// #54 R4: a post goes live at 00:00 UTC on its frontmatter date. `now` is read
+// per call, so with `revalidate` on the pages a dated post appears within the
+// revalidate window, without a deploy.
+export function isLive(date: string, now = new Date()): boolean {
+  return new Date(date).getTime() <= now.getTime();
+}
+
 export async function getPosts(dir = BLOG_DIR): Promise<BlogPost[]> {
   if (!fs.existsSync(dir)) return [];
 
@@ -62,6 +69,7 @@ export async function getPosts(dir = BLOG_DIR): Promise<BlogPost[]> {
     })
     .filter((post) => {
       if (!post.frontmatter.published) return false;
+      if (!isLive(post.frontmatter.date)) return false;
       // Honesty gate (case studies only, so a blog post may quote the marker):
       // fail the build rather than publish unfinished copy.
       const { title, description } = post.frontmatter;
@@ -95,8 +103,11 @@ export async function getPost(
 
   const raw = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(raw);
-  // Drafts behave like missing posts everywhere (page, metadata, OG image).
-  if (!data.published) throw new Error(`Post not found: ${slug}`);
+  // Drafts and future-dated posts behave like missing posts everywhere (page,
+  // metadata, OG image).
+  if (!data.published || !isLive(data.date)) {
+    throw new Error(`Post not found: ${slug}`);
+  }
   const rt = readingTime(content);
   const headings = extractHeadings(content);
 
