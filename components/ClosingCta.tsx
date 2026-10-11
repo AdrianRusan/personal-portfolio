@@ -46,7 +46,7 @@ export function ClosingCta({
           >
             {copy.heading}
           </h2>
-          <p className="mt-4 text-white-200 text-pretty">{copy.body}</p>
+          <p className="mt-4 max-w-xl mx-auto text-white-200 text-pretty">{copy.body}</p>
           <div className="mt-8 flex justify-center">
             <MagicButton
               title={copy.button}

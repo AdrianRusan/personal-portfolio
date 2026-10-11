@@ -17,7 +17,7 @@ export function ProsePage({
   children?: ReactNode;
 }) {
   return (
-    <article className="px-5 sm:px-10 pt-36 pb-8">
+    <article className="px-5 sm:px-10 pt-32 sm:pt-40 pb-8">
       <div className="container-prose">
         <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-balance">
           {page.title}
