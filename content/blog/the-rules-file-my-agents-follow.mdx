@@ -20,7 +20,7 @@ The global `CLAUDE.md` is about 940 words. It does three jobs: load the active c
 
 Each client engagement has its own context file that overrides branch naming, commit format, PR body and which actions need my approval. The global rules never name a client. That split matters: an agent working on my own site should not inherit the approval gates of a client's production system, and the reverse is worse.
 
-The repo behind it has 270 commits, 93 of them in the last 90 days, and 19 of those touched `CLAUDE.md` or a rule file. It is code, so it changes like code.
+On 11 October 2026 the repo behind it had 270 commits, 93 of them in the previous 90 days, and 19 of those touched `CLAUDE.md` or a rule file. It is code, so it changes like code.
 
 ## Rule 1: security gates fail closed
 
@@ -94,4 +94,4 @@ The deletions had the same cause. Each rule described *how* to do something: a f
 
 A rules file does not make the model smarter. It removes the five or six defaults that cost you the most review time, and the gates and the review are what make it safe.
 
-If you want this setup in your repo, with the rules, the worktree workflow and the review gates, that is what the [Agent Harness Setup](/services#harness) installs. For how the same rules run across several agents at once, see [how I run Claude Code agents in parallel](/blog/how-i-run-claude-code-agents-in-parallel).
+If you want this setup in your repo, with the rules, the worktree workflow and the review gates, that is what the [Agent Fleet Setup](/services#harness) installs. For how the same rules run across several agents at once, see [how I run Claude Code agents in parallel](/blog/how-i-run-claude-code-agents-in-parallel).
