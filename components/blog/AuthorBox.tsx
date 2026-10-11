@@ -37,8 +37,8 @@ export default function AuthorBox() {
           </Link>
         </p>
         <p className="text-sm text-white-200 leading-relaxed mt-1">
-          Full-stack engineer, 10+ years in production. I ship with a Claude
-          Code agent fleet and review every PR myself before it merges.
+          Full-stack engineer, 10+ years in production. I run several Claude
+          Code agents in parallel and review every PR myself before it merges.
         </p>
         <div className="flex items-center gap-1 mt-1 -ml-3">
           <Link

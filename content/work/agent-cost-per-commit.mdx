@@ -33,7 +33,7 @@ The ledger has two limits I had to respect:
 
 <figure className="my-8">
   <svg viewBox="0 0 360 330" role="img" aria-label="Timeline. July: 35 dollars per commit. Early August: first drop, with no config change to explain it. 10 August: a per-message hook is removed and ten unused skills are parked. 23 August: CLAUDE.md and the rules shrink from 9,976 to 4,106 words. September and October: cost per commit rises again." className="block w-full max-w-md mx-auto">
-    <g fill="none" stroke="#CBACF9" strokeWidth="1.5">
+    <g fill="none" stroke="#A78BFA" strokeWidth="1.5">
       <path d="M40 20 V310" />
       <circle cx="40" cy="40" r="6" />
       <circle cx="40" cy="110" r="6" stroke="#F87171" />
@@ -41,20 +41,20 @@ The ledger has two limits I had to respect:
       <circle cx="40" cy="245" r="6" />
       <circle cx="40" cy="300" r="6" stroke="#F87171" />
     </g>
-    <g fill="currentColor" fontSize="13">
+    <g fill="currentColor" fontSize="14">
       <text x="60" y="36" fontWeight="700">July</text>
-      <text x="60" y="54" fontSize="11">$35 per commit · 144k subagent turns</text>
+      <text x="60" y="54" fontSize="12">$35 per commit · 144k subagent turns</text>
       <text x="60" y="106" fontWeight="700">Early August</text>
-      <text x="60" y="124" fontSize="11">first drop · no config change explains it</text>
+      <text x="60" y="124" fontSize="12">first drop · no config change explains it</text>
       <text x="60" y="176" fontWeight="700">10 Aug</text>
-      <text x="60" y="194" fontSize="11">per-message hook off · 10 unused skills parked</text>
+      <text x="60" y="194" fontSize="12">hook off · 10 unused skills parked</text>
       <text x="60" y="241" fontWeight="700">23 Aug</text>
-      <text x="60" y="259" fontSize="11">CLAUDE.md + rules: 9,976 → 4,106 words</text>
+      <text x="60" y="259" fontSize="12">CLAUDE.md + rules: 9,976 → 4,106 words</text>
       <text x="60" y="296" fontWeight="700">Sep–Oct</text>
-      <text x="60" y="314" fontSize="11">cost per commit climbs back</text>
+      <text x="60" y="314" fontSize="12">cost per commit climbs back</text>
     </g>
   </svg>
-  <figcaption className="text-center text-sm text-black-100/70 dark:text-white-200 mt-3">The two dated changes are commits in my harness config. The red points are not explained by any commit.</figcaption>
+  <figcaption className="text-center text-sm text-white-200 mt-3">The two dated changes are commits in my harness config. The red points are not explained by any commit.</figcaption>
 </figure>
 
 I matched the weekly cost curve against the commit history of my Claude Code config.
@@ -71,20 +71,20 @@ The weekly cost per commit dropped again in the week after the 10 August change 
 
 <figure className="my-8">
   <svg viewBox="0 0 360 236" role="img" aria-label="Line chart of monthly cost per commit. July 35 dollars and August 11 dollars on the old count. September 11.55 dollars and the first ten days of October 33 dollars on the new count, which roughly halves every figure. September is about 23 dollars on the old count." className="block w-full max-w-md mx-auto">
-    <rect x="176" y="16" width="176" height="168" fill="#CBACF9" fillOpacity="0.12" />
+    <rect x="176" y="16" width="176" height="168" fill="#A78BFA" fillOpacity="0.12" />
     <g stroke="currentColor" strokeOpacity="0.25" strokeWidth="1">
       <path d="M44 184 H352" />
       <path d="M44 109 H352" strokeDasharray="3 4" />
       <path d="M44 34 H352" strokeDasharray="3 4" />
     </g>
-    <path d="M70 52.75 L150 142.75 L230 140.7 L310 60.25" fill="none" stroke="#CBACF9" strokeWidth="2.5" />
-    <g fill="#CBACF9">
+    <path d="M70 52.75 L150 142.75 L230 140.7 L310 60.25" fill="none" stroke="#A78BFA" strokeWidth="2.5" />
+    <g fill="#A78BFA">
       <circle cx="70" cy="52.75" r="5" />
       <circle cx="150" cy="142.75" r="5" />
       <circle cx="230" cy="140.7" r="5" />
       <circle cx="310" cy="60.25" r="5" />
     </g>
-    <circle cx="230" cy="97.75" r="5" fill="none" stroke="#CBACF9" strokeWidth="2" strokeDasharray="2 2" />
+    <circle cx="230" cy="97.75" r="5" fill="none" stroke="#A78BFA" strokeWidth="2" strokeDasharray="2 2" />
     <g fill="currentColor" fontSize="13">
       <text x="38" y="188" textAnchor="end">$0</text>
       <text x="38" y="113" textAnchor="end">$20</text>
@@ -101,7 +101,7 @@ The weekly cost per commit dropped again in the week after the 10 August change 
       <text x="264" y="228" textAnchor="middle" fontSize="12">new count from 11 Sep</text>
     </g>
   </svg>
-  <figcaption className="text-center text-sm text-black-100/70 dark:text-white-200 mt-3">Cost per commit by month. The shaded months use the new count, which roughly halves every figure.</figcaption>
+  <figcaption className="text-center text-sm text-white-200 mt-3">Cost per commit by month. The shaded months use the new count, which roughly halves every figure.</figcaption>
 </figure>
 
 July to August, full calendar months, same counting method:
