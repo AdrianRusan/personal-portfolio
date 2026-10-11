@@ -16,12 +16,16 @@ const en = {
 };
 export type ExperienceCopy = typeof en;
 
+// Optional so the clipart can be dropped from data/index.ts without touching this file.
+const thumbnailOf = (card: object) =>
+  (card as { thumbnail?: string }).thumbnail;
+
 const Experience = ({ copy = en }: { copy?: ExperienceCopy }) => {
   return (
     <div className="py-20 w-full">
       <h2 id="experience-heading" className="heading">
         {copy.headingBefore}
-        <span className="text-purple">{copy.headingAccent}</span>
+        {copy.headingAccent}
         {copy.headingAfter}
       </h2>
       <p className="text-center text-white-200 mt-3 max-w-2xl mx-auto">
@@ -32,6 +36,8 @@ const Experience = ({ copy = en }: { copy?: ExperienceCopy }) => {
         {copy.jobs.map((card) => (
           <article key={card.id} aria-labelledby={`job-title-${card.id}`}>
             <Button
+              // A card, not a control: keeps it out of the tab order.
+              as="div"
               duration={Math.floor(Math.random() * 10000) + 10000}
               borderRadius="1.75rem"
               style={{ borderRadius: `calc(1.75rem* 0.96)` }}
@@ -40,9 +46,9 @@ const Experience = ({ copy = en }: { copy?: ExperienceCopy }) => {
               className="flex-1 text-slate-900 dark:text-neutral-50 border-white/10 dark:border-slate-800"
             >
               <div className="flex lg:flex-row flex-col lg:items-center p-3 py-6 md:p-5 lg:p-10 gap-2">
-                {card.thumbnail && (
+                {thumbnailOf(card) && (
                   <Image
-                    src={card.thumbnail}
+                    src={thumbnailOf(card)!}
                     alt={`${card.company} ${copy.companyIcon}`}
                     className="lg:w-32 md:w-20 w-16"
                     width={100}

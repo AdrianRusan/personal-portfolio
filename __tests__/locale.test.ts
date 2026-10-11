@@ -1,4 +1,4 @@
-import { localeOf, switchLocalePath } from "@/lib/locale";
+import { hasTwin, localeOf, switchLocalePath } from "@/lib/locale";
 
 describe("switchLocalePath", () => {
   it.each([
@@ -23,5 +23,16 @@ describe("localeOf", () => {
     ["/services", "en"],
   ])("%s is %s", (path, locale) => {
     expect(localeOf(path)).toBe(locale);
+  });
+});
+
+describe("hasTwin", () => {
+  it.each([
+    ["/", true],
+    ["/ro/servicii", true],
+    ["/blog/what-agents-get-wrong", false],
+    ["/work", false],
+  ])("%s → %s", (path, twin) => {
+    expect(hasTwin(path)).toBe(twin);
   });
 });
