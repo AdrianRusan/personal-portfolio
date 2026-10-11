@@ -24,10 +24,11 @@ describe("workflow numbers", () => {
       prsOpened: 928,
       days: 66,
     });
-    expect(post).toContain("Interactive sessions: 463");
-    expect(post).toContain("Wall-clock active hours: 335");
-    expect(post).toContain("`git commit`: 4,920");
-    expect(post).toContain("`gh pr create`: 928");
+    // R3-F18: the headline numbers are a Metric | Count | Scope table.
+    expect(post).toContain("| Sessions | 463 | interactive, 66 days |");
+    expect(post).toContain("| Wall-clock active hours | 335 | interactive |");
+    expect(post).toContain("| `git commit` | 4,920 | all sessions |");
+    expect(post).toContain("| `gh pr create` | 928 | all sessions |");
   });
 
   it("render the canonical line from the constant", () => {

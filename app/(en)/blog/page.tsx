@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { BLOG_DESCRIPTION } from "@/data";
 import { getPosts, getAllTags } from "@/lib/blog";
 import BlogListClient from "@/components/blog/BlogListClient";
+import { PageShell } from "@/components/PageShell";
 import { JsonLd, itemListJsonLd, pageJsonLd } from "@/lib/page-schema";
 
 // #54 R4: re-render hourly so a dated post appears without a deploy.
@@ -42,35 +43,37 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   const [posts, allTags] = await Promise.all([getPosts(), getAllTags()]);
 
   return (
-    <div className="max-w-5xl mx-auto px-5 sm:px-10 pb-20">
-      <JsonLd
-        data={[
-          pageJsonLd({
-            path: "/blog",
-            name: "Field notes on agent-accelerated delivery",
-            description: BLOG_DESCRIPTION,
-            crumbs: [{ name: "Blog", path: "/blog" }],
-            type: "CollectionPage",
-          }),
-          itemListJsonLd(posts.map((p) => `/blog/${p.slug}`)),
-        ]}
-      />
-      <div className="mb-12">
-        <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-          Field notes on agent-accelerated delivery
+    <PageShell>
+      <div className="max-w-5xl mx-auto px-5 sm:px-10 pt-32 sm:pt-40 pb-20">
+        <JsonLd
+          data={[
+            pageJsonLd({
+              path: "/blog",
+              name: "Notes from shipping with Claude Code agents",
+              description: BLOG_DESCRIPTION,
+              crumbs: [{ name: "Blog", path: "/blog" }],
+              type: "CollectionPage",
+            }),
+            itemListJsonLd(posts.map((p) => `/blog/${p.slug}`)),
+          ]}
+        />
+        <div className="mb-12">
+          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4 text-balance">
+          Notes from shipping with Claude Code agents
         </h1>
         <p className="text-white-200 text-lg max-w-xl">
-          How I ship production software with a Claude Code agent fleet — and
-          the senior review layer that catches what the agents miss. From 10+
-          years in production.
+          What my agents get wrong, what review catches, and the numbers from
+          my own logs. I&apos;m a full-stack engineer with 10+ years in
+          production.
         </p>
-      </div>
+        </div>
 
-      <BlogListClient
-        posts={posts}
-        allTags={allTags}
-        {...(tag ? { initialTag: tag } : {})}
-      />
-    </div>
+        <BlogListClient
+          posts={posts}
+          allTags={allTags}
+          {...(tag ? { initialTag: tag } : {})}
+        />
+      </div>
+    </PageShell>
   );
 }

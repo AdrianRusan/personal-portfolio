@@ -134,11 +134,31 @@ export const mdxComponents: MDXComponents = {
   ),
   code: ({ children, ...props }: ComponentPropsWithoutRef<"code">) => (
     <code
-      className="bg-white/10 text-purple px-1.5 py-0.5 rounded text-sm font-mono"
+      className="bg-purple/10 dark:bg-white/10 text-purple px-1.5 py-0.5 rounded text-sm font-mono"
       {...props}
     >
       {children}
     </code>
+  ),
+  table: ({ children, ...props }: ComponentPropsWithoutRef<"table">) => (
+    <div className="my-6 overflow-x-auto">
+      <table className="w-full text-sm text-white-200" {...props}>
+        {children}
+      </table>
+    </div>
+  ),
+  th: ({ children, ...props }: ComponentPropsWithoutRef<"th">) => (
+    <th
+      className="border-b border-black-300 py-2 pr-4 text-left font-semibold text-white"
+      {...props}
+    >
+      {children}
+    </th>
+  ),
+  td: ({ children, ...props }: ComponentPropsWithoutRef<"td">) => (
+    <td className="border-b border-black-300/60 py-2 pr-4 align-top" {...props}>
+      {children}
+    </td>
   ),
   hr: () => <hr className="my-10 border-black-300" />,
   strong: ({ children, ...props }: ComponentPropsWithoutRef<"strong">) => (

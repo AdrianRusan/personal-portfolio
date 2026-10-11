@@ -8,8 +8,10 @@ import TableOfContents from "@/components/blog/TableOfContents";
 import ShareButtons from "@/components/blog/ShareButtons";
 import AuthorBox from "@/components/blog/AuthorBox";
 import PostCta from "@/components/blog/PostCta";
+import { mdxComponents } from "@/components/blog/PostBody";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import { pageTitle } from "@/lib/blog-types";
+import { PageShell } from "@/components/PageShell";
 import {
   JsonLd,
   SITE_URL,
@@ -20,13 +22,15 @@ import {
 
 // Visible FAQ, from the same frontmatter array as the FAQPage JSON-LD (A1-12).
 function PostFaq({ items }: { items: { q: string; a: string }[] }) {
+  // The prose heading styles (R3-F03), so the FAQ matches the body.
+  const { h2: H2 = "h2", h3: H3 = "h3", p: P = "p" } = mdxComponents;
   return (
-    <section aria-labelledby="faq">
-      <h2 id="faq">FAQ</h2>
+    <section aria-labelledby="faq" className="mt-12">
+      <H2 id="faq">Questions</H2>
       {items.map(({ q, a }) => (
         <div key={q}>
-          <h3>{q}</h3>
-          <p>{a}</p>
+          <H3>{q}</H3>
+          <P>{a}</P>
         </div>
       ))}
     </section>
@@ -101,65 +105,68 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const faq = post.frontmatter.faq ?? [];
   const related = getRelatedPosts(post, await getPosts());
 
+  // R3-F06: the PostCta is the page's one ask; the shell keeps only the checklist.
   return (
-    <div className="max-w-5xl mx-auto px-5 sm:px-10 pb-20">
-      <JsonLd
-        data={[
-          {
-            "@context": "https://schema.org",
-            "@type": "BlogPosting",
-            headline: post.frontmatter.title,
-            description: post.frontmatter.description,
-            url: postUrl,
-            datePublished: post.frontmatter.date,
-            dateModified: post.frontmatter.updated ?? post.frontmatter.date,
-            inLanguage: "en",
-            author: { "@id": `${SITE_URL}/#person` },
-            publisher: { "@id": `${SITE_URL}/#person` },
-            image: ogImageUrl("/(en)/blog/[slug]", { slug }, "cover"),
-            mainEntityOfPage: { "@id": `${postUrl}#webpage` },
-            keywords: post.frontmatter.tags?.join(", "),
-          },
-          pageJsonLd({
-            path: `/blog/${slug}`,
-            name: post.frontmatter.title,
-            description: post.frontmatter.description,
-            crumbs: [
-              { name: "Blog", path: "/blog" },
-              { name: post.frontmatter.title, path: `/blog/${slug}` },
-            ],
-          }),
-          ...(faq.length ? [faqJsonLd(faq)] : []),
-        ]}
-      />
-      <article>
-        <PostHeader
-          frontmatter={post.frontmatter}
-          readingTime={post.readingTime}
+    <PageShell hideFooterCta>
+      <div className="max-w-5xl mx-auto px-5 sm:px-10 pt-32 sm:pt-40 pb-20">
+        <JsonLd
+          data={[
+            {
+              "@context": "https://schema.org",
+              "@type": "BlogPosting",
+              headline: post.frontmatter.title,
+              description: post.frontmatter.description,
+              url: postUrl,
+              datePublished: post.frontmatter.date,
+              dateModified: post.frontmatter.updated ?? post.frontmatter.date,
+              inLanguage: "en",
+              author: { "@id": `${SITE_URL}/#person` },
+              publisher: { "@id": `${SITE_URL}/#person` },
+              image: ogImageUrl("/(en)/blog/[slug]", { slug }, "cover"),
+              mainEntityOfPage: { "@id": `${postUrl}#webpage` },
+              keywords: post.frontmatter.tags?.join(", "),
+            },
+            pageJsonLd({
+              path: `/blog/${slug}`,
+              name: post.frontmatter.title,
+              description: post.frontmatter.description,
+              crumbs: [
+                { name: "Blog", path: "/blog" },
+                { name: post.frontmatter.title, path: `/blog/${slug}` },
+              ],
+            }),
+            ...(faq.length ? [faqJsonLd(faq)] : []),
+          ]}
         />
+        <article>
+          <PostHeader
+            frontmatter={post.frontmatter}
+            readingTime={post.readingTime}
+          />
 
-        <div className="flex gap-12 items-start">
-          <div className="flex-1 min-w-0 blog-prose">
-            <MDXContent source={post.source} />
-            {faq.length > 0 && <PostFaq items={faq} />}
-            <ShareButtons title={post.frontmatter.title} slug={slug} />
-            <AuthorBox />
+          <div className="flex gap-12 items-start">
+            <div className="flex-1 min-w-0 blog-prose">
+              <MDXContent source={post.source} />
+              {faq.length > 0 && <PostFaq items={faq} />}
+              <ShareButtons title={post.frontmatter.title} slug={slug} />
+              <AuthorBox />
 
-            {/* U16: one offer box, no stacked "book a call" lines. */}
-            <div className="mt-10">
-              <PostCta cta={getPostCta(post.frontmatter)} />
+              {/* U16: one offer box, no stacked "book a call" lines. */}
+              <div className="mt-10">
+                <PostCta cta={getPostCta(post.frontmatter)} />
+              </div>
+
+              <RelatedPosts posts={related} />
             </div>
 
-            <RelatedPosts posts={related} />
+            {post.headings.length > 0 && (
+              <div className="hidden lg:block w-56 flex-shrink-0 sticky top-24">
+                <TableOfContents headings={post.headings} />
+              </div>
+            )}
           </div>
-
-          {post.headings.length > 0 && (
-            <div className="hidden lg:block w-56 flex-shrink-0 sticky top-24">
-              <TableOfContents headings={post.headings} />
-            </div>
-          )}
-        </div>
-      </article>
-    </div>
+        </article>
+      </div>
+    </PageShell>
   );
 }

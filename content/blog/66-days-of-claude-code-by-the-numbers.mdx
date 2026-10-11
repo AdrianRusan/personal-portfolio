@@ -1,5 +1,5 @@
 ---
-title: "Claude Code Best Practices, From 66 Days of My Own Logs"
+title: "66 Days of Claude Code, Counted: What My Logs Say About Best Practice"
 seoTitle: "Claude Code Best Practices From 66 Days of Logs"
 date: "2026-10-10"
 updated: "2026-10-11"
@@ -10,7 +10,7 @@ language: "en"
 cta: "harness"
 ---
 
-**Short answer:** Five Claude Code best practices, each backed by a count from 66 days of my own logs: one worktree per agent, commit every working step, review with fresh agents, keep stable context stable, and write the brief rather than the prompt. The count: 463 sessions, 335 hours, 4,920 commits and a median prompt of 10 words.
+**Short answer:** Five Claude Code best practices, each backed by a count from 66 days of my own logs: one worktree per agent, commit every working step, review with fresh agents, keep stable context stable, and put the effort into the brief. The count, interactive sessions only: 463 sessions and 335 hours. Across all sessions, agents made 4,920 commits, and my median prompt was 10 words.
 
 Most advice on Claude Code best practices comes from memory: "I run a few agents, I review everything, it is about twice as fast." I wanted the counted version. So I wrote a streaming script over my own session transcripts and prompt history and let it count. This post is what came out.
 
@@ -28,24 +28,21 @@ The numbers come from my session logs. The script and its raw output stay on my 
 
 ## The headline numbers
 
-**Time and sessions**
-
-1. Interactive sessions: 463
-2. Active days: 53 of 66
-3. Wall-clock active hours: 335
-4. Session-hours, with overlaps counted: 890
-5. Subagent sessions: 3,599
-
-**What the agents ran** (all sessions)
-
-1. Tool calls: 172,480
-2. `git commit`: 4,920 · `gh pr create`: 928 · `git worktree add`: 454
-3. Test runs: 6,981 · typecheck runs: 2,835
-
-**Me**
-
-1. Prompts I typed: 10,511 (on 76 days of the 91-day prompt window)
-2. Usage-limit episodes: 37
+| Metric | Count | Scope |
+| --- | ---: | --- |
+| Sessions | 463 | interactive, 66 days |
+| Active days | 53 of 66 | interactive |
+| Wall-clock active hours | 335 | interactive |
+| Session-hours, overlaps counted | 890 | interactive |
+| Subagent sessions | 3,599 | started by interactive sessions |
+| Tool calls | 172,480 | all sessions |
+| `git commit` | 4,920 | all sessions |
+| `gh pr create` | 928 | all sessions |
+| `git worktree add` | 454 | all sessions |
+| Test runs | 6,981 | all sessions |
+| Typecheck runs | 2,835 | all sessions |
+| Prompts I typed | 10,511 | 91-day prompt window, 76 active days |
+| Usage-limit episodes | 37 | 66 days |
 
 "Active" means a gap of less than 15 minutes between events. A session left open over lunch does not count as working.
 
@@ -59,36 +56,36 @@ The numbers come from my session logs. The script and its raw output stay on my 
 
 Each one is explained below, with the numbers behind it.
 
-## Number 1: 2.7 sessions per hour of my time
+## 2.7 sessions for every hour at the keyboard
 
 The two hour counts are the most useful pair in the table. Summed session by session, my sessions were active for 890 hours. Measured on the wall clock, with overlapping sessions merged, I was working for 335. That is about 2.7 sessions running for every hour I was at the keyboard.
 
 My busiest 10-minute window had 18 interactive sessions active at once. A median active day was about 6 hours on the clock, with 7 or 8 new sessions started.
 
-That ratio is the honest version of "AI makes me faster." It is not 100x. It is close to the [2–3x I wrote about](/blog/2-3x-not-100x) in June, and to what I described in [Claude Code changed how I ship software](/blog/claude-code-changed-how-i-ship-software). Now I have a count behind it. Parallel sessions are where most of it comes from, which is why [one worktree per agent](/blog/how-i-run-claude-code-agents-in-parallel) is the first practice I set up in any repo.
+That ratio is not a speed-up. It says I keep about 2.7 sessions busy for every hour I'm at the keyboard. The speed-up I measured on real merged PRs is the [2–3x from June](/blog/2-3x-not-100x). Running sessions in parallel is where most of that comes from, so [one worktree per agent](/blog/how-i-run-claude-code-agents-in-parallel) is the first thing I set up in any repo.
 
-## Number 2: 4,920 commits, 928 PRs
+## 4,920 commits, 928 PR attempts
 
-Across all sessions, agents ran `git commit` 4,920 times and `git push` 4,158 times. That is the "commit after every working step" rule from my [rules file](/blog/the-rules-file-my-agents-follow) showing up in the data. Small commits are recovery points. When an agent goes wrong, I roll back one step, not an afternoon.
+Across all sessions, agents ran `git commit` 4,920 times and `git push` 4,158 times. That is the "commit after every working step" rule from my [rules file](/blog/the-rules-file-my-agents-follow) showing up in the data. Small commits are recovery points. When an agent goes wrong, I roll back one step.
 
-`gh pr create` ran 928 times. Not every call produced a PR that merged, and some were retries, so treat it as an upper bound on PRs opened. It still means a reviewable unit of work every few sessions, not one giant branch at the end.
+`gh pr create` ran 928 times. Not every call produced a PR that merged, and some were retries, so treat it as an upper bound on PRs opened. It still means a reviewable unit of work every few sessions.
 
 Testing kept pace: 6,981 test runs and 2,835 typecheck runs. That is about 1.4 test runs per commit. The agents check their work more often than they save it.
 
-## Number 3: one subagent in five is a reviewer
+## One subagent in five is a reviewer
 
 My sessions spawned 1,119 subagents through the Agent tool. The breakdown:
 
-1. General-purpose: 615
-2. Read-only search (Explore): 132
-3. Reviewers: 252, split across three roles (correctness, security, completeness)
-4. Other roles, or no type given: 120
+- General-purpose: 615
+- Read-only search (Explore): 132
+- Reviewers: 252, split across three roles (correctness, security, completeness)
+- Other roles, or no type given: 120
 
 So 22.5% of all spawned subagents had one job: review another agent's work. That is the practice I would defend hardest. An agent that wrote the code is a poor judge of it, and a fresh agent with a narrow brief catches what the author missed. The reviewers do not replace my review. They mean that by the time a PR reaches me, the obvious problems are gone.
 
 The 3,599 subagent sessions in the table are counted from transcript files, a different source from these 1,119 Agent calls, so the two numbers do not match.
 
-## Number 4: the cache does the heavy lifting
+## 97.7% of tokens were cache reads
 
 Token counts, deduplicated per request:
 
@@ -103,7 +100,7 @@ The lesson for cost is structural. Stable context at the start of a session (rul
 
 On models: 90% of assistant messages came from the top-tier Opus models, 7% from Sonnet and the rest from smaller or newer models. I use the cheaper tiers for read-only exploration and keep the strongest one for writing and review.
 
-## Number 5: 37 usage-limit hits
+## 37 times I hit the usage limit
 
 The script found 37 distinct episodes where a session hit a usage limit, counted once per day and reset message. With 18 sessions running at peak, that is not surprising. It is also the main practical limit on parallel agents: you run out of plan before you run out of ideas. My fix is to keep the orchestrating session lean and let the executors spend the tokens.
 
@@ -113,10 +110,8 @@ I typed 10,511 prompts in 91 days, on 76 of which I typed at least one. The medi
 
 I assumed I wrote long, careful prompts. I do not. The long text lives in briefs, rules files and skills, written once and loaded every time. The prompt itself is usually "continue", a slash command or a one-line correction. (Pasted text shows up in my history as a short placeholder, so long pastes are undercounted. The median holds anyway.)
 
-That is the real best practice the numbers point to. Put the effort into files the agent rereads, not into the message you type.
+That is the practice the numbers point to: put the effort into files the agent rereads.
 
 ## What the numbers do not show
 
-Counts are not quality. 4,920 commits say nothing about whether the code was good. What makes the volume safe is the part a script cannot count well: the gates each PR clears before I see it, and the review I do after. The [honesty gate](/work/honesty-gate) is one of those gates, written up.
-
-If you want this measured on your own team's setup, or want the harness installed in your repo, the [Agent Fleet Setup](/services#harness) does both in a week.
+4,920 commits say nothing about whether the code was good. What makes the volume safe is the part a script cannot count well: the gates each PR clears before I see it, and the review I do after. The [honesty gate](/work/honesty-gate) is one of those gates, written up.

@@ -94,7 +94,7 @@ ${studies.map((s) => link(s.frontmatter.title, `/work/${s.slug}`, s.frontmatter.
 
 ## Posts
 
-${link("Blog", "/blog", "Field notes on shipping production software with Claude Code agents and senior review.")}
+${link("Blog", "/blog", "What my Claude Code agents get wrong, what review catches, and the numbers from my own logs.")}
 ${posts.map((p) => link(p.frontmatter.title, `/blog/${p.slug}`, p.frontmatter.description)).join("\n")}
 
 ## Start here

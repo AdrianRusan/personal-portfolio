@@ -13,7 +13,8 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <PageShell>
+    // R3-F27: no sales block under a legal page; the checklist stays.
+    <PageShell hideFooterCta>
       <ProsePage page={privacyPage} />
     </PageShell>
   );

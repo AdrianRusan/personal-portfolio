@@ -26,5 +26,5 @@ export const postMarkdown = (
     `Published ${f.date}${f.updated ? ` · updated ${f.updated}` : ""} · ${readingTime} · ${url}`,
     mdxToMarkdown(source),
     !!f.faq?.length &&
-      blocks("## FAQ", ...f.faq.map(({ q, a }) => `### ${q}\n\n${a}`)),
+      blocks("## Questions", ...f.faq.map(({ q, a }) => `### ${q}\n\n${a}`)),
   );

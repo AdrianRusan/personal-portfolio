@@ -38,7 +38,7 @@ export default async function WorkIndexPage() {
 
   return (
     <PageShell>
-      <div className="max-w-5xl mx-auto px-5 sm:px-10 pt-32 sm:pt-36 pb-20">
+      <div className="max-w-5xl mx-auto px-5 sm:px-10 pt-32 sm:pt-40 pb-20">
         <JsonLd
           data={[
             pageJsonLd({
@@ -72,7 +72,7 @@ export default async function WorkIndexPage() {
                       <p className="text-3xl font-bold tracking-tight text-purple">
                         {result.figure}
                       </p>
-                      <p className="font-mono text-[11px] leading-relaxed text-white-200 mt-2">
+                      <p className="text-[13px] leading-relaxed text-white-200 mt-2">
                         {result.label}
                       </p>
                     </div>
@@ -81,6 +81,11 @@ export default async function WorkIndexPage() {
                     <h2 className="text-lg md:text-xl font-semibold text-balance text-white">
                       {study.frontmatter.title}
                     </h2>
+                    {study.frontmatter.meta && (
+                      <p className="text-[13px] text-white-200/80 mt-2">
+                        {study.frontmatter.meta}
+                      </p>
+                    )}
                     <p className="text-sm text-white-200 mt-3 leading-relaxed flex-1">
                       {study.frontmatter.description}
                     </p>

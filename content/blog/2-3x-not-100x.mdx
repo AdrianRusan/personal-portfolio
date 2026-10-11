@@ -1,5 +1,5 @@
 ---
-title: "2–3x, Not 100x: The Honest Number for AI Coding Speed"
+title: "2–3x, Not 100x: The AI Coding Speed-Up That Survives Review"
 date: "2026-06-24"
 updated: "2026-10-11"
 tags: ["ai", "developer-productivity", "claude-code", "software-engineering"]
@@ -9,7 +9,7 @@ language: "en"
 cta: "teardown"
 faq:
   - q: "Is AI coding really 10x faster?"
-    a: "For raw code generation, sometimes more: an agent drafts a PR far faster than a human types one. For production delivery, including reading, reviewing, fixing and safely merging the code, the honest sustained figure is 2–3x. A 10x-or-higher delivery claim almost always means the review step was skipped."
+    a: "For raw code generation, sometimes more: an agent drafts a PR far faster than a human types one. For production delivery, including reading, reviewing, fixing and safely merging the code, the sustained figure is 2–3x. A 10x-or-higher delivery claim almost always means the review step was skipped."
   - q: "What's a realistic AI coding speedup?"
     a: "Around 2–3x for reviewed, production-grade delivery against an existing codebase with scoped work. I merged 30 reviewed PRs across 9 parallel agent batches in under three days, against my estimate of about a week solo. Expect less during the first weeks, while you build the harness and learn the failure patterns."
   - q: "Why do people claim 100x if it's really 2–3x?"
@@ -22,7 +22,7 @@ faq:
 
 I keep seeing the same claim: AI made someone 10x faster. 30x. One post said 100x. Every time, I want to ask one question: *did anyone review the code?*
 
-I run coding agents in production every week. Fleets of them, in parallel git worktrees, dispatched by a CLAUDE.md contract. I have shipped a lot of software this way, fast. The number I would put in a contract and stake my name on is **2–3x**. The agents aren't slow. Shipping takes more than generating, and the hype skips the difference.
+I run coding agents in production every week, several at a time, in parallel git worktrees, dispatched by a CLAUDE.md contract. I have shipped a lot of software this way, fast. The number I would put in a contract and stake my name on is **2–3x**. The agents aren't slow. Shipping takes more than generating, and the hype skips the difference.
 
 This is the number, how I got it, and what it deliberately leaves out.
 
@@ -74,17 +74,17 @@ This was backlog and feature work against a real, existing system with real cons
 
 Getting to a reliable 2–3x took building the harness: the CLAUDE.md dispatch, the hooks, the review discipline. Your first week running agents will not be 2–3x. It'll be slower than doing it yourself while you learn what they get wrong. The number is what the practice produces once it's built, not what you get on day one.
 
-## Why is the honest number the only one you can plan against?
+## Why is 2–3x the only number you can plan against?
 
 **You can build a roadmap on 2–3x.** If I tell a VP of Engineering that a week of backlog compresses to a couple of focused days, that's a commitment we can both hold. If I told them 100x, I'd be setting a date I'd miss and eroding the one thing this work runs on: trust that the number is real.
 
-**2–3x survives the review gate; 100x doesn't.** The bigger claims only exist in a world with no review step. Add the senior human who's accountable for what merges, the entire point of the service, and the multiplier settles into the honest range. A number that only holds if you delete the safety step is a liability.
+**2–3x survives the review gate; 100x doesn't.** The bigger claims only exist in a world with no review step. Add the senior human who's accountable for what merges, the entire point of the service, and the multiplier settles at 2–3x. A number that only holds if you delete the safety step is a liability.
 
 Here's the comparison I'd put in front of a buyer, by what's being measured:
 
 - **Raw code generation** (agent vs. hand-typing): *10–100x*. Costs you nothing, until it reaches prod unreviewed.
 - **"Vibe-coded," shipped without a review gate**: *"10x," unaccountable*. Costs you the breach nobody caught.
-- **Reviewed, merged, production delivery (what I sell)**: ***2–3x, sustained***. Costs you review time, counted honestly.
+- **Reviewed, merged, production delivery (what I sell)**: ***2–3x, sustained***. Costs you review time, and I count it.
 - **One senior engineer, no agents (the old baseline)**: *1x*. Costs you the week you no longer have.
 
 The 2–3x row is the only one where the number and the safety hold at the same time, which makes it the only claim you can merge.

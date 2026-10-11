@@ -58,4 +58,17 @@ describe("30-PR run claims", () => {
     const clean = [...PENDING_W1].filter((f) => violations(f).length === 0);
     expect(clean).toEqual([]);
   });
+
+  // A5 (taco-console cf68b1a, d718495): the real filter was an allowlist that
+  // stripped `$`, quotes and backticks. The post rates Vuln 2 "not directly
+  // exploitable", so its code must show that allowlist, never a blocklist
+  // that leaves `$(` in place.
+  it("shows the agent's real Vuln 2 filter", () => {
+    const post = fs.readFileSync(
+      "content/blog/catching-shell-injection-agents-wrote.mdx",
+      "utf8",
+    );
+    expect(post).toContain("/[^a-zA-Z0-9\\s._-]/g");
+    expect(post).not.toMatch(/replace\(\/\[;&\|`\]/);
+  });
 });

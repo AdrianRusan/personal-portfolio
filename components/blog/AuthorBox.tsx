@@ -25,7 +25,7 @@ export default function AuthorBox() {
       ) : (
         <div
           aria-hidden="true"
-          className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-purple/40 bg-purple/15 text-lg font-bold tracking-tight text-purple"
+          className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-black-300 bg-black-200 text-lg font-semibold tracking-tight text-white-100"
         >
           AR
         </div>
@@ -37,8 +37,8 @@ export default function AuthorBox() {
           </Link>
         </p>
         <p className="text-sm text-white-200 leading-relaxed mt-1">
-          Full-stack engineer, 10+ years in production. I ship with a Claude
-          Code agent fleet and review every PR myself before it merges.
+          Full-stack engineer, 10+ years in production. I run several Claude
+          Code agents in parallel and review every PR myself before it merges.
         </p>
         <div className="flex items-center gap-1 mt-1 -ml-3">
           <Link

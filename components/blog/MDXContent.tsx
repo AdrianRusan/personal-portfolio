@@ -2,12 +2,19 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import remarkGfm from "remark-gfm";
 import type { ComponentPropsWithoutRef } from "react";
 import { getPosts } from "@/lib/blog";
 import { MDXLink, mdxComponents } from "./PostBody";
 
 type MDXRemoteOptions = NonNullable<Parameters<typeof MDXRemote>[0]["options"]>;
 type MDXOptions = NonNullable<MDXRemoteOptions["mdxOptions"]>;
+
+// GFM for tables (the 66-days headline numbers, R3-F18).
+// singleTilde off so a lone ~ ("~3x") never strikes text through.
+const remarkPlugins: MDXOptions["remarkPlugins"] = [
+  [remarkGfm, { singleTilde: false }],
+];
 
 const rehypePlugins: MDXOptions["rehypePlugins"] = [
   rehypeSlug,
@@ -26,7 +33,10 @@ const rehypePlugins: MDXOptions["rehypePlugins"] = [
       content: { type: "text", value: "#" },
     },
   ],
-  [rehypePrettyCode, { theme: "github-dark-high-contrast", keepBackground: true }],
+  [
+    rehypePrettyCode,
+    { theme: "github-dark-high-contrast", keepBackground: true },
+  ],
 ];
 
 interface MDXContentProps {
@@ -52,7 +62,7 @@ export default async function MDXContent({ source }: MDXContentProps) {
     <MDXRemote
       source={source}
       components={components}
-      options={{ mdxOptions: { rehypePlugins } }}
+      options={{ mdxOptions: { remarkPlugins, rehypePlugins } }}
     />
   );
 }
