@@ -331,13 +331,14 @@ export const roCallFaq = {
 };
 
 export const roFooter: FooterCopy = {
-  headingBefore: "Nu știi ce ",
-  headingAccent: "nivel",
-  headingAfter: " ți se potrivește? Programează o discuție de 30 de minute.",
+  heading: "Vrei asta pe codul tău? Programează o discuție de 30 de minute.",
   body: "Spune-mi ce vrei să construiești sau să livrezi. Pleci știind ce ofertă ți se potrivește, ce acoperă și cât costă. Fără nicio obligație.",
   button: "Programează o discuție",
   emailAria: "Trimite un email lui Adrian Rusan",
   email: "sau scrie-mi un email",
+  teardown: "Sau trimite-mi un repo pentru un teardown gratuit de 15 minute (în engleză) →",
+  privacy: "Confidențialitate",
+  rss: "RSS",
   socialAria: "Rețele sociale",
   socialLabels: {
     1: "Adrian Rusan pe GitHub",
