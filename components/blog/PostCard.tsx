@@ -53,7 +53,7 @@ export default function PostCard({
           </p>
 
           <div className="flex flex-wrap gap-1.5 mt-auto pt-2">
-            {frontmatter.tags?.slice(0, 4).map((tag) => (
+            {frontmatter.tags?.slice(0, 2).map((tag) => (
               <TagBadge key={tag} tag={tag} />
             ))}
           </div>

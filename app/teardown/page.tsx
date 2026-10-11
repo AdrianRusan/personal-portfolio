@@ -44,7 +44,7 @@ const steps = [
 
 export default function TeardownPage() {
   return (
-    <PageShell navItems={teardownNavItems}>
+    <PageShell navItems={teardownNavItems} hideEmailCapture hideFooterCta>
 
       <section className="px-5 sm:px-10 pt-28 sm:pt-32 pb-16">
         <div className="max-w-5xl mx-auto text-center">

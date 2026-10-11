@@ -6,18 +6,23 @@ type NavItems = ComponentProps<typeof FloatingNav>["navItems"];
 
 // overflow-x-clip (not hidden) so sticky children, like the blog TOC, still stick.
 // The homepage shell (background, floating nav, footer) shared by every other page.
+// Nav and footer sit outside <main> so they are exposed as their own landmarks.
 export function PageShell({
   navItems,
   children,
+  hideEmailCapture = false,
+  hideFooterCta = false,
 }: {
   navItems: NavItems;
   children: ReactNode;
+  hideEmailCapture?: boolean;
+  hideFooterCta?: boolean;
 }) {
   return (
-    <main className="relative dark:bg-black-100 bg-white overflow-x-clip">
+    <div className="relative dark:bg-black-100 bg-white overflow-x-clip">
       <FloatingNav navItems={navItems} />
-      {children}
-      <Footer />
-    </main>
+      <main id="main">{children}</main>
+      <Footer hideCta={hideFooterCta} hideEmailCapture={hideEmailCapture} />
+    </div>
   );
 }

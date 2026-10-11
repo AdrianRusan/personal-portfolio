@@ -6,7 +6,7 @@ import { FaGithub, FaLinkedin } from "react-icons/fa6";
 
 // Real photo once Adi adds public/adrian.jpg; initials until then (checked at
 // build time, so no broken image ever ships).
-const hasPhoto = fs.existsSync(path.join(process.cwd(), "public/adrian.jpg"));
+export const hasPhoto = fs.existsSync(path.join(process.cwd(), "public/adrian.jpg"));
 
 export default function AuthorBox() {
   return (
@@ -40,13 +40,13 @@ export default function AuthorBox() {
           Full-stack engineer, 10+ years in production. I ship with a Claude
           Code agent fleet and review every PR myself before it merges.
         </p>
-        <div className="flex items-center gap-4 mt-2">
+        <div className="flex items-center gap-1 mt-1 -ml-3">
           <Link
             href="https://github.com/AdrianRusan"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Adrian Rusan on GitHub"
-            className="text-white-200 hover:text-purple transition-colors"
+            className="inline-flex h-11 w-11 items-center justify-center text-white-200 hover:text-purple transition-colors"
           >
             <FaGithub size={18} />
           </Link>
@@ -55,7 +55,7 @@ export default function AuthorBox() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Adrian Rusan on LinkedIn"
-            className="text-white-200 hover:text-purple transition-colors"
+            className="inline-flex h-11 w-11 items-center justify-center text-white-200 hover:text-purple transition-colors"
           >
             <FaLinkedin size={18} />
           </Link>

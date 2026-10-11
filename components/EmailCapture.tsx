@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useId, useState, type FormEvent } from "react";
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
@@ -15,6 +16,8 @@ const en = {
   sending: "Sending…",
   submit: "Get the checklist",
   error: "Something went wrong. Please try again in a moment.",
+  invalid: "Please provide a valid email address.",
+  privacy: "How I handle your data",
 };
 export type EmailCaptureCopy = typeof en;
 
@@ -30,7 +33,6 @@ const EmailCapture = ({
   // Two captures can share a page (inline + footer), so ids must be unique.
   const inputId = useId();
   const errorId = useId();
-  const Heading = variant === "footer" ? "h3" : "h2";
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -39,6 +41,16 @@ const EmailCapture = ({
     event.preventDefault();
 
     if (status === "loading") return;
+
+    // noValidate keeps the browser bubble away; check here so a typo gets the
+    // real reason, not the generic retry line.
+    const input = event.currentTarget.elements.namedItem("email");
+    if (input instanceof HTMLInputElement && !input.checkValidity()) {
+      setStatus("error");
+      setErrorMessage(copy.invalid);
+      input.focus();
+      return;
+    }
 
     setStatus("loading");
     setErrorMessage("");
@@ -51,7 +63,18 @@ const EmailCapture = ({
       });
 
       if (!response.ok) {
-        throw new Error("Subscription request failed");
+        // The API's only "Please …" 400 is the email check (app/api/subscribe).
+        const data =
+          response.status === 400
+            ? await response.json().catch(() => null)
+            : null;
+        setStatus("error");
+        setErrorMessage(
+          typeof data?.error === "string" && data.error.startsWith("Please ")
+            ? copy.invalid
+            : copy.error,
+        );
+        return;
       }
 
       track("email_submit", { variant });
@@ -71,9 +94,9 @@ const EmailCapture = ({
         className,
       )}
     >
-      <Heading className="text-lg font-semibold tracking-tight">
+      <p className="text-lg font-semibold tracking-tight text-white">
         {copy.heading}
-      </Heading>
+      </p>
       <p className="text-sm text-white-200 leading-relaxed mt-2">{copy.body}</p>
 
       {status === "success" ? (
@@ -104,6 +127,7 @@ const EmailCapture = ({
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               disabled={status === "loading"}
+              aria-invalid={errorMessage === copy.invalid ? true : undefined}
               aria-describedby={
                 status === "error" ? errorId : undefined
               }
@@ -113,7 +137,7 @@ const EmailCapture = ({
           <button
             type="submit"
             disabled={status === "loading"}
-            className="h-11 shrink-0 rounded-lg bg-purple px-5 text-sm font-medium text-black-100 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:ring-offset-2 focus-visible:ring-offset-black-100 disabled:opacity-50"
+            className="h-11 shrink-0 rounded-lg border border-purple px-5 text-sm font-semibold text-purple transition-colors hover:bg-purple/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:ring-offset-2 focus-visible:ring-offset-black-100 disabled:opacity-50"
           >
             {status === "loading" ? copy.sending : copy.submit}
           </button>
@@ -129,6 +153,15 @@ const EmailCapture = ({
           {errorMessage}
         </p>
       )}
+
+      <p className="text-xs text-white-200/75 mt-3">
+        <Link
+          href="/privacy"
+          className="underline underline-offset-2 hover:text-white-200"
+        >
+          {copy.privacy}
+        </Link>
+      </p>
     </div>
   );
 };
