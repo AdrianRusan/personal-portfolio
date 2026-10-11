@@ -1,7 +1,4 @@
-import MagicButton from "@/components/ui/MagicButton";
 import { CalendlyLink } from "@/components/CalendlyLink";
-import { CALENDLY_URL } from "@/data";
-import { FaLocationArrow } from "react-icons/fa6";
 import { Fold } from "./Fold";
 
 const en = {
@@ -51,7 +48,7 @@ export type RetainerCopy = typeof en;
 
 export const Retainer = ({ copy = en }: { copy?: RetainerCopy }) => {
   return (
-    <section id="retainer" className="px-5 sm:px-10 py-20 scroll-mt-24">
+    <section id="retainer" className="px-5 sm:px-10 py-12 md:py-20 scroll-mt-24">
       <div className="max-w-6xl mx-auto rounded-2xl border border-white/10 bg-black-200/40 p-6 md:p-10">
         <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100">
           {copy.eyebrow}
@@ -144,18 +141,6 @@ export const Retainer = ({ copy = en }: { copy?: RetainerCopy }) => {
           </ul>
         </Fold>
 
-        <div className="mt-8">
-          <MagicButton
-            title={copy.cta}
-            icon={<FaLocationArrow />}
-            position="right"
-            href={CALENDLY_URL}
-            trackEvent={{
-              event: "calendly_click",
-              props: { source: "retainer_bottom" },
-            }}
-          />
-        </div>
       </div>
     </section>
   );

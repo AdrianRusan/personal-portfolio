@@ -14,7 +14,7 @@ export type ScarcityCopy = typeof en;
 
 export const Scarcity = ({ copy = en }: { copy?: ScarcityCopy }) => {
   return (
-    <section className="px-5 sm:px-10 py-20">
+    <section className="px-5 sm:px-10 py-12 md:py-20">
       <div className="max-w-5xl mx-auto">
         <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-balance">
           {copy.heading}

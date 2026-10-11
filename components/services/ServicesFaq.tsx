@@ -10,16 +10,16 @@ export type ServicesFaqCopy = typeof servicesFaqCopy;
 // server-rendered and keyboard-accessible with no client JS.
 export const ServicesFaq = ({ copy = servicesFaqCopy }: { copy?: ServicesFaqCopy }) => {
   return (
-    <section id="faq" className="px-5 sm:px-10 py-20 scroll-mt-24">
+    <section id="faq" className="px-5 sm:px-10 py-12 md:py-20 scroll-mt-24">
       <div className="max-w-5xl mx-auto">
         <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-balance">
           {copy.heading}
         </h2>
-        <div className="flex flex-col gap-4 mt-10">
+        <div className="flex flex-col gap-3 md:gap-4 mt-8 md:mt-10">
           {copy.items.map((item) => (
             <details
               key={item.question}
-              className="group rounded-xl border border-white/10 bg-black-200/30 p-6"
+              className="group rounded-xl border border-white/10 bg-black-200/30 p-4 md:p-6"
             >
               <summary className="flex cursor-pointer list-none items-start justify-between gap-4 text-base font-semibold text-white [&::-webkit-details-marker]:hidden">
                 {item.question}

@@ -43,7 +43,7 @@ export type HarnessSetupCopy = typeof en;
 
 export const HarnessSetup = ({ copy = en }: { copy?: HarnessSetupCopy }) => {
   return (
-    <section id="harness" className="px-5 sm:px-10 py-20 scroll-mt-24">
+    <section id="harness" className="px-5 sm:px-10 py-12 md:py-20 scroll-mt-24">
       <div className="max-w-6xl mx-auto rounded-2xl border border-white/10 bg-black-200/40 p-6 md:p-10">
         <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100">
           {copy.eyebrow}
