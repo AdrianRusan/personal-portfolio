@@ -12,5 +12,5 @@ if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
   });
 }
 
-// Export router transition start function for navigation instrumentation
+// A no-op without tracing, but the Sentry build warns ("ACTION REQUIRED") if it's missing.
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;

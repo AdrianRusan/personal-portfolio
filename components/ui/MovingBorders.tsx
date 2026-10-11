@@ -108,6 +108,9 @@ export const MovingBorder = ({
 
   const transform = useMotionTemplate`translateX(${x}px) translateY(${y}px) translateX(-50%) translateY(-50%)`;
 
+  // A frozen glow reads as a rendering artifact; drop it under reduced motion.
+  if (reduce) return null;
+
   return (
     <>
       <svg
