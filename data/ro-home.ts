@@ -1,6 +1,4 @@
 import type { BioCopy } from "@/components/Bio";
-import type { CallStepsCopy } from "@/components/CallSteps";
-import type { CaseStudyCopy } from "@/components/CaseStudy";
 import type { CaseStudyCardsCopy } from "@/components/CaseStudyCards";
 import type { EmailCaptureCopy } from "@/components/EmailCapture";
 import type { ExperienceCopy } from "@/components/Experience";
@@ -11,7 +9,6 @@ import type { LatestCopy } from "@/components/Latest";
 import type { OffersCopy } from "@/components/Offers";
 import type { ProofBandCopy } from "@/components/ProofBand";
 import type { ShipVerifyCopy } from "@/components/ShipVerify";
-import type { StartBandCopy } from "@/components/StartBand";
 import type { TestimonialsCopy } from "@/components/Testimonials";
 import type { WhoForCopy } from "@/components/WhoFor";
 import {
@@ -149,16 +146,6 @@ export const roOffers: OffersCopy = {
     "Stratul de verificare e un singur om senior și nu se poate paraleliza, așa că rulează doar câteva proiecte în același timp.",
 };
 
-export const roCaseStudy: CaseStudyCopy = {
-  eyebrow: "Demonstrație de metodă: propriul meu repo",
-  heading:
-    "30 de PR-uri revizuite în 2,5 zile și cele 3 vulnerabilități care aproape au ajuns în producție.",
-  body: "N-a fost un proiect pentru un client, ci propriul meu dashboard de administrare, rulat cap-coadă ca să pun metoda la încercare. Nouă loturi de agenți au trecut un backlog real prin harness, în paralel. Agenții au produs 30 de PR-uri. Testele au trecut. Review-ul adversarial a prins totuși 3 vulnerabilități de shell injection înainte de orice merge. Așa arată, cinstit, câștigul de 2–3 ori, inclusiv ce au greșit agenții.",
-  read: "Citește anatomia celor nouă loturi de agenți (în engleză) →",
-  call: "Programează o discuție",
-  guarantee: RO_GUARANTEE,
-};
-
 export const roCaseStudyCards: CaseStudyCardsCopy = {
   study: "Studiu de caz",
   benchmark: "Benchmark · propriul meu repo",
@@ -166,27 +153,6 @@ export const roCaseStudyCards: CaseStudyCardsCopy = {
   heading: "Dovezi din rulări documentate",
   read: "Citește →",
   all: "Toate studiile de caz →",
-};
-
-export const roStartBand: StartBandCopy = {
-  ariaLabel: "Cum începem",
-  heading:
-    "Livrează roadmap-ul pentru care nu poți angaja, verificat înainte să ajungă la tine.",
-  intro:
-    "Două moduri de a începe, amândouă fără obligații. Vezi întâi cum arată munca pe codul tău sau stabilește direct scope-ul unui sprint.",
-  freeEyebrow: "Gratuit · fără apel",
-  freeHeading: "Teardown gratuit al codului",
-  freeBody:
-    "Trimite-mi un repo sau un PR recent. Primești un Loom de 15 minute cu bugurile de securitate scrise de uneltele tale de AI, care trec testele și ajung oricum în merge. Fără discurs de vânzare.",
-  freeButton: "Vreau teardown-ul gratuit",
-  callEyebrow: "Gata de scope",
-  callHeading: "Programează o discuție",
-  callBody:
-    "Știi deja că vrei backlog-ul livrat așa? Rezervă 30 de minute și stabilim scope-ul și prețul înainte să înceapă ceva.",
-  callLink: "Programează",
-  betweenBefore: "Undeva la mijloc?",
-  betweenLink: `Începe cu un singur PR revizuit: 550 €, ~48 h. Rezervă un sprint în ${CREDIT_DAYS} de zile și se scade din preț →`,
-  betweenHref: "/ro/servicii#entry-offer",
 };
 
 export const roWhoFor: WhoForCopy = {
@@ -246,8 +212,7 @@ export const roExperience: ExperienceCopy = {
 };
 
 export const roTestimonials: TestimonialsCopy = {
-  headingBefore: "Ce spune un client despre",
-  headingAccent: "colaborarea cu mine",
+  label: "Ce spune un client",
   note: "Dintr-un proiect de dezvoltare web full-stack, dinainte de pipeline-ul cu agenți (citat original, în engleză). Dovezile pipeline-ului sunt în studiile de caz de mai sus. Pentru o dovadă pe codul tău chiar azi,",
   noteLink: "cere un teardown gratuit",
 };
@@ -269,32 +234,27 @@ export const roFinalCta: FinalCtaCopy = {
     "Adu-mi un backlog. Îl livrez în ritmul agenților și verific fiecare PR pentru securitate înainte să ajungă la tine.",
   body: "Tu prioritizezi și dai merge. Eu răspund pentru ce ajunge în cod.",
   button: "Programează o discuție",
+  betweenBefore: "Undeva la mijloc?",
+  betweenLink: `Începe cu un singur PR revizuit: 550 €, ~48 h. Rezervă un sprint în ${CREDIT_DAYS} de zile și se scade din preț →`,
+  betweenHref: "/ro/servicii#entry-offer",
   capacity:
-    "Stratul de verificare e un singur om senior și nu se poate paraleliza, așa că rulează doar câteva sprinturi în același timp. Când locurile sunt ocupate, proiectele noi intră pe o listă de așteptare, cu dată.",
+    "Stratul de review e un singur om senior, așa că rulez un singur sprint sau retainer odată.",
 };
 
-const roStrategyCall = roLadder.find((o) => o.id === "strategy-call")!;
-
-export const roCallSteps: CallStepsCopy = {
-  eyebrow: "Ce se întâmplă după ce rezervi",
-  heading: "Cum decurge o discuție",
+// The call steps, folded into the homepage FAQ as one answer (#54 R3).
+export const roCallFaq = {
+  question: "Ce se întâmplă după ce programezi o discuție?",
   steps: [
     {
-      heading: "Alegi un interval de 30 de minute",
       body: "Rezervi pe Calendly și scrii un rând despre ce vrei să construiești sau să livrezi. Fără prezentări, fără pregătire.",
     },
     {
-      heading: "Ne uităm la munca reală",
-      body: "Backlog-ul tău, repo-ul tău sau întrebarea ta despre AI. Îți spun ce nivel se potrivește și cât costă, sau că nu e potrivit.",
+      body: "Ne uităm la backlog-ul tău, la repo-ul tău sau la întrebarea ta despre AI. Îți spun ce nivel se potrivește și cât costă, sau că nu e potrivit.",
     },
     {
-      heading: "Primești totul în scris",
-      body: "În cel mult o zi lucrătoare: scope-ul, prețul fix și data de start, pe email. Tu decizi. Nu te sună nimeni să insiste.",
+      body: "În cel mult o zi lucrătoare primești pe email scope-ul, prețul fix și data de start. Tu decizi. Nu te sună nimeni să insiste.",
     },
   ],
-  adviceBefore: "Ai nevoie doar de sfaturi?",
-  adviceLink: `${roStrategyCall.name}: ${roStrategyCall.duration}, 1:1, cu un rezumat scris, ${formatPriceRo(roStrategyCall)}.`,
-  adviceHref: RO_STRATEGY_CALL_URL,
 };
 
 export const roFooter: FooterCopy = {

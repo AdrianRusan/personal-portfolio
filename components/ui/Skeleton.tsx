@@ -30,18 +30,6 @@ export const ProjectSkeleton = () => (
   </div>
 );
 
-export const TestimonialSkeleton = () => (
-  <div className="space-y-4">
-    <div className="flex items-center space-x-4">
-      <Skeleton className="h-12 w-12 rounded-full" />
-      <div className="space-y-2">
-        <Skeleton className="h-4 w-32" />
-        <Skeleton className="h-3 w-24" />
-      </div>
-    </div>
-    <Skeleton className="h-20 w-full" />
-  </div>
-);
 
 export const ExperienceSkeleton = () => (
   <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

@@ -152,6 +152,22 @@ export const faqs: { question: string; answer: string }[] = [
   },
 ];
 
+// Homepage FAQ (#54 R3): five /services questions picked by index, so RO
+// (same order, data/ro-services.ts) picks the same ones, plus the call steps
+// folded into one answer, last because the final CTA follows.
+const HOME_FAQ_PICKS = [0, 2, 3, 6, 7];
+export const homeFaq = (
+  items: { question: string; answer: string }[],
+  call: { question: string; steps: { body: string }[] },
+) => [
+  ...HOME_FAQ_PICKS.map((i) => items[i]!),
+  { question: call.question, answer: call.steps.map((s) => s.body).join(" ") },
+];
+export const homeFaqs = homeFaq(faqs, {
+  question: "What happens after I book a call?",
+  steps: callSteps,
+});
+
 export const faqPageJsonLd = () => ({
   "@context": "https://schema.org",
   "@type": "FAQPage",

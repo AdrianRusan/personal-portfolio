@@ -42,7 +42,11 @@ const CaseStudyCards = async ({ copy = en }: { copy?: CaseStudyCardsCopy }) => {
   ];
 
   return (
-    <section aria-labelledby="case-studies-heading" className="px-5 sm:px-10 pb-20">
+    <section
+      id="work"
+      aria-labelledby="case-studies-heading"
+      className="px-5 sm:px-10 py-20 scroll-mt-24"
+    >
       <div className="max-w-5xl mx-auto">
         <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100">
           {copy.eyebrow}

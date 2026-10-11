@@ -1,4 +1,6 @@
-import { faqs, faqPageJsonLd } from "@/data";
+import { faqs, faqPageJsonLd, homeFaq, homeFaqs } from "@/data";
+import { roCallFaq } from "@/data/ro-home";
+import { roServicesFaq } from "@/data/ro-services";
 
 describe("FAQ", () => {
   // Brief R6: the objections a buyer raises before booking.
@@ -24,6 +26,23 @@ describe("FAQ", () => {
         name: f.question,
         acceptedAnswer: { "@type": "Answer", text: f.answer },
       })),
+    );
+  });
+});
+
+// #54 R3: the homepage shows six questions, and /ro shows the same six.
+describe("homepage FAQ", () => {
+  it("has six questions, the call steps last", () => {
+    expect(homeFaqs).toHaveLength(6);
+    expect(homeFaqs.at(-1)?.question).toBe("What happens after I book a call?");
+    expect(homeFaqs.slice(0, 5).every((f) => faqs.includes(f))).toBe(true);
+  });
+
+  it("picks the same questions on /ro", () => {
+    const ro = homeFaq(roServicesFaq.items, roCallFaq);
+    expect(ro).toHaveLength(6);
+    expect(ro.slice(0, 5).map((f) => roServicesFaq.items.indexOf(f))).toEqual(
+      homeFaqs.slice(0, 5).map((f) => faqs.indexOf(f)),
     );
   });
 });

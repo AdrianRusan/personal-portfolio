@@ -2,24 +2,18 @@ import Hero from "@/components/Hero";
 import ProofBand from "@/components/ProofBand";
 import ShipVerify from "@/components/ShipVerify";
 import Offers from "@/components/Offers";
-import CaseStudy from "@/components/CaseStudy";
 import CaseStudyCards from "@/components/CaseStudyCards";
 import WhoFor from "@/components/WhoFor";
 import FinalCta from "@/components/FinalCta";
-import EmailCapture from "@/components/EmailCapture";
 import Bio from "@/components/Bio";
 import Latest from "@/components/Latest";
 import { FloatingNav } from "@/components/ui/FloatingNav";
-import { StartBand } from "@/components/StartBand";
-import { CallSteps } from "@/components/CallSteps";
 import { ServicesFaq } from "@/components/services/ServicesFaq";
-import { navItems } from "@/data";
+import Testimonials from "@/components/Testimonials";
+import { homeFaqs, navItems } from "@/data";
 import dynamic from "next/dynamic";
 import type { Metadata } from "next";
-import {
-  TestimonialSkeleton,
-  ExperienceSkeleton,
-} from "@/components/ui/Skeleton";
+import { ExperienceSkeleton } from "@/components/ui/Skeleton";
 
 // Only the alternates override the layout; canonical restated since this replaces it.
 export const metadata: Metadata = {
@@ -37,14 +31,6 @@ const Experience = dynamic(() => import("@/components/Experience"), {
   ),
 });
 
-const Testimonials = dynamic(() => import("@/components/Testimonials"), {
-  loading: () => (
-    <section className="py-20" aria-label="Testimonials loading">
-      <TestimonialSkeleton />
-    </section>
-  ),
-});
-
 const Footer = dynamic(() => import("@/components/Footer"), {
   loading: () => (
     <footer
@@ -54,35 +40,33 @@ const Footer = dynamic(() => import("@/components/Footer"), {
   ),
 });
 
+// #54 R3: eleven sections. The mid-page email capture, StartBand, the method
+// demo, CallSteps and the standalone testimonial were cut or folded in.
 export default function Home() {
   return (
     <main className="relative dark:bg-black-100 bg-white overflow-hidden">
       <FloatingNav navItems={navItems} />
       <Hero />
       <ProofBand />
-      <div id="subscribe" className="max-w-7xl mx-auto px-5 sm:px-10 py-10">
-        <EmailCapture />
-      </div>
       <ShipVerify />
-      <div className="max-w-7xl mx-auto px-5 sm:px-10 py-10">
-        <Bio />
-      </div>
-      <Offers />
-      <CaseStudy />
       <CaseStudyCards />
-      <StartBand />
+      <Offers />
       <WhoFor />
-      <div className="max-w-7xl mx-auto px-5 sm:px-10">
-        <section aria-label="Track record">
-          <Experience />
-        </section>
-        <section id="testimonials" aria-labelledby="testimonials-heading">
-          <Testimonials />
-        </section>
-      </div>
+      <section
+        aria-label="Track record"
+        className="max-w-7xl mx-auto px-5 sm:px-10 py-10"
+      >
+        <Bio />
+        <Testimonials />
+        <Experience />
+      </section>
       <Latest />
-      <ServicesFaq />
-      <CallSteps source="home_call_steps" />
+      <ServicesFaq
+        copy={{
+          heading: "Straight answers to the questions I actually get",
+          items: homeFaqs,
+        }}
+      />
       <FinalCta />
       <Footer />
     </main>
