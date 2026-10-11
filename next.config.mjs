@@ -36,7 +36,7 @@ const nextConfig = {
   reactStrictMode: true,
   serverExternalPackages: ['next-mdx-remote', 'shiki'],
   experimental: {
-    optimizeCss: true,
+    inlineCss: true,
     optimizePackageImports: ['framer-motion', 'lucide-react'],
   },
   async headers() {
