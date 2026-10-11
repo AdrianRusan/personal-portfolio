@@ -1,6 +1,6 @@
 import { renderOgCard, OG_SIZE, OG_CONTENT_TYPE } from "@/lib/og";
 import { notFound } from "next/navigation";
-import { getPosts, WORK_DIR } from "@/lib/blog";
+import { getPost, WORK_DIR } from "@/lib/blog";
 
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
@@ -12,7 +12,8 @@ export async function generateImageMetadata({
 }: {
   params: { slug: string };
 }) {
-  const study = (await getPosts(WORK_DIR)).find((s) => s.slug === params.slug);
+  // getPost reads one file and throws for drafts and future-dated studies.
+  const study = await getPost(params.slug, WORK_DIR).catch(() => null);
   return study
     ? [{ id: "cover", alt: study.frontmatter.title, size, contentType }]
     : [];
@@ -25,7 +26,7 @@ export default async function Image({
 }) {
   const { slug } = params;
   // Drafts must not leak through the image route (dynamicParams misses it).
-  const study = (await getPosts(WORK_DIR)).find((s) => s.slug === slug);
+  const study = await getPost(slug, WORK_DIR).catch(() => null);
   if (!study) notFound();
   const { frontmatter } = study;
   return renderOgCard({

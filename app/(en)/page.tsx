@@ -22,7 +22,7 @@ import { JsonLd, SITE_URL, faqJsonLd, pageJsonLd } from "@/lib/page-schema";
 // #54 R4: re-render hourly so a dated post appears without a deploy.
 export const revalidate = 3600;
 
-// Only the alternates override the layout; canonical restated since this replaces it.
+// Home canonical + hreflang pair; the root layout sets no canonical (A1-16).
 export const metadata: Metadata = {
   alternates: {
     canonical: "https://www.adrian-rusan.com",

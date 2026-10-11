@@ -1,6 +1,6 @@
 import { FINTECH_EMPLOYER, YOUTUBE_URL } from "@/data";
 
-// Person JSON-LD, rendered site-wide by app/layout.tsx. Lives here (not in the
+// Person JSON-LD, rendered site-wide by app/root-shell.tsx. Lives here (not in the
 // layout) so a jest test can check its shape — layouts may only export Next fields.
 const JOB_TITLE = "Senior software engineer, agent-accelerated delivery";
 

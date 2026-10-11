@@ -121,3 +121,18 @@ describe("search snippets (A1-09, A1-17)", () => {
     }
   });
 });
+
+describe("faq frontmatter", () => {
+  it("is an array of non-empty { q, a } strings wherever a post sets it", async () => {
+    for (const { slug, frontmatter } of await getPosts()) {
+      if (frontmatter.faq === undefined) continue;
+      expect([slug, Array.isArray(frontmatter.faq)]).toEqual([slug, true]);
+      for (const item of frontmatter.faq) {
+        expect(typeof item.q === "string" && item.q.length > 0).toBe(true);
+        expect(typeof item.a === "string" && item.a.length > 0).toBe(true);
+      }
+      const qs = frontmatter.faq.map((i) => i.q);
+      expect(new Set(qs).size).toBe(qs.length);
+    }
+  });
+});
