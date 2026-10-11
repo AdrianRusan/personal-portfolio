@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Fintech">
-  <rect x="4" y="4" width="92" height="92" rx="20" fill="#1e1b4b" stroke="#CBACF9" stroke-width="2"/>
-  <g fill="#CBACF9">
-    <rect x="26" y="58" width="10" height="16" rx="2"/>
-    <rect x="45" y="46" width="10" height="28" rx="2"/>
-    <rect x="64" y="32" width="10" height="42" rx="2"/>
-  </g>
-  <path d="M26 44 L45 34 L58 38 L74 24" fill="none" stroke="#CBACF9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>

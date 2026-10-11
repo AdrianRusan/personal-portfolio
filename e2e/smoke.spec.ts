@@ -128,14 +128,27 @@ test('client-side navigation still gets the page, not Markdown', async ({ page }
   await page.goto('/');
   await page.locator('footer a[href="/about"]').click();
   await expect(page).toHaveURL(/\/about$/);
-  await expect(page.locator('h1')).toHaveText('About Adrian Rusan');
+  await expect(page.locator('h1')).toHaveText('About');
 });
 
 // P1 (#66): one closing ask per page, and the footer itself asks for nothing.
-for (const path of ['/about', '/contact', '/blog', '/privacy', '/work/honesty-gate', '/does-not-exist', '/', '/ro', '/ro/despre', '/ro/contact']) {
+for (const path of ['/about', '/blog', '/privacy', '/work/honesty-gate', '/does-not-exist', '/', '/ro', '/ro/despre']) {
   test(`${path} has exactly one closing ask`, async ({ page }) => {
     await page.goto(path);
     await expect(page.locator('#closing-cta-heading')).toHaveCount(1);
+    await expect(page.locator('footer a[href*="calendly.com"]')).toHaveCount(0);
+  });
+}
+
+// P2 (#67): /contact's three option blocks are its ask; the call is the one
+// Calendly button in the page body, and the footer still asks for nothing.
+for (const path of ['/contact', '/ro/contact']) {
+  test(`${path} asks once, from its own option blocks`, async ({ page }) => {
+    await page.goto(path);
+    await expect(page.locator('#closing-cta-heading')).toHaveCount(0);
+    await expect(page.locator('main a[href*="calendly.com"]')).toHaveCount(1);
+    await expect(page.locator('main a[href^="mailto:contact@"]')).not.toHaveCount(0);
+    await expect(page.locator('main a[href="/teardown"]')).toHaveCount(1);
     await expect(page.locator('footer a[href*="calendly.com"]')).toHaveCount(0);
   });
 }

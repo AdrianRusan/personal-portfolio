@@ -1,54 +1,54 @@
 import { whoFor } from "@/data";
+import { SectionHeading } from "./ui/SectionHeading";
 
 const en = {
-  ariaLabel: "Who this is for",
-  heading: "Built for a specific buyer. Wrong for a few others.",
-  forHeading: "This is for you if",
-  notForHeading: "This isn't for you if",
+  heading: "Who this is for",
+  forHeading: "A good fit if",
+  notForHeading: "Not a fit if",
   ...whoFor,
 };
 export type WhoForCopy = typeof en;
 
+// P2: two plain lists, no cards (cards are for parallel choices only).
 const WhoFor = ({ copy = en }: { copy?: WhoForCopy }) => {
+  const lists = [
+    { heading: copy.forHeading, items: copy.forList, mark: "+", muted: false },
+    {
+      heading: copy.notForHeading,
+      items: copy.notForList,
+      mark: "−",
+      muted: true,
+    },
+  ];
   return (
-    <section aria-label={copy.ariaLabel} className="px-5 sm:px-10 py-20">
-      <div className="max-w-5xl mx-auto">
-        <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-balance">
-          {copy.heading}
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
-          <div className="rounded-xl border border-green-500/30 bg-green-500/5 p-6">
-            <h3 className="font-mono text-xs uppercase tracking-[0.1em] text-green-700 dark:text-green-400 mb-4">
-              {copy.forHeading}
-            </h3>
-            <ul className="flex flex-col gap-3">
-              {copy.forList.map((item) => (
-                <li
-                  key={item}
-                  className="flex gap-3 text-sm text-white-200 leading-relaxed"
-                >
-                  <span className="text-green-700 dark:text-green-400 flex-none">+</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="rounded-xl border border-white/10 bg-black-200/30 p-6">
-            <h3 className="font-mono text-xs uppercase tracking-[0.1em] text-white-200/75 mb-4">
-              {copy.notForHeading}
-            </h3>
-            <ul className="flex flex-col gap-3">
-              {copy.notForList.map((item) => (
-                <li
-                  key={item}
-                  className="flex gap-3 text-sm text-white-200/70 leading-relaxed"
-                >
-                  <span className="text-white-200/40 flex-none">−</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
+    <section
+      aria-labelledby="who-for-heading"
+      className="px-5 sm:px-10 py-12 md:py-20"
+    >
+      <div className="container-section">
+        <SectionHeading id="who-for-heading">{copy.heading}</SectionHeading>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mt-8">
+          {lists.map(({ heading, items, mark, muted }) => (
+            <div key={heading} className="border-t border-white/10 pt-5">
+              <h3 className="font-semibold text-white">{heading}</h3>
+              <ul className="flex flex-col gap-3 mt-4">
+                {items.map((item) => (
+                  <li
+                    key={item}
+                    className={`flex gap-3 text-sm leading-relaxed ${muted ? "text-white-200/80" : "text-white-200"}`}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className={`flex-none ${muted ? "text-white-200/60" : "text-purple"}`}
+                    >
+                      {mark}
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
     </section>

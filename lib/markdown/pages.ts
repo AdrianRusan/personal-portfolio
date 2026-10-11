@@ -1,6 +1,6 @@
 import type { BioCopy } from "@/components/Bio";
-import type { ExperienceCopy } from "@/components/Experience";
-import type { FinalCtaCopy } from "@/components/FinalCta";
+import type { BetweenLineCopy } from "@/components/BetweenLine";
+import type { ClosingCtaCopy } from "@/components/ClosingCta";
 import type { HeroCopy } from "@/components/Hero";
 import type { OffersCopy } from "@/components/Offers";
 import type { ProofBandCopy } from "@/components/ProofBand";
@@ -9,7 +9,7 @@ import type { WhoForCopy } from "@/components/WhoFor";
 import type { LadderContent } from "@/components/services/Ladder";
 import type { ProcessStepsCopy } from "@/components/services/ProcessSteps";
 import type { ServicesHeroCopy } from "@/components/services/ServicesHero";
-import { CALENDLY_URL } from "@/data";
+import { CALENDLY_URL, testimonials } from "@/data";
 import type { ProsePage } from "@/data/pages";
 import { teardown } from "@/data/teardown";
 import {
@@ -32,10 +32,12 @@ const faqMd = ({ heading, items }: Faq) =>
     ...items.map(({ question, answer }) => `### ${question}\n\n${answer}`),
   );
 
+// The home ladder as rows: tier, its offers, each offer's price (P2).
 const offersMd = (c: OffersCopy) =>
   blocks(
     `## ${c.heading}`,
     `${c.intro}${c.credit}`,
+    c.priceNote,
     ...c.tiers.map(({ tier, name, tagline }) =>
       blocks(
         `### ${name}: ${tagline}`,
@@ -49,6 +51,7 @@ const offersMd = (c: OffersCopy) =>
         ),
       ),
     ),
+    `[${c.more.replace(/ →$/, "")}](${c.href})`,
     c.capacity,
   );
 
@@ -56,31 +59,36 @@ export interface HomeCopy {
   hero: HeroCopy;
   proof: ProofBandCopy;
   shipVerify: ShipVerifyCopy;
+  caseStudies: { heading: string; lead: string; all: string };
   offers: OffersCopy;
   whoFor: WhoForCopy;
   bio: BioCopy;
-  experience: ExperienceCopy;
   faq: Faq;
-  finalCta: FinalCtaCopy;
+  closing: ClosingCtaCopy;
+  between: BetweenLineCopy;
 }
 
-export const homeMd = (c: HomeCopy) =>
-  blocks(
+// Same sections and order as the home pages (P2).
+export const homeMd = (c: HomeCopy) => {
+  const quote = testimonials[0];
+  return blocks(
     `# ${c.hero.heading}`,
     c.hero.body,
-    c.hero.promise,
     `> ${c.hero.guarantee}`,
     `[${c.hero.call}](${CALENDLY_URL}) · [${c.hero.teardown}](/teardown)`,
     `## ${c.proof.ariaLabel}`,
     list(c.proof.stats.map((s) => `**${s.figure}** ${s.label}`)),
-    c.proof.ledger,
-    c.proof.honesty,
+    c.proof.note,
     `## ${c.shipVerify.heading}`,
-    c.shipVerify.body,
-    c.shipVerify.punch,
+    `${c.shipVerify.body} ${c.shipVerify.punch}`,
+    `### ${c.shipVerify.stepsHeading}`,
     list(
       c.shipVerify.steps.map((s) => `**${s.label}: ${s.heading}.** ${s.body}`),
     ),
+    `${c.shipVerify.multiplierBefore} [${c.shipVerify.multiplierLink.replace(/ →$/, "")}](/blog/what-agents-get-wrong)`,
+    `## ${c.caseStudies.heading}`,
+    c.caseStudies.lead,
+    `[${c.caseStudies.all.replace(/ →$/, "")}](/work)`,
     offersMd(c.offers),
     `## ${c.whoFor.heading}`,
     `### ${c.whoFor.forHeading}`,
@@ -89,18 +97,15 @@ export const homeMd = (c: HomeCopy) =>
     list(c.whoFor.notForList),
     `## ${c.bio.heading}`,
     c.bio.body,
-    `## ${c.experience.headingBefore}${c.experience.headingAccent}${c.experience.headingAfter}`.trim(),
-    list(
-      c.experience.jobs.map(
-        (j) => `**${j.title}, ${j.company}** (${j.period}). ${j.desc}`,
-      ),
-    ),
+    quote &&
+      `${c.bio.earlier}:\n\n> ${quote.quote}\n>\n> ${quote.name}, ${quote.title}`,
     faqMd(c.faq),
-    `## ${c.finalCta.heading}`,
-    c.finalCta.body,
-    `[${c.finalCta.button}](${CALENDLY_URL})`,
-    `${c.finalCta.betweenBefore} [${c.finalCta.betweenLink}](${c.finalCta.betweenHref})`,
+    `## ${c.closing.heading}`,
+    c.closing.body,
+    `[${c.closing.button}](${CALENDLY_URL})`,
+    `${c.between.before} [${c.between.link}](${c.between.href})`,
   );
+};
 
 export interface ServicesCopy {
   hero: ServicesHeroCopy;
@@ -138,12 +143,14 @@ export const servicesMd = ({ hero, ladder, process, faq }: ServicesCopy) =>
     faqMd(faq),
   );
 
-export const proseMd = (page: ProsePage, bio?: BioCopy) =>
+export const proseMd = (page: ProsePage) =>
   blocks(
     `# ${page.title}`,
     page.lead,
     page.updated && `Last updated ${page.updated}`,
-    bio && blocks(`## ${bio.heading}`, bio.body),
+    ...(page.options ?? []).map(
+      (o) => `## ${o.heading}\n\n${o.body} [${o.cta}](${o.href})`,
+    ),
     ...page.sections.map((s) => `## ${s.heading}\n\n${s.body}`),
   );
 

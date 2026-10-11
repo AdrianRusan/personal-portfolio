@@ -1,73 +1,92 @@
 import Link from "next/link";
-import { CREDIT_TERMS, formatPrice, ladder, tiers } from "@/data/ladder";
+import {
+  CREDIT_TERMS,
+  formatPrice,
+  ladder,
+  tiers,
+  type LadderOffer,
+} from "@/data/ladder";
 import { CAPACITY } from "@/data";
+import { SectionHeading } from "./ui/SectionHeading";
 
 const en = {
-  heading: "From a €200 call to a monthly retainer",
-  intro:
-    "Four tiers, eight offers: Advise, Train, Build, Ship. Every offer has a price before we talk. ",
+  heading: "Offers and prices",
+  intro: "Every offer has a fixed price before we talk. ",
   credit: CREDIT_TERMS,
+  // RO only (A7): who the RO prices are for.
+  priceNote: "",
   tiers: tiers.map((t) => ({ ...t, name: t.tier as string })),
   ladder,
   formatPrice,
   href: "/services#ladder",
-  more: "See what's included →",
+  more: "See every offer and what's included →",
   capacity: CAPACITY,
 };
 export type OffersCopy = typeof en;
 
+// P2: the home page shows the ladder as four rows (tier → offers → from-price);
+// the full cards live on /services.
 const Offers = ({ copy = en }: { copy?: OffersCopy }) => {
+  // The tier's cheapest price, keeping that offer's unit (e.g. /month).
+  const fromPrice = (offers: LadderOffer[]) => {
+    const low = (o: LadderOffer) => Math.min(...o.prices.map((p) => p.amount));
+    const cheapest = offers.reduce((a, b) => (low(b) < low(a) ? b : a));
+    return copy.formatPrice({
+      ...cheapest,
+      prices: [{ amount: low(cheapest), from: true }],
+    });
+  };
+
   return (
-    <section id="offers" className="px-5 sm:px-10 py-20">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-center">
+    <section id="offers" className="px-5 sm:px-10 py-12 md:py-20">
+      <div className="container-section">
+        <SectionHeading
+          lead={
+            <>
+              {copy.intro}
+              {copy.credit}
+              {copy.priceNote && (
+                <span className="block mt-2 text-sm">{copy.priceNote}</span>
+              )}
+            </>
+          }
+        >
           {copy.heading}
-        </h2>
-        <p className="text-white-200 text-center mt-3 max-w-2xl mx-auto">
-          {copy.intro}
-          {copy.credit}
-        </p>
+        </SectionHeading>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-12">
-          {copy.tiers.map(({ tier, name, tagline }) => (
-            <Link
-              key={tier}
-              href={copy.href}
-              className="flex flex-col rounded-xl p-5 bg-black-200/30 border border-white/10 hover:border-purple transition-colors"
-            >
-              <h3 className="font-mono text-xs font-bold uppercase tracking-[0.12em] text-purple">
-                {name}
-              </h3>
-              <p className="text-sm text-white-200/80 mt-1">{tagline}</p>
-              <ul className="flex flex-col gap-3 mt-5 flex-1">
-                {copy.ladder
-                  .filter((offer) => offer.tier === tier)
-                  .map((offer) => (
-                    <li key={offer.id}>
-                      <span className="block text-sm font-semibold text-white">
-                        {offer.name}
-                      </span>
-                      <span className="block text-sm text-white-200">
-                        {copy.formatPrice(offer)}
-                      </span>
-                      {offer.assurance && (
-                        <span className="block text-xs text-white-200 mt-1">
-                          {offer.assurance}
-                        </span>
-                      )}
-                    </li>
-                  ))}
-              </ul>
-              <span className="text-sm font-medium text-purple mt-5">
-                {copy.more}
-              </span>
-            </Link>
-          ))}
+        <ul className="mt-8 border-t border-white/10">
+          {copy.tiers.map(({ tier, name, tagline }) => {
+            const offers = copy.ladder.filter((o) => o.tier === tier);
+            if (offers.length === 0) return null;
+            return (
+              <li
+                key={tier}
+                className="grid gap-1 md:grid-cols-[12rem_1fr_auto] md:gap-6 md:items-baseline border-b border-white/10 py-4 md:py-5"
+              >
+                <div>
+                  <h3 className="font-semibold text-white">{name}</h3>
+                  <p className="text-sm text-white-200/80">{tagline}</p>
+                </div>
+                <p className="text-sm text-white-200 text-pretty">
+                  {offers.map((o) => o.name).join(" · ")}
+                </p>
+                <p className="tabular-nums text-sm font-semibold text-white md:text-right whitespace-nowrap">
+                  {fromPrice(offers)}
+                </p>
+              </li>
+            );
+          })}
+        </ul>
+
+        <div className="mt-6 flex flex-col gap-3 md:flex-row md:items-baseline md:justify-between">
+          <Link
+            href={copy.href}
+            className="text-sm font-semibold text-purple hover:underline underline-offset-4"
+          >
+            {copy.more}
+          </Link>
+          <p className="text-sm text-white-200/80">{copy.capacity}</p>
         </div>
-
-        <p className="text-center text-sm text-white-200/80 mt-8 max-w-2xl mx-auto">
-          {copy.capacity}
-        </p>
       </div>
     </section>
   );
