@@ -13,6 +13,7 @@ import {
 } from "@/data/workshops";
 import { WORKFLOW_NUMBERS } from "@/data";
 import { FaLocationArrow } from "react-icons/fa6";
+import { getPosts } from "@/lib/blog";
 
 interface WorkshopPageProps {
   params: Promise<{ slug: WorkshopSlug }>;
@@ -63,6 +64,10 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
   const w = workshops[(await params).slug];
   const other =
     w.slug === "full-day" ? workshops["half-day"] : workshops["full-day"];
+  // The hub post is scheduled; link it only once it's live (checked at build).
+  const hubLive = (await getPosts()).some(
+    (p) => `/blog/${p.slug}` === workshopHubLink.href,
+  );
 
   return (
     <PageShell navItems={navItems}>
@@ -165,13 +170,18 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
           <p className="text-sm text-white-200/80 mt-6 leading-relaxed">
             Taught from my own runs: {WORKFLOW_NUMBERS.sessions} sessions and{" "}
             {WORKFLOW_NUMBERS.hours} hours over {WORKFLOW_NUMBERS.days} days,
-            counted from my own session logs.{" "}
-            <Link
-              href={workshopHubLink.href}
-              className="text-purple underline underline-offset-4 hover:text-white"
-            >
-              {workshopHubLink.label}
-            </Link>
+            counted from my own session logs.
+            {hubLive && (
+              <>
+                {" "}
+                <Link
+                  href={workshopHubLink.href}
+                  className="text-purple underline underline-offset-4 hover:text-white"
+                >
+                  {workshopHubLink.label}
+                </Link>
+              </>
+            )}
           </p>
         </div>
       </section>

@@ -40,3 +40,15 @@ export const utmFrom = (search: string): Utm => {
 // the click came from. Any other link passes through untouched.
 export const withAttribution = (href: string, utm: Utm, page: string) =>
   isCalendly(href) ? calendlyUrl(href, { ...utm, utm_content: page }) : href;
+
+// Each pricing tier's button pre-fills Calendly's first answer with the tier
+// and its price; `prices` is the same list the table's Price row shows.
+export const withTierPrefill = <T extends { name: string }>(
+  base: string,
+  columns: T[],
+  prices: string[],
+) =>
+  columns.map((column, i) => ({
+    ...column,
+    ctaHref: calendlyUrl(base, { a1: `${column.name} (${prices[i]})` }),
+  }));

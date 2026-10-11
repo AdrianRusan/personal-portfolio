@@ -27,9 +27,9 @@ const en = {
   bandNote:
     "Your monthly band is locked on day 0, no runaway bill — overflow rolls forward instead of surprise invoicing.",
   guaranteesHeading: "The guarantees",
-  // C32: the security guarantee is printed once, in the sprint section.
-  securityNote: "The sprint's security guarantee applies to every retainer PR too.",
-  securityLink: "Read it ↑",
+  // C32: the full security guarantee is printed once, in the sprint section.
+  securityNote:
+    "Plus the sprint's security guarantee on every retainer PR: an in-scope vulnerability later found in a PR I marked reviewed gets fixed free, and the surrounding batch re-reviewed.",
   guarantees: [
     {
       title: "Proof-month guarantee",
@@ -116,14 +116,8 @@ export const Retainer = ({ copy = en }: { copy?: RetainerCopy }) => {
               <p className="text-sm text-white-200 leading-relaxed">{g.body}</p>
             </div>
           ))}
-          <p className="text-sm text-white-200 mt-4">
-            {copy.securityNote}{" "}
-            <a
-              href="#sprint"
-              className="text-purple underline underline-offset-4 hover:text-white"
-            >
-              {copy.securityLink}
-            </a>
+          <p className="text-sm text-white-200 mt-4 leading-relaxed">
+            {copy.securityNote}
           </p>
         </Fold>
 

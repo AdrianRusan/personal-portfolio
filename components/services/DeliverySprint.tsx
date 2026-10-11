@@ -1,26 +1,24 @@
 import MagicButton from "@/components/ui/MagicButton";
 import { CALENDLY_URL, SAMPLE_REPORT_URL } from "@/data";
 import { sprintDurations } from "@/data/ladder";
-import { calendlyUrl } from "@/lib/calendly";
+import { withTierPrefill } from "@/lib/calendly";
 import { Fold } from "./Fold";
 import { FaLocationArrow } from "react-icons/fa6";
 import { PricingTable } from "./PricingTable";
 import type { PricingColumn, PricingRow } from "./PricingTable";
 
-// C44: each tier's button pre-fills Calendly's first answer with the tier.
-const tier = (name: string, price: string) =>
-  calendlyUrl(CALENDLY_URL, { a1: `${name} (${price})` });
+// C44: one price list feeds the Price row and each tier's Calendly prefill.
+const prices = ["€7,500", "€14,500", "€24,000"];
 
-const columns: PricingColumn[] = [
-  { name: "Pilot Sprint", ctaHref: tier("Pilot Sprint", "€7,500") },
-  {
-    name: "Standard Sprint",
-    badge: "Recommended",
-    featured: true,
-    ctaHref: tier("Standard Sprint", "€14,500"),
-  },
-  { name: "Scale Sprint", ctaHref: tier("Scale Sprint", "€24,000") },
-];
+const columns: PricingColumn[] = withTierPrefill(
+  CALENDLY_URL,
+  [
+    { name: "Pilot Sprint" },
+    { name: "Standard Sprint", badge: "Recommended", featured: true },
+    { name: "Scale Sprint" },
+  ],
+  prices,
+);
 
 const rows: PricingRow[] = [
   {
@@ -45,7 +43,7 @@ const rows: PricingRow[] = [
   },
   {
     label: "Price",
-    values: ["€7,500", "€14,500", "€24,000 — fixed on the scope call"],
+    values: [prices[0]!, prices[1]!, `${prices[2]} — fixed on the scope call`],
   },
 ];
 

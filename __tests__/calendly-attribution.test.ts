@@ -4,7 +4,13 @@
 import { CALENDLY_URL } from "@/data";
 import { ladder } from "@/data/ladder";
 import { roLadder } from "@/data/ro";
-import { calendlyUrl, utmFrom, withAttribution } from "@/lib/calendly";
+import { roDeliverySprint } from "@/data/ro-services";
+import {
+  calendlyUrl,
+  utmFrom,
+  withAttribution,
+  withTierPrefill,
+} from "@/lib/calendly";
 
 // C44: Calendly sees where each booking came from and which offer it was for.
 describe("Calendly attribution", () => {
@@ -59,5 +65,15 @@ describe("Calendly attribution", () => {
       expect(booking.length).toBeGreaterThan(0);
       for (const { o, a1 } of booking) expect(a1).toContain(o.name);
     }
+  });
+
+  it("prefills each pricing tier with the price its Price row shows", () => {
+    const [col] = withTierPrefill(CALENDLY_URL, [{ name: "Pilot Sprint" }], ["€7,500"]);
+    expect(new URL(col!.ctaHref).searchParams.get("a1")).toBe("Pilot Sprint (€7,500)");
+    const priceRow = roDeliverySprint.rows.find((r) => r.label === "Preț")!;
+    roDeliverySprint.columns.forEach((c, i) => {
+      const a1 = new URL(c.ctaHref!).searchParams.get("a1")!;
+      expect(priceRow.values[i]).toContain(a1.match(/\((.*)\)/)![1]!);
+    });
   });
 });

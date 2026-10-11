@@ -2,7 +2,10 @@ import MagicButton from "@/components/ui/MagicButton";
 import { CALENDLY_URL } from "@/data";
 import Link from "next/link";
 import { FaLocationArrow } from "react-icons/fa6";
+import { getPosts } from "@/lib/blog";
 import { Fold } from "./Fold";
+
+const RULES_POST = "the-rules-file-my-agents-follow";
 
 const en = {
   eyebrow: "Your team keeps the method",
@@ -41,7 +44,13 @@ const en = {
 
 export type HarnessSetupCopy = typeof en;
 
-export const HarnessSetup = ({ copy = en }: { copy?: HarnessSetupCopy }) => {
+export const HarnessSetup = async ({
+  copy = en,
+}: {
+  copy?: HarnessSetupCopy;
+}) => {
+  // The post is scheduled; link it only once it's live (checked at build).
+  const rulesLive = (await getPosts()).some((p) => p.slug === RULES_POST);
   return (
     <section id="harness" className="px-5 sm:px-10 py-12 md:py-20 scroll-mt-24">
       <div className="max-w-6xl mx-auto rounded-2xl border border-white/10 bg-black-200/40 p-6 md:p-10">
@@ -68,12 +77,14 @@ export const HarnessSetup = ({ copy = en }: { copy?: HarnessSetupCopy }) => {
             ))}
           </ul>
         </Fold>
-        <Link
-          href="/blog/the-rules-file-my-agents-follow"
-          className="inline-block mt-4 text-sm font-medium text-purple underline underline-offset-4 hover:text-white transition-colors"
-        >
-          {copy.rulesLink}
-        </Link>
+        {rulesLive && (
+          <Link
+            href={`/blog/${RULES_POST}`}
+            className="inline-block mt-4 text-sm font-medium text-purple underline underline-offset-4 hover:text-white transition-colors"
+          >
+            {copy.rulesLink}
+          </Link>
+        )}
 
         <h3 className="text-lg font-semibold mt-10 mb-4">
           {copy.pricingHeading}

@@ -1,7 +1,7 @@
 import { RO_LEDGER_PROOF } from "@/data/ro-home";
 import { offerById } from "@/data/ladder";
 import { CALENDLY_URL, FINTECH_EMPLOYER, testimonials } from "@/data";
-import { calendlyUrl } from "@/lib/calendly";
+import { withTierPrefill } from "@/lib/calendly";
 import type { DeliverySprintCopy } from "@/components/services/DeliverySprint";
 import type { EntryOfferCopy } from "@/components/services/EntryOffer";
 import type { HarnessSetupCopy } from "@/components/services/HarnessSetup";
@@ -117,9 +117,7 @@ const securityGuarantee = {
   body: "Fiecare PR livrat trece printr-un review de securitate adversarial, documentat, înainte să ajungă la tine. Dacă mai târziu apare, într-un PR marcat de mine ca revizuit, o vulnerabilitate care intra în aria acelui review, o repar gratuit și refac review-ul pe tot lotul din jurul ei, fără cost.",
 };
 
-// C44: each tier's button pre-fills Calendly's first answer with the tier.
-const roTier = (name: string, price: string) =>
-  calendlyUrl(CALENDLY_URL, { a1: `${name} (${price})` });
+const roPrices = ["4.100 €", "8.000 €", "13.200 €"];
 
 export const roDeliverySprint: DeliverySprintCopy = {
   badge: "Majoritatea echipelor încep aici",
@@ -157,16 +155,15 @@ export const roDeliverySprint: DeliverySprintCopy = {
     "O lună de contractor costă ~5.500–7.700 € înainte ca cineva să-i verifice codul pentru securitate.",
   pricingRest:
     "Un sprint iese la ≈550 €/PR plus raportul de securitate al sprintului, harta greșelilor agenților și un loc de review rezervat. Standard: 8.000 €, preț fix.",
-  columns: [
-    { name: "Sprint Pilot", ctaHref: roTier("Sprint Pilot", "4.100 €") },
-    {
-      name: "Sprint Standard",
-      badge: "Recomandat",
-      featured: true,
-      ctaHref: roTier("Sprint Standard", "8.000 €"),
-    },
-    { name: "Sprint Extins", ctaHref: roTier("Sprint Extins", "13.200 €") },
-  ],
+  columns: withTierPrefill(
+    CALENDLY_URL,
+    [
+      { name: "Sprint Pilot" },
+      { name: "Sprint Standard", badge: "Recomandat", featured: true },
+      { name: "Sprint Extins" },
+    ],
+    roPrices,
+  ),
   rows: [
     {
       label: "Potrivit pentru",
@@ -191,9 +188,9 @@ export const roDeliverySprint: DeliverySprintCopy = {
     {
       label: "Preț",
       values: [
-        "4.100 €",
-        "8.000 €",
-        "13.200 € — stabilit la discuția de scope",
+        roPrices[0]!,
+        roPrices[1]!,
+        `${roPrices[2]} — stabilit la discuția de scope`,
       ],
     },
   ],
@@ -282,8 +279,7 @@ export const roRetainer: RetainerCopy = {
     "Numărul lunar se fixează din ziua 0, fără facturi surpriză — ce depășește se mută în luna următoare, nu apare pe factură.",
   guaranteesHeading: "Garanțiile",
   securityNote:
-    "Garanția de securitate de la sprint se aplică și fiecărui PR din retainer.",
-  securityLink: "Citește-o ↑",
+    "Plus garanția de securitate de la sprint, pe fiecare PR din retainer: o vulnerabilitate din aria review-ului, găsită mai târziu într-un PR marcat de mine ca revizuit, se repară gratuit și refac review-ul pe lotul din jurul ei.",
   guarantees: [
     {
       title: "Garanția primei luni",
