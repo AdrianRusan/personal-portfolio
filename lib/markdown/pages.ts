@@ -157,7 +157,7 @@ export const teardownMd = () =>
     "## How it works",
     teardown.steps.map((s, i) => `${i + 1}. ${s}`).join("\n"),
     list(teardown.trustNotes),
-    "Request a teardown with the form on https://www.adrian-rusan.com/teardown (email plus a repo or PR link).",
+    "Request a teardown with the form on [the teardown page](/teardown) (email plus a repo or PR link).",
     `## ${teardown.whyHeading}`,
     teardown.why,
     `[Prefer to talk? Book a scoping call](${CALENDLY_URL})`,

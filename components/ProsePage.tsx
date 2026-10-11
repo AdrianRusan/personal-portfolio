@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import type { ProsePage as Page } from "@/data/pages";
+import { absoluteUrl } from "@/lib/page-schema";
 
 // Text pages (/privacy, /about, /contact). Section bodies are plain Markdown
 // (format "md", so no JSX runs), the same strings agents get as Markdown.
@@ -63,7 +64,7 @@ export const proseMetadata = (
     title: `${page.title} | Adrian Rusan`,
     description: page.description,
     type: "website",
-    url: `https://www.adrian-rusan.com${page.path}`,
+    url: absoluteUrl(page.path),
     siteName: "Adrian Rusan",
     locale: ro ? "ro_RO" : "en_US",
   },

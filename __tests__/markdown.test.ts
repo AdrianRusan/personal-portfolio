@@ -3,7 +3,7 @@ import { NextRequest } from "next/server";
 import sitemap from "@/app/sitemap";
 import { middleware } from "@/middleware";
 import { markdownFor } from "@/lib/markdown";
-import { notFoundMarkdown } from "@/lib/markdown/format";
+import { finish, notFoundMarkdown } from "@/lib/markdown/format";
 import { getPosts } from "@/lib/blog";
 
 const FOOTER_LINKS = [
@@ -60,6 +60,8 @@ describe("markdownFor", () => {
       "/blog/nope",
       "/blog/x/y",
       "/workshops/x",
+      "/workshops/constructor",
+      "/workshops/__proto__",
       "/api",
     ]) {
       expect(await markdownFor(path)).toBeNull();
@@ -71,11 +73,22 @@ describe("markdownFor", () => {
   });
 });
 
+describe("finish", () => {
+  it("leaves links inside code fences alone", () => {
+    const md = finish("/x", "[a](/a)\n\n```md\n[b](/b)\n```");
+    expect(md).toContain("[a](https://www.adrian-rusan.com/a)");
+    expect(md).toContain("[b](/b)");
+  });
+});
+
 describe("notFoundMarkdown", () => {
   it("explains the 404 and links llms.txt and the sitemap", () => {
     const md = notFoundMarkdown("/nope`x");
     expect(md).toMatch(/^# 404/);
     expect(md).toContain("`/nopex`");
+    expect(notFoundMarkdown("/x\n\n# Fake [a](https://evil)")).not.toMatch(
+      /\n# Fake|\]\(https:\/\/evil/,
+    );
     for (const link of FOOTER_LINKS) expect(md).toContain(link);
   });
 });
@@ -97,6 +110,17 @@ describe("middleware", () => {
         "x-middleware-rewrite",
       ),
     ).toBe("https://www.adrian-rusan.com/api/markdown");
+  });
+
+  it("respects q=0 and matches the media type case-insensitively", () => {
+    expect(
+      run("/", "text/html, text/markdown;q=0").headers.get(
+        "x-middleware-rewrite",
+      ),
+    ).toBeNull();
+    expect(run("/", "Text/Markdown").headers.get("x-middleware-rewrite")).toBe(
+      "https://www.adrian-rusan.com/api/markdown",
+    );
   });
 
   it("passes HTML through with Vary: Accept", () => {

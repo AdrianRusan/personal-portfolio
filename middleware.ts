@@ -10,11 +10,22 @@ import { NextResponse, type NextRequest } from "next/server";
 export const HTML_VARY =
   "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Router-Segment-Prefetch, Accept";
 
+// True when Accept lists text/markdown without refusing it (q=0).
+const wantsMarkdown = (accept: string) =>
+  accept
+    .toLowerCase()
+    .split(",")
+    .some((part) => {
+      const [type, ...params] = part.split(";").map((s) => s.trim());
+      return (
+        type === "text/markdown" && !params.some((p) => /^q=0(\.0*)?$/.test(p))
+      );
+    });
+
 export function middleware(req: NextRequest) {
-  const accept = req.headers.get("accept") ?? "";
   // Browsers and Next's RSC/prefetch fetches never ask for text/markdown (the
   // router's fetch sends no Accept, so */*), so only agents land here.
-  if (accept.includes("text/markdown")) {
+  if (wantsMarkdown(req.headers.get("accept") ?? "")) {
     const url = req.nextUrl.clone();
     url.pathname = `/api/markdown${req.nextUrl.pathname === "/" ? "" : req.nextUrl.pathname}`;
     return NextResponse.rewrite(url);

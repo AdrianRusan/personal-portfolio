@@ -24,7 +24,7 @@ export default function RoContactPage() {
           home: { name: "Acasă", path: "/ro" },
         })}
       />
-      <ProsePage page={roContactPage}></ProsePage>
+      <ProsePage page={roContactPage} />
     </PageShell>
   );
 }

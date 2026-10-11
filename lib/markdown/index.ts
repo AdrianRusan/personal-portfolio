@@ -121,7 +121,7 @@ async function body(path: string): Promise<string | null> {
 
   const [, section, slug, ...rest] = path.split("/");
   if (!slug || rest.length) return null;
-  if (section === "workshops" && slug in workshops)
+  if (section === "workshops" && Object.hasOwn(workshops, slug))
     return workshopMd(workshops[slug as WorkshopSlug]);
   if (section === "blog" || section === "work") {
     const found = await post(slug, section === "work" ? WORK_DIR : undefined);

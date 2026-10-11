@@ -7,14 +7,12 @@ import { JsonLd, itemListJsonLd, pageJsonLd } from "@/lib/page-schema";
 // #54 R4: re-render hourly so a dated post appears without a deploy.
 export const revalidate = 3600;
 
-const DESCRIPTION = BLOG_DESCRIPTION;
-
 export const metadata: Metadata = {
   title: "Blog",
-  description: DESCRIPTION,
+  description: BLOG_DESCRIPTION,
   openGraph: {
     title: "Blog | Adrian Rusan",
-    description: DESCRIPTION,
+    description: BLOG_DESCRIPTION,
     type: "website",
     url: "https://www.adrian-rusan.com/blog",
     siteName: "Adrian Rusan",
@@ -22,7 +20,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Blog | Adrian Rusan",
-    description: DESCRIPTION,
+    description: BLOG_DESCRIPTION,
     creator: "@adrian_rusan",
   },
   // Page-level alternates replace the layout's, so the RSS type is restated.
@@ -50,7 +48,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
           pageJsonLd({
             path: "/blog",
             name: "Field notes on agent-accelerated delivery",
-            description: DESCRIPTION,
+            description: BLOG_DESCRIPTION,
             crumbs: [{ name: "Blog", path: "/blog" }],
             type: "CollectionPage",
           }),

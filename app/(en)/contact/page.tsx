@@ -21,7 +21,7 @@ export default function ContactPage() {
           crumbs: [{ name: "Contact", path: contactPage.path }],
         })}
       />
-      <ProsePage page={contactPage}></ProsePage>
+      <ProsePage page={contactPage} />
     </PageShell>
   );
 }
