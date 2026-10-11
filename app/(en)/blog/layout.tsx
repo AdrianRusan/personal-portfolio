@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { PageShell } from '@/components/PageShell';
 
 export const metadata: Metadata = {
   title: {
@@ -16,10 +15,8 @@ export const metadata: Metadata = {
 };
 
 
+// Each page renders its own PageShell: the index keeps the closing ask, posts
+// end in their PostCta instead (R3-F06).
 export default function BlogLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <PageShell>
-      <div className="pt-32 sm:pt-36">{children}</div>
-    </PageShell>
-  );
+  return children;
 }

@@ -69,8 +69,10 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const studyUrl = `${SITE_URL}/work/${slug}`;
 
   return (
-    <PageShell>
-      <div className="max-w-3xl mx-auto px-5 sm:px-10 pt-40 pb-20">
+    // R3-F06: the offer card is the page's one ask; the shell keeps the checklist.
+    <PageShell hideFooterCta>
+      <div className="px-5 sm:px-10 pt-32 sm:pt-40 pb-20">
+      <div className="container-prose">
         <JsonLd
           data={[
             {
@@ -100,10 +102,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
         />
         <article>
           <header className="mb-10 pb-8 border-b border-black-300">
-            <Link
-              href="/work"
-              className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100 hover:text-purple transition-colors"
-            >
+            <Link href="/work" className="eyebrow hover:underline">
               Case study
             </Link>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mt-3 mb-5">
@@ -112,7 +111,18 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
             <p className="text-white-200 text-lg leading-relaxed">
               {study.frontmatter.description}
             </p>
+            {study.frontmatter.meta && (
+              <p className="text-sm text-white-200/80 mt-5">
+                {study.frontmatter.meta}
+              </p>
+            )}
           </header>
+
+          {study.frontmatter.forYou && (
+            <p className="text-white text-lg leading-relaxed mb-8 border-l-2 border-purple pl-4">
+              {study.frontmatter.forYou}
+            </p>
+          )}
 
           <div className="blog-prose">
             <MDXContent source={study.source} />
@@ -123,6 +133,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
             <PostCta cta={getPostCta(study.frontmatter)} source="work_end" />
           </div>
         </article>
+      </div>
       </div>
     </PageShell>
   );

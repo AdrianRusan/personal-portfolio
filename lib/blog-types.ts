@@ -2,6 +2,7 @@
 export type BlogCta =
   | 'teardown'
   | 'audit'
+  | 'cost-audit'
   | 'workshop'
   | 'harness'
   | 'automation'
@@ -23,6 +24,10 @@ export interface BlogFrontmatter {
   updated?: string;
   // Rendered as the post's FAQ section and its FAQPage JSON-LD (A1-12).
   faq?: { q: string; a: string }[];
+  // Case studies (R3-F06/F14): the buyer's problem in one line, and the meta
+  // row under the subtitle (date · Own project · duration · stack).
+  forYou?: string;
+  meta?: string;
 }
 
 export interface Heading {
