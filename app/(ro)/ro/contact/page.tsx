@@ -1,6 +1,6 @@
 import { PageShell } from "@/components/PageShell";
 import { ProsePage, proseMetadata } from "@/components/ProsePage";
-
+import { ContactOptions } from "@/components/ContactOptions";
 import { roContactPage } from "@/data/pages";
 import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 
@@ -12,7 +12,7 @@ export const metadata = proseMetadata(
 
 export default function RoContactPage() {
   return (
-    <PageShell ro>
+    <PageShell ro hideFooterCta>
       <JsonLd
         data={pageJsonLd({
           path: roContactPage.path,
@@ -24,7 +24,9 @@ export default function RoContactPage() {
           home: { name: "Acasă", path: "/ro" },
         })}
       />
-      <ProsePage page={roContactPage} />
+      <ProsePage page={roContactPage}>
+        <ContactOptions options={roContactPage.options ?? []} />
+      </ProsePage>
     </PageShell>
   );
 }

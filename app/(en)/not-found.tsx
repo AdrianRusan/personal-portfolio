@@ -15,21 +15,22 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <PageShell>
-      <section className="flex flex-col items-center text-center px-5 pt-40 pb-24">
-        <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100">
-          404
-        </span>
-        <h1 className="text-3xl md:text-5xl font-bold tracking-tight mt-4 mb-4">
+      <section className="flex flex-col items-center text-center px-5 pt-36 md:pt-44 pb-12">
+        <p className="eyebrow">
+          <span className="num">404</span> · Page not found
+        </p>
+        <h1 className="text-3xl md:text-5xl font-bold tracking-tight mt-4 mb-4 text-balance">
           This page doesn&apos;t exist.
         </h1>
-        <p className="text-white-200 text-lg mb-4 max-w-md">
+        <p className="text-white-200 text-lg mb-8 max-w-md text-pretty">
           The link may be old or mistyped. The homepage has everything else.
         </p>
         <MagicButton
           title="Back to the homepage"
           href="/"
+          otherClasses="md:mt-0"
         />
-        <nav aria-label="Main pages" className="flex gap-6 mt-8 text-sm font-medium">
+        <nav aria-label="Main pages" className="flex flex-wrap justify-center gap-x-6 gap-y-3 mt-8 text-sm font-medium">
           {primaryNav.slice(1).map((item) => (
             <Link
               key={item.link}

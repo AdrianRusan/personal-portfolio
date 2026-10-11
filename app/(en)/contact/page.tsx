@@ -1,6 +1,6 @@
 import { PageShell } from "@/components/PageShell";
 import { ProsePage, proseMetadata } from "@/components/ProsePage";
-
+import { ContactOptions } from "@/components/ContactOptions";
 import { contactPage } from "@/data/pages";
 import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 
@@ -11,7 +11,7 @@ export const metadata = proseMetadata(contactPage, {
 
 export default function ContactPage() {
   return (
-    <PageShell>
+    <PageShell hideFooterCta>
       <JsonLd
         data={pageJsonLd({
           path: contactPage.path,
@@ -21,7 +21,9 @@ export default function ContactPage() {
           crumbs: [{ name: "Contact", path: contactPage.path }],
         })}
       />
-      <ProsePage page={contactPage} />
+      <ProsePage page={contactPage}>
+        <ContactOptions options={contactPage.options ?? []} />
+      </ProsePage>
     </PageShell>
   );
 }

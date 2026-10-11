@@ -1,94 +1,61 @@
-import { GridBackground } from "./ui/GridBackground";
 import MagicButton from "./ui/MagicButton";
-import { TextGenerateEffect } from "./ui/TextGenerateEffect";
-import SpotlightBackground from "./ui/SpotlightBackground";
+import { ctaSecondary } from "./ui/button";
 import { TrackedLink } from "@/components/TrackedLink";
-import Link from "next/link";
 import { CALENDLY_URL, GUARANTEE } from "@/data";
+import { cn } from "@/lib/utils";
 
 const en = {
-  eyebrow:
-    "Adrian Rusan · Senior engineer, 10+ years · AI agents, human review",
+  eyebrow: "Adrian Rusan · Senior engineer, 10+ years",
   heading: "Ship the roadmap you can't hire for.",
-  body: "I clear your backlog with Claude Code agents, then review every pull request myself, security first, before it reaches you.",
-  promise: "Your roadmap ships — without a security incident on your name.",
-  honestBefore: "2–3x, not 100x — and",
-  honestLink: "here's what the agents get wrong",
+  body: "Claude Code agents clear your backlog. I review every pull request myself, security first, before you see it.",
   teardown: "Get a free teardown",
   call: "Book a scoping call",
   guarantee: GUARANTEE,
 };
-// Two CTAs only (C46): the €200 call lives on the offers ladder. The advice*
-// keys are no longer rendered; data/ro-home.ts still sets them until W4 drops them.
-export type HeroCopy = typeof en & {
-  adviceBefore?: string;
-  adviceLink?: string;
-  adviceHref?: string;
-};
+export type HeroCopy = typeof en;
 
+// P2: H1, one subhead, the two CTAs, the guarantee. The background is the
+// page's own (PageShell), so the hero has no effects of its own.
 const Hero = ({ copy = en }: { copy?: HeroCopy }) => {
   return (
-    <section className="min-h-[100vh]" id="home" aria-labelledby="hero-heading">
-      <SpotlightBackground />
-      <div>
-        <GridBackground />
-      </div>
+    <section
+      id="home"
+      aria-labelledby="hero-heading"
+      className="px-5 sm:px-10 pt-36 pb-12 md:pt-48 md:pb-20"
+    >
+      <div className="container-section flex flex-col items-center text-center">
+        <p className="eyebrow">{copy.eyebrow}</p>
+        <h1
+          id="hero-heading"
+          className="mt-4 max-w-4xl text-[40px] leading-[1.1] md:text-6xl font-bold tracking-tight text-balance"
+        >
+          {copy.heading}
+        </h1>
+        <p className="mt-6 max-w-2xl text-base md:text-xl text-white-200 leading-relaxed text-pretty">
+          {copy.body}
+        </p>
 
-      <div className="min-h-[100vh] flex justify-center items-center relative z-10 py-28">
-        <div className="max-w-[89vw] md:max-w-2xl lg:max-w-[62vw] flex justify-center items-center flex-col">
-          <p className="uppercase tracking-widest text-xs text-center text-blue-100">
-            {copy.eyebrow}
-          </p>
-
-          <TextGenerateEffect
-            id="hero-heading"
-            className="text-center text-[40px] md:text-5xl lg:text-6xl"
-            words={copy.heading}
+        <div className="mt-8 flex w-full max-w-sm flex-col md:max-w-none md:w-auto md:flex-row items-center gap-3 md:gap-4">
+          {/* Booking is the one filled button; the teardown is the outline one. */}
+          <MagicButton
+            title={copy.call}
+            href={CALENDLY_URL}
+            otherClasses="md:mt-0"
+            trackEvent={{ event: "calendly_click", props: { source: "hero" } }}
           />
-
-          <p className="text-center tracking-wide mb-2 mt-2 text-sm md:text-lg lg:text-xl text-white-200 max-w-3xl">
-            {copy.body}
-          </p>
-
-          <p className="text-center text-sm md:text-base text-blue-100 max-w-2xl">
-            {copy.promise}
-          </p>
-
-          <p className="text-center font-mono text-xs md:text-sm text-purple mt-4">
-            {copy.honestBefore}{" "}
-            <Link
-              href="/blog/what-agents-get-wrong"
-              className="underline underline-offset-2"
-            >
-              {copy.honestLink}
-            </Link>
-            .
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 mt-2">
-            {/* Booking is the one filled button; the teardown is the outline one. */}
-            <MagicButton
-              title={copy.call}
-              href={CALENDLY_URL}
-              trackEvent={{
-                event: "calendly_click",
-                props: { source: "hero" },
-              }}
-            />
-            <TrackedLink
-              href="/teardown"
-              event="cta_click"
-              props={{ cta: "teardown", source: "hero" }}
-              className="inline-flex h-12 w-full md:w-60 md:mt-10 items-center justify-center rounded-lg border border-purple px-7 text-sm font-semibold text-purple transition-colors hover:bg-purple/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:ring-offset-2 focus-visible:ring-offset-black-100"
-            >
-              {copy.teardown}
-            </TrackedLink>
-          </div>
-
-          <p className="text-center text-xs text-white-200/70 mt-5 max-w-xl">
-            {copy.guarantee}
-          </p>
+          <TrackedLink
+            href="/teardown"
+            event="cta_click"
+            props={{ cta: "teardown", source: "hero" }}
+            className={cn(ctaSecondary, "w-full md:w-auto md:min-w-60")}
+          >
+            {copy.teardown}
+          </TrackedLink>
         </div>
+
+        <p className="mt-5 max-w-xl text-sm text-white-200 text-pretty">
+          {copy.guarantee}
+        </p>
       </div>
     </section>
   );

@@ -26,8 +26,9 @@ describe("markdownFor", () => {
       "# Ship the roadmap you can't hire for.",
     );
     const ro = await markdownFor("/ro");
-    expect(ro).toContain("De la o sesiune de 110 € la un retainer lunar");
-    expect(ro).not.toContain("From a €200 call");
+    expect(ro).toContain("## Oferte și prețuri");
+    expect(ro).toContain("Prețuri pentru firme cu sediul în România.");
+    expect(ro).not.toContain("Offers and prices");
   });
 
   it("serves a post's MDX source as Markdown, figures as text", async () => {

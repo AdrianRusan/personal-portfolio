@@ -6,7 +6,6 @@ import {
   STRATEGY_CALL_CTA,
   STRATEGY_CALL_URL,
   callSteps,
-  shipVerify,
   workExperience,
 } from "@/data";
 import { formatPrice, ladder, offerById } from "@/data/ladder";
@@ -20,8 +19,7 @@ import {
 import {
   RO_LEDGER_PROOF,
   roCallFaq,
-  roExperience,
-  roShipVerify,
+  roWorkExperience,
 } from "@/data/ro-home";
 
 // Text-only pages (/privacy, /about, /contact and the RO twins). Bodies are
@@ -33,6 +31,8 @@ export interface ProsePage {
   description: string;
   lead: string;
   updated?: string;
+  // Parallel choices rendered as option blocks under the lead (/contact).
+  options?: { heading: string; body: string; cta: string; href: string }[];
   sections: { heading: string; body: string }[];
 }
 
@@ -92,76 +92,87 @@ const job = (j: {
   company: string;
   period: string;
   desc: string;
-}) => `- **${j.title}, ${j.company}** (${j.period}). ${j.desc}`;
+  client?: string;
+}) =>
+  `- **${j.title}, ${j.company}** (${j.period}). ${j.desc}${j.client ? `\n  - ${j.client}` : ""}`;
 
+// P2 (R1-F11): one human paragraph, the history as a plain list, the method
+// linked instead of repeated, and the ledger said once.
 export const aboutPage: ProsePage = {
   path: "/about",
-  title: "About Adrian Rusan",
+  // The layout template appends "| Adrian Rusan" (R1-F31).
+  title: "About",
   description:
     "Adrian Rusan: senior software engineer in Bucharest with 10+ years in production. Claude Code agents ship the backlog; he reviews every pull request.",
-  lead: "I'm Adrian Rusan, a senior software engineer in Bucharest, Romania. A fleet of Claude Code agents ships backlog work, and I review every pull request myself, security first, before it reaches you.",
+  lead: "I'm Adrian Rusan, a senior software engineer in Bucharest, Romania. Claude Code agents ship backlog work, and I review every pull request myself, security first.",
   sections: [
     {
-      heading: "10+ years in production",
-      body: `Before agents wrote any of my code, I shipped production software for a decade. That history is where the review judgment comes from.
+      heading: "How I work",
+      body: `Day to day, I work in writing. You get the pull requests, my review notes and a short update, so nobody waits on a meeting. I learned to review on systems where mistakes show: live overlays for PGL Major streams watched by 2M+ people at once, and 300+ survey projects for enterprise research clients. I review agent code the same way. I assume it's wrong, then check.
 
-${workExperience.map(job).join("\n")}`,
+The method, agents ship and I review, is [on the home page](/#ship-verify). The full process, from scope call to handoff, is on [the services page](/services#process).`,
     },
     {
-      heading: "The method: ship, then verify",
-      body: `${shipVerify.map((s) => `- **${s.label}: ${s.heading}.** ${s.body}`).join("\n")}
-
-The full process, from scope call to handoff, is on [the services page](/services#process).`,
+      heading: "Work history",
+      body: workExperience.map(job).join("\n"),
     },
     {
-      heading: "The honesty policy",
+      heading: "How the numbers are counted",
       body: `- Agents give you 2–3x the throughput, not 100x, and they get specific things wrong. [Here's what they get wrong](/blog/what-agents-get-wrong).
-- Every number on this site comes from a documented run. The workflow numbers are counted from my own session logs: ${LEDGER_PROOF}
-- The proof is labelled for what it is: benchmark runs on my own repos, not paying-client engagements.
-- No countdown timers and no fake scarcity. If a job isn't a fit, I say so on the scoping call.`,
+- Workflow numbers: ${LEDGER_PROOF}
+- Case studies are my own projects and say so.`,
     },
     {
       heading: "Capacity",
-      body: `${CAPACITY} If the slot is taken when you reach out, I give you the next real start date rather than overcommit.`,
+      body: `${CAPACITY} If the slot is taken when you reach out, I give you the next start date I can keep.`,
     },
     {
       heading: "Proof and history",
       body: `- [Case studies](/work): documented runs, what broke, what I built and the number it moved.
 - [Blog](/blog): field notes on shipping with Claude Code agents and senior review.
-- The full work history: ${SOCIAL}.
-- Ready to talk? [Book a scoping call](${CALENDLY_URL}) or see [how to reach me](/contact).`,
+- Elsewhere: ${SOCIAL}.`,
     },
   ],
 };
 
 const strategyCall = offerById(ladder, "strategy-call");
 
+// P2 (R1-F7, F30): three option blocks with one button each, the call first.
 export const contactPage: ProsePage = {
   path: "/contact",
   title: "Contact",
   description:
     "Book a 30-minute scoping call, email contact@adrian-rusan.com or send a repo for a free teardown. Adrian Rusan works remotely from Bucharest, Romania.",
   lead: "The quickest way to start is a 30-minute scoping call. If you'd rather write, email works just as well.",
-  sections: [
+  options: [
     {
       heading: "Book a scoping call",
-      body: `[Book a 30-minute scoping call](${CALENDLY_URL}). Tell me what you want built or shipped. You leave knowing which offer fits, what it covers and what it costs. No obligation.`,
+      body: "30 minutes on what you want built or shipped. You leave knowing which offer fits, what it covers and what it costs.",
+      cta: "Book a scoping call",
+      href: CALENDLY_URL,
     },
     {
       heading: "Email",
-      body: `${mailto}, for anything that doesn't need a call: a question, an offer you already picked, or an NDA to sign before we talk.`,
+      body: `${CONTACT_EMAIL}, for a question, an offer you already picked, or an NDA to sign before we talk.`,
+      cta: "Email me",
+      href: `mailto:${CONTACT_EMAIL}`,
     },
     {
       heading: "Free AI code teardown",
-      body: "[Send a repo or PR](/teardown) and get a free ~15-minute Loom of the security bugs your AI coding tools wrote that pass tests and merge anyway. No call, no pitch.",
+      body: "Send a repo or PR and get a ~15-minute Loom of the security bugs your AI tools wrote that pass tests.",
+      cta: "Send a repo",
+      href: "/teardown",
     },
+  ],
+  sections: [
     {
       heading: `${strategyCall.name} (${formatPrice(strategyCall)})`,
       body: `${strategyCall.summary} [${STRATEGY_CALL_CTA}](${STRATEGY_CALL_URL}).`,
     },
     {
       heading: "Response times",
-      body: `- **After a scoping call.** ${firstSentence(callSteps[2]!.body)}
+      body: `- **Email.** Within one working day.
+- **After a scoping call.** ${firstSentence(callSteps[2]!.body)}
 - **Free teardown.** Usually within 2–3 business days.
 - **Privacy and data requests.** Within 30 days.`,
     },
@@ -178,40 +189,38 @@ export const contactPage: ProsePage = {
 
 export const roAboutPage: ProsePage = {
   path: "/ro/despre",
-  title: "Despre Adrian Rusan",
+  title: "Despre",
   description:
     "Adrian Rusan: inginer software senior din București, cu peste 10 ani în producție. Agenții Claude Code livrează backlog-ul; el verifică fiecare PR.",
-  lead: "Sunt Adrian Rusan, inginer software senior în București. O flotă de agenți Claude Code livrează backlog-ul, iar eu verific personal fiecare pull request, întâi pentru securitate, înainte să ajungă la tine.",
+  lead: "Sunt Adrian Rusan, inginer software senior în București. Agenții Claude Code livrează backlog-ul, iar eu verific personal fiecare pull request, întâi pentru securitate.",
   sections: [
     {
-      heading: "Peste 10 ani în producție",
-      body: `Înainte ca agenții să scrie vreo linie din codul meu, am livrat software în producție timp de un deceniu. De acolo vine judecata din fiecare review.
+      heading: "Cum lucrez",
+      body: `Zi de zi, lucrez în scris. Primești pull request-urile, notele mele de review și un update scurt, așa că nimeni nu așteaptă după o ședință. Am învățat să fac review pe sisteme unde greșelile se văd: grafica live din transmisiunile PGL Major, urmărite de peste 2 milioane de oameni simultan, și peste 300 de proiecte de sondaje pentru clienți enterprise din cercetarea de piață. La fel verific și codul scris de agenți. Pornesc de la ideea că e greșit, apoi verific.
 
-${roExperience.jobs.map(job).join("\n")}`,
+Metoda, agenții livrează și eu verific, e [pe pagina principală](/ro#ship-verify). Tot procesul, de la discuția de scope la predare, e pe [pagina de servicii](/ro/servicii#process).`,
     },
     {
-      heading: "Metoda: livrare, apoi verificare",
-      body: `${roShipVerify.steps.map((s) => `- **${s.label}: ${s.heading}.** ${s.body}`).join("\n")}
-
-Tot procesul, de la discuția de scope la predare, e pe [pagina de servicii](/ro/servicii#process).`,
+      heading: "Experiență",
+      body: roWorkExperience.map(job).join("\n"),
     },
     {
-      heading: "Regula de onestitate",
-      body: `- Agenții îți dau de 2–3 ori mai mult volum, nu de 100 de ori, și greșesc lucruri anume. [Iată ce greșesc (în engleză)](/blog/what-agents-get-wrong).
-- Fiecare cifră de pe site vine dintr-o rulare documentată. Cifrele fluxului de lucru sunt numărate din propriile mele jurnale: ${RO_LEDGER_PROOF}
-- Dovezile sunt etichetate drept ce sunt: rulări pe propriile mele repo-uri, nu proiecte pentru clienți plătitori.
-- Fără cronometre și fără locuri „pe terminate”. Dacă proiectul nu e potrivit, îți spun asta din prima discuție.`,
+      heading: "Cum sunt numărate cifrele",
+      body: `- Agenții îți dau de 2–3 ori mai mult volum, nu de 100 de ori, și greșesc lucruri anume. [Iată ce greșesc](/blog/what-agents-get-wrong).
+- Cifrele fluxului de lucru: ${RO_LEDGER_PROOF}
+- Studiile de caz sunt proiectele mele și spun asta.`,
     },
     {
       heading: "Capacitate",
-      body: `${RO_CAPACITY} Dacă locul e ocupat când mă contactezi, îți spun sincer următoarea dată la care putem începe.`,
+      body: `${RO_CAPACITY} Dacă locul e ocupat când mă contactezi, îți dau următoarea dată de start pe care o pot respecta.`,
     },
     {
       heading: "Dovezi și istoric",
-      body: `- [Studii de caz (în engleză)](/work): rulări documentate, ce s-a stricat, ce am construit și ce cifră s-a mișcat.
-- [Blog (în engleză)](/blog): note despre livrarea cu agenți Claude Code și review senior.
-- Istoricul complet: ${SOCIAL}.
-- Vrei să vorbim? [Programează o discuție](${CALENDLY_URL}) sau vezi [cum mă poți contacta](/ro/contact).`,
+      body: `Studiile de caz și articolele sunt în engleză.
+
+- [Studii de caz](/work): rulări documentate, ce s-a stricat, ce am construit și ce cifră s-a mișcat.
+- [Blog](/blog): note despre livrarea cu agenți Claude Code și review senior.
+- În altă parte: ${SOCIAL}.`,
     },
   ],
 };
@@ -224,26 +233,35 @@ export const roContactPage: ProsePage = {
   description:
     "Programează o discuție de 30 de minute, scrie la contact@adrian-rusan.com sau trimite un repo pentru un teardown gratuit. Remote, din București.",
   lead: "Cel mai rapid începem cu o discuție de 30 de minute. Dacă preferi să scrii, un email merge la fel de bine.",
-  sections: [
+  options: [
     {
       heading: "Programează o discuție",
-      body: `[Programează o discuție de 30 de minute](${CALENDLY_URL}). Spune-mi ce vrei să construiești sau să livrezi. Pleci știind ce ofertă ți se potrivește, ce acoperă și cât costă. Fără nicio obligație.`,
+      body: "30 de minute despre ce vrei să construiești sau să livrezi. Pleci știind ce ofertă ți se potrivește, ce acoperă și cât costă.",
+      cta: "Programează o discuție",
+      href: CALENDLY_URL,
     },
     {
       heading: "Email",
-      body: `${mailto}, pentru orice nu are nevoie de o discuție: o întrebare, o ofertă pe care ai ales-o deja sau un NDA de semnat înainte să vorbim.`,
+      body: `${CONTACT_EMAIL}, pentru o întrebare, o ofertă pe care ai ales-o deja sau un NDA de semnat înainte să vorbim.`,
+      cta: "Scrie-mi",
+      href: `mailto:${CONTACT_EMAIL}`,
     },
     {
-      heading: "Teardown gratuit pentru cod scris cu AI",
-      body: "[Trimite un repo sau un PR](/teardown) și primești gratuit un Loom de ~15 minute (în engleză) cu bug-urile de securitate scrise de uneltele AI care trec de teste și ajung în merge.",
+      heading: "Teardown gratuit",
+      body: "Trimite un repo sau un PR și primești un Loom de ~15 minute, în engleză, cu bugurile de securitate scrise de uneltele AI care trec de teste.",
+      cta: "Trimite un repo",
+      href: "/teardown",
     },
+  ],
+  sections: [
     {
       heading: `${roStrategyCall.name} (${formatPriceRo(roStrategyCall)})`,
       body: `${roStrategyCall.summary} [${RO_STRATEGY_CALL_CTA}](${RO_STRATEGY_CALL_URL}).`,
     },
     {
       heading: "Timp de răspuns",
-      body: `- **După discuție.** ${firstSentence(roCallFaq.steps[2]!.body)}
+      body: `- **Email.** În cel mult o zi lucrătoare.
+- **După discuție.** ${firstSentence(roCallFaq.steps[2]!.body)}
 - **Teardown gratuit.** De obicei în 2–3 zile lucrătoare.
 - **Cereri privind datele personale.** În cel mult 30 de zile.`,
     },
