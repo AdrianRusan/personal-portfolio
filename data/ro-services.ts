@@ -236,9 +236,9 @@ export const roTrustStrip: TrustStripCopy = {
   eyebrow: "Peste 10 ani de software livrat în producție",
   employers: [FINTECH_EMPLOYER, "GoSocial", "PGL Esports", "Ipsos"],
   // A real client quote: kept verbatim in English rather than put words in his mouth.
-  quote: testimonials[0].quote,
+  quote: testimonials[0]!.quote,
   quoteLang: "en",
-  author: testimonials[0].name,
+  author: testimonials[0]!.name,
   role: "Inginer freelance, mobil și web",
 };
 

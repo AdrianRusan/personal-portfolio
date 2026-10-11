@@ -1,7 +1,7 @@
 import { FINTECH_EMPLOYER, testimonials } from "@/data";
 
 // One quote, one source: the homepage shows the same words (data/index.ts).
-const [quote] = testimonials;
+const quote = testimonials[0]!;
 
 const en = {
   ariaLabel: "Track record and testimonial",
