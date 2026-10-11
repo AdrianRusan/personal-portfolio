@@ -31,12 +31,6 @@ export const metadata: Metadata = {
   },
 };
 
-const teardownNavItems = [
-  { name: "Home", link: "/" },
-  { name: "Services", link: "/services" },
-  { name: "Work", link: "/work" },
-  { name: "Blog", link: "/blog" },
-];
 
 // Answers the objections that stop the form being sent.
 const trustNotes = [
@@ -53,7 +47,7 @@ const steps = [
 
 export default function TeardownPage() {
   return (
-    <PageShell navItems={teardownNavItems} hideEmailCapture hideFooterCta>
+    <PageShell hideEmailCapture hideFooterCta>
       <JsonLd
         data={pageJsonLd({
           path: "/teardown",

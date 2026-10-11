@@ -28,7 +28,6 @@ import {
   roServicesLadder,
   roTrustStrip,
 } from "@/data/ro-services";
-import { roServicesNavItems } from "../nav";
 import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 
 const title = "Servicii AI și prețuri, de la 110 €";
@@ -94,11 +93,7 @@ export default function RoServicesPage() {
           }),
         ]}
       />
-      <FloatingNav
-        navItems={roServicesNavItems}
-        ctaLabel="Rezervă"
-        ctaSource="ro_floating_nav"
-      />
+      <FloatingNav ctaLabel="Rezervă" ctaSource="ro_floating_nav" />
       <main id="main">
         <ServicesHero copy={roServicesHero} />
         <Ladder content={roServicesLadder} />

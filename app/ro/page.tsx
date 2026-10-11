@@ -30,7 +30,6 @@ import {
   roTestimonials,
   roWhoFor,
 } from "@/data/ro-home";
-import { roNavItems } from "./nav";
 import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 
 // #54 R4: re-render hourly so a dated post appears without a deploy.
@@ -97,11 +96,7 @@ export default function RoHome() {
           home: { name: "Acasă", path: "/ro" },
         })}
       />
-      <FloatingNav
-        navItems={roNavItems}
-        ctaLabel="Rezervă"
-        ctaSource="ro_floating_nav"
-      />
+      <FloatingNav ctaLabel="Rezervă" ctaSource="ro_floating_nav" />
       <main id="main">
         <Hero copy={roHero} />
         <ProofBand copy={roProofBand} />

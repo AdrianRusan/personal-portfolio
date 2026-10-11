@@ -9,12 +9,6 @@ import { pageTitle } from "@/lib/blog-types";
 import { JsonLd, SITE_URL, pageJsonLd } from "@/lib/page-schema";
 import { PageShell } from "@/components/PageShell";
 
-const workNavItems = [
-  { name: "Home", link: "/" },
-  { name: "Services", link: "/services" },
-  { name: "Work", link: "/work" },
-  { name: "Blog", link: "/blog" },
-];
 
 interface CaseStudyPageProps {
   params: Promise<{ slug: string }>;
@@ -75,7 +69,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const studyUrl = `${SITE_URL}/work/${slug}`;
 
   return (
-    <PageShell navItems={workNavItems}>
+    <PageShell>
       <div className="max-w-3xl mx-auto px-5 sm:px-10 pt-40 pb-20">
         <JsonLd
           data={[

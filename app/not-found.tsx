@@ -3,6 +3,7 @@ import MagicButton from '@/components/ui/MagicButton'
 import { PageShell } from '@/components/PageShell'
 import { FaLocationArrow } from 'react-icons/fa6'
 import Link from 'next/link'
+import { primaryNav } from '@/data/nav'
 
 // Absolute: the layout template would add the suffix twice (A1-21). Next
 // already emits noindex for not-found, so no robots block here.
@@ -11,16 +12,10 @@ export const metadata: Metadata = {
   description: 'The page you are looking for does not exist.',
 }
 
-const navItems = [
-  { name: 'Home', link: '/' },
-  { name: 'Services', link: '/services' },
-  { name: 'Work', link: '/work' },
-  { name: 'Blog', link: '/blog' },
-]
 
 export default function NotFound() {
   return (
-    <PageShell navItems={navItems}>
+    <PageShell>
       <section className="flex flex-col items-center text-center px-5 pt-40 pb-24">
         <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100">
           404
@@ -38,7 +33,7 @@ export default function NotFound() {
           href="/"
         />
         <nav aria-label="Main pages" className="flex gap-6 mt-8 text-sm font-medium">
-          {navItems.slice(1).map((item) => (
+          {primaryNav.slice(1).map((item) => (
             <Link
               key={item.link}
               href={item.link}

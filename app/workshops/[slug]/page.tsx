@@ -56,12 +56,6 @@ export async function generateMetadata({
   };
 }
 
-const navItems = [
-  { name: "Home", link: "/" },
-  { name: "Services", link: "/services" },
-  { name: "Agenda", link: "#agenda" },
-  { name: "Blog", link: "/blog" },
-];
 
 export default async function WorkshopPage({ params }: WorkshopPageProps) {
   const w = workshops[(await params).slug];
@@ -73,7 +67,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
   );
 
   return (
-    <PageShell navItems={navItems}>
+    <PageShell>
       <JsonLd
         data={[
           workshopJsonLd(w),

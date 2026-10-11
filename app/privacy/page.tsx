@@ -15,12 +15,6 @@ export const metadata: Metadata = {
   },
 };
 
-const privacyNavItems = [
-  { name: "Home", link: "/" },
-  { name: "Services", link: "/services" },
-  { name: "Work", link: "/work" },
-  { name: "Blog", link: "/blog" },
-];
 
 const UPDATED = "11 October 2026";
 
@@ -128,7 +122,7 @@ const sections: { heading: string; body: ReactNode }[] = [
 
 export default function PrivacyPage() {
   return (
-    <PageShell navItems={privacyNavItems}>
+    <PageShell>
       <article className="px-5 sm:px-10 pt-28 sm:pt-32 pb-20">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-3xl md:text-5xl font-bold tracking-tight">

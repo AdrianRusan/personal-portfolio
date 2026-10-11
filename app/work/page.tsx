@@ -28,12 +28,6 @@ export const metadata: Metadata = {
   alternates: { canonical: "/work" },
 };
 
-const workNavItems = [
-  { name: "Home", link: "/" },
-  { name: "Services", link: "/services" },
-  { name: "Work", link: "/work" },
-  { name: "Blog", link: "/blog" },
-];
 
 // Same shell as every other page. Lists every published study from the work loader.
 export default async function WorkIndexPage() {
@@ -42,7 +36,7 @@ export default async function WorkIndexPage() {
   if (studies.length === 0) notFound();
 
   return (
-    <PageShell navItems={workNavItems}>
+    <PageShell>
       <div className="max-w-5xl mx-auto px-5 sm:px-10 pt-32 sm:pt-36 pb-20">
         <JsonLd
           data={[

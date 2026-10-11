@@ -13,7 +13,8 @@ export function PageShell({
   hideEmailCapture = false,
   hideFooterCta = false,
 }: {
-  navItems: NavItems;
+  // Omit for the shared nav (data/nav.ts).
+  navItems?: NavItems;
   children: ReactNode;
   hideEmailCapture?: boolean;
   hideFooterCta?: boolean;

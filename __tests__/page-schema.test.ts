@@ -51,5 +51,7 @@ describe("/llms.txt", () => {
     for (const { url } of await sitemap()) {
       expect(text).toContain(`(${url})`);
     }
+    // Generated from frontmatter, so it inherits the 30-PR facts (no tests, no CI).
+    expect(text).not.toMatch(/tests? passed|CI (was )?green|green CI|2\.5 days/i);
   });
 });

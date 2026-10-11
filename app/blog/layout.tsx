@@ -15,17 +15,10 @@ export const metadata: Metadata = {
   },
 };
 
-const blogNavItems = [
-  { name: 'Home', link: '/' },
-  { name: 'Blog', link: '/blog' },
-  { name: 'Services', link: '/services' },
-  { name: 'Work', link: '/work' },
-  { name: 'RSS', link: '/feed.xml' },
-];
 
 export default function BlogLayout({ children }: { children: React.ReactNode }) {
   return (
-    <PageShell navItems={blogNavItems}>
+    <PageShell>
       <div className="pt-32 sm:pt-36">{children}</div>
     </PageShell>
   );

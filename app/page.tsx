@@ -13,7 +13,7 @@ import {
   servicesFaqCopy,
 } from "@/components/services/ServicesFaq";
 import Testimonials from "@/components/Testimonials";
-import { homeFaqs, navItems } from "@/data";
+import { homeFaqs } from "@/data";
 import dynamic from "next/dynamic";
 import type { Metadata } from "next";
 import { ExperienceSkeleton } from "@/components/ui/Skeleton";
@@ -87,7 +87,7 @@ export default function Home() {
   return (
     <div className="relative dark:bg-black-100 bg-white overflow-hidden">
       <JsonLd data={homeJsonLd} />
-      <FloatingNav navItems={navItems} />
+      <FloatingNav />
       <main id="main">
         <Hero />
         <ProofBand />
