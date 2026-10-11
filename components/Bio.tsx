@@ -3,7 +3,7 @@ import path from "node:path";
 import Image from "next/image";
 import Link from "next/link";
 import { FaGithub, FaLinkedin, FaXTwitter, FaYoutube } from "react-icons/fa6";
-import { YOUTUBE_URL } from "@/data";
+import { FINTECH_EMPLOYER, YOUTUBE_URL } from "@/data";
 import { cn } from "@/lib/utils";
 
 // A real face strengthens the "one accountable human reviews your code" pitch.
@@ -12,7 +12,7 @@ const hasPhoto = fs.existsSync(path.join(process.cwd(), "public", "adrian.jpg"))
 
 const en = {
   heading: "Who actually reviews your code",
-  body: "I'm Adrian Rusan, a software engineer with 10+ years shipping production software — most recently as Founding Engineer at Bono Fintech (2024–present), and before that at GoSocial, PGL Esports and Ipsos. On every engagement here, I'm the senior human who reviews each PR the agent fleet ships before it reaches you.",
+  body: `I'm Adrian Rusan, a software engineer with 10+ years shipping production software — most recently as Founding Engineer at ${FINTECH_EMPLOYER} (2024–present), and before that at GoSocial, PGL Esports and Ipsos. On every engagement here, I'm the senior human who reviews each PR the agent fleet ships before it reaches you.`,
   onGithub: "Adrian Rusan on GitHub",
   onLinkedin: "Adrian Rusan on LinkedIn",
   onX: "Adrian Rusan on X",

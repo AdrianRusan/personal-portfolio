@@ -44,7 +44,7 @@ const ShipVerify = ({ copy = en }: { copy?: ShipVerifyCopy }) => {
               <span
                 className={`font-mono text-xs font-bold tracking-[0.14em] ${step.tag === "VERIFY" ? "text-purple" : "text-blue-100"}`}
               >
-                {step.tag}
+                {step.label}
               </span>
               <h4 className="text-lg font-semibold mt-2 mb-2">
                 {step.heading}

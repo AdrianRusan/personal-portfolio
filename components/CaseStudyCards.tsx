@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { getPosts, WORK_DIR } from "@/lib/blog";
+import { byCaseStudyOrder } from "@/data/work";
+import type { BlogPost, PostTitles } from "@/lib/blog-types";
 
 // The method-demo post doubles as the benchmark card next to the case studies.
 const BENCHMARK_SLUG = "30-prs-in-2-5-days";
@@ -13,35 +15,43 @@ const en = {
   heading: "Proof from documented runs",
   read: "Read it →",
   all: "See all case studies →",
+  // Per-slug title/description overrides; the links still go to the EN pages.
+  titles: {} as PostTitles,
 };
 export type CaseStudyCardsCopy = typeof en;
 
 const CaseStudyCards = async ({ copy = en }: { copy?: CaseStudyCardsCopy }) => {
-  const studies = await getPosts(WORK_DIR);
+  const studies = byCaseStudyOrder(await getPosts(WORK_DIR));
   if (studies.length === 0) return null;
 
   const benchmark = (await getPosts()).find((p) => p.slug === BENCHMARK_SLUG);
+  const card = (p: BlogPost) => {
+    const { title, description } = { ...p.frontmatter, ...copy.titles[p.slug] };
+    return { title, body: description };
+  };
   const cards = [
     ...studies.map((s) => ({
       href: `/work/${s.slug}`,
       label: copy.study,
-      title: s.frontmatter.title,
-      body: s.frontmatter.description,
+      ...card(s),
     })),
     ...(benchmark
       ? [
           {
             href: `/blog/${benchmark.slug}`,
             label: copy.benchmark,
-            title: benchmark.frontmatter.title,
-            body: benchmark.frontmatter.description,
+            ...card(benchmark),
           },
         ]
       : []),
   ];
 
   return (
-    <section aria-labelledby="case-studies-heading" className="px-5 sm:px-10 pb-20">
+    <section
+      id="work"
+      aria-labelledby="case-studies-heading"
+      className="px-5 sm:px-10 py-20 scroll-mt-24"
+    >
       <div className="max-w-5xl mx-auto">
         <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100">
           {copy.eyebrow}

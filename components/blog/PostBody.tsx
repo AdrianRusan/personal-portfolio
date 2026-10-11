@@ -12,7 +12,7 @@ type AnchorProps = ComponentPropsWithoutRef<"a">;
 type ImgProps = ComponentPropsWithoutRef<"img">;
 type PreProps = ComponentPropsWithoutRef<"pre">;
 
-function MDXLink({ href, children, ...props }: AnchorProps) {
+export function MDXLink({ href, children, ...props }: AnchorProps) {
   if (!href) return <span {...props}>{children}</span>;
 
   const isExternal = href.startsWith("http") || href.startsWith("//");

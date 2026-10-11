@@ -4,8 +4,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import sitemap from "@/app/sitemap";
-import { caseStudyResults } from "@/data/work";
-import { WORK_DIR } from "@/lib/blog";
+import { byCaseStudyOrder, caseStudyResults } from "@/data/work";
+import { getPosts, WORK_DIR } from "@/lib/blog";
 
 describe("/work index", () => {
   it("is in the sitemap", async () => {
@@ -22,7 +22,18 @@ describe("/work index", () => {
       // Body only (frontmatter dates hold digits), and not part of a longer number.
       const body = fs.readFileSync(file, "utf8").replace(/^---[\s\S]*?---/, "");
       const escaped = figure.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      expect(body).toMatch(new RegExp(`(^|[^\\d,])${escaped}(?![\\d,]\\d)`));
+      // A word figure ("Weekly") must appear as a whole word, any case.
+      const pattern = /\d/.test(figure)
+        ? new RegExp(`(^|[^\\d,])${escaped}(?![\\d,]\\d)`)
+        : new RegExp(`\\b${escaped}\\b`, "i");
+      expect(body).toMatch(pattern);
     },
   );
+
+  // #54 R2: honesty-gate leads, then the cost study; the nine-PR study is unpublished.
+  it("orders the published studies", async () => {
+    const slugs = byCaseStudyOrder(await getPosts(WORK_DIR)).map((p) => p.slug);
+    expect(slugs.slice(0, 2)).toEqual(["honesty-gate", "agent-cost-per-commit"]);
+    expect(slugs).not.toContain("nine-prs-one-afternoon");
+  });
 });

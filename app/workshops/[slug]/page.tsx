@@ -8,6 +8,7 @@ import {
   euro,
   type WorkshopSlug,
 } from "@/data/workshops";
+import { WORKFLOW_NUMBERS } from "@/data";
 import { FaLocationArrow } from "react-icons/fa6";
 
 interface WorkshopPageProps {
@@ -151,8 +152,9 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
             ))}
           </ul>
           <p className="text-sm text-white-200/80 mt-6 leading-relaxed">
-            Taught from my own runs: 187 agent sessions, ~500 agent-hours, 6
-            weeks.
+            Taught from my own runs: {WORKFLOW_NUMBERS.sessions} sessions and{" "}
+            {WORKFLOW_NUMBERS.hours} hours over {WORKFLOW_NUMBERS.days} days,
+            counted from my own session logs.
           </p>
         </div>
       </section>

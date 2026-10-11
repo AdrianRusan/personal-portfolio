@@ -8,12 +8,17 @@ interface PostCardProps {
   post: BlogPost;
   featured?: boolean;
   headingLevel?: 'h2' | 'h3';
+  // /ro renders the same cards with Romanian labels and dates.
+  dateLocale?: string;
+  featuredLabel?: string;
 }
 
 export default function PostCard({
   post,
   featured = false,
   headingLevel: Heading = 'h2',
+  dateLocale,
+  featuredLabel = 'Featured',
 }: PostCardProps) {
   const { slug, frontmatter, readingTime } = post;
 
@@ -30,7 +35,7 @@ export default function PostCard({
         <div className="flex flex-col gap-3 flex-1">
           {frontmatter.featured && (
             <span className="inline-flex items-center self-start px-2 py-0.5 rounded-full text-xs font-medium bg-purple/20 text-purple border border-purple/30">
-              Featured
+              {featuredLabel}
             </span>
           )}
 
@@ -56,7 +61,7 @@ export default function PostCard({
           <div className="flex items-center gap-4 text-xs text-white-200/70 pt-1">
             <span className="flex items-center gap-1.5">
               <Calendar size={12} />
-              {formatDate(frontmatter.date)}
+              {formatDate(frontmatter.date, dateLocale)}
             </span>
             <span className="flex items-center gap-1.5">
               <Clock size={12} />

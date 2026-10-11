@@ -1,4 +1,6 @@
 import { RO_LEDGER_PROOF } from "@/data/ro-home";
+import { offerById } from "@/data/ladder";
+import { FINTECH_EMPLOYER, testimonials } from "@/data";
 import type { DeliverySprintCopy } from "@/components/services/DeliverySprint";
 import type { EntryOfferCopy } from "@/components/services/EntryOffer";
 import type { HarnessSetupCopy } from "@/components/services/HarnessSetup";
@@ -15,6 +17,7 @@ import {
   RO_CREDIT_TERMS,
   RO_GUARANTEE,
   roLadder,
+  roSprintDurations,
   roTierNames,
   roTiers,
 } from "@/data/ro";
@@ -32,7 +35,7 @@ export const roServicesHero: ServicesHeroCopy = {
   cta: "Programează o discuție",
   ctaSource: "ro_services_hero",
   tiersLink:
-    "Nu ești gata de o discuție? Vezi cele patru niveluri și prețurile ↓",
+    "Nu ești gata de o discuție? Vezi cele patru niveluri, opt oferte și prețurile ↓",
   guarantee: RO_GUARANTEE,
   ledger: RO_LEDGER_PROOF,
   proofItems: [
@@ -66,9 +69,9 @@ export const roServicesLadder: LadderContent = {
   eyebrow: "Consultanță → Training → Implementare → Livrare",
   heading: "Patru moduri de a lucra împreună, toate cu prețul afișat",
   intro: `Începe cu o sesiune de 110 € sau mergi direct la un sprint. ${RO_CREDIT_TERMS} Toate prețurile sunt în EUR, fără TVA.`,
-  limited: "Disponibilitate limitată",
+  limited: "Unul pe rând",
   capacity:
-    "Stratul de verificare e un singur om senior și nu se poate paraleliza.",
+    "Review-ul îl face un singur om senior, așa că lucrez la un singur sprint sau retainer în același timp.",
   source: "ro_services_ladder",
 };
 
@@ -80,13 +83,13 @@ export const roProcessSteps: ProcessStepsCopy = {
     {
       tag: "1 · SCOPE",
       heading: "Discuția de scope (ziua 0)",
-      body: "Stabilim setul de PR-uri, ce înseamnă „gata” pentru fiecare, accesul la repo și convențiile tale. Aici se fixează scope-ul și prețul. Tot aceasta e și discuția comercială — dacă nu ne potrivim, afli din prima discuție.",
+      body: "Stabilim setul de PR-uri, ce înseamnă „gata” pentru fiecare, accesul la repo și convențiile tale. Aici se fixează scope-ul și prețul. Tot atunci vorbim și partea comercială: dacă nu ne potrivim, afli din prima discuție.",
     },
     {
       tag: "2 · LIVRARE",
       heading: "Flota de agenți (zilele 1–N)",
-      body: "Tichetele sunt distribuite către agenți Claude Code care lucrează în paralel, în git worktree-uri izolate, după convențiile din CLAUDE.md-ul tău. De aici vine volumul și de aici vine accelerarea de 2-3 ori.",
-      caption: "~2-3x volum livrat",
+      body: "Tichetele sunt distribuite către agenți Claude Code care lucrează în paralel, în git worktree-uri izolate, după convențiile din CLAUDE.md-ul tău. De aici vine volumul și de aici vine accelerarea de 2–3 ori.",
+      caption: "~2–3x volum livrat",
     },
     {
       tag: "3 · VERIFICARE",
@@ -118,7 +121,7 @@ export const roDeliverySprint: DeliverySprintCopy = {
   eyebrow: "Oferta principală",
   heading: "Sprint de livrare accelerat de agenți",
   intro:
-    "Un set fix de pull request-uri gata de producție, verificate pentru securitate — livrate de o flotă de agenți, verificate linie cu linie de un inginer senior — în câteva zile, la un preț stabilit înainte să începem.",
+    "Un set fix de pull request-uri gata de producție, verificate pentru securitate — livrate de o flotă de agenți, verificate linie cu linie de un inginer senior — în săptămâni, nu în luni, la un preț stabilit înainte să începem.",
   deliveredHeading: "Ce primești, exact",
   deliverables: [
     {
@@ -139,6 +142,7 @@ export const roDeliverySprint: DeliverySprintCopy = {
     },
   ],
   pricingHeading: "Prețuri",
+  rowHeader: "Criteriu",
   // ponytail: EN ~€10–14k, Standard €14,500 and Scale €24,000 scaled by the
   // same 55% as data/ro.ts — confirm with Adi; data/ro.ts only fixes the Pilot (4.100 €).
   pricingLead:
@@ -169,7 +173,7 @@ export const roDeliverySprint: DeliverySprintCopy = {
     },
     {
       label: "Durată",
-      values: ["~3–5 zile", "~1–2 săptămâni", "~2–3 săptămâni"],
+      values: roSprintDurations,
     },
     {
       label: "Preț",
@@ -207,7 +211,7 @@ export const roDeliverySprint: DeliverySprintCopy = {
     "Intenționat nu există o garanție generală de tip „banii înapoi dacă nu ești mulțumit”. Duce la dispute de scope și nu așa lucrează un profesionist senior. Cele două de mai sus mă fac să răspund exact acolo unde contează: calitate și securitate.",
   paymentHeading: "Plată",
   payment:
-    "50% ca să rezervi slotul, 50% la predare. Un Sprint Pilot se poate plăti integral în avans, fiind o sumă mică. Vrei mai multe sprinturi la rând? Pentru asta e retainerul, mai jos.",
+    "50% ca să rezervi slotul, 50% la predare. Un Sprint Pilot se poate plăti integral în avans. Vrei mai multe sprinturi la rând? Pentru asta e retainerul, mai jos.",
 };
 
 export const roEntryOffer: EntryOfferCopy = {
@@ -220,7 +224,7 @@ export const roEntryOffer: EntryOfferCopy = {
     "Îmi trimiți un tichet real din backlog — un bug, o funcționalitate mică, ce ai cu adevărat la rând.",
     "Un agent îl implementează. Eu fac review de securitate pe diff, linie cu linie — același review adversarial pe care îl primește fiecare PR din sprint.",
     "Primești PR-ul gata de merge, în repo-ul tău, plus un raport de review de o pagină care arată exact ce a prins review-ul.",
-    "Livrat în ~48 de ore.",
+    `Livrat în ${offerById(roLadder, "reviewed-pr").duration}.`,
   ],
   cta: "Începe cu un PR",
   emailSubject: "PR revizuit (550 €)",
@@ -231,13 +235,12 @@ export const roEntryOffer: EntryOfferCopy = {
 export const roTrustStrip: TrustStripCopy = {
   ariaLabel: "Experiență și testimonial",
   eyebrow: "Peste 10 ani de software livrat în producție",
-  employers: ["Bono Fintech", "GoSocial", "PGL Esports", "Ipsos"],
+  employers: [FINTECH_EMPLOYER, "GoSocial", "PGL Esports", "Ipsos"],
   // A real client quote: kept verbatim in English rather than put words in his mouth.
-  quote:
-    "I am very pleased with Adrian's efforts and progress on my project. I was informed on a daily basis about progress, and Adrian is very keen on delivering quality work. He made sure I was happy with the end result. I definitely recommend contacting Adrian if you are in need of any web related projects.",
+  quote: testimonials[0]!.quote,
   quoteLang: "en",
-  author: "Tim Claes",
-  role: "Inginer freelance mobile și web",
+  author: testimonials[0]!.name,
+  role: "Inginer freelance, mobil și web",
 };
 
 export const roRetainer: RetainerCopy = {
@@ -247,7 +250,7 @@ export const roRetainer: RetainerCopy = {
     "Livrare senior AI-native, în fiecare lună: un flux constant de PR-uri verificate pentru securitate, pentru echipele care nu se mai întreabă dacă agenții sunt rapizi și acum vor să-i folosească continuu și în siguranță.",
   deliveredHeading: "Ce primești, lunar",
   deliverables: [
-    "O bandă lunară asumată de PR-uri, toate trecute prin review adversarial — același pipeline ship/verify ca la sprint, în ritm continuu.",
+    "Un număr lunar de PR-uri stabilit dinainte, toate trecute prin review adversarial — același pipeline ship/verify ca la sprint, în ritm continuu.",
     "Un registru continuu cu problemele de securitate găsite și un raport lunar despre „ce au greșit agenții în codul tău”.",
     "Acces async permanent la mine pentru întrebări despre livrare și review.",
     "Prioritate față de sprinturile punctuale — clienții cu retainer au un slot de verificare rezervat permanent.",
@@ -257,12 +260,12 @@ export const roRetainer: RetainerCopy = {
   price: "2.200 €",
   perMonth: "/lună",
   pricingBody:
-    "Un slot de review senior rezervat permanent și o bandă lunară asumată de PR-uri revizuite, pe același pipeline ship/verify ca la sprint. Banda exactă și prețul per PR se stabilesc în discuție, în funcție de repo-ul și ritmul tău — cu un angajament inițial de 3 luni.",
+    "Un slot de review senior rezervat permanent și un număr lunar de PR-uri revizuite, stabilit dinainte, pe același pipeline ship/verify ca la sprint. Numărul exact și prețul per PR se stabilesc în discuție, în funcție de repo-ul și ritmul tău — cu un angajament inițial de 3 luni.",
   pricingRate:
     "Prețul per PR iese cu aproximativ 20–30% sub cel al unui sprint punctual — asta îți aduce angajamentul lunar. Nu există o listă de prețuri publică; detaliile se stabilesc în discuție.",
   cta: "Programează o discuție",
   bandNote:
-    "Banda lunară se fixează din ziua 0, fără facturi surpriză — ce depășește se mută în luna următoare, nu apare pe factură.",
+    "Numărul lunar se fixează din ziua 0, fără facturi surpriză — ce depășește se mută în luna următoare, nu apare pe factură.",
   guaranteesHeading: "Garanțiile",
   guarantees: [
     securityGuarantee,
@@ -273,18 +276,18 @@ export const roRetainer: RetainerCopy = {
   ],
   termsHeading: "Condiții",
   terms: [
-    "Volumul e o bandă, nu e nelimitat. Ce depășește trece în luna următoare sau într-un sprint suplimentar. Banda exactă se stabilește în discuție.",
+    "Volumul are o limită stabilită, nu e nelimitat. Ce depășește trece în luna următoare sau într-un sprint suplimentar. Limita exactă se stabilește în discuție.",
     "Nu include răspuns la incidente 24/7 — se poate adăuga ca serviciu separat, cu preț separat.",
     "Începem cu trei luni. Dacă luna 1 nu atinge ritmul stabilit, te poți opri acolo. După cele trei luni mergem lună de lună: îmi dai un preaviz de 30 de zile când vrei să te oprești.",
   ],
 };
 
 export const roHarnessSetup: HarnessSetupCopy = {
-  eyebrow: "Învață-ți echipa să pescuiască",
+  eyebrow: "Metoda rămâne la echipa ta",
   heading:
     "Agent Fleet Setup: harness-ul pe care îl folosesc eu, în repo-ul tău",
   intro:
-    "Instalez și întăresc exact harness-ul ship/verify pe care îl folosesc eu — în repo-ul tău, adaptat stack-ului și convențiilor tale — ca echipa ta să poată livra în ritmul agenților, cu plasele de siguranță deja puse.",
+    "Instalez și securizez exact harness-ul ship/verify pe care îl folosesc eu — în repo-ul tău, adaptat stack-ului și convențiilor tale — ca echipa ta să poată livra în ritmul agenților, cu plasele de siguranță deja puse.",
   deliveredHeading: "Ce primești, exact",
   deliverables: [
     "Un agent harness Claude Code funcțional, configurat pe repo-ul tău: regulile de proiect din CLAUDE.md, fluxul cu worktree-uri și dispatch, plus integrarea în CI.",
@@ -297,7 +300,7 @@ export const roHarnessSetup: HarnessSetupCopy = {
   pricingEyebrow: "Agent Fleet Setup",
   price: "De la 2.200 €",
   pricingBody:
-    "Un repo: configurarea flotei de agenți, gate-uri de securitate în CI, criteriile de review, playbook-ul de predare și suportul de după. Scope-ul crește dacă extindem pe mai multe repo-uri, adăugăm workshop-uri sau lucrăm în pair cu echipa — totul stabilit și fixat în discuție, înainte să înceapă orice lucru.",
+    "Un repo: configurarea flotei de agenți, gate-uri de securitate în CI, criteriile de review, playbook-ul de predare și suportul de după. Scope-ul crește dacă extindem pe mai multe repo-uri, adăugăm workshop-uri sau facem pair programming cu echipa — totul stabilit și fixat în discuție, înainte să înceapă orice lucru.",
   cta: "Programează o discuție",
   lockedNote:
     "Fixat din ziua 0, fără facturi surpriză — prețul se stabilește la discuția de scope, înainte să înceapă orice lucru.",
@@ -315,13 +318,13 @@ export const roHarnessSetup: HarnessSetupCopy = {
 };
 
 export const roScarcity: ScarcityCopy = {
-  heading: "De ce pot lua doar câteva proiecte în paralel",
+  heading: "De ce lucrez la un singur proiect în același timp",
   intro:
     "Stratul de verificare e un singur om senior — eu — și nu se paralelizează. Agenții scalează livrarea; review-ul nu. Nu e o limită de marketing, e blocajul real al modelului de lucru și e motivul pentru care totul poate intra în merge în siguranță.",
   ceiling: "Așa că limita e asta:",
-  limitLead: "Rulez cel mult 2 sprinturi de livrare în același timp",
+  limitLead: "Lucrez la un singur sprint sau retainer în același timp.",
   limitRest:
-    "— review-ul e făcut de un singur om și nu se paralelizează. Dacă ambele locuri sunt ocupate când mă contactezi, îți spun sincer următoarea dată la care putem începe, în loc să promit mai mult decât pot duce.",
+    "Dacă locul e ocupat când mă contactezi, îți spun sincer următoarea dată la care putem începe, în loc să promit mai mult decât pot duce.",
   outro:
     "Fără cronometre, fără „au mai rămas 3 locuri azi”. Limita e pur și simplu adevărul despre cum funcționează asta — și e, totodată, argumentul de vânzare.",
 };
@@ -355,7 +358,7 @@ export const roServicesFaq: ServicesFaqCopy = {
     {
       question: "Ce se întâmplă cu datele și codul nostru în uneltele de AI?",
       answer:
-        "Ce unelte de AI ating codul tău stabilim în scris, înainte de acces. Dacă politica voastră exclude o unealtă sau un furnizor, nu rulează pe repo-ul vostru. Codul tău nu e refolosit niciodată în munca pentru alt client și nu e publicat nicăieri.",
+        "Ce unelte de AI ating codul tău stabilim în scris, înainte de acces. Dacă politica firmei tale exclude o unealtă sau un furnizor, nu rulează pe repo-ul tău. Codul tău nu e refolosit niciodată în munca pentru alt client și nu e publicat nicăieri.",
     },
     {
       question: "În ce fus orar lucrezi?",
@@ -372,14 +375,14 @@ export const roServicesFaq: ServicesFaqCopy = {
         "Dacă primul PR revizuit nu e gata de merge după standardul tău, nu îl plătești. Riscul tău e cel mai mare înainte să fi livrat ceva, așa că garanția stă exact acolo. Scope-ul se fixează în ziua 0, deci nu există facturi care o iau razna. La retainer, dacă luna 1 nu atinge ritmul stabilit, te poți opri acolo.",
     },
     {
-      question: "Poți lucra ca un contractor obișnuit, la zi?",
+      question: "Poți lucra ca un contractor obișnuit, plătit pe zi?",
       answer:
         "Capacitatea continuă e retainerul, de la 2.200 €/lună. Nu e varianta pe care o recomand pentru început: un sprint îți vinde un rezultat revizuit, la un preț stabilit dinainte, ceea ce e mai avantajos decât să cumperi timp. Începe cu un singur PR revizuit dacă vrei să testezi întâi colaborarea.",
     },
     {
       question: "De ce să nu angajez o agenție sau mai mulți ingineri?",
       answer:
-        "O agenție îți vinde orele unei echipe, cu adaos, iar oamenii noi se angajează și se acomodează în luni de zile. Aici cumperi rezultate revizuite în câteva zile, de la un singur inginer senior care conduce o flotă de agenți: fără costuri de coordonare și fără muncă de junior facturată la tarif de senior. Agențiile care folosesc agenți pun rar un review senior adversarial deasupra. Aici, review-ul e produsul.",
+        "O agenție îți vinde orele unei echipe, cu adaos, iar oamenii noi se angajează și se acomodează în luni de zile. Aici primești primul PR revizuit în câteva zile, de la un singur inginer senior care conduce o flotă de agenți: fără costuri de coordonare și fără muncă de junior facturată la tarif de senior. Agențiile care folosesc agenți pun rar un review senior adversarial deasupra. Aici, review-ul e produsul.",
     },
   ],
 };
@@ -388,7 +391,7 @@ export const roServicesFinalCta: ServicesFinalCtaCopy = {
   heading: "Spune-mi ce ai în backlog. Îți spun cât costă.",
   body: "O discuție de 30 de minute în care conturăm scope-ul și stabilim prețul. Fără nicio obligație și fără „100x” — doar varianta sinceră a ce pot livra pentru tine o flotă de agenți plus un reviewer senior.",
   proof:
-    "30 de PR-uri revizuite în 2,5 zile. 3 bug-uri de tip shell injection prinse, deși testele treceau. Asta e meseria.",
+    "30 de PR-uri revizuite în 2,5 zile. 3 vulnerabilități de tip shell injection prinse, deși testele treceau. Asta e meseria.",
   cta: "Programează o discuție",
   ctaSource: "ro_services_final_cta",
   workLink: "Vezi sprintul de 30 de PR-uri în detaliu →",

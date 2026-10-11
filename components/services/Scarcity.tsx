@@ -1,11 +1,11 @@
 const en = {
-  heading: "Why I can only run a few of these at once",
+  heading: "Why I run one of these at a time",
   intro:
     "The verify layer is one senior human — me — and it does not parallelize. Agents scale the shipping; the review does not. That's not a marketing constraint, it's the actual bottleneck of the model, and it's the reason the whole thing is safe to merge.",
   ceiling: "So here's the ceiling:",
-  limitLead: "I run at most 2 Delivery Sprints at a time",
+  limitLead: "I run one sprint or retainer at a time.",
   limitRest:
-    "— the review layer is one person and doesn't parallelize. If both slots are full when you reach out, I'll give you the next honest start date rather than overcommit.",
+    "If it's taken when you reach out, I'll give you the next honest start date rather than overcommit.",
   outro:
     'No countdown timers, no "3 spots left today." The limit is just the truth about how this works — and it\'s also the pitch.',
 };

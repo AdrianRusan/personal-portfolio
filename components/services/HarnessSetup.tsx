@@ -3,7 +3,7 @@ import { CALENDLY_URL } from "@/data";
 import { FaLocationArrow } from "react-icons/fa6";
 
 const en = {
-  eyebrow: "Teach your team to fish",
+  eyebrow: "Your team keeps the method",
   heading: "Agent Fleet Setup: the harness I run, in your repo",
   intro:
     "I install and harden the exact ship/verify agent harness I run — in your repo, tuned to your stack and conventions — so your own team can ship at agent speed with the safety rails already in place.",

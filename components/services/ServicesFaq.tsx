@@ -1,14 +1,14 @@
 import { faqs } from "@/data";
 
-const en = {
+export const servicesFaqCopy = {
   heading: "Straight answers to the questions I actually get",
   items: faqs,
 };
-export type ServicesFaqCopy = typeof en;
+export type ServicesFaqCopy = typeof servicesFaqCopy;
 
 // Objection handling before the final CTA. Native <details> keeps it
 // server-rendered and keyboard-accessible with no client JS.
-export const ServicesFaq = ({ copy = en }: { copy?: ServicesFaqCopy }) => {
+export const ServicesFaq = ({ copy = servicesFaqCopy }: { copy?: ServicesFaqCopy }) => {
   return (
     <section id="faq" className="px-5 sm:px-10 py-20 scroll-mt-24">
       <div className="max-w-5xl mx-auto">

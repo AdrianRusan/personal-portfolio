@@ -3,6 +3,7 @@ import Link from "next/link";
 import PostCard from "@/components/blog/PostCard";
 import { YOUTUBE_CHANNEL_ID } from "@/data";
 import { getPosts, formatDate } from "@/lib/blog";
+import type { PostTitles } from "@/lib/blog-types";
 import { getLatestVideos } from "@/lib/youtube";
 
 // Server component: posts come from disk, videos from the channel RSS (cached 1 h).
@@ -14,6 +15,11 @@ const en = {
   intro: "How I run Claude Code agents and review what they ship.",
   watch: "Watch on YouTube",
   all: "All posts →",
+  dateLocale: "en-US",
+  featured: "Featured",
+  minRead: "min read",
+  // Per-slug title/description overrides; the links still go to the EN post.
+  titles: {} as PostTitles,
 };
 export type LatestCopy = typeof en;
 
@@ -67,7 +73,7 @@ const Latest = async ({ copy = en }: { copy?: LatestCopy }) => {
                   </h3>
                   <p className="text-xs text-white-200/70 mt-2">
                     {video.published &&
-                      `${formatDate(video.published.slice(0, 10))} · `}
+                      `${formatDate(video.published.slice(0, 10), copy.dateLocale)} · `}
                     {copy.watch}
                   </p>
                 </div>
@@ -81,7 +87,16 @@ const Latest = async ({ copy = en }: { copy?: LatestCopy }) => {
         <ul className="grid gap-6 md:grid-cols-3 mt-10">
           {latestPosts.map((post) => (
             <li key={post.slug}>
-              <PostCard post={post} headingLevel="h3" />
+              <PostCard
+                post={{
+                  ...post,
+                  frontmatter: { ...post.frontmatter, ...copy.titles[post.slug] },
+                  readingTime: post.readingTime.replace("min read", copy.minRead),
+                }}
+                headingLevel="h3"
+                dateLocale={copy.dateLocale}
+                featuredLabel={copy.featured}
+              />
             </li>
           ))}
         </ul>

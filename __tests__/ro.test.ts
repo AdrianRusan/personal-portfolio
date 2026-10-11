@@ -1,3 +1,7 @@
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+import { roPostTitles } from "@/data/ro-home";
 import { ladder, ladderServiceJsonLd } from "@/data/ladder";
 import { roLadder, formatPriceRo } from "@/data/ro";
 
@@ -56,5 +60,21 @@ describe("roLadder", () => {
     expect(nodes[0].areaServed).toBe("Romania");
     expect(nodes[0].offers[0].price).toBe("110");
     expect(nodes[7].offers[0].priceSpecification.minPrice).toBe(2200);
+  });
+});
+
+describe("roPostTitles", () => {
+  // Every published post or case study can reach a /ro card, scheduled ones included.
+  const published = ["content/blog", "content/work"].flatMap((dir) =>
+    fs
+      .readdirSync(dir)
+      .filter((f) => f.endsWith(".mdx"))
+      .filter((f) => matter(fs.readFileSync(path.join(dir, f), "utf8")).data.published)
+      .map((f) => f.replace(/\.mdx$/, "")),
+  );
+
+  it.each(published)("has a Romanian title for %s", (slug) => {
+    expect(roPostTitles[slug]?.title).toBeTruthy();
+    expect(roPostTitles[slug]?.description).toBeTruthy();
   });
 });

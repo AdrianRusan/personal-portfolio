@@ -52,7 +52,7 @@ const ro: Record<
   audit: {
     name: "Audit AI",
     summary:
-      "Îți verific codul scris de AI, fluxul LLM sau costurile cu LLM-urile: breșe de securitate, costul pe PR cu merge, folosirea cache-ului și rulările de agenți irosite. Primești un raport ordonat după ce repari întâi.",
+      "Îți verific codul scris de AI, fluxul LLM sau costurile cu LLM-urile: breșe de securitate, costul pe fiecare PR intrat în merge, folosirea cache-ului și rulările de agenți irosite. Primești un raport care îți spune ce repari întâi.",
     prices: [{ amount: 500, from: true }],
     duration: "2–3 zile",
     assurance: `Prețul se stabilește înainte să încep. Treci mai sus în ${CREDIT_DAYS} de zile și se scade din nivelul următor.`,
@@ -79,7 +79,7 @@ const ro: Record<
   automation: {
     name: "Automatizare AI",
     summary:
-      "Un workflow n8n sau un pipeline LLM, construit de la început cu evaluări și control al costurilor. Unde scrie pentru clienți, primește un filtru care îl oprește să inventeze cifre sau fapte.",
+      "Un workflow n8n sau un pipeline LLM, construit de la început cu evaluări și control al costurilor. Dacă scrie texte pentru clienții tăi, primește un filtru care îl împiedică să inventeze cifre sau fapte.",
     prices: [{ amount: 1650, from: true }],
     duration: "1–3 săpt.",
     assurance:
@@ -110,10 +110,10 @@ const ro: Record<
     summary:
       "Un set fix de PR-uri gata de merge și verificate pentru securitate, la un preț stabilit înainte să începem.",
     prices: [{ amount: 4100, from: true }],
-    duration: "1–2 săpt.",
+    duration: "1–2 săpt. · proiecte mai mari 2–3 săpt.",
     assurance:
       "Primul PR nu e gata de merge? Nu îl plătești. Vulnerabilitățile scăpate se repară gratuit.",
-    ctas: [{ label: "Stabilește scope-ul", href: CALENDLY_URL }],
+    ctas: [{ label: "Discută un sprint", href: CALENDLY_URL }],
   },
   retainer: {
     name: "Retainer lunar",
@@ -125,6 +125,9 @@ const ro: Record<
     ctas: [{ label: "Discută un retainer", href: CALENDLY_URL }],
   },
 };
+
+// RO twin of sprintDurations (data/ladder.ts), same order.
+export const roSprintDurations = ["~1 săpt.", "1–2 săpt.", "2–3 săpt."];
 
 // Same ids, tiers and availability flags as the global ladder; RO copy and prices.
 export const roLadder: LadderOffer[] = ladder.map((offer) => ({

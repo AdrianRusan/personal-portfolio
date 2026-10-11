@@ -9,21 +9,31 @@ const routes = [
   '/blog/2-3x-not-100x',
   '/blog/30-prs-in-2-5-days',
   '/blog/66-days-of-claude-code-by-the-numbers',
-  '/blog/auditing-my-claude-code-setup-with-an-agent',
   '/blog/catching-shell-injection-agents-wrote',
   '/blog/claude-code-changed-how-i-ship-software',
-  '/blog/how-i-run-claude-code-agents-in-parallel',
-  '/blog/the-rules-file-my-agents-follow',
   '/blog/what-agents-get-wrong',
   '/work',
   '/work/agent-cost-per-commit',
   '/work/honesty-gate',
-  '/work/nine-prs-one-afternoon',
   '/workshops/full-day',
   '/workshops/half-day',
   '/ro',
   '/ro/servicii',
 ];
+
+// #54 R4: weekly posts 404 until their date (00:00 UTC), then join the list.
+const scheduled: Record<string, string> = {
+  '/blog/the-rules-file-my-agents-follow': '2026-10-17',
+  '/blog/how-i-run-claude-code-agents-in-parallel': '2026-10-24',
+  '/blog/auditing-my-claude-code-setup-with-an-agent': '2026-10-31',
+};
+for (const [route, date] of Object.entries(scheduled)) {
+  if (Date.now() >= new Date(date).getTime()) routes.push(route);
+  else
+    test(`${route} 404s before ${date}`, async ({ page }) => {
+      expect((await page.goto(route))?.status()).toBe(404);
+    });
+}
 
 for (const route of routes) {
   test(`${route} renders a complete, accessible page`, async ({ page }) => {

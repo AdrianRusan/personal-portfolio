@@ -1,5 +1,8 @@
 import { getPosts } from '@/lib/blog';
 
+// #54 R4: re-render hourly so a dated post appears without a deploy.
+export const revalidate = 3600;
+
 const BASE_URL = 'https://www.adrian-rusan.com';
 
 function escapeXml(str: string): string {

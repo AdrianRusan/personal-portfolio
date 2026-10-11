@@ -8,7 +8,7 @@ type Status = "idle" | "loading" | "success" | "error";
 
 const en = {
   heading: "Not ready to book?",
-  body: "Get the Agent PR Review Checklist — the checks that catch bugs the tests pass clean. Plus an occasional email on shipping AI-written code safely — unsubscribe anytime.",
+  body: "Get the Agent PR Review Checklist — the checks that catch the bugs your tests let through. Plus an occasional email on shipping AI-written code safely — unsubscribe anytime.",
   success: "Check your inbox.",
   label: "Email address",
   placeholder: "you@company.com",

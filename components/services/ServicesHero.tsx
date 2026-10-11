@@ -12,7 +12,7 @@ const en = {
     "Every offer is priced up front, from a €200 call to a monthly retainer.",
   cta: "Book a scoping call",
   ctaSource: "services_hero",
-  tiersLink: "Not ready to talk? See the four tiers and prices ↓",
+  tiersLink: "Not ready to talk? See the four tiers, eight offers and prices ↓",
   guarantee: GUARANTEE,
   ledger: LEDGER_PROOF,
   proofItems: [

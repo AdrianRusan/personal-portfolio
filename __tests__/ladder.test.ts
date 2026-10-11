@@ -3,7 +3,9 @@ import {
   formatPrice,
   ladderServiceJsonLd,
   CREDIT_TERMS,
+  sprintDurations,
 } from "@/data/ladder";
+import { roLadder, roSprintDurations } from "@/data/ro";
 import { workshops, workshopJsonLd } from "@/data/workshops";
 import { STRATEGY_CALL_URL } from "@/data";
 
@@ -20,7 +22,13 @@ const GUIDE: Record<string, { tier: string; price: string; duration: string }> =
     automation: { tier: "Build", price: "from €3,000", duration: "1–3 wk" },
     harness: { tier: "Build", price: "from €4,000", duration: "1 wk" },
     "reviewed-pr": { tier: "Ship", price: "€1,000", duration: "~48 h" },
-    sprint: { tier: "Ship", price: "from €7,500", duration: "1–2 wk" },
+    // #54: the guide's "1–2 wk" plus the Scale size, so the ladder and the
+    // sprint table agree.
+    sprint: {
+      tier: "Ship",
+      price: "from €7,500",
+      duration: "1–2 wk · larger scopes 2–3 wk",
+    },
     retainer: { tier: "Ship", price: "from €4,000/month", duration: "monthly" },
   };
 
@@ -131,5 +139,25 @@ describe("ladderServiceJsonLd", () => {
         "@id": workshopJsonLd(workshops[slug])["@id"],
       })),
     );
+  });
+});
+
+// #54 R5: the copy says "four tiers, eight offers" (Offers, ServicesHero and
+// their RO twins). Change those strings if this fails.
+describe("ladder size", () => {
+  it("has four tiers and eight offers", () => {
+    expect(new Set(ladder.map((o) => o.tier)).size).toBe(4);
+    expect(ladder).toHaveLength(8);
+  });
+});
+
+describe("sprint durations", () => {
+  it("the ladder line names the Standard and Scale ranges, EN and RO", () => {
+    const en = ladder.find((o) => o.id === "sprint")!.duration;
+    const ro = roLadder.find((o) => o.id === "sprint")!.duration;
+    expect(en).toContain(sprintDurations[1]);
+    expect(en).toContain(sprintDurations[2]);
+    expect(ro).toContain(roSprintDurations[1]);
+    expect(ro).toContain(roSprintDurations[2]);
   });
 });

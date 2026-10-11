@@ -15,16 +15,30 @@ export const YOUTUBE_URL = YOUTUBE_CHANNEL_ID
   ? `https://www.youtube.com/channel/${YOUTUBE_CHANNEL_ID}`
   : null;
 
+// Current employer, named with consent. Every mention on the site (EN, RO,
+// Person JSON-LD) reads this one constant.
+export const FINTECH_EMPLOYER = "Bono Fintech";
+
 // Tier credit window (#43 follow-up: the credit had no window). Every credit
 // mention derives from these two, so the page and FAQPage JSON-LD agree.
 export const CREDIT_DAYS = 30;
 export const CREDIT_TERMS = `Move up a tier within ${CREDIT_DAYS} days and what you already paid counts toward it.`;
 
-// Aggregate 90-day proof from Adi's own session ledger (engineering-ledger
-// data.json, rows d >= 2026-07-12; PRs = authors starting "AdrianRusan").
-// Merged, not "reviewed": the ledger records merges. No client or repo names (R1).
-export const LEDGER_PROOF =
-  "Across all my work: 1,163 PRs merged and 3,644 commits in the 91 days from 12 Jul to 10 Oct 2026, counted from my own session ledger.";
+// The one set of workflow numbers (brief #54 R1). Single source: the 66-day
+// post (content/blog/66-days-of-claude-code-by-the-numbers.mdx), counted by a
+// script over Adi's own session logs. Every page derives from this constant.
+// PRs = `gh pr create` calls, an upper bound on PRs opened, not merges.
+// No client or repo names (R1).
+export const WORKFLOW_NUMBERS = {
+  sessions: 463,
+  hours: 335,
+  commits: 4920,
+  prsOpened: 928,
+  days: 66,
+} as const;
+
+const n = (v: number) => v.toLocaleString("en-US");
+export const LEDGER_PROOF = `${WORKFLOW_NUMBERS.sessions} sessions · ${WORKFLOW_NUMBERS.hours} hours · ${n(WORKFLOW_NUMBERS.commits)} commits · ${WORKFLOW_NUMBERS.prsOpened} PRs opened (upper bound, not all merged) — ${WORKFLOW_NUMBERS.days} days, 6 Aug–10 Oct 2026, counted from my own session logs.`;
 
 // Single risk-reversal guarantee, reused verbatim at every money CTA.
 export const GUARANTEE =
@@ -50,24 +64,27 @@ export const proofStats = [
   },
   {
     figure: "10+ yrs",
-    label: "in production: Ipsos → PGL Esports → GoSocial → Bono Fintech",
+    label: `in production: Ipsos → PGL Esports → GoSocial → ${FINTECH_EMPLOYER}`,
   },
   {
-    figure: "187",
-    label: "agent sessions · ~500 agent-hours · 6 weeks",
+    figure: `${WORKFLOW_NUMBERS.sessions}`,
+    label: `sessions · ${WORKFLOW_NUMBERS.hours} h · ${WORKFLOW_NUMBERS.days} days`,
   },
 ];
 
 export const shipVerify = [
   {
     tag: "SHIP",
+    label: "SHIP",
     heading: "The agents write the volume",
     body: "Fleets of Claude Code agents run in parallel git worktrees, each dispatched a ticket and driven by your CLAUDE.md conventions. This is where the 2-3x comes from: a small team's throughput from one operator and a harness.",
   },
   {
+    // tag is the styling key; label is what the page shows (RO overrides it).
     tag: "VERIFY",
+    label: "VERIFY",
     heading: "A senior human reviews every PR",
-    body: "Every agent PR goes through a line-by-line adversarial review before it reaches you. Security first — injection, auth, secrets, access control — then correctness and scope. The assumption is the agent got it wrong until it's proven right. This is the part that's rare, and accountable.",
+    body: "Every agent PR goes through a line-by-line adversarial review before it reaches you. Security first — injection, auth, secrets, access control — then correctness and scope. The assumption is the agent got it wrong until it's proven right.",
   },
 ];
 
@@ -79,7 +96,7 @@ export const callSteps = [
   },
   {
     heading: "We look at the real work",
-    body: "Your backlog, your repo or your AI question. I tell you which tier fits and what it costs, or that it isn't a fit.",
+    body: "We look at your backlog, your repo or your AI question. I tell you which tier fits and what it costs, or that it isn't a fit.",
   },
   {
     heading: "You get it in writing",
@@ -138,9 +155,25 @@ export const faqs: { question: string; answer: string }[] = [
   {
     question: "Why not hire an agency, or more engineers?",
     answer:
-      "An agency sells a team's hours with a markup, and new headcount takes months to hire and ramp. This sells reviewed outcomes in days, from one senior engineer running an agent fleet: no coordination overhead and no junior work billed at senior rates. Agencies using agents rarely put a senior adversarial review on top. Here that review is the product.",
+      "An agency sells a team's hours with a markup, and new headcount takes months to hire and ramp. Here the first reviewed PR lands within days, from one senior engineer running an agent fleet: no coordination overhead and no junior work billed at senior rates. Agencies using agents rarely put a senior adversarial review on top. Here that review is the product.",
   },
 ];
+
+// Homepage FAQ (#54 R3): five /services questions picked by index, so RO
+// (same order, data/ro-services.ts) picks the same ones, plus the call steps
+// folded into one answer, last because the final CTA follows.
+const HOME_FAQ_PICKS = [0, 2, 3, 6, 7];
+export const homeFaq = (
+  items: { question: string; answer: string }[],
+  call: { question: string; steps: { body: string }[] },
+) => [
+  ...HOME_FAQ_PICKS.map((i) => items[i]!),
+  { question: call.question, answer: call.steps.map((s) => s.body).join(" ") },
+];
+export const homeFaqs = homeFaq(faqs, {
+  question: "What happens after I book a call?",
+  steps: callSteps,
+});
 
 export const faqPageJsonLd = () => ({
   "@context": "https://schema.org",
@@ -231,7 +264,7 @@ export const testimonials = [
     quote:
       "I am very pleased with Adrian's efforts and progress on my project. I was informed on a daily basis about progress, and Adrian is very keen on delivering quality work. He made sure I was happy with the end result, I definitely recommend contacting Adrian if you are in need of any web related projects!",
     name: "Tim Claes",
-    title: "Freelance mobile & Web engineer",
+    title: "Freelance mobile & web engineer",
     img: "https://utfs.io/a/23x7w9tiht/7iidzn1TwzukCJ59vIyXoxIjwOYaTyPZtGk0mVdeKgr9LH8h",
   },
 ];
@@ -240,18 +273,20 @@ export const workExperience = [
   {
     id: 5,
     title: "Founding Engineer",
-    company: "Bono Fintech",
-    period: "2024 - Present",
-    desc: "Founding engineer at a fintech company, building the product across the stack.",
+    company: FINTECH_EMPLOYER,
+    period: "2024 – Present",
+    // #54: the same level of detail as Adi's public LinkedIn, and no more.
+    desc: "Built a headless platform that automates company-formation filings, cutting processing time by 80%. Built AI-powered internal tools for admin and marketing workflows. Led a two-engineer squad that shipped a marketing site in four weeks.",
     className: "md:col-span-2",
-    thumbnail:
-      "https://utfs.io/a/23x7w9tiht/9ae30726-e9a7-43bc-a28c-bce3e44eba67-1v1di.svg",
+    // Neutral generated card (#54 R5): no real logo asset, and never another
+    // company's image.
+    thumbnail: "/experience-fintech.svg",
   },
   {
     id: 1,
     title: "Full Stack Engineer",
     company: "Rusan Adrian-Ionuț PFA",
-    period: "Dec 2022 - Present",
+    period: "Dec 2022 – Present",
     desc: "AI builds end to end: a receipt classification pipeline, an LLM presentation platform, and an agent-built SaaS platform run by a multi-session agent org.",
     className: "md:col-span-2",
     thumbnail:
@@ -261,8 +296,8 @@ export const workExperience = [
     id: 2,
     title: "Full-Stack Engineer",
     company: "GoSocial Development SRL",
-    period: "Sep 2023 - Sep 2024",
-    desc: "Developed automated web scraping solutions with Puppeteer and built a Facebook Marketing API-integrated dashboard, enhancing data handling efficiency and ad management capabilities.",
+    period: "Sep 2023 – Sep 2024",
+    desc: "Built data parsers for multiple sources (-70% processing time), a Next.js/Nest.js Facebook Ads dashboard that removed 10 h/week of manual reporting, and Playwright E2E tests with GitHub Actions CI.",
     className: "md:col-span-2",
     thumbnail:
       "https://utfs.io/a/23x7w9tiht/44cbb969-d079-456a-8554-c62cc61ffb1f-1v1dg.svg",
@@ -271,8 +306,8 @@ export const workExperience = [
     id: 3,
     title: "Full Stack Developer",
     company: "PGL Esports SRL",
-    period: "Oct 2020 - Oct 2022",
-    desc: "Built the real-time broadcast graphics, interactive leaderboards, and player-stats overlays for live esports events.",
+    period: "Oct 2020 – Oct 2022",
+    desc: "Built live overlay graphics and visualizations for PGL Major CS:GO streams with 2M+ concurrent viewers.",
     className: "md:col-span-2",
     thumbnail:
       "https://utfs.io/a/23x7w9tiht/9ae30726-e9a7-43bc-a28c-bce3e44eba67-1v1di.svg",
@@ -281,8 +316,8 @@ export const workExperience = [
     id: 4,
     title: "Frontend Developer",
     company: "Ipsos Interactive Services SRL",
-    period: "Jun 2016 - Sep 2020",
-    desc: "Built and shipped 300+ interactive survey and data-collection microsites under tight deadlines for enterprise research accounts.",
+    period: "Jun 2016 – Sep 2020",
+    desc: "Delivered 300+ survey projects on time for enterprise research clients, and mentored three junior developers.",
     className: "md:col-span-2",
     thumbnail:
       "https://utfs.io/a/23x7w9tiht/48a6ace0-6271-444c-873a-5cf82e04d3fc-1v1dj.svg",

@@ -4,28 +4,21 @@ import Hero from "@/components/Hero";
 import ProofBand from "@/components/ProofBand";
 import ShipVerify from "@/components/ShipVerify";
 import Offers from "@/components/Offers";
-import CaseStudy from "@/components/CaseStudy";
 import CaseStudyCards from "@/components/CaseStudyCards";
 import WhoFor from "@/components/WhoFor";
 import FinalCta from "@/components/FinalCta";
-import EmailCapture from "@/components/EmailCapture";
 import Bio from "@/components/Bio";
 import Latest from "@/components/Latest";
 import { FloatingNav } from "@/components/ui/FloatingNav";
-import { StartBand } from "@/components/StartBand";
-import { CallSteps } from "@/components/CallSteps";
+import Testimonials from "@/components/Testimonials";
 import { ServicesFaq } from "@/components/services/ServicesFaq";
-import {
-  TestimonialSkeleton,
-  ExperienceSkeleton,
-} from "@/components/ui/Skeleton";
+import { ExperienceSkeleton } from "@/components/ui/Skeleton";
+import { homeFaq } from "@/data";
 import { roServicesFaq } from "@/data/ro-services";
 import {
   roBio,
-  roCallSteps,
-  roCaseStudy,
+  roCallFaq,
   roCaseStudyCards,
-  roEmailCapture,
   roExperience,
   roFinalCta,
   roFooter,
@@ -34,11 +27,13 @@ import {
   roOffers,
   roProofBand,
   roShipVerify,
-  roStartBand,
   roTestimonials,
   roWhoFor,
 } from "@/data/ro-home";
 import { roNavItems } from "./nav";
+
+// #54 R4: re-render hourly so a dated post appears without a deploy.
+export const revalidate = 3600;
 
 const title = "Livrare de software cu agenți AI, revizuită de un senior";
 const description =
@@ -79,14 +74,6 @@ const Experience = dynamic(() => import("@/components/Experience"), {
   ),
 });
 
-const Testimonials = dynamic(() => import("@/components/Testimonials"), {
-  loading: () => (
-    <section className="py-20" aria-label="Se încarcă recomandările">
-      <TestimonialSkeleton />
-    </section>
-  ),
-});
-
 const Footer = dynamic(() => import("@/components/Footer"), {
   loading: () => (
     <footer
@@ -106,29 +93,25 @@ export default function RoHome() {
       />
       <Hero copy={roHero} />
       <ProofBand copy={roProofBand} />
-      <div id="subscribe" className="max-w-7xl mx-auto px-5 sm:px-10 py-10">
-        <EmailCapture copy={roEmailCapture} />
-      </div>
       <ShipVerify copy={roShipVerify} />
-      <div className="max-w-7xl mx-auto px-5 sm:px-10 py-10">
-        <Bio copy={roBio} />
-      </div>
-      <Offers copy={roOffers} />
-      <CaseStudy copy={roCaseStudy} />
       <CaseStudyCards copy={roCaseStudyCards} />
-      <StartBand copy={roStartBand} />
+      <Offers copy={roOffers} />
       <WhoFor copy={roWhoFor} />
-      <div className="max-w-7xl mx-auto px-5 sm:px-10">
-        <section aria-label="Experiență">
-          <Experience copy={roExperience} />
-        </section>
-        <section id="testimonials" aria-labelledby="testimonials-heading">
-          <Testimonials copy={roTestimonials} />
-        </section>
-      </div>
+      <section
+        aria-label="Experiență"
+        className="max-w-7xl mx-auto px-5 sm:px-10 py-10"
+      >
+        <Bio copy={roBio} />
+        <Testimonials copy={roTestimonials} />
+        <Experience copy={roExperience} />
+      </section>
       <Latest copy={roLatest} />
-      <ServicesFaq copy={roServicesFaq} />
-      <CallSteps source="home_call_steps" copy={roCallSteps} />
+      <ServicesFaq
+        copy={{
+          ...roServicesFaq,
+          items: homeFaq(roServicesFaq.items, roCallFaq),
+        }}
+      />
       <FinalCta copy={roFinalCta} />
       <Footer copy={roFooter} />
     </main>

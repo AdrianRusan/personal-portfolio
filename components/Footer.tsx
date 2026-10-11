@@ -18,6 +18,8 @@ const en = {
   emailAria: "Send email to Adrian Rusan",
   email: "or email me",
   socialAria: "Social media links",
+  // Per-id link labels (socialMedia in data/index.ts); EN falls back to its alt.
+  socialLabels: {} as Record<number, string>,
   emailCapture: undefined as EmailCaptureCopy | undefined,
 };
 export type FooterCopy = typeof en;
@@ -79,7 +81,7 @@ const Footer = ({ copy = en }: { copy?: FooterCopy }) => {
             {socialMedia.map((info) => (
               <Link
                 href={info.url}
-                aria-label={info.alt}
+                aria-label={copy.socialLabels[info.id] ?? info.alt}
                 key={info.id}
                 className="w-10 h-10 cursor-pointer flex justify-center items-center backdrop-filter backdrop-blur-lg saturate-180 bg-opacity-75 bg-black-200 rounded-lg border border-black-300 hover:scale-110 transition-transform"
                 target="_blank"
@@ -87,10 +89,10 @@ const Footer = ({ copy = en }: { copy?: FooterCopy }) => {
               >
                 <Image
                   src={info.img}
-                  alt={`${info.alt} icon`}
+                  alt=""
                   width={20}
                   height={20}
-                  title={`${info.alt} icon`}
+                  title={copy.socialLabels[info.id] ?? info.alt}
                   className="invert dark:invert-0"
                 />
               </Link>

@@ -5,6 +5,8 @@ import { getPost } from '@/lib/blog';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 export const alt = 'Blog post cover';
+// #54 R4: a pre-date 404 must not outlive the post's go-live.
+export const revalidate = 3600;
 
 interface OGImageProps {
   params: Promise<{ slug: string }>;

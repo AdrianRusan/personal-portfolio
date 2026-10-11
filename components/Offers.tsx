@@ -4,7 +4,7 @@ import { CREDIT_TERMS, formatPrice, ladder, tiers } from "@/data/ladder";
 const en = {
   heading: "From a €200 call to a monthly retainer",
   intro:
-    "Four tiers: Advise, Train, Build, Ship. Every offer has a price before we talk. ",
+    "Four tiers, eight offers: Advise, Train, Build, Ship. Every offer has a price before we talk. ",
   credit: CREDIT_TERMS,
   tiers: tiers.map((t) => ({ ...t, name: t.tier as string })),
   ladder,
@@ -12,7 +12,7 @@ const en = {
   href: "/services#ladder",
   more: "See what's included →",
   capacity:
-    "The verify layer is one senior human and doesn't parallelize — so only a few engagements run at once.",
+    "The review layer is one senior human, so I run one sprint or retainer at a time.",
 };
 export type OffersCopy = typeof en;
 

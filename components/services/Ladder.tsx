@@ -15,8 +15,9 @@ const en = {
   eyebrow: "Advise → Train → Build → Ship",
   heading: "Four ways to work together, every one priced",
   intro: `Start with a €200 call or go straight to a sprint. ${CREDIT_TERMS} All prices are in EUR, excluding VAT.`,
-  limited: "Limited availability",
-  capacity: "The verify layer is one senior human and doesn't parallelize.",
+  limited: "One at a time",
+  // Visible caption under the ladder; also the "One at a time" badge tooltip.
+  capacity: "The review layer is one senior human, so I run one sprint or retainer at a time.",
   source: "services_ladder",
 };
 
@@ -53,7 +54,10 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
                     className="flex flex-col rounded-xl border border-white/10 bg-black-200/40 p-5"
                   >
                     {offer.limited && (
-                      <span className="self-start font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-blue-100 border border-blue-100/30 rounded-full px-2 py-0.5 mb-3">
+                      <span
+                        title={content.capacity}
+                        className="self-start font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-blue-100 border border-blue-100/30 rounded-full px-2 py-0.5 mb-3"
+                      >
                         {content.limited}
                       </span>
                     )}

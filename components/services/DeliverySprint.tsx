@@ -1,5 +1,6 @@
 import MagicButton from "@/components/ui/MagicButton";
 import { CALENDLY_URL } from "@/data";
+import { sprintDurations } from "@/data/ladder";
 import { FaLocationArrow } from "react-icons/fa6";
 import { PricingTable } from "./PricingTable";
 import type { PricingColumn, PricingRow } from "./PricingTable";
@@ -29,7 +30,7 @@ const rows: PricingRow[] = [
   },
   {
     label: "Timeline",
-    values: ["~3–5 days", "~1–2 weeks", "~2–3 weeks"],
+    values: sprintDurations,
   },
   {
     label: "Price",
@@ -42,7 +43,7 @@ const en = {
   eyebrow: "Primary offer",
   heading: "Agent-Accelerated Delivery Sprint",
   intro:
-    "A fixed batch of production-ready, security-reviewed pull requests — shipped by an agent fleet, verified line by line by a senior engineer — delivered in days, at a price you agree before we start.",
+    "A fixed batch of production-ready, security-reviewed pull requests — shipped by an agent fleet, verified line by line by a senior engineer — delivered in weeks, not months, at a price you agree before we start.",
   deliveredHeading: "Exactly what's delivered",
   deliverables: [
     {
@@ -63,6 +64,7 @@ const en = {
     },
   ],
   pricingHeading: "Pricing",
+  rowHeader: "Feature",
   pricingLead:
     "A senior contractor costs ~€10–14k/month and takes weeks to onboard.",
   pricingRest:
@@ -98,7 +100,7 @@ const en = {
     'There is deliberately no blanket "money back if unhappy" guarantee. It invites scope disputes and it\'s not how a senior operator works. These two put my skin in the game where it actually matters: quality and security.',
   paymentHeading: "Payment",
   payment:
-    "50% to book the slot, 50% on handoff. A Pilot Sprint can be paid 100% up front given the small ticket. Running multiple sprints? That's the retainer, below.",
+    "50% to book the slot, 50% on handoff. A Pilot Sprint can be paid in full up front. Running multiple sprints? That's the retainer, below.",
 };
 
 export type DeliverySprintCopy = typeof en;
@@ -156,6 +158,7 @@ export const DeliverySprint = ({
             rows={copy.rows}
             ctaHref={CALENDLY_URL}
             ctaLabel={copy.cta}
+            rowHeader={copy.rowHeader}
             trackSource="deliverysprint_pricing"
           />
           <p className="text-xs text-white-200/70 mt-4 italic">

@@ -1,14 +1,18 @@
+import { FINTECH_EMPLOYER, testimonials } from "@/data";
+
+// One quote, one source: the homepage shows the same words (data/index.ts).
+const quote = testimonials[0]!;
+
 const en = {
   ariaLabel: "Track record and testimonial",
   eyebrow: "10+ years shipping production software",
   // Newest first.
-  employers: ["Bono Fintech", "GoSocial", "PGL Esports", "Ipsos"],
-  quote:
-    "I am very pleased with Adrian's efforts and progress on my project. I was informed on a daily basis about progress, and Adrian is very keen on delivering quality work. He made sure I was happy with the end result. I definitely recommend contacting Adrian if you are in need of any web related projects.",
+  employers: [FINTECH_EMPLOYER, "GoSocial", "PGL Esports", "Ipsos"],
+  quote: quote.quote,
   // Set when the quote's language differs from the page's (verbatim quotes stay untranslated).
   quoteLang: undefined as string | undefined,
-  author: "Tim Claes",
-  role: "Freelance mobile & web engineer",
+  author: quote.name,
+  role: quote.title,
 };
 
 export type TrustStripCopy = typeof en;

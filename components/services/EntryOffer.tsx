@@ -1,6 +1,7 @@
 import MagicButton from "@/components/ui/MagicButton";
 import { CALENDLY_URL, CONTACT_EMAIL, GUARANTEE } from "@/data";
 import { FaLocationArrow } from "react-icons/fa6";
+import { ladder, offerById } from "@/data/ladder";
 
 const en = {
   guarantee: GUARANTEE,
@@ -12,7 +13,7 @@ const en = {
     "You send one real ticket from your backlog — a bug, a small feature, whatever's actually queued.",
     "An agent ships it. I security-review the diff line by line, the same adversarial pass every sprint PR gets.",
     "You get the merge-ready PR, on your repo, plus a one-page review report showing exactly what the review caught.",
-    "Delivered in ~48 hours.",
+    `Delivered in ${offerById(ladder, "reviewed-pr").duration}.`,
   ],
   cta: "Start with one PR",
   emailSubject: "Reviewed PR (€1,000)",
