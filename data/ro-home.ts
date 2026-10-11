@@ -92,6 +92,8 @@ export const roEmailCapture: EmailCaptureCopy = {
   sending: "Se trimite…",
   submit: "Vreau checklist-ul",
   error: "Ceva n-a mers. Încearcă din nou peste câteva momente.",
+  invalid: "Te rog să introduci o adresă de email validă.",
+  privacy: "Cum îți folosesc datele (în engleză)",
 };
 
 // Keyed by tag so a reordered or added EN step can't pick up the wrong copy.
