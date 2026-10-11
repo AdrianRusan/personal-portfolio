@@ -57,7 +57,7 @@ const offersMd = (c: OffersCopy) =>
   );
 
 const quoteMd = ({ quote, name, role, company }: Testimonial) =>
-  `> ${quote}\n>\n> ${name}, ${role}, ${company}`;
+  `> ${quote}\n>\n> ${[name, role, company].filter(Boolean).join(", ")}`;
 
 export interface HomeCopy {
   hero: HeroCopy;
@@ -160,6 +160,8 @@ export const proseMd = (page: ProsePage) =>
     `# ${page.title}`,
     page.lead,
     page.updated && `Last updated ${page.updated}`,
+    page.earlier &&
+      `${page.earlier.label}:\n\n${quoteMd(page.earlier.testimonial)}`,
     ...(page.options ?? []).map(
       (o) => `## ${o.heading}\n\n${o.body} [${o.cta}](${o.href})`,
     ),

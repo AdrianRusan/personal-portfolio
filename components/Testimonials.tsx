@@ -22,7 +22,8 @@ export const Quote = ({
     <figcaption className="mt-4 text-sm">
       <span className="font-semibold text-white">{name}</span>
       <span className="text-white-200/80">
-        , {role}, {company}
+        , {role}
+        {company && `, ${company}`}
       </span>
     </figcaption>
   </figure>

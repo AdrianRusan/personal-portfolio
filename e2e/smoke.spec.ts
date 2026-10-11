@@ -203,3 +203,31 @@ test('the shell-post FAQ renders as headings', async ({ page }) => {
   expect(h2).toBeGreaterThanOrEqual(24);
   expect(h3).toBeGreaterThanOrEqual(20);
 });
+
+// #76: the client quotes render where they speak to the offer; the 2022 quote moved to /about.
+for (const [path, quotes] of [
+  ['/', ["What people I've worked with say", 'A true craftsman.', 'Alexandra Stroe']],
+  ['/ro', ['Ce spun oamenii cu care am lucrat', 'Un mare meseriaș.', 'Alexandra Stroe']],
+  ['/services', ['caught the contradictions in the handoff', 'Tasks disappeared as fast as I could add them.', 'partner agency']],
+  ['/ro/servicii', ['A prins contradicțiile din handoff', 'Task-urile dispăreau', 'agenție parteneră']],
+] as const) {
+  test(`${path} shows its client quotes`, async ({ page }) => {
+    await page.goto(path);
+    const main = page.locator('main');
+    for (const text of quotes) await expect(main.getByText(text).first()).toBeVisible();
+    await expect(main.locator('figure blockquote')).toHaveCount(2);
+    await expect(page.getByText('Tim Claes')).toHaveCount(0);
+  });
+}
+
+for (const [path, label] of [
+  ['/about', 'Earlier client work'],
+  ['/ro/despre', 'Proiect anterior pentru un client'],
+] as const) {
+  test(`${path} keeps the earlier client quote under the bio`, async ({ page }) => {
+    await page.goto(path);
+    const main = page.locator('main');
+    await expect(main.getByText(label, { exact: true })).toBeVisible();
+    await expect(main.locator('figure figcaption')).toHaveText('Tim Claes, Freelance mobile & web engineer');
+  });
+}

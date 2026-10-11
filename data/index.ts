@@ -231,7 +231,7 @@ export type Testimonial = {
   quote: string;
   name: string;
   role: string;
-  company: string;
+  company?: string;
 };
 
 // #76: client quotes, approved word for word. No photos or logos (calm proof).
@@ -264,6 +264,14 @@ export const testimonials = {
     company: FINTECH_EMPLOYER,
   },
 } satisfies Record<string, Testimonial>;
+
+// The 2022 quote, kept on /about and /ro/despre as earlier client work (#76).
+export const earlierTestimonial: Testimonial = {
+  quote:
+    "I am very pleased with Adrian's efforts and progress on my project. I was informed on a daily basis about progress, and Adrian is very keen on delivering quality work. He made sure I was happy with the end result, I definitely recommend contacting Adrian if you are in need of any web related projects!",
+  name: "Tim Claes",
+  role: "Freelance mobile & web engineer",
+};
 
 // P2 (A2): the PFA is the umbrella; Bono is a client engagement under it, at
 // LinkedIn level and no further (memory bono-contract-nda: no product detail
