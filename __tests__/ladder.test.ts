@@ -16,7 +16,7 @@ const GUIDE: Record<string, { tier: string; price: string; duration: string }> =
     audit: { tier: "Advise", price: "from €900", duration: "2–3 days" },
     workshop: {
       tier: "Train",
-      price: "€2,000 half-day / €3,500 full day",
+      price: "€2,000 half-day / €3,500 full-day",
       duration: "4–8 h",
     },
     automation: { tier: "Build", price: "from €3,000", duration: "1–3 wk" },
@@ -40,6 +40,17 @@ describe("ladder", () => {
       "/workshops/half-day",
       "/workshops/full-day",
     ]);
+  });
+
+  // C01: a "Book" label must never open an email client.
+  it("never labels a mailto link 'Book', EN or RO", () => {
+    for (const offer of [...ladder, ...roLadder]) {
+      for (const cta of offer.ctas) {
+        if (cta.href.startsWith("mailto:")) {
+          expect(cta.label).not.toMatch(/^(book|rezervă)/i);
+        }
+      }
+    }
   });
 
   it("sends the €200 call to the one STRATEGY_CALL_URL in data/index.ts", () => {

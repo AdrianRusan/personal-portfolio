@@ -53,6 +53,10 @@ for (const route of routes) {
     await expect(page.locator('footer')).toHaveCount(1);
     expect(await page.locator('img:not([alt])').count()).toBe(0);
 
+    // C01: a "Book…" link never opens an email client (EN "Book", RO "Rezervă").
+    const mailtoLabels = await page.locator('a[href^="mailto:"]').allTextContents();
+    expect(mailtoLabels.filter((t) => /^\s*(book|rezervă)/i.test(t))).toEqual([]);
+
     const overflow = await page.evaluate(
       () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
     );

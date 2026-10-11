@@ -3,8 +3,10 @@ import {
   CREDIT_DAYS,
   CREDIT_TERMS,
   GUARANTEE,
+  STRATEGY_CALL_CTA,
   STRATEGY_CALL_URL,
 } from "@/data";
+import { calendlyUrl, isCalendly } from "@/lib/calendly";
 import {
   workshops,
   workshopServiceId,
@@ -48,7 +50,7 @@ export interface LadderOffer {
 }
 
 // Prices are the guide's ladder table (2026-10-10): EUR, ex-VAT, global.
-export const ladder: LadderOffer[] = [
+const offers: LadderOffer[] = [
   {
     id: "strategy-call",
     tier: "Advise",
@@ -58,7 +60,7 @@ export const ladder: LadderOffer[] = [
     prices: [{ amount: 200 }],
     duration: "1 h",
     assurance: `Move up a tier within ${CREDIT_DAYS} days and the €200 counts toward it.`,
-    ctas: [{ label: "Request the €200 call", href: STRATEGY_CALL_URL }],
+    ctas: [{ label: STRATEGY_CALL_CTA, href: STRATEGY_CALL_URL }],
   },
   {
     id: "audit",
@@ -69,7 +71,10 @@ export const ladder: LadderOffer[] = [
     prices: [{ amount: 900, from: true }],
     duration: "2–3 days",
     assurance: `Price agreed before I start. Move up within ${CREDIT_DAYS} days and it counts toward the next tier.`,
-    ctas: [{ label: "Scope an audit", href: CALENDLY_URL }],
+    ctas: [
+      { label: "Scope an audit", href: CALENDLY_URL },
+      { label: "Or start with a free teardown", href: "/teardown" },
+    ],
   },
   {
     id: "workshop",
@@ -80,7 +85,7 @@ export const ladder: LadderOffer[] = [
     // One source for workshop prices: the workshop pages' own data.
     prices: [
       { amount: workshops["half-day"].price, label: "half-day" },
-      { amount: workshops["full-day"].price, label: "full day" },
+      { amount: workshops["full-day"].price, label: "full-day" },
     ],
     duration: "4–8 h",
     assurance: "Fixed price for up to 10 people, agenda agreed in advance.",
@@ -99,7 +104,10 @@ export const ladder: LadderOffer[] = [
     duration: "1–3 wk",
     assurance:
       "Fixed price before I start; evals prove it works before handoff.",
-    ctas: [{ label: "Scope an automation", href: CALENDLY_URL }],
+    ctas: [
+      { label: "Scope an automation", href: CALENDLY_URL },
+      { label: "See the fact gate I built", href: "/work/honesty-gate" },
+    ],
   },
   {
     id: "harness",
@@ -129,7 +137,7 @@ export const ladder: LadderOffer[] = [
     tier: "Ship",
     name: "Delivery Sprint",
     summary:
-      "A fixed batch of merge-ready, security-reviewed PRs at a price agreed before we start.",
+      "A fixed batch of merge-ready, security-reviewed PRs at a price agreed before we start: ≈€1,000/PR plus the Sprint Security Report, the Agent Failure Map and a reserved review slot.",
     prices: [{ amount: 7500, from: true }],
     duration: "1–2 wk · larger scopes 2–3 wk",
     limited: true,
@@ -156,6 +164,26 @@ export const ladder: LadderOffer[] = [
 // both ranges: "1–2 wk" for the "from" price, "larger scopes 2–3 wk" for Scale.
 export const sprintDurations = ["~1 wk", "1–2 wk", "2–3 wk"];
 
+// C44: booking links pre-fill Calendly's first answer with the offer, so the
+// call starts from what the visitor clicked (Calendly's a1 parameter).
+export const withOfferPrefill = (
+  list: LadderOffer[],
+  format: (offer: LadderOffer) => string,
+) =>
+  list.map((offer) => ({
+    ...offer,
+    ctas: offer.ctas.map((cta) =>
+      isCalendly(cta.href)
+        ? {
+            ...cta,
+            href: calendlyUrl(cta.href, {
+              a1: `${offer.name} (${format(offer)})`,
+            }),
+          }
+        : cta,
+    ),
+  }));
+
 export const offerById = (offers: LadderOffer[], id: string) =>
   offers.find((o) => o.id === id)!;
 
@@ -168,6 +196,8 @@ export const formatPrice = ({ prices, perMonth }: LadderOffer): string =>
         }`,
     )
     .join(" / ") + (perMonth ? "/month" : "");
+
+export const ladder = withOfferPrefill(offers, formatPrice);
 
 // Matched against the known slugs, so a stray href can't mint a dangling @id.
 const relatedWorkshops = ({ ctas }: LadderOffer) => {

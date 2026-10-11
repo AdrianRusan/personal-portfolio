@@ -7,6 +7,8 @@ export interface PricingColumn {
   name: string;
   badge?: string;
   featured?: boolean;
+  // Per-tier booking link (W4, C44); falls back to the table's ctaHref.
+  ctaHref?: string;
 }
 
 export interface PricingRow {
@@ -31,33 +33,36 @@ export const PricingTable = ({
   trackSource,
   rowHeader = "Feature",
 }: PricingTableProps) => {
-  const link = (column: PricingColumn) => (
-    <Link
-      href={ctaHref}
-      aria-label={ctaLabel}
-      onClick={() =>
-        trackSource &&
-        track("calendly_click", {
-          source: trackSource,
-          tier: column.name,
-        })
-      }
-      {...(ctaHref.startsWith("http")
-        ? { target: "_blank", rel: "noopener noreferrer" }
-        : {})}
-    >
-      {/* The recommended tier gets the one filled booking button. */}
-      <span
-        className={
-          column.featured
-            ? "inline-flex items-center rounded-lg bg-purple px-4 py-2 text-xs font-semibold text-black-100 hover:opacity-90 transition-opacity"
-            : "inline-flex items-center rounded-lg border border-purple/40 px-4 py-2 text-xs font-medium text-purple hover:bg-purple/10 transition-colors"
+  const link = (column: PricingColumn) => {
+    const href = column.ctaHref ?? ctaHref;
+    return (
+      <Link
+        href={href}
+        aria-label={ctaLabel}
+        onClick={() =>
+          trackSource &&
+          track("calendly_click", {
+            source: trackSource,
+            tier: column.name,
+          })
         }
+        {...(href.startsWith("http")
+          ? { target: "_blank", rel: "noopener noreferrer" }
+          : {})}
       >
-        {ctaLabel}
-      </span>
-    </Link>
-  );
+        {/* The recommended tier gets the one filled booking button. */}
+        <span
+          className={
+            column.featured
+              ? "inline-flex items-center rounded-lg bg-purple px-4 py-2 text-xs font-semibold text-black-100 hover:opacity-90 transition-opacity"
+              : "inline-flex items-center rounded-lg border border-purple/40 px-4 py-2 text-xs font-medium text-purple hover:bg-purple/10 transition-colors"
+          }
+        >
+          {ctaLabel}
+        </span>
+      </Link>
+    );
+  };
 
   // Phones get stacked cards, recommended tier first; the table needs ≥md.
   const cardOrder = columns

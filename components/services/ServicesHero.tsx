@@ -16,8 +16,8 @@ const en = {
   guarantee: GUARANTEE,
   ledger: LEDGER_PROOF,
   proofItems: [
-    "30 reviewed PRs · 9 agent batches · 2.5 days",
-    "3 shell-injection vulnerabilities caught that passed the tests",
+    "30 reviewed PRs · 9 agent batches · under 3 days",
+    "3 shell-injection paths from request input, caught in review before merge",
     "10+ years in production",
   ],
   proofNote:

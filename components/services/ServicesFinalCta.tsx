@@ -7,11 +7,11 @@ const en = {
   heading: "Tell me the backlog. I'll tell you the number.",
   body: 'A 30-minute call to shape the scope and fix the price. No obligation, and no "100x" — just the honest version of what an agent fleet plus a senior reviewer can ship for you.',
   proof:
-    "30 reviewed PRs in 2.5 days. 3 shell-injection bugs caught that the tests passed. That's the job.",
+    "30 reviewed PRs in under 3 days. 3 shell-injection paths caught in review before merge. That's the job.",
   cta: "Book a scoping call",
   ctaSource: "services_final_cta",
   workLink: "See the 30-PR sprint in full →",
-  workHref: "/#work",
+  workHref: "/blog/30-prs-in-2-5-days",
 };
 
 export type ServicesFinalCtaCopy = typeof en;
@@ -22,7 +22,7 @@ export const ServicesFinalCta = ({
   copy?: ServicesFinalCtaCopy;
 }) => {
   return (
-    <section className="px-5 sm:px-10 py-20">
+    <section className="px-5 sm:px-10 py-12 md:py-20">
       <div className="max-w-5xl mx-auto rounded-2xl border border-white/10 bg-black-200/60 p-10 md:p-16 text-center">
         <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-balance max-w-3xl mx-auto">
           {copy.heading}

@@ -5,11 +5,15 @@ import MagicButton from "@/components/ui/MagicButton";
 import {
   workshops,
   workshopJsonLd,
+  workshopHubLink,
+  workshopLogistics,
   euro,
+  perEngineer,
   type WorkshopSlug,
 } from "@/data/workshops";
 import { WORKFLOW_NUMBERS } from "@/data";
 import { FaLocationArrow } from "react-icons/fa6";
+import { getPosts } from "@/lib/blog";
 
 interface WorkshopPageProps {
   params: Promise<{ slug: WorkshopSlug }>;
@@ -60,6 +64,10 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
   const w = workshops[(await params).slug];
   const other =
     w.slug === "full-day" ? workshops["half-day"] : workshops["full-day"];
+  // The hub post is scheduled; link it only once it's live (checked at build).
+  const hubLive = (await getPosts()).some(
+    (p) => `/blog/${p.slug}` === workshopHubLink.href,
+  );
 
   return (
     <PageShell navItems={navItems}>
@@ -81,7 +89,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
             {w.intro}
           </p>
           <p className="font-mono text-xs md:text-sm text-white-200/75 mt-5">
-            {euro(w.price)} for the {w.length} · EUR, ex-VAT
+            {euro(w.price)} for the {w.length} · {perEngineer(w)} · EUR, ex-VAT
           </p>
           <div className="flex justify-center">
             <MagicButton
@@ -120,6 +128,11 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
                       key={block.title}
                       className="rounded-2xl border border-white/10 bg-black-200/40 p-5 md:p-6"
                     >
+                      {block.time && (
+                        <p className="font-mono text-xs text-purple mb-1">
+                          {block.time}
+                        </p>
+                      )}
                       <p className="font-semibold">{block.title}</p>
                       <p className="text-sm text-white-200 mt-2 leading-relaxed">
                         {block.body}
@@ -138,6 +151,9 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
           <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
             What your team leaves with
           </h2>
+          <p className="text-white mt-4 font-medium leading-relaxed">
+            {w.managerOutcome}
+          </p>
           <ul className="flex flex-col gap-3 mt-6">
             {w.outcomes.map((item) => (
               <li
@@ -155,7 +171,39 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
             Taught from my own runs: {WORKFLOW_NUMBERS.sessions} sessions and{" "}
             {WORKFLOW_NUMBERS.hours} hours over {WORKFLOW_NUMBERS.days} days,
             counted from my own session logs.
+            {hubLive && (
+              <>
+                {" "}
+                <Link
+                  href={workshopHubLink.href}
+                  className="text-purple underline underline-offset-4 hover:text-white"
+                >
+                  {workshopHubLink.label}
+                </Link>
+              </>
+            )}
           </p>
+        </div>
+      </section>
+
+      <section className="px-5 sm:px-10 pb-16" aria-label="Logistics">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
+            Logistics
+          </h2>
+          <ul className="flex flex-col gap-3 mt-6">
+            {workshopLogistics.map((item) => (
+              <li
+                key={item}
+                className="flex gap-3 text-sm md:text-base text-white-200 leading-relaxed"
+              >
+                <span className="flex-none text-purple" aria-hidden="true">
+                  ·
+                </span>
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
@@ -180,6 +228,14 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
               }}
             />
           </div>
+          {w.secondaryCta && (
+            <a
+              href={w.secondaryCta.href}
+              className="inline-block mt-4 text-sm text-blue-100 underline underline-offset-4 hover:text-purple"
+            >
+              {w.secondaryCta.label}
+            </a>
+          )}
           <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 mt-8 text-sm font-medium">
             <Link
               href={`/workshops/${other.slug}`}

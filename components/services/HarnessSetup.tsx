@@ -1,6 +1,11 @@
 import MagicButton from "@/components/ui/MagicButton";
 import { CALENDLY_URL } from "@/data";
+import Link from "next/link";
 import { FaLocationArrow } from "react-icons/fa6";
+import { getPosts } from "@/lib/blog";
+import { Fold } from "./Fold";
+
+const RULES_POST = "the-rules-file-my-agents-follow";
 
 const en = {
   eyebrow: "Your team keeps the method",
@@ -10,11 +15,12 @@ const en = {
   deliveredHeading: "Exactly what's delivered",
   deliverables: [
     "A working Claude Code agent harness configured against your repo: CLAUDE.md project rules, the worktree and dispatch workflow, and CI wiring.",
-    "The adversarial security review checklist I use — the artifact that caught 3 real shell-injection vulnerabilities that passed automated tests — adapted to your stack and handed over as yours to keep.",
+    "The adversarial security review checklist I use — the one that caught 3 shell-injection paths from request input on my own 30-PR run — adapted to your stack and handed over as yours to keep.",
     "A hands-on working session (or short series): I run a live batch against your backlog with your team watching, then your team runs the next batch with me reviewing.",
     "A written playbook: how to dispatch, what to review first, the failure modes to expect in your codebase, and where the human verify layer is non-negotiable.",
     "2 weeks of async follow-up support after handover as your team adopts it.",
   ],
+  rulesLink: "See the rules file my agents follow →",
   pricingHeading: "Pricing",
   pricingEyebrow: "Agent Fleet Setup",
   price: "Starts at €4,000",
@@ -38,9 +44,15 @@ const en = {
 
 export type HarnessSetupCopy = typeof en;
 
-export const HarnessSetup = ({ copy = en }: { copy?: HarnessSetupCopy }) => {
+export const HarnessSetup = async ({
+  copy = en,
+}: {
+  copy?: HarnessSetupCopy;
+}) => {
+  // The post is scheduled; link it only once it's live (checked at build).
+  const rulesLive = (await getPosts()).some((p) => p.slug === RULES_POST);
   return (
-    <section id="harness" className="px-5 sm:px-10 py-20 scroll-mt-24">
+    <section id="harness" className="px-5 sm:px-10 py-12 md:py-20 scroll-mt-24">
       <div className="max-w-6xl mx-auto rounded-2xl border border-white/10 bg-black-200/40 p-6 md:p-10">
         <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100">
           {copy.eyebrow}
@@ -52,20 +64,27 @@ export const HarnessSetup = ({ copy = en }: { copy?: HarnessSetupCopy }) => {
           {copy.intro}
         </p>
 
-        <h3 className="text-lg font-semibold mt-10 mb-4">
-          {copy.deliveredHeading}
-        </h3>
-        <ul className="flex flex-col gap-3">
-          {copy.deliverables.map((item) => (
-            <li
-              key={item}
-              className="flex gap-3 text-sm text-white-200 leading-relaxed"
-            >
-              <span className="text-purple flex-none">+</span>
-              {item}
-            </li>
-          ))}
-        </ul>
+        <Fold title={copy.deliveredHeading}>
+          <ul className="flex flex-col gap-3">
+            {copy.deliverables.map((item) => (
+              <li
+                key={item}
+                className="flex gap-3 text-sm text-white-200 leading-relaxed"
+              >
+                <span className="text-purple flex-none">+</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </Fold>
+        {rulesLive && (
+          <Link
+            href={`/blog/${RULES_POST}`}
+            className="inline-block mt-4 text-sm font-medium text-purple underline underline-offset-4 hover:text-white transition-colors"
+          >
+            {copy.rulesLink}
+          </Link>
+        )}
 
         <h3 className="text-lg font-semibold mt-10 mb-4">
           {copy.pricingHeading}
@@ -97,20 +116,19 @@ export const HarnessSetup = ({ copy = en }: { copy?: HarnessSetupCopy }) => {
           {copy.lockedNote}
         </p>
 
-        <h3 className="text-lg font-semibold mt-10 mb-4">
-          {copy.termsHeading}
-        </h3>
-        <ul className="flex flex-col gap-3">
-          {copy.terms.map((item) => (
-            <li
-              key={item}
-              className="flex gap-3 text-sm text-white-200/80 leading-relaxed"
-            >
-              <span className="text-white-200/40 flex-none">−</span>
-              {item}
-            </li>
-          ))}
-        </ul>
+        <Fold title={copy.termsHeading}>
+          <ul className="flex flex-col gap-3">
+            {copy.terms.map((item) => (
+              <li
+                key={item}
+                className="flex gap-3 text-sm text-white-200/80 leading-relaxed"
+              >
+                <span className="text-white-200/40 flex-none">−</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </Fold>
 
         <h3 className="text-lg font-semibold mt-10 mb-2">
           {copy.guaranteeHeading}
@@ -120,18 +138,6 @@ export const HarnessSetup = ({ copy = en }: { copy?: HarnessSetupCopy }) => {
           {copy.guaranteeBody}
         </p>
 
-        <div className="mt-8">
-          <MagicButton
-            title={copy.cta}
-            icon={<FaLocationArrow />}
-            position="right"
-            href={CALENDLY_URL}
-            trackEvent={{
-              event: "calendly_click",
-              props: { source: "harness_bottom" },
-            }}
-          />
-        </div>
       </div>
     </section>
   );

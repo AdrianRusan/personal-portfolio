@@ -4,9 +4,20 @@ export const CALENDLY_URL = "https://calendly.com/adrian-rusan/new-meeting";
 // Async intake inbox for offers that don't require a call.
 export const CONTACT_EMAIL = "contact@adrian-rusan.com";
 
-// Paid 1:1 advice call (€200). Mailto until the paid Calendly event exists;
-// swap to that event's URL once Adi creates it.
-export const STRATEGY_CALL_URL = `mailto:${CONTACT_EMAIL}?subject=AI%20Strategy%20Call%20(%E2%82%AC200)`;
+// Paid 1:1 advice call (€200). null until Adi creates the paid Calendly event
+// (ADI-3); set it and every €200 CTA switches from email to booking, label too.
+export const STRATEGY_CALL_CALENDLY_URL: string | null = null;
+export const STRATEGY_CALL_URL =
+  STRATEGY_CALL_CALENDLY_URL ??
+  `mailto:${CONTACT_EMAIL}?subject=AI%20Strategy%20Call%20(%E2%82%AC200)`;
+export const STRATEGY_CALL_CTA = STRATEGY_CALL_CALENDLY_URL
+  ? "Book the €200 call"
+  : "Email me to book the €200 call";
+
+// Redacted sample of the sprint's Security Report (ADI-6), from my own 30-PR
+// run. Set to null to hide every "See a sample report" link.
+export const SAMPLE_REPORT_URL: string | null =
+  "/sample-sprint-security-report.pdf";
 
 // YouTube channel id (starts with "UC"). One value drives every YouTube
 // surface: null hides the Bio/schema links and keeps the Latest block blog-only.
@@ -56,11 +67,13 @@ export const navItems = [
 export const proofStats = [
   {
     figure: "30",
-    label: "reviewed PRs · 9 agent batches · 2.5 days",
+    label: "reviewed PRs · 9 agent batches · under 3 days",
   },
   {
     figure: "3",
-    label: "shell-injection vulnerabilities caught — that passed the tests",
+    // Canonical facts: goals/2026-10-11-30pr-canonical-facts.md. The repo had
+    // no tests or CI, so the stat makes no claim about tests.
+    label: "shell-injection paths from request input, caught in review before merge",
   },
   {
     figure: "10+ yrs",
@@ -77,7 +90,7 @@ export const shipVerify = [
     tag: "SHIP",
     label: "SHIP",
     heading: "The agents write the volume",
-    body: "Fleets of Claude Code agents run in parallel git worktrees, each dispatched a ticket and driven by your CLAUDE.md conventions. This is where the 2-3x comes from: a small team's throughput from one operator and a harness.",
+    body: "Fleets of Claude Code agents run in parallel git worktrees, each dispatched a ticket and driven by your CLAUDE.md conventions. This is where the 2–3x comes from: a small team's throughput from one operator and a harness.",
   },
   {
     // tag is the styling key; label is what the page shows (RO overrides it).
@@ -110,7 +123,7 @@ export const faqs: { question: string; answer: string }[] = [
   {
     question: "How is the quality any good if AI agents wrote it?",
     answer:
-      "Because agent output is the draft, not the deliverable. Every PR goes through a line-by-line senior review that assumes the agent got it wrong until it's proven right. Agents give you 2-3x throughput, not 100x, and they get specific things wrong. The review is where those get caught, and every sprint ships you a log of what got caught in your codebase.",
+      "Because agent output is the draft, not the deliverable. Every PR goes through a line-by-line senior review that assumes the agent got it wrong until it's proven right. Agents give you 2–3x throughput, not 100x, and they get specific things wrong. The review is where those get caught, and every sprint ships you a log of what got caught in your codebase.",
   },
   {
     question: "What if the agents get it wrong, or can't do the ticket?",
@@ -121,7 +134,7 @@ export const faqs: { question: string; answer: string }[] = [
     question:
       "Unsupervised agents ship vulnerabilities. How do you handle security?",
     answer:
-      "Correct, they do. That's why this isn't a cheaper \"just run the agents\" service. Security is the first pass of every review: injection, auth, secrets, access control. The review has caught 3 shell-injection vulnerabilities the agents wrote that passed the automated tests. The guarantee is in writing: an in-scope vulnerability found in a PR I marked reviewed gets fixed free.",
+      "Correct, they do. That's why this isn't a cheaper \"just run the agents\" service. Security is the first pass of every review: injection, auth, secrets, access control. On my own 30-PR run, a repo with no test suite, the review caught 3 shell-injection paths from request input before merge. The guarantee is in writing: an in-scope vulnerability found in a PR I marked reviewed gets fixed free.",
   },
   {
     question: "Who owns the code? Will you sign an NDA?",
@@ -156,6 +169,28 @@ export const faqs: { question: string; answer: string }[] = [
     question: "Why not hire an agency, or more engineers?",
     answer:
       "An agency sells a team's hours with a markup, and new headcount takes months to hire and ramp. Here the first reviewed PR lands within days, from one senior engineer running an agent fleet: no coordination overhead and no junior work billed at senior rates. Agencies using agents rarely put a senior adversarial review on top. Here that review is the product.",
+  },
+  // C16 (F12): the four objections the call kept raising. Appended, so the
+  // homepage picks by index (HOME_FAQ_PICKS) stay the same.
+  {
+    question: "Which stacks and languages do you review?",
+    answer:
+      "TypeScript and JavaScript end to end: Node, Nest.js, React, Next.js, Tailwind, SQL and MongoDB. That's where 10+ years of production work went. The security pass (injection, auth, secrets, access control) applies to any language, but if your stack is outside that list I say so on the call instead of learning on your money.",
+  },
+  {
+    question: "Who pays for the LLM and API usage?",
+    answer:
+      "I do. LLM/API usage is included in the fixed price for sprints and reviewed PRs. No token bill arrives on top. Agent Fleet Setup is the exception: it runs on your team's own Claude Code licences, because the harness stays with you.",
+  },
+  {
+    question: "What counts as one PR?",
+    answer:
+      "One ticket from your backlog, shipped as one reviewable pull request: a bug fix, a small feature or a slice of a bigger one. A ticket too big to review well in one pass gets split on the scope call, before the price is fixed, so you know the PR count up front.",
+  },
+  {
+    question: "Who invoices, and in which currency?",
+    answer:
+      "Invoiced in EUR by my Romanian company; USD on request. The price on the invoice is the fixed price agreed before work started.",
   },
 ];
 
@@ -201,64 +236,6 @@ export const whoFor = {
   ],
 };
 
-export const techStackLeft = [
-  "Next.js",
-  "React.js",
-  "Tailwind CSS",
-  "TypeScript",
-];
-
-export const techStackRight = ["SQL", "REST API", "Node.js", "MongoDB"];
-
-export const projects = [
-  {
-    id: 1,
-    title: "ShopValue - Product Price Scrapper",
-    description:
-      "Elevate your shopping game with ShopValue. Track prices, spot trends and get the best deals from flip.ro.",
-    img: "https://utfs.io/a/23x7w9tiht/302c56cd-01cb-4ea4-bf5d-33349de0a959-yg72dh.png",
-    alt: "ShopValue image",
-    iconLists: [
-      "https://utfs.io/a/23x7w9tiht/89882599-3371-4fbc-b4f8-3825ce00e10b-2sz.svg",
-      "https://utfs.io/a/23x7w9tiht/f4808e60-309b-4c54-97b3-86094cd55887-24500.svg",
-      "https://utfs.io/a/23x7w9tiht/926347cb-afd7-4aef-b916-f491fe0b704f-2v3.svg",
-      "https://utfs.io/a/23x7w9tiht/8ee0ad2e-2f9c-4436-8864-b97406507c85-2iv.svg",
-    ],
-    iconListsAlt: [
-      "React icon",
-      "Tailwind CSS icon",
-      "TypeScript icon",
-      "Framer Motion icon",
-    ],
-    // github: 'https://github.com/AdrianRusan/shop-value',
-    link: "https://shop-value.vercel.app/",
-  },
-  {
-    id: 2,
-    title: "NextHub - Video Conferencing App",
-    description:
-      "Simplify your video conferencing experience with NextHub. Seamlessly connect with colleagues and friends.",
-    img: "https://utfs.io/a/23x7w9tiht/9790aeb2-4bcd-47e7-b2a4-f085489d13d5-2pu.svg",
-    alt: "NextHub image",
-    iconLists: [
-      "https://utfs.io/a/23x7w9tiht/488b9b22-8201-4f04-8ed8-00f38b137785-20eer.svg",
-      "https://utfs.io/a/23x7w9tiht/f4808e60-309b-4c54-97b3-86094cd55887-24500.svg",
-      "https://utfs.io/a/23x7w9tiht/926347cb-afd7-4aef-b916-f491fe0b704f-2v3.svg",
-      "https://utfs.io/a/23x7w9tiht/99f9d107-5657-42a9-8020-4b92baea8f39-er2g00.svg",
-      "https://utfs.io/a/23x7w9tiht/929d0b4c-5f54-485d-b3dd-827509c0c36d-2r.svg",
-    ],
-    iconListsAlt: [
-      "Next.js icon",
-      "Tailwind CSS icon",
-      "TypeScript icon",
-      "GetStream.io icon",
-      "Clerk icon",
-    ],
-    github: "https://github.com/AdrianRusan/nexthub",
-    link: "https://nexthub-project.vercel.app/",
-  },
-];
-
 export const testimonials = [
   {
     quote:
@@ -279,38 +256,32 @@ export const workExperience = [
     desc: "Built a headless platform that automates company-formation filings, cutting processing time by 80%. Built AI-powered internal tools for admin and marketing workflows. Led a two-engineer squad that shipped a marketing site in four weeks.",
     className: "md:col-span-2",
     // Neutral generated card (#54 R5): no real logo asset, and never another
-    // company's image.
+    // company's image. The other entries' clipart is gone (C30, U12).
     thumbnail: "/experience-fintech.svg",
   },
   {
     id: 1,
-    title: "Full Stack Engineer",
-    company: "Rusan Adrian-Ionuț PFA",
+    title: "Full-stack engineer",
+    company: "Independent consultant",
     period: "Dec 2022 – Present",
     desc: "AI builds end to end: a receipt classification pipeline, an LLM presentation platform, and an agent-built SaaS platform run by a multi-session agent org.",
     className: "md:col-span-2",
-    thumbnail:
-      "https://utfs.io/a/23x7w9tiht/5204c033-6bdb-4b06-9c15-7965e18e5561-1v1dh.svg",
   },
   {
     id: 2,
-    title: "Full-Stack Engineer",
+    title: "Full-stack engineer",
     company: "GoSocial Development SRL",
     period: "Sep 2023 – Sep 2024",
     desc: "Built data parsers for multiple sources (-70% processing time), a Next.js/Nest.js Facebook Ads dashboard that removed 10 h/week of manual reporting, and Playwright E2E tests with GitHub Actions CI.",
     className: "md:col-span-2",
-    thumbnail:
-      "https://utfs.io/a/23x7w9tiht/44cbb969-d079-456a-8554-c62cc61ffb1f-1v1dg.svg",
   },
   {
     id: 3,
-    title: "Full Stack Developer",
+    title: "Full-stack engineer",
     company: "PGL Esports SRL",
     period: "Oct 2020 – Oct 2022",
     desc: "Built live overlay graphics and visualizations for PGL Major CS:GO streams with 2M+ concurrent viewers.",
     className: "md:col-span-2",
-    thumbnail:
-      "https://utfs.io/a/23x7w9tiht/9ae30726-e9a7-43bc-a28c-bce3e44eba67-1v1di.svg",
   },
   {
     id: 4,
@@ -319,8 +290,6 @@ export const workExperience = [
     period: "Jun 2016 – Sep 2020",
     desc: "Delivered 300+ survey projects on time for enterprise research clients, and mentored three junior developers.",
     className: "md:col-span-2",
-    thumbnail:
-      "https://utfs.io/a/23x7w9tiht/48a6ace0-6271-444c-873a-5cf82e04d3fc-1v1dj.svg",
   },
 ];
 
