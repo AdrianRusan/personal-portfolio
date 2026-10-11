@@ -53,7 +53,7 @@ const steps = [
 
 export default function TeardownPage() {
   return (
-    <PageShell navItems={teardownNavItems}>
+    <PageShell navItems={teardownNavItems} hideEmailCapture hideFooterCta>
       <JsonLd
         data={pageJsonLd({
           path: "/teardown",

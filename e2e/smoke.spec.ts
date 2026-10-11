@@ -5,6 +5,7 @@ const routes = [
   '/',
   '/services',
   '/teardown',
+  '/privacy',
   '/blog',
   '/blog/2-3x-not-100x',
   '/blog/30-prs-in-2-5-days',
@@ -52,6 +53,10 @@ for (const route of routes) {
     await expect(page.locator('footer')).toHaveCount(1);
     expect(await page.locator('img:not([alt])').count()).toBe(0);
 
+    // C01: a "Book…" link never opens an email client (EN "Book", RO "Rezervă").
+    const mailtoLabels = await page.locator('a[href^="mailto:"]').allTextContents();
+    expect(mailtoLabels.filter((t) => /^\s*(book|rezervă)/i.test(t))).toEqual([]);
+
     const overflow = await page.evaluate(
       () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
     );
@@ -65,4 +70,16 @@ test('unknown route returns 404 with the site shell', async ({ page }) => {
   await expect(page.locator('h1')).toHaveCount(1);
   await expect(page.locator('main')).toHaveCount(1);
   await expect(page.getByRole('link', { name: /home/i }).first()).toBeVisible();
+});
+
+test('privacy is linked from the footer and from both forms', async ({ page }) => {
+  await page.goto('/blog');
+  await expect(page.locator('footer a[href="/privacy"]')).toHaveCount(2); // footer row + checklist form
+  await page.goto('/teardown');
+  await expect(page.locator('form a[href="/privacy"]')).toHaveCount(1);
+});
+
+test('/teardown has exactly one form', async ({ page }) => {
+  await page.goto('/teardown');
+  await expect(page.locator('form')).toHaveCount(1);
 });

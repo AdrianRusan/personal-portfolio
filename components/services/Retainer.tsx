@@ -1,11 +1,9 @@
-import MagicButton from "@/components/ui/MagicButton";
 import { CalendlyLink } from "@/components/CalendlyLink";
-import { CALENDLY_URL } from "@/data";
-import { FaLocationArrow } from "react-icons/fa6";
+import { Fold } from "./Fold";
 
 const en = {
   eyebrow: "Ongoing capacity",
-  heading: "AI-Native Delivery Retainer",
+  heading: "Retainer",
   intro:
     "Senior AI-native delivery, every month: a committed flow of security-reviewed PRs for teams who've stopped asking whether agents are fast and now want them running continuously and safely.",
   deliveredHeading: "What's delivered, monthly",
@@ -19,21 +17,22 @@ const en = {
   startsAt: "Starts at",
   price: "€4,000",
   perMonth: "/month",
+  // D4: the minimum sits at the price, not only in the terms.
+  minimum: "3-month minimum, from €12,000",
   pricingBody:
     "A permanently reserved senior-review slot and a committed monthly band of reviewed PRs, on the same ship/verify pipeline as the sprint. The exact band and per-PR rate are scoped on the call, against your repo and cadence — a 3-month initial commitment.",
   pricingRate:
-    "The per-PR rate lands roughly 20–30% below the one-off Sprint rate — that's what the monthly commitment buys you. No published rate card; specifics are scoped on the call.",
+    "The per-PR rate lands roughly 20–30% below the one-off Sprint rate — that's what the monthly commitment buys you. The exact band is scoped on the call.",
   cta: "Book a scoping call",
   bandNote:
     "Your monthly band is locked on day 0, no runaway bill — overflow rolls forward instead of surprise invoicing.",
   guaranteesHeading: "The guarantees",
+  // C32: the full security guarantee is printed once, in the sprint section.
+  securityNote:
+    "Plus the sprint's security guarantee on every retainer PR: an in-scope vulnerability later found in a PR I marked reviewed gets fixed free, and the surrounding batch re-reviewed.",
   guarantees: [
     {
-      title: "1. Security guarantee",
-      body: "Every delivered PR passes a documented adversarial security review before you see it. If a vulnerability that was in scope of that review is later found in a PR I marked reviewed, I fix it free and re-review the surrounding batch at no charge.",
-    },
-    {
-      title: "2. Proof-month guarantee",
+      title: "Proof-month guarantee",
       body: "We agree the pace of reviewed PRs up front. If month 1 misses it, you can stop there, with nothing more owed. You see the retainer working before the full three months.",
     },
   ],
@@ -49,7 +48,7 @@ export type RetainerCopy = typeof en;
 
 export const Retainer = ({ copy = en }: { copy?: RetainerCopy }) => {
   return (
-    <section id="retainer" className="px-5 sm:px-10 py-20 scroll-mt-24">
+    <section id="retainer" className="px-5 sm:px-10 py-12 md:py-20 scroll-mt-24">
       <div className="max-w-6xl mx-auto rounded-2xl border border-white/10 bg-black-200/40 p-6 md:p-10">
         <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100">
           {copy.eyebrow}
@@ -61,20 +60,19 @@ export const Retainer = ({ copy = en }: { copy?: RetainerCopy }) => {
           {copy.intro}
         </p>
 
-        <h3 className="text-lg font-semibold mt-10 mb-4">
-          {copy.deliveredHeading}
-        </h3>
-        <ul className="flex flex-col gap-3">
-          {copy.deliverables.map((item) => (
-            <li
-              key={item}
-              className="flex gap-3 text-sm text-white-200 leading-relaxed"
-            >
-              <span className="text-purple flex-none">+</span>
-              {item}
-            </li>
-          ))}
-        </ul>
+        <Fold title={copy.deliveredHeading}>
+          <ul className="flex flex-col gap-3">
+            {copy.deliverables.map((item) => (
+              <li
+                key={item}
+                className="flex gap-3 text-sm text-white-200 leading-relaxed"
+              >
+                <span className="text-purple flex-none">+</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </Fold>
 
         <h3 className="text-lg font-semibold mt-10 mb-4">
           {copy.pricingHeading}
@@ -88,6 +86,9 @@ export const Retainer = ({ copy = en }: { copy?: RetainerCopy }) => {
             <span className="text-base font-normal text-white-200">
               {copy.perMonth}
             </span>
+          </p>
+          <p className="font-mono text-xs md:text-sm text-white mt-2">
+            {copy.minimum}
           </p>
           <p className="text-sm text-white-200 mt-4 leading-relaxed max-w-2xl">
             {copy.pricingBody}
@@ -105,10 +106,7 @@ export const Retainer = ({ copy = en }: { copy?: RetainerCopy }) => {
         </div>
         <p className="text-xs text-white-200/70 mt-4 italic">{copy.bandNote}</p>
 
-        <h3 className="text-lg font-semibold mt-10 mb-4">
-          {copy.guaranteesHeading}
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <Fold title={copy.guaranteesHeading}>
           {copy.guarantees.map((g) => (
             <div
               key={g.title}
@@ -118,35 +116,25 @@ export const Retainer = ({ copy = en }: { copy?: RetainerCopy }) => {
               <p className="text-sm text-white-200 leading-relaxed">{g.body}</p>
             </div>
           ))}
-        </div>
+          <p className="text-sm text-white-200 mt-4 leading-relaxed">
+            {copy.securityNote}
+          </p>
+        </Fold>
 
-        <h3 className="text-lg font-semibold mt-10 mb-4">
-          {copy.termsHeading}
-        </h3>
-        <ul className="flex flex-col gap-3">
-          {copy.terms.map((item) => (
-            <li
-              key={item}
-              className="flex gap-3 text-sm text-white-200/80 leading-relaxed"
-            >
-              <span className="text-white-200/40 flex-none">−</span>
-              {item}
-            </li>
-          ))}
-        </ul>
+        <Fold title={copy.termsHeading}>
+          <ul className="flex flex-col gap-3">
+            {copy.terms.map((item) => (
+              <li
+                key={item}
+                className="flex gap-3 text-sm text-white-200/80 leading-relaxed"
+              >
+                <span className="text-white-200/40 flex-none">−</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </Fold>
 
-        <div className="mt-8">
-          <MagicButton
-            title={copy.cta}
-            icon={<FaLocationArrow />}
-            position="right"
-            href={CALENDLY_URL}
-            trackEvent={{
-              event: "calendly_click",
-              props: { source: "retainer_bottom" },
-            }}
-          />
-        </div>
       </div>
     </section>
   );

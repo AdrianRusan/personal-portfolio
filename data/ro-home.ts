@@ -24,7 +24,6 @@ import {
   formatPriceRo,
   RO_CREDIT_TERMS,
   RO_GUARANTEE,
-  RO_STRATEGY_CALL_URL,
   roLadder,
   roTierNames,
   roTiers,
@@ -48,21 +47,18 @@ export const roHero: HeroCopy = {
     "Roadmap-ul tău se livrează, fără un incident de securitate pe numele tău.",
   honestBefore: "De 2–3 ori, nu de 100 de ori, și",
   honestLink: "iată ce greșesc agenții",
-  teardown: "Cere un teardown gratuit",
-  call: "Sau programează o discuție →",
+  teardown: "Cere un teardown gratuit (în engleză)",
+  call: "Programează o discuție",
   guarantee: RO_GUARANTEE,
-  adviceBefore: "Ai nevoie doar de sfaturi?",
-  adviceLink: "Rezervă o sesiune 1:1 de strategie AI, 110 €.",
-  adviceHref: RO_STRATEGY_CALL_URL,
 };
 
 export const roProofBand: ProofBandCopy = {
   ariaLabel: "Dovezi în cifre",
   stats: [
-    { figure: "30", label: "PR-uri revizuite · 9 loturi de agenți · 2,5 zile" },
+    { figure: "30", label: "PR-uri revizuite · 9 loturi de agenți · sub 3 zile" },
     {
       figure: "3",
-      label: "vulnerabilități de shell injection prinse, deși testele treceau",
+      label: "căi de shell injection din input-ul cererii, prinse în review înainte de merge",
     },
     {
       figure: "10+ ani",
@@ -77,7 +73,7 @@ export const roProofBand: ProofBandCopy = {
   longNote:
     "Cifrele vin dintr-un benchmark rulat cap-coadă pe propriul meu repo. PR-urile, notele de review și vulnerabilitățile prinse sunt reale și documentate, dar nu e un proiect plătit de un client (studiile de caz cu clienți sunt în lucru). ",
   teardownBefore: "Vrei același review pe codul tău?",
-  teardownLink: "Trimite-mi un repo pentru un teardown gratuit →",
+  teardownLink: "Trimite-mi un repo pentru un teardown gratuit (în engleză) →",
   ledger: RO_LEDGER_PROOF,
   honesty:
     "Fără statistici inventate și fără urgență falsă. Cifrele de aici vin din rulări documentate.",
@@ -92,6 +88,8 @@ export const roEmailCapture: EmailCaptureCopy = {
   sending: "Se trimite…",
   submit: "Vreau checklist-ul",
   error: "Ceva n-a mers. Încearcă din nou peste câteva momente.",
+  invalid: "Te rog să introduci o adresă de email validă.",
+  privacy: "Cum îți folosesc datele (în engleză)",
 };
 
 // Keyed by tag so a reordered or added EN step can't pick up the wrong copy.
@@ -119,6 +117,7 @@ export const roShipVerify: ShipVerifyCopy = {
   steps: shipVerify.map((step) => ({ ...step, ...roSteps[step.tag] })),
   footnote:
     "Viteza o găsești oriunde acum. Verificarea e partea rară și partea pentru care cineva răspunde.",
+  sampleLink: "Vezi un raport exemplu (în engleză) →",
 };
 
 export const roBio: BioCopy = {
@@ -169,9 +168,9 @@ export const roPostTitles: PostTitles = {
       "Când am redus contextul, costul pe commit al agenților a scăzut o lună, apoi economia a dispărut pe nesimțite. Ce am învățat, ce pot și ce nu pot explica și măsurătoarea săptămânală pe care un audit AI o pune în practică pentru echipa ta.",
   },
   "30-prs-in-2-5-days": {
-    title: "30 de PR-uri în mai puțin de trei zile: anatomia a nouă loturi de agenți",
+    title: "30 de PR-uri în sub 3 zile: anatomia a nouă loturi de agenți",
     description:
-      "Mecanica din spatele a 30 de PR-uri revizuite în mai puțin de trei zile: git worktrees în paralel, tichete distribuite prin CLAUDE.md și de ce review-ul, nu generarea, e adevăratul blocaj.",
+      "Mecanica din spatele a 30 de PR-uri revizuite în sub 3 zile: git worktrees în paralel, tichete distribuite prin CLAUDE.md și de ce review-ul, nu generarea, e adevăratul blocaj.",
   },
   "66-days-of-claude-code-by-the-numbers": {
     title: "66 de zile de Claude Code, în cifre",
@@ -206,7 +205,7 @@ export const roPostTitles: PostTitles = {
   "2-3x-not-100x": {
     title: "De 2–3 ori, nu de 100 de ori: cifra sinceră despre viteza programării cu AI",
     description:
-      "Cu cât e mai rapidă, de fapt, programarea cu AI? Răspunsul măsurat e de 2–3 ori, nu de 10–100 de ori. Iată metodologia, 30 de PR-uri revizuite în mai puțin de trei zile, și ce lasă deoparte multiplicatorul.",
+      "Cu cât e mai rapidă, de fapt, programarea cu AI? Răspunsul măsurat e de 2–3 ori, nu de 10–100 de ori. Iată metodologia, 30 de PR-uri revizuite în sub 3 zile, și ce lasă deoparte multiplicatorul.",
   },
   "claude-code-changed-how-i-ship-software": {
     title: "Claude Code a schimbat felul în care livrez software",
@@ -284,7 +283,7 @@ export const roExperience: ExperienceCopy = {
 export const roTestimonials: TestimonialsCopy = {
   label: "Ce spune un client",
   note: "Dintr-un proiect de dezvoltare web full-stack, dinainte de pipeline-ul cu agenți (citat original, în engleză). Dovezile pipeline-ului sunt în studiile de caz de mai sus. Pentru o dovadă pe codul tău chiar azi,",
-  noteLink: "cere un teardown gratuit",
+  noteLink: "cere un teardown gratuit (în engleză)",
 };
 
 export const roLatest: LatestCopy = {
@@ -334,13 +333,14 @@ export const roCallFaq = {
 };
 
 export const roFooter: FooterCopy = {
-  headingBefore: "Nu știi ce ",
-  headingAccent: "nivel",
-  headingAfter: " ți se potrivește? Programează o discuție de 30 de minute.",
+  heading: "Vrei asta pe codul tău? Programează o discuție de 30 de minute.",
   body: "Spune-mi ce vrei să construiești sau să livrezi. Pleci știind ce ofertă ți se potrivește, ce acoperă și cât costă. Fără nicio obligație.",
   button: "Programează o discuție",
   emailAria: "Trimite un email lui Adrian Rusan",
   email: "sau scrie-mi un email",
+  teardown: "Sau trimite-mi un repo pentru un teardown gratuit de 15 minute (în engleză) →",
+  privacy: "Confidențialitate",
+  rss: "RSS",
   socialAria: "Rețele sociale",
   socialLabels: {
     1: "Adrian Rusan pe GitHub",

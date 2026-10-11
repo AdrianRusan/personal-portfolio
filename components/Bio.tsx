@@ -58,13 +58,13 @@ const Bio = ({
         <p className="text-sm text-white-200 leading-relaxed mt-2">
           {copy.body}
         </p>
-        <div className="flex items-center gap-4 mt-4">
+        <div className="flex items-center gap-1 mt-3 -ml-3">
           <Link
             href="https://github.com/AdrianRusan"
             target="_blank"
             rel="noopener noreferrer"
             aria-label={copy.onGithub}
-            className="text-white-200 hover:text-purple transition-colors"
+            className="inline-flex h-11 w-11 items-center justify-center text-white-200 hover:text-purple transition-colors"
           >
             <FaGithub size={20} />
           </Link>
@@ -73,7 +73,7 @@ const Bio = ({
             target="_blank"
             rel="noopener noreferrer"
             aria-label={copy.onLinkedin}
-            className="text-white-200 hover:text-purple transition-colors"
+            className="inline-flex h-11 w-11 items-center justify-center text-white-200 hover:text-purple transition-colors"
           >
             <FaLinkedin size={20} />
           </Link>
@@ -82,7 +82,7 @@ const Bio = ({
             target="_blank"
             rel="noopener noreferrer"
             aria-label={copy.onX}
-            className="text-white-200 hover:text-purple transition-colors"
+            className="inline-flex h-11 w-11 items-center justify-center text-white-200 hover:text-purple transition-colors"
           >
             <FaXTwitter size={20} />
           </Link>
@@ -92,7 +92,7 @@ const Bio = ({
               target="_blank"
               rel="noopener noreferrer"
               aria-label={copy.onYoutube}
-              className="text-white-200 hover:text-purple transition-colors"
+              className="inline-flex h-11 w-11 items-center justify-center text-white-200 hover:text-purple transition-colors"
             >
               <FaYoutube size={20} />
             </Link>

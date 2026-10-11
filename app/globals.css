@@ -10,6 +10,11 @@
   -ms-overflow-style: none;
 }
 
+/* The fixed nav never hides: keep in-page anchor targets below it (2 rows on mobile /services). */
+html {
+  scroll-padding-top: 7rem;
+}
+
 ::-webkit-scrollbar {
   display: none;
 }
@@ -52,10 +57,11 @@
     --black-200: 241 245 249;
     --black-300: rgba(15, 23, 42, 0.12);
     --white-100: 71 85 105;
-    /* slate-700: still >= 4.5:1 at the /75 muted opacity on white and slate-100 */
-    --white-200: 51 65 85;
+    /* slate-800: >= 4.5:1 even at the /70 muted opacity on white and slate-100 */
+    --white-200: 30 41 59;
     --blue-100: 67 56 202;
-    --purple: 124 58 237;
+    /* violet-700: >= 4.5:1 for small purple text on its own /20 tint */
+    --purple: 109 40 217;
     --nav-bg: rgba(255, 255, 255, 0.8);
     --nav-border: rgba(15, 23, 42, 0.1);
   }

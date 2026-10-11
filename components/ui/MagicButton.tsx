@@ -5,7 +5,7 @@ import { Button } from "./button";
 import { track, type AnalyticsEvent, type EventProps } from "@/lib/analytics";
 
 const magicClasses =
-  "relative w-full inline-flex h-12 overflow-hidden rounded-lg p-[1px] focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:ring-offset-2 focus-visible:ring-offset-black-100 md:w-60 md:mt-10";
+  "relative w-full inline-flex h-12 overflow-hidden rounded-lg p-0 bg-transparent hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:ring-offset-2 focus-visible:ring-offset-black-100 md:w-60 md:mt-10";
 
 const MagicButton = ({
   title,
@@ -32,9 +32,9 @@ const MagicButton = ({
 
   const inner = (
     <>
-      <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] motion-reduce:animate-none bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+      {/* Solid purple: the booking CTA is the strongest button on the page. */}
       <span
-        className={`inline-flex h-full w-full cursor-pointer items-center justify-center rounded-lg bg-slate-950 px-7 text-sm font-medium text-neutral-50 backdrop-blur-3xl gap-2 ${otherClasses}`}
+        className={`inline-flex h-full w-full cursor-pointer items-center justify-center rounded-lg bg-purple px-7 text-sm font-semibold text-black-100 transition-colors hover:bg-purple/85 gap-2 ${otherClasses}`}
       >
         {position === "left" && icon}
         {title}

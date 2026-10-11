@@ -7,7 +7,7 @@ const en = {
     "Your backlog, shipped at agent speed — every PR security-reviewed before you see it",
   intro:
     "This is fixed-scope, fixed-price delivery, not a timesheet. You agree the batch of pull requests and the number up front. An agent fleet writes the volume; I adversarially review every PR for security before it reaches you. Nothing reaches you that a senior engineer hasn't personally checked.",
-  tagline: "2-3x, not 100x — and here's what the agents get wrong.",
+  tagline: "2–3x, not 100x — and here's what the agents get wrong.",
   priced:
     "Every offer is priced up front, from a €200 call to a monthly retainer.",
   cta: "Book a scoping call",
@@ -16,8 +16,8 @@ const en = {
   guarantee: GUARANTEE,
   ledger: LEDGER_PROOF,
   proofItems: [
-    "30 reviewed PRs · 9 agent batches · 2.5 days",
-    "3 shell-injection vulnerabilities caught that passed the tests",
+    "30 reviewed PRs · 9 agent batches · under 3 days",
+    "3 shell-injection paths from request input, caught in review before merge",
     "10+ years in production",
   ],
   proofNote:
@@ -36,7 +36,7 @@ export const ServicesHero = ({ copy = en }: { copy?: ServicesHeroCopy }) => {
         <p className="text-white-200 mt-5 leading-relaxed max-w-2xl mx-auto">
           {copy.intro}
         </p>
-        <p className="inline-block text-center font-mono text-xs md:text-sm text-purple mt-5 border-l-2 border-purple pl-3">
+        <p className="text-center font-mono text-xs md:text-sm text-purple mt-5">
           {copy.tagline}
         </p>
         <p className="font-mono text-xs md:text-sm text-white-200/75 mt-3">
@@ -63,17 +63,13 @@ export const ServicesHero = ({ copy = en }: { copy?: ServicesHeroCopy }) => {
           <p className="text-xs text-white-200/70 mt-1">{copy.guarantee}</p>
         </div>
 
-        <div className="flex flex-wrap justify-center items-center gap-x-3 gap-y-2 mt-10 max-w-3xl mx-auto">
-          {copy.proofItems.map((item, index) => (
+        {/* Gaps, not "·" separators: a wrapped row would start with an orphan dot. */}
+        <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 mt-10 max-w-3xl mx-auto">
+          {copy.proofItems.map((item) => (
             <span
               key={item}
-              className="flex items-center gap-3 font-mono text-[11px] md:text-xs text-white-200/80"
+              className="font-mono text-[11px] md:text-xs text-white-200/80"
             >
-              {index !== 0 && (
-                <span className="text-white-200/40" aria-hidden="true">
-                  ·
-                </span>
-              )}
               {item}
             </span>
           ))}

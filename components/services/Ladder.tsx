@@ -71,7 +71,7 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
                       {offer.duration}
                     </p>
                     {offer.assurance && (
-                      <p className="text-xs text-blue-100 mt-2">
+                      <p className="text-xs text-white-200 mt-2">
                         {offer.assurance}
                       </p>
                     )}

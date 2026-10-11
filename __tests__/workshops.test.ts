@@ -1,4 +1,4 @@
-import { workshops, workshopJsonLd } from "@/data/workshops";
+import { perEngineer, workshops, workshopJsonLd } from "@/data/workshops";
 
 const full = workshops["full-day"];
 const half = workshops["half-day"];
@@ -16,7 +16,9 @@ describe("workshops data", () => {
   });
 
   it("half day is the full-day morning plus a one-hour review-gates block", () => {
-    expect(half.agenda[0]).toBe(full.agenda[0]);
+    expect(half.agenda[0]?.blocks.map((b) => b.title)).toEqual(
+      full.agenda[0]?.blocks.map((b) => b.title),
+    );
     expect(half.agenda).toHaveLength(2);
     expect(half.agenda[1]?.duration).toBe("1 hour");
   });
@@ -26,9 +28,33 @@ describe("workshops data", () => {
     expect(half.description).toContain("€2,000 ex-VAT");
   });
 
+  // C43 / D6
+  it("puts a clock time on every block, inside 09:00–12:30 and 09:00–17:00", () => {
+    const times = (w: typeof full) =>
+      w.agenda.flatMap((p) => p.blocks.map((b) => b.time));
+    expect(times(half).every(Boolean)).toBe(true);
+    expect(times(full).every(Boolean)).toBe(true);
+    expect(times(half)[0]).toMatch(/^09:00/);
+    expect(times(half).at(-1)).toMatch(/12:30$/);
+    expect(times(full).at(-1)).toMatch(/17:00$/);
+  });
+
+  it("states the per-engineer price at the group cap", () => {
+    expect(perEngineer(half)).toBe("€200 per engineer at 10 people");
+    expect(perEngineer(full)).toBe("€350 per engineer at 10 people");
+  });
+
+  it("keeps meta descriptions within 155 characters, price included", () => {
+    for (const w of [full, half]) {
+      expect(w.description.length).toBeLessThanOrEqual(155);
+      expect(w.description.slice(0, 60)).toContain("Claude Code workshop");
+    }
+  });
+
   it("CTA is an email ask, never the scoping-call link", () => {
     for (const w of [full, half]) {
       expect(w.cta.href.startsWith("mailto:")).toBe(true);
+      expect(w.cta.label).not.toMatch(/^book/i);
       expect(w.cta.href).not.toContain("scoping-call");
     }
   });

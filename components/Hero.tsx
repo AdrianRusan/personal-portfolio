@@ -1,12 +1,11 @@
-import Link from "next/link";
 import { GridBackground } from "./ui/GridBackground";
 import MagicButton from "./ui/MagicButton";
 import { TextGenerateEffect } from "./ui/TextGenerateEffect";
 import { FaLocationArrow } from "react-icons/fa6";
 import SpotlightBackground from "./ui/SpotlightBackground";
-import { CalendlyLink } from "@/components/CalendlyLink";
 import { TrackedLink } from "@/components/TrackedLink";
-import { GUARANTEE, STRATEGY_CALL_URL } from "@/data";
+import Link from "next/link";
+import { CALENDLY_URL, GUARANTEE } from "@/data";
 
 const en = {
   eyebrow:
@@ -14,16 +13,19 @@ const en = {
   heading: "Ship the roadmap you can't hire for.",
   body: "I clear your backlog with Claude Code agents, then review every pull request myself, security first, before it reaches you.",
   promise: "Your roadmap ships — without a security incident on your name.",
-  honestBefore: "2-3x, not 100x — and",
+  honestBefore: "2–3x, not 100x — and",
   honestLink: "here's what the agents get wrong",
   teardown: "Get a free teardown",
-  call: "Or book a scoping call →",
+  call: "Book a scoping call",
   guarantee: GUARANTEE,
-  adviceBefore: "Only need advice?",
-  adviceLink: "Book a 1:1 AI session, €200.",
-  adviceHref: STRATEGY_CALL_URL,
 };
-export type HeroCopy = typeof en;
+// Two CTAs only (C46): the €200 call lives on the offers ladder. The advice*
+// keys are no longer rendered; data/ro-home.ts still sets them until W4 drops them.
+export type HeroCopy = typeof en & {
+  adviceBefore?: string;
+  adviceLink?: string;
+  adviceHref?: string;
+};
 
 const Hero = ({ copy = en }: { copy?: HeroCopy }) => {
   return (
@@ -35,7 +37,7 @@ const Hero = ({ copy = en }: { copy?: HeroCopy }) => {
 
       <div className="min-h-[100vh] flex justify-center items-center relative z-10 py-28">
         <div className="max-w-[89vw] md:max-w-2xl lg:max-w-[62vw] flex justify-center items-center flex-col">
-          <p className="uppercase tracking-widest text-xs text-center text-blue-100 max-w-80">
+          <p className="uppercase tracking-widest text-xs text-center text-blue-100">
             {copy.eyebrow}
           </p>
 
@@ -53,11 +55,11 @@ const Hero = ({ copy = en }: { copy?: HeroCopy }) => {
             {copy.promise}
           </p>
 
-          <p className="text-center font-mono text-xs md:text-sm text-purple mt-4 border-l-2 border-purple pl-3">
+          <p className="text-center font-mono text-xs md:text-sm text-purple mt-4">
             {copy.honestBefore}{" "}
             <Link
               href="/blog/what-agents-get-wrong"
-              className="underline-offset-2 hover:underline"
+              className="underline underline-offset-2"
             >
               {copy.honestLink}
             </Link>
@@ -65,39 +67,29 @@ const Hero = ({ copy = en }: { copy?: HeroCopy }) => {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 mt-2">
+            {/* Booking is the one filled button; the teardown is the outline one. */}
             <MagicButton
-              title={copy.teardown}
+              title={copy.call}
               icon={<FaLocationArrow />}
               position="right"
-              href="/teardown"
+              href={CALENDLY_URL}
               trackEvent={{
-                event: "cta_click",
-                props: { cta: "teardown", source: "hero" },
+                event: "calendly_click",
+                props: { source: "hero" },
               }}
             />
-            <CalendlyLink
-              source="hero_secondary"
-              newTab={false}
-              className="text-sm font-medium text-blue-100 hover:text-purple transition-colors md:mt-10"
+            <TrackedLink
+              href="/teardown"
+              event="cta_click"
+              props={{ cta: "teardown", source: "hero" }}
+              className="inline-flex h-12 w-full md:w-60 md:mt-10 items-center justify-center rounded-lg border border-purple px-7 text-sm font-semibold text-purple transition-colors hover:bg-purple/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:ring-offset-2 focus-visible:ring-offset-black-100"
             >
-              {copy.call}
-            </CalendlyLink>
+              {copy.teardown}
+            </TrackedLink>
           </div>
 
           <p className="text-center text-xs text-white-200/70 mt-5 max-w-xl">
             {copy.guarantee}
-          </p>
-
-          <p className="text-center text-sm text-white-200 mt-4">
-            {copy.adviceBefore}{" "}
-            <TrackedLink
-              href={copy.adviceHref}
-              event="cta_click"
-              props={{ cta: "strategy_call", source: "hero" }}
-              className="font-medium text-blue-100 underline-offset-2 hover:underline hover:text-purple transition-colors"
-            >
-              {copy.adviceLink}
-            </TrackedLink>
           </p>
         </div>
       </div>

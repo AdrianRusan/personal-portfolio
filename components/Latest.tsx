@@ -39,14 +39,12 @@ const Latest = async ({ copy = en }: { copy?: LatestCopy }) => {
     >
       <h2 id="latest-heading" className="heading">
         {copy.headingBefore}{" "}
-        <span className="text-purple">
-          {[
-            videos.length > 0 && copy.youtube,
-            latestPosts.length > 0 && copy.blog,
-          ]
-            .filter(Boolean)
-            .join(copy.and)}
-        </span>
+        {[
+          videos.length > 0 && copy.youtube,
+          latestPosts.length > 0 && copy.blog,
+        ]
+          .filter(Boolean)
+          .join(copy.and)}
       </h2>
       <p className="text-white-200 text-center mt-4">{copy.intro}</p>
 

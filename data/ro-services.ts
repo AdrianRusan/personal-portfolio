@@ -1,6 +1,7 @@
 import { RO_LEDGER_PROOF } from "@/data/ro-home";
 import { offerById } from "@/data/ladder";
-import { FINTECH_EMPLOYER, testimonials } from "@/data";
+import { CALENDLY_URL, FINTECH_EMPLOYER, testimonials } from "@/data";
+import { withTierPrefill } from "@/lib/calendly";
 import type { DeliverySprintCopy } from "@/components/services/DeliverySprint";
 import type { EntryOfferCopy } from "@/components/services/EntryOffer";
 import type { HarnessSetupCopy } from "@/components/services/HarnessSetup";
@@ -39,8 +40,8 @@ export const roServicesHero: ServicesHeroCopy = {
   guarantee: RO_GUARANTEE,
   ledger: RO_LEDGER_PROOF,
   proofItems: [
-    "30 de PR-uri revizuite · 9 loturi de agenți · 2,5 zile",
-    "3 vulnerabilități de tip shell injection prinse, deși trecuseră de teste",
+    "30 de PR-uri revizuite · 9 loturi de agenți · sub 3 zile",
+    "3 căi de shell injection din input-ul cererii, prinse în review înainte de merge",
     "Peste 10 ani în producție",
   ],
   proofNote:
@@ -116,10 +117,13 @@ const securityGuarantee = {
   body: "Fiecare PR livrat trece printr-un review de securitate adversarial, documentat, înainte să ajungă la tine. Dacă mai târziu apare, într-un PR marcat de mine ca revizuit, o vulnerabilitate care intra în aria acelui review, o repar gratuit și refac review-ul pe tot lotul din jurul ei, fără cost.",
 };
 
+const roPrices = ["4.100 €", "8.000 €", "13.200 €"];
+
 export const roDeliverySprint: DeliverySprintCopy = {
   badge: "Majoritatea echipelor încep aici",
   eyebrow: "Oferta principală",
-  heading: "Sprint de livrare accelerat de agenți",
+  heading: "Sprint de livrare",
+  subheading: "Accelerat de agenți, fiecare PR revizuit",
   intro:
     "Un set fix de pull request-uri gata de producție, verificate pentru securitate — livrate de o flotă de agenți, verificate linie cu linie de un inginer senior — în săptămâni, nu în luni, la un preț stabilit înainte să începem.",
   deliveredHeading: "Ce primești, exact",
@@ -141,19 +145,25 @@ export const roDeliverySprint: DeliverySprintCopy = {
       rest: "ce s-a livrat, ce a rămas și ce au greșit agenții în mod repetat în codul tău — o hartă utilă pentru echipă de acum înainte.",
     },
   ],
+  sampleLink: "Vezi un raport exemplu (în engleză) →",
   pricingHeading: "Prețuri",
   rowHeader: "Criteriu",
   // ponytail: EN ~€10–14k, Standard €14,500 and Scale €24,000 scaled by the
   // same 55% as data/ro.ts — confirm with Adi; data/ro.ts only fixes the Pilot (4.100 €).
+  // D4 framing; ≈550 €/PR is the RO Reviewed PR price.
   pricingLead:
-    "Un contractor senior costă ~5.500–7.700 €/lună și are nevoie de săptămâni ca să se acomodeze.",
+    "O lună de contractor costă ~5.500–7.700 € înainte ca cineva să-i verifice codul pentru securitate.",
   pricingRest:
-    "Standard îți livrează echivalentul unei luni de contractor, revizuit, în două săptămâni. 8.000 €, preț fix.",
-  columns: [
-    { name: "Sprint Pilot" },
-    { name: "Sprint Standard", badge: "Recomandat", featured: true },
-    { name: "Sprint Extins" },
-  ],
+    "Un sprint iese la ≈550 €/PR plus raportul de securitate al sprintului, harta greșelilor agenților și un loc de review rezervat. Standard: 8.000 €, preț fix.",
+  columns: withTierPrefill(
+    CALENDLY_URL,
+    [
+      { name: "Sprint Pilot" },
+      { name: "Sprint Standard", badge: "Recomandat", featured: true },
+      { name: "Sprint Extins" },
+    ],
+    roPrices,
+  ),
   rows: [
     {
       label: "Potrivit pentru",
@@ -178,9 +188,9 @@ export const roDeliverySprint: DeliverySprintCopy = {
     {
       label: "Preț",
       values: [
-        "4.100 €",
-        "8.000 €",
-        "13.200 € — stabilit la discuția de scope",
+        roPrices[0]!,
+        roPrices[1]!,
+        `${roPrices[2]} — stabilit la discuția de scope`,
       ],
     },
   ],
@@ -245,7 +255,7 @@ export const roTrustStrip: TrustStripCopy = {
 
 export const roRetainer: RetainerCopy = {
   eyebrow: "Capacitate continuă",
-  heading: "Retainer de livrare AI-native",
+  heading: "Retainer lunar",
   intro:
     "Livrare senior AI-native, în fiecare lună: un flux constant de PR-uri verificate pentru securitate, pentru echipele care nu se mai întreabă dacă agenții sunt rapizi și acum vor să-i folosească continuu și în siguranță.",
   deliveredHeading: "Ce primești, lunar",
@@ -259,18 +269,20 @@ export const roRetainer: RetainerCopy = {
   startsAt: "De la",
   price: "2.200 €",
   perMonth: "/lună",
+  minimum: "Minimum 3 luni, de la 6.600 €",
   pricingBody:
     "Un slot de review senior rezervat permanent și un număr lunar de PR-uri revizuite, stabilit dinainte, pe același pipeline ship/verify ca la sprint. Numărul exact și prețul per PR se stabilesc în discuție, în funcție de repo-ul și ritmul tău — cu un angajament inițial de 3 luni.",
   pricingRate:
-    "Prețul per PR iese cu aproximativ 20–30% sub cel al unui sprint punctual — asta îți aduce angajamentul lunar. Nu există o listă de prețuri publică; detaliile se stabilesc în discuție.",
+    "Prețul per PR iese cu aproximativ 20–30% sub cel al unui sprint punctual — asta îți aduce angajamentul lunar. Numărul exact de PR-uri se stabilește în discuție.",
   cta: "Programează o discuție",
   bandNote:
     "Numărul lunar se fixează din ziua 0, fără facturi surpriză — ce depășește se mută în luna următoare, nu apare pe factură.",
   guaranteesHeading: "Garanțiile",
+  securityNote:
+    "Plus garanția de securitate de la sprint, pe fiecare PR din retainer: o vulnerabilitate din aria review-ului, găsită mai târziu într-un PR marcat de mine ca revizuit, se repară gratuit și refac review-ul pe lotul din jurul ei.",
   guarantees: [
-    securityGuarantee,
     {
-      title: "2. Garanția primei luni",
+      title: "Garanția primei luni",
       body: "Stabilim de la început ritmul de PR-uri revizuite. Dacă luna 1 nu îl atinge, te poți opri acolo, fără să mai datorezi nimic. Vezi retainerul funcționând înainte de cele trei luni întregi.",
     },
   ],
@@ -291,11 +303,12 @@ export const roHarnessSetup: HarnessSetupCopy = {
   deliveredHeading: "Ce primești, exact",
   deliverables: [
     "Un agent harness Claude Code funcțional, configurat pe repo-ul tău: regulile de proiect din CLAUDE.md, fluxul cu worktree-uri și dispatch, plus integrarea în CI.",
-    "Checklist-ul de review de securitate adversarial pe care îl folosesc — cel care a prins 3 vulnerabilități reale de tip shell injection ce trecuseră de testele automate — adaptat stack-ului tău și predat ca să rămână la tine.",
+    "Checklist-ul de review de securitate adversarial pe care îl folosesc — cel care a prins 3 căi de shell injection din input-ul cererii, pe propria mea rulare de 30 de PR-uri — adaptat stack-ului tău și predat ca să rămână la tine.",
     "O sesiune practică de lucru (sau o serie scurtă): rulez un lot live pe backlog-ul tău cu echipa de față, apoi echipa ta rulează lotul următor, iar eu fac review.",
     "Un playbook scris: cum distribui tichetele, ce verifici întâi, ce greșeli să te aștepți să apară în codul tău și unde verificarea umană e obligatorie.",
     "2 săptămâni de suport async după predare, cât echipa ta preia fluxul.",
   ],
+  rulesLink: "Vezi fișierul de reguli al agenților mei (în engleză) →",
   pricingHeading: "Preț",
   pricingEyebrow: "Agent Fleet Setup",
   price: "De la 2.200 €",
@@ -348,7 +361,7 @@ export const roServicesFaq: ServicesFaqCopy = {
       question:
         "Agenții nesupravegheați livrează vulnerabilități. Cum tratezi securitatea?",
       answer:
-        "Așa e, livrează. Tocmai de aceea nu e un serviciu mai ieftin de tipul „pornim agenții și gata”. Securitatea e prima trecere din fiecare review: injection, autentificare, secrete, controlul accesului. Review-ul a prins 3 vulnerabilități de shell injection scrise de agenți, care treceau testele automate. Garanția e în scris: o vulnerabilitate din aria review-ului, găsită într-un PR marcat de mine ca revizuit, se repară gratuit.",
+        "Așa e, livrează. Tocmai de aceea nu e un serviciu mai ieftin de tipul „pornim agenții și gata”. Securitatea e prima trecere din fiecare review: injection, autentificare, secrete, controlul accesului. Pe propria mea rulare de 30 de PR-uri, un repo fără teste, review-ul a prins 3 căi de shell injection din input-ul cererii înainte de merge. Garanția e în scris: o vulnerabilitate din aria review-ului, găsită într-un PR marcat de mine ca revizuit, se repară gratuit.",
     },
     {
       question: "Al cui e codul? Semnezi un NDA?",
@@ -384,6 +397,26 @@ export const roServicesFaq: ServicesFaqCopy = {
       answer:
         "O agenție îți vinde orele unei echipe, cu adaos, iar oamenii noi se angajează și se acomodează în luni de zile. Aici primești primul PR revizuit în câteva zile, de la un singur inginer senior care conduce o flotă de agenți: fără costuri de coordonare și fără muncă de junior facturată la tarif de senior. Agențiile care folosesc agenți pun rar un review senior adversarial deasupra. Aici, review-ul e produsul.",
     },
+    {
+      question: "Ce stack-uri și limbaje verifici?",
+      answer:
+        "TypeScript și JavaScript cap-coadă: Node, Nest.js, React, Next.js, Tailwind, SQL și MongoDB. Acolo s-au dus cei peste 10 ani de lucru în producție. Trecerea de securitate (injection, autentificare, secrete, controlul accesului) se aplică în orice limbaj, dar dacă stack-ul tău e în afara listei, îți spun asta în discuție, în loc să învăț pe banii tăi.",
+    },
+    {
+      question: "Cine plătește consumul de LLM și API?",
+      answer:
+        "Eu. Consumul de LLM/API e inclus în prețul fix pentru sprinturi și PR-urile revizuite, deci nu vine o factură de tokeni pe deasupra. Excepția e Agent Fleet Setup: rulează pe licențele Claude Code ale echipei tale, pentru că harness-ul rămâne la voi.",
+    },
+    {
+      question: "Ce înseamnă un PR?",
+      answer:
+        "Un tichet din backlog-ul tău, livrat ca un singur pull request care se poate revizui: un bug reparat, o funcționalitate mică sau o bucată dintr-una mai mare. Un tichet prea mare ca să fie revizuit bine dintr-o trecere se împarte la discuția de scope, înainte să fixăm prețul, așa că știi de la început câte PR-uri primești.",
+    },
+    {
+      question: "Cine facturează și în ce monedă?",
+      answer:
+        "Facturez în EUR prin firma mea din România; în USD la cerere. Pe factură e prețul fix stabilit înainte să înceapă munca.",
+    },
   ],
 };
 
@@ -391,9 +424,9 @@ export const roServicesFinalCta: ServicesFinalCtaCopy = {
   heading: "Spune-mi ce ai în backlog. Îți spun cât costă.",
   body: "O discuție de 30 de minute în care conturăm scope-ul și stabilim prețul. Fără nicio obligație și fără „100x” — doar varianta sinceră a ce pot livra pentru tine o flotă de agenți plus un reviewer senior.",
   proof:
-    "30 de PR-uri revizuite în 2,5 zile. 3 vulnerabilități de tip shell injection prinse, deși testele treceau. Asta e meseria.",
+    "30 de PR-uri revizuite în sub 3 zile. 3 căi de shell injection prinse în review înainte de merge. Asta e meseria.",
   cta: "Programează o discuție",
   ctaSource: "ro_services_final_cta",
-  workLink: "Vezi sprintul de 30 de PR-uri în detaliu →",
-  workHref: "/ro#work",
+  workLink: "Vezi sprintul de 30 de PR-uri în detaliu (în engleză) →",
+  workHref: "/blog/30-prs-in-2-5-days",
 };
