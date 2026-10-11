@@ -14,10 +14,9 @@ export const caseStudyResults: Record<
     label: "strings per page traced to a source before anything publishes",
   },
   "agent-cost-per-commit": {
-    // #54 R2: lead with the lesson; the 68% drop and its rebound are in the body.
-    figure: "Weekly",
-    label:
-      "cost per commit, with the counting method written down. The one-off cut did not last; the measurement did.",
+    // R3-F15: a number like the other two; the rebound stays in the label.
+    figure: "68%",
+    label: "lower cost per commit in one month, then it crept back",
   },
 };
 

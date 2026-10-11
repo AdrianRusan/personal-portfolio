@@ -7,11 +7,13 @@ description: "A landing page labelled a launch count as real. The true count was
 published: true
 language: "en"
 cta: "automation"
+forYou: "If agents write copy or data your customers see, this is the gate that stops them publishing numbers nobody can source."
+meta: "2026 · Client work (NDA) · Role: reviewer, author of the gates"
 ---
 
 ## The problem
 
-I work on an agent-built SaaS platform that generates demo sites. Agents write most of its code and copy, and I review it.
+The context is a client's agent-built SaaS (under NDA) that generates demo sites. Agents write most of its code and copy, and I review it.
 
 Before launch, the landing page carried a proof line for each of five industries: a count of businesses that had launched their site with us this month, two or three per industry, labelled "real number, from delivered orders". The count was hardcoded. At launch the true number was 0.
 
@@ -31,7 +33,7 @@ Third, gates that exist are not gates that run. An earlier pipeline exported ten
 
 ## What I built
 
-The fix moved honesty out of the prompt and into the data.
+The fix moved the rule out of the prompt and into the data.
 
 <figure className="my-8">
   <svg viewBox="0 0 360 416" role="img" aria-label="Facts carry provenance into rendering. The rendered page must pass the trace gate and then the proof scan to publish. A failure at either gate, or a gate that cannot run, blocks the publish." className="block w-full max-w-md mx-auto">
@@ -49,31 +51,31 @@ The fix moved honesty out of the prompt and into the data.
       <rect x="10" y="184" width="230" height="56" rx="10" />
       <rect x="10" y="272" width="230" height="56" rx="10" />
       <rect x="10" y="360" width="230" height="48" rx="10" />
-      <rect x="262" y="210" width="88" height="92" rx="10" stroke="#F87171" />
+      <rect x="258" y="210" width="94" height="96" rx="10" stroke="#F87171" />
       <path d="M125 64 V92" markerEnd="url(#hg-arrow)" />
       <path d="M125 152 V180" markerEnd="url(#hg-arrow)" />
       <path d="M125 240 V268" markerEnd="url(#hg-arrow)" />
       <path d="M125 328 V356" markerEnd="url(#hg-arrow)" />
-      <path d="M240 212 H258" stroke="#F87171" markerEnd="url(#hg-arrow-red)" />
-      <path d="M240 300 H258" stroke="#F87171" markerEnd="url(#hg-arrow-red)" />
+      <path d="M240 212 H254" stroke="#F87171" markerEnd="url(#hg-arrow-red)" />
+      <path d="M240 300 H254" stroke="#F87171" markerEnd="url(#hg-arrow-red)" />
     </g>
-    <g fill="currentColor" fontSize="13" textAnchor="middle">
+    <g fill="currentColor" fontSize="14" textAnchor="middle">
       <text x="125" y="32" fontWeight="700">Facts with provenance</text>
-      <text x="125" y="51" fontSize="11">owner · places · derived · unknown</text>
+      <text x="125" y="51" fontSize="12.5">owner · places · derived · unknown</text>
       <text x="125" y="120" fontWeight="700">Render, every string tagged</text>
-      <text x="125" y="139" fontSize="11">unknown → marked, fillable slot</text>
+      <text x="125" y="139" fontSize="12.5">unknown → marked, fillable slot</text>
       <text x="125" y="208" fontWeight="700">Trace gate</text>
-      <text x="125" y="227" fontSize="11">every string maps to a source</text>
+      <text x="125" y="227" fontSize="12.5">every string maps to a source</text>
       <text x="125" y="296" fontWeight="700">Proof scan</text>
-      <text x="125" y="315" fontSize="11">counts, number words, ratings</text>
+      <text x="125" y="315" fontSize="12.5">counts, number words, ratings</text>
       <text x="125" y="389" fontWeight="700">Publish</text>
-      <text x="306" y="246" fontWeight="700">Block</text>
-      <text x="306" y="265" fontSize="10">on failure, or</text>
-      <text x="306" y="279" fontSize="10">if a gate</text>
-      <text x="306" y="293" fontSize="10">cannot run</text>
+      <text x="304" y="240" fontWeight="700">Block</text>
+      <text x="304" y="260" fontSize="12">on failure</text>
+      <text x="304" y="276" fontSize="12">or if a gate</text>
+      <text x="304" y="292" fontSize="12">can't run</text>
     </g>
   </svg>
-  <figcaption className="text-center text-sm text-white-200 mt-3">Both gates read the final rendered page, not the source fields.</figcaption>
+  <figcaption className="text-center text-sm text-white-200 mt-3">Both gates read the final rendered page.</figcaption>
 </figure>
 
 Every fact about a business carries provenance: the owner typed it, it came from a public listing, it was derived, or it is unknown. An unknown fact renders as a visibly marked slot the owner can fill, never as prose. Inventing a claim now means forging a provenance value, not writing a convincing sentence.
@@ -84,10 +86,8 @@ The landing page got the same rule. The count now comes from real go-live events
 
 ## The number
 
-**0.** That was the honest value of the "real number" on launch day, so the line does not render. The trace gate checks the whole page in about 90 milliseconds, and the proof scan takes about 40.
+**0.** That was the true value of the "real number" on launch day, so the line does not render. The trace gate checks the whole page in about 90 milliseconds, and the proof scan takes about 40.
 
 ## The lesson
 
 A prompt that says "don't make things up" stops nothing on its own. What held was making every rendered string prove where it came from, checking the output instead of the source, and treating a check that couldn't run as a failure.
-
-If your team ships agent-written code or copy, I can [audit your pipeline](/services) for gaps like these, or run a [team workshop](/workshops/half-day) on the review gates behind them.

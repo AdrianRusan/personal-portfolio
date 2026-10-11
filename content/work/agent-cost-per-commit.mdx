@@ -3,14 +3,16 @@ title: "Why I Measure Agent Cost Weekly Now"
 seoTitle: "How to Reduce LLM API Costs: Measure Them Weekly"
 date: "2026-10-10"
 tags: ["ai", "claude-code", "llm-costs", "agent-harness"]
-description: "Trimming context cut my agent cost per commit for a month, then the savings came back. How to reduce LLM API costs, and the weekly measure that lasted."
+description: "A context trim cut my agent cost per commit 68% in a month. The weekly ledger caught it creeping back in September. The one traceable change: far more scripted runs."
 published: true
 language: "en"
 updated: "2026-10-11"
 cta: "cost-audit"
+forYou: "If your team's agent bill grows faster than its output, this is how I found where the tokens went, and how I caught the savings slipping back."
+meta: "Jul–Oct 2026 · Own setup · Claude Code"
 ---
 
-**The short version:** one round of trimming cut my agent cost per commit, and the next two months quietly took the savings back. The cut was not what lasted. A weekly measurement, with the counting method written down, is. That measurement is what an [AI audit](/services#ladder) sets up for your team: where the tokens go and which fixes to make first.
+One round of trimming cut my agent cost per commit, and the next two months quietly took the savings back. What lasted is a weekly measurement with the counting method written down.
 
 ## The problem
 
@@ -67,6 +69,41 @@ The weekly cost per commit dropped again in the week after the 10 August change 
 
 ## The number
 
+<figure className="my-8">
+  <svg viewBox="0 0 360 236" role="img" aria-label="Line chart of monthly cost per commit. July 35 dollars and August 11 dollars on the old count. September 11.55 dollars and the first ten days of October 33 dollars on the new count, which roughly halves every figure. September is about 23 dollars on the old count." className="block w-full max-w-md mx-auto">
+    <rect x="176" y="16" width="176" height="168" fill="#CBACF9" fillOpacity="0.12" />
+    <g stroke="currentColor" strokeOpacity="0.25" strokeWidth="1">
+      <path d="M44 184 H352" />
+      <path d="M44 109 H352" strokeDasharray="3 4" />
+      <path d="M44 34 H352" strokeDasharray="3 4" />
+    </g>
+    <path d="M70 52.75 L150 142.75 L230 140.7 L310 60.25" fill="none" stroke="#CBACF9" strokeWidth="2.5" />
+    <g fill="#CBACF9">
+      <circle cx="70" cy="52.75" r="5" />
+      <circle cx="150" cy="142.75" r="5" />
+      <circle cx="230" cy="140.7" r="5" />
+      <circle cx="310" cy="60.25" r="5" />
+    </g>
+    <circle cx="230" cy="97.75" r="5" fill="none" stroke="#CBACF9" strokeWidth="2" strokeDasharray="2 2" />
+    <g fill="currentColor" fontSize="13">
+      <text x="38" y="188" textAnchor="end">$0</text>
+      <text x="38" y="113" textAnchor="end">$20</text>
+      <text x="38" y="38" textAnchor="end">$40</text>
+      <text x="70" y="40" textAnchor="middle" fontWeight="700">$35</text>
+      <text x="150" y="168" textAnchor="middle" fontWeight="700">$11</text>
+      <text x="230" y="166" textAnchor="middle" fontWeight="700">$11.55</text>
+      <text x="230" y="84" textAnchor="middle">≈$23 old count</text>
+      <text x="310" y="47" textAnchor="middle" fontWeight="700">$33</text>
+      <text x="70" y="206" textAnchor="middle">Jul</text>
+      <text x="150" y="206" textAnchor="middle">Aug</text>
+      <text x="230" y="206" textAnchor="middle">Sep</text>
+      <text x="310" y="206" textAnchor="middle">Oct 1–10</text>
+      <text x="264" y="228" textAnchor="middle" fontSize="12">new count from 11 Sep</text>
+    </g>
+  </svg>
+  <figcaption className="text-center text-sm text-black-100/70 dark:text-white-200 mt-3">Cost per commit by month. The shaded months use the new count, which roughly halves every figure.</figcaption>
+</figure>
+
 July to August, full calendar months, same counting method:
 
 - **Cost per commit: $35 → $11 (68% lower)**
@@ -87,16 +124,12 @@ These come from this study, in the order I would check them on a team's setup:
 2. **Cut text injected into every turn.** A hook that adds a reminder to every message costs tokens on every turn. If nothing shows it saves anything, turn it off.
 3. **Park skills you don't use.** Every installed skill adds its description to what each session loads. I parked ten.
 4. **Shorten the instructions that load at session start.** My `CLAUDE.md` and rule files went from 9,976 words to 4,106, and the model rereads them from the cache on every turn.
-5. **Check the cache hit rate before chasing it.** Mine was already at 99.6% of cache-read plus output tokens. The savings came from sending fewer tokens through the cache, not from caching more.
+5. **Check the cache hit rate before chasing it.** Mine was already at 99.6% of cache-read plus output tokens. The savings came from sending fewer tokens through the cache.
 6. **Watch subagent turns per prompt, and route them.** Subagent turns fell from 144k to 43k between July and August. Where a subagent's task holds up on a cheaper model, route it there. My ledger prices every token at one rate, so it can't show that saving, but an invoice will.
 7. **Count scripted runs separately.** In early October, 618 of my 770 sessions were headless scripted runs, and cost per commit was back above July.
 
-If you want this checked on your team's setup, an [AI audit](/services#ladder) measures where the tokens go and ranks the fixes.
-
 ## The lesson
 
-Trimming context that loads on every turn helped. I can date those changes and the curve moved after them. But one month's win is not a result. A new habit, such as more scripted runs or more subagents, can quietly take it back.
+Trimming context that loads on every turn helped. I can date those changes and the curve moved after them. A new habit, such as more scripted runs or more subagents, then took it back within two months.
 
 What lasted is the measurement: cost per commit and per merged PR, every week, with the counting method written down. Without the ledger I would have reported "68% lower" and never seen October.
-
-If your team's LLM bill is growing faster than its output, an [AI audit](/services#ladder) measures where the tokens go and ranks the fixes, in 2–3 days.
