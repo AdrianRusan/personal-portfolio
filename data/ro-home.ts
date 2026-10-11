@@ -133,7 +133,7 @@ export const roPostTitles: PostTitles = {
       "Propriul meu dashboard de administrare, martie 2026: agenții au deschis 31 de PR-uri în mai puțin de trei zile și 30 au ajuns la review, fără teste și fără CI. Review-ul a prins 3 căi de shell injection și a ratat una.",
   },
   "honesty-gate": {
-    title: "Honesty gate: cum opresc faptele inventate în site-urile construite de agenți",
+    title: "Honesty gate: cum opresc faptele inventate în site‑urile construite de agenți",
     description:
       "Un landing page prezenta ca real un număr de lansări. Numărul real era 0. Iată gate-ul care acum leagă fiecare text afișat de o sursă.",
   },
