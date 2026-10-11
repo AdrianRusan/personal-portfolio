@@ -132,7 +132,7 @@ test('client-side navigation still gets the page, not Markdown', async ({ page }
 });
 
 // P1 (#66): one closing ask per page, and the footer itself asks for nothing.
-for (const path of ['/about', '/contact', '/blog', '/privacy', '/work/honesty-gate', '/does-not-exist', '/', '/ro', '/ro/despre', '/ro/contact']) {
+for (const path of ['/about', '/contact', '/blog', '/does-not-exist', '/', '/ro', '/ro/despre', '/ro/contact']) {
   test(`${path} has exactly one closing ask`, async ({ page }) => {
     await page.goto(path);
     await expect(page.locator('#closing-cta-heading')).toHaveCount(1);
@@ -164,4 +164,29 @@ test('pages with their own closing block keep the checklist and the Contact anch
     await expect(page.locator('input[type="email"]')).toHaveCount(1);
     await expect(page.locator('#contact a[href*="calendly.com"]')).toHaveCount(1);
   }
+});
+
+// P4 (#69): posts and case studies end in one offer card (PostCta) and keep only
+// the checklist; /privacy carries no sales block at all.
+test('posts, studies and /privacy drop the shared closing ask', async ({ page }) => {
+  for (const [path, offers] of [
+    ['/work/honesty-gate', 1],
+    ['/work/30-reviewed-prs-3-vulnerabilities', 1],
+    ['/blog/catching-shell-injection-agents-wrote', 1],
+    ['/privacy', 0],
+  ] as const) {
+    await page.goto(path);
+    await expect(page.locator('#closing-cta-heading')).toHaveCount(0);
+    await expect(page.locator('#post-cta-heading')).toHaveCount(offers);
+    await expect(page.locator('input[type="email"]')).toHaveCount(1);
+    await expect(page.locator('footer a[href*="calendly.com"]')).toHaveCount(0);
+  }
+});
+
+test('the shell-post FAQ renders as headings', async ({ page }) => {
+  await page.goto('/blog/catching-shell-injection-agents-wrote');
+  const h2 = await page.locator('#faq').evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
+  const h3 = await page.locator('section[aria-labelledby="faq"] h3').first().evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
+  expect(h2).toBeGreaterThanOrEqual(24);
+  expect(h3).toBeGreaterThanOrEqual(20);
 });
