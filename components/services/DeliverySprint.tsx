@@ -64,6 +64,7 @@ const en = {
     },
   ],
   pricingHeading: "Pricing",
+  rowHeader: "Feature",
   pricingLead:
     "A senior contractor costs ~€10–14k/month and takes weeks to onboard.",
   pricingRest:
@@ -157,6 +158,7 @@ export const DeliverySprint = ({
             rows={copy.rows}
             ctaHref={CALENDLY_URL}
             ctaLabel={copy.cta}
+            rowHeader={copy.rowHeader}
             trackSource="deliverysprint_pricing"
           />
           <p className="text-xs text-white-200/70 mt-4 italic">

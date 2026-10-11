@@ -142,6 +142,7 @@ export const roDeliverySprint: DeliverySprintCopy = {
     },
   ],
   pricingHeading: "Prețuri",
+  rowHeader: "Criteriu",
   // ponytail: EN ~€10–14k, Standard €14,500 and Scale €24,000 scaled by the
   // same 55% as data/ro.ts — confirm with Adi; data/ro.ts only fixes the Pilot (4.100 €).
   pricingLead:

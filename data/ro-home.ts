@@ -337,5 +337,10 @@ export const roFooter: FooterCopy = {
   emailAria: "Trimite un email lui Adrian Rusan",
   email: "sau scrie-mi un email",
   socialAria: "Rețele sociale",
+  socialLabels: {
+    1: "Adrian Rusan pe GitHub",
+    2: "Adrian Rusan pe X",
+    3: "Adrian Rusan pe LinkedIn",
+  },
   emailCapture: roEmailCapture,
 };

@@ -20,6 +20,7 @@ export interface PricingTableProps {
   ctaHref: string;
   ctaLabel: string;
   trackSource?: string;
+  rowHeader?: string;
 }
 
 export const PricingTable = ({
@@ -28,6 +29,7 @@ export const PricingTable = ({
   ctaHref,
   ctaLabel,
   trackSource,
+  rowHeader = "Feature",
 }: PricingTableProps) => {
   return (
     <div className="overflow-x-auto">
@@ -35,7 +37,7 @@ export const PricingTable = ({
         <thead>
           <tr>
             <th className="text-left align-bottom pb-4 pr-4 w-1/4">
-              <span className="sr-only">Feature</span>
+              <span className="sr-only">{rowHeader}</span>
             </th>
             {columns.map((column) => (
               <th
