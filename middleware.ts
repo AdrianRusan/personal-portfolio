@@ -3,6 +3,13 @@ import { NextResponse, type NextRequest } from "next/server";
 // Markdown content negotiation (#64 R1). "Accept: text/markdown" gets the page
 // as Markdown from app/api/markdown; everything else is the normal HTML. Both
 // answers carry "Vary: Accept" so a cache never serves one for the other.
+// Next's own Vary for app pages plus Accept, so whichever layer wins on Vercel
+// (this, the next.config header, or the page's own) nothing is dropped.
+// ponytail: `next start` resets Vary on pages, so only Vercel shows Accept on
+// HTML; the Markdown route sets its own. Keep in sync with next.config.mjs.
+export const HTML_VARY =
+  "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Router-Segment-Prefetch, Accept";
+
 export function middleware(req: NextRequest) {
   const accept = req.headers.get("accept") ?? "";
   // Browsers and Next's RSC/prefetch fetches never ask for text/markdown (the
@@ -13,7 +20,7 @@ export function middleware(req: NextRequest) {
     return NextResponse.rewrite(url);
   }
   const res = NextResponse.next();
-  res.headers.set("Vary", "Accept");
+  res.headers.set("Vary", HTML_VARY);
   return res;
 }
 

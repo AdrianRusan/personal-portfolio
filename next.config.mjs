@@ -74,9 +74,15 @@ const nextConfig = {
       },
       {
         // #64 R1: page routes answer HTML or Markdown by Accept (middleware.ts),
-        // so caches must key on it. Same scope as the middleware matcher.
+        // so caches must key on it. Same scope and value as HTML_VARY there.
         source: '/:path((?!api/|_next/|.*\\.[a-z0-9]+$).*)',
-        headers: [{ key: 'Vary', value: 'Accept' }],
+        headers: [
+          {
+            key: 'Vary',
+            value:
+              'RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Router-Segment-Prefetch, Accept',
+          },
+        ],
       },
       {
         source: '/sitemap.xml',

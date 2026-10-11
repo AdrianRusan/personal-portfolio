@@ -102,6 +102,6 @@ describe("middleware", () => {
   it("passes HTML through with Vary: Accept", () => {
     const res = run("/", "text/html,application/xhtml+xml,*/*;q=0.8");
     expect(res.headers.get("x-middleware-rewrite")).toBeNull();
-    expect(res.headers.get("vary")).toBe("Accept");
+    expect(res.headers.get("vary")).toMatch(/^RSC, .*, Accept$/);
   });
 });

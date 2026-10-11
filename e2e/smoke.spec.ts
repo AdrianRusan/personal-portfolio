@@ -6,6 +6,8 @@ const routes = [
   '/services',
   '/teardown',
   '/privacy',
+  '/about',
+  '/contact',
   '/blog',
   '/blog/2-3x-not-100x',
   '/blog/30-prs-in-2-5-days',
@@ -21,6 +23,8 @@ const routes = [
   '/workshops/half-day',
   '/ro',
   '/ro/servicii',
+  '/ro/despre',
+  '/ro/contact',
 ];
 
 // #54 R4: weekly posts 404 until their date (00:00 UTC), then join the list.
@@ -91,4 +95,37 @@ test('privacy is linked from the footer and from both forms', async ({ page }) =
 test('/teardown has exactly one form', async ({ page }) => {
   await page.goto('/teardown');
   await expect(page.locator('form')).toHaveCount(1);
+});
+
+// #64 R1: the same URL answers Markdown or HTML by Accept.
+for (const path of ['/', '/blog/2-3x-not-100x', '/ro']) {
+  test(`${path} answers Markdown or HTML by Accept`, async ({ request }) => {
+    const md = await request.get(path, { headers: { Accept: 'text/markdown' } });
+    expect(md.status()).toBe(200);
+    expect(md.headers()['content-type']).toBe('text/markdown; charset=utf-8');
+    expect(md.headers()['vary']).toMatch(/Accept/);
+    const body = await md.text();
+    expect(body).toMatch(/^# /);
+    expect(body).toContain('/llms.txt');
+
+    const html = await request.get(path, { headers: { Accept: 'text/html' } });
+    expect(html.status()).toBe(200);
+    expect(html.headers()['content-type']).toContain('text/html');
+  });
+}
+
+test('unknown path with Accept: text/markdown is a Markdown 404', async ({ request }) => {
+  const res = await request.get('/does-not-exist', { headers: { Accept: 'text/markdown' } });
+  expect(res.status()).toBe(404);
+  expect(res.headers()['content-type']).toBe('text/markdown; charset=utf-8');
+  const body = await res.text();
+  expect(body).toContain('/sitemap.xml');
+  expect(body).toContain('/llms.txt');
+});
+
+test('client-side navigation still gets the page, not Markdown', async ({ page }) => {
+  await page.goto('/');
+  await page.locator('footer a[href="/about"]').click();
+  await expect(page).toHaveURL(/\/about$/);
+  await expect(page.locator('h1')).toHaveText('About Adrian Rusan');
 });
