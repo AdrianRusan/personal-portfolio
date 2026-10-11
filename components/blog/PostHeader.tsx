@@ -1,4 +1,6 @@
+import Image from 'next/image';
 import { Calendar, Clock } from 'lucide-react';
+import { hasPhoto } from './AuthorBox';
 import type { BlogFrontmatter } from '@/lib/blog-types';
 import { formatDate } from '@/lib/blog-types';
 import TagBadge from './TagBadge';
@@ -27,9 +29,19 @@ export default function PostHeader({ frontmatter, readingTime }: PostHeaderProps
 
       <div className="flex flex-wrap items-center gap-5 text-sm text-white-200/70 pb-8 border-b border-black-300">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-purple/20 border border-purple/30 flex items-center justify-center text-purple font-semibold text-xs">
-            AR
-          </div>
+          {hasPhoto ? (
+            <Image
+              src="/adrian.jpg"
+              alt=""
+              width={32}
+              height={32}
+              className="w-8 h-8 rounded-full object-cover border border-purple/30"
+            />
+          ) : (
+            <div className="w-8 h-8 rounded-full bg-purple/20 border border-purple/30 flex items-center justify-center text-purple font-semibold text-xs">
+              AR
+            </div>
+          )}
           <span className="text-white-100">Adrian Rusan</span>
         </div>
 

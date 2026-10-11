@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { tagLabel } from '@/lib/tags';
 
 interface TagBadgeProps {
   tag: string;
@@ -17,10 +18,10 @@ export default function TagBadge({ tag, active = false, href }: TagBadgeProps) {
   if (href) {
     return (
       <Link href={href} className={classes}>
-        {tag}
+        {tagLabel(tag)}
       </Link>
     );
   }
 
-  return <span className={classes}>{tag}</span>;
+  return <span className={classes}>{tagLabel(tag)}</span>;
 }

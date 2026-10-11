@@ -11,7 +11,21 @@ type MDXOptions = NonNullable<MDXRemoteOptions["mdxOptions"]>;
 
 const rehypePlugins: MDXOptions["rehypePlugins"] = [
   rehypeSlug,
-  [rehypeAutolinkHeadings, { behavior: "wrap" }],
+  // Append a hover/focus-only "#" so headings never look like links.
+  [
+    rehypeAutolinkHeadings,
+    {
+      behavior: "append",
+      properties: {
+        className: [
+          "ml-2 !no-underline !text-purple/60 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity",
+        ],
+        ariaHidden: true,
+        tabIndex: -1,
+      },
+      content: { type: "text", value: "#" },
+    },
+  ],
   [rehypePrettyCode, { theme: "github-dark-high-contrast", keepBackground: true }],
 ];
 
