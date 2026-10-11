@@ -11,7 +11,10 @@ type MDXRemoteOptions = NonNullable<Parameters<typeof MDXRemote>[0]["options"]>;
 type MDXOptions = NonNullable<MDXRemoteOptions["mdxOptions"]>;
 
 // GFM for tables (the 66-days headline numbers, R3-F18).
-const remarkPlugins: MDXOptions["remarkPlugins"] = [remarkGfm];
+// singleTilde off so a lone ~ ("~3x") never strikes text through.
+const remarkPlugins: MDXOptions["remarkPlugins"] = [
+  [remarkGfm, { singleTilde: false }],
+];
 
 const rehypePlugins: MDXOptions["rehypePlugins"] = [
   rehypeSlug,
@@ -30,7 +33,10 @@ const rehypePlugins: MDXOptions["rehypePlugins"] = [
       content: { type: "text", value: "#" },
     },
   ],
-  [rehypePrettyCode, { theme: "github-dark-high-contrast", keepBackground: true }],
+  [
+    rehypePrettyCode,
+    { theme: "github-dark-high-contrast", keepBackground: true },
+  ],
 ];
 
 interface MDXContentProps {

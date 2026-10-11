@@ -70,14 +70,16 @@ The weekly cost per commit dropped again in the week after the 10 August change 
 ## The number
 
 <figure className="my-8">
-  <svg viewBox="0 0 360 236" role="img" aria-label="Line chart of monthly cost per commit. July 35 dollars and August 11 dollars on the old count. September 11.55 dollars and the first ten days of October 33 dollars on the new count, which roughly halves every figure. September is about 23 dollars on the old count." className="block w-full max-w-md mx-auto">
+  <svg viewBox="0 0 360 236" role="img" aria-label="Line chart of monthly cost per commit. July 35 dollars and August 11 dollars on the old count. September 11.55 dollars and the first ten days of October 33 dollars on the new count, which roughly halves every figure. September is about 23 dollars on the old count, twice August, shown with a dashed line." className="block w-full max-w-md mx-auto">
     <rect x="176" y="16" width="176" height="168" fill="#A78BFA" fillOpacity="0.12" />
     <g stroke="currentColor" strokeOpacity="0.25" strokeWidth="1">
       <path d="M44 184 H352" />
       <path d="M44 109 H352" strokeDasharray="3 4" />
       <path d="M44 34 H352" strokeDasharray="3 4" />
     </g>
-    <path d="M70 52.75 L150 142.75 L230 140.7 L310 60.25" fill="none" stroke="#A78BFA" strokeWidth="2.5" />
+    <path d="M70 52.75 L150 142.75" fill="none" stroke="#A78BFA" strokeWidth="2.5" />
+    <path d="M230 140.7 L310 60.25" fill="none" stroke="#A78BFA" strokeWidth="2.5" />
+    <path d="M150 142.75 L230 97.75" fill="none" stroke="#A78BFA" strokeWidth="2" strokeDasharray="4 4" />
     <g fill="#A78BFA">
       <circle cx="70" cy="52.75" r="5" />
       <circle cx="150" cy="142.75" r="5" />
@@ -101,7 +103,7 @@ The weekly cost per commit dropped again in the week after the 10 August change 
       <text x="264" y="228" textAnchor="middle" fontSize="12">new count from 11 Sep</text>
     </g>
   </svg>
-  <figcaption className="text-center text-sm text-white-200 mt-3">Cost per commit by month. The shaded months use the new count, which roughly halves every figure.</figcaption>
+  <figcaption className="text-center text-sm text-white-200 mt-3">Cost per commit by month. The shaded months use the new count, which roughly halves every figure; the dashed line is September on the old count, twice August.</figcaption>
 </figure>
 
 July to August, full calendar months, same counting method:

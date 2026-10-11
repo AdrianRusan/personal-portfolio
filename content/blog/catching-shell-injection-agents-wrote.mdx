@@ -52,16 +52,20 @@ const out = execSync(
 
 It was also a regression. An earlier security fix had put an allowlist in front of that value. The agent's rewrite of the route quietly deleted it. The agent wasn't asked to touch security. It was asked to change the feature, and the allowlist was in the way.
 
-**The fix** is to never build a shell string from untrusted input. Use the argument-array form (`execFile`/`spawn` with an args array, no `shell: true`), so the ID is passed as one opaque argument the shell never parses, and put the allowlist back. The [Node.js `child_process` docs](https://nodejs.org/api/child_process.html) spell out which functions spawn a shell and which don't.
+**The fix** is to never build a shell string from untrusted input. Use the argument-array form (`execFile`/`spawn` with an args array, no `shell: true`), so the ID is passed as one opaque argument the shell never parses. Put `--` in front of it so the tool can't read it as an option, and put the allowlist back. The [Node.js `child_process` docs](https://nodejs.org/api/child_process.html) spell out which functions spawn a shell and which don't.
 
 ```js
-const SAFE_ID = /^[a-z0-9-]+$/;
+// Must start with a letter or digit, so it
+// can't pass for an option like --help.
+const SAFE_ID = /^[a-z0-9][a-z0-9-]*$/;
 if (!SAFE_ID.test(params.id)) {
   throw new Error("bad job id");
 }
-// One argument. No shell parses it.
+// One argument after "--". No shell parses it,
+// and the tool can't read it as a flag.
 execFileSync("job-tool", [
   "run",
+  "--",
   params.id,
 ]);
 ```
@@ -82,11 +86,11 @@ const q = query.replace(
 execSync(`rg --json "${q}" ./logs`);
 ```
 
-The regex is an allowlist: it keeps letters, digits, spaces, dots, underscores and hyphens, and strips everything else. That removes `$`, quotes and backticks, everything a shell needs to get out of a double-quoted string, so I didn't rate this one as directly exploitable as written.
+The regex is an allowlist: it keeps letters, digits, spaces, dots, underscores and hyphens, and strips everything else. That removes `$`, quotes and backticks, everything a shell needs to get out of a double-quoted string, so I didn't rate this one as directly exploitable as written. It does keep hyphens, so a query like `--files` still reached `rg` as an option. That lists file names instead of running a command, but it is the same mistake one level down.
 
 I still treated it as a finding. The only thing between the request and the shell was one regex, and the next edit to it, by an agent or a person, reopens the hole. The agent's commit message called it "shell-safe query sanitization", which is how a reviewer gets talked out of looking.
 
-**The fix** is the same discipline as Vuln 1: pass the query as an argument that no shell parses. Then the filter stops being a security control and goes back to being input cleanup.
+**The fix** is the same discipline as Vuln 1: pass the query as an argument that no shell parses, after a `--`. Then the filter stops being a security control and goes back to being input cleanup.
 
 ## Vuln 3: a memory-search query, same pattern
 

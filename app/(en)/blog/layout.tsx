@@ -6,7 +6,7 @@ export const metadata: Metadata = {
     default: 'Blog | Adrian Rusan',
   },
   description:
-    'Field notes on shipping production software with Claude Code agents and senior review.',
+    'What my Claude Code agents get wrong, what review catches, and the numbers from my own logs.',
   alternates: {
     types: {
       'application/rss+xml': 'https://www.adrian-rusan.com/feed.xml',

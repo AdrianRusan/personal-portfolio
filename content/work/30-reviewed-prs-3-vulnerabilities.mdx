@@ -50,7 +50,7 @@ While I reviewed one wave, the next was already generating.
   2. A log-search query interpolated into a shell command, behind a character filter.
   3. A memory-search query, the same pattern as the log search.
 
-  Only the first was directly exploitable. The other two sat behind an allowlist regex that stripped shell characters: safe as written, and one careless edit away from open.
+  Only the first was directly exploitable. The other two sat behind an allowlist regex that stripped shell characters: no way out of the shell string as written, and one careless edit away from open.
 - Review also caught a path traversal (a file path built from a route parameter with no containment) and 2 more shell-string calls on internal values.
 - **1 missed:** a shell-string call built from database values. It is still open. The rows come from my overnight worker rather than a request, so it ranks below the three above.
 

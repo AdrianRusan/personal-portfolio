@@ -8,6 +8,7 @@ import TableOfContents from "@/components/blog/TableOfContents";
 import ShareButtons from "@/components/blog/ShareButtons";
 import AuthorBox from "@/components/blog/AuthorBox";
 import PostCta from "@/components/blog/PostCta";
+import { mdxComponents } from "@/components/blog/PostBody";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import { pageTitle } from "@/lib/blog-types";
 import { PageShell } from "@/components/PageShell";
@@ -21,18 +22,15 @@ import {
 
 // Visible FAQ, from the same frontmatter array as the FAQPage JSON-LD (A1-12).
 function PostFaq({ items }: { items: { q: string; a: string }[] }) {
+  // The prose heading styles (R3-F03), so the FAQ matches the body.
+  const { h2: H2 = "h2", h3: H3 = "h3", p: P = "p" } = mdxComponents;
   return (
     <section aria-labelledby="faq" className="mt-12">
-      <h2
-        id="faq"
-        className="text-2xl font-bold text-white mt-12 mb-4 scroll-mt-20"
-      >
-        Questions
-      </h2>
+      <H2 id="faq">Questions</H2>
       {items.map(({ q, a }) => (
         <div key={q}>
-          <h3 className="text-xl font-semibold text-white mt-8 mb-3">{q}</h3>
-          <p className="text-white-200 leading-relaxed">{a}</p>
+          <H3>{q}</H3>
+          <P>{a}</P>
         </div>
       ))}
     </section>

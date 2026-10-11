@@ -23,7 +23,9 @@ export default function BlogListClient({
   initialTag,
 }: BlogListClientProps) {
   const [search, setSearch] = useState('');
-  const [activeTag, setActiveTag] = useState<string | null>(initialTag ?? null);
+  const [activeTag, setActiveTag] = useState<string | null>(
+    initialTag && allTags.includes(initialTag) ? initialTag : null,
+  );
 
   const filtered = useMemo(() => {
     return posts.filter((post) => {
