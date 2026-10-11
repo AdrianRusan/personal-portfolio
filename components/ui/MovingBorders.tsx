@@ -5,6 +5,7 @@ import {
   useAnimationFrame,
   useMotionTemplate,
   useMotionValue,
+  useReducedMotion,
   useTransform,
 } from "framer-motion";
 import { useRef } from "react";
@@ -84,8 +85,11 @@ export const MovingBorder = ({
 }) => {
   const pathRef = useRef<any>();
   const progress = useMotionValue<number>(0);
+  // The global CSS reduced-motion reset can't stop this JS-driven loop.
+  const reduce = useReducedMotion();
 
   useAnimationFrame((time) => {
+    if (reduce) return;
     const length = pathRef.current?.getTotalLength();
     if (length) {
       const pxPerMillisecond = length / duration;
