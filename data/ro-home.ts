@@ -49,7 +49,7 @@ export const roHero: HeroCopy = {
   honestBefore: "De 2–3 ori, nu de 100 de ori, și",
   honestLink: "iată ce greșesc agenții",
   teardown: "Cere un teardown gratuit",
-  call: "Sau programează o discuție →",
+  call: "Programează o discuție",
   guarantee: RO_GUARANTEE,
   adviceBefore: "Ai nevoie doar de sfaturi?",
   adviceLink: "Rezervă o sesiune 1:1 de strategie AI, 110 €.",

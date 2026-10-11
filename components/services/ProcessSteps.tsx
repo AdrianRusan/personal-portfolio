@@ -24,8 +24,8 @@ const en = {
     {
       tag: "2 · SHIP",
       heading: "The agent fleet (days 1–N)",
-      body: "Tickets get dispatched to parallel Claude Code agents running in isolated git worktrees, driven by your CLAUDE.md conventions. This is where the volume comes from, and where the 2-3x lives.",
-      caption: "~2-3x throughput",
+      body: "Tickets get dispatched to parallel Claude Code agents running in isolated git worktrees, driven by your CLAUDE.md conventions. This is where the volume comes from, and where the 2–3x lives.",
+      caption: "~2–3x throughput",
     },
     {
       tag: "3 · VERIFY",
@@ -86,7 +86,7 @@ export const ProcessSteps = ({ copy = en }: { copy?: ProcessStepsCopy }) => {
                     {step.body}{" "}
                     <Link
                       href={step.link.href}
-                      className="text-purple hover:underline underline-offset-4"
+                      className="text-purple underline underline-offset-4"
                     >
                       {step.link.label}
                     </Link>

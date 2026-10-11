@@ -51,7 +51,7 @@ const Offers = ({ copy = en }: { copy?: OffersCopy }) => {
                         {copy.formatPrice(offer)}
                       </span>
                       {offer.assurance && (
-                        <span className="block text-xs text-blue-100 mt-1">
+                        <span className="block text-xs text-white-200 mt-1">
                           {offer.assurance}
                         </span>
                       )}

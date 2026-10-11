@@ -24,17 +24,11 @@ export const TrustStrip = ({ copy = en }: { copy?: TrustStripCopy }) => {
         <p className="text-center font-mono text-[11px] uppercase tracking-[0.12em] text-white-200/75">
           {copy.eyebrow}
         </p>
-        <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-3 mt-5">
-          {copy.employers.map((name, index) => (
-            <span key={name} className="flex items-center gap-6">
-              {index !== 0 && (
-                <span className="text-white-200/30" aria-hidden="true">
-                  ·
-                </span>
-              )}
-              <span className="text-sm font-semibold text-white-200/80">
-                {name}
-              </span>
+        {/* Gaps, not "·" separators: a wrapped row would start with an orphan dot. */}
+        <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-3 mt-5">
+          {copy.employers.map((name) => (
+            <span key={name} className="text-sm font-semibold text-white-200/80">
+              {name}
             </span>
           ))}
         </div>
