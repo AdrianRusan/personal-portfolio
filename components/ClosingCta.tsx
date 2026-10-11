@@ -34,9 +34,7 @@ export function ClosingCta({
   return (
     <section
       className="px-5 sm:px-10 pt-24 pb-20"
-      {...(hideCta
-        ? { "aria-label": copy.emailCapture?.heading ?? "Checklist" }
-        : { "aria-labelledby": "closing-cta-heading" })}
+      {...(hideCta ? {} : { "aria-labelledby": "closing-cta-heading" })}
     >
       {!hideCta && (
         <div className="container-prose text-center">

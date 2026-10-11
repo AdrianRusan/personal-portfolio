@@ -132,7 +132,7 @@ test('client-side navigation still gets the page, not Markdown', async ({ page }
 });
 
 // P1 (#66): one closing ask per page, and the footer itself asks for nothing.
-for (const path of ['/about', '/contact', '/blog', '/privacy', '/work/honesty-gate', '/does-not-exist', '/']) {
+for (const path of ['/about', '/contact', '/blog', '/privacy', '/work/honesty-gate', '/does-not-exist', '/', '/ro', '/ro/despre', '/ro/contact']) {
   test(`${path} has exactly one closing ask`, async ({ page }) => {
     await page.goto(path);
     await expect(page.locator('#closing-cta-heading')).toHaveCount(1);
@@ -154,5 +154,14 @@ test('the locale switch reads "RO", with no glyph, where no twin exists', async 
   for (const path of ['/teardown', '/does-not-exist']) {
     await page.goto(path);
     await expect(page.getByRole('navigation', { name: 'Main' }).locator('a[hreflang="ro"]')).toHaveText('RO');
+  }
+});
+
+test('pages with their own closing block keep the checklist and the Contact anchor', async ({ page }) => {
+  for (const path of ['/services', '/ro/servicii']) {
+    await page.goto(path);
+    await expect(page.locator('#closing-cta-heading')).toHaveCount(0);
+    await expect(page.locator('input[type="email"]')).toHaveCount(1);
+    await expect(page.locator('#contact a[href*="calendly.com"]')).toHaveCount(1);
   }
 });

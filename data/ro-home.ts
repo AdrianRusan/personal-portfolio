@@ -335,7 +335,7 @@ export const roClosingCta: ClosingCtaCopy = {
   body: "Spune-mi ce vrei să construiești sau să livrezi. Pleci știind ce ofertă ți se potrivește și cât costă.",
   button: "Programează o discuție",
   emailBefore: "sau scrie la",
-  teardown: "Sau trimite un repo pentru teardown gratuit →",
+  teardown: "Sau trimite un repo pentru teardown gratuit (în engleză) →",
   emailCapture: roEmailCapture,
 };
 

@@ -28,8 +28,7 @@ const link = "hover:text-purple transition-colors";
 
 const Footer = ({ copy = en }: { copy?: FooterCopy }) => {
   return (
-    // id="contact": the /services sub-nav's "Contact" anchor.
-    <footer id="contact" className="border-t border-white/10 px-5 sm:px-10 py-10">
+    <footer className="border-t border-white/10 px-5 sm:px-10 py-10">
       <div className="container-section flex flex-col items-center gap-4 text-sm text-white-200">
         <p>Copyright © {new Date().getFullYear()} Adrian Rusan</p>
         <div className="flex flex-wrap justify-center gap-x-5 gap-y-2">
