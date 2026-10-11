@@ -168,9 +168,9 @@ export const roPostTitles: PostTitles = {
       "Când am redus contextul, costul pe commit al agenților a scăzut o lună, apoi economia a dispărut pe nesimțite. Ce am învățat, ce pot și ce nu pot explica și măsurătoarea săptămânală pe care un audit AI o pune în practică pentru echipa ta.",
   },
   "30-prs-in-2-5-days": {
-    title: "30 de PR-uri în 2,5 zile: anatomia a nouă loturi de agenți",
+    title: "30 de PR-uri în sub 3 zile: anatomia a nouă loturi de agenți",
     description:
-      "Mecanica din spatele a 30 de PR-uri revizuite în 2,5 zile: git worktrees în paralel, tichete distribuite prin CLAUDE.md și de ce review-ul, nu generarea, e adevăratul blocaj.",
+      "Mecanica din spatele a 30 de PR-uri revizuite în sub 3 zile: git worktrees în paralel, tichete distribuite prin CLAUDE.md și de ce review-ul, nu generarea, e adevăratul blocaj.",
   },
   "66-days-of-claude-code-by-the-numbers": {
     title: "66 de zile de Claude Code, în cifre",
@@ -205,7 +205,7 @@ export const roPostTitles: PostTitles = {
   "2-3x-not-100x": {
     title: "De 2–3 ori, nu de 100 de ori: cifra sinceră despre viteza programării cu AI",
     description:
-      "Cu cât e mai rapidă, de fapt, programarea cu AI? Răspunsul măsurat e de 2–3 ori, nu de 10–100 de ori. Iată metodologia, 30 de PR-uri revizuite în 2,5 zile, și ce lasă deoparte multiplicatorul.",
+      "Cu cât e mai rapidă, de fapt, programarea cu AI? Răspunsul măsurat e de 2–3 ori, nu de 10–100 de ori. Iată metodologia, 30 de PR-uri revizuite în sub 3 zile, și ce lasă deoparte multiplicatorul.",
   },
   "claude-code-changed-how-i-ship-software": {
     title: "Claude Code a schimbat felul în care livrez software",
