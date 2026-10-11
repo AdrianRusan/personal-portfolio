@@ -1,0 +1,110 @@
+---
+title: "I Built a Gate That Stops My AI From Lying to Customers"
+seoTitle: "A Gate That Stops AI From Inventing Customer Facts"
+date: "2026-11-07"
+tags: ["ai", "claude-code", "code-review", "agent-harness"]
+description: "How to stop an AI agent from publishing invented numbers: give facts a source, then gate the rendered page with a trace check and a proof scan that fail closed."
+published: false
+language: "en"
+cta: "audit"
+faq:
+  - q: "Can a CLAUDE.md rule stop an agent from inventing facts?"
+    a: "Not on its own. A rule like \"don't make things up\" describes what you want, and nothing enforces it. On this project the invented numbers arrived from a design comp and each one looked plausible. What worked was moving the rule into the data (every fact carries provenance) and checking the rendered page before publish."
+  - q: "Why check the rendered page instead of the source data?"
+    a: "Because one source field can reach many places in the output. On this project a single poisoned field reached five: two SEO descriptions, two social descriptions and the structured data. Checking the final output catches render paths nobody remembered."
+  - q: "How slow is a gate like this?"
+    a: "On this project the trace gate checks about 1,400 strings per page in about 90 milliseconds, and the proof scan takes about 40. That is cheap enough to run on every publish."
+---
+
+**Short answer:** To stop an agent from publishing invented facts, give every fact a source field, render unknown facts as visibly marked slots, and run two gates on the final rendered page: one that traces every string back to a source and one that scans for claims (counts, ratings, number words) with nothing behind them. If either gate cannot run, block the publish.
+
+If you came looking for [CLAUDE.md examples](/blog/the-rules-file-my-agents-follow) that stop an agent from making things up, I have bad news first: no rule file fixed this one. A landing page was ready to launch with a "real number" that was really zero, and what caught it was a gate. This post is the gate that fixed it, written as steps you can copy. The full case study, with the diagram, is [The Honesty Gate](/work/honesty-gate).
+
+## What went wrong
+
+The project is a client's agent-built SaaS that generates demo sites for small businesses. It is under NDA, so the product stays unnamed. Agents write most of its code and copy, and I review it.
+
+Before launch, the landing page carried a proof line for each of five industries: a count of businesses that had launched with us this month, two or three per industry, labelled "real number, from delivered orders". The count was hardcoded. On launch day the true number was 0.
+
+It was not alone:
+
+1. A strip of sites "made by us" linked three domains. Two of them did not resolve.
+2. The fixtures that seed a demo site shipped testimonials, a 4.9 rating and a count of 127 reviews across five business types, with nothing marking them as examples.
+
+Nobody decided to lie. The numbers came from a design comp, the agents carried them forward faithfully, and each one looked fine on its own. That is the failure mode to design for: plausible claims that nobody traced.
+
+## Why a rule and a proofread were not enough
+
+I found three reasons in the run itself.
+
+**Fan-out.** One poisoned source field reached five places in the output: two SEO descriptions, two social descriptions and the structured data. Fix the field and a render path nobody remembered still ships the claim.
+
+**Digit regexes are easy to beat.** "Over two hundred happy clients" has no digit in it, and it is exactly as invented as "200+ clients".
+
+**Gates that exist are not gates that run.** An earlier pipeline exported ten gate functions. Only two were wired to anything that could stop a publish. The other eight were tested and exported, and nothing called them.
+
+A prompt rule fails the same way the eight unwired gates did. It describes the behaviour you want, and nothing enforces it.
+
+## Step 1: give every fact a source
+
+Move honesty out of the prompt and into the data. Every fact about a business carries provenance, one of four values:
+
+- **owner**: the business owner typed it
+- **places**: it came from a public listing
+- **derived**: it was computed from other sourced facts
+- **unknown**: nobody knows it yet
+
+A sketch of the shape, in TypeScript:
+
+```ts
+type Provenance = "owner" | "places" | "derived" | "unknown";
+
+interface Fact<T> {
+  value: T | null;
+  provenance: Provenance;
+}
+```
+
+Once facts look like this, inventing a claim means forging a provenance value, which shows up in a diff. Writing a convincing sentence is no longer enough.
+
+## Step 2: render unknown facts as marked slots
+
+An `unknown` fact never renders as prose. It renders as a visibly marked slot the owner can fill in. The page looks unfinished where it is unfinished, and the agent has no gap to paper over with something plausible.
+
+This is the step that removes the temptation. Most invented copy exists because a template had a hole and a model was asked to fill it.
+
+## Step 3: trace every rendered string
+
+The first gate reads the **final rendered page**, not the source data. It walks every string, roughly 1,400 per page on this project, and requires each one to map back to one of three things: a sourced fact, a catalog constant (fixed copy that someone signed off), or a marked slot.
+
+A string that maps to none of them blocks the publish. This is what catches fan-out: it does not matter which render path produced the string, only whether the string can say where it came from.
+
+## Step 4: scan for claims with nothing behind them
+
+The second gate trusts nothing. It looks for anything shaped like proof: counts, ratings, review totals and urgency phrases. Each one needs a backing fact.
+
+To beat the spelled-out-number trick, the scan carries a 64-entry number-word lexicon, so "two hundred" counts as a number. Ratings markup (the structured data search engines read for stars) is emitted only from verified reviews. With no verified reviews, there is no rating.
+
+On this project the trace gate runs in about 90 milliseconds per page and the proof scan in about 40. Both are cheap enough to run on every publish.
+
+## Step 5: a gate that cannot run blocks
+
+Both gates fail closed. If a gate cannot run for any reason, the result is the same as a failed check: the publish is blocked.
+
+This is the line most people get backwards, because the default instinct is to let a broken check pass so it does not block work. A gate that passes when it cannot run is no better than the eight unwired gates. Wire both gates into the one path that publishes, and test the "cannot run" case as hard as the "found a claim" case.
+
+## What changed on the landing page
+
+The landing page got the same rule. The launch count now comes from real go-live events, and the whole proof line stays hidden until that count reaches 2. On launch day it was 0, so the line did not render.
+
+## How to start on your own project
+
+You do not need the whole system on day one. In order:
+
+1. **Find your claims.** Grep the rendered output, not the source, for counts, ratings and "trusted by" lines. Include spelled-out numbers.
+2. **Tag the facts behind them.** Add a provenance field to each. Anything you cannot source becomes `unknown`.
+3. **Add the proof scan.** It is the smaller gate and catches the worst cases.
+4. **Make it fail closed and wire it in.** Check that it is called on the publish path and that a crash blocks.
+5. **Add the trace gate** once the scan is stable.
+
+A rule in your `CLAUDE.md` is still worth having: it tells the agent what you want. Just do not count it as the thing that stops the problem. What held on this project was making every rendered string prove where it came from, checking the output instead of the source, and treating a check that could not run as a failure.

@@ -1,7 +1,12 @@
 /**
  * @jest-environment node
  */
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
 import { getPost, getPosts, isLive } from "@/lib/blog";
+
+const BLOG_DIR = path.join(process.cwd(), "content/blog");
 
 // #54 R4: one post a week, each hidden until its date.
 const SCHEDULE = [
@@ -45,6 +50,29 @@ describe("post schedule", () => {
     await expect(getPost("the-rules-file-my-agents-follow")).rejects.toThrow(
       /Post not found/,
     );
+  });
+});
+
+// #79: any `published: false` post stays hidden, whatever its date.
+const DRAFTS = fs
+  .readdirSync(BLOG_DIR)
+  .filter((f) => f.endsWith(".mdx"))
+  .map((f) => f.replace(/\.mdx$/, ""))
+  .filter(
+    (slug) =>
+      !matter(fs.readFileSync(path.join(BLOG_DIR, `${slug}.mdx`), "utf-8"))
+        .data.published,
+  );
+
+describe("draft posts", () => {
+  it("includes the queued drafts", () => {
+    expect(DRAFTS).toContain("hitting-usage-limits-with-18-sessions-open");
+  });
+
+  it.each(DRAFTS)("%s stays hidden", async (slug) => {
+    at("2100-01-01T00:00:00Z");
+    expect(await slugs()).not.toContain(slug);
+    await expect(getPost(slug)).rejects.toThrow(/Post not found/);
   });
 });
 
