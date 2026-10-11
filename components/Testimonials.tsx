@@ -4,13 +4,14 @@ import { SectionHeading } from "./ui/SectionHeading";
 
 // #76: text, name, role and company only. No photos, initials or logos.
 export const Quote = ({
-  testimonial: { quote, name, role, company },
+  testimonial: { quote, name, role, company, lang },
   className,
 }: {
   testimonial: Testimonial;
   className?: string;
 }) => (
   <figure
+    lang={lang}
     className={cn(
       "flex h-full flex-col rounded-xl border border-white/10 bg-black-200/40 p-6",
       className,

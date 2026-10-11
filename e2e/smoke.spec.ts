@@ -229,5 +229,6 @@ for (const [path, label] of [
     const main = page.locator('main');
     await expect(main.getByText(label, { exact: true })).toBeVisible();
     await expect(main.locator('figure figcaption')).toHaveText('Tim Claes, Freelance mobile & web engineer');
+    await expect(main.locator('figure')).toHaveAttribute('lang', 'en');
   });
 }
