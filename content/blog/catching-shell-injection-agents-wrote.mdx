@@ -104,7 +104,7 @@ One. Another PR built a shell command from two values it read out of the databas
 
 It is still open. The dashboard never writes that table itself: the rows come from my overnight worker, so the values sit one step away from any request. That is why I rank it below the three request-input paths. It is not a reason to call it safe.
 
-The trap is easy to name: "these come from my own database, not from the request." That reasoning is the mistake. A stored value is input too. It got into the database from somewhere, and anything that can write that row can now run a command. The trace has to go back to where the value was first accepted, not stop at the last `SELECT`.
+The trap is easy to name: "these come from my own database, not from the request." That reasoning is the mistake. A stored value is input too. It got into the database from somewhere, and anything that can write that row can now run a command. The trace has to go back past the last `SELECT` to where the value was first accepted.
 
 ## What do all four have in common?
 
