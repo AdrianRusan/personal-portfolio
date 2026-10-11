@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getPosts, WORK_DIR } from "@/lib/blog";
+import { byCaseStudyOrder } from "@/data/work";
 
 // The method-demo post doubles as the benchmark card next to the case studies.
 const BENCHMARK_SLUG = "30-prs-in-2-5-days";
@@ -17,7 +18,7 @@ const en = {
 export type CaseStudyCardsCopy = typeof en;
 
 const CaseStudyCards = async ({ copy = en }: { copy?: CaseStudyCardsCopy }) => {
-  const studies = await getPosts(WORK_DIR);
+  const studies = byCaseStudyOrder(await getPosts(WORK_DIR));
   if (studies.length === 0) return null;
 
   const benchmark = (await getPosts()).find((p) => p.slug === BENCHMARK_SLUG);

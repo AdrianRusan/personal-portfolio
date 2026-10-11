@@ -18,7 +18,6 @@ const routes = [
   '/work',
   '/work/agent-cost-per-commit',
   '/work/honesty-gate',
-  '/work/nine-prs-one-afternoon',
   '/workshops/full-day',
   '/workshops/half-day',
   '/ro',

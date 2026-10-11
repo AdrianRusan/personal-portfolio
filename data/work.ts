@@ -13,8 +13,15 @@ export const caseStudyResults: Record<
     figure: "68%",
     label: "lower agent cost per commit, July to August, before it came back",
   },
-  "nine-prs-one-afternoon": {
-    figure: "100 minutes",
-    label: "for nine reviewed PRs from parallel agents",
-  },
 };
+
+// #54 R2: display order on /work and the homepage cards. Unlisted studies
+// follow, newest first (getPosts' order).
+const CASE_STUDY_ORDER = ["honesty-gate", "agent-cost-per-commit"];
+export function byCaseStudyOrder<T extends { slug: string }>(studies: T[]) {
+  const rank = (slug: string) => {
+    const i = CASE_STUDY_ORDER.indexOf(slug);
+    return i === -1 ? CASE_STUDY_ORDER.length : i;
+  };
+  return [...studies].sort((a, b) => rank(a.slug) - rank(b.slug));
+}

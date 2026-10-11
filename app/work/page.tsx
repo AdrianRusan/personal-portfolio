@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/PageShell";
 import { getPosts, WORK_DIR } from "@/lib/blog";
-import { caseStudyResults } from "@/data/work";
+import { byCaseStudyOrder, caseStudyResults } from "@/data/work";
 
 const DESCRIPTION =
   "Case studies from documented runs: what broke, what I built, the number it moved, and what it taught me about shipping with AI agents.";
@@ -35,7 +35,7 @@ const workNavItems = [
 
 // Same shell as every other page. Lists every published study from the work loader.
 export default async function WorkIndexPage() {
-  const studies = await getPosts(WORK_DIR);
+  const studies = byCaseStudyOrder(await getPosts(WORK_DIR));
   // No empty index: R10 allows no "coming soon" pages.
   if (studies.length === 0) notFound();
 
