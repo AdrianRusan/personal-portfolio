@@ -22,6 +22,7 @@ import {
 import { offerById, tiers } from "@/data/ladder";
 import {
   formatPriceRo,
+  RO_CAPACITY,
   RO_CREDIT_TERMS,
   RO_GUARANTEE,
   roLadder,
@@ -145,8 +146,7 @@ export const roOffers: OffersCopy = {
   formatPrice: formatPriceRo,
   href: "/ro/servicii#ladder",
   more: "Vezi ce include →",
-  capacity:
-    "Review-ul îl face un singur om senior, așa că lucrez la un singur sprint sau retainer în același timp.",
+  capacity: RO_CAPACITY,
 };
 
 // RO titles and descriptions for the cards on /ro (case studies, benchmark,
@@ -312,8 +312,7 @@ export const roFinalCta: FinalCtaCopy = {
   betweenBefore: "Undeva la mijloc?",
   betweenLink: `Începe cu un singur PR revizuit: ${formatPriceRo(roReviewedPr)}, ${roReviewedPr.duration}. Rezervă un sprint în ${CREDIT_DAYS} de zile și se scade din preț →`,
   betweenHref: "/ro/servicii#entry-offer",
-  capacity:
-    "Review-ul îl face un singur om senior, așa că lucrez la un singur sprint sau retainer în același timp.",
+  capacity: RO_CAPACITY,
 };
 
 // The call steps, folded into the homepage FAQ as one answer (#54 R3).
@@ -339,6 +338,10 @@ export const roFooter: FooterCopy = {
   emailAria: "Trimite un email lui Adrian Rusan",
   email: "sau scrie-mi un email",
   teardown: "Sau trimite-mi un repo pentru un teardown gratuit de 15 minute (în engleză) →",
+  about: "Despre",
+  aboutHref: "/ro/despre",
+  contact: "Contact",
+  contactHref: "/ro/contact",
   privacy: "Confidențialitate",
   rss: "RSS",
   socialAria: "Rețele sociale",

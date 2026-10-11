@@ -85,3 +85,6 @@ const Experience = ({ copy = en }: { copy?: ExperienceCopy }) => {
 };
 
 export default Experience;
+
+// EN copy, also rendered as Markdown by lib/markdown (#64).
+export { en as experienceCopy };

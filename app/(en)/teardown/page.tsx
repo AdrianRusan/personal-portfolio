@@ -2,13 +2,11 @@ import type { Metadata } from "next";
 import { PageShell } from "@/components/PageShell";
 import TeardownForm from "@/components/TeardownForm";
 import { LEDGER_PROOF } from "@/data";
+import { teardown } from "@/data/teardown";
 import { CalendlyLink } from "@/components/CalendlyLink";
 import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 
-const TITLE =
-  "Free AI Code Teardown — a 15-min Loom of what your AI-generated code is hiding";
-const DESCRIPTION =
-  "Send a repo or PR. Get a free 15-minute Loom of the security bugs your AI coding tools wrote that pass tests and merge anyway. No call, no pitch.";
+const { title: TITLE, description: DESCRIPTION } = teardown;
 
 export const metadata: Metadata = {
   title: "Free AI Code Teardown — 15-min Loom, no call",
@@ -32,18 +30,7 @@ export const metadata: Metadata = {
 };
 
 
-// Answers the objections that stop the form being sent.
-const trustNotes = [
-  "Private repo? Paste the link anyway. I'll reply asking for read-only access, and you can remove it once the Loom is sent.",
-  "Need an NDA first? Say so in the note and I'll sign yours before I look.",
-  "Your code and the findings stay between us. Nothing is published or reused.",
-];
-
-const steps = [
-  "Paste a repo or PR link above — something real you've shipped with Copilot, Cursor, or Claude Code.",
-  "I run the same adversarial security review every sprint PR gets — injection, auth, secrets, access control — assuming the agent got it wrong until it's proven right.",
-  "You get a ~15-minute Loom walking through exactly what I found, usually within 2–3 business days. Free.",
-];
+const { trustNotes, steps } = teardown;
 
 export default function TeardownPage() {
   return (
@@ -60,18 +47,13 @@ export default function TeardownPage() {
       <section className="px-5 sm:px-10 pt-28 sm:pt-32 pb-16">
         <div className="max-w-5xl mx-auto text-center">
           <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100">
-            Free · async · no call
+            {teardown.eyebrow}
           </span>
           <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-balance max-w-3xl mx-auto mt-4">
-            Send me a repo. I&apos;ll show you what your AI-generated code is
-            hiding.
+            {teardown.heading}
           </h1>
           <p className="text-white-200 mt-5 leading-relaxed max-w-2xl mx-auto">
-            A free, 15-minute Loom teardown of a repo or a recent PR — the
-            security bugs that pass your tests and merge anyway. On my own
-            agent-written code, review caught shell-injection paths that
-            nothing else was checking for. No call, no pitch, no signup beyond
-            your email.
+            {teardown.intro}
           </p>
           <p className="font-mono text-[11px] md:text-xs text-white-200/80 mt-4 max-w-2xl mx-auto">
             {LEDGER_PROOF}
@@ -117,15 +99,10 @@ export default function TeardownPage() {
       <section className="px-5 sm:px-10 pb-20" aria-label="Why free">
         <div className="max-w-3xl mx-auto rounded-2xl border border-white/10 bg-black-200/40 p-6 md:p-8">
           <h2 className="text-lg font-semibold tracking-tight">
-            Why is this free?
+            {teardown.whyHeading}
           </h2>
           <p className="text-sm text-white-200 mt-3 leading-relaxed">
-            Because showing you beats telling you. Most AI-code pitches claim
-            they catch bugs; this one hands you the bugs, in your own code, for
-            nothing. If it&apos;s useful, we can talk about shipping your
-            backlog this way — agent-speed delivery with every PR reviewed
-            before it reaches you. If not, you keep the teardown and we both
-            move on.
+            {teardown.why}
           </p>
 
           <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-8">

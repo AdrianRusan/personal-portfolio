@@ -1,6 +1,6 @@
 import MagicButton from "./ui/MagicButton";
 import { FaLocationArrow } from "react-icons/fa6";
-import { CALENDLY_URL, CREDIT_DAYS } from "@/data";
+import { CALENDLY_URL, CAPACITY, CREDIT_DAYS } from "@/data";
 import { formatPrice, ladder, offerById } from "@/data/ladder";
 
 const reviewedPr = offerById(ladder, "reviewed-pr");
@@ -16,8 +16,7 @@ const en = {
   betweenBefore: "Somewhere in between?",
   betweenLink: `Start with one Reviewed PR — ${formatPrice(reviewedPr)}, ${reviewedPr.duration}. Book a sprint within ${CREDIT_DAYS} days and it counts toward it →`,
   betweenHref: "/services#entry-offer",
-  capacity:
-    "The review layer is one senior human, so I run one sprint or retainer at a time.",
+  capacity: CAPACITY,
 };
 export type FinalCtaCopy = typeof en;
 
@@ -60,3 +59,6 @@ const FinalCta = ({ copy = en }: { copy?: FinalCtaCopy }) => {
 };
 
 export default FinalCta;
+
+// EN copy, also rendered as Markdown by lib/markdown (#64).
+export { en as finalCtaCopy };

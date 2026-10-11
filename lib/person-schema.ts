@@ -1,8 +1,40 @@
-import { FINTECH_EMPLOYER, YOUTUBE_URL } from "@/data";
+import {
+  CALENDLY_URL,
+  CONTACT_EMAIL,
+  FINTECH_EMPLOYER,
+  YOUTUBE_URL,
+} from "@/data";
 
 // Person JSON-LD, rendered site-wide by app/root-shell.tsx. Lives here (not in the
 // layout) so a jest test can check its shape — layouts may only export Next fields.
 const JOB_TITLE = "Senior software engineer, agent-accelerated delivery";
+
+// City level only (#64 R3): no street, no postal code, no phone.
+const address = {
+  "@type": "PostalAddress",
+  addressLocality: "Bucharest",
+  addressCountry: "RO",
+};
+
+const contactPoint = {
+  "@type": "ContactPoint",
+  contactType: "sales",
+  email: CONTACT_EMAIL,
+  url: CALENDLY_URL,
+  availableLanguage: ["en", "ro"],
+};
+
+// The PFA that invoices the work. Rendered site-wide next to the Person.
+export const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://www.adrian-rusan.com/#organization",
+  name: "Rusan Adrian-Ionuț PFA",
+  url: "https://www.adrian-rusan.com",
+  founder: { "@id": "https://www.adrian-rusan.com/#person" },
+  address,
+  contactPoint,
+};
 
 export const personJsonLd = {
   "@context": "https://schema.org",
@@ -31,8 +63,9 @@ export const personJsonLd = {
     { "@type": "Organization", name: FINTECH_EMPLOYER },
     {
       "@type": "Organization",
-      name: "Rusan Adrian-Ionuț PFA",
-      url: "https://www.adrian-rusan.com",
+      "@id": organizationJsonLd["@id"],
+      name: organizationJsonLd.name,
+      url: organizationJsonLd.url,
     },
   ],
   // What the site sells and writes about (A1-08), not a CV keyword list.
@@ -56,15 +89,7 @@ export const personJsonLd = {
     skills:
       "Claude Code, AI coding agents, code review, application security, TypeScript, Next.js, React, Node.js",
   },
-  address: {
-    "@type": "PostalAddress",
-    addressCountry: "RO",
-    addressLocality: "Romania",
-  },
+  address,
   email: "rusan.adrian.ionut@gmail.com",
-  contactPoint: {
-    "@type": "ContactPoint",
-    contactType: "professional",
-    email: "rusan.adrian.ionut@gmail.com",
-  },
+  contactPoint,
 };

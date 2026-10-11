@@ -4,7 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/context/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { personJsonLd } from "@/lib/person-schema";
+import { organizationJsonLd, personJsonLd } from "@/lib/person-schema";
 import { JsonLd } from "@/lib/page-schema";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
@@ -85,6 +85,7 @@ const siteJsonLd = [
     inLanguage: "en-US",
   },
   personJsonLd,
+  organizationJsonLd,
 ];
 
 export function RootShell({

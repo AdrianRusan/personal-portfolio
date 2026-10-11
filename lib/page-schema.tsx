@@ -37,7 +37,7 @@ export function pageJsonLd({
   description?: string;
   // Trail after Home, ending with this page.
   crumbs: Crumb[];
-  type?: "WebPage" | "CollectionPage";
+  type?: "WebPage" | "CollectionPage" | "AboutPage" | "ContactPage";
   inLanguage?: string;
   // First crumb; /ro pages start at "Acasă".
   home?: Crumb;

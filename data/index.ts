@@ -51,6 +51,10 @@ export const WORKFLOW_NUMBERS = {
 const n = (v: number) => v.toLocaleString("en-US");
 export const LEDGER_PROOF = `${WORKFLOW_NUMBERS.sessions} sessions · ${WORKFLOW_NUMBERS.hours} hours · ${n(WORKFLOW_NUMBERS.commits)} commits · ${WORKFLOW_NUMBERS.prsOpened} PRs opened (upper bound, not all merged) — ${WORKFLOW_NUMBERS.days} days, 6 Aug–10 Oct 2026, counted from my own session logs.`;
 
+// The one capacity line (Offers, FinalCta, the ladder, /about).
+export const CAPACITY =
+  "The review layer is one senior human, so I run one sprint or retainer at a time.";
+
 // Single risk-reversal guarantee, reused verbatim at every money CTA.
 export const GUARANTEE =
   "If the first reviewed PR isn't merge-ready to your standard, you don't pay for it.";
@@ -306,3 +310,7 @@ export const socialMedia = [
     alt: "Adrian Rusan LinkedIn Profile",
   },
 ];
+
+// The /blog index description: page meta and its Markdown (#64).
+export const BLOG_DESCRIPTION =
+  "Field notes on shipping production software with a Claude Code agent fleet, and the senior review that catches what the agents miss.";

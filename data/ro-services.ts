@@ -15,6 +15,7 @@ import type { ServicesHeroCopy } from "@/components/services/ServicesHero";
 import type { TrustStripCopy } from "@/components/services/TrustStrip";
 import {
   formatPriceRo,
+  RO_CAPACITY,
   RO_CREDIT_TERMS,
   RO_GUARANTEE,
   roLadder,
@@ -71,8 +72,7 @@ export const roServicesLadder: LadderContent = {
   heading: "Patru moduri de a lucra împreună, toate cu prețul afișat",
   intro: `Începe cu o sesiune de 110 € sau mergi direct la un sprint. ${RO_CREDIT_TERMS} Toate prețurile sunt în EUR, fără TVA.`,
   limited: "Unul pe rând",
-  capacity:
-    "Review-ul îl face un singur om senior, așa că lucrez la un singur sprint sau retainer în același timp.",
+  capacity: RO_CAPACITY,
   source: "ro_services_ladder",
 };
 

@@ -1,4 +1,4 @@
-import { personJsonLd } from "@/lib/person-schema";
+import { organizationJsonLd, personJsonLd } from "@/lib/person-schema";
 
 // Round-trip through JSON exactly as layout.tsx serializes it into the page.
 const person = JSON.parse(JSON.stringify(personJsonLd));
@@ -43,6 +43,33 @@ describe("Person JSON-LD", () => {
     for (const url of person.sameAs) {
       expect(url).toMatch(/^https:\/\//);
       expect(url).not.toContain("twitter.com");
+    }
+  });
+});
+
+describe("Organization JSON-LD", () => {
+  const org = JSON.parse(JSON.stringify(organizationJsonLd));
+
+  it("has a sales contactPoint with the site inbox and booking URL", () => {
+    expect(org["@type"]).toBe("Organization");
+    expect(org.contactPoint).toEqual({
+      "@type": "ContactPoint",
+      contactType: "sales",
+      email: "contact@adrian-rusan.com",
+      url: "https://calendly.com/adrian-rusan/new-meeting",
+      availableLanguage: ["en", "ro"],
+    });
+  });
+
+  // #64 R3: city level only, never a street, postal code or phone.
+  it("gives a city-level address and no street, postcode or phone", () => {
+    for (const node of [org, person]) {
+      expect(node.address).toEqual({
+        "@type": "PostalAddress",
+        addressLocality: "Bucharest",
+        addressCountry: "RO",
+      });
+      expect(JSON.stringify(node)).not.toMatch(/streetAddress|postalCode|telephone/);
     }
   });
 });

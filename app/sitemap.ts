@@ -19,6 +19,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "x-default": `${baseUrl}/services`,
   };
 
+  const pair = (en: string, ro: string) => ({
+    en: `${baseUrl}${en}`,
+    ro: `${baseUrl}${ro}`,
+    "x-default": `${baseUrl}${en}`,
+  });
+  const trustPages: MetadataRoute.Sitemap = [
+    ["/about", "/ro/despre"],
+    ["/contact", "/ro/contact"],
+  ].flatMap(([en, ro]) =>
+    [en!, ro!].map((path) => ({
+      url: `${baseUrl}${path}`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+      alternates: { languages: pair(en!, ro!) },
+    })),
+  );
+
   const posts = await getPosts();
   const blogEntries: MetadataRoute.Sitemap = posts.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
@@ -70,6 +88,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.9,
     },
+    ...trustPages,
     ...Object.keys(workshops).map((slug) => ({
       url: `${baseUrl}/workshops/${slug}`,
       lastModified,

@@ -29,6 +29,10 @@ const en = {
   emailAria: "Send email to Adrian Rusan",
   email: "or email me",
   teardown: "Or send a repo for a free 15-minute teardown →",
+  about: "About",
+  aboutHref: "/about",
+  contact: "Contact",
+  contactHref: "/contact",
   privacy: "Privacy",
   rss: "RSS",
   socialAria: "Social media links",
@@ -108,6 +112,18 @@ const Footer = ({
               Copyright © {new Date().getFullYear()} Adrian Rusan
             </p>
             <LocaleSwitch className="text-sm text-white-200 hover:text-purple transition-colors" />
+            <Link
+              href={copy.aboutHref}
+              className="text-sm text-white-200 hover:text-purple transition-colors"
+            >
+              {copy.about}
+            </Link>
+            <Link
+              href={copy.contactHref}
+              className="text-sm text-white-200 hover:text-purple transition-colors"
+            >
+              {copy.contact}
+            </Link>
             <Link
               href="/privacy"
               className="text-sm text-white-200 hover:text-purple transition-colors"

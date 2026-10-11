@@ -54,4 +54,21 @@ describe("/llms.txt", () => {
     // Generated from frontmatter, so it inherits the 30-PR facts (no tests, no CI).
     expect(text).not.toMatch(/tests? passed|CI (was )?green|green CI|2\.5 days/i);
   });
+
+  // #64 R2: agent guidance, with prices and numbers from the site's data.
+  it("says when to use and not use Adrian Rusan, and how to engage", async () => {
+    const text = await (await llmsTxt()).text();
+    for (const heading of [
+      "## When to use Adrian Rusan",
+      "## When not to use",
+      "## How to engage",
+    ]) {
+      expect(text).toContain(heading);
+    }
+    expect(text).toContain("AI Strategy Call (€200)");
+    expect(text).toContain("contact@adrian-rusan.com");
+    expect(text).toContain("https://calendly.com/adrian-rusan/new-meeting");
+    expect(text).toContain("463 sessions · 335 hours");
+    expect(text).toContain("Accept: text/markdown");
+  });
 });
