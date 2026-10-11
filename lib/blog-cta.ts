@@ -62,7 +62,7 @@ export const BLOG_CTAS: Record<BlogCta, BlogCtaCopy> = {
     cta: "reviewed-pr",
     eyebrow: "Reviewed PR · €1,000",
     heading: "Start with one Reviewed PR",
-    body: "One real ticket from your backlog, shipped by an agent, reviewed line by line, plus a CI check for shell, SQL and HTML sinks so review isn't the only gate. If it isn't merge-ready to your standard, you don't pay.",
+    body: "One real ticket from your backlog, shipped by an agent and reviewed line by line. If it isn't merge-ready to your standard, you don't pay.",
     label: "See what the Reviewed PR includes",
     href: "/services#entry-offer",
   },
