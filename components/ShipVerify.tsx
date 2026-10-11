@@ -1,4 +1,4 @@
-import { shipVerify } from "@/data";
+import { SAMPLE_REPORT_URL, shipVerify } from "@/data";
 
 const en = {
   heading:
@@ -11,6 +11,7 @@ const en = {
   steps: shipVerify,
   footnote:
     "Speed you can buy anywhere now. The verify layer is the part that's rare — and the part that's accountable.",
+  sampleLink: "See a sample report →",
 };
 export type ShipVerifyCopy = typeof en;
 
@@ -52,6 +53,17 @@ const ShipVerify = ({ copy = en }: { copy?: ShipVerifyCopy }) => {
               <p className="text-sm text-white-200 leading-relaxed">
                 {step.body}
               </p>
+              {/* C64: show what the verify step produces (ADI-6). */}
+              {step.tag === "VERIFY" && SAMPLE_REPORT_URL && (
+                <a
+                  href={SAMPLE_REPORT_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block mt-3 text-sm font-medium text-purple underline underline-offset-4 hover:text-white transition-colors"
+                >
+                  {copy.sampleLink}
+                </a>
+              )}
             </div>
           ))}
         </div>

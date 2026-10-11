@@ -1,6 +1,7 @@
 import { RO_LEDGER_PROOF } from "@/data/ro-home";
 import { offerById } from "@/data/ladder";
-import { FINTECH_EMPLOYER, testimonials } from "@/data";
+import { CALENDLY_URL, FINTECH_EMPLOYER, testimonials } from "@/data";
+import { calendlyUrl } from "@/lib/calendly";
 import type { DeliverySprintCopy } from "@/components/services/DeliverySprint";
 import type { EntryOfferCopy } from "@/components/services/EntryOffer";
 import type { HarnessSetupCopy } from "@/components/services/HarnessSetup";
@@ -116,10 +117,15 @@ const securityGuarantee = {
   body: "Fiecare PR livrat trece printr-un review de securitate adversarial, documentat, înainte să ajungă la tine. Dacă mai târziu apare, într-un PR marcat de mine ca revizuit, o vulnerabilitate care intra în aria acelui review, o repar gratuit și refac review-ul pe tot lotul din jurul ei, fără cost.",
 };
 
+// C44: each tier's button pre-fills Calendly's first answer with the tier.
+const roTier = (name: string, price: string) =>
+  calendlyUrl(CALENDLY_URL, { a1: `${name} (${price})` });
+
 export const roDeliverySprint: DeliverySprintCopy = {
   badge: "Majoritatea echipelor încep aici",
   eyebrow: "Oferta principală",
-  heading: "Sprint de livrare accelerat de agenți",
+  heading: "Sprint de livrare",
+  subheading: "Accelerat de agenți, fiecare PR revizuit",
   intro:
     "Un set fix de pull request-uri gata de producție, verificate pentru securitate — livrate de o flotă de agenți, verificate linie cu linie de un inginer senior — în săptămâni, nu în luni, la un preț stabilit înainte să începem.",
   deliveredHeading: "Ce primești, exact",
@@ -141,18 +147,25 @@ export const roDeliverySprint: DeliverySprintCopy = {
       rest: "ce s-a livrat, ce a rămas și ce au greșit agenții în mod repetat în codul tău — o hartă utilă pentru echipă de acum înainte.",
     },
   ],
+  sampleLink: "Vezi un raport exemplu (în engleză) →",
   pricingHeading: "Prețuri",
   rowHeader: "Criteriu",
   // ponytail: EN ~€10–14k, Standard €14,500 and Scale €24,000 scaled by the
   // same 55% as data/ro.ts — confirm with Adi; data/ro.ts only fixes the Pilot (4.100 €).
+  // D4 framing; ≈550 €/PR is the RO Reviewed PR price.
   pricingLead:
-    "Un contractor senior costă ~5.500–7.700 €/lună și are nevoie de săptămâni ca să se acomodeze.",
+    "O lună de contractor costă ~5.500–7.700 € înainte ca cineva să-i verifice codul pentru securitate.",
   pricingRest:
-    "Standard îți livrează echivalentul unei luni de contractor, revizuit, în două săptămâni. 8.000 €, preț fix.",
+    "Un sprint iese la ≈550 €/PR plus raportul de securitate al sprintului, harta greșelilor agenților și un loc de review rezervat. Standard: 8.000 €, preț fix.",
   columns: [
-    { name: "Sprint Pilot" },
-    { name: "Sprint Standard", badge: "Recomandat", featured: true },
-    { name: "Sprint Extins" },
+    { name: "Sprint Pilot", ctaHref: roTier("Sprint Pilot", "4.100 €") },
+    {
+      name: "Sprint Standard",
+      badge: "Recomandat",
+      featured: true,
+      ctaHref: roTier("Sprint Standard", "8.000 €"),
+    },
+    { name: "Sprint Extins", ctaHref: roTier("Sprint Extins", "13.200 €") },
   ],
   rows: [
     {
@@ -245,7 +258,7 @@ export const roTrustStrip: TrustStripCopy = {
 
 export const roRetainer: RetainerCopy = {
   eyebrow: "Capacitate continuă",
-  heading: "Retainer de livrare AI-native",
+  heading: "Retainer lunar",
   intro:
     "Livrare senior AI-native, în fiecare lună: un flux constant de PR-uri verificate pentru securitate, pentru echipele care nu se mai întreabă dacă agenții sunt rapizi și acum vor să-i folosească continuu și în siguranță.",
   deliveredHeading: "Ce primești, lunar",
@@ -259,18 +272,21 @@ export const roRetainer: RetainerCopy = {
   startsAt: "De la",
   price: "2.200 €",
   perMonth: "/lună",
+  minimum: "Minimum 3 luni, de la 6.600 €",
   pricingBody:
     "Un slot de review senior rezervat permanent și un număr lunar de PR-uri revizuite, stabilit dinainte, pe același pipeline ship/verify ca la sprint. Numărul exact și prețul per PR se stabilesc în discuție, în funcție de repo-ul și ritmul tău — cu un angajament inițial de 3 luni.",
   pricingRate:
-    "Prețul per PR iese cu aproximativ 20–30% sub cel al unui sprint punctual — asta îți aduce angajamentul lunar. Nu există o listă de prețuri publică; detaliile se stabilesc în discuție.",
+    "Prețul per PR iese cu aproximativ 20–30% sub cel al unui sprint punctual — asta îți aduce angajamentul lunar. Numărul exact de PR-uri se stabilește în discuție.",
   cta: "Programează o discuție",
   bandNote:
     "Numărul lunar se fixează din ziua 0, fără facturi surpriză — ce depășește se mută în luna următoare, nu apare pe factură.",
   guaranteesHeading: "Garanțiile",
+  securityNote:
+    "Garanția de securitate de la sprint se aplică și fiecărui PR din retainer.",
+  securityLink: "Citește-o ↑",
   guarantees: [
-    securityGuarantee,
     {
-      title: "2. Garanția primei luni",
+      title: "Garanția primei luni",
       body: "Stabilim de la început ritmul de PR-uri revizuite. Dacă luna 1 nu îl atinge, te poți opri acolo, fără să mai datorezi nimic. Vezi retainerul funcționând înainte de cele trei luni întregi.",
     },
   ],
@@ -296,6 +312,7 @@ export const roHarnessSetup: HarnessSetupCopy = {
     "Un playbook scris: cum distribui tichetele, ce verifici întâi, ce greșeli să te aștepți să apară în codul tău și unde verificarea umană e obligatorie.",
     "2 săptămâni de suport async după predare, cât echipa ta preia fluxul.",
   ],
+  rulesLink: "Vezi fișierul de reguli al agenților mei (în engleză) →",
   pricingHeading: "Preț",
   pricingEyebrow: "Agent Fleet Setup",
   price: "De la 2.200 €",

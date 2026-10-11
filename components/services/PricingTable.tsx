@@ -7,6 +7,8 @@ export interface PricingColumn {
   name: string;
   badge?: string;
   featured?: boolean;
+  // Per-tier booking link (W4, C44); falls back to the table's ctaHref.
+  ctaHref?: string;
 }
 
 export interface PricingRow {
@@ -92,7 +94,7 @@ export const PricingTable = ({
                 className={`py-6 px-4 ${column.featured ? "bg-black-200/60" : ""}`}
               >
                 <Link
-                  href={ctaHref}
+                  href={column.ctaHref ?? ctaHref}
                   aria-label={ctaLabel}
                   onClick={() =>
                     trackSource &&
@@ -101,7 +103,7 @@ export const PricingTable = ({
                       tier: column.name,
                     })
                   }
-                  {...(ctaHref.startsWith("http")
+                  {...((column.ctaHref ?? ctaHref).startsWith("http")
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}
                 >

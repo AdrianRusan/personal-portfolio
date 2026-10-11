@@ -122,6 +122,7 @@ export const roShipVerify: ShipVerifyCopy = {
   steps: shipVerify.map((step) => ({ ...step, ...roSteps[step.tag] })),
   footnote:
     "Viteza o găsești oriunde acum. Verificarea e partea rară și partea pentru care cineva răspunde.",
+  sampleLink: "Vezi un raport exemplu (în engleză) →",
 };
 
 export const roBio: BioCopy = {

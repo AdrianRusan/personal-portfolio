@@ -1,14 +1,25 @@
 import MagicButton from "@/components/ui/MagicButton";
-import { CALENDLY_URL } from "@/data";
+import { CALENDLY_URL, SAMPLE_REPORT_URL } from "@/data";
 import { sprintDurations } from "@/data/ladder";
+import { calendlyUrl } from "@/lib/calendly";
+import { Fold } from "./Fold";
 import { FaLocationArrow } from "react-icons/fa6";
 import { PricingTable } from "./PricingTable";
 import type { PricingColumn, PricingRow } from "./PricingTable";
 
+// C44: each tier's button pre-fills Calendly's first answer with the tier.
+const tier = (name: string, price: string) =>
+  calendlyUrl(CALENDLY_URL, { a1: `${name} (${price})` });
+
 const columns: PricingColumn[] = [
-  { name: "Pilot Sprint" },
-  { name: "Standard Sprint", badge: "Recommended", featured: true },
-  { name: "Scale Sprint" },
+  { name: "Pilot Sprint", ctaHref: tier("Pilot Sprint", "€7,500") },
+  {
+    name: "Standard Sprint",
+    badge: "Recommended",
+    featured: true,
+    ctaHref: tier("Standard Sprint", "€14,500"),
+  },
+  { name: "Scale Sprint", ctaHref: tier("Scale Sprint", "€24,000") },
 ];
 
 const rows: PricingRow[] = [
@@ -41,7 +52,8 @@ const rows: PricingRow[] = [
 const en = {
   badge: "Most teams start here",
   eyebrow: "Primary offer",
-  heading: "Agent-Accelerated Delivery Sprint",
+  heading: "Delivery Sprint",
+  subheading: "Agent-accelerated, every PR reviewed",
   intro:
     "A fixed batch of production-ready, security-reviewed pull requests — shipped by an agent fleet, verified line by line by a senior engineer — delivered in weeks, not months, at a price you agree before we start.",
   deliveredHeading: "Exactly what's delivered",
@@ -65,10 +77,12 @@ const en = {
   ],
   pricingHeading: "Pricing",
   rowHeader: "Feature",
+  sampleLink: "See a sample report →",
+  // D4: copy only, prices unchanged.
   pricingLead:
-    "A senior contractor costs ~€10–14k/month and takes weeks to onboard.",
+    "A contractor-month costs €10–14k before anyone reviews it for security.",
   pricingRest:
-    "Standard ships a reviewed contractor-month — in two weeks. €14,500, fixed.",
+    "A sprint works out at ≈€1,000/PR plus the Sprint Security Report, the Agent Failure Map and a reserved review slot. Standard: €14,500, fixed.",
   columns,
   rows,
   cta: "Book a scoping call",
@@ -124,6 +138,9 @@ export const DeliverySprint = ({
           <h2 className="text-2xl md:text-4xl font-bold tracking-tight mt-3 text-balance">
             {copy.heading}
           </h2>
+          <p className="font-mono text-xs md:text-sm text-white-200/80 mt-2">
+            {copy.subheading}
+          </p>
           <p className="text-white-200 mt-5 leading-relaxed max-w-3xl">
             {copy.intro}
           </p>
@@ -145,6 +162,16 @@ export const DeliverySprint = ({
               </li>
             ))}
           </ul>
+          {SAMPLE_REPORT_URL && (
+            <a
+              href={SAMPLE_REPORT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-4 text-sm font-medium text-purple underline underline-offset-4 hover:text-white transition-colors"
+            >
+              {copy.sampleLink}
+            </a>
+          )}
 
           <h3 className="text-lg font-semibold mt-10 mb-4">
             {copy.pricingHeading}
@@ -165,51 +192,49 @@ export const DeliverySprint = ({
             {copy.pricingNote}
           </p>
 
-          <h3 className="text-lg font-semibold mt-10 mb-2">
-            {copy.notHeading}
-          </h3>
-          <p className="text-sm text-white-200/70 mb-4">{copy.notIntro}</p>
-          <ul className="flex flex-col gap-3">
-            {copy.notList.map((item) => (
-              <li
-                key={item}
-                className="flex gap-3 text-sm text-white-200/80 leading-relaxed"
-              >
-                <span className="text-white-200/40 flex-none">−</span>
-                {item}
-              </li>
-            ))}
-          </ul>
+          <Fold title={copy.notHeading}>
+            <p className="text-sm text-white-200/70 mb-4">{copy.notIntro}</p>
+            <ul className="flex flex-col gap-3">
+              {copy.notList.map((item) => (
+                <li
+                  key={item}
+                  className="flex gap-3 text-sm text-white-200/80 leading-relaxed"
+                >
+                  <span className="text-white-200/40 flex-none">−</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </Fold>
 
-          <h3 className="text-lg font-semibold mt-10 mb-4">
-            {copy.guaranteesHeading}
-          </h3>
-          <p className="text-sm text-white-200/70 mb-4">
-            {copy.guaranteesIntro}
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {copy.guarantees.map((g) => (
-              <div
-                key={g.title}
-                className="rounded-xl border border-white/10 bg-black-200/30 p-5"
-              >
-                <p className="font-mono text-xs text-purple mb-2">{g.title}</p>
-                <p className="text-sm text-white-200 leading-relaxed">
-                  {g.body}
-                </p>
-              </div>
-            ))}
-          </div>
-          <p className="text-xs text-white-200/75 mt-4 max-w-2xl">
-            {copy.guaranteesNote}
-          </p>
+          {/* The one guarantees block on /services (C32): Retainer points here. */}
+          <Fold title={copy.guaranteesHeading}>
+            <p className="text-sm text-white-200/70 mb-4">
+              {copy.guaranteesIntro}
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {copy.guarantees.map((g) => (
+                <div
+                  key={g.title}
+                  className="rounded-xl border border-white/10 bg-black-200/30 p-5"
+                >
+                  <p className="font-mono text-xs text-purple mb-2">{g.title}</p>
+                  <p className="text-sm text-white-200 leading-relaxed">
+                    {g.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-white-200/75 mt-4 max-w-2xl">
+              {copy.guaranteesNote}
+            </p>
+          </Fold>
 
-          <h3 className="text-lg font-semibold mt-10 mb-2">
-            {copy.paymentHeading}
-          </h3>
-          <p className="text-sm text-white-200 leading-relaxed max-w-2xl">
-            {copy.payment}
-          </p>
+          <Fold title={copy.paymentHeading}>
+            <p className="text-sm text-white-200 leading-relaxed max-w-2xl">
+              {copy.payment}
+            </p>
+          </Fold>
 
           <div className="mt-8">
             <MagicButton

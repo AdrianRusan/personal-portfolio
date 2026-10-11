@@ -11,7 +11,7 @@ const en = {
   cta: "Book a scoping call",
   ctaSource: "services_final_cta",
   workLink: "See the 30-PR sprint in full →",
-  workHref: "/#work",
+  workHref: "/blog/30-prs-in-2-5-days",
 };
 
 export type ServicesFinalCtaCopy = typeof en;
