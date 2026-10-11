@@ -19,7 +19,7 @@ faq:
     a: "Yes. They deliver a real 2–3x throughput gain. Agent speed is only mergeable with a senior review layer on top. Speed without the review is a liability; the two together are the product."
 ---
 
-**Short answer:** To review AI-generated code, read it against the spec, not the tests. Across 30 reviewed PRs written by Claude Code agents in 2.5 days, every defect fell into six categories: fail-open security gates, scope creep, swallowed errors, confidently-wrong logic, premature abstraction and stale APIs. All six passed the test suite.
+**Short answer:** To review AI-generated code, read it against the spec, not the tests. The defects I catch in agent-written PRs fall into six categories: fail-open security gates, scope creep, swallowed errors, confidently-wrong logic, premature abstraction and stale APIs. A happy-path test suite misses all six, and on my own 30-PR run there was no test suite at all, so review was the only gate.
 
 ## How to review AI-generated code (checklist)
 
@@ -32,7 +32,7 @@ faq:
 
 Want this run on your own code? [Send a repo for a free teardown](/teardown), or take the [one-page agent PR review checklist (PDF)](/agent-pr-review-checklist.pdf) to your next review.
 
-I review a lot of agent-written code. On my own admin dashboard (Feb 2026, not client work) I shipped 30 reviewed pull requests across 9 parallel agent batches in 2.5 days, and I adversarially reviewed every one before it merged. That volume is the point of the workflow, but it also turns code review into a sampling exercise. When you read that many diffs from the same class of author, the mistakes stop being random and start being a taxonomy.
+I review a lot of agent-written code. On my own admin dashboard (March 2026, not client work) I merged 30 reviewed pull requests across 9 parallel agent batches in under three days. That repo had no test suite and no CI, so my adversarial review of every PR before merge was the only gate. That volume is the point of the workflow, but it also turns code review into a sampling exercise. When you read that many diffs from the same class of author, the mistakes stop being random and start being a taxonomy.
 
 The agents are good, and that makes the failures dangerous. They aren't the obvious garbage people picture when they hear "AI wrote it." The code compiles, reads cleanly and goes green in CI. The defects sit between "the tests pass" and "the code is safe," which is where a payment flow gets breached.
 
@@ -62,7 +62,7 @@ if (result.error || result.status === null || result.status !== 0) {
 }
 ```
 
-I trust automated tooling least on this category, because the happy-path test (feed it a secret, watch it block) passes on both versions. You only catch it by asking "what happens when the check can't execute?" All three of the shell-injection vulnerabilities I've caught in agent code trace back to this blind spot: the agent handled the "bad input" path and forgot the "couldn't evaluate the input" one.
+I trust automated tooling least on this category, because the happy-path test (feed it a secret, watch it block) passes on both versions. You only catch it by asking "what happens when the check can't execute?" It is the same habit that produces shell injection: the agent handles the input it expects and never asks what happens with the one it doesn't. On that 30-PR run, review caught three shell-injection paths from request input and missed one shell call built from database values.
 
 ## 2. Scope creep and gold-plating past the ticket
 
@@ -118,4 +118,4 @@ This is why I put the honest multiplier at 2–3x, not 100x. Generation is fast.
 
 If you're letting agents write production code, keep them: they earn the throughput. Put an adversarial reviewer between the green checkmark and the merge button, someone who assumes the code is wrong until proven safe and knows which six things to look for first.
 
-*Related reading: [The shell-injection bugs my agents wrote (and the tests passed)](/blog/catching-shell-injection-agents-wrote).*
+*Related reading: [The shell-injection bugs my agents wrote, and the one I missed](/blog/catching-shell-injection-agents-wrote).*

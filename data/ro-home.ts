@@ -154,9 +154,9 @@ export const roOffers: OffersCopy = {
 // Latest). The posts themselves stay in English; the cards say so once.
 export const roPostTitles: PostTitles = {
   "30-reviewed-prs-3-vulnerabilities": {
-    title: "30 de PR-uri revizuite, 3 vulnerabilități prinse înainte de merge",
+    title: "30 de PR-uri revizuite, 3 căi de shell injection prinse",
     description:
-      "Propriul meu dashboard de administrare, februarie 2026: 30 de PR-uri scrise de agenți în 2,5 zile, fiecare revizuit înainte de merge. Testele au trecut de toate cele 3 vulnerabilități prinse în review.",
+      "Propriul meu dashboard de administrare, martie 2026: 30 de PR-uri scrise de agenți în mai puțin de trei zile, fără teste și fără CI. Review-ul a prins 3 căi de shell injection și a ratat una.",
   },
   "honesty-gate": {
     title: "Honesty gate: cum opresc faptele inventate în site-urile construite de agenți",
@@ -169,9 +169,9 @@ export const roPostTitles: PostTitles = {
       "Când am redus contextul, costul pe commit al agenților a scăzut o lună, apoi economia a dispărut pe nesimțite. Ce am învățat, ce pot și ce nu pot explica și măsurătoarea săptămânală pe care un audit AI o pune în practică pentru echipa ta.",
   },
   "30-prs-in-2-5-days": {
-    title: "30 de PR-uri în 2,5 zile: anatomia a nouă loturi de agenți",
+    title: "30 de PR-uri în mai puțin de trei zile: anatomia a nouă loturi de agenți",
     description:
-      "Mecanica din spatele a 30 de PR-uri revizuite în 2,5 zile: git worktrees în paralel, tichete distribuite prin CLAUDE.md și de ce review-ul, nu generarea, e adevăratul blocaj.",
+      "Mecanica din spatele a 30 de PR-uri revizuite în mai puțin de trei zile: git worktrees în paralel, tichete distribuite prin CLAUDE.md și de ce review-ul, nu generarea, e adevăratul blocaj.",
   },
   "66-days-of-claude-code-by-the-numbers": {
     title: "66 de zile de Claude Code, în cifre",
@@ -196,17 +196,17 @@ export const roPostTitles: PostTitles = {
   "what-agents-get-wrong": {
     title: "Ce greșesc agenții AI care scriu cod: o clasificare din practică",
     description:
-      "Șase categorii de greșeli recurente pe care le prind în review-ul codului generat de AI: gate-uri de securitate care lasă totul să treacă la eroare, scope creep, erori înghițite în tăcere și altele. Toate trec testele. Iată ce să cauți.",
+      "Șase categorii de greșeli recurente pe care le prind în review-ul codului generat de AI: gate-uri de securitate care lasă totul să treacă la eroare, scope creep, erori înghițite în tăcere și altele. Iată ce să cauți.",
   },
   "catching-shell-injection-agents-wrote": {
-    title: "Bugurile de shell injection scrise de agenții mei (și testele au trecut)",
+    title: "Bugurile de shell injection scrise de agenții mei și cel pe care l-am ratat",
     description:
-      "Trei vulnerabilități reale de shell injection scrise de agenți, trecute de testele automate și prinse de un om senior înainte de merge. Dovada că un cod scris de AI are nevoie de review adversarial, nu doar de un CI verde.",
+      "Trei căi de shell injection din input-ul cererilor, scrise de agenți și prinse în review înainte de merge, într-un repo fără teste și fără CI. Plus una pe care am ratat-o și ce am învățat.",
   },
   "2-3x-not-100x": {
     title: "De 2–3 ori, nu de 100 de ori: cifra sinceră despre viteza programării cu AI",
     description:
-      "Cu cât e mai rapidă, de fapt, programarea cu AI? Răspunsul măsurat e de 2–3 ori, nu de 10–100 de ori. Iată metodologia, 30 de PR-uri revizuite în 2,5 zile, și ce lasă deoparte multiplicatorul.",
+      "Cu cât e mai rapidă, de fapt, programarea cu AI? Răspunsul măsurat e de 2–3 ori, nu de 10–100 de ori. Iată metodologia, 30 de PR-uri revizuite în mai puțin de trei zile, și ce lasă deoparte multiplicatorul.",
   },
   "claude-code-changed-how-i-ship-software": {
     title: "Claude Code a schimbat felul în care livrez software",

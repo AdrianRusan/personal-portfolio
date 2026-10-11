@@ -36,7 +36,7 @@ if (result.error || result.status === null || result.status !== 0) {
 
 Gating only on `status !== 0` turns a missing binary into a silent bypass. The same rule says an empty allowlist refuses everything, an unset required variable refuses instead of falling back, and a flag on a security tool is opt-out (`--no-strict`), never opt-in. The gate's "I don't know" must equal its "no."
 
-I wrote about one of these bugs in [the shell-injection post](/blog/catching-shell-injection-agents-wrote). The rule exists because I kept catching the same pattern in review.
+The rule exists because I kept catching the same pattern in review. The checks I run on agent-written shell calls are in [the shell-injection post](/blog/catching-shell-injection-agents-wrote).
 
 ## Rule 2: commit after every working step
 

@@ -8,7 +8,7 @@ published: true
 cta: "workshop"
 ---
 
-**Short answer:** Claude Code made me 2–3x faster, not 100x. I run agents in parallel git worktrees and review every pull request myself. In one 2.5-day batch of 30 PRs, review caught three shell-injection bugs that passed the tests. The agents write the first draft. Experience decides what is safe to merge.
+**Short answer:** Claude Code made me 2–3x faster, not 100x. I run agents in parallel git worktrees and review every pull request myself. In one run of 30 merged PRs in under three days, on a repo with no tests and no CI, review caught three shell-injection paths and missed a fourth shell call. The agents write the first draft. Experience decides what is safe to merge.
 
 There's a debate right now about "vibe coders": people who let AI write all their code without understanding what's happening. Traditionalists say real developers will outlast the prompt jockeys. AI maximalists say coding knowledge is about to be irrelevant. My numbers below support neither side.
 
@@ -18,9 +18,9 @@ I run multiple senior-level dev workloads. Not by working 16-hour days, but by u
 
 The workflow: Claude Code instances running in tmux panes, each working on a separate GitHub issue, using git worktrees so nothing conflicts. I review, steer, and merge.
 
-In February 2026 I shipped an entire admin dashboard for my own use, not client work: 30 pull requests across 9 worker batches in 2.5 days. Real-time log viewers, cron job management, SSE live updates, a memory browser, disk usage dashboards, a full PWA layer.
+In March 2026 I shipped an entire admin dashboard for my own use, not client work: 30 merged pull requests across 9 worker batches in under three days. Real-time log viewers, cron job management, SSE live updates, a memory browser, disk usage dashboards, a full PWA layer.
 
-30 PRs. 2.5 days. Me and a set of AI agents.
+30 PRs. Under three days. Me and a set of AI agents.
 
 ## The Workflow
 
@@ -30,37 +30,35 @@ The "vibe coding" critics assume I copy-paste output and hope for the best. I do
 
 **Spin up agents.** Each Claude Code instance gets a specific issue, a project context file (a `CLAUDE.md` with architecture decisions, conventions, and hard boundaries), and clear constraints. Separate git worktrees, no merge conflicts between agents.
 
-**Review every PR.** This is where the engineering happens. In the dashboard batch alone I caught and fixed 15+ security issues: shell injection vulnerabilities, missing path traversal guards, input validation gaps. More on this below.
+**Review every PR.** This is where the engineering happens. The repo had no test suite and no CI, so review was the only gate. In the dashboard run I caught shell injection paths, a missing path traversal guard and input validation gaps, and 25 of the 30 merged PRs got at least one fix commit from me. More on this below.
 
-**Merge and iterate.** Clean PRs go in. Broken ones go back with specific feedback. Some issues took 3 attempts before they were right.
+**Merge and iterate.** Clean PRs go in. Broken ones go back with specific feedback, or get closed and redone.
 
 ## AI Agents Are Confidently Insecure
 
 This is the part that should make every "vibe coder" nervous.
 
-In one batch, three separate PRs had shell injection vulnerabilities. The code worked. The tests passed. It would have been a disaster in production.
+In that run, three separate PRs took a value from the request, a URL segment or a search query, and put it into a shell command. The code worked. No test or CI existed to say otherwise, and it would have been a disaster in production.
 
 ```javascript
-// What Claude Code wrote (looks fine, right?)
-const result = execSync(`git log --oneline ${branch}`);
+// The pattern the agents wrote (sanitized sketch)
+const result = execSync(`some-cli logs ${jobId}`);
 
-// What I replaced it with
-const result = execFileSync('git', ['log', '--oneline', branch]);
+// What I replaced it with: no shell, arguments as an array
+const result = execFileSync('some-cli', ['logs', jobId]);
 ```
 
-Without 10+ years of knowing what `execSync` with string interpolation means, those vulnerabilities ship. That is the argument for engineering experience now: you don't need to write every line, but you do need to catch the lines that could take you down. I wrote all three up in [the shell-injection post](/blog/catching-shell-injection-agents-wrote).
+Without 10+ years of knowing what `execSync` with string interpolation means, those vulnerabilities ship. I caught and fixed the three request-input paths before merge. I also missed one: a fourth shell string built from database values merged and is still open. That is the argument for engineering experience and for a written checklist: you don't need to write every line, but you do need to catch the lines that could take you down. I wrote this up in [the shell-injection post](/blog/catching-shell-injection-agents-wrote).
 
 ## How much faster is Claude Code, really?
 
-Here are the specific numbers, because most AI productivity content is either hype or a hand-wave.
+Here are the numbers I can trace, because most AI productivity content is either hype or a hand-wave.
 
-**Agent success rate: ~85%.** About 1 in 7 attempts fails outright: wrong approach, scope creep, or hallucinated APIs that don't exist.
+**Opened vs merged: 31 vs 30.** One PR went the wrong way and was closed and redone.
 
-**Review overhead: 5–15 minutes per PR.** That's 2.5–7.5 hours of review for 30 PRs.
+**Fixes in review: 25 of 30.** Most merged PRs needed at least one fix commit from me first.
 
 **Real throughput: 2–3x.** Not 100x. Not 10x. Two to three times more productive than working solo. That's a large gain, and it is not magic. The full method is in [2–3x, not 100x](/blog/2-3x-not-100x).
-
-**Cost: $50–80 for a heavy batch week.** Less than a junior dev's hourly rate for one afternoon.
 
 **The highest-return investment is a better `CLAUDE.md`, more than a better model.** A well-written project context file (architecture, conventions, boundaries) changes the quality of everything an agent produces. I update mine multiple times a week.
 
@@ -80,4 +78,4 @@ I am a real developer, and AI writes most of my first drafts. Writers, architect
 
 The developers who'll struggle aren't the ones using AI or avoiding it. They're the ones who can't tell the difference between code that works and code that's correct.
 
-If you're going to try this: start with 2 agents, not 4. Use git worktrees. Write a `CLAUDE.md` before you write a single prompt. Never skip security review, because automated tests won't catch what AI introduces. And track your actual numbers. "AI makes me faster" isn't useful. "4x faster with a 15% failure rate" is a real input to a decision.
+If you're going to try this: start with 2 agents, not 4. Use git worktrees. Write a `CLAUDE.md` before you write a single prompt. Never skip security review, and don't treat it as perfect either: add tests and CI so review isn't the only gate. And track your actual numbers. "AI makes me faster" isn't useful. A measured multiplier and a measured failure rate are real inputs to a decision.

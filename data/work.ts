@@ -7,7 +7,7 @@ export const caseStudyResults: Record<
 > = {
   "30-reviewed-prs-3-vulnerabilities": {
     figure: "3",
-    label: "vulnerabilities caught in review across 30 agent-written PRs",
+    label: "shell-injection paths from request input, caught in review before merge",
   },
   "honesty-gate": {
     figure: "1,400",

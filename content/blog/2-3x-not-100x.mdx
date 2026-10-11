@@ -3,7 +3,7 @@ title: "2–3x, Not 100x: The Honest Number for AI Coding Speed"
 date: "2026-06-24"
 updated: "2026-10-11"
 tags: ["ai", "developer-productivity", "claude-code", "software-engineering"]
-description: "How much faster is AI coding really? Measured on 30 reviewed PRs in 2.5 days: 2–3x, not 10–100x. The method, and what the multiplier leaves out."
+description: "How much faster is AI coding really? From 30 reviewed PRs in under three days: 2–3x, not 10–100x. The method, and what the multiplier leaves out."
 published: true
 language: "en"
 cta: "teardown"
@@ -11,14 +11,14 @@ faq:
   - q: "Is AI coding really 10x faster?"
     a: "For raw code generation, sometimes more: an agent drafts a PR far faster than a human types one. For production delivery, including reading, reviewing, fixing and safely merging the code, the honest sustained figure is 2–3x. A 10x-or-higher delivery claim almost always means the review step was skipped."
   - q: "What's a realistic AI coding speedup?"
-    a: "Around 2–3x for reviewed, production-grade delivery against an existing codebase with scoped work. I measured 30 reviewed PRs across 9 parallel agent batches in 2.5 days, against about a week solo. Expect less during the first weeks, while you build the harness and learn the failure patterns."
+    a: "Around 2–3x for reviewed, production-grade delivery against an existing codebase with scoped work. I merged 30 reviewed PRs across 9 parallel agent batches in under three days, against my estimate of about a week solo. Expect less during the first weeks, while you build the harness and learn the failure patterns."
   - q: "Why do people claim 100x if it's really 2–3x?"
     a: "They measure generation speed, not delivery speed. An agent produces code in seconds, so the generation multiplier is enormous, but generation isn't the job. Once you add review, fixing and verification, the number drops to 2–3x. A 100x claim signals that nobody reviewed the output."
   - q: "Does the 2–3x include time spent reviewing the AI's code?"
     a: "Yes. Review is the bottleneck and it's counted against the clock. Reviewing agent code is slower per line than reviewing a colleague's because you can't assume intent. The 2–3x is the rate after paying that review cost, which is why it isn't higher."
 ---
 
-**Short answer:** AI coding is 2–3x faster for reviewed, merged production work, not 10x or 100x. I measured it: 30 PRs across 9 agent batches in 2.5 days, every one adversarially reviewed before merge, against about a week for the same work solo. Bigger numbers measure generation, not delivery: nobody reviewed the output.
+**Short answer:** AI coding is 2–3x faster for reviewed, merged production work, not 10x or 100x. My run: 30 merged PRs across 9 agent batches in under three days, every one reviewed before merge, against my estimate of about a week for the same work solo. Bigger numbers measure generation, not delivery: nobody reviewed the output.
 
 I keep seeing the same claim: AI made someone 10x faster. 30x. One post said 100x. Every time, I want to ask one question: *did anyone review the code?*
 
@@ -40,17 +40,17 @@ So a quoted 10x, 30x or 100x tells you they're timing the generator and calling 
 
 ## How much faster is AI coding, really?
 
-Don't take "2–3x" on faith either. Here's the actual run, on my own admin dashboard (Feb 2026, not client work).
+Don't take "2–3x" on faith either. Here's the actual run, on my own admin dashboard (March 2026, not client work).
 
-**The receipts: 30 reviewed PRs, 9 agent batches, 2.5 days.**
+**The receipts: 30 reviewed PRs, 9 agent batches, under three days.**
 
-- **30 pull requests**, all shipped to production standard: typed, tested, and passed through an adversarial security review before merge. 30 merged, not 30 drafts.
+- **30 pull requests** merged out of 31 opened, every one through an adversarial security review before merge. The repo had no test suite and no CI, so that review was the only gate. 30 merged, not 30 drafts.
 - **9 batches** of parallel agents. Each agent got one issue, one worktree and the CLAUDE.md dispatch contract. I ran them concurrently, and that parallelism is where the speed comes from.
-- **2.5 working days**, start to merged.
+- **Under three days** from the first agent wave to the last merge.
 
 Now the baseline, which most "multiplier" claims leave out. The comparison is the same 30 PRs delivered by me alone, the way I did it for 10+ years: pick up the issue, write it, test it, review my own work, ship. For a batch of this size and complexity, that's roughly **a week** of solo-senior effort, closer to a week and a half for the items with real complexity.
 
-About a week of work in two and a half days. That's the 2–3x, measured across the whole pipeline, including the step everyone else drops.
+About a week of work in under three days. That's the 2–3x, measured across the whole pipeline, including the step everyone else drops.
 
 It isn't a peak or the best ninety seconds of the run extrapolated to a year. It's the sustained, door-to-door, reviewed-and-merged rate, the only rate you can plan a roadmap against.
 
@@ -60,11 +60,11 @@ Here is what I explicitly did *not* count as speedup, because counting it would 
 
 ### It does not include review time as free
 
-Review is the bottleneck, and I count it against the clock. Reading a diff an agent wrote is *slower* per line than reading a colleague's, because you can't assume intent. The agent will do exactly what it was told plus something adjacent it invented, with equal confidence. In those 2.5 days, review was the single largest block of my time. The 2–3x is the number *after* paying that cost. Strip the review out and I could quote you a bigger figure, the exact number that gets a breach shipped.
+Review is the bottleneck, and I count it against the clock. Reading a diff an agent wrote is *slower* per line than reading a colleague's, because you can't assume intent. The agent will do exactly what it was told plus something adjacent it invented, with equal confidence. In those three days, review was the single largest block of my time. The 2–3x is the number *after* paying that cost. Strip the review out and I could quote you a bigger figure, the exact number that gets a breach shipped.
 
 ### It does not include the failures
 
-The agents got things wrong, reliably, in recognizable categories. In the reviews behind runs like this one, I've caught **3 shell-injection vulnerabilities** that agents wrote and that the automated tests passed clean, every one before it merged. Green CI, real vulnerability. There was scope creep, with agents gold-plating past the issue. There was confidently-wrong logic that looked right until you traced it. None of that counts in the multiplier as a win. It counts as *time I spent catching it*, which is why the number isn't 10x.
+The agents got things wrong, reliably, in recognizable categories. In this run, review caught **3 shell-injection paths from request input** that agents wrote, all fixed before merge. It also missed a fourth shell call built from database values, which merged. No tests or CI existed to catch either. There was scope creep, with agents gold-plating past the issue. There was confidently-wrong logic that looked right until you traced it. None of that counts in the multiplier as a win. It counts as *time I spent catching it*, which is why the number isn't 10x.
 
 ### It does not include net-new greenfield magic
 
@@ -89,4 +89,4 @@ Here's the comparison I'd put in front of a buyer, by what's being measured:
 
 The 2–3x row is the only one where the number and the safety hold at the same time, which makes it the only claim you can merge.
 
-*Related reading: [Claude Code Changed How I Ship Software](/blog/claude-code-changed-how-i-ship-software) · [The Shell-Injection Bugs My Agents Wrote (and the Tests Passed)](/blog/catching-shell-injection-agents-wrote) · [How to Review AI-Generated Code](/blog/what-agents-get-wrong).*
+*Related reading: [Claude Code Changed How I Ship Software](/blog/claude-code-changed-how-i-ship-software) · [The Shell-Injection Bugs My Agents Wrote, and the One I Missed](/blog/catching-shell-injection-agents-wrote) · [How to Review AI-Generated Code](/blog/what-agents-get-wrong).*

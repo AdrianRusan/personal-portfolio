@@ -74,9 +74,10 @@ export default function TeardownPage() {
           </h1>
           <p className="text-white-200 mt-5 leading-relaxed max-w-2xl mx-auto">
             A free, 15-minute Loom teardown of a repo or a recent PR — the
-            security bugs that pass your tests and merge anyway. I&apos;ve
-            caught shell-injection vulnerabilities that every automated check
-            waved through. No call, no pitch, no signup beyond your email.
+            security bugs that pass your tests and merge anyway. On my own
+            agent-written code, review caught shell-injection paths that
+            nothing else was checking for. No call, no pitch, no signup beyond
+            your email.
           </p>
           <p className="font-mono text-[11px] md:text-xs text-white-200/80 mt-4 max-w-2xl mx-auto">
             {LEDGER_PROOF}
