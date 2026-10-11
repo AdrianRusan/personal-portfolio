@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPost, getPosts, getRelatedPosts } from "@/lib/blog";
 import { getPostCta } from "@/lib/blog-cta";
-import { CalendlyLink } from "@/components/CalendlyLink";
 import PostHeader from "@/components/blog/PostHeader";
 import MDXContent from "@/components/blog/MDXContent";
 import TableOfContents from "@/components/blog/TableOfContents";
@@ -10,6 +9,22 @@ import ShareButtons from "@/components/blog/ShareButtons";
 import AuthorBox from "@/components/blog/AuthorBox";
 import PostCta from "@/components/blog/PostCta";
 import RelatedPosts from "@/components/blog/RelatedPosts";
+import { JsonLd, SITE_URL, faqJsonLd, pageJsonLd } from "@/lib/page-schema";
+
+// Visible FAQ, from the same frontmatter array as the FAQPage JSON-LD (A1-12).
+function PostFaq({ items }: { items: { q: string; a: string }[] }) {
+  return (
+    <section aria-labelledby="faq">
+      <h2 id="faq">FAQ</h2>
+      {items.map(({ q, a }) => (
+        <div key={q}>
+          <h3>{q}</h3>
+          <p>{a}</p>
+        </div>
+      ))}
+    </section>
+  );
+}
 
 // #54 R4: a post dated after the build renders on demand once its date passes;
 // until then getPost() throws and the page 404s. Re-rendered hourly.
@@ -31,21 +46,33 @@ export async function generateMetadata({
   const { slug } = await params;
   try {
     const post = await getPost(slug);
+    const { title, seoTitle, description, date, updated, tags } =
+      post.frontmatter;
     return {
-      title: post.frontmatter.title,
-      description: post.frontmatter.description,
+      title: seoTitle ?? title,
+      description,
       openGraph: {
-        title: post.frontmatter.title,
-        description: post.frontmatter.description,
+        title,
+        description,
         type: "article",
-        publishedTime: post.frontmatter.date,
-        tags: post.frontmatter.tags,
+        publishedTime: date,
+        ...(updated ? { modifiedTime: updated } : {}),
+        tags,
         url: `https://www.adrian-rusan.com/blog/${slug}`,
+        siteName: "Adrian Rusan",
       },
       twitter: {
         card: "summary_large_image",
-        title: post.frontmatter.title,
-        description: post.frontmatter.description,
+        title,
+        description,
+        creator: "@adrian_rusan",
+      },
+      // A1-03: the blog layout's alternates set no canonical; restate RSS.
+      alternates: {
+        canonical: `/blog/${slug}`,
+        types: {
+          "application/rss+xml": "https://www.adrian-rusan.com/feed.xml",
+        },
       },
     };
   } catch {
@@ -63,36 +90,40 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
-  const postUrl = `https://www.adrian-rusan.com/blog/${slug}`;
+  const postUrl = `${SITE_URL}/blog/${slug}`;
+  const faq = post.frontmatter.faq ?? [];
   const related = getRelatedPosts(post, await getPosts());
 
   return (
     <div className="max-w-5xl mx-auto px-5 sm:px-10 pb-20">
-      <script
-        type="application/ld+json"
-        // Security Note: dangerouslySetInnerHTML is safe here as we're using JSON.stringify()
-        // with static data for structured data markup (Schema.org JSON-LD)
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+      <JsonLd
+        data={[
+          {
             "@context": "https://schema.org",
             "@type": "BlogPosting",
             headline: post.frontmatter.title,
             description: post.frontmatter.description,
+            url: postUrl,
             datePublished: post.frontmatter.date,
-            dateModified: post.frontmatter.date,
-            author: {
-              "@type": "Person",
-              name: "Adrian Rusan",
-              url: "https://www.adrian-rusan.com",
-            },
+            dateModified: post.frontmatter.updated ?? post.frontmatter.date,
+            inLanguage: "en",
+            author: { "@id": `${SITE_URL}/#person` },
+            publisher: { "@id": `${SITE_URL}/#person` },
             image: `${postUrl}/opengraph-image`,
-            mainEntityOfPage: {
-              "@type": "WebPage",
-              "@id": postUrl,
-            },
+            mainEntityOfPage: { "@id": `${postUrl}#webpage` },
             keywords: post.frontmatter.tags?.join(", "),
+          },
+          pageJsonLd({
+            path: `/blog/${slug}`,
+            name: post.frontmatter.title,
+            description: post.frontmatter.description,
+            crumbs: [
+              { name: "Blog", path: "/blog" },
+              { name: post.frontmatter.title, path: `/blog/${slug}` },
+            ],
           }),
-        }}
+          ...(faq.length ? [faqJsonLd(faq)] : []),
+        ]}
       />
       <article>
         <PostHeader
@@ -103,20 +134,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="flex gap-12 items-start">
           <div className="flex-1 min-w-0 blog-prose">
             <MDXContent source={post.source} />
+            {faq.length > 0 && <PostFaq items={faq} />}
             <ShareButtons title={post.frontmatter.title} slug={slug} />
             <AuthorBox />
 
-            <div className="mt-10 space-y-6">
+            {/* U16: one offer box, no stacked "book a call" lines. */}
+            <div className="mt-10">
               <PostCta cta={getPostCta(post.frontmatter)} />
-              <p className="text-sm text-white-200 text-center">
-                Rather talk it through first?{" "}
-                <CalendlyLink
-                  source="blog"
-                  className="text-purple hover:text-purple/80 underline underline-offset-2 decoration-purple/40 transition-colors"
-                >
-                  Book a call →
-                </CalendlyLink>
-              </p>
             </div>
 
             <RelatedPosts posts={related} />

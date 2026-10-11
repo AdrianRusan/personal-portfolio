@@ -1,5 +1,11 @@
 // End-of-post offer a post sells; see lib/blog-cta.ts. Defaults to teardown.
-export type BlogCta = 'teardown' | 'audit' | 'workshop' | 'harness';
+export type BlogCta =
+  | 'teardown'
+  | 'audit'
+  | 'workshop'
+  | 'harness'
+  | 'automation'
+  | 'reviewed-pr';
 
 export interface BlogFrontmatter {
   title: string;
@@ -11,6 +17,12 @@ export interface BlogFrontmatter {
   image?: string;
   language?: string;
   cta?: BlogCta;
+  // <title> when the H1 runs past ~55 characters (A1-09).
+  seoTitle?: string;
+  // Last substantive edit; feeds dateModified and the sitemap lastmod (A1-11).
+  updated?: string;
+  // Rendered as the post's FAQ section and its FAQPage JSON-LD (A1-12).
+  faq?: { q: string; a: string }[];
 }
 
 export interface Heading {

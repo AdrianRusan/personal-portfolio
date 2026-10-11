@@ -3,11 +3,11 @@ import { PageShell } from '@/components/PageShell';
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Adrian Rusan Blog',
+    template: '%s | Adrian Rusan',
     default: 'Blog | Adrian Rusan',
   },
   description:
-    'Technical articles on React, Next.js, TypeScript, and modern web development by Adrian Rusan.',
+    'Field notes on shipping production software with Claude Code agents and senior review.',
   alternates: {
     types: {
       'application/rss+xml': 'https://www.adrian-rusan.com/feed.xml',

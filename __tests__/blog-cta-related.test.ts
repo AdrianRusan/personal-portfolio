@@ -61,6 +61,20 @@ describe("getPostCta", () => {
     expect(BLOG_CTAS[cta].href).toBe(href);
   });
 
+  it("adds the free teardown as a second link on security/review posts", () => {
+    const c = getPostCta(fm({ cta: "audit", tags: ["security"] }));
+    expect(c.href).toBe("/services#ladder");
+    expect(c.secondary?.href).toBe("/teardown");
+    expect(
+      getPostCta(fm({ cta: "audit", tags: ["ai"] })).secondary,
+    ).toBeUndefined();
+    // An existing second link wins.
+    expect(
+      getPostCta(fm({ cta: "workshop", tags: ["code-review"] })).secondary
+        ?.href,
+    ).toBe("/workshops/half-day");
+  });
+
   it("offers the half-day workshop as the workshop CTA's second link", () => {
     expect(BLOG_CTAS.workshop.secondary?.href).toBe("/workshops/half-day");
   });
