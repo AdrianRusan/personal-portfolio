@@ -20,11 +20,21 @@ export const YOUTUBE_URL = YOUTUBE_CHANNEL_ID
 export const CREDIT_DAYS = 30;
 export const CREDIT_TERMS = `Move up a tier within ${CREDIT_DAYS} days and what you already paid counts toward it.`;
 
-// Aggregate 90-day proof from Adi's own session ledger (engineering-ledger
-// data.json, rows d >= 2026-07-12; PRs = authors starting "AdrianRusan").
-// Merged, not "reviewed": the ledger records merges. No client or repo names (R1).
-export const LEDGER_PROOF =
-  "Across all my work: 1,163 PRs merged and 3,644 commits in the 91 days from 12 Jul to 10 Oct 2026, counted from my own session ledger.";
+// The one set of workflow numbers (brief #54 R1). Single source: the 66-day
+// post (content/blog/66-days-of-claude-code-by-the-numbers.mdx), counted by a
+// script over Adi's own session logs. Every page derives from this constant.
+// PRs = `gh pr create` calls, an upper bound on PRs opened, not merges.
+// No client or repo names (R1).
+export const WORKFLOW_NUMBERS = {
+  sessions: 463,
+  hours: 335,
+  commits: 4920,
+  prsOpened: 928,
+  days: 66,
+} as const;
+
+const n = (v: number) => v.toLocaleString("en-US");
+export const LEDGER_PROOF = `${WORKFLOW_NUMBERS.sessions} sessions · ${WORKFLOW_NUMBERS.hours} hours · ${n(WORKFLOW_NUMBERS.commits)} commits · ${WORKFLOW_NUMBERS.prsOpened} PRs opened (upper bound, not all merged) — ${WORKFLOW_NUMBERS.days} days, 6 Aug–10 Oct 2026, counted from my own session logs.`;
 
 // Single risk-reversal guarantee, reused verbatim at every money CTA.
 export const GUARANTEE =
@@ -53,8 +63,8 @@ export const proofStats = [
     label: "in production: Ipsos → PGL Esports → GoSocial → Bono Fintech",
   },
   {
-    figure: "187",
-    label: "agent sessions · ~500 agent-hours · 6 weeks",
+    figure: `${WORKFLOW_NUMBERS.sessions}`,
+    label: `sessions · ${WORKFLOW_NUMBERS.hours} h · ${WORKFLOW_NUMBERS.days} days`,
   },
 ];
 

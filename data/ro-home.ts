@@ -14,7 +14,12 @@ import type { ShipVerifyCopy } from "@/components/ShipVerify";
 import type { StartBandCopy } from "@/components/StartBand";
 import type { TestimonialsCopy } from "@/components/Testimonials";
 import type { WhoForCopy } from "@/components/WhoFor";
-import { CREDIT_DAYS, shipVerify, workExperience } from "@/data";
+import {
+  CREDIT_DAYS,
+  shipVerify,
+  workExperience,
+  WORKFLOW_NUMBERS as W,
+} from "@/data";
 import { tiers } from "@/data/ladder";
 import {
   formatPriceRo,
@@ -26,9 +31,9 @@ import {
   roTiers,
 } from "@/data/ro";
 
-// RO twin of LEDGER_PROOF (data/index.ts): same numbers, same source.
-export const RO_LEDGER_PROOF =
-  "În toată munca mea: 1.163 de PR-uri cu merge și 3.644 de commit-uri în cele 91 de zile dintre 12 iulie și 10 octombrie 2026, numărate din propriul meu jurnal de sesiuni.";
+// RO twin of LEDGER_PROOF (data/index.ts): same constant, same source.
+const ro = (v: number) => v.toLocaleString("ro-RO");
+export const RO_LEDGER_PROOF = `${W.sessions} de sesiuni · ${W.hours} de ore · ${ro(W.commits)} de commit-uri · ${W.prsOpened} de PR-uri deschise (limită superioară, nu toate cu merge) — ${W.days} de zile, 6 aug.–10 oct. 2026, numărate din propriile mele jurnale de sesiuni.`;
 
 // Romanian copy for the /ro homepage. Same sections and numbers as the English
 // page; RO prices come from data/ro.ts (brief R7).
@@ -65,8 +70,8 @@ export const roProofBand: ProofBandCopy = {
       label: "în producție: Ipsos → PGL Esports → GoSocial → Bono Fintech",
     },
     {
-      figure: "187",
-      label: "sesiuni de agenți · ~500 de ore-agent · 6 săptămâni",
+      figure: `${W.sessions}`,
+      label: `sesiuni · ${W.hours} h · ${W.days} de zile`,
     },
   ],
   shortNote: "Dintr-un benchmark documentat, rulat pe propriul meu repo. ",
