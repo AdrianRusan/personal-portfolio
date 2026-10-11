@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import { FINTECH_EMPLOYER, workExperience } from "@/data";
 import { roWorkExperience } from "@/data/ro-home";
 import { aboutPage, roAboutPage } from "@/data/pages";
@@ -21,5 +23,20 @@ describe("work experience", () => {
     for (const text of [aboutPage, roAboutPage, workExperience, roWorkExperience].map((x) => JSON.stringify(x))) {
       expect(text).not.toMatch(/company-formation|înființare|80%/);
     }
+  });
+
+  // Confidentiality (orchestrator, 2026-10-11): the receipt platform is Bono
+  // client work and needs Bono's written OK, so no public page names it.
+  it("never mentions the receipt project on a public surface", () => {
+    const files = ["app", "components", "data", "content", "lib", "public"].flatMap((dir) =>
+      (fs.readdirSync(dir, { recursive: true }) as string[])
+        .filter((f) => /\.(tsx?|mdx?|txt|json|xml)$/.test(f))
+        .map((f) => path.join(dir, f))
+        .filter((f) => fs.statSync(f).isFile()),
+    );
+    const hits = files.filter((f) =>
+      /receipt|bonuri|chitan|\bOCR\b/i.test(fs.readFileSync(f, "utf8")),
+    );
+    expect(hits).toEqual([]);
   });
 });

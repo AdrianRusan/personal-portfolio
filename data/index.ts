@@ -254,7 +254,7 @@ export const workExperience: {
     company: "Rusan Adrian-Ionuț PFA",
     period: "Dec 2022 – Present",
     client: `Client: ${FINTECH_EMPLOYER}, founding engineer (contract), Sep 2024 – present. Built the core platform and AI internal tools; led a two-engineer squad.`,
-    desc: "AI builds end to end: a receipt classification pipeline, an LLM presentation platform, and an agent-built SaaS platform run by a multi-session agent org.",
+    desc: "AI builds end to end: an LLM presentation platform and an agent-built SaaS run by a multi-session agent org.",
   },
   {
     id: 2,

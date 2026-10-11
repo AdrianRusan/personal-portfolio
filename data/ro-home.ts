@@ -223,7 +223,7 @@ const roJobs: Record<number, { period: string; desc: string; client?: string }> 
   1: {
     period: "dec. 2022 – prezent",
     client: `Client: ${FINTECH_EMPLOYER}, founding engineer (contract), din sep. 2024. Am construit platforma de bază și unelte interne cu AI; am condus o echipă de doi ingineri.`,
-    desc: "Proiecte AI cap-coadă: un pipeline care clasifică bonuri fiscale, o platformă de prezentări cu LLM și o platformă SaaS construită de agenți, coordonați pe mai multe sesiuni.",
+    desc: "Proiecte AI cap-coadă: o platformă de prezentări cu LLM și un SaaS construit de agenți, coordonați pe mai multe sesiuni.",
   },
   2: {
     period: "sep. 2023 – sep. 2024",
