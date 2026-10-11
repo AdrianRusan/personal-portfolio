@@ -10,6 +10,11 @@
   -ms-overflow-style: none;
 }
 
+/* The fixed nav never hides: keep in-page anchor targets below it (2 rows on mobile /services). */
+html {
+  scroll-padding-top: 7rem;
+}
+
 ::-webkit-scrollbar {
   display: none;
 }
