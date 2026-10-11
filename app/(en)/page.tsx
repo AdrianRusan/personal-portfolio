@@ -4,19 +4,13 @@ import ShipVerify from "@/components/ShipVerify";
 import Offers from "@/components/Offers";
 import CaseStudyCards from "@/components/CaseStudyCards";
 import WhoFor from "@/components/WhoFor";
-import FinalCta from "@/components/FinalCta";
 import Bio from "@/components/Bio";
 import Latest from "@/components/Latest";
-import { FloatingNav } from "@/components/ui/FloatingNav";
-import {
-  ServicesFaq,
-  servicesFaqCopy,
-} from "@/components/services/ServicesFaq";
-import Testimonials from "@/components/Testimonials";
-import { homeFaqs } from "@/data";
-import dynamic from "next/dynamic";
+import { BetweenLine } from "@/components/BetweenLine";
+import { PageShell } from "@/components/PageShell";
+import { ServicesFaq } from "@/components/services/ServicesFaq";
+import { HOME_FAQ_HEADING, homeFaqs } from "@/data";
 import type { Metadata } from "next";
-import { ExperienceSkeleton } from "@/components/ui/Skeleton";
 import { JsonLd, SITE_URL, faqJsonLd, pageJsonLd } from "@/lib/page-schema";
 
 // #54 R4: re-render hourly so a dated post appears without a deploy.
@@ -38,7 +32,7 @@ const homeJsonLd = [
       path: "/",
       name: "Adrian Rusan | Agent-Accelerated Delivery, Reviewed",
       description:
-        "Fixed-scope delivery sprints where an AI agent fleet ships the backlog and a senior engineer security-reviews every pull request.",
+        "Fixed-scope delivery sprints where Claude Code agents ship the backlog and a senior engineer security-reviews every pull request.",
       crumbs: [],
     }),
     mainEntity: { "@id": `${SITE_URL}/#person` },
@@ -49,7 +43,7 @@ const homeJsonLd = [
     "@id": `${SITE_URL}/#service`,
     name: "Agent-Accelerated Delivery Sprint",
     description:
-      "A fixed-scope software delivery sprint where an AI agent fleet ships backlog work and a senior engineer security-reviews every pull request before it reaches the client.",
+      "A fixed-scope software delivery sprint where Claude Code agents ship backlog work and a senior engineer security-reviews every pull request before it reaches the client.",
     provider: { "@id": `${SITE_URL}/#person` },
     serviceType: "Software delivery sprint",
     areaServed: "Worldwide",
@@ -64,50 +58,21 @@ const homeJsonLd = [
   ),
 ];
 
-const Experience = dynamic(() => import("@/components/Experience"), {
-  loading: () => (
-    <section className="py-20" aria-label="Experience loading">
-      <ExperienceSkeleton />
-    </section>
-  ),
-});
-
-const Footer = dynamic(() => import("@/components/Footer"), {
-  loading: () => (
-    <footer
-      className="h-32 animate-pulse bg-slate-100 dark:bg-slate-800"
-      aria-label="Footer loading"
-    />
-  ),
-});
-
-// #54 R3: eleven sections. The mid-page email capture, StartBand, the method
-// demo, CallSteps and the standalone testimonial were cut or folded in.
+// P2: nine sections, then the shared closing ask. Experience moved to /about;
+// the testimonial sits in Bio; FinalCta became PageShell's ClosingCta.
 export default function Home() {
   return (
-    <div className="relative dark:bg-black-100 bg-white overflow-hidden">
+    <PageShell closingSecondary={<BetweenLine />}>
       <JsonLd data={homeJsonLd} />
-      <FloatingNav />
-      <main id="main">
-        <Hero />
-        <ProofBand />
-        <ShipVerify />
-        <CaseStudyCards />
-        <Offers />
-        <WhoFor />
-        <section
-          aria-label="Track record"
-          className="max-w-7xl mx-auto px-5 sm:px-10 py-10"
-        >
-          <Bio />
-          <Testimonials />
-          <Experience />
-        </section>
-        <Latest />
-        <ServicesFaq copy={{ ...servicesFaqCopy, items: homeFaqs }} />
-        <FinalCta />
-      </main>
-      <Footer />
-    </div>
+      <Hero />
+      <ProofBand />
+      <ShipVerify />
+      <CaseStudyCards />
+      <Offers />
+      <WhoFor />
+      <Bio />
+      <Latest />
+      <ServicesFaq copy={{ heading: HOME_FAQ_HEADING, items: homeFaqs }} />
+    </PageShell>
   );
 }

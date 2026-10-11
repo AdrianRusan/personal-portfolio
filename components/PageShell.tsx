@@ -15,6 +15,7 @@ export function PageShell({
   children,
   hideEmailCapture = false,
   hideFooterCta = false,
+  closingSecondary,
   ro = false,
 }: {
   // Omit for the shared nav (data/nav.ts).
@@ -23,6 +24,8 @@ export function PageShell({
   hideEmailCapture?: boolean;
   // For pages that end in their own closing block.
   hideFooterCta?: boolean;
+  // One extra line in the closing ask (the home pages' "Somewhere in between?").
+  closingSecondary?: ReactNode;
   // Romanian closing ask and footer (/ro/despre, /ro/contact).
   ro?: boolean;
 }) {
@@ -33,6 +36,7 @@ export function PageShell({
       <ClosingCta
         hideCta={hideFooterCta}
         hideEmailCapture={hideEmailCapture}
+        secondary={closingSecondary}
         {...(ro ? { copy: roClosingCta } : {})}
       />
       <Footer {...(ro ? { copy: roFooter } : {})} />

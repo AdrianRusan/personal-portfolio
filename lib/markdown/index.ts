@@ -1,6 +1,7 @@
 import { bioCopy } from "@/components/Bio";
-import { experienceCopy } from "@/components/Experience";
-import { finalCtaCopy } from "@/components/FinalCta";
+import { betweenLineCopy } from "@/components/BetweenLine";
+import { caseStudyCardsCopy } from "@/components/CaseStudyCards";
+import { closingCtaCopy } from "@/components/ClosingCta";
 import { heroCopy } from "@/components/Hero";
 import { offersCopy } from "@/components/Offers";
 import { proofBandCopy } from "@/components/ProofBand";
@@ -10,7 +11,13 @@ import { ladderCopy } from "@/components/services/Ladder";
 import { processStepsCopy } from "@/components/services/ProcessSteps";
 import { servicesFaqCopy } from "@/components/services/ServicesFaq";
 import { servicesHeroCopy } from "@/components/services/ServicesHero";
-import { BLOG_DESCRIPTION, faqs, homeFaq, homeFaqs } from "@/data";
+import {
+  BLOG_DESCRIPTION,
+  HOME_FAQ_HEADING,
+  faqs,
+  homeFaq,
+  homeFaqs,
+} from "@/data";
 import {
   aboutPage,
   contactPage,
@@ -19,10 +26,12 @@ import {
   roContactPage,
 } from "@/data/pages";
 import {
+  roBetween,
   roBio,
   roCallFaq,
-  roExperience,
-  roFinalCta,
+  roCaseStudyCards,
+  roClosingCta,
+  roFaqHeading,
   roHero,
   roOffers,
   roProofBand,
@@ -58,10 +67,11 @@ const staticPages: Record<string, () => string> = {
       shipVerify: shipVerifyCopy,
       offers: offersCopy,
       whoFor: whoForCopy,
+      caseStudies: caseStudyCardsCopy,
       bio: bioCopy,
-      experience: experienceCopy,
-      faq: { ...servicesFaqCopy, items: homeFaqs },
-      finalCta: finalCtaCopy,
+      faq: { heading: HOME_FAQ_HEADING, items: homeFaqs },
+      closing: closingCtaCopy,
+      between: betweenLineCopy,
     }),
   "/ro": () =>
     homeMd({
@@ -70,10 +80,14 @@ const staticPages: Record<string, () => string> = {
       shipVerify: roShipVerify,
       offers: roOffers,
       whoFor: roWhoFor,
+      caseStudies: roCaseStudyCards,
       bio: roBio,
-      experience: roExperience,
-      faq: { ...roServicesFaq, items: homeFaq(roServicesFaq.items, roCallFaq) },
-      finalCta: roFinalCta,
+      faq: {
+        heading: roFaqHeading,
+        items: homeFaq(roServicesFaq.items, roCallFaq),
+      },
+      closing: roClosingCta,
+      between: roBetween,
     }),
   "/services": () =>
     servicesMd({
@@ -91,8 +105,8 @@ const staticPages: Record<string, () => string> = {
     }),
   "/teardown": teardownMd,
   "/privacy": () => proseMd(privacyPage),
-  "/about": () => proseMd(aboutPage, bioCopy),
-  "/ro/despre": () => proseMd(roAboutPage, roBio),
+  "/about": () => proseMd(aboutPage),
+  "/ro/despre": () => proseMd(roAboutPage),
   "/contact": () => proseMd(contactPage),
   "/ro/contact": () => proseMd(roContactPage),
 };

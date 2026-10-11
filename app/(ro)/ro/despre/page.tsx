@@ -1,7 +1,6 @@
 import { PageShell } from "@/components/PageShell";
 import { ProsePage, proseMetadata } from "@/components/ProsePage";
-import Bio from "@/components/Bio";
-import { roBio } from "@/data/ro-home";
+import { Avatar } from "@/components/Bio";
 import { roAboutPage } from "@/data/pages";
 import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 
@@ -26,7 +25,7 @@ export default function RoAboutPage() {
         })}
       />
       <ProsePage page={roAboutPage}>
-        <Bio className="mt-8" copy={roBio} />
+        <Avatar className="mt-8 h-16 w-16 text-lg" />
       </ProsePage>
     </PageShell>
   );

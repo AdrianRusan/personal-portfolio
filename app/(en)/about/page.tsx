@@ -1,6 +1,6 @@
 import { PageShell } from "@/components/PageShell";
 import { ProsePage, proseMetadata } from "@/components/ProsePage";
-import Bio from "@/components/Bio";
+import { Avatar } from "@/components/Bio";
 import { aboutPage } from "@/data/pages";
 import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 
@@ -22,7 +22,7 @@ export default function AboutPage() {
         })}
       />
       <ProsePage page={aboutPage}>
-        <Bio className="mt-8" />
+        <Avatar className="mt-8 h-16 w-16 text-lg" />
       </ProsePage>
     </PageShell>
   );
