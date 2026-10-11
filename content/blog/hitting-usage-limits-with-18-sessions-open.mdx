@@ -1,0 +1,121 @@
+---
+title: "Hitting Usage Limits With 18 Sessions Open"
+seoTitle: "Hitting Claude Code Usage Limits With 18 Sessions Open"
+date: "2026-11-14"
+tags: ["claude-code", "llm-costs", "parallel-agents", "agent-harness", "ai"]
+description: "37 usage-limit episodes in 66 days, with up to 18 Claude Code sessions open at once. What the logs showed, and the changes that reduce LLM API costs and limit hits."
+published: false
+language: "en"
+cta: "workshop"
+faq:
+  - q: "Why do parallel Claude Code sessions hit usage limits so fast?"
+    a: "Every session rereads its whole context on every turn, and every subagent it starts does the same. With many sessions open, those rereads add up faster than the work does. In my logs 97.7% of all tokens were cache reads."
+  - q: "What is the cheapest way to reduce LLM API costs with agents?"
+    a: "Keep the context at the start of each session stable so the prompt cache serves it, keep the orchestrating session lean, and stop subagents from inheriting the most expensive model by default. Measure first: the cache-read share and the model mix tell you which of these matters for you."
+  - q: "Do these numbers apply to a subscription plan?"
+    a: "On a subscription the dollar saving is zero, because you pay a flat fee. What you gain is headroom: fewer hours stalled on a limit. On a pay-per-token API the same changes show up on the invoice."
+---
+
+**Short answer:** Over 66 days my Claude Code sessions hit a usage limit in 37 separate episodes, with up to 18 sessions active at once. Two changes did most of the work: a lean orchestrator that dispatches and waits while executors spend the tokens, and a context that stays stable so the cache serves it. A third, model tiers for subagents, is still half done.
+
+Most advice on how to reduce LLM API costs is about picking a cheaper model. My logs pointed somewhere else. When you run many agents in parallel, the expensive part is context that every session and subagent rereads on every turn. This post covers what 66 days of my own session logs say about usage limits, and what I changed.
+
+The numbers come from a script I ran over my own transcripts, 6 August to 10 October 2026. The method is in [66 Days of Claude Code, Counted](/blog/66-days-of-claude-code-by-the-numbers).
+
+## 37 episodes, 18 sessions
+
+The script found 336 API error events that were rate limits or mentioned a usage, rate or session limit. Many were the same wall hit by several sessions at once, so I grouped them by day and reset message. That gives **37 distinct episodes** in 66 days.
+
+The concurrency behind it:
+
+| Measure | Value |
+| --- | ---: |
+| Interactive sessions | 463 |
+| Peak sessions active in one 10-minute window | 18 |
+| Session-hours, overlaps counted | 890 |
+| Wall-clock hours at the keyboard | 335 |
+| Subagent sessions started | 3,599 |
+
+890 session-hours in 335 wall-clock hours is about 2.7 sessions running for every hour I worked. Sessions on one account share one plan, so a limit stops every session on that account at once. At peak, one wall stalls many sessions together.
+
+The peak of 18 counts only sessions that were active in that window. Counting from first event to last, sessions left open while idle push it to 23, which overstates the load.
+
+## Where the tokens went
+
+Token counts, deduplicated per API request, all sessions:
+
+- Cache reads: 43.97 billion
+- Cache writes: 950 million
+- Output: 83 million
+- Fresh input: 627 thousand
+
+97.7% of about 45 billion tokens were cache reads. The output, the part that is actual work, was under 0.2%.
+
+That split explains the limits. Every turn of every session rereads its rules, its project notes, its brief and the conversation so far. Cached reads are much cheaper than fresh input, but at this volume they are still most of the bill and most of the limit.
+
+The model mix made it worse. 90% of assistant messages came from the top-tier Opus models.
+
+## Change 1: a lean orchestrator
+
+When I run a batch of agents, one session orchestrates: it writes the brief, starts the executors in their own worktrees, and waits. The setup is in [How I Run Claude Code Agents in Parallel](/blog/how-i-run-claude-code-agents-in-parallel).
+
+An orchestrator that also does work (reading files to check an executor's claim, running builds, reviewing diffs inline) keeps every one of those reads in its context, and every later turn rereads them. It becomes the most expensive session in the batch, and it is also the one session that has to stay alive for the batch to finish.
+
+The rule now:
+
+1. The orchestrator dispatches, waits and decides. It does not read source files.
+2. Executors do the reading, building and testing in their own context.
+3. Executors report back a short summary with evidence (exit codes, PR links), not file dumps.
+4. Reviews run in fresh subagents, so the review context dies with the review.
+
+A lean orchestrator also survives longer before its context needs compacting, which matters when it is tracking eight branches.
+
+## Change 2: keep stable context stable
+
+The prompt cache works on prefixes. Whatever sits at the start of a session (the rules file, project notes, the brief) is cached once and reread cheaply, as long as it does not change. Anything that changes mid-session breaks the cache from that point on.
+
+So the always-loaded config got smaller and stopped moving:
+
+| Date | `CLAUDE.md` + rules, words | Skills |
+| --- | ---: | ---: |
+| 20 July | 10,667 | 54 |
+| 23 August | 4,106 | 51 |
+| 10 October | 3,351 | 19 |
+
+Those numbers come from the git history of my config. The October cleanup alone removed about 950 tokens from every session start. That sounds small until you count how many sessions and subagents start in a day. The audits behind the cuts are in [Auditing My Own Claude Code Setup](/blog/auditing-my-claude-code-setup-with-an-agent).
+
+Two habits keep the cache warm:
+
+- **The brief goes in a file**, written once before the agents start, and loaded at the start. Agents read it; they do not get it piecemeal in follow-up prompts.
+- **The rules stay fixed for the length of a batch.** Rule edits land between batches, so every executor in a batch starts from the same prefix.
+
+## Change 3: subagents stop inheriting the top model
+
+This one is half done, and the logs show why it matters. Subagents inherit the session's model unless told otherwise. A July audit of my setup found 81% of subagent spawns (4,045 of 4,994) ran on the Opus tier or above, and 324 of 431 Agent calls passed no model at all. A September audit put Opus at 94% of token volume.
+
+The fix is to name the tier per role: cheaper models for read-only exploration and search, the strongest for writing code and for review. My config now pins three tiers. The session default is still the top tier, so most of the share remains. I have not re-measured it since.
+
+## What the ledger shows
+
+I also keep a ledger that prices each month's usage at list price. I pay a flat subscription, so this is the cost the same work would have had on the API, not money I spent. July to September:
+
+| Month | Commits | Subagent turns | List-price cost per commit |
+| --- | ---: | ---: | ---: |
+| July | 995 | 144,245 | $35.17 |
+| August | 1,091 | 43,247 | $11.44 |
+| September | 1,533 | 26,805 | $11.55 |
+
+Subagent turns fell by 81% while commits rose. The ledger does not say why. The config cuts above landed in the same months, so they are the likely cause, but I have not isolated them.
+
+What I cannot show yet is the limit count falling. 37 is a total over the whole window, and the script does not split it by month. That is the next thing I will measure.
+
+## Where to start
+
+If you run several agents and keep hitting the wall:
+
+1. **Measure the cache-read share.** If it is near 100%, context is your cost, not output.
+2. **Check the model mix of your subagents.** If they inherit your top model by default, pin a cheaper tier for search and exploration.
+3. **Strip the orchestrator.** It should dispatch and wait, and never read source files.
+4. **Freeze the context during a batch.** Rules and briefs change between runs.
+
+On a subscription none of this changes the bill. It changes how many hours you spend waiting for a reset, and with many sessions open, one wall stalls all of them.

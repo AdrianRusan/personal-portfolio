@@ -48,6 +48,21 @@ describe("post schedule", () => {
   });
 });
 
+// #79: drafts for Adi to edit; hidden even after their date until published.
+const DRAFTS = [
+  ["a-gate-that-stops-my-ai-lying-to-customers", "2026-11-07"],
+  ["hitting-usage-limits-with-18-sessions-open", "2026-11-14"],
+  ["reviewer-agents-that-dont-trust-other-agents", "2026-11-21"],
+] as const;
+
+describe("draft posts", () => {
+  it.each(DRAFTS)("%s stays hidden after %s", async (slug) => {
+    at("2027-01-01T00:00:00Z");
+    expect(await slugs()).not.toContain(slug);
+    await expect(getPost(slug)).rejects.toThrow(/Post not found/);
+  });
+});
+
 describe("getPost slug", () => {
   it("rejects anything but a plain slug", async () => {
     await expect(getPost("../work/honesty-gate")).rejects.toThrow(

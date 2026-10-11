@@ -41,6 +41,17 @@ for (const [route, date] of Object.entries(scheduled)) {
     });
 }
 
+// #79: unpublished drafts never render, whatever their date.
+for (const slug of [
+  'a-gate-that-stops-my-ai-lying-to-customers',
+  'hitting-usage-limits-with-18-sessions-open',
+  'reviewer-agents-that-dont-trust-other-agents',
+]) {
+  test(`/blog/${slug} is a draft and 404s`, async ({ page }) => {
+    expect((await page.goto(`/blog/${slug}`))?.status()).toBe(404);
+  });
+}
+
 for (const route of routes) {
   test(`${route} renders a complete, accessible page`, async ({ page }) => {
     const res = await page.goto(route);
