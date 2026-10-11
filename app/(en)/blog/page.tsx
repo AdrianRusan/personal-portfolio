@@ -44,7 +44,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
   return (
     <PageShell>
-      <div className="max-w-5xl mx-auto px-5 sm:px-10 pt-32 sm:pt-36 pb-20">
+      <div className="max-w-5xl mx-auto px-5 sm:px-10 pt-32 sm:pt-40 pb-20">
         <JsonLd
           data={[
             pageJsonLd({

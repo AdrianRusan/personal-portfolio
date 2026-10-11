@@ -38,7 +38,7 @@ export default async function WorkIndexPage() {
 
   return (
     <PageShell>
-      <div className="max-w-5xl mx-auto px-5 sm:px-10 pt-32 sm:pt-36 pb-20">
+      <div className="max-w-5xl mx-auto px-5 sm:px-10 pt-32 sm:pt-40 pb-20">
         <JsonLd
           data={[
             pageJsonLd({
@@ -69,7 +69,7 @@ export default async function WorkIndexPage() {
                 >
                   {result && (
                     <div className="md:w-48 flex-none">
-                      <p className="num text-3xl font-bold tracking-tight text-purple">
+                      <p className="text-3xl font-bold tracking-tight text-purple">
                         {result.figure}
                       </p>
                       <p className="text-[13px] leading-relaxed text-white-200 mt-2">
