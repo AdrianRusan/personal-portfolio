@@ -18,6 +18,7 @@ export function pageJsonLd({
   crumbs,
   type = "WebPage",
   inLanguage = "en-US",
+  home = { name: "Home", path: "/" },
 }: {
   path: string;
   name: string;
@@ -26,6 +27,8 @@ export function pageJsonLd({
   crumbs: Crumb[];
   type?: "WebPage" | "CollectionPage";
   inLanguage?: string;
+  // First crumb; /ro pages start at "Acasă".
+  home?: Crumb;
 }) {
   const url = absoluteUrl(path);
   return {
@@ -40,7 +43,7 @@ export function pageJsonLd({
     about: { "@id": `${SITE_URL}/#person` },
     breadcrumb: {
       "@type": "BreadcrumbList",
-      itemListElement: [{ name: "Home", path: "/" }, ...crumbs].map((c, i) => ({
+      itemListElement: [home, ...crumbs].map((c, i) => ({
         "@type": "ListItem",
         position: i + 1,
         name: c.name,

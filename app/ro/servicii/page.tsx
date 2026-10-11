@@ -29,10 +29,11 @@ import {
   roTrustStrip,
 } from "@/data/ro-services";
 import { roServicesNavItems } from "../nav";
+import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 
-const title = "Servicii AI, de la o sesiune de 110 € la un retainer lunar";
+const title = "Servicii AI și prețuri, de la 110 €";
 const description =
-  "Sesiune de strategie AI, audit, workshop pentru echipă, automatizări, Agent Fleet Setup și sprinturi de livrare revizuite. Prețuri în EUR, fără TVA, pentru România.";
+  "Sesiune de strategie AI, audit, workshop, automatizări, Agent Fleet Setup și sprinturi de livrare revizuite. Prețuri în EUR, fără TVA.";
 
 export const metadata: Metadata = {
   // Bare title — the root layout's title.template appends "| Adrian Rusan"
@@ -78,34 +79,40 @@ const faqJsonLd = {
 // Same sections, order and layout as /services, with Romanian copy.
 export default function RoServicesPage() {
   return (
-    <main className="relative dark:bg-black-100 bg-white overflow-x-clip">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(ladderServiceJsonLd(roLadder, "Romania")),
-        }}
+    <div className="relative dark:bg-black-100 bg-white overflow-x-clip">
+      <JsonLd
+        data={[
+          faqJsonLd,
+          ladderServiceJsonLd(roLadder, "Romania"),
+          pageJsonLd({
+            path: "/ro/servicii",
+            name: title,
+            description,
+            crumbs: [{ name: "Servicii", path: "/ro/servicii" }],
+            inLanguage: "ro-RO",
+            home: { name: "Acasă", path: "/ro" },
+          }),
+        ]}
       />
       <FloatingNav
         navItems={roServicesNavItems}
         ctaLabel="Rezervă"
         ctaSource="ro_floating_nav"
       />
-      <ServicesHero copy={roServicesHero} />
-      <Ladder content={roServicesLadder} />
-      <ProcessSteps copy={roProcessSteps} />
-      <DeliverySprint copy={roDeliverySprint} />
-      <EntryOffer copy={roEntryOffer} />
-      <TrustStrip copy={roTrustStrip} />
-      <Retainer copy={roRetainer} />
-      <HarnessSetup copy={roHarnessSetup} />
-      <Scarcity copy={roScarcity} />
-      <ServicesFaq copy={roServicesFaq} />
-      <ServicesFinalCta copy={roServicesFinalCta} />
+      <main id="main">
+        <ServicesHero copy={roServicesHero} />
+        <Ladder content={roServicesLadder} />
+        <ProcessSteps copy={roProcessSteps} />
+        <DeliverySprint copy={roDeliverySprint} />
+        <EntryOffer copy={roEntryOffer} />
+        <TrustStrip copy={roTrustStrip} />
+        <Retainer copy={roRetainer} />
+        <HarnessSetup copy={roHarnessSetup} />
+        <Scarcity copy={roScarcity} />
+        <ServicesFaq copy={roServicesFaq} />
+        <ServicesFinalCta copy={roServicesFinalCta} />
+      </main>
       <Footer copy={roFooter} />
-    </main>
+    </div>
   );
 }

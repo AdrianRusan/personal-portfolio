@@ -31,13 +31,14 @@ import {
   roWhoFor,
 } from "@/data/ro-home";
 import { roNavItems } from "./nav";
+import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 
 // #54 R4: re-render hourly so a dated post appears without a deploy.
 export const revalidate = 3600;
 
-const title = "Livrare de software cu agenți AI, revizuită de un senior";
+const title = "Livrare cu agenți AI, revizuită de un senior";
 const description =
-  "Agenții AI scriu codul, un inginer senior verifică fiecare PR pentru securitate. Sesiuni de strategie, audituri, workshop-uri și sprinturi, cu prețuri în EUR pentru România.";
+  "Agenții AI scriu codul, un inginer senior verifică fiecare PR pentru securitate. Strategie, audituri, workshop-uri și sprinturi, cu prețuri în EUR.";
 
 export const metadata: Metadata = {
   // Bare title — the root layout's title.template appends "| Adrian Rusan"
@@ -85,35 +86,47 @@ const Footer = dynamic(() => import("@/components/Footer"), {
 
 export default function RoHome() {
   return (
-    <main className="relative dark:bg-black-100 bg-white overflow-hidden">
+    <div className="relative dark:bg-black-100 bg-white overflow-hidden">
+      <JsonLd
+        data={pageJsonLd({
+          path: "/ro",
+          name: title,
+          description,
+          crumbs: [],
+          inLanguage: "ro-RO",
+          home: { name: "Acasă", path: "/ro" },
+        })}
+      />
       <FloatingNav
         navItems={roNavItems}
         ctaLabel="Rezervă"
         ctaSource="ro_floating_nav"
       />
-      <Hero copy={roHero} />
-      <ProofBand copy={roProofBand} />
-      <ShipVerify copy={roShipVerify} />
-      <CaseStudyCards copy={roCaseStudyCards} />
-      <Offers copy={roOffers} />
-      <WhoFor copy={roWhoFor} />
-      <section
-        aria-label="Experiență"
-        className="max-w-7xl mx-auto px-5 sm:px-10 py-10"
-      >
-        <Bio copy={roBio} />
-        <Testimonials copy={roTestimonials} />
-        <Experience copy={roExperience} />
-      </section>
-      <Latest copy={roLatest} />
-      <ServicesFaq
-        copy={{
-          ...roServicesFaq,
-          items: homeFaq(roServicesFaq.items, roCallFaq),
-        }}
-      />
-      <FinalCta copy={roFinalCta} />
+      <main id="main">
+        <Hero copy={roHero} />
+        <ProofBand copy={roProofBand} />
+        <ShipVerify copy={roShipVerify} />
+        <CaseStudyCards copy={roCaseStudyCards} />
+        <Offers copy={roOffers} />
+        <WhoFor copy={roWhoFor} />
+        <section
+          aria-label="Experiență"
+          className="max-w-7xl mx-auto px-5 sm:px-10 py-10"
+        >
+          <Bio copy={roBio} />
+          <Testimonials copy={roTestimonials} />
+          <Experience copy={roExperience} />
+        </section>
+        <Latest copy={roLatest} />
+        <ServicesFaq
+          copy={{
+            ...roServicesFaq,
+            items: homeFaq(roServicesFaq.items, roCallFaq),
+          }}
+        />
+        <FinalCta copy={roFinalCta} />
+      </main>
       <Footer copy={roFooter} />
-    </main>
+    </div>
   );
 }
