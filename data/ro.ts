@@ -126,6 +126,9 @@ const ro: Record<
   },
 };
 
+// RO twin of sprintDurations (data/ladder.ts), same order.
+export const roSprintDurations = ["~1 săpt.", "1–2 săpt.", "2–3 săpt."];
+
 // Same ids, tiers and availability flags as the global ladder; RO copy and prices.
 export const roLadder: LadderOffer[] = ladder.map((offer) => ({
   ...offer,

@@ -1,6 +1,9 @@
 import MagicButton from "./ui/MagicButton";
 import { FaLocationArrow } from "react-icons/fa6";
 import { CALENDLY_URL, CREDIT_DAYS } from "@/data";
+import { formatPrice, ladder, offerById } from "@/data/ladder";
+
+const reviewedPr = offerById(ladder, "reviewed-pr");
 
 const en = {
   eyebrow: "2-3x, not 100x — and here's what the agents get wrong.",
@@ -11,7 +14,7 @@ const en = {
   // Folded in from the old StartBand (#54 R3): the middle rung between the
   // free teardown and a sprint.
   betweenBefore: "Somewhere in between?",
-  betweenLink: `Start with one Reviewed PR — €1,000, ~48h. Book a sprint within ${CREDIT_DAYS} days and it counts toward it →`,
+  betweenLink: `Start with one Reviewed PR — ${formatPrice(reviewedPr)}, ${reviewedPr.duration}. Book a sprint within ${CREDIT_DAYS} days and it counts toward it →`,
   betweenHref: "/services#entry-offer",
   capacity:
     "The review layer is one senior human, so I run one sprint or retainer at a time.",

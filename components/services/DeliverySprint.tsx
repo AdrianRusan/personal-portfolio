@@ -1,5 +1,6 @@
 import MagicButton from "@/components/ui/MagicButton";
 import { CALENDLY_URL } from "@/data";
+import { sprintDurations } from "@/data/ladder";
 import { FaLocationArrow } from "react-icons/fa6";
 import { PricingTable } from "./PricingTable";
 import type { PricingColumn, PricingRow } from "./PricingTable";
@@ -29,7 +30,7 @@ const rows: PricingRow[] = [
   },
   {
     label: "Timeline",
-    values: ["~3–5 days", "~1–2 weeks", "~2–3 weeks"],
+    values: sprintDurations,
   },
   {
     label: "Price",

@@ -268,10 +268,11 @@ export const workExperience = [
     title: "Founding Engineer",
     company: "Bono Fintech",
     period: "2024 - Present",
-    desc: "Founding engineer at a fintech company, building the product across the stack.",
+    desc: "Founding engineer at a Romanian fintech: built its web apps, APIs and the AI document-processing behind them, end to end.",
     className: "md:col-span-2",
-    thumbnail:
-      "https://utfs.io/a/23x7w9tiht/9ae30726-e9a7-43bc-a28c-bce3e44eba67-1v1di.svg",
+    // Neutral generated card (#54 R5): no real logo asset, and never another
+    // company's image.
+    thumbnail: "/experience-fintech.svg",
   },
   {
     id: 1,

@@ -152,6 +152,13 @@ export const ladder: LadderOffer[] = [
   },
 ];
 
+// #54 R5: Delivery Sprint sizes (Pilot, Standard, Scale), per the brief. The
+// ladder's "1–2 wk" is the typical sprint; Scale runs longer.
+export const sprintDurations = ["~1 wk", "1–2 wk", "2–3 wk"];
+
+export const offerById = (offers: LadderOffer[], id: string) =>
+  offers.find((o) => o.id === id)!;
+
 export const formatPrice = ({ prices, perMonth }: LadderOffer): string =>
   prices
     .map(

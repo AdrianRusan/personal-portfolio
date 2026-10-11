@@ -17,7 +17,7 @@ import {
   workExperience,
   WORKFLOW_NUMBERS as W,
 } from "@/data";
-import { tiers } from "@/data/ladder";
+import { offerById, tiers } from "@/data/ladder";
 import {
   formatPriceRo,
   RO_CREDIT_TERMS,
@@ -131,7 +131,7 @@ const roTagline = Object.fromEntries(roTiers.map((t) => [t.tier, t.tagline]));
 export const roOffers: OffersCopy = {
   heading: "De la o sesiune de 110 € la un retainer lunar",
   intro:
-    "Patru niveluri: Consultanță, Training, Implementare, Livrare. Fiecare ofertă are prețul afișat înainte să vorbim. ",
+    "Patru niveluri, opt oferte: Consultanță, Training, Implementare, Livrare. Fiecare ofertă are prețul afișat înainte să vorbim. ",
   credit: RO_CREDIT_TERMS,
   tiers: tiers.map(({ tier }) => ({
     tier,
@@ -143,7 +143,7 @@ export const roOffers: OffersCopy = {
   href: "/ro/servicii#ladder",
   more: "Vezi ce include →",
   capacity:
-    "Stratul de verificare e un singur om senior și nu se poate paraleliza, așa că rulează doar câteva proiecte în același timp.",
+    "Stratul de review e un singur om senior, așa că rulez un singur sprint sau retainer odată.",
 };
 
 export const roCaseStudyCards: CaseStudyCardsCopy = {
@@ -179,7 +179,7 @@ export const roWhoFor: WhoForCopy = {
 const roJobs: Record<number, { period: string; desc: string }> = {
   5: {
     period: "2024 – prezent",
-    desc: "Founding engineer într-o companie fintech, construiesc produsul pe tot stack-ul.",
+    desc: "Founding engineer într-un fintech românesc: am construit aplicațiile web, API-urile și procesarea de documente cu AI din spatele lor, cap-coadă.",
   },
   1: {
     period: "dec. 2022 – prezent",
@@ -228,6 +228,8 @@ export const roLatest: LatestCopy = {
   all: "Toate articolele →",
 };
 
+const roReviewedPr = offerById(roLadder, "reviewed-pr");
+
 export const roFinalCta: FinalCtaCopy = {
   eyebrow: "De 2–3 ori, nu de 100 de ori, și iată ce greșesc agenții.",
   heading:
@@ -235,7 +237,7 @@ export const roFinalCta: FinalCtaCopy = {
   body: "Tu prioritizezi și dai merge. Eu răspund pentru ce ajunge în cod.",
   button: "Programează o discuție",
   betweenBefore: "Undeva la mijloc?",
-  betweenLink: `Începe cu un singur PR revizuit: 550 €, ~48 h. Rezervă un sprint în ${CREDIT_DAYS} de zile și se scade din preț →`,
+  betweenLink: `Începe cu un singur PR revizuit: ${formatPriceRo(roReviewedPr)}, ${roReviewedPr.duration}. Rezervă un sprint în ${CREDIT_DAYS} de zile și se scade din preț →`,
   betweenHref: "/ro/servicii#entry-offer",
   capacity:
     "Stratul de review e un singur om senior, așa că rulez un singur sprint sau retainer odată.",

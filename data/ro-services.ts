@@ -1,4 +1,5 @@
 import { RO_LEDGER_PROOF } from "@/data/ro-home";
+import { offerById } from "@/data/ladder";
 import type { DeliverySprintCopy } from "@/components/services/DeliverySprint";
 import type { EntryOfferCopy } from "@/components/services/EntryOffer";
 import type { HarnessSetupCopy } from "@/components/services/HarnessSetup";
@@ -15,6 +16,7 @@ import {
   RO_CREDIT_TERMS,
   RO_GUARANTEE,
   roLadder,
+  roSprintDurations,
   roTierNames,
   roTiers,
 } from "@/data/ro";
@@ -32,7 +34,7 @@ export const roServicesHero: ServicesHeroCopy = {
   cta: "Programează o discuție",
   ctaSource: "ro_services_hero",
   tiersLink:
-    "Nu ești gata de o discuție? Vezi cele patru niveluri și prețurile ↓",
+    "Nu ești gata de o discuție? Vezi cele patru niveluri, opt oferte și prețurile ↓",
   guarantee: RO_GUARANTEE,
   ledger: RO_LEDGER_PROOF,
   proofItems: [
@@ -66,9 +68,9 @@ export const roServicesLadder: LadderContent = {
   eyebrow: "Consultanță → Training → Implementare → Livrare",
   heading: "Patru moduri de a lucra împreună, toate cu prețul afișat",
   intro: `Începe cu o sesiune de 110 € sau mergi direct la un sprint. ${RO_CREDIT_TERMS} Toate prețurile sunt în EUR, fără TVA.`,
-  limited: "Disponibilitate limitată",
+  limited: "Pe rând, unul câte unul",
   capacity:
-    "Stratul de verificare e un singur om senior și nu se poate paraleliza.",
+    "Stratul de review e un singur om senior, așa că rulez un singur sprint sau retainer odată.",
   source: "ro_services_ladder",
 };
 
@@ -169,7 +171,7 @@ export const roDeliverySprint: DeliverySprintCopy = {
     },
     {
       label: "Durată",
-      values: ["~3–5 zile", "~1–2 săptămâni", "~2–3 săptămâni"],
+      values: roSprintDurations,
     },
     {
       label: "Preț",
@@ -220,7 +222,7 @@ export const roEntryOffer: EntryOfferCopy = {
     "Îmi trimiți un tichet real din backlog — un bug, o funcționalitate mică, ce ai cu adevărat la rând.",
     "Un agent îl implementează. Eu fac review de securitate pe diff, linie cu linie — același review adversarial pe care îl primește fiecare PR din sprint.",
     "Primești PR-ul gata de merge, în repo-ul tău, plus un raport de review de o pagină care arată exact ce a prins review-ul.",
-    "Livrat în ~48 de ore.",
+    `Livrat în ${offerById(roLadder, "reviewed-pr").duration}.`,
   ],
   cta: "Începe cu un PR",
   emailSubject: "PR revizuit (550 €)",
@@ -315,13 +317,13 @@ export const roHarnessSetup: HarnessSetupCopy = {
 };
 
 export const roScarcity: ScarcityCopy = {
-  heading: "De ce pot lua doar câteva proiecte în paralel",
+  heading: "De ce lucrez la un singur proiect odată",
   intro:
     "Stratul de verificare e un singur om senior — eu — și nu se paralelizează. Agenții scalează livrarea; review-ul nu. Nu e o limită de marketing, e blocajul real al modelului de lucru și e motivul pentru care totul poate intra în merge în siguranță.",
   ceiling: "Așa că limita e asta:",
-  limitLead: "Rulez cel mult 2 sprinturi de livrare în același timp",
+  limitLead: "Rulez un singur sprint sau retainer odată",
   limitRest:
-    "— review-ul e făcut de un singur om și nu se paralelizează. Dacă ambele locuri sunt ocupate când mă contactezi, îți spun sincer următoarea dată la care putem începe, în loc să promit mai mult decât pot duce.",
+    "— review-ul e făcut de un singur om și nu se paralelizează. Dacă e ocupat când mă contactezi, îți spun sincer următoarea dată la care putem începe, în loc să promit mai mult decât pot duce.",
   outro:
     "Fără cronometre, fără „au mai rămas 3 locuri azi”. Limita e pur și simplu adevărul despre cum funcționează asta — și e, totodată, argumentul de vânzare.",
 };
