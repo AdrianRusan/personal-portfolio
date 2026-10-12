@@ -24,7 +24,7 @@ export const RO_CAPACITY =
   "Review-ul îl face un singur om senior, așa că lucrez la un singur sprint sau retainer în același timp.";
 
 export const RO_GUARANTEE =
-  "Dacă primul PR revizuit nu e gata de merge după standardul tău, nu îl plătești.";
+  "Dacă primul PR revizuit nu e gata de merge la standardele tale, nu îl plătești.";
 
 // RO twin of CREDIT_TERMS: same window, so both locales promise the same thing.
 export const RO_CREDIT_TERMS = `Treci la nivelul următor în ${CREDIT_DAYS} de zile și ce ai plătit deja se scade din preț.`;
@@ -78,7 +78,7 @@ const ro: Record<
   audit: {
     name: "Audit AI",
     summary:
-      "Îți verific codul scris de AI sau „vibe-coded”, fluxul LLM sau costurile cu tokenii: breșe de securitate, costul pe fiecare PR intrat în merge, folosirea cache-ului și rulările de agenți irosite. Primești un raport care îți spune ce repari întâi.",
+      "Îți verific codul scris de AI sau „vibe-coded”, fluxul LLM sau costurile cu tokenii: breșe de securitate, costul pe fiecare PR merge-uit, folosirea cache-ului și rulările de agenți irosite. Primești un raport care îți spune ce repari întâi.",
     prices: [{ amount: 850, from: true }],
     duration: "2–3 zile",
     assurance: "Prețul se stabilește înainte să încep.",
@@ -93,7 +93,7 @@ const ro: Record<
   workshop: {
     name: "Workshop pentru echipă",
     summary:
-      "Claude Code, agenți în paralel, un fișier de reguli și review gates, lucrate practic. Echipa ta pleacă cu primul ei fișier de reguli și cu un setup cu un worktree pentru fiecare agent, pornit pe repo-ul vostru. Maximum 10 persoane.",
+      "Claude Code, agenți în paralel, un fișier de reguli și review gate-uri, toate exersate pe cod real. Echipa ta pleacă cu primul ei fișier de reguli și cu un setup cu un worktree pentru fiecare agent, pornit pe repo-ul tău. Maximum 10 persoane.",
     prices: [
       { amount: 1650, label: "jumătate de zi" },
       { amount: 2750, label: "o zi întreagă" },
@@ -117,7 +117,7 @@ const ro: Record<
     assurance:
       "Preț fix înainte să încep; evaluările dovedesc că funcționează înainte de predare.",
     ctas: [
-      { label: "Discută o automatizare", href: CALENDLY_URL },
+      { label: "Hai să discutăm o automatizare", href: CALENDLY_URL },
       {
         label: "Vezi filtrul de fapte construit de mine (EN)",
         href: "/work/honesty-gate",
@@ -127,11 +127,11 @@ const ro: Record<
   harness: {
     name: "Agent Fleet Setup",
     summary:
-      "Harness-ul pe care îl folosesc eu (regulile, scripturile și verificările din CI care țin agenții pe drumul bun), cu agenți în paralel în git worktrees, instalat în repo-ul tău și predat echipei.",
+      "Harness-ul pe care îl folosesc eu (regulile, scripturile și verificările din CI care țin agenții pe drumul bun), cu agenți în paralel în git worktree-uri, instalat în repo-ul tău și predat echipei.",
     prices: [{ amount: 2200, from: true }],
     duration: "1 săpt.",
     assurance: "Preț fix pentru un repo, stabilit înainte să încep.",
-    ctas: [{ label: "Discută configurarea", href: CALENDLY_URL }],
+    ctas: [{ label: "Hai să discutăm configurarea", href: CALENDLY_URL }],
   },
   "reviewed-pr": {
     name: "PR revizuit",
@@ -148,8 +148,8 @@ const ro: Record<
       `Un set fix de PR-uri gata de merge și verificate pentru securitate, la un preț stabilit înainte să începem: ${roPerPr} per PR, cu raportul de securitate inclus.`,
     prices: [{ amount: roSprintSizes[0]!.price, from: true }],
     duration: "1–2 săpt. · proiecte mai mari 2–3 săpt.",
-    assurance: "Prețul se fixează la discuția de scope, înainte de orice lucru.",
-    ctas: [{ label: "Discută un sprint", href: CALENDLY_URL }],
+    assurance: "Prețul se fixează la discuția de scope, înainte să înceapă lucrul.",
+    ctas: [{ label: "Hai să discutăm un sprint", href: CALENDLY_URL }],
   },
   retainer: {
     name: "Retainer lunar",
@@ -158,7 +158,7 @@ const ro: Record<
     prices: [{ amount: 2200, from: true }],
     duration: "lunar",
     assurance: "Trei luni la început, apoi lună de lună.",
-    ctas: [{ label: "Discută un retainer", href: CALENDLY_URL }],
+    ctas: [{ label: "Hai să discutăm un retainer", href: CALENDLY_URL }],
   },
 };
 

@@ -237,7 +237,7 @@ export const roContactPage: ProsePage = {
     },
     {
       heading: "Teardown gratuit",
-      body: "Trimite un repo sau un PR și primești un Loom de ~15 minute, în engleză, cu bugurile de securitate scrise de uneltele AI care trec de teste.",
+      body: "Trimite un repo sau un PR și primești un Loom de ~15 minute, în engleză, cu bugurile de securitate scrise de uneltele AI care trec totuși de teste.",
       cta: "Trimite un repo",
       href: "/teardown",
     },
