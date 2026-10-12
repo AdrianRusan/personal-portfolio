@@ -1,14 +1,19 @@
 import Link from "next/link";
 import { getPosts, WORK_DIR } from "@/lib/blog";
-import { byCaseStudyOrder } from "@/data/work";
+import { byCaseStudyOrder, caseStudyResults } from "@/data/work";
 import type { PostTitles } from "@/lib/blog-types";
 import { SectionHeading } from "./ui/SectionHeading";
 
 // Renders nothing until at least one case study is published (R2/R10: no
 // "coming soon" cards). P2: case studies only, one row of three; the benchmark
-// post retold the first study.
+// post retold the first study. A1 F2 / A4 F1: each card's label is its own
+// study's (the meta segment after the date), so client work never reads as
+// "Own project". A4 F12: the /work figure leads, as on /work.
 const en = {
-  label: "Own project",
+  // Translations of the meta labels (RO); EN shows them as written.
+  labels: {} as Record<string, string>,
+  // Per-slug translations of the /work figures (RO).
+  results: {} as Record<string, { figure: string; label: string }>,
   heading: "Case studies",
   // Optional section-level note (RO: the studies are in English).
   lead: "",
@@ -39,14 +44,28 @@ const CaseStudyCards = async ({ copy = en }: { copy?: CaseStudyCardsCopy }) => {
               ...study.frontmatter,
               ...copy.titles[study.slug],
             };
+            const label = study.frontmatter.meta?.split(" · ")[1];
+            const result = copy.results[study.slug] ?? caseStudyResults[study.slug];
             return (
               <li key={study.slug}>
                 <Link
                   href={`/work/${study.slug}`}
                   className="flex h-full flex-col rounded-xl border border-white/10 bg-black-200/40 p-6 hover:border-purple/40 transition-colors"
                 >
-                  <span className="eyebrow">{copy.label}</span>
-                  <h3 className="text-lg font-semibold mt-2 text-balance">
+                  {label && (
+                    <span className="eyebrow">{copy.labels[label] ?? label}</span>
+                  )}
+                  {result && (
+                    <p className="mt-3">
+                      <span className="block tabular-nums text-3xl font-bold tracking-tight text-white">
+                        {result.figure}
+                      </span>
+                      <span className="mt-1 block text-sm text-white-200 text-pretty">
+                        {result.label}
+                      </span>
+                    </p>
+                  )}
+                  <h3 className="text-lg font-semibold mt-4 text-balance">
                     {title}
                   </h3>
                   <p className="text-sm text-white-200 mt-3 leading-relaxed flex-1 text-pretty">

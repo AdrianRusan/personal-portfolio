@@ -1,6 +1,6 @@
 import { FaGithub, FaLinkedin, FaXTwitter } from "react-icons/fa6";
 import Link from "next/link";
-import { socialMedia } from "@/data";
+import { CONTACT_EMAIL, socialMedia } from "@/data";
 import { LocaleSwitch } from "@/components/LocaleSwitch";
 
 // Keyed by socialMedia[].id in data/index.ts (1 GitHub, 2 X, 3 LinkedIn).
@@ -10,7 +10,8 @@ const socialIcons: Record<number, typeof FaGithub> = {
   3: FaLinkedin,
 };
 
-// A plain footer (P1): no ask in here. The closing ask is ClosingCta.
+// A plain footer (P1): no ask in here. The closing ask is ClosingCta. A4 F6:
+// the email address lives here, so it is on every page without a second ask.
 const en = {
   about: "About",
   aboutHref: "/about",
@@ -46,6 +47,9 @@ const Footer = ({ copy = en }: { copy?: FooterCopy }) => {
             {copy.rss}
           </a>
         </div>
+        <a href={`mailto:${CONTACT_EMAIL}`} className={link}>
+          {CONTACT_EMAIL}
+        </a>
         <nav className="flex items-center gap-2" aria-label={copy.socialAria}>
           {socialMedia.map((info) => {
             const Icon = socialIcons[info.id];

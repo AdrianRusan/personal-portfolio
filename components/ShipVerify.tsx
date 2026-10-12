@@ -4,7 +4,7 @@ import { SectionHeading } from "./ui/SectionHeading";
 
 const en = {
   heading: "Your backlog is growing and agent code needs review",
-  body: "Agents can write most of a backlog. They also write injection bugs that pass tests.",
+  body: "Agents can write most of a backlog. They also write injection bugs. On my own 30-PR run, with no tests and no CI, review was the only gate.",
   punch: "Agents without review ship bugs faster.",
   stepsHeading: "How it works: agents ship, I review",
   steps: shipVerify,

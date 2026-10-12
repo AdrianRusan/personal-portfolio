@@ -1,5 +1,4 @@
 import type { BioCopy } from "@/components/Bio";
-import type { BetweenLineCopy } from "@/components/BetweenLine";
 import type { ClosingCtaCopy } from "@/components/ClosingCta";
 import type { HeroCopy } from "@/components/Hero";
 import type { OffersCopy } from "@/components/Offers";
@@ -70,7 +69,6 @@ export interface HomeCopy {
   bio: BioCopy;
   faq: Faq;
   closing: ClosingCtaCopy;
-  between: BetweenLineCopy;
 }
 
 // Same sections and order as the home pages (P2).
@@ -106,8 +104,7 @@ export const homeMd = (c: HomeCopy) =>
     faqMd(c.faq),
     `## ${c.closing.heading}`,
     c.closing.body,
-    `[${c.closing.button}](${CALENDLY_URL})`,
-    `${c.between.before} [${c.between.link}](${c.between.href})`,
+    `[${c.closing.button}](${CALENDLY_URL}) · [${c.closing.teardown.replace(/ →$/, "")}](/teardown)`,
   );
 
 export interface ServicesCopy {

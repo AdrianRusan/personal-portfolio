@@ -23,7 +23,7 @@ describe("markdownFor", () => {
 
   it("renders / and /ro from their own copy", async () => {
     expect(await markdownFor("/")).toContain(
-      "# Ship the roadmap you can't hire for.",
+      "# I ship your backlog with AI agents and review every PR myself.",
     );
     const ro = await markdownFor("/ro");
     expect(ro).toContain("## Oferte și prețuri");

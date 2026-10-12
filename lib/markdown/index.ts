@@ -1,5 +1,4 @@
 import { bioCopy } from "@/components/Bio";
-import { betweenLineCopy } from "@/components/BetweenLine";
 import { caseStudyCardsCopy } from "@/components/CaseStudyCards";
 import { closingCtaCopy } from "@/components/ClosingCta";
 import { heroCopy } from "@/components/Hero";
@@ -27,7 +26,6 @@ import {
   roContactPage,
 } from "@/data/pages";
 import {
-  roBetween,
   roBio,
   roCallFaq,
   roCaseStudyCards,
@@ -76,7 +74,6 @@ const staticPages: Record<string, () => string> = {
       bio: bioCopy,
       faq: { heading: HOME_FAQ_HEADING, items: homeFaqs },
       closing: closingCtaCopy,
-      between: betweenLineCopy,
     }),
   "/ro": () =>
     homeMd({
@@ -93,7 +90,6 @@ const staticPages: Record<string, () => string> = {
         items: homeFaq(roServicesFaq.items, roCallFaq),
       },
       closing: roClosingCta,
-      between: roBetween,
     }),
   "/services": () =>
     servicesMd({

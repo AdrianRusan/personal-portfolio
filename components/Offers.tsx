@@ -11,7 +11,7 @@ import { SectionHeading } from "./ui/SectionHeading";
 
 const en = {
   heading: "Offers and prices",
-  intro: "Every offer has a fixed price before we talk. ",
+  intro: "Every offer has a published starting price, and the final price is fixed before work starts. ",
   credit: CREDIT_TERMS,
   // RO only (A7): who the RO prices are for.
   priceNote: "",
