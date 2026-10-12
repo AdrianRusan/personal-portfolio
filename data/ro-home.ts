@@ -165,6 +165,16 @@ export const roPostTitles: PostTitles = {
     description:
       "Agenți de review construiți pe neîncredere: un panel cu trei roluri în care câștigă verdictul cel mai strict, o buclă care triază comentariile boților și agenți care încearcă să infirme fiecare constatare dintr-un audit.",
   },
+  "claude-code-fail-closed-hooks": {
+    title: "Claude Code are acum hook-uri care refuză la eroare. De ce le-am construit pe ale mele înainte",
+    description:
+      "Claude Code 2.1.295 a adăugat onFailure: \"block\" pentru hook-uri. Ce acoperă, ce nu vede în interiorul scriptului și cum refuză hook-urile mele când nu pot verifica.",
+  },
+  "review-bottleneck-measured-on-my-prs": {
+    title: "Blocajul din review, măsurat pe propriile mele PR-uri",
+    description:
+      "Studiile din 2026 arată că review-ul codului scris de AI e principala frână în livrare. PR-urile mele confirmă: 25 din 30 au avut nevoie de cel puțin un commit de corectură după review. Ce a mutat blocajul și ce nu.",
+  },
   "what-agents-get-wrong": {
     title: "Cum faci review la codul scris de AI: 6 greșeli ale agenților care trec de teste",
     description:
