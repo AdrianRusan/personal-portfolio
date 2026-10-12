@@ -27,7 +27,7 @@ import {
 
 // RO twin of VERACODE_LINE (data/index.ts), same source.
 export const RO_VERACODE_LINE =
-  "Testul Veracode din iulie 2026 a găsit o vulnerabilitate cunoscută în aproximativ 44% din sarcinile de generare de cod cu AI.";
+  "Testul Veracode din iulie 2026 a găsit o vulnerabilitate cunoscută în aproximativ 44% dintre sarcinile de generare de cod cu AI.";
 
 const eur = euro;
 const prs = (i: number) => roSprintSizes[i]!.prs.join("–");
@@ -35,7 +35,7 @@ const standard = roSprintSizes[1]!;
 
 export const roServicesHero: ServicesHeroCopy = {
   heading:
-    "Livrează backlog-ul de 2–3 ori mai repede. Verific fiecare PR pentru securitate înainte să-l vezi.",
+    "Livrează-ți backlog-ul de 2–3 ori mai repede. Verific fiecare PR pentru securitate înainte să-l vezi.",
   intro:
     "Tu alegi tichetele, eu fixez prețul înainte să începem. Agenții AI scriu codul. Eu verific fiecare PR linie cu linie, întâi securitatea, apoi ți-l trimit.",
   cta: "Programează o discuție",
@@ -224,7 +224,7 @@ export const roTrustStrip: TrustStripCopy = {
   label: "Peste 10 ani de software livrat în producție, cu",
   employers: [FINTECH_EMPLOYER, "GoSocial", "PGL Esports", "Ipsos"],
   proof:
-    "30 de PR-uri revizuite în sub 3 zile · 3 căi de shell injection prinse înainte de merge, 1 scăpată",
+    "30 de PR-uri revizuite în sub 3 zile · 3 căi de shell injection prinse înainte de merge, 1 ratată",
   study: {
     href: "/work/30-reviewed-prs-3-vulnerabilities",
     cta: "Citește studiul de caz (EN) →",

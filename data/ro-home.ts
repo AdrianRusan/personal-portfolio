@@ -45,7 +45,7 @@ export const roHero: HeroCopy = {
   eyebrow: "Adrian Rusan · Inginer full-stack senior, peste\u00a010\u00a0ani",
   // U+2011 keeps "backlog‑ul" whole when the H1 wraps.
   heading: "Îți livrez backlog‑ul cu agenți AI și verific personal fiecare PR.",
-  body: "Întâi securitatea: injection, autentificare, secrete și controlul accesului, verificate linie cu linie înainte ca PR-ul să ajungă la tine. Te poți aștepta la de 2–3 ori mai mult volum, nu de 100 de ori.",
+  body: "Întâi securitatea: injection, autentificare, secrete și controlul accesului, verificate linie cu linie înainte ca PR-ul să ajungă la tine. Te poți aștepta la un volum de 2–3 ori mai mare, nu de 100 de ori.",
   teardown: "Teardown gratuit (EN)",
   call: "Programează o discuție",
   guarantee: RO_GUARANTEE,
@@ -59,9 +59,9 @@ export const roProofBand: ProofBandCopy = {
       figure: "3",
       label: "căi de shell injection din input-ul cererilor, prinse în review înainte de merge",
     },
-    { figure: "1", label: "scăpat, iar studiul de caz arată care" },
+    { figure: "1", label: "ratată, iar studiul de caz arată care anume" },
   ],
-  note: "Toate trei vin dintr-o singură rulare documentată pe propriul meu panou de administrare, martie 2026.",
+  note: "Toate trei cifrele vin dintr-o singură rulare documentată, pe propriul meu panou de administrare, în martie 2026.",
 };
 
 // Keyed by tag so a reordered or added EN step can't pick up the wrong copy.
@@ -80,7 +80,7 @@ const roSteps: Record<string, { label: string; heading: string; body: string }> 
 
 export const roShipVerify: ShipVerifyCopy = {
   heading: "Backlog-ul crește, iar codul scris de agenți are nevoie de review",
-  body: "Agenții pot scrie cea mai mare parte dintr-un backlog. Scriu și buguri de injection. Pe rularea mea de 30 de PR-uri, fără teste și fără CI, review-ul a fost singura verificare.",
+  body: "Agenții pot scrie cea mai mare parte dintr-un backlog. Scriu și buguri de injection. În rularea mea cu 30 de PR-uri, fără teste și fără CI, review-ul a fost singura verificare.",
   punch: "Agenții fără review livrează buguri mai repede.",
   stepsHeading: "Cum funcționează: agenții livrează, eu verific",
   steps: shipVerify.map((step) => ({ ...step, ...roSteps[step.tag] })),
@@ -90,7 +90,7 @@ export const roShipVerify: ShipVerifyCopy = {
 
 export const roBio: BioCopy = {
   heading: "Cine îți verifică codul",
-  body: `Sunt Adrian Rusan, inginer full-stack senior cu peste 10 ani în producție. Lucrez prin propria firmă, cel mai recent ca founding engineer pentru ${FINTECH_EMPLOYER}. Înainte: grafica live din transmisiunile PGL Major, cu peste 2 milioane de spectatori simultan, peste 300 de proiecte de sondaje la Ipsos pentru branduri globale și dashboard-uri de reclame la GoSocial. Agenții rulează pe harness-ul meu: ${RO_HARNESS_PROOF}. Fiecare PR îl citesc tot eu.`,
+  body: `Sunt Adrian Rusan, inginer full-stack senior cu peste 10 ani în producție. Lucrez prin propria firmă, cel mai recent ca founding engineer pentru ${FINTECH_EMPLOYER}. Înainte de asta, am făcut grafica live pentru transmisiunile PGL Major, urmărite simultan de peste 2 milioane de spectatori, peste 300 de proiecte de sondaje la Ipsos pentru branduri globale și dashboard-uri de reclame la GoSocial. Agenții rulează pe harness-ul meu: ${RO_HARNESS_PROOF}. Fiecare PR îl citesc tot eu.`,
   onGithub: "Adrian Rusan pe GitHub",
   onLinkedin: "Adrian Rusan pe LinkedIn",
   onX: "Adrian Rusan pe X",
@@ -101,7 +101,7 @@ const roTagline = Object.fromEntries(roTiers.map((t) => [t.tier, t.tagline]));
 
 export const roOffers: OffersCopy = {
   heading: "Oferte și prețuri",
-  intro: "Fiecare ofertă are un preț de pornire publicat, iar prețul final se fixează înainte să încep lucrul. ",
+  intro: "Fiecare ofertă are un preț de pornire afișat, iar prețul final îl stabilim înainte să încep lucrul. ",
   credit: RO_CREDIT_TERMS,
   // A7: yes.
   priceNote: "Prețuri pentru firme cu sediul în România.",
@@ -194,7 +194,7 @@ export const roCaseStudyCards: CaseStudyCardsCopy = {
     "strings per page traced to a source before anything publishes":
       "de texte pe pagină, legate de o sursă înainte de publicare",
     "lower cost per commit in one month, then it crept back":
-      "cost pe commit mai mic într-o lună, apoi a crescut la loc",
+      "cost pe commit mai mic într-o lună, apoi a crescut din nou",
   },
   heading: "Studii de caz",
   // The one note for the whole page (R1-F21): studies and posts are in English.
