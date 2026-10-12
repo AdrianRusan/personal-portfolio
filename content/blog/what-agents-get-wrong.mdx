@@ -10,7 +10,7 @@ language: "en"
 cta: "audit"
 faq:
   - q: "What mistakes do AI coding agents make most often?"
-    a: "In 30 agent PRs I reviewed in March 2026, the 64 review fixes sorted into: duplicated code including helpers the repo already had (11), type-safety holes (10), security (9), code written for an older framework version (8), and smaller groups for error handling, input validation, client and API disagreeing on a payload, missing dependencies and docs. 9 of the 61 distinct defects would have broken the build or a page."
+    a: "In 30 agent PRs I reviewed in March 2026, the 64 review fixes sorted into: duplicated code including helpers the repo already had (11), type-safety holes (10), security and hardening (9), code written for an older framework version (8), and smaller groups for error handling, input validation, client and API disagreeing on a payload, missing dependencies and docs. 9 of the 61 distinct defects would have broken the build or a page."
   - q: "Why does AI-generated code pass review but still fail?"
     a: "Each agent PR reads well against its own ticket. In my run the failures sat between PRs and around them: helpers the agent never searched for, checks deleted by a rewrite or a rebase, framework APIs from an older major version, and fix commits that refactored a vulnerable line without changing it."
   - q: "Can automated tools catch these problems?"
@@ -19,7 +19,7 @@ faq:
     a: "On my own work, yes: 30 merged PRs in under three days on a scoped backlog. Every one of them was read before merge, and 25 needed a fix first. The review is what made the volume mergeable."
 ---
 
-**Short answer:** 25 of the 30 agent-written PRs I merged in March 2026 needed at least one fix before I'd merge them. I went back and sorted all 64 fixes by what was wrong. Duplicated code led with 11 fixes, often a helper the repo already had, then type-safety holes (10), security (9) and code written for an older Next.js (8). The checklist at the end puts security first and then follows those counts.
+**Short answer:** 25 of the 30 agent-written PRs I merged in March 2026 needed at least one fix before I'd merge them. I went back and sorted all 64 fixes by what was wrong. Duplicated code led with 11 fixes, often a helper the repo already had, then type-safety holes (10), security and hardening (9) and code written for an older Next.js (8). The checklist at the end puts security first and then follows those counts.
 
 The repo is my own admin dashboard: no tests, no CI, so my review was the only gate. The run itself, with dates and every security finding, is in [the 30-PR case study](/work/30-reviewed-prs-3-vulnerabilities). This post is what the fixes were for.
 
@@ -31,7 +31,7 @@ I read every fix commit made during review (28 commits, plus the build-fix part 
 | --- | ---: | --- |
 | Duplicated code, including helpers the repo already had | 11 | #104: date-fns `formatDistanceToNow`, while `timeAgo` had been in `lib/format.ts` since February |
 | Type holes: `any`, unsafe casts, `null` in a non-null field | 10 | #118: `last_commit: null` broke the build on main |
-| Security: shell strings, a path traversal, a deleted allowlist, repo-format checks | 9 | #112: a job ID from the URL in a shell string (`237cfaa`) |
+| Security and hardening: shell strings, a path traversal, a deleted allowlist, repo-format checks | 9 | #112: a job ID from the URL in a shell string (`237cfaa`) |
 | Written for an older Next.js | 8 | #119: sync route `params`, which Next.js 16 passes as a Promise |
 | Error handling | 4 | #100: no `res.ok` check, errors only logged |
 | Input validation: config values, duplicate queue items, empty lists | 3 | #97: a reorder with an empty list was accepted |
@@ -78,7 +78,7 @@ Running agents in parallel added a failure no single PR shows. #118 put a `null`
 
 **The check:** before merging the next PR in a parallel batch, rebuild main with it merged. A CI `next build` would have stopped most of the 9 defects that broke the build or a page, by my reading. It wouldn't have stopped any of the security ones.
 
-## Security: 9 fixed, 5 missed
+## Security: 8 fixed, 1 hardened, 5 missed
 
 Review fixed 3 shell-injection paths from request input, a config path in a shell string, a constant `which rg` call moved off the shell, a path traversal, a deleted allowlist and 2 repo-format checks. It missed 3 shell strings, one of them from request input, and the 2 stored XSS sinks above. The code for the shell calls is in [The Shell-Injection Bugs My Agents Wrote](/blog/catching-shell-injection-agents-wrote), and the full list is in [the case study](/work/30-reviewed-prs-3-vulnerabilities#what-review-missed).
 

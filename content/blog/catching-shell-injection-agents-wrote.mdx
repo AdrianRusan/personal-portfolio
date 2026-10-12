@@ -99,7 +99,7 @@ ghExec(cmd); // execSync(`gh ${cmd}`)
 
 ## What the seven have in common
 
-All 7 agents chose string interpolation into a shell, the shortest path to a command that works. Review caught the 4 where the shell string sat in the route itself, with the value straight from the request or config. The 3 it missed reached the shell through a wrapper function, a database row or a stored value whose check a rebase deleted.
+All 7 agents chose string interpolation into a shell, the shortest path to a command that works. Review caught 4 of them. Of the 3 it missed, one passed a request value to a wrapper function that added the shell, and two read their value from storage, one of them after a rebase deleted its check.
 
 I also gave the original commits to AI reviewers in October. The results are a separate post on 28 November.
 
