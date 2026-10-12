@@ -23,7 +23,7 @@ Before any of that, the fact check in the brief turned up an outage. The booking
 
 ## The constraint
 
-The work was too wide for one session. One agent doing nine packages in sequence would take the three weekends the brief allowed, and nine agents sharing one checkout would overwrite each other's files.
+The work was too wide for one session. One agent doing eight packages in sequence would take the three weekends the brief allowed, and nine agents sharing one checkout would overwrite each other's files.
 
 Review was the harder limit. I am the only senior reviewer, and reading doesn't parallelize. Whatever ran in parallel had to reach me already checked, with its evidence attached, or the queue would simply move to my desk.
 
@@ -74,7 +74,7 @@ Review was the harder limit. I am the only senior reviewer, and reading doesn't 
 
 **A brief that answers questions before they are asked.** It lists verified facts, numbered rulings and the files each package owns. When an agent hits a choice, the orchestrator answers from the brief instead of waking me up. File ownership keeps merges cheap: new content goes in new data files, and only one package edits each shared one.
 
-**One worktree per agent, three package agents at a time.** Each agent ran in its own git worktree, on its own branch, in its own terminal pane. The brief capped it at three package agents at once, because three parallel Next.js production builds were what one laptop's memory and CPU could take. The outage fix ran alongside the first three, so four were live at the start.
+**One worktree per agent, three agents at a time.** Each agent ran in its own git worktree, on its own branch, in its own terminal pane. The brief capped it at three agents at once, because three parallel Next.js production builds were what one laptop's memory and CPU could take. The outage fix (WP0) was meant to run alone first. It was still open when the next three started, so four were live at the start.
 
 **A gate before my review.** Each agent ran the same ladder before it could mark its PR ready: typecheck, lint, production build, unit tests, a curl of every route it touched, and before/after screenshots. Then it ran a code review on its own diff, fixed what was real and listed the rest. The PR body carried all of it. Eight of the nine bodies record that review; #39's doesn't.
 
@@ -140,7 +140,7 @@ The agent disclosed the shortcut in writing, so the gate did its part. I read a 
 
 **The first seven PRs left work behind.** At 16:08 the orchestrator turned the follow-ups from #34 to #40 into a ninth package, which became #43. It found real leaks: an unpublished post's social image answered 200 to anyone with the URL, and several CTAs didn't link to the new workshop and offer pages yet. Its own code review raised 9 findings, 8 of them on code from #35 to #40 that had already passed their gates.
 
-**The deferred findings became follow-up lists, and the lists leaked.** The 29 findings the agents didn't fix went into the follow-up list at the end of each PR body, mixed with other notes, so they can't be counted one by one. On 12 Oct I checked the 18 concrete code follow-ups from those lists against main: 15 are fixed and 3 are still open (a hand-written €4,000 in two components, an `en-US` site node that still renders on `/ro`, and a duplicated avatar block). None of the three was ever a ticket.
+**The deferred findings became follow-up lists, and the lists leaked.** The 29 findings the agents didn't fix went into the follow-up list at the end of each PR body, mixed with other notes, so they can't be counted one by one. On 12 Oct, two days after the run, I checked the 18 concrete code follow-ups from those lists against main: 15 are fixed and 3 are still open (a hand-written €4,000 in two components, an `en-US` site node that still renders on `/ro`, and a duplicated avatar block). None of the three was ever a ticket.
 
 ## Where this transfers
 
@@ -157,7 +157,7 @@ This was a 2,970-line change to a marketing site with no database, no payments a
 
 ### How many Claude Code agents can you run in parallel?
 
-On this run the laptop set the limit. Nine agents worked during the afternoon, but the brief allowed only three package agents at once, because three parallel Next.js production builds were what one laptop's memory and CPU could take. With the outage fix running too, four were live at the start.
+On this run the laptop set the limit. Nine agents worked during the afternoon, but the brief allowed only three at once, because three parallel Next.js production builds were what one laptop's memory and CPU could take. The outage fix overlapped the first three, so four were live at the start.
 
 ### Do parallel agents make code review the bottleneck?
 
@@ -165,4 +165,4 @@ They do, unless each PR arrives pre-checked. Here, every PR cleared typecheck, l
 
 ### What did the agents get wrong?
 
-One shortcut the agent disclosed and I merged anyway (`/ro` served as English, fixed 17 hours later), a few leaks the cleanup PR caught, and 3 follow-ups from the run still open on main two days later.
+One shortcut the agent disclosed and I merged anyway (`/ro` served as English, fixed 17 hours later), a few leaks the cleanup PR caught, and 3 follow-ups from the run that were still open on main when I checked on 12 Oct.

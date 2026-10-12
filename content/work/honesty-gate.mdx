@@ -99,7 +99,7 @@ The seeded fixtures got a denylist generated from the fixtures themselves. CI re
 
 If either gate can't run (a missing map, a missing lexicon, a hash mismatch), the exit code is the same as a failure, and the publish is blocked.
 
-The landing page got the same rule on 22 July 2026. The count now comes from real go-live events, never from an `updatedAt` that bumps on unrelated edits. The line stays hidden until the count reaches 2, and a database error hides it too.
+The landing page got the same rule on 22 July 2026. The count now comes from real go-live events, never from an `updatedAt` that bumps on unrelated edits. The line stays hidden until the count reaches 2.
 
 ## The result
 
@@ -119,8 +119,6 @@ Those two check that a number has a source. Like the client gates, they can't ch
 ## What the gates don't catch
 
 **They check where a claim came from.** If the owner types "500 happy clients", that fact has owner provenance and it publishes. The gate guarantees that every claim on the page came from someone accountable for it. It can't tell you whether that person was right.
-
-**The trace gate is coarser than its design.** The design wanted every agent-written sentence to trace back to the verified facts it was derived from. The built gate can't verify that link, so it blocks derived facts from reaching the output at all. That is stricter than the design, and it also blocks some honest derived sentences.
 
 **I have no first-run count I can publish.** I can't tell you how many strings failed the trace the first time it ran. The client approved this study's text, and new numbers from their repo would need a new approval.
 
