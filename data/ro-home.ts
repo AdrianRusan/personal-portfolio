@@ -170,6 +170,11 @@ export const roPostTitles: PostTitles = {
     description:
       "Claude Code 2.1.295 a adăugat onFailure: \"block\" pentru hook-uri. Ce acoperă, ce nu vede în interiorul scriptului și cum refuză hook-urile mele când nu pot verifica.",
   },
+  "how-i-measure-claude-code-roi": {
+    title: "Cum măsor ROI-ul Claude Code și cele 5 capcane care mi-au stricat cifrele",
+    description:
+      "Claude Code șterge transcrierile după 30 de zile, iar cifrele rămase se strică în cinci feluri. Metoda din registrul meu pentru costul pe PR cu merge și capcanele în care a căzut.",
+  },
   "what-agents-get-wrong": {
     title: "Cum faci review la codul scris de AI: 6 greșeli ale agenților care trec de teste",
     description:

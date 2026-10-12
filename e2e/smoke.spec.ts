@@ -34,6 +34,7 @@ const scheduled: Record<string, string> = {
   '/blog/reviewer-agents-that-dont-trust-other-agents': '2026-10-31',
   '/blog/auditing-my-claude-code-setup-with-an-agent': '2026-11-07',
   '/blog/claude-code-fail-closed-hooks': '2026-11-14',
+  '/blog/how-i-measure-claude-code-roi': '2026-11-21',
 };
 for (const [route, date] of Object.entries(scheduled)) {
   if (Date.now() >= new Date(date).getTime()) routes.push(route);
