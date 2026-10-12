@@ -16,9 +16,8 @@ const SCHEDULE = [
   // A2 §3: the review post moves up, the setup audit follows it.
   ["reviewer-agents-that-dont-trust-other-agents", "2026-10-31"],
   ["auditing-my-claude-code-setup-with-an-agent", "2026-11-07"],
-  // #90: A3 angles 1 and 4 fill the open 14 and 21 Nov slots.
+  // #90: A3 angle 1 fills the 14 Nov slot. #99: the ROI method post takes 21 Nov.
   ["claude-code-fail-closed-hooks", "2026-11-14"],
-  ["review-bottleneck-measured-on-my-prs", "2026-11-21"],
 ] as const;
 
 const at = (iso: string) => jest.useFakeTimers().setSystemTime(new Date(iso));
