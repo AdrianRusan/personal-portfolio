@@ -1,13 +1,15 @@
-import MagicButton from "@/components/ui/MagicButton";
-import { CALENDLY_URL, CONTACT_EMAIL } from "@/data";
+import Link from "next/link";
+import PrimaryCta from "@/components/ui/PrimaryCta";
+import { CALENDLY_URL } from "@/data";
 
 // The page's one closing ask (PageShell's shared one is off on /services).
+// A1 F3: the button plus the teardown fallback; the email is in the footer.
 const en = {
   heading: "Tell me the backlog. I'll tell you the number.",
   body: "A 30-minute call. You'll leave with a scope and a fixed price.",
   cta: "Book a scoping call",
   ctaSource: "services_final_cta",
-  emailBefore: "or email",
+  teardown: "Or send a repo for a free 15-minute teardown →",
 };
 
 export type ServicesFinalCtaCopy = typeof en;
@@ -18,9 +20,7 @@ export const ServicesFinalCta = ({
   copy?: ServicesFinalCtaCopy;
 }) => {
   return (
-    // id="contact": the /services sub-nav's "Contact" anchor.
     <section
-      id="contact"
       aria-labelledby="services-final-cta"
       className="px-5 sm:px-10 pt-24 pb-12 md:pb-16 scroll-mt-24"
     >
@@ -35,7 +35,7 @@ export const ServicesFinalCta = ({
           {copy.body}
         </p>
         <div className="flex justify-center mt-8">
-          <MagicButton
+          <PrimaryCta
             title={copy.cta}
             href={CALENDLY_URL}
             otherClasses="md:mt-0"
@@ -45,14 +45,13 @@ export const ServicesFinalCta = ({
             }}
           />
         </div>
-        <p className="mt-5 text-sm text-white-200">
-          {copy.emailBefore}{" "}
-          <a
-            href={`mailto:${CONTACT_EMAIL}`}
-            className="font-medium underline underline-offset-4 hover:text-purple transition-colors"
+        <p className="mt-5 text-sm">
+          <Link
+            href="/teardown"
+            className="inline-flex min-h-11 items-center font-medium text-white-200 underline underline-offset-4 hover:text-purple transition-colors"
           >
-            {CONTACT_EMAIL}
-          </a>
+            {copy.teardown}
+          </Link>
         </p>
       </div>
     </section>

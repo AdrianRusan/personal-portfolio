@@ -24,3 +24,9 @@ export const switchLocalePath = (pathname: string): string => {
   if (pair) return ro ? pair[0] : pair[1];
   return ro ? "/" : "/ro";
 };
+
+// A4 F15: Vercel prerenders the EN home as "/index" (the live RSC payload's
+// canonical URL is ["", "index"]), so usePathname() returns "/index" there
+// while `next start` returns "/". Fold it back so the nav matches the route.
+export const navPathname = (pathname: string) =>
+  pathname.replace(/\/index$/, "") || "/";

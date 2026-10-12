@@ -1,6 +1,6 @@
 import { CalendlyLink } from "@/components/CalendlyLink";
 import { TrackedLink } from "@/components/TrackedLink";
-import MagicButton from "@/components/ui/MagicButton";
+import PrimaryCta from "@/components/ui/PrimaryCta";
 import type { BlogCtaCopy } from "@/lib/blog-cta";
 import { CALENDLY_URL } from "@/data";
 
@@ -27,9 +27,9 @@ export default function PostCta({
         {cta.heading}
       </h2>
       <p className="text-sm text-white-200 leading-relaxed mt-3">{cta.body}</p>
-      {/* MagicButton's own top margin is desktop-only (R3-F17). */}
+      {/* PrimaryCta's own top margin is desktop-only (R3-F17). */}
       <div className="mt-6">
-        <MagicButton
+        <PrimaryCta
           title={cta.label}
           href={cta.href}
           otherClasses="md:mt-0"

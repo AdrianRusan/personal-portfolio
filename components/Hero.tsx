@@ -1,13 +1,15 @@
-import MagicButton from "./ui/MagicButton";
+import PrimaryCta from "./ui/PrimaryCta";
+import { Avatar } from "./Bio";
 import { ctaSecondary } from "./ui/button";
 import { TrackedLink } from "@/components/TrackedLink";
 import { CALENDLY_URL, GUARANTEE } from "@/data";
 import { cn } from "@/lib/utils";
 
 const en = {
-  eyebrow: "Adrian Rusan · Senior engineer, 10+ years",
-  heading: "Ship the roadmap you can't hire for.",
-  body: "Claude Code agents clear your backlog. I review every pull request myself, security first, before you see it.",
+  // The hero sub carries the page's one "2–3x, not 100x" (C-RULES).
+  eyebrow: "Adrian Rusan · Senior full-stack engineer, 10+\u00a0years",
+  heading: "I ship your backlog with AI agents and review every PR myself.",
+  body: "Security first: injection, auth, secrets and access control, checked line by line before a PR reaches you. Expect 2–3x the throughput, not 100x.",
   teardown: "Get a free teardown",
   call: "Book a scoping call",
   guarantee: GUARANTEE,
@@ -15,16 +17,20 @@ const en = {
 export type HeroCopy = typeof en;
 
 // P2: H1, one subhead, the two CTAs, the guarantee. The background is the
-// page's own (PageShell), so the hero has no effects of its own.
+// page's own (PageShell), so the hero has no effects of its own. A4 F2: the
+// face sits by the name, so the one accountable human is above the fold.
 const Hero = ({ copy = en }: { copy?: HeroCopy }) => {
   return (
     <section
       id="home"
       aria-labelledby="hero-heading"
-      className="px-5 sm:px-10 pt-36 pb-12 md:pt-48 md:pb-20"
+      className="px-5 sm:px-10 pt-36 pb-12 md:pt-44 md:pb-20"
     >
       <div className="container-section flex flex-col items-center text-center">
-        <p className="eyebrow">{copy.eyebrow}</p>
+        <div className="flex items-center gap-3">
+          <Avatar className="h-12 w-12" decorative priority />
+          <p className="eyebrow text-left">{copy.eyebrow}</p>
+        </div>
         <h1
           id="hero-heading"
           className="mt-4 max-w-4xl text-[40px] leading-[1.1] md:text-6xl font-bold tracking-tight text-balance"
@@ -37,7 +43,7 @@ const Hero = ({ copy = en }: { copy?: HeroCopy }) => {
 
         <div className="mt-8 flex w-full max-w-sm flex-col md:max-w-none md:w-auto md:flex-row items-center gap-3 md:gap-4">
           {/* Booking is the one filled button; the teardown is the outline one. */}
-          <MagicButton
+          <PrimaryCta
             title={copy.call}
             href={CALENDLY_URL}
             otherClasses="md:mt-0"

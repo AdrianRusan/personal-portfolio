@@ -13,9 +13,8 @@ import { ServicesFinalCta } from "@/components/services/ServicesFinalCta";
 import { Ladder } from "@/components/services/Ladder";
 import { ladderServiceJsonLd } from "@/data/ladder";
 import { roLadder } from "@/data/ro";
-import { roClosingCta, roFooter, roTestimonials } from "@/data/ro-home";
+import { roFooter, roTestimonials } from "@/data/ro-home";
 import { QuoteBand } from "@/components/Testimonials";
-import { ClosingCta } from "@/components/ClosingCta";
 import {
   roDeliverySprint,
   roEntryOffer,
@@ -85,19 +84,18 @@ export default function RoServicesPage() {
       <FloatingNav />
       <main id="main">
         <ServicesHero copy={roServicesHero} />
+        <TrustStrip copy={roTrustStrip} />
         <Ladder content={roServicesLadder} />
         <ProcessSteps copy={roProcessSteps} />
         <DeliverySprint copy={roDeliverySprint} />
         <QuoteBand testimonial={roTestimonials.doros} />
         <EntryOffer copy={roEntryOffer} />
-        <TrustStrip copy={roTrustStrip} />
         <Retainer copy={roRetainer} />
         <QuoteBand testimonial={roTestimonials.iojiban} />
         <HarnessSetup copy={roHarnessSetup} />
         <ServicesFaq copy={roServicesPageFaq} />
         <ServicesFinalCta copy={roServicesFinalCta} />
       </main>
-      <ClosingCta hideCta copy={roClosingCta} />
       <Footer copy={roFooter} />
     </div>
   );

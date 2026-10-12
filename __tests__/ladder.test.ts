@@ -15,10 +15,10 @@ import { STRATEGY_CALL_URL } from "@/data";
 const GUIDE: Record<string, { tier: string; price: string; duration: string }> =
   {
     "strategy-call": { tier: "Advise", price: "€200", duration: "1 h" },
-    audit: { tier: "Advise", price: "from €900", duration: "2–3 days" },
+    audit: { tier: "Advise", price: "from €1,500", duration: "2–3 days" },
     workshop: {
       tier: "Train",
-      price: "€2,000 half-day / €3,500 full-day",
+      price: "€3,000 half-day / €5,000 full-day",
       // R2-F28: the half-day agenda runs 09:00–12:30.
       duration: "3.5 h / 8 h",
     },
@@ -124,8 +124,8 @@ describe("ladderServiceJsonLd", () => {
       (n: { name: string }) => n.name === "Team workshop",
     );
     expect(workshop.offers.map((o: { price: string }) => o.price)).toEqual([
-      "2000",
-      "3500",
+      "3000",
+      "5000",
     ]);
   });
 

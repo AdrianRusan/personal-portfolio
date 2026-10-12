@@ -12,9 +12,7 @@ describe("Person JSON-LD", () => {
   });
 
   it("names the current role and employer", () => {
-    expect(person.jobTitle).toBe(
-      "Senior software engineer, agent-accelerated delivery",
-    );
+    expect(person.jobTitle).toBe("Senior full-stack engineer");
     expect(person.hasOccupation.name).toBe(person.jobTitle);
     const employers = [person.worksFor].flat();
     expect(employers).toContainEqual(
@@ -66,7 +64,7 @@ describe("Organization JSON-LD", () => {
     for (const node of [org, person]) {
       expect(node.address).toEqual({
         "@type": "PostalAddress",
-        addressLocality: "Bucharest",
+        addressLocality: "Timișoara",
         addressCountry: "RO",
       });
       expect(JSON.stringify(node)).not.toMatch(/streetAddress|postalCode|telephone/);

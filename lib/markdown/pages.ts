@@ -1,5 +1,4 @@
 import type { BioCopy } from "@/components/Bio";
-import type { BetweenLineCopy } from "@/components/BetweenLine";
 import type { ClosingCtaCopy } from "@/components/ClosingCta";
 import type { HeroCopy } from "@/components/Hero";
 import type { OffersCopy } from "@/components/Offers";
@@ -10,6 +9,7 @@ import type { WhoForCopy } from "@/components/WhoFor";
 import type { LadderContent } from "@/components/services/Ladder";
 import type { ProcessStepsCopy } from "@/components/services/ProcessSteps";
 import type { ServicesHeroCopy } from "@/components/services/ServicesHero";
+import type { TrustStripCopy } from "@/components/services/TrustStrip";
 import { CALENDLY_URL, type Testimonial } from "@/data";
 import type { ProsePage } from "@/data/pages";
 import { teardown } from "@/data/teardown";
@@ -70,7 +70,6 @@ export interface HomeCopy {
   bio: BioCopy;
   faq: Faq;
   closing: ClosingCtaCopy;
-  between: BetweenLineCopy;
 }
 
 // Same sections and order as the home pages (P2).
@@ -89,7 +88,7 @@ export const homeMd = (c: HomeCopy) =>
     list(
       c.shipVerify.steps.map((s) => `**${s.label}: ${s.heading}.** ${s.body}`),
     ),
-    `${c.shipVerify.multiplierBefore} [${c.shipVerify.multiplierLink.replace(/ →$/, "")}](/blog/what-agents-get-wrong)`,
+    `[${c.shipVerify.multiplierLink.replace(/ →$/, "")}](/blog/what-agents-get-wrong)`,
     `## ${c.caseStudies.heading}`,
     c.caseStudies.lead,
     `[${c.caseStudies.all.replace(/ →$/, "")}](/work)`,
@@ -106,12 +105,12 @@ export const homeMd = (c: HomeCopy) =>
     faqMd(c.faq),
     `## ${c.closing.heading}`,
     c.closing.body,
-    `[${c.closing.button}](${CALENDLY_URL})`,
-    `${c.between.before} [${c.between.link}](${c.between.href})`,
+    `[${c.closing.button}](${CALENDLY_URL}) · [${c.closing.teardown.replace(/ →$/, "")}](/teardown)`,
   );
 
 export interface ServicesCopy {
   hero: ServicesHeroCopy;
+  trust: TrustStripCopy;
   ladder: LadderContent;
   process: ProcessStepsCopy;
   faq: Faq;
@@ -121,6 +120,7 @@ export interface ServicesCopy {
 
 export const servicesMd = ({
   hero,
+  trust,
   ladder,
   process,
   faq,
@@ -131,7 +131,8 @@ export const servicesMd = ({
     hero.intro,
     `> ${hero.guarantee}`,
     `[${hero.cta}](${CALENDLY_URL})`,
-    `${hero.proof}. [${hero.proofLink.label}](${hero.proofLink.href})`,
+    `${trust.label} ${trust.employers.join(", ")}.`,
+    `${trust.proof}. [${trust.study.cta.replace(/ →$/, "")}](${trust.study.href})`,
     `## ${ladder.heading}`,
     ladder.note ? `${ladder.intro} ${ladder.note}` : ladder.intro,
     ...ladder.tiers.map(({ tier, tagline }) =>
@@ -142,7 +143,7 @@ export const servicesMd = ({
             .filter((o) => o.tier === tier)
             .map(
               (o) =>
-                `**${o.name}** (${ladder.format(o)}, ${o.duration}). ${o.summary}${o.assurance ? ` ${o.assurance}` : ""}`,
+                `**${o.name}** (${ladder.format(o)}, ${o.duration}). ${o.summary}${o.tier !== "Ship" && o.assurance ? ` ${o.assurance}` : ""}`,
             ),
         ),
       ),
@@ -160,12 +161,16 @@ export const proseMd = (page: ProsePage) =>
     `# ${page.title}`,
     page.lead,
     page.updated && `Last updated ${page.updated}`,
-    page.earlier &&
-      `${page.earlier.label}:\n\n${quoteMd(page.earlier.testimonial)}`,
     ...(page.options ?? []).map(
       (o) => `## ${o.heading}\n\n${o.body} [${o.cta}](${o.href})`,
     ),
-    ...page.sections.map((s) => `## ${s.heading}\n\n${s.body}`),
+    ...page.sections.map((s) =>
+      blocks(
+        `## ${s.heading}`,
+        s.body,
+        s.quote && `${s.quote.label}:\n\n${quoteMd(s.quote.testimonial)}`,
+      ),
+    ),
   );
 
 export const teardownMd = () =>

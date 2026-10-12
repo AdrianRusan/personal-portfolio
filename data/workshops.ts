@@ -102,15 +102,16 @@ const fullDay: Workshop = {
   slug: "full-day",
   name: "Team workshop: full day",
   length: "full day",
-  price: 3500,
+  // D3 (Adi, 2026-10-12): €3,500 → €5,000. RO keeps its own 1.900 € (data/ro.ts).
+  price: 5000,
   maxPeople: 10,
   title: "Full-day Claude Code workshop for engineering teams",
   description:
-    "Claude Code workshop for engineering teams, full day: parallel agents in git worktrees, then review gates. Up to 10 engineers.",
+    "Claude Code workshop on agentic engineering for teams, full day: parallel agents in git worktrees, then review gates. Up to 10 engineers.",
   headline:
     "Teach your team to run Claude Code agents in parallel, then review what they ship",
   intro:
-    "The morning gets your engineers running several agents side by side on your own repo. The afternoon is the part most teams skip: the gates that catch what those agents get wrong before it reaches a customer. Expect 2–3x, not 100x.",
+    "The morning gets your engineers running several agents side by side on your own repo. The afternoon is the part most teams skip: the gates that catch what those agents get wrong before it reaches a customer.",
   agenda: [
     setup("3.5 hours", ["09:00–10:00", "10:15–11:15", "11:15–12:30"]),
     {
@@ -142,15 +143,16 @@ const halfDay: Workshop = {
   slug: "half-day",
   name: "Team workshop: half day",
   length: "half day",
-  price: 2000,
+  // D3 (Adi, 2026-10-12): €2,000 → €3,000. RO keeps its own 1.100 € (data/ro.ts).
+  price: 3000,
   maxPeople: 10,
   title: "Half-day Claude Code workshop for engineering teams",
   description:
-    "Claude Code workshop for engineering teams, half-day: parallel agents in git worktrees, a rules file, an hour on review gates.",
+    "Claude Code workshop on agentic engineering for teams, half-day: parallel agents in git worktrees, a rules file, an hour on review gates.",
   headline:
     "Get your team running Claude Code agents in parallel in half a day",
   intro:
-    "Your engineers set up parallel agents on your own repo, write the rules file those agents follow, and finish with one hour on reviewing what the agents produce. Expect 2–3x, not 100x.",
+    "Your engineers set up parallel agents on your own repo, write the rules file those agents follow, and finish with one hour on reviewing what the agents produce.",
   agenda: [
     setup("2.5 hours", ["09:00–09:45", "09:45–10:30", "10:45–11:30"]),
     {
@@ -174,7 +176,7 @@ const halfDay: Workshop = {
 
 export const euro = (n: number) => `€${n.toLocaleString("en-US")}`;
 
-// "€200 per engineer at 10 people": the group price split at the cap.
+// "€300 per engineer at 10 people": the group price split at the cap.
 export const perEngineer = (w: Workshop) =>
   `${euro(Math.round(w.price / w.maxPeople))} per engineer at ${w.maxPeople} people`;
 

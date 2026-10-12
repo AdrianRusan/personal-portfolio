@@ -1,24 +1,15 @@
 import {
   CALENDLY_URL,
-  CAPACITY,
   CONTACT_EMAIL,
+  HARNESS_PROOF,
   LEDGER_PROOF,
-  STRATEGY_CALL_CTA,
-  STRATEGY_CALL_URL,
   callSteps,
   earlierTestimonial,
   workExperience,
   type Testimonial,
 } from "@/data";
-import { formatPrice, ladder, offerById } from "@/data/ladder";
 import {
-  RO_CAPACITY,
-  RO_STRATEGY_CALL_CTA,
-  RO_STRATEGY_CALL_URL,
-  formatPriceRo,
-  roLadder,
-} from "@/data/ro";
-import {
+  RO_HARNESS_PROOF,
   RO_LEDGER_PROOF,
   roCallFaq,
   roWorkExperience,
@@ -35,15 +26,20 @@ export interface ProsePage {
   updated?: string;
   // Parallel choices rendered as option blocks under the lead (/contact).
   options?: { heading: string; body: string; cta: string; href: string }[];
-  sections: { heading: string; body: string }[];
-  // A labelled client quote under the lead (/about, #76).
-  earlier?: { label: string; testimonial: Testimonial };
+  // `quote`: a labelled client quote after the section body (/about, #76).
+  sections: {
+    heading: string;
+    body: string;
+    quote?: { label: string; testimonial: Testimonial };
+  }[];
 }
 
 const firstSentence = (s: string) => s.slice(0, s.indexOf(".") + 1);
 const mailto = `[${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL})`;
 const LEGAL_ENTITY = "Rusan Adrian-Ionuț PFA · CIF 49119790";
 const SOCIAL = `[LinkedIn](https://www.linkedin.com/in/adrian-rusan/) · [GitHub](https://github.com/AdrianRusan) · [X](https://x.com/adrian_rusan)`;
+// D12 (Adi, 2026-10-12): the city on every page, EN and RO.
+const CITY = "Timișoara";
 
 export const privacyPage: ProsePage = {
   path: "/privacy",
@@ -109,53 +105,44 @@ const job = (j: {
   `- **${j.title}, ${j.company}** (${j.period}). ${j.desc}${j.client ? `\n  - ${j.client}` : ""}`;
 
 // P2 (R1-F11): one human paragraph, the history as a plain list, the method
-// linked instead of repeated, and the ledger said once.
+// linked instead of repeated, and the ledger said once. A1 F12 / A4 F8: the
+// recent work leads; the 2022 quote follows the history it belongs to.
 export const aboutPage: ProsePage = {
   path: "/about",
   // The layout template appends "| Adrian Rusan" (R1-F31).
   title: "About",
   description:
-    "Adrian Rusan: senior software engineer in Bucharest with 10+ years in production. Claude Code agents ship the backlog; he reviews every pull request.",
-  lead: "I'm Adrian Rusan, a senior software engineer in Bucharest, Romania. Claude Code agents ship backlog work, and I review every pull request myself, security first.",
-  earlier: { label: "Earlier client work", testimonial: earlierTestimonial },
+    `Adrian Rusan: senior full-stack engineer in ${CITY} with 10+ years in production. AI agents ship the backlog; he reviews every pull request.`,
+  lead: `I'm Adrian Rusan, a senior full-stack engineer in ${CITY} with 10+ years in production. I ship backlogs with AI agents and read every pull request myself before it reaches you, security first. Generation was never the slow part. Review is.`,
   sections: [
     {
       heading: "How I work",
-      body: `Day to day, I work in writing. You get the pull requests, my review notes and a short update, so nobody waits on a meeting. I learned to review on systems where mistakes show: live overlays for PGL Major streams watched by 2M+ people at once, and 300+ survey projects for enterprise research clients. I review agent code the same way. I assume it's wrong, then check.
+      body: `Day to day, I work in writing. You get the pull requests, my review notes and a short update, so nobody waits on a meeting. I learned to review on systems where mistakes show: live overlays for PGL Major streams watched by 2M+ people at once, and 300+ survey projects for global brands. I review agent code the same way. I assume it's wrong, then check. The agents run on my own harness: ${HARNESS_PROOF}.
 
 The method, agents ship and I review, is [on the home page](/#ship-verify). The full process, from scope call to handoff, is on [the services page](/services#process).`,
     },
     {
       heading: "Work history",
-      body: workExperience.map(job).join("\n"),
+      body: `${workExperience.map(job).join("\n")}
+
+[Case studies](/work) · [Blog](/blog) · ${SOCIAL}`,
+      quote: { label: "Earlier client work", testimonial: earlierTestimonial },
     },
     {
       heading: "How the numbers are counted",
       body: `- Agents give you 2–3x the throughput, not 100x, and they get specific things wrong. [Here's what they get wrong](/blog/what-agents-get-wrong).
 - Workflow numbers: ${LEDGER_PROOF}
-- Case studies are my own projects and say so.`,
-    },
-    {
-      heading: "Capacity",
-      body: `${CAPACITY} If the slot is taken when you reach out, I give you the next start date I can keep.`,
-    },
-    {
-      heading: "Proof and history",
-      body: `- [Case studies](/work): documented runs, what broke, what I built and the number it moved.
-- [Blog](/blog): field notes on shipping with Claude Code agents and senior review.
-- Elsewhere: ${SOCIAL}.`,
+- Each case study says whether it's my own project or client work under NDA.`,
     },
   ],
 };
-
-const strategyCall = offerById(ladder, "strategy-call");
 
 // P2 (R1-F7, F30): three option blocks with one button each, the call first.
 export const contactPage: ProsePage = {
   path: "/contact",
   title: "Contact",
   description:
-    "Book a 30-minute scoping call, email contact@adrian-rusan.com or send a repo for a free teardown. Adrian Rusan works remotely from Bucharest, Romania.",
+    "Book a 30-minute scoping call, email contact@adrian-rusan.com or send a repo for a free teardown. Adrian Rusan works remotely from Timișoara, Romania.",
   lead: "The quickest way to start is a 30-minute scoping call. If you'd rather write, email works just as well.",
   options: [
     {
@@ -177,11 +164,8 @@ export const contactPage: ProsePage = {
       href: "/teardown",
     },
   ],
+  // A1 F4 / F18: the paid strategy call is listed on /services only.
   sections: [
-    {
-      heading: `${strategyCall.name} (${formatPrice(strategyCall)})`,
-      body: `${strategyCall.summary} [${STRATEGY_CALL_CTA}](${STRATEGY_CALL_URL}).`,
-    },
     {
       heading: "Response times",
       body: `- **Email.** Within one working day.
@@ -191,7 +175,7 @@ export const contactPage: ProsePage = {
     },
     {
       heading: "Location",
-      body: "Bucharest, Romania · remote. Romania time (EET/EEST, UTC+2/+3) overlaps fully with European working hours and the morning of US East Coast teams.",
+      body: `${CITY}, Romania · remote. Romania time (EET/EEST, UTC+2/+3) overlaps fully with European working hours and the morning of US East Coast teams.`,
     },
     {
       heading: "Legal entity",
@@ -204,51 +188,39 @@ export const roAboutPage: ProsePage = {
   path: "/ro/despre",
   title: "Despre",
   description:
-    "Adrian Rusan: inginer software senior din București, cu peste 10 ani în producție. Agenții Claude Code livrează backlog-ul; el verifică fiecare PR.",
-  lead: "Sunt Adrian Rusan, inginer software senior în București. Agenții Claude Code livrează backlog-ul, iar eu verific personal fiecare pull request, întâi pentru securitate.",
-  earlier: {
-    label: "Proiect anterior pentru un client",
-    testimonial: earlierTestimonial,
-  },
+    `Adrian Rusan: inginer full-stack senior din ${CITY}, cu peste 10 ani în producție. Agenții AI livrează backlog-ul; el verifică fiecare PR.`,
+  lead: `Sunt Adrian Rusan, inginer full-stack senior în ${CITY}, cu peste 10 ani în producție. Livrez backlog-uri cu agenți AI și citesc personal fiecare pull request înainte să ajungă la tine, întâi pentru securitate. Partea lentă n-a fost niciodată generarea codului, ci review-ul.`,
   sections: [
     {
       heading: "Cum lucrez",
-      body: `Zi de zi, lucrez în scris. Primești pull request-urile, notele mele de review și un update scurt, așa că nimeni nu așteaptă după o ședință. Am învățat să fac review pe sisteme unde greșelile se văd: grafica live din transmisiunile PGL Major, urmărite de peste 2 milioane de oameni simultan, și peste 300 de proiecte de sondaje pentru clienți enterprise din cercetarea de piață. La fel verific și codul scris de agenți. Pornesc de la ideea că e greșit, apoi verific.
+      body: `Zi de zi, lucrez în scris. Primești pull request-urile, notele mele de review și un update scurt, așa că nimeni nu așteaptă după o ședință. Am învățat să fac review pe sisteme unde greșelile se văd: grafica live din transmisiunile PGL Major, urmărite de peste 2 milioane de oameni simultan, și peste 300 de proiecte de sondaje pentru branduri globale. La fel verific și codul scris de agenți. Pornesc de la ideea că e greșit, apoi verific. Agenții rulează pe harness-ul meu: ${RO_HARNESS_PROOF}.
 
 Metoda, agenții livrează și eu verific, e [pe pagina principală](/ro#ship-verify). Tot procesul, de la discuția de scope la predare, e pe [pagina de servicii](/ro/servicii#process).`,
     },
     {
       heading: "Experiență",
-      body: roWorkExperience.map(job).join("\n"),
+      body: `${roWorkExperience.map(job).join("\n")}
+
+Studiile de caz și articolele sunt în engleză: [Studii de caz](/work) · [Blog](/blog) · ${SOCIAL}`,
+      quote: {
+        label: "Proiect anterior pentru un client",
+        testimonial: earlierTestimonial,
+      },
     },
     {
       heading: "Cum sunt numărate cifrele",
       body: `- Agenții îți dau de 2–3 ori mai mult volum, nu de 100 de ori, și greșesc lucruri anume. [Iată ce greșesc](/blog/what-agents-get-wrong).
 - Cifrele fluxului de lucru: ${RO_LEDGER_PROOF}
-- Studiile de caz sunt proiectele mele și spun asta.`,
-    },
-    {
-      heading: "Capacitate",
-      body: `${RO_CAPACITY} Dacă locul e ocupat când mă contactezi, îți dau următoarea dată de start pe care o pot respecta.`,
-    },
-    {
-      heading: "Dovezi și istoric",
-      body: `Studiile de caz și articolele sunt în engleză.
-
-- [Studii de caz](/work): rulări documentate, ce s-a stricat, ce am construit și ce cifră s-a mișcat.
-- [Blog](/blog): note despre livrarea cu agenți Claude Code și review senior.
-- În altă parte: ${SOCIAL}.`,
+- Fiecare studiu de caz spune dacă e proiectul meu sau un proiect pentru un client, sub NDA.`,
     },
   ],
 };
-
-const roStrategyCall = offerById(roLadder, "strategy-call");
 
 export const roContactPage: ProsePage = {
   path: "/ro/contact",
   title: "Contact",
   description:
-    "Programează o discuție de 30 de minute, scrie la contact@adrian-rusan.com sau trimite un repo pentru un teardown gratuit. Remote, din București.",
+    "Programează o discuție de 30 de minute, scrie la contact@adrian-rusan.com sau trimite un repo pentru un teardown gratuit. Remote, din Timișoara.",
   lead: "Cel mai rapid începem cu o discuție de 30 de minute. Dacă preferi să scrii, un email merge la fel de bine.",
   options: [
     {
@@ -272,10 +244,6 @@ export const roContactPage: ProsePage = {
   ],
   sections: [
     {
-      heading: `${roStrategyCall.name} (${formatPriceRo(roStrategyCall)})`,
-      body: `${roStrategyCall.summary} [${RO_STRATEGY_CALL_CTA}](${RO_STRATEGY_CALL_URL}).`,
-    },
-    {
       heading: "Timp de răspuns",
       body: `- **Email.** În cel mult o zi lucrătoare.
 - **După discuție.** ${firstSentence(roCallFaq.steps[2]!.body)}
@@ -284,7 +252,7 @@ export const roContactPage: ProsePage = {
     },
     {
       heading: "Locație",
-      body: "București, România · remote. Ora României (EET/EEST, UTC+2/+3) se suprapune complet cu programul european și cu dimineața echipelor de pe Coasta de Est a SUA.",
+      body: `${CITY}, România · remote. Ora României (EET/EEST, UTC+2/+3) se suprapune complet cu programul european și cu dimineața echipelor de pe Coasta de Est a SUA.`,
     },
     {
       heading: "Entitate juridică",

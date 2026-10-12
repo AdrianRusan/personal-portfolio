@@ -9,7 +9,7 @@ import { ctaSecondary } from "@/components/ui/button";
 type Status = "idle" | "loading" | "success" | "error";
 
 const en = {
-  heading: "Not ready to book?",
+  heading: "The checklist I review agent PRs with",
   body: "Get the Agent PR Review Checklist: the checks that catch the bugs your tests let through. Plus an occasional email on shipping AI-written code safely. Unsubscribe anytime.",
   success: "Check your inbox.",
   label: "Email address",

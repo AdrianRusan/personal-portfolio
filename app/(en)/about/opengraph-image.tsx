@@ -7,7 +7,7 @@ export const alt = aboutPage.description;
 
 export default function Image() {
   return renderOgCard({
-    eyebrow: "10+ years in production · Bucharest",
+    eyebrow: "10+ years in production · Timișoara",
     title: aboutPage.title,
     subtitle: "Agents ship the backlog. I review every PR.",
     footerRight: `adrian-rusan.com${aboutPage.path}`,

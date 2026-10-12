@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell } from "@/components/PageShell";
-import MagicButton from "@/components/ui/MagicButton";
+import PrimaryCta from "@/components/ui/PrimaryCta";
 import {
   workshops,
   workshopJsonLd,
@@ -67,7 +67,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
 
   return (
     // R2-F5: the workshop card is this page's one ask.
-    <PageShell hideFooterCta>
+    <PageShell hideFooterCta hideEmailCapture>
       <JsonLd
         data={[
           workshopJsonLd(w),
@@ -83,7 +83,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
         ]}
       />
 
-      <section className="px-5 sm:px-10 pt-36 pb-12 md:pb-16">
+      <section className="px-5 sm:px-10 pt-36 md:pt-44 pb-12 md:pb-16">
         <div className="container-section text-center">
           <p className="eyebrow">
             Team workshop · {w.length} · up to {w.maxPeople} people
@@ -98,7 +98,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
             {euro(w.price)} for the {w.length} · {perEngineer(w)} · EUR, ex-VAT
           </p>
           <div className="flex justify-center mt-6">
-            <MagicButton
+            <PrimaryCta
               title={w.cta.label}
               href={w.cta.href}
               otherClasses="md:mt-0"
@@ -215,7 +215,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
             with the open dates and what to install beforehand.
           </p>
           <div className="flex justify-center mt-6">
-            <MagicButton
+            <PrimaryCta
               title={w.cta.label}
               href={w.cta.href}
               otherClasses="md:mt-0"

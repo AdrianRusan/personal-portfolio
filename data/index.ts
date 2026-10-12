@@ -1,6 +1,10 @@
 // event slug must exist in Calendly (active "Scoping Call" event, slug "new-meeting")
 export const CALENDLY_URL = "https://calendly.com/adrian-rusan/new-meeting";
 
+// D1 / A1 F1: the LinkedIn positioning, for titles, OG cards and schema.
+export const SITE_TAGLINE = "AI Agents Ship It, I Review Every PR";
+export const SITE_TITLE = `Adrian Rusan | ${SITE_TAGLINE}`;
+
 // Async intake inbox for offers that don't require a call.
 export const CONTACT_EMAIL = "contact@adrian-rusan.com";
 
@@ -20,7 +24,7 @@ export const SAMPLE_REPORT_URL: string | null =
   "/sample-sprint-security-report.pdf";
 
 // YouTube channel id (starts with "UC"). One value drives every YouTube
-// surface: null hides the Bio/schema links and keeps the Latest block blog-only.
+// surface: null hides the Bio and schema links.
 export const YOUTUBE_CHANNEL_ID: string | null = null;
 export const YOUTUBE_URL = YOUTUBE_CHANNEL_ID
   ? `https://www.youtube.com/channel/${YOUTUBE_CHANNEL_ID}`
@@ -56,6 +60,19 @@ export const LEDGER_PROOF = `${WORKFLOW_NUMBERS.sessions} sessions · ${WORKFLOW
 export const CAPACITY =
   "The review layer is one senior human, so I run one sprint or retainer at a time.";
 
+// The harness proof (LinkedIn About, R5). Counted 2026-10-12: 23 skills and
+// 28 hooks in ~/.claude, so "20+" holds for both.
+export const HARNESS_PROOF =
+  "20+ skills and 20+ hooks that scan for secrets, block destructive commands and refuse a merge when a check can't run";
+
+// D5 / A3 F3: the one outside market figure on the site. Source, fetched and
+// checked 2026-10-12: Veracode, "2026 GenAI Code Security Report" (28 Jul 2026),
+// https://www.veracode.com/blog/2026-genai-code-security-report-ai-risk/
+// ("roughly 44% of tested AI code generation tasks resulted in code with a
+// known vulnerability"). RO twin: RO_VERACODE_LINE in data/ro-services.ts.
+export const VERACODE_LINE =
+  "Veracode's July 2026 test found a known vulnerability in about 44% of AI code-generation tasks.";
+
 // Single risk-reversal guarantee, reused verbatim at every money CTA.
 export const GUARANTEE =
   "If the first reviewed PR isn't merge-ready to your standard, you don't pay for it.";
@@ -69,9 +86,10 @@ export const proofStats = [
     figure: "3",
     // Canonical facts: goals/2026-10-11-30pr-canonical-facts.md. The repo had
     // no tests or CI, so the stat makes no claim about tests.
-    label: "injection paths caught before merge",
+    label: "shell-injection paths from request input, caught in review before merge",
   },
-  { figure: "10+ yrs", label: "in production" },
+  // A1 F9: the third stat is the miss (pratfall), not a repeat of the eyebrow.
+  { figure: "1", label: "missed, and the case study shows which" },
 ];
 
 export const shipVerify = [
@@ -94,7 +112,7 @@ export const shipVerify = [
 export const callSteps = [
   {
     heading: "Pick a 30-minute slot",
-    body: "Book on Calendly and add one line on what you want built or shipped. No deck, no prep.",
+    body: "Book on Calendly and add one line on what you want built or shipped. That line is all the prep.",
   },
   {
     heading: "We look at the real work",
@@ -102,7 +120,7 @@ export const callSteps = [
   },
   {
     heading: "You get it in writing",
-    body: "Within one working day: the scope, the fixed price and a start date, by email. You decide. Nobody chases you.",
+    body: "Within one working day: the scope, the fixed price and a start date, by email. The decision is yours, and I don't follow up unless you ask.",
   },
 ];
 
@@ -123,7 +141,7 @@ export const faqs: { question: string; answer: string }[] = [
     question:
       "Unsupervised agents ship vulnerabilities. How do you handle security?",
     answer:
-      "Correct, they do. Security is the first pass of every review: injection, auth, secrets, access control. On my own 30-PR run, a repo with no test suite, the review caught 3 shell-injection paths from request input before merge. The guarantee is in writing: an in-scope vulnerability found in a PR I marked reviewed gets fixed free.",
+      `Correct, they do. ${VERACODE_LINE} Security is the first pass of every review: injection, auth, secrets, access control. On my own 30-PR run, a repo with no test suite, the review caught 3 shell-injection paths from request input before merge. The guarantee is in writing: an in-scope vulnerability found in a PR I marked reviewed gets fixed free.`,
   },
   {
     question: "Who owns the code? Will you sign an NDA?",
@@ -155,9 +173,9 @@ export const faqs: { question: string; answer: string }[] = [
       "Ongoing capacity is the retainer, from €4,000/month. It isn't the recommended way in: a sprint sells a reviewed outcome at a price agreed up front, which is a better deal than buying time. Start with one Reviewed PR if you want to test the working relationship first.",
   },
   {
-    question: "Why not hire an agency, or more engineers?",
+    question: "Why not an agency, more engineers, or an AI review bot?",
     answer:
-      "An agency sells a team's hours with a markup, and new headcount takes months to hire and ramp. Here the first reviewed PR lands within days, from one senior engineer running several Claude Code agents: no coordination overhead and no junior work billed at senior rates. Agencies using agents rarely put a senior adversarial review on top. Here that review is the product.",
+      "An agency sells a team's hours with a markup, and new headcount takes months to hire and ramp. An AI review bot is cheap and worth running, but it can't be held accountable for a merge. Here one senior engineer runs several Claude Code agents, and every PR still gets my line-by-line review. The first reviewed PR lands within days.",
   },
   // C16 (F12): the four objections the call kept raising. Appended, so the
   // homepage picks by index (HOME_FAQ_PICKS) stay the same.
@@ -187,7 +205,9 @@ export const faqs: { question: string; answer: string }[] = [
 // (same order, data/ro-services.ts) picks the same ones, plus the call steps
 // folded into one answer, last because the closing CTA follows. P2: the
 // "doesn't work out" answer (7) repeats the hero guarantee, so 9 replaces it.
-const HOME_FAQ_PICKS = [0, 2, 3, 6, 9];
+// A3 F6: the LLM-usage answer (11) replaces payment terms (6), which /services
+// already covers; a fixed price with tokens included is the 2026 cost answer.
+const HOME_FAQ_PICKS = [0, 2, 3, 11, 9];
 export const homeFaq = (
   items: { question: string; answer: string }[],
   call: { question: string; steps: { body: string }[] },
@@ -216,14 +236,11 @@ export const whoFor = {
     "You lead engineering, founded the company or own delivery at a funded startup or scaleup, especially where security review is non-negotiable: fintech, health, payments, anything handling money or PII.",
     "You're drowning in backlog and can't hire your way out fast enough.",
     "You want agent-speed throughput but need a senior human accountable for what merges.",
-    "You want the multiplier measured on real work.",
-    "You run a small team and want AI automation without hiring.",
   ],
   notForList: [
     "You're shopping purely on hourly rate. The review layer is the value you'd be pricing out.",
     'You want to hear "100x" and don\'t care who reviews the code.',
     "You need a staff-aug seat with a badge and standups. I sell reviewed PRs at a fixed price.",
-    "You're pre-idea with no scope to fix a price against.",
   ],
 };
 
@@ -314,7 +331,7 @@ export const workExperience: {
     title: "Frontend Developer",
     company: "Ipsos Interactive Services SRL",
     period: "Jun 2016 – Sep 2020",
-    desc: "Delivered 300+ survey projects on time for enterprise research clients, and mentored three junior developers.",
+    desc: "Delivered 300+ survey projects on time for global brands, and mentored three junior developers.",
   },
 ];
 

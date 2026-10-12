@@ -6,11 +6,9 @@ import CaseStudyCards from "@/components/CaseStudyCards";
 import WhoFor from "@/components/WhoFor";
 import Bio from "@/components/Bio";
 import Testimonials from "@/components/Testimonials";
-import Latest from "@/components/Latest";
-import { BetweenLine } from "@/components/BetweenLine";
 import { PageShell } from "@/components/PageShell";
 import { ServicesFaq } from "@/components/services/ServicesFaq";
-import { HOME_FAQ_HEADING, homeFaqs } from "@/data";
+import { HOME_FAQ_HEADING, SITE_TITLE, homeFaqs } from "@/data";
 import type { Metadata } from "next";
 import { JsonLd, SITE_URL, faqJsonLd, pageJsonLd } from "@/lib/page-schema";
 
@@ -31,9 +29,9 @@ const homeJsonLd = [
   {
     ...pageJsonLd({
       path: "/",
-      name: "Adrian Rusan | Agent-Accelerated Delivery, Reviewed",
+      name: SITE_TITLE,
       description:
-        "Fixed-scope delivery sprints where Claude Code agents ship the backlog and a senior engineer security-reviews every pull request.",
+        "I ship your backlog with AI agents and review every pull request myself, security first, at a price fixed before work starts.",
       crumbs: [],
     }),
     mainEntity: { "@id": `${SITE_URL}/#person` },
@@ -42,7 +40,7 @@ const homeJsonLd = [
     "@context": "https://schema.org",
     "@type": "Service",
     "@id": `${SITE_URL}/#service`,
-    name: "Agent-Accelerated Delivery Sprint",
+    name: "Delivery Sprint",
     description:
       "A fixed-scope software delivery sprint where Claude Code agents ship backlog work and a senior engineer security-reviews every pull request before it reaches the client.",
     provider: { "@id": `${SITE_URL}/#person` },
@@ -59,11 +57,12 @@ const homeJsonLd = [
   ),
 ];
 
-// P2: nine sections, then the shared closing ask. Experience moved to /about;
+// P2: eight sections, then the shared closing ask. Experience moved to /about;
 // #76: client quotes follow the case studies; FinalCta became PageShell's ClosingCta.
+// A1 F11 / A4 F5: no blog cards before the ask; the nav already links the blog.
 export default function Home() {
   return (
-    <PageShell closingSecondary={<BetweenLine />} closingSource="final_cta">
+    <PageShell hideEmailCapture closingSource="final_cta">
       <JsonLd data={homeJsonLd} />
       <Hero />
       <ProofBand />
@@ -73,7 +72,6 @@ export default function Home() {
       <Offers />
       <WhoFor />
       <Bio />
-      <Latest />
       <ServicesFaq copy={{ heading: HOME_FAQ_HEADING, items: homeFaqs }} />
     </PageShell>
   );

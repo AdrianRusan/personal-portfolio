@@ -9,7 +9,7 @@ import { ctaPrimary } from "./button";
 // labels never clip.
 const layout = "w-full md:w-auto md:min-w-60 md:mt-10";
 
-const MagicButton = ({
+const PrimaryCta = ({
   title,
   handleClick,
   otherClasses,
@@ -57,4 +57,4 @@ const MagicButton = ({
   );
 };
 
-export default MagicButton;
+export default PrimaryCta;

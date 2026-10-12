@@ -11,7 +11,7 @@ export const metadata = proseMetadata(contactPage, {
 
 export default function ContactPage() {
   return (
-    <PageShell hideFooterCta>
+    <PageShell hideFooterCta hideEmailCapture>
       <JsonLd
         data={pageJsonLd({
           path: contactPage.path,

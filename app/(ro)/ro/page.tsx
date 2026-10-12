@@ -7,20 +7,16 @@ import CaseStudyCards from "@/components/CaseStudyCards";
 import WhoFor from "@/components/WhoFor";
 import Bio from "@/components/Bio";
 import Testimonials from "@/components/Testimonials";
-import Latest from "@/components/Latest";
-import { BetweenLine } from "@/components/BetweenLine";
 import { PageShell } from "@/components/PageShell";
 import { ServicesFaq } from "@/components/services/ServicesFaq";
 import { homeFaq } from "@/data";
 import { roServicesFaq } from "@/data/ro-services";
 import {
-  roBetween,
   roBio,
   roCallFaq,
   roCaseStudyCards,
   roFaqHeading,
   roHero,
-  roLatest,
   roOffers,
   roProofBand,
   roShipVerify,
@@ -67,7 +63,7 @@ export default function RoHome() {
   return (
     <PageShell
       ro
-      closingSecondary={<BetweenLine copy={roBetween} />}
+      hideEmailCapture
       closingSource="final_cta"
     >
       <JsonLd
@@ -88,7 +84,6 @@ export default function RoHome() {
       <Offers copy={roOffers} />
       <WhoFor copy={roWhoFor} />
       <Bio copy={roBio} />
-      <Latest copy={roLatest} />
       <ServicesFaq
         copy={{
           heading: roFaqHeading,

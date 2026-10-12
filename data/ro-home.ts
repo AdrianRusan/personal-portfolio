@@ -1,11 +1,8 @@
 import type { BioCopy } from "@/components/Bio";
 import type { CaseStudyCardsCopy } from "@/components/CaseStudyCards";
-import type { EmailCaptureCopy } from "@/components/EmailCapture";
-import type { BetweenLineCopy } from "@/components/BetweenLine";
 import type { FooterCopy } from "@/components/Footer";
 import type { ClosingCtaCopy } from "@/components/ClosingCta";
 import type { HeroCopy } from "@/components/Hero";
-import type { LatestCopy } from "@/components/Latest";
 import type { OffersCopy } from "@/components/Offers";
 import type { ProofBandCopy } from "@/components/ProofBand";
 import type { ShipVerifyCopy } from "@/components/ShipVerify";
@@ -20,7 +17,7 @@ import {
   WORKFLOW_NUMBERS as W,
   type Testimonial,
 } from "@/data";
-import { offerById, tiers } from "@/data/ladder";
+import { tiers } from "@/data/ladder";
 import {
   formatPriceRo,
   RO_CAPACITY,
@@ -30,6 +27,10 @@ import {
   roTierNames,
   roTiers,
 } from "@/data/ro";
+
+// RO twin of HARNESS_PROOF (data/index.ts).
+export const RO_HARNESS_PROOF =
+  "peste 20 de skills și peste 20 de hooks care caută secrete, blochează comenzile distructive și refuză un merge când o verificare nu poate rula";
 
 // RO twin of LEDGER_PROOF (data/index.ts): same constant, same source.
 const ro = (v: number) => v.toLocaleString("ro-RO");
@@ -41,10 +42,11 @@ export const RO_LEDGER_PROOF = `${W.sessions} de sesiuni · ${W.hours} de ore ·
 export { RO_GUARANTEE } from "@/data/ro";
 
 export const roHero: HeroCopy = {
-  eyebrow: "Adrian Rusan · Inginer senior, peste 10 ani",
-  heading: "Livrează roadmap-ul pentru care nu găsești oameni.",
-  body: "Agenții Claude Code îți golesc backlog-ul. Eu verific personal fiecare pull request, întâi pentru securitate, înainte să-l vezi.",
-  teardown: "Teardown gratuit",
+  eyebrow: "Adrian Rusan · Inginer full-stack senior, peste\u00a010\u00a0ani",
+  // U+2011 keeps "backlog‑ul" whole when the H1 wraps.
+  heading: "Îți livrez backlog‑ul cu agenți AI și verific personal fiecare PR.",
+  body: "Întâi securitatea: injection, autentificare, secrete și controlul accesului, verificate linie cu linie înainte ca PR-ul să ajungă la tine. Te poți aștepta la un volum de 2–3 ori mai mare, nu de 100 de ori.",
+  teardown: "Teardown gratuit (EN)",
   call: "Programează o discuție",
   guarantee: RO_GUARANTEE,
 };
@@ -52,24 +54,14 @@ export const roHero: HeroCopy = {
 export const roProofBand: ProofBandCopy = {
   ariaLabel: "Dovezi în cifre",
   stats: [
-    { figure: "30", label: "PR-uri revizuite în sub 3 zile" },
-    { figure: "3", label: "căi de injection prinse înainte de merge" },
-    { figure: "10+ ani", label: "în producție" },
+    { figure: "30", label: "PR-uri revizuite în mai puțin de 3 zile" },
+    {
+      figure: "3",
+      label: "căi de shell injection din input-ul cererilor, prinse în review înainte de merge",
+    },
+    { figure: "1", label: "ratată, iar studiul de caz arată care anume" },
   ],
-  note: "30 și 3 vin dintr-o singură rulare documentată pe propriul meu repo (proiect propriu).",
-};
-
-export const roEmailCapture: EmailCaptureCopy = {
-  heading: "Nu ești gata să programezi o discuție?",
-  body: "Primești checklist-ul de review pentru PR-uri scrise de agenți: verificările care prind bugurile trecute de teste. Plus, din când în când, un email despre cum livrezi în siguranță cod scris de AI. Te dezabonezi oricând.",
-  success: "Verifică-ți inboxul.",
-  label: "Adresa de email",
-  placeholder: "tu@firma.ro",
-  sending: "Se trimite…",
-  submit: "Vreau checklist-ul",
-  error: "Ceva n-a mers. Încearcă din nou peste câteva momente.",
-  invalid: "Te rog să introduci o adresă de email validă.",
-  privacy: "Cum îți folosesc datele",
+  note: "Toate cele trei cifre vin dintr-o singură rulare documentată, pe propriul meu panou de administrare, în martie 2026.",
 };
 
 // Keyed by tag so a reordered or added EN step can't pick up the wrong copy.
@@ -88,18 +80,17 @@ const roSteps: Record<string, { label: string; heading: string; body: string }> 
 
 export const roShipVerify: ShipVerifyCopy = {
   heading: "Backlog-ul crește, iar codul scris de agenți are nevoie de review",
-  body: "Agenții pot scrie cea mai mare parte dintr-un backlog. Scriu și buguri de injection care trec testele.",
+  body: "Agenții pot scrie cea mai mare parte dintr-un backlog. Scriu și buguri de injection. În rularea mea cu 30 de PR-uri, fără teste și fără CI, review-ul a fost singura verificare.",
   punch: "Agenții fără review livrează buguri mai repede.",
   stepsHeading: "Cum funcționează: agenții livrează, eu verific",
   steps: shipVerify.map((step) => ({ ...step, ...roSteps[step.tag] })),
-  multiplierBefore: "De 2–3 ori, nu de 100 de ori.",
   multiplierLink: "Iată ce greșesc agenții →",
   sampleLink: "Vezi un raport exemplu →",
 };
 
 export const roBio: BioCopy = {
   heading: "Cine îți verifică codul",
-  body: `Sunt Adrian Rusan, inginer software cu peste 10 ani de cod livrat în producție. Lucrez independent, prin propria firmă, cel mai recent cu contract ca founding engineer pentru ${FINTECH_EMPLOYER}. Înainte: GoSocial, PGL Esports și Ipsos. În fiecare colaborare de aici, verific eu fiecare PR scris de agenți.`,
+  body: `Sunt Adrian Rusan, inginer full-stack senior cu peste 10 ani în producție. Lucrez prin propria firmă, cel mai recent ca founding engineer pentru ${FINTECH_EMPLOYER}. Înainte de asta, am făcut grafica live pentru transmisiunile PGL Major, urmărite simultan de peste 2 milioane de spectatori, peste 300 de proiecte de sondaje la Ipsos pentru branduri globale și dashboard-uri de reclame la GoSocial. Agenții rulează pe harness-ul meu: ${RO_HARNESS_PROOF}. Fiecare PR îl citesc tot eu.`,
   onGithub: "Adrian Rusan pe GitHub",
   onLinkedin: "Adrian Rusan pe LinkedIn",
   onX: "Adrian Rusan pe X",
@@ -110,7 +101,7 @@ const roTagline = Object.fromEntries(roTiers.map((t) => [t.tier, t.tagline]));
 
 export const roOffers: OffersCopy = {
   heading: "Oferte și prețuri",
-  intro: "Fiecare ofertă are un preț fix înainte să vorbim. ",
+  intro: "Fiecare ofertă are un preț de pornire afișat, iar prețul final îl stabilim înainte să încep lucrul. ",
   credit: RO_CREDIT_TERMS,
   // A7: yes.
   priceNote: "Prețuri pentru firme cu sediul în România.",
@@ -187,12 +178,25 @@ export const roPostTitles: PostTitles = {
   "2-3x-not-100x": {
     title: "De 2–3 ori, nu de 100 de ori: cifra sinceră despre viteza programării cu AI",
     description:
-      "Cu cât e mai rapidă, de fapt, programarea cu AI? Răspunsul măsurat e de 2–3 ori, nu de 10–100 de ori. Iată metodologia, 30 de PR-uri revizuite în sub 3 zile, și ce lasă deoparte multiplicatorul.",
+      "Cu cât e mai rapidă, de fapt, programarea cu AI? Răspunsul măsurat e de 2–3 ori, nu de 10–100 de ori. Iată metodologia, 30 de PR-uri revizuite în mai puțin de 3 zile, și ce lasă deoparte multiplicatorul.",
   },
 };
 
 export const roCaseStudyCards: CaseStudyCardsCopy = {
-  label: "Proiect propriu",
+  t: {
+    "Own project": "Proiect propriu",
+    "Client work (NDA)": "Proiect pentru client (NDA)",
+    "Own setup": "Setup propriu",
+    // The caseStudyResults labels (data/work.ts).
+    "shell-injection paths from request input, caught in review before merge":
+      "căi de shell injection din input-ul cererilor, prinse în review înainte de merge",
+    'the true count behind a landing-page line labelled "real number". The gate keeps lines like it off the page.':
+      "e numărul adevărat din spatele unui rând de pe un landing page etichetat „număr real”. Gate-ul ține astfel de rânduri departe de pagină.",
+    "reviewed PRs merged in 100 minutes, each through a review gate first":
+      "PR-uri revizuite, cu merge în 100 de minute, fiecare trecut întâi printr-un gate de review",
+    "lower cost per commit in one month, then it crept back":
+      "cost pe commit mai mic într-o lună, apoi a crescut din nou",
+  },
   heading: "Studii de caz",
   // The one note for the whole page (R1-F21): studies and posts are in English.
   lead: "Studiile de caz și articolele sunt în engleză.",
@@ -209,14 +213,11 @@ export const roWhoFor: WhoForCopy = {
     "Conduci echipa de engineering, ai fondat compania sau răspunzi de livrare într-un startup sau scaleup finanțat, mai ales acolo unde review-ul de securitate e obligatoriu: fintech, sănătate, plăți, orice atinge bani sau date personale.",
     "Te îneci în backlog și nu poți angaja destul de repede.",
     "Vrei throughput-ul agenților, dar ai nevoie de un om senior care răspunde pentru ce intră în merge.",
-    "Vrei multiplicatorul măsurat pe muncă reală.",
-    "Ai o echipă mică și vrei automatizare cu AI fără să angajezi.",
   ],
   notForList: [
     "Alegi doar după tariful pe oră. Review-ul e exact valoarea pe care ai scoate-o din calcul.",
     "Vrei să auzi „100x” și nu te interesează cine verifică codul.",
     "Cauți un om detașat în echipă, cu badge și standup-uri. Vând PR-uri revizuite, la preț fix.",
-    "Ești înainte de idee și nu ai un scope față de care să stabilim un preț.",
   ],
 };
 
@@ -237,7 +238,7 @@ const roJobs: Record<number, { period: string; desc: string; client?: string }> 
   },
   4: {
     period: "iun. 2016 – sep. 2020",
-    desc: "Am livrat la termen peste 300 de proiecte de sondaje pentru clienți enterprise din cercetarea de piață și am fost mentor pentru trei developeri juniori.",
+    desc: "Am livrat la termen peste 300 de proiecte de sondaje pentru branduri globale și am fost mentor pentru trei developeri juniori.",
   },
 };
 
@@ -246,29 +247,6 @@ export const roWorkExperience = workExperience.map((job) => ({
   ...roJobs[job.id],
 }));
 
-export const roLatest: LatestCopy = {
-  headingBefore: "Ultimele de pe",
-  youtube: "YouTube",
-  blog: "blog",
-  and: " și ",
-  intro:
-    "Cum lucrez cu agenții Claude Code și cum verific ce livrează.",
-  watch: "Vezi pe YouTube",
-  all: "Toate articolele →",
-  dateLocale: "ro-RO",
-  featured: "Recomandat",
-  minRead: "min de citit",
-  titles: roPostTitles,
-};
-
-const roReviewedPr = offerById(roLadder, "reviewed-pr");
-
-export const roBetween: BetweenLineCopy = {
-  before: "Undeva la mijloc?",
-  link: `Începe cu un singur PR revizuit: ${formatPriceRo(roReviewedPr)}, ${roReviewedPr.duration}`,
-  href: "/ro/servicii#entry-offer",
-};
-
 export const roFaqHeading = "Întrebările pe care le pun CTO-ii";
 
 // The call steps, folded into the homepage FAQ as one answer (#54 R3).
@@ -276,13 +254,13 @@ export const roCallFaq = {
   question: "Ce se întâmplă după ce programezi o discuție?",
   steps: [
     {
-      body: "Rezervi pe Calendly și scrii un rând despre ce vrei să construiești sau să livrezi. Fără prezentări, fără pregătire.",
+      body: "Rezervi pe Calendly și scrii un rând despre ce vrei să construiești sau să livrezi. Rândul ăsta e toată pregătirea.",
     },
     {
       body: "Ne uităm la backlog-ul tău, la repo-ul tău sau la întrebarea ta despre AI. Îți spun ce nivel se potrivește și cât costă, sau că nu e potrivit.",
     },
     {
-      body: "În cel mult o zi lucrătoare primești pe email scope-ul, prețul fix și data de start. Tu decizi. Nu te sună nimeni să insiste.",
+      body: "În cel mult o zi lucrătoare primești pe email scope-ul, prețul fix și data de start. Decizia e a ta și nu revin decât dacă îmi ceri.",
     },
   ],
 };
@@ -291,9 +269,7 @@ export const roClosingCta: ClosingCtaCopy = {
   heading: "Ai un backlog? Programează o discuție de 30 de minute.",
   body: "Spune-mi ce vrei să construiești sau să livrezi. Pleci știind ce ofertă ți se potrivește și cât costă.",
   button: "Programează o discuție",
-  emailBefore: "sau scrie la",
-  teardown: "Sau trimite un repo pentru teardown gratuit →",
-  emailCapture: roEmailCapture,
+  teardown: "Sau trimite un repo pentru un teardown gratuit, în engleză →",
 };
 
 export const roFooter: FooterCopy = {

@@ -46,7 +46,7 @@ export async function GET() {
 
   const body = `# Adrian Rusan
 
-> Senior software engineer offering agent-accelerated delivery, reviewed: a fleet of Claude Code agents ships the backlog, and a senior engineer security-reviews every pull request before it merges.
+> Senior full-stack engineer with 10+ years in production, based in Timișoara, Romania. I ship your backlog with Claude Code agents and review every pull request myself, security first, before it merges.
 
 Every price is fixed before work starts, in EUR, excluding VAT. Every page below also answers in Markdown: request it with \`Accept: text/markdown\`.
 

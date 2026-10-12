@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import MagicButton from '@/components/ui/MagicButton'
+import PrimaryCta from '@/components/ui/PrimaryCta'
 import { PageShell } from '@/components/PageShell'
 import Link from 'next/link'
 import { primaryNav } from '@/data/nav'
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <PageShell>
+    <PageShell hideEmailCapture>
       <section className="flex flex-col items-center text-center px-5 pt-36 md:pt-44 pb-12">
         <p className="eyebrow">
           <span className="num">404</span> · Page not found
@@ -25,7 +25,7 @@ export default function NotFound() {
         <p className="text-white-200 text-lg mb-8 max-w-md text-pretty">
           The link may be old or mistyped. The homepage has everything else.
         </p>
-        <MagicButton
+        <PrimaryCta
           title="Back to the homepage"
           href="/"
           otherClasses="md:mt-0"

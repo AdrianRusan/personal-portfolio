@@ -3,7 +3,7 @@ import path from "node:path";
 import Image from "next/image";
 import Link from "next/link";
 import { FaGithub, FaLinkedin, FaXTwitter, FaYoutube } from "react-icons/fa6";
-import { FINTECH_EMPLOYER, YOUTUBE_URL } from "@/data";
+import { FINTECH_EMPLOYER, HARNESS_PROOF, YOUTUBE_URL } from "@/data";
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "./ui/SectionHeading";
 
@@ -14,11 +14,21 @@ const hasPhoto = fs.existsSync(
 );
 
 // The photo, or a neutral monogram until public/adrian.jpg exists (A1).
-export const Avatar = ({ className }: { className?: string }) =>
+// `decorative` where the name is already next to the photo (the hero).
+export const Avatar = ({
+  className,
+  decorative = false,
+  priority = false,
+}: {
+  className?: string;
+  decorative?: boolean;
+  priority?: boolean;
+}) =>
   hasPhoto ? (
     <Image
       src="/adrian.jpg"
-      alt="Adrian Rusan"
+      alt={decorative ? "" : "Adrian Rusan"}
+      priority={priority}
       width={96}
       height={96}
       className={cn("h-20 w-20 shrink-0 rounded-full object-cover", className)}
@@ -37,7 +47,7 @@ export const Avatar = ({ className }: { className?: string }) =>
 
 const en = {
   heading: "Who reviews your code",
-  body: `I'm Adrian Rusan, a software engineer with 10+ years shipping production software. I work independently through my own company, most recently on contract as founding engineer for ${FINTECH_EMPLOYER}. Before that: GoSocial, PGL Esports and Ipsos. On every engagement here, I review each PR the agents write.`,
+  body: `I'm Adrian Rusan, a senior full-stack engineer with 10+ years in production. I work through my own company, most recently as founding engineer for ${FINTECH_EMPLOYER}. Before that, live graphics for PGL Major streams with 2M+ concurrent viewers, 300+ survey projects at Ipsos for global brands, and ad dashboards at GoSocial. The agents run on my own harness: ${HARNESS_PROOF}. I still read every PR myself.`,
   onGithub: "Adrian Rusan on GitHub",
   onLinkedin: "Adrian Rusan on LinkedIn",
   onX: "Adrian Rusan on X",
@@ -61,8 +71,8 @@ const Bio = ({ copy = en }: { copy?: BioCopy }) => {
       aria-labelledby="bio-heading"
       className="px-5 sm:px-10 py-12 md:py-20"
     >
-      <div className="container-section grid gap-6 md:grid-cols-[auto_1fr] md:gap-10">
-        <Avatar />
+      <div className="container-section">
+        {/* A4 F2: the photo moved up to the hero. */}
         <div className="max-w-3xl">
           <SectionHeading id="bio-heading">{copy.heading}</SectionHeading>
           <p className="mt-4 text-white-200 leading-relaxed text-pretty">

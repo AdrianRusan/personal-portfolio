@@ -1,6 +1,6 @@
 export type NavItem = { name: string; link: string };
 
-// One nav for every page. In-page anchors live in the /services sub-nav only.
+// One nav for every page (A4 F7: no per-page sub-nav).
 export const primaryNav: NavItem[] = [
   { name: "Home", link: "/" },
   { name: "Services", link: "/services" },
@@ -14,16 +14,4 @@ export const roPrimaryNav: NavItem[] = [
   { name: "Servicii", link: "/ro/servicii" },
   { name: "Proiecte", link: "/work" },
   { name: "Blog", link: "/blog" },
-];
-
-export const servicesSubNav: NavItem[] = [
-  { name: "Pricing", link: "#ladder" },
-  { name: "How it works", link: "#process" },
-  { name: "Contact", link: "#contact" },
-];
-
-export const roServicesSubNav: NavItem[] = [
-  { name: "Prețuri", link: "#ladder" },
-  { name: "Metoda", link: "#process" },
-  { name: "Contact", link: "#contact" },
 ];

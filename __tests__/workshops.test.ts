@@ -5,8 +5,8 @@ const half = workshops["half-day"];
 
 describe("workshops data", () => {
   it("uses the guide's prices and group cap", () => {
-    expect(full.price).toBe(3500);
-    expect(half.price).toBe(2000);
+    expect(full.price).toBe(5000);
+    expect(half.price).toBe(3000);
     expect(full.maxPeople).toBe(10);
     expect(half.maxPeople).toBe(10);
   });
@@ -29,8 +29,8 @@ describe("workshops data", () => {
   });
 
   it("meta description states the same price as the Offer", () => {
-    expect(full.description).toContain("€3,500 ex-VAT");
-    expect(half.description).toContain("€2,000 ex-VAT");
+    expect(full.description).toContain("€5,000 ex-VAT");
+    expect(half.description).toContain("€3,000 ex-VAT");
   });
 
   // C43 / D6
@@ -45,8 +45,8 @@ describe("workshops data", () => {
   });
 
   it("states the per-engineer price at the group cap", () => {
-    expect(perEngineer(half)).toBe("€200 per engineer at 10 people");
-    expect(perEngineer(full)).toBe("€350 per engineer at 10 people");
+    expect(perEngineer(half)).toBe("€300 per engineer at 10 people");
+    expect(perEngineer(full)).toBe("€500 per engineer at 10 people");
   });
 
   it("keeps meta descriptions within 155 characters, price included", () => {
@@ -74,7 +74,7 @@ describe("workshopJsonLd", () => {
     expect(ld.provider["@id"]).toBe("https://www.adrian-rusan.com/#person");
     expect(ld.offers).toMatchObject({
       "@type": "Offer",
-      price: 3500,
+      price: 5000,
       priceCurrency: "EUR",
     });
   });

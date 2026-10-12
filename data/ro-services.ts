@@ -25,24 +25,23 @@ import {
 
 // /ro/servicii copy. Prices follow data/ro.ts (55% of the global ladder).
 
+// RO twin of VERACODE_LINE (data/index.ts), same source.
+export const RO_VERACODE_LINE =
+  "Testul Veracode din iulie 2026 a găsit o vulnerabilitate cunoscută în aproximativ 44% dintre sarcinile de generare de cod cu AI.";
+
 const eur = euro;
 const prs = (i: number) => roSprintSizes[i]!.prs.join("–");
 const standard = roSprintSizes[1]!;
 
 export const roServicesHero: ServicesHeroCopy = {
-  heading: "Backlog-ul tău, livrat de agenți. Fiecare PR, verificat de mine.",
+  heading:
+    "Livrează-ți backlog-ul de 2–3 ori mai repede. Verific fiecare PR pentru securitate înainte să-l vezi.",
   intro:
     "Tu alegi tichetele, eu fixez prețul înainte să începem. Agenții AI scriu codul. Eu verific fiecare PR linie cu linie, întâi securitatea, apoi ți-l trimit.",
   cta: "Programează o discuție",
   ctaSource: "ro_services_hero",
-  tiersLink: `Primul sprint de la ${eur(roSprintSizes[0]!.price)}. Vezi toate prețurile ↓`,
+  tiersLink: "Vezi toate prețurile ↓",
   guarantee: RO_GUARANTEE,
-  proof:
-    "30 de PR-uri revizuite în sub 3 zile · 3 căi de shell injection prinse înainte de merge",
-  proofLink: {
-    label: "Vezi ce au greșit agenții (EN) →",
-    href: "/work/30-reviewed-prs-3-vulnerabilities",
-  },
 };
 
 // The global ladder links its Build/Ship offers to in-page sections; /ro/servicii
@@ -65,7 +64,7 @@ export const roServicesLadder: LadderContent = {
   tierName: (tier) => roTierNames[tier],
   format: formatPriceRo,
   heading: "Prețuri",
-  intro: `Începe cu o sesiune de 110 € sau mergi direct la un sprint. ${RO_CREDIT_TERMS} Toate prețurile sunt în EUR, fără TVA.`,
+  intro: `Începe cu un singur PR revizuit, la ${formatPriceRo(offerById(roLadder, "reviewed-pr"))}, sau mergi direct la un sprint. ${RO_CREDIT_TERMS} Toate prețurile sunt în EUR, fără TVA.`,
   // A7: RO prices are for Romanian-registered firms.
   note: "Prețuri pentru firme cu sediul în România.",
   limited: "Unul pe rând",
@@ -140,9 +139,6 @@ export const roDeliverySprint: DeliverySprintCopy = {
   sampleLink: "Vezi un raport de securitate exemplu (EN) →",
   pricingHeading: "Prețurile sprinturilor",
   rowHeader: "Criteriu",
-  // ponytail: EN €10–14k scaled by the same 55% as data/ro.ts; confirm with Adi.
-  pricingLead:
-    "O lună de contractor senior costă ~5.500–7.700 €, și nimeni nu verifică acel cod pentru securitate.",
   pricingRest: `Un Sprint Standard costă ${eur(standard.price)} pentru ${prs(1)} PR-uri, fiecare verificat pentru securitate, plus raportul de securitate.`,
   columns: withTierPrefill(
     CALENDLY_URL,
@@ -227,10 +223,9 @@ export const roTrustStrip: TrustStripCopy = {
   ariaLabel: "Experiență",
   label: "Peste 10 ani de software livrat în producție, cu",
   employers: [FINTECH_EMPLOYER, "GoSocial", "PGL Esports", "Ipsos"],
+  proof:
+    "30 de PR-uri revizuite în mai puțin de 3 zile · 3 căi de shell injection prinse înainte de merge, 1 ratată",
   study: {
-    tag: "Proiect propriu",
-    title: "30 de PR-uri revizuite, 3 căi de shell injection prinse",
-    body: "Propriul meu panou de administrare: agenții au deschis 31 de PR-uri în sub trei zile, iar 30 au ajuns la review. Fără teste și fără CI, review-ul a fost singura verificare. A prins 3 căi de injection înainte de merge și a scăpat una, despre care scriu în studiu.",
     href: "/work/30-reviewed-prs-3-vulnerabilities",
     cta: "Citește studiul de caz (EN) →",
   },
@@ -317,7 +312,7 @@ export const roServicesPageFaq: ServicesFaqCopy = {
       question:
         "Agenții nesupravegheați livrează vulnerabilități. Cum tratezi securitatea?",
       answer:
-        "Așa e, de aceea securitatea e prima trecere din fiecare review: injection, autentificare, secrete, controlul accesului. Pe propria mea rulare de 30 de PR-uri, un repo fără teste, review-ul a prins 3 căi de shell injection din input-ul cererii înainte de merge. Ce scap din aria review-ului e acoperit de garanția de securitate din condițiile sprintului.",
+        `Așa e. ${RO_VERACODE_LINE} De aceea securitatea e prima trecere din fiecare review: injection, autentificare, secrete, controlul accesului. Pe propria mea rulare de 30 de PR-uri, un repo fără teste, review-ul a prins 3 căi de shell injection din input-ul cererii înainte de merge. Ce scap din aria review-ului e acoperit de garanția de securitate din condițiile sprintului.`,
     },
     {
       question:
@@ -348,9 +343,9 @@ export const roServicesPageFaq: ServicesFaqCopy = {
     },
     {
       question:
-        "De ce nu un contractor plătit pe zi, o agenție sau mai mulți ingineri?",
+        "De ce nu un contractor plătit pe zi, o agenție, mai mulți ingineri sau un bot de review AI?",
       answer:
-        "Capacitatea continuă e retainerul, de la 2.200 €/lună. O agenție îți vinde orele unei echipe, cu adaos, iar oamenii noi se acomodează în luni de zile. Un sprint îți vinde PR-uri revizuite la un preț fixat dinainte, iar primul ajunge în câteva zile. Dacă vrei să testezi întâi colaborarea, începe cu un singur PR revizuit.",
+        "Capacitatea continuă e retainerul, de la 2.200 €/lună. O agenție îți vinde orele unei echipe, cu adaos, iar oamenii noi se acomodează în luni de zile. Un bot de review AI e ieftin și merită rulat, dar nu poate răspunde pentru un merge. Un sprint îți vinde PR-uri revizuite la un preț fixat dinainte, iar primul ajunge în câteva zile. Dacă vrei să testezi întâi colaborarea, începe cu un singur PR revizuit.",
     },
   ],
 };
@@ -375,7 +370,7 @@ export const roServicesFaq: ServicesFaqCopy = {
       question:
         "Agenții nesupravegheați livrează vulnerabilități. Cum tratezi securitatea?",
       answer:
-        "Așa e, livrează. Tocmai de aceea nu e un serviciu mai ieftin de tipul „pornim agenții și gata”. Securitatea e prima trecere din fiecare review: injection, autentificare, secrete, controlul accesului. Pe propria mea rulare de 30 de PR-uri, un repo fără teste, review-ul a prins 3 căi de shell injection din input-ul cererii înainte de merge. Garanția e în scris: o vulnerabilitate din aria review-ului, găsită într-un PR marcat de mine ca revizuit, se repară gratuit.",
+        `Așa e, livrează. ${RO_VERACODE_LINE} Securitatea e prima trecere din fiecare review: injection, autentificare, secrete, controlul accesului. Pe propria mea rulare de 30 de PR-uri, un repo fără teste, review-ul a prins 3 căi de shell injection din input-ul cererii înainte de merge. Garanția e în scris: o vulnerabilitate din aria review-ului, găsită într-un PR marcat de mine ca revizuit, se repară gratuit.`,
     },
     {
       question: "Al cui e codul? Semnezi un NDA?",
@@ -407,9 +402,10 @@ export const roServicesFaq: ServicesFaqCopy = {
         "Capacitatea continuă e retainerul, de la 2.200 €/lună. Nu e varianta pe care o recomand pentru început: un sprint îți vinde un rezultat revizuit, la un preț stabilit dinainte, ceea ce e mai avantajos decât să cumperi timp. Începe cu un singur PR revizuit dacă vrei să testezi întâi colaborarea.",
     },
     {
-      question: "De ce să nu angajez o agenție sau mai mulți ingineri?",
+      question:
+        "De ce să nu angajez o agenție, mai mulți ingineri sau un bot de review AI?",
       answer:
-        "O agenție îți vinde orele unei echipe, cu adaos, iar oamenii noi se angajează și se acomodează în luni de zile. Aici primești primul PR revizuit în câteva zile, de la un singur inginer senior care lucrează cu mai mulți agenți Claude Code în paralel: fără costuri de coordonare și fără muncă de junior facturată la tarif de senior. Agențiile care folosesc agenți pun rar un review senior deasupra.",
+        "O agenție îți vinde orele unei echipe, cu adaos, iar oamenii noi se angajează și se acomodează în luni de zile. Un bot de review AI e ieftin și merită rulat, dar nu poate răspunde pentru un merge. Aici un singur inginer senior lucrează cu mai mulți agenți Claude Code, iar fiecare PR trece tot prin review-ul meu, linie cu linie. Primul PR revizuit vine în câteva zile.",
     },
     {
       question: "Ce stack-uri și limbaje verifici?",
@@ -439,5 +435,5 @@ export const roServicesFinalCta: ServicesFinalCtaCopy = {
   body: "O discuție de 30 de minute. Pleci cu un scope și un preț fix.",
   cta: "Programează o discuție",
   ctaSource: "ro_services_final_cta",
-  emailBefore: "sau scrie la",
+  teardown: "Sau trimite un repo pentru un teardown gratuit, în engleză →",
 };

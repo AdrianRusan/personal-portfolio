@@ -69,7 +69,7 @@ const ro: Record<
   "strategy-call": {
     name: "Sesiune de strategie AI",
     summary:
-      "Discuția gratuită de 30 de minute stabilește scope-ul unui proiect. Ora asta e consultanță pe întrebarea ta, cu un rezumat scris.",
+      "O oră pe întrebarea ta despre AI, cu un rezumat scris.",
     prices: [{ amount: 110 }],
     duration: "1 oră",
     assurance: "Preț fix, plătit în avans.",
@@ -78,7 +78,7 @@ const ro: Record<
   audit: {
     name: "Audit AI",
     summary:
-      "Îți verific codul scris de AI, fluxul LLM sau costurile cu LLM-urile: breșe de securitate, costul pe fiecare PR intrat în merge, folosirea cache-ului și rulările de agenți irosite. Primești un raport care îți spune ce repari întâi.",
+      "Îți verific codul scris de AI sau „vibe-coded”, fluxul LLM sau costurile cu tokenii: breșe de securitate, costul pe fiecare PR intrat în merge, folosirea cache-ului și rulările de agenți irosite. Primești un raport care îți spune ce repari întâi.",
     prices: [{ amount: 500, from: true }],
     duration: "2–3 zile",
     assurance: "Prețul se stabilește înainte să încep.",

@@ -40,9 +40,14 @@ describe("roLadder", () => {
     expect(formatPriceRo(roLadder.find((o) => o.id === id)!)).toBe(expected);
   });
 
-  it("prices every point at 55% of global, within 2% rounding", () => {
+  // D3 (2026-10-12): EN audit and workshop prices went up; RO keeps the R7
+  // prices pinned above, so those two no longer track 55% of global.
+  const D3_RAISED = new Set(["audit", "workshop"]);
+
+  it("prices every other point at 55% of global, within 2% rounding", () => {
     roLadder.forEach((ro, i) => {
       const global = ladder[i]!;
+      if (D3_RAISED.has(ro.id)) return;
       expect(ro.prices).toHaveLength(global.prices.length);
       ro.prices.forEach((p, j) => {
         const target = global.prices[j]!.amount * 0.55;
@@ -76,5 +81,18 @@ describe("roPostTitles", () => {
   it.each(published)("has a Romanian title for %s", (slug) => {
     expect(roPostTitles[slug]?.title).toBeTruthy();
     expect(roPostTitles[slug]?.description).toBeTruthy();
+  });
+});
+
+// A1 F2 / A4 F12: the /ro case cards show each study's figure and label in
+// Romanian. A new or changed EN label must get its RO twin here.
+describe("roCaseStudyCards", () => {
+  it("translates every case-study figure label and meta label", async () => {
+    const { caseStudyResults } = await import("@/data/work");
+    const { roCaseStudyCards } = await import("@/data/ro-home");
+    for (const { label } of Object.values(caseStudyResults))
+      expect([label, roCaseStudyCards.t[label]]).toEqual([label, expect.any(String)]);
+    for (const meta of ["Own project", "Client work (NDA)", "Own setup"])
+      expect(roCaseStudyCards.t[meta]).toEqual(expect.any(String));
   });
 });

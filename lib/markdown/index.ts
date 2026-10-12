@@ -1,5 +1,4 @@
 import { bioCopy } from "@/components/Bio";
-import { betweenLineCopy } from "@/components/BetweenLine";
 import { caseStudyCardsCopy } from "@/components/CaseStudyCards";
 import { closingCtaCopy } from "@/components/ClosingCta";
 import { heroCopy } from "@/components/Hero";
@@ -12,6 +11,7 @@ import { ladderCopy } from "@/components/services/Ladder";
 import { processStepsCopy } from "@/components/services/ProcessSteps";
 import { servicesFaqCopy } from "@/components/services/ServicesFaq";
 import { servicesHeroCopy } from "@/components/services/ServicesHero";
+import { trustStripCopy } from "@/components/services/TrustStrip";
 import {
   BLOG_DESCRIPTION,
   HOME_FAQ_HEADING,
@@ -27,7 +27,6 @@ import {
   roContactPage,
 } from "@/data/pages";
 import {
-  roBetween,
   roBio,
   roCallFaq,
   roCaseStudyCards,
@@ -47,6 +46,7 @@ import {
   roServicesPageFaq,
   roServicesHero,
   roServicesLadder,
+  roTrustStrip,
 } from "@/data/ro-services";
 import { WORK_DESCRIPTION, byCaseStudyOrder } from "@/data/work";
 import { workshops, type WorkshopSlug } from "@/data/workshops";
@@ -76,7 +76,6 @@ const staticPages: Record<string, () => string> = {
       bio: bioCopy,
       faq: { heading: HOME_FAQ_HEADING, items: homeFaqs },
       closing: closingCtaCopy,
-      between: betweenLineCopy,
     }),
   "/ro": () =>
     homeMd({
@@ -93,11 +92,11 @@ const staticPages: Record<string, () => string> = {
         items: homeFaq(roServicesFaq.items, roCallFaq),
       },
       closing: roClosingCta,
-      between: roBetween,
     }),
   "/services": () =>
     servicesMd({
       hero: servicesHeroCopy,
+      trust: trustStripCopy,
       ladder: ladderCopy,
       process: processStepsCopy,
       faq: servicesFaqCopy,
@@ -106,6 +105,7 @@ const staticPages: Record<string, () => string> = {
   "/ro/servicii": () =>
     servicesMd({
       hero: roServicesHero,
+      trust: roTrustStrip,
       ladder: roServicesLadder,
       process: roProcessSteps,
       faq: roServicesPageFaq,

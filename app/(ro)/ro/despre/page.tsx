@@ -12,7 +12,7 @@ export const metadata = proseMetadata(
 
 export default function RoAboutPage() {
   return (
-    <PageShell ro>
+    <PageShell ro hideEmailCapture>
       <JsonLd
         data={pageJsonLd({
           path: roAboutPage.path,
@@ -24,9 +24,7 @@ export default function RoAboutPage() {
           home: { name: "Acasă", path: "/ro" },
         })}
       />
-      <ProsePage page={roAboutPage}>
-        <Avatar className="mt-8 h-16 w-16 text-lg" />
-      </ProsePage>
+      <ProsePage page={roAboutPage} photo={<Avatar className="h-24 w-24" />} />
     </PageShell>
   );
 }
