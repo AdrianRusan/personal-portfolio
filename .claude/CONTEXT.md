@@ -1,9 +1,10 @@
 # CONTEXT — Personal Portfolio
 
 Living context. Update after each session. Keep under 200 lines.
-State as of 2026-10-12 (main after PRs #34–#87).
+State as of 2026-10-12 (main after PRs #34–#95).
 
 ## Recent Changes
+- [2026-10-12] #91 two posts, live 14 Nov (fail-closed hooks) and 21 Nov (review bottleneck), every external number sourced and dated. #93 `htmlLimitedBots` keeps metadata in `<head>` on dynamic pages (/blog). #95 RO prices back to 55% of EN (audit from 850 €, workshops 1.650 € / 2.750 €); the strategy call promises a written summary within one working day.
 - [2026-10-12] #87 marketing pass on pages (EN + RO): hero mirrors the LinkedIn headline, photo in the hero, one free door (Scoping Call) + teardown fallback, paid first step = €1,000 Reviewed PR, €200 call on /services only, compact /services price rows, honest case-study labels, harness proof, Veracode line in the security FAQ, location Timișoara. EN prices raised: AI Audit from €1,500, workshops €3,000 / €5,000 (RO prices unchanged).
 - [2026-10-12] #86 blog cut from 13 files to 8 (301s in `next.config.mjs`), post-end CTAs read prices from `data/ladder.ts`, `/workshops` → `/services#ladder`, nine-PR case study goes live 24 Oct, Herdr-vs-agent-teams paragraph in the parallel post.
 - [2026-10-11] #76 testimonials: four client quotes on `/`, `/services` and RO twins; the 2022 Tim Claes quote kept on `/about` and `/ro/despre` only.
@@ -44,7 +45,7 @@ State as of 2026-10-12 (main after PRs #34–#87).
 - **Rendering**: server components by default; `"use client"` only for interactivity.
 
 ## Known Issues / Gotchas
-- **Vercel "Git information retrieval failed"**: a production deploy can fail on Vercel's side with an identical tree that built fine as a preview (seen on #87, 2026-10-12). Fix: Deployments → the failed one → Redeploy without build cache.
+- **Vercel production deploys fail when merges land seconds apart** ("Git information retrieval failed"; seen on #87, #93, #95 on 2026-10-12). The older deploys fail and the newest one usually succeeds. After merging several PRs, check that the deploy of the LAST merge commit succeeded; if it failed too, Deployments → Redeploy without build cache.
 - **Vercel project must be on Node 24** (Project Settings → Node.js Version).
 - **Never `pkill`/`killall` `next-server` or kill by pattern**: other projects run dev servers on this machine. Start servers on an explicit port and kill only your own PID.
 - **The Vercel CLI on this machine is logged in to another account.** Don't use it for this project; use the Vercel dashboard.
