@@ -11,7 +11,7 @@ language: "en"
 cta: "teardown"
 faq:
   - q: "Does AI write insecure code?"
-    a: "Yes. In one run of 30 merged PRs, agents wrote three shell-injection paths from request input. Review caught all three and missed a fourth shell call built from database values."
+    a: "Yes. In one run of 30 merged PRs, agents wrote three shell-injection paths from request input. Review caught and fixed those 3 before merge. It missed 1 shell call built from database values (#109), which is still open."
   - q: "Do automated tests catch AI-written security bugs?"
     a: "Usually not. Tests assert behavior on the inputs the author thought to write, and nobody writes happy-path tests with a shell command in them. An injection path can pass a whole test suite because the vulnerable branch only runs on inputs the tests never send."
   - q: "How do you review AI-generated code for vulnerabilities?"
