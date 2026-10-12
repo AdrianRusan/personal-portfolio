@@ -1,4 +1,5 @@
 import { CALENDLY_URL } from "@/data";
+import { ladder, offerById } from "@/data/ladder";
 import type { BlogCta, BlogFrontmatter } from "./blog-types";
 
 export interface BlogCtaCopy {
@@ -17,6 +18,15 @@ const SCOPING_CALL = {
   href: CALENDLY_URL,
 };
 
+// "AI Audit · from €900": name and lowest price from the ladder, so a price
+// change in data/ladder.ts or data/workshops.ts reaches every post.
+export const offerEyebrow = (id: string) => {
+  const { name, prices } = offerById(ladder, id);
+  const low = prices.reduce((a, b) => (b.amount < a.amount ? b : a));
+  const from = low.from || prices.length > 1 ? "from " : "";
+  return `${name} · ${from}€${low.amount.toLocaleString("en-US")}`;
+};
+
 // End-of-post offer, picked per post via frontmatter `cta`. Prices come from
 // the 2026-10-10 offer ladder; each paid offer links to the page that sells it.
 export const BLOG_CTAS: Record<BlogCta, BlogCtaCopy> = {
@@ -30,7 +40,7 @@ export const BLOG_CTAS: Record<BlogCta, BlogCtaCopy> = {
   },
   audit: {
     cta: "audit",
-    eyebrow: "AI Audit · from €900",
+    eyebrow: offerEyebrow("audit"),
     heading: "Get your AI-written code audited",
     body: "I review your AI-written code or LLM workflow and send a ranked report of what to fix first, in 2–3 days.",
     label: "See what the audit covers",
@@ -40,7 +50,7 @@ export const BLOG_CTAS: Record<BlogCta, BlogCtaCopy> = {
   // The same audit, pitched for the cost study (R3-F10).
   "cost-audit": {
     cta: "cost-audit",
-    eyebrow: "AI Audit · from €900",
+    eyebrow: offerEyebrow("audit"),
     heading: "Find where your agent tokens go",
     body: "I measure cost per commit and per merged PR on your setup and send a ranked list of fixes, in 2–3 days.",
     label: "See what the audit covers",
@@ -49,7 +59,7 @@ export const BLOG_CTAS: Record<BlogCta, BlogCtaCopy> = {
   },
   workshop: {
     cta: "workshop",
-    eyebrow: "Team workshop · from €2,000",
+    eyebrow: offerEyebrow("workshop"),
     heading: "Teach your team this workflow",
     body: "A hands-on workshop for up to 10 people on Claude Code, agent orchestration, review gates and harness engineering.",
     label: "See the full-day agenda",
@@ -61,7 +71,7 @@ export const BLOG_CTAS: Record<BlogCta, BlogCtaCopy> = {
   },
   automation: {
     cta: "automation",
-    eyebrow: "AI Automation · from €3,000",
+    eyebrow: offerEyebrow("automation"),
     heading: "Add a fact gate to your pipeline",
     body: "I add a gate to your LLM pipeline that blocks any number, rating or claim without a source. A gate that can't run blocks the publish too.",
     label: "See the AI Automation offer",
@@ -70,7 +80,7 @@ export const BLOG_CTAS: Record<BlogCta, BlogCtaCopy> = {
   },
   "reviewed-pr": {
     cta: "reviewed-pr",
-    eyebrow: "Reviewed PR · €1,000",
+    eyebrow: offerEyebrow("reviewed-pr"),
     heading: "Start with one Reviewed PR",
     body: "One real ticket from your backlog, shipped by an agent and reviewed line by line. If it isn't merge-ready to your standard, you don't pay.",
     label: "See what the Reviewed PR includes",
@@ -79,7 +89,7 @@ export const BLOG_CTAS: Record<BlogCta, BlogCtaCopy> = {
   },
   harness: {
     cta: "harness",
-    eyebrow: "Agent Fleet Setup · from €4,000",
+    eyebrow: offerEyebrow("harness"),
     heading: "Want this setup in your repo?",
     body: "I install the agent harness I run in your repo: project rules, the worktree and dispatch workflow, and review gates your team keeps.",
     label: "See what the setup includes",

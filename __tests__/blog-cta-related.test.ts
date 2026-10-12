@@ -3,7 +3,8 @@ import path from "path";
 import matter from "gray-matter";
 import { getRelatedPosts } from "@/lib/blog";
 import { CALENDLY_URL } from "@/data";
-import { BLOG_CTAS, getPostCta } from "@/lib/blog-cta";
+import { ladder, offerById } from "@/data/ladder";
+import { BLOG_CTAS, getPostCta, offerEyebrow } from "@/lib/blog-cta";
 import type { BlogFrontmatter, BlogPost } from "@/lib/blog-types";
 
 const fm = (over: Partial<BlogFrontmatter> = {}): BlogFrontmatter => ({
@@ -71,6 +72,29 @@ describe("getPostCta", () => {
       }
     },
   );
+
+  // The eyebrow price is the ladder's lowest price, never a copy of it.
+  it.each([
+    ["audit", "audit"],
+    ["cost-audit", "audit"],
+    ["workshop", "workshop"],
+    ["automation", "automation"],
+    ["reviewed-pr", "reviewed-pr"],
+    ["harness", "harness"],
+  ] as const)("prices the %s eyebrow from the ladder", (cta, id) => {
+    const { name, prices } = offerById(ladder, id);
+    const low = Math.min(...prices.map((p) => p.amount));
+    expect(BLOG_CTAS[cta].eyebrow).toBe(offerEyebrow(id));
+    expect(BLOG_CTAS[cta].eyebrow).toMatch(
+      new RegExp(`^${name} · (from )?€${low.toLocaleString("en-US")}$`),
+    );
+  });
+
+  it("keeps today's eyebrow wording", () => {
+    expect(offerEyebrow("audit")).toMatch(/^AI Audit · from €[\d,]+$/);
+    expect(offerEyebrow("workshop")).toMatch(/^Team workshop · from €[\d,]+$/);
+    expect(offerEyebrow("reviewed-pr")).toMatch(/^Reviewed PR · €[\d,]+$/);
+  });
 
   it("keeps the teardown as a primary with no second link", () => {
     expect(getPostCta(fm({ cta: "teardown", tags: ["security"] })).secondary).toBeUndefined();
