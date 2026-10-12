@@ -1,6 +1,6 @@
 ---
 title: "30 Agent PRs, Reviewed: 3 Shell Injections Caught, 5 Security Bugs Missed"
-seoTitle: "Reviewing AI-Generated PRs: What 30 Agent PRs Taught Me"
+seoTitle: "Reviewing AI Agent PRs: 30 PRs, 5 Security Misses, One Grep"
 date: "2026-10-11"
 updated: "2026-10-12"
 tags: ["ai", "claude-code", "code-review", "security"]
@@ -28,7 +28,7 @@ The repo is my own agent-monitoring dashboard: no client code, no client data. E
 | When (UTC) | What happened |
 | --- | --- |
 | 10 Mar, 13:54 | First PR opened (#95, the database schema) |
-| 11 Mar, 07:12 | First worker wave of 9 |
+| 11 Mar, 07:12 | First worker PR (#96, later closed and redone as #97); 9 waves of worker PRs follow |
 | 13 Mar, 08:39 | Last PR opened |
 | 13 Mar, 09:35 | Last merge (#125) |
 | 12 Oct | Re-audit: every fix commit classified, AI reviewers run on the original agent commits |
@@ -45,7 +45,7 @@ That is 2 days 19 hours from the first PR to the last merge. 31 PRs were opened,
 | #119 | A file path built from a route parameter with no containment (path traversal on read and write) | request (route) | `199d72c` → `e62ef29` |
 | #113 | A config path from an environment variable inside a shell string | operator config | `affddfd` → `b290d1c` |
 
-Only #112 was directly exploitable as written. #111 and #121 sat behind a regex that stripped every shell metacharacter, so they were one careless edit away from open. The code for all three is in [The Shell-Injection Bugs My Agents Wrote](/blog/catching-shell-injection-agents-wrote).
+Of these, only #112 was directly exploitable as written. #98, in the next table, was too. #111 and #121 sat behind a regex that stripped every shell metacharacter, so they were one careless edit away from open. The code for all three is in [The Shell-Injection Bugs My Agents Wrote](/blog/catching-shell-injection-agents-wrote).
 
 ## What review missed
 
@@ -53,39 +53,39 @@ Only #112 was directly exploitable as written. #111 and #121 sat behind a regex 
 | --- | --- | --- |
 | #98 | `repo`, `state` and `label` from the URL query string go into a `gh` shell command (`app/api/github/issues/route.ts`) | an agent classifying the fix commits on 12 Oct; I confirmed it in the code |
 | #109 | A PR number and a repo name read from the database go into an `exec` shell string | a fact-check of the run on 11 Oct; the AI reviewers flagged it too |
-| #117 | A stored repo name, editable in the UI, goes into `sh -c`. Review added a format check, and #118 deleted its only call when it merged 3 minutes later. | the same fix-commit audit, 12 Oct |
-| #111 | Log lines rendered as HTML (`dangerouslySetInnerHTML`) with only the search term escaped: stored XSS | AI reviewers on the original commit, 12 Oct |
+| #117 | A stored repo name, editable in the UI, goes into `sh -c`. Review added a format check, and #118 deleted its only call 3 minutes after it merged. | the same fix-commit audit, 12 Oct |
+| #111 | Log lines rendered as HTML (`dangerouslySetInnerHTML`) with nothing HTML-escaped (the search term is only regex-escaped): stored XSS | AI reviewers on the original commit, 12 Oct |
 | #121 | Memory-file lines rendered the same way: stored XSS | AI reviewers on the original commit, 12 Oct |
 
-All 5 are open: present at the repo's last commit, `30a6992` on 13 March 2026. The dashboard hasn't been touched since.
+All 5 are open: present at the repo's last commit, `30a6992` on 13 March 2026. The dashboard runs under PM2, and `middleware.ts` puts a bearer-token check in front of every API route when a token is configured, so reaching any of these needs that token. With no token configured the middleware lets every request through, which three of the AI reviewers flagged on their own.
 
 The same audit found one functional bug review missed: the #109 diff tab reads `commit.sha`, but `gh` returns `oid`, so the tab throws on any PR with commits.
 
 ## Why these got through
 
-**#98: the fix commit touched the vulnerable line and kept it.** Review asked for a cleanup, and the fix commit (`28f057d`) moved the route's private `gh` wrapper into a shared helper and typed it. The string that carries `repo` into the shell came along unchanged. A review comment on a line got read as a review of the line.
+**#98: the fix commit touched the vulnerable line and kept it.** Review asked for a cleanup, and the fix commit (`28f057d`) moved the route's private `gh` wrapper into a shared helper and typed it. The string that carries `repo` into the shell came along unchanged. I read that commit as a refactor and didn't re-check the string it moved.
 
-**#117: a check added in one PR was deleted by the next.** #117 and #118 were open at the same time. The format check I asked for landed at 07:25 UTC on 13 March, and #118's feature commit removed its only call at 07:29. Each PR was fine against its own base. Nobody, me included, reviewed the merge of the two.
+**#117: a rebase deleted the check, in plain sight.** The format check I asked for landed when #117 merged at 07:25 UTC on 13 March. A minute later #118 was rebased onto that merge, and its diff against main now showed `validateRepo` removed from the import and the call. I merged #118 at 07:29 without seeing it. The deletion was in the diff I approved.
 
 **#111 and #121: the fix already existed in the repo.** On 16 February a security fix (`32fc549`) added `sanitizeSnippet` to the global search results for exactly this pattern. In March two agents wrote two new search screens with their own highlight helpers and skipped it. My review fixed the shell call in both PRs and never looked at how the results rendered.
 
-**#109: I trusted the database.** The values came from rows my overnight worker writes, so I ranked them below request input and let the call through. Anything that can write that row can run a command.
+**#109: most likely, I trusted the database.** I have no note from March on why I passed it, so this is my reconstruction. The values came from rows my overnight worker writes, and I ranked that kind of input below request input. Anything that can write that row can run a command.
 
 ## The rest of review
 
-25 of 30 PRs needed fixes. Their fix commits hold 64 fixes for 61 distinct defects, because 3 defects were fixed twice on parallel branches. 12 fixes were security fixes. The largest groups were re-implemented helpers (11) and type-safety fixes (10). By my reading of the code, 9 of the 61 defects would have broken the build or a page at runtime; nothing was run to confirm it. The breakdown by category is in [How to Review AI-Generated Code](/blog/what-agents-get-wrong).
+25 of 30 PRs needed fixes. Their fix commits hold 64 fixes for 61 distinct defects, because 2 defects were fixed on more than one parallel branch, one of them 3 times. 9 fixes were security fixes. The largest groups were duplicated code (11) and type-safety fixes (10). By my reading of the code, 9 of the 61 defects would have broken the build or a page at runtime; nothing was run to confirm it. The breakdown by category is in [How to Review AI-Generated Code](/blog/what-agents-get-wrong).
 
 ## What I'd run now
 
-The check that catches all 5 misses is mechanical: flag every shell string with a variable in it and every raw-HTML sink, wherever the value comes from, then trace each hit.
+The check that surfaces all 5 misses is mechanical: flag every shell string with a variable in it and every raw-HTML sink, wherever the value comes from, then trace each hit.
 
 ```bash
 git diff origin/main...HEAD -U0 | grep '^+' \
   | grep -iE "exec[a-z]*\(|shell: true|dangerouslySetInnerHTML"
 ```
 
-I ran it on the 5 agent commits behind the misses. It returns 4 or 5 lines per commit, and every miss is among them. It also returns safe calls, like `execFileSync` with an argument array, so tracing each hit is still the work. A CI step that fails on a new hit until someone signs it off is the second gate a repo like this needed.
+I ran it on the 5 agent commits behind the misses. It returns 2 to 4 lines per commit, and every miss is among them. It also returns harmless calls, like `execSync('which rg')`, so tracing each hit is still the work. A CI step that fails on a new hit until someone signs it off is the second gate a repo like this needed.
 
-I also ran two AI reviewers, Claude Code's `/code-review` and my own three-agent panel, on the 7 original agent commits behind the security findings. Both flagged the #109 shell string and both XSS sinks.
+In October I also ran two AI reviewers (Claude Code 2.1.296's `/code-review` and my own three-agent panel) blind on the original agent commits. The panel flagged all 5 misses and `/code-review` flagged 4. That test is its own post, published 28 November.
 
-Generation was the cheap part of this run. Review set the pace, and review was also where the misses came from, which is why I now run a machine pass before I read a diff and still read every diff myself.
+What this changes for a repo like this one: a machine pass and that grep in CI before I read a diff, and every diff still read before it merges.
