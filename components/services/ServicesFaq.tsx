@@ -1,4 +1,5 @@
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { VERACODE_LINE } from "@/data";
 
 type FaqItem = { question: string; answer: string };
 
@@ -15,7 +16,7 @@ const items: FaqItem[] = [
     question:
       "Unsupervised agents ship vulnerabilities. How do you handle security?",
     answer:
-      "They do. Veracode's July 2026 test found a known vulnerability in about 44% of AI code-generation tasks. That's why security is the first pass of every review: injection, auth, secrets, access control. On my own 30-PR run, a repo with no test suite, the review caught 3 shell-injection paths from request input before merge. Anything in scope that I miss is covered by the security guarantee in the sprint terms.",
+      `They do. ${VERACODE_LINE} That's why security is the first pass of every review: injection, auth, secrets, access control. On my own 30-PR run, a repo with no test suite, the review caught 3 shell-injection paths from request input before merge. Anything in scope that I miss is covered by the security guarantee in the sprint terms.`,
   },
   {
     question:

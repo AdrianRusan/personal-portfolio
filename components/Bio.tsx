@@ -14,11 +14,21 @@ const hasPhoto = fs.existsSync(
 );
 
 // The photo, or a neutral monogram until public/adrian.jpg exists (A1).
-export const Avatar = ({ className }: { className?: string }) =>
+// `decorative` where the name is already next to the photo (the hero).
+export const Avatar = ({
+  className,
+  decorative = false,
+  priority = false,
+}: {
+  className?: string;
+  decorative?: boolean;
+  priority?: boolean;
+}) =>
   hasPhoto ? (
     <Image
       src="/adrian.jpg"
-      alt="Adrian Rusan"
+      alt={decorative ? "" : "Adrian Rusan"}
+      priority={priority}
       width={96}
       height={96}
       className={cn("h-20 w-20 shrink-0 rounded-full object-cover", className)}

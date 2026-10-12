@@ -25,6 +25,10 @@ import {
 
 // /ro/servicii copy. Prices follow data/ro.ts (55% of the global ladder).
 
+// RO twin of VERACODE_LINE (data/index.ts), same source.
+export const RO_VERACODE_LINE =
+  "Testul Veracode din iulie 2026 a găsit o vulnerabilitate cunoscută în aproximativ 44% din sarcinile de generare de cod cu AI.";
+
 const eur = euro;
 const prs = (i: number) => roSprintSizes[i]!.prs.join("–");
 const standard = roSprintSizes[1]!;
@@ -308,7 +312,7 @@ export const roServicesPageFaq: ServicesFaqCopy = {
       question:
         "Agenții nesupravegheați livrează vulnerabilități. Cum tratezi securitatea?",
       answer:
-        "Așa e. Testul Veracode din iulie 2026 a găsit o vulnerabilitate cunoscută în aproximativ 44% din sarcinile de generare de cod cu AI. De aceea securitatea e prima trecere din fiecare review: injection, autentificare, secrete, controlul accesului. Pe propria mea rulare de 30 de PR-uri, un repo fără teste, review-ul a prins 3 căi de shell injection din input-ul cererii înainte de merge. Ce scap din aria review-ului e acoperit de garanția de securitate din condițiile sprintului.",
+        `Așa e. ${RO_VERACODE_LINE} De aceea securitatea e prima trecere din fiecare review: injection, autentificare, secrete, controlul accesului. Pe propria mea rulare de 30 de PR-uri, un repo fără teste, review-ul a prins 3 căi de shell injection din input-ul cererii înainte de merge. Ce scap din aria review-ului e acoperit de garanția de securitate din condițiile sprintului.`,
     },
     {
       question:
@@ -366,7 +370,7 @@ export const roServicesFaq: ServicesFaqCopy = {
       question:
         "Agenții nesupravegheați livrează vulnerabilități. Cum tratezi securitatea?",
       answer:
-        "Așa e, livrează. Testul Veracode din iulie 2026 a găsit o vulnerabilitate cunoscută în aproximativ 44% din sarcinile de generare de cod cu AI. Securitatea e prima trecere din fiecare review: injection, autentificare, secrete, controlul accesului. Pe propria mea rulare de 30 de PR-uri, un repo fără teste, review-ul a prins 3 căi de shell injection din input-ul cererii înainte de merge. Garanția e în scris: o vulnerabilitate din aria review-ului, găsită într-un PR marcat de mine ca revizuit, se repară gratuit.",
+        `Așa e, livrează. ${RO_VERACODE_LINE} Securitatea e prima trecere din fiecare review: injection, autentificare, secrete, controlul accesului. Pe propria mea rulare de 30 de PR-uri, un repo fără teste, review-ul a prins 3 căi de shell injection din input-ul cererii înainte de merge. Garanția e în scris: o vulnerabilitate din aria review-ului, găsită într-un PR marcat de mine ca revizuit, se repară gratuit.`,
     },
     {
       question: "Al cui e codul? Semnezi un NDA?",

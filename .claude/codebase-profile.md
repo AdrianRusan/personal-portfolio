@@ -48,11 +48,7 @@ project-root/
 │
 ├── components/                    # React components (server-first)
 │   ├── ui/                        # Presentational (shadcn-style)
-│   │   ├── button.tsx, Skeleton.tsx, BentoGrid.tsx
-│   │   ├── TextGenerateEffect.tsx ("use client" w/ framer-motion)
-│   │   ├── FloatingNav.tsx, GridBackground.tsx, SpotlightBackground.tsx
-│   │   ├── CanvasRevealEffect.tsx, PinContainer.tsx, MovingBorders.tsx
-│   │   └── MagicButton.tsx, InfiniteMovingCards.tsx, GradientBackground.tsx
+│   │   └── button.tsx, FloatingNav.tsx, MagicButton.tsx, SectionHeading.tsx
 │   ├── blog/                      # Blog-specific
 │   │   ├── MDXContent.tsx         # next-mdx-remote wrapper; RSC, rehype plugins
 │   │   ├── PostBody.tsx           # MDX component overrides (headings, links, images)
@@ -137,9 +133,7 @@ project-root/
 - **Sorting/Filtering:** sorted by date; filtered by `published` flag; tags aggregated at build time
 
 ### 3. **Component Layering**
-- **`components/ui/`:** Presentational, reusable, design-system (button, skeleton, grids)
-  - Heavy animations (TextGenerateEffect, Spotlight, CanvasRevealEffect) are "use client"
-  - Custom Tailwind utilities embedded in files (e.g., SVG mesh backgrounds)
+- **`components/ui/`:** Presentational, reusable (button tokens, nav, section heading). The template effects were deleted in #84.
 - **`components/blog/`:** Blog-specific rendering (post layout, ToC, code blocks)
 - **`components/services/`, other feature dirs:** Page-specific sections; mostly server-side
 - **Top-level components:** Feature sections (Hero, About, Projects) imported into pages
@@ -200,14 +194,8 @@ project-root/
 
 ## Notable Patterns & Conventions
 
-### 1. **Dynamic Imports with Loading States**
-```tsx
-// app/page.tsx
-const Experience = dynamic(() => import("@/components/Experience"), {
-  loading: () => <ExperienceSkeleton />
-});
-```
-Used for heavy components to reduce initial bundle; loading state is Skeleton component.
+### 1. **Dynamic Imports**
+Heavy client components can be `dynamic()`-imported to cut the initial bundle. No page needs it today.
 
 ### 2. **MDX Component Overrides**
 All MDX elements (headings, links, images, code) are customized in `PostBody.tsx`:
@@ -223,11 +211,7 @@ Static content lives in `data/index.ts`:
 - Enables type-safe content without database queries
 
 ### 4. **Framer Motion Usage**
-Used for:
-- Text stagger animations (TextGenerateEffect, words fade in)
-- Spotlight effects (CanvasRevealEffect, SpotlightBackground)
-- Interactive reveals (PinContainer, MovingBorders)
-- All wrapped in "use client"; optimized imports in next.config
+Only `components/blog/BlogListClient.tsx` still uses it ("use client").
 
 ### 5. **Blog Frontmatter Structure**
 ```yaml

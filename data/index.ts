@@ -65,6 +65,14 @@ export const CAPACITY =
 export const HARNESS_PROOF =
   "20+ skills and 20+ hooks that scan for secrets, block destructive commands and refuse a merge when a check can't run";
 
+// D5 / A3 F3: the one outside market figure on the site. Source, fetched and
+// checked 2026-10-12: Veracode, "2026 GenAI Code Security Report" (28 Jul 2026),
+// https://www.veracode.com/blog/2026-genai-code-security-report-ai-risk/
+// ("roughly 44% of tested AI code generation tasks resulted in code with a
+// known vulnerability"). RO twin: RO_VERACODE_LINE in data/ro-services.ts.
+export const VERACODE_LINE =
+  "Veracode's July 2026 test found a known vulnerability in about 44% of AI code-generation tasks.";
+
 // Single risk-reversal guarantee, reused verbatim at every money CTA.
 export const GUARANTEE =
   "If the first reviewed PR isn't merge-ready to your standard, you don't pay for it.";
@@ -133,7 +141,7 @@ export const faqs: { question: string; answer: string }[] = [
     question:
       "Unsupervised agents ship vulnerabilities. How do you handle security?",
     answer:
-      "Correct, they do. Veracode's July 2026 test found a known vulnerability in about 44% of AI code-generation tasks. Security is the first pass of every review: injection, auth, secrets, access control. On my own 30-PR run, a repo with no test suite, the review caught 3 shell-injection paths from request input before merge. The guarantee is in writing: an in-scope vulnerability found in a PR I marked reviewed gets fixed free.",
+      `Correct, they do. ${VERACODE_LINE} Security is the first pass of every review: injection, auth, secrets, access control. On my own 30-PR run, a repo with no test suite, the review caught 3 shell-injection paths from request input before merge. The guarantee is in writing: an in-scope vulnerability found in a PR I marked reviewed gets fixed free.`,
   },
   {
     question: "Who owns the code? Will you sign an NDA?",

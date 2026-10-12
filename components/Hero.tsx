@@ -28,7 +28,7 @@ const Hero = ({ copy = en }: { copy?: HeroCopy }) => {
     >
       <div className="container-section flex flex-col items-center text-center">
         <div className="flex items-center gap-3">
-          <Avatar className="h-12 w-12" />
+          <Avatar className="h-12 w-12" decorative priority />
           <p className="eyebrow text-left">{copy.eyebrow}</p>
         </div>
         <h1
