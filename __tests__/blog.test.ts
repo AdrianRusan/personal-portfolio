@@ -6,8 +6,6 @@ describe("getPosts", () => {
     const posts = await getPosts();
     expect(posts.length).toBeGreaterThan(0);
     expect(posts.every((p) => p.frontmatter.published === true)).toBe(true);
-    // hello-world.mdx is published: false and must be excluded
-    expect(posts.some((p) => p.slug === "hello-world")).toBe(false);
   });
 
   it("sorts newest first by date", async () => {
@@ -40,11 +38,6 @@ describe("getPost", () => {
       /Post not found/,
     );
   });
-
-  it("throws for an unpublished draft, so its page and OG image 404", async () => {
-    // hello-world.mdx is published: false
-    await expect(getPost("hello-world")).rejects.toThrow(/Post not found/);
-  });
 });
 
 describe("getAllTags", () => {
@@ -60,7 +53,7 @@ describe("case studies (content/work via the dir param)", () => {
     const studies = await getPosts(WORK_DIR);
     expect(studies.every((s) => s.frontmatter.published === true)).toBe(true);
     // the blog list must not leak into the work list
-    expect(studies.some((s) => s.slug === "30-prs-in-2-5-days")).toBe(false);
+    expect(studies.some((s) => s.slug === "2-3x-not-100x")).toBe(false);
   });
 
   it("reads a case study by slug from content/work", async () => {

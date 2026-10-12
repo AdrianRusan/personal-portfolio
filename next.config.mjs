@@ -41,6 +41,21 @@ const nextConfig = {
     globalNotFound: true,
     optimizePackageImports: ['framer-motion', 'lucide-react'],
   },
+  // D7: cut posts 301 to the page that now holds their content.
+  async redirects() {
+    return [
+      {
+        source: '/blog/30-prs-in-2-5-days',
+        destination: '/work/30-reviewed-prs-3-vulnerabilities',
+        statusCode: 301,
+      },
+      {
+        source: '/blog/claude-code-changed-how-i-ship-software',
+        destination: '/blog/2-3x-not-100x',
+        statusCode: 301,
+      },
+    ];
+  },
   async headers() {
     return [
       {

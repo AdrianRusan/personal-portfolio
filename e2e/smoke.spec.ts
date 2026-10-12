@@ -11,10 +11,8 @@ const routes = [
   '/contact',
   '/blog',
   '/blog/2-3x-not-100x',
-  '/blog/30-prs-in-2-5-days',
   '/blog/66-days-of-claude-code-by-the-numbers',
   '/blog/catching-shell-injection-agents-wrote',
-  '/blog/claude-code-changed-how-i-ship-software',
   '/blog/what-agents-get-wrong',
   '/work',
   '/work/30-reviewed-prs-3-vulnerabilities',
@@ -123,6 +121,18 @@ for (const path of ['/', '/blog/2-3x-not-100x', '/ro']) {
     const html = await request.get(path, { headers: { Accept: 'text/html' } });
     expect(html.status()).toBe(200);
     expect(html.headers()['content-type']).toContain('text/html');
+  });
+}
+
+// D7: cut posts 301 to the page that now holds their content.
+for (const [from, to] of [
+  ['/blog/30-prs-in-2-5-days', '/work/30-reviewed-prs-3-vulnerabilities'],
+  ['/blog/claude-code-changed-how-i-ship-software', '/blog/2-3x-not-100x'],
+]) {
+  test(`${from} 301s to ${to}`, async ({ request }) => {
+    const res = await request.get(from, { maxRedirects: 0 });
+    expect(res.status()).toBe(301);
+    expect(new URL(res.headers()['location'], 'http://x').pathname).toBe(to);
   });
 }
 
