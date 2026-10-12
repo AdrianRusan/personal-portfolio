@@ -8,6 +8,8 @@ import { byCaseStudyOrder, caseStudyResults } from "@/data/work";
 import { getPosts, WORK_DIR } from "@/lib/blog";
 
 describe("/work index", () => {
+  afterEach(() => jest.useRealTimers());
+
   it("is in the sitemap", async () => {
     const urls = (await sitemap()).map((e) => e.url);
     expect(urls).toContain("https://www.adrian-rusan.com/work");
@@ -30,14 +32,21 @@ describe("/work index", () => {
     },
   );
 
-  // F11: the 30-PR core-offer study leads, then #54's order; the nine-PR study is unpublished.
+  // F11: the 30-PR core-offer study leads; A2 F5: the nine-PR run is third.
   it("orders the published studies", async () => {
+    jest.useFakeTimers().setSystemTime(new Date("2026-10-24T00:00:00Z"));
     const slugs = byCaseStudyOrder(await getPosts(WORK_DIR)).map((p) => p.slug);
-    expect(slugs.slice(0, 3)).toEqual([
+    expect(slugs).toEqual([
       "30-reviewed-prs-3-vulnerabilities",
       "honesty-gate",
+      "nine-prs-one-afternoon",
       "agent-cost-per-commit",
     ]);
+  });
+
+  it("holds the nine-PR study until its 24 Oct date", async () => {
+    jest.useFakeTimers().setSystemTime(new Date("2026-10-23T23:59:59Z"));
+    const slugs = (await getPosts(WORK_DIR)).map((p) => p.slug);
     expect(slugs).not.toContain("nine-prs-one-afternoon");
   });
 });

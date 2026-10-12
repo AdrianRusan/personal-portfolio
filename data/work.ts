@@ -13,6 +13,10 @@ export const caseStudyResults: Record<
     figure: "1,400",
     label: "strings per page traced to a source before anything publishes",
   },
+  "nine-prs-one-afternoon": {
+    figure: "9",
+    label: "reviewed PRs merged in 100 minutes, each with its checks in the PR body",
+  },
   "agent-cost-per-commit": {
     // R3-F15: a number like the other two; the rebound stays in the label.
     figure: "68%",
@@ -26,6 +30,7 @@ export const caseStudyResults: Record<
 const CASE_STUDY_ORDER = [
   "30-reviewed-prs-3-vulnerabilities",
   "honesty-gate",
+  "nine-prs-one-afternoon",
   "agent-cost-per-commit",
 ];
 export function byCaseStudyOrder<T extends { slug: string }>(studies: T[]) {
