@@ -1,145 +1,152 @@
 ---
-title: "Why I Measure Agent Cost Weekly Now"
-seoTitle: "How to Reduce LLM API Costs: Measure Them Weekly"
+title: "Cost per Merged PR: What 3 Months of My Claude Code Ledger Show"
+seoTitle: "Claude Code Cost per Merged PR: 3 Months of Ledger Data"
 date: "2026-10-10"
+updated: "2026-10-12"
 tags: ["ai", "claude-code", "llm-costs", "agent-harness"]
-description: "A context trim cut my agent cost per commit 68% in a month. A weekly ledger caught it creeping back in September, alongside far more scripted runs."
+description: "A context trim cut my Claude Code cost per merged PR from $73 to $32 in a month, then it rose 42% in four weeks. The ledger, the method, my counting mistake."
 published: true
 language: "en"
-updated: "2026-10-11"
 cta: "cost-audit"
-forYou: "If your team's agent bill grows faster than its output, this is how I found where the tokens went, and how I caught the savings slipping back."
+forYou: "If your team's agent spend grows faster than what it merges, this is the per-PR method I use, and the counting mistakes it took to get there."
 meta: "Jul–Oct 2026 · Own setup · Claude Code"
 ---
 
-One round of trimming cut my agent cost per commit, and the next two months took the savings back.
+One context trim cut my agent cost per merged PR from $73 to $32 between July and August. Four weeks of September and October took it from $49 to $69, and the first version of this page compared those numbers across a counting change it shouldn't have.
 
-What lasted is a weekly measurement with the counting method written down.
+**Short answer:** I track Claude Code cost per merged PR in a ledger that records tokens, commits and merged PRs per day. July to August, on one counting method, cost per merged PR fell 57% after I cut the text loaded on every turn. On the current method, September averaged $49 per merged PR and the first 11 days of October $69. Subagent turns doubled and headless runs jumped while merged PRs per day fell, and I haven't measured which of those drove it. The dollars are list-price replacement cost, not my invoice, and at the Opus 5.5 rates most sessions ran on they would be about half.
 
-## The problem
+## How I count
 
-I wanted to reduce LLM API costs in my own agent workflow without shipping less. To do that I first had to measure it.
+1. **Source.** A private ledger reads my Claude Code transcripts every night and records, per day, tokens and their list-price cost, the commits in my repos and the PRs merged under my GitHub accounts. It covers all my Claude Code accounts. Figures here are totals, never per client.
+2. **Price.** Every token is priced at Opus 5 list rates: $5 per million input, $25 output, $0.50 cache reads, $6.25–$10 cache writes. Most of my sessions ran on Opus 5.5, which lists at $4, $20 and $0.20 ([Anthropic pricing, fetched 12 Oct 2026](https://platform.claude.com/docs/en/about-claude/pricing)). On my 66-day token mix that makes the same work about half the dollars, by my arithmetic. Moving work to a cheaper model doesn't show up in the ledger at all. Only fewer tokens do.
+3. **Not an invoice.** These sessions ran on Claude subscriptions with a flat fee. The dollars measure compute used.
+4. **Two methods.** Until September the ledger priced every transcript entry, which counts each API response about twice (2.04x on a 30-day re-scan). It also read only two of my four Claude Code accounts. From 11 September it counts each response once, across all accounts. July and August compare with each other, and September and October compare with each other. Never across.
+5. **Per merged PR first.** A merged PR is tied to a GitHub account and someone reviewed it. Agent commits are fine-grained checkpoints, so cost per commit moves with commit habits as much as with cost.
 
-I keep a private ledger that records, per day, my Claude Code token usage from session transcripts, the commits in my repos and my merged pull requests.
-
-The dollar figures below are replacement cost: the tokens priced at one model's public list price. They are not an invoice and not what I paid. Read them as a measure of compute used, and trust the ratios more than the totals.
-
-## The constraint
-
-I did not want to save money by doing less. Output had to hold up, and every PR still had to pass review.
-
-The ledger has two limits I had to respect:
-
-1. One price for every token. Moving a task to a cheaper model does not lower the ledger's dollars. Only fewer tokens do.
-2. The counting changed on 11 September. Before that date, the ledger counted each transcript entry, which roughly doubles every figure. From 11 September it counts each API response once. July and August use the old count, so they compare with each other. September and October use the new one.
-
-## What changed
+## What changed between July and August
 
 <figure className="my-8">
-  <svg viewBox="0 0 360 330" role="img" aria-label="Timeline. July: 35 dollars per commit. Early August: first drop, with no config change to explain it. 10 August: a per-message hook is removed and ten unused skills are parked. 23 August: CLAUDE.md and the rules shrink from 9,976 to 4,106 words. September and October: cost per commit rises again." className="block w-full max-w-md mx-auto">
+  <svg viewBox="0 0 360 330" role="img" aria-label="Timeline. July: 73 dollars per merged PR. Early August: first drop, with no config change to explain it. 10 August: a per-message hook is removed and ten unused skills are parked. 23 August: CLAUDE.md and the rules shrink from 9,976 to 4,106 words. August: 32 dollars per merged PR." className="block w-full max-w-md mx-auto">
     <g fill="none" stroke="#A78BFA" strokeWidth="1.5">
       <path d="M40 20 V310" />
       <circle cx="40" cy="40" r="6" />
       <circle cx="40" cy="110" r="6" stroke="#F87171" />
       <circle cx="40" cy="180" r="6" />
       <circle cx="40" cy="245" r="6" />
-      <circle cx="40" cy="300" r="6" stroke="#F87171" />
+      <circle cx="40" cy="300" r="6" />
     </g>
     <g fill="currentColor" fontSize="14">
       <text x="60" y="36" fontWeight="700">July</text>
-      <text x="60" y="54" fontSize="12">$35 per commit · 144k subagent turns</text>
+      <text x="60" y="54" fontSize="12">$73 per merged PR · 144k subagent turns</text>
       <text x="60" y="106" fontWeight="700">Early August</text>
       <text x="60" y="124" fontSize="12">first drop · no config change explains it</text>
       <text x="60" y="176" fontWeight="700">10 Aug</text>
       <text x="60" y="194" fontSize="12">hook off · 10 unused skills parked</text>
       <text x="60" y="241" fontWeight="700">23 Aug</text>
       <text x="60" y="259" fontSize="12">CLAUDE.md + rules: 9,976 → 4,106 words</text>
-      <text x="60" y="296" fontWeight="700">Sep–Oct</text>
-      <text x="60" y="314" fontSize="12">cost per commit climbs back</text>
+      <text x="60" y="296" fontWeight="700">August</text>
+      <text x="60" y="314" fontSize="12">$32 per merged PR · 43k subagent turns</text>
     </g>
   </svg>
-  <figcaption className="text-center text-sm text-white-200 mt-3">The two dated changes are commits in my harness config. The red points are not explained by any commit.</figcaption>
+  <figcaption className="text-center text-sm text-white-200 mt-3">The two dated changes are commits in my harness config. The red point isn't explained by any commit.</figcaption>
 </figure>
 
-I matched the weekly cost curve against the commit history of my Claude Code config.
+I matched the weekly cost against the commit history of my Claude Code config.
 
-The first drop came before any change. Subagent turns per prompt halved in the first week of August, and cost per commit fell with them. No config commit landed that week. My workflow changed, but no file records how, so I do not claim a cause.
+**The first drop came before any change.** Subagent turns per prompt halved in the first week of August, and cost per PR fell with them. No config commit landed that week. My workflow changed, and no file records how, so I don't claim a cause.
 
-Less text injected into every turn (10 August). A hook added a reminder to every message I sent, and nothing had shown it saved anything. I turned it off. The same change parked ten skills for stacks I was not using, because every installed skill adds its description to the list each session loads.
+**Less text injected into every turn (10 August).** A hook added a reminder to every message I sent, and nothing showed it saved anything, so I turned it off. The same change parked ten skills for stacks I wasn't using, because every installed skill adds its description to what each session loads.
 
-Shorter instructions (23 August). An audit of my own setup cut `CLAUDE.md` and the rule files together from 9,976 words to 4,106. Sessions load them at the start, and the model rereads them from the cache on every turn.
+**Shorter instructions (23 August).** An audit of my own setup cut `CLAUDE.md` and the rule files from 9,976 words to 4,106. Sessions load them at the start, and the model rereads them from the cache on every turn.
 
-The weekly cost per commit dropped again in the week after the 10 August change and stayed low after the 23 August one. I can show that they line up. I cannot show how much of the drop they caused.
+Full months, same method:
 
-## The number
+| | July | August | Change |
+|---|---:|---:|---:|
+| Cost per merged PR | $73 | $32 | −57% |
+| Cost per commit | $35 | $11 | −68% |
+| Merged PRs | 477 | 395 | −17% |
+| Commits | 995 | 1,091 | +10% |
+| Subagent turns | 144k | 43k | −70% |
+
+Cost fell after both dated changes and stayed low. They line up with the drop. I can't show how much of it they caused.
+
+## September and October, week by week
 
 <figure className="my-8">
-  <svg viewBox="0 0 360 236" role="img" aria-label="Line chart of monthly cost per commit. July 35 dollars and August 11 dollars on the old count. September 11.55 dollars and the first ten days of October 33 dollars on the new count, which roughly halves every figure. September is about 23 dollars on the old count, twice August, shown with a dashed line." className="block w-full max-w-md mx-auto">
-    <rect x="176" y="16" width="176" height="168" fill="#A78BFA" fillOpacity="0.12" />
+  <svg viewBox="0 0 360 240" role="img" aria-label="Bar chart of cost per merged PR. Old count: July 73 dollars, August 32 dollars. A dashed line marks the counting change. Current count, by week: 14 September 52 dollars, 21 September 51, 28 September 56, 5 October 65." className="block w-full max-w-md mx-auto">
     <g stroke="currentColor" strokeOpacity="0.25" strokeWidth="1">
-      <path d="M44 184 H352" />
-      <path d="M44 109 H352" strokeDasharray="3 4" />
-      <path d="M44 34 H352" strokeDasharray="3 4" />
+      <path d="M24 190 H352" />
+      <path d="M24 110 H352" strokeDasharray="3 4" />
+      <path d="M24 30 H352" strokeDasharray="3 4" />
     </g>
-    <path d="M70 52.75 L150 142.75" fill="none" stroke="#A78BFA" strokeWidth="2.5" />
-    <path d="M230 140.7 L310 60.25" fill="none" stroke="#A78BFA" strokeWidth="2.5" />
-    <path d="M150 142.75 L230 97.75" fill="none" stroke="#A78BFA" strokeWidth="2" strokeDasharray="4 4" />
+    <path d="M132 20 V200" stroke="#F87171" strokeWidth="1.5" strokeDasharray="4 4" />
+    <g fill="#A78BFA" fillOpacity="0.45">
+      <rect x="40" y="43.2" width="32" height="146.8" />
+      <rect x="86" y="126.8" width="32" height="63.2" />
+    </g>
     <g fill="#A78BFA">
-      <circle cx="70" cy="52.75" r="5" />
-      <circle cx="150" cy="142.75" r="5" />
-      <circle cx="230" cy="140.7" r="5" />
-      <circle cx="310" cy="60.25" r="5" />
+      <rect x="150" y="85.4" width="32" height="104.6" />
+      <rect x="196" y="88.4" width="32" height="101.6" />
+      <rect x="242" y="78.2" width="32" height="111.8" />
+      <rect x="288" y="59.6" width="32" height="130.4" />
     </g>
-    <circle cx="230" cy="97.75" r="5" fill="none" stroke="#A78BFA" strokeWidth="2" strokeDasharray="2 2" />
-    <g fill="currentColor" fontSize="13">
-      <text x="38" y="188" textAnchor="end">$0</text>
-      <text x="38" y="113" textAnchor="end">$20</text>
-      <text x="38" y="38" textAnchor="end">$40</text>
-      <text x="70" y="40" textAnchor="middle" fontWeight="700">$35</text>
-      <text x="150" y="168" textAnchor="middle" fontWeight="700">$11</text>
-      <text x="230" y="166" textAnchor="middle" fontWeight="700">$11.55</text>
-      <text x="230" y="84" textAnchor="middle">≈$23 old count</text>
-      <text x="310" y="47" textAnchor="middle" fontWeight="700">$33</text>
-      <text x="70" y="206" textAnchor="middle">Jul</text>
-      <text x="150" y="206" textAnchor="middle">Aug</text>
-      <text x="230" y="206" textAnchor="middle">Sep</text>
-      <text x="310" y="206" textAnchor="middle">Oct 1–10</text>
-      <text x="264" y="228" textAnchor="middle" fontSize="12">new count from 11 Sep</text>
+    <g fill="currentColor" fontSize="12">
+      <text x="20" y="194" textAnchor="end">$0</text>
+      <text x="20" y="114" textAnchor="end">$40</text>
+      <text x="20" y="34" textAnchor="end">$80</text>
+      <text x="56" y="37" textAnchor="middle" fontWeight="700">$73</text>
+      <text x="102" y="120" textAnchor="middle" fontWeight="700">$32</text>
+      <text x="166" y="79" textAnchor="middle" fontWeight="700">$52</text>
+      <text x="212" y="82" textAnchor="middle" fontWeight="700">$51</text>
+      <text x="258" y="72" textAnchor="middle" fontWeight="700">$56</text>
+      <text x="304" y="53" textAnchor="middle" fontWeight="700">$65</text>
+      <text x="56" y="208" textAnchor="middle">Jul</text>
+      <text x="102" y="208" textAnchor="middle">Aug</text>
+      <text x="166" y="208" textAnchor="middle">14 Sep</text>
+      <text x="212" y="208" textAnchor="middle">21 Sep</text>
+      <text x="258" y="208" textAnchor="middle">28 Sep</text>
+      <text x="304" y="208" textAnchor="middle">5 Oct</text>
+      <text x="79" y="230" textAnchor="middle" fontSize="11">old count, by month</text>
+      <text x="235" y="230" textAnchor="middle" fontSize="11">current count, by week</text>
     </g>
   </svg>
-  <figcaption className="text-center text-sm text-white-200 mt-3">Cost per commit by month. The shaded months use the new count, which roughly halves every figure; the dashed line is September on the old count, twice August.</figcaption>
+  <figcaption className="text-center text-sm text-white-200 mt-3">Cost per merged PR. The red line is the counting change on 11 September: the two sides don't compare, so the bars aren't joined.</figcaption>
 </figure>
 
-July to August, full calendar months, same counting method:
+After the counting change, cost per merged PR rose every week but one: $52, $51, $56, $65. Comparing September with the first 11 days of October on the same method:
 
-- **Cost per commit: $35 → $11 (68% lower)**
-- Cost per merged PR: $73 → $32 (57% lower)
-- Commits: 995 → 1,091
-- Merged PRs: 477 → 395
-- Subagent turns: 144k → 43k
+| Per active day | September (19 days) | 1–11 October (11 days) | Change |
+|---|---:|---:|---:|
+| List-price cost | $932 | $1,126 | +21% |
+| Merged PRs | 19.1 | 16.3 | −15% |
+| Commits | 80.7 | 47.0 | −42% |
+| Subagent turns | 1,411 | 3,059 | +117% |
+| Cost per merged PR | $49 | $69 | +42% |
 
-Merged PRs fell while commits rose, so cost per PR is the stricter measure.
+Spend per day rose a fifth, and merged PRs per day fell. Subagent turns per day more than doubled. In the first ten days of October, 618 of my 770 Claude Code sessions were headless scripted runs, against 14 of 279 in September (counted from my session logs). I haven't measured how much of the cost those runs account for, so the cause is open. The ledger did its job: it caught a 42% rise within four weeks, while the monthly total would have looked like a busy month.
 
-Cache-read volume fell by 59%, but its share of the tokens barely moved: 99.6% of cache-read plus output tokens in July, 99.7% in August. The cache was already working. The savings came from sending fewer tokens through it.
+## What I got wrong in the first version
 
-Then it came back. On the new count, September cost $11.55 per commit. That is roughly $23 on the old count, twice August.
+The first version of this page said September was "roughly $23 on the old count, twice August" and that early October was "back above July". Both compared numbers across the counting change. The old method also read only two of my four accounts, so a 2x conversion can't bridge the gap, and I don't know the real ratio. The page also led with cost per commit, which my own ledger rates as the weaker metric. This version leads with merged PRs and compares only like with like.
 
-The first ten days of October cost $33 per commit on the new count, back above July. One traceable change: in those ten days, 618 of my 770 sessions were headless scripted runs rather than sessions I drove. I have not measured how much of the cost they account for.
+## How much does Claude Code cost per developer?
 
-## How to reduce LLM API costs: what I'd check first
+Anthropic's docs put the enterprise average at about $13 per developer per active day and $150–250 per developer per month, with 90% of users under $30 per active day ([Claude Code docs, fetched 12 Oct 2026](https://code.claude.com/docs/en/costs)). Gartner, as reported in June 2026, found that nearly a quarter of tech leaders spend $200–500 per developer per month on AI coding tools and about 6% spend more than $2,000 ([DevOps.com, 30 Jun 2026](https://devops.com/ai-coding-costs-could-exceed-developer-salaries-gartner-warns/); Gartner's own release returned an error when I fetched it).
 
-These come from this study, in the order I would check them on a team's setup:
+At list price my setup costs about $930 per active day, around 70 times Anthropic's average. I'm not a typical seat: up to 18 sessions at once, over a thousand subagents in 66 days, and orchestration runs that start other agents. That is why I run on flat subscriptions, and why the useful number for a buyer is the unit cost: about $49 per merged PR in September at Opus 5 list prices, roughly half that at Opus 5.5 rates.
 
-1. Measure cost per commit and per merged PR every week. Write the counting method down, and note the date when it changes. Without that, a one-month win looks permanent.
-2. Cut text injected into every turn. A hook that adds a reminder to every message costs tokens on every turn. If nothing shows it saves anything, turn it off.
-3. Park skills you don't use. Every installed skill adds its description to what each session loads. I parked ten.
-4. Shorten the instructions that load at session start. My `CLAUDE.md` and rule files went from 9,976 words to 4,106, and the model rereads them from the cache on every turn.
-5. Check the cache hit rate before chasing it. Mine was already at 99.6% of cache-read plus output tokens. The savings came from sending fewer tokens through the cache.
-6. Watch subagent turns per prompt, and route them. Subagent turns fell from 144k to 43k between July and August. Where a subagent's task holds up on a cheaper model, route it there. My ledger prices every token at one rate, so it can't show that saving. I expect an invoice would, but I haven't measured it.
-7. Count scripted runs separately. In early October, 618 of my 770 sessions were headless scripted runs, and cost per commit was back above July.
+## Why measure per merged PR, not per commit?
 
-## The lesson
+A commit from an agent is a checkpoint, and agents that commit every working step can double the commit count without doing more work. September had 1,533 commits and 362 merged PRs. A merged PR passed review and changed the product, so cost per merged PR moves only when the cost of shipping moves.
 
-Trimming context that loads on every turn helped. I can date those changes and the curve moved after them. A new habit, such as more scripted runs or more subagents, then took it back within two months.
+## Five checks for a team's setup
 
-What lasted is the measurement: cost per commit and per merged PR, every week, with the counting method written down. Without the ledger I would have reported "68% lower" and never seen October.
+1. **Track cost per merged PR every week, with the method written down.** Note the date when the counting changes, and never compare across it.
+2. **Keep the raw data.** Claude Code deletes transcripts after 30 days by default (`cleanupPeriodDays`). Raise it, or export the built-in OpenTelemetry metrics (`claude_code.cost.usage`, `claude_code.pull_request.count`, `claude_code.commit.count`) ([monitoring docs](https://code.claude.com/docs/en/monitoring-usage)).
+3. **Cut what loads on every turn.** A hook that injects text into every message, unused skills and a long `CLAUDE.md` are paid for on every turn. My cut from 9,976 to 4,106 words lined up with the July–August drop.
+4. **Count headless runs and subagent turns separately.** They doubled in my October data while merged PRs fell.
+5. **Price at your real rates.** List prices differ by model, and `/usage` can show contracted rates through the `modelPricing` managed setting (Claude Code 2.1.242 or later).
+
+The measurement is what lasted. Without the ledger I would have reported "57% lower" in August and missed the climb in October.

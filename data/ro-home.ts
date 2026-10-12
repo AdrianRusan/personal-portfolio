@@ -136,9 +136,9 @@ export const roPostTitles: PostTitles = {
       "Un orchestrator, nouă agenți Claude Code în worktree-uri paralele, nouă PR-uri cu merge în 100 de minute. Fiecare a trecut întâi printr-un gate de review.",
   },
   "agent-cost-per-commit": {
-    title: "De ce măsor acum costul agenților în fiecare săptămână",
+    title: "Costul pe PR cu merge: ce arată 3 luni din registrul meu Claude Code",
     description:
-      "O reducere a contextului a scăzut costul pe commit al agenților cu 68% într-o lună. Un registru săptămânal a prins revenirea din septembrie, odată cu mult mai multe rulări automate.",
+      "O reducere a contextului a scăzut costul Claude Code pe PR cu merge de la 73 $ la 32 $ într-o lună. Apoi a crescut cu 42% în patru săptămâni. Registrul, metoda și comparația pe care am greșit-o.",
   },
   "66-days-of-claude-code-by-the-numbers": {
     title: "463 de sesiuni Claude Code, numărate: promptul meu median avea 10 cuvinte",
@@ -199,8 +199,8 @@ export const roCaseStudyCards: CaseStudyCardsCopy = {
       "e numărul adevărat din spatele unui rând de pe un landing page etichetat „număr real”. Gate-ul ține astfel de rânduri departe de pagină.",
     "reviewed PRs merged in 100 minutes, each through a review gate first":
       "PR-uri revizuite, cu merge în 100 de minute, fiecare trecut întâi printr-un gate de review",
-    "lower cost per commit in one month, then it crept back":
-      "cost pe commit mai mic într-o lună, apoi a crescut din nou",
+    "lower cost per merged PR in one month, then it climbed 42% in four weeks":
+      "cost mai mic pe PR cu merge într-o lună, apoi a crescut cu 42% în patru săptămâni",
   },
   heading: "Studii de caz",
   // The one note for the whole page (R1-F21): studies and posts are in English.

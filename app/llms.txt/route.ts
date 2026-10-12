@@ -33,7 +33,7 @@ const whenToUse = [
   `A team wants agent-written PRs reviewed by a senior human before they merge: ${offer("reviewed-pr")} to try it on one ticket, then a ${offer("sprint")} or a ${offer("retainer")}.`,
   `A security review of AI-generated code: the [free teardown](${BASE_URL}/teardown), or an ${offer("audit")}.`,
   `Setting up Claude Code agents, git worktrees and review gates for a team: ${offer("harness")}, or a ${offer("workshop")}.`,
-  `Cutting LLM or agent cost: an ${offer("audit")} of LLM spend, cost per merged PR and wasted agent runs. Background: [Why I measure agent cost weekly](${BASE_URL}/work/agent-cost-per-commit).`,
+  `Cutting LLM or agent cost: an ${offer("audit")} of LLM spend, cost per merged PR and wasted agent runs. Background: [Cost per merged PR: 3 months of my Claude Code ledger](${BASE_URL}/work/agent-cost-per-commit).`,
   `n8n workflows or LLM automations with evals and cost controls: ${offer("automation")}.`,
   `A 1:1 call on an AI question: ${offer("strategy-call")}.`,
 ];
