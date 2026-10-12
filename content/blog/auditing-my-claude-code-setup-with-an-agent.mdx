@@ -93,7 +93,7 @@ if it is removed.
 The deepest one, on 22 September, ran 69 agents in five phases: map, find then refute, simplify, sweep with new lenses, and a final critic. It produced 89 findings and caught 5 errors in my own brief. The agents proposed, and I decided. These counts come from the audit's own report, and so do its two misses:
 
 1. **The refuters were too agreeable.** They refuted 0 of 71 findings in one pass and 0 of 12 in the next. The real filtering happened earlier, when finder agents re-measured their own first-pass seeds and dropped 90. "Confirmed" in that report means reproduced once.
-2. **The read-only rule broke once.** An agent listing MCP config printed two API tokens into its own transcript, because its redaction only knew GitHub token shapes. The audit tightened that rule for every later phase, and the report's first decision for me was to rotate both tokens. The gap behind it is still worth copying out: my deny list blocks reads of `.env`, key and credentials files, and on 12 October it still didn't cover `.claude.json`, where Claude Code keeps MCP server config.
+2. **The read-only rule broke once.** An agent listing MCP config printed secrets from that file into its own transcript, because its redaction only recognised GitHub token shapes. Before your first audit agent starts, deny read access to every file that holds credentials, `.claude.json` included, since that is where Claude Code keeps MCP server config.
 
 Tell the refuting agents to find the strongest case against each finding, and check how many they actually kill. Have them redact every value they print.
 
