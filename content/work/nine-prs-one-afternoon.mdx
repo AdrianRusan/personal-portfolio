@@ -1,6 +1,6 @@
 ---
 title: "Nine Reviewed PRs in One Afternoon: The Agent Org That Rebuilt This Site"
-seoTitle: "Claude Code Case Study: 9 PRs in 100 Minutes"
+seoTitle: "Parallel Claude Code Agents: A Real 9-PR Run"
 date: "2026-10-24"
 tags: ["ai", "claude-code", "parallel-agents", "git-worktrees", "agent-harness"]
 description: "Nine Claude Code agents in parallel git worktrees, nine PRs merged in 100 minutes, every one gated before review. Plus the shortcut I merged anyway."
@@ -13,7 +13,7 @@ meta: "Oct 2026 · Own project · 100 minutes · Claude Code, Herdr, git worktre
 
 Work the brief had scheduled over three weekends merged in 100 minutes on a Saturday afternoon. The agent that cut the one corner wrote it down in its PR, and I merged it anyway.
 
-**Short answer:** On 10 October, nine Claude Code agents, each in its own git worktree, opened nine PRs against this site, and all nine merged 100 minutes after the brief was saved. Each PR passed typecheck, lint, a production build and unit tests before I read it, eight of the nine bodies record an AI code review, and seven of the nine needed no commits after that. The gate didn't stop one shortcut: `/ro` shipped as `<html lang="en">`, and an audit agent caught it the next morning.
+**Short answer:** On 10 October, nine Claude Code agents in separate git worktrees shipped nine PRs to this site, all merged 100 minutes after the brief was saved, each through typecheck, lint, build and tests before I read it. One disclosed shortcut got past me: `/ro` shipped as `<html lang="en">`, and an audit agent caught it the next morning.
 
 ## The problem
 
@@ -74,9 +74,9 @@ Review was the harder limit. I am the only senior reviewer, and reading doesn't 
 
 **A brief that answers questions before they are asked.** It lists verified facts, numbered rulings and the files each package owns. When an agent hits a choice, the orchestrator answers from the brief instead of waking me up. File ownership keeps merges cheap: new content goes in new data files, and only one package edits each shared one.
 
-**One worktree per agent, three builds at a time.** Each agent ran in its own git worktree, on its own branch, in its own terminal pane. The brief capped it at three building at once, because three parallel Next.js production builds were what one laptop's memory and CPU could take.
+**One worktree per agent, three package agents at a time.** Each agent ran in its own git worktree, on its own branch, in its own terminal pane. The brief capped it at three package agents at once, because three parallel Next.js production builds were what one laptop's memory and CPU could take. The outage fix ran alongside the first three, so four were live at the start.
 
-**A gate before my review.** Each agent ran the same ladder before it could mark its PR ready: typecheck, lint, production build, unit tests, a curl of every route it touched, and before/after screenshots. Then it ran a code review on its own diff, fixed what was real and listed the rest. The PR body carried all of it.
+**A gate before my review.** Each agent ran the same ladder before it could mark its PR ready: typecheck, lint, production build, unit tests, a curl of every route it touched, and before/after screenshots. Then it ran a code review on its own diff, fixed what was real and listed the rest. The PR body carried all of it. Eight of the nine bodies record that review; #39's doesn't.
 
 Every agent got a prompt like this one, cut from the real WP0 prompt:
 
@@ -107,12 +107,12 @@ I drove the panes with Herdr. Claude Code now covers the worktree part natively 
 
 ## The numbers
 
-Every count below comes from GitHub (`gh pr view`, and the timeline of each PR). Times are local, EEST.
+Every count below comes from GitHub (`gh pr view`, and the timeline of each PR), counted on 12 Oct 2026. Times are local, EEST.
 
-- **Clock:** brief saved 15:31, first PR opened 15:36, first merge 16:01, last merge 17:11. That is 100 minutes from brief to the ninth merge.
+- **Clock:** brief saved 15:31 (the file's timestamp), first PR opened 15:36, first merge 16:01, last merge 17:11. That is 100 minutes from brief to the ninth merge.
 - **Size:** 9 issues closed, 57 commits, 2,970 lines added and 282 removed. The outage fix that repaired 28 dead booking links added 15 lines, most of them a test.
 - **Self-review:** 5 PR bodies recorded a code-review count, 46 findings in total. The agents fixed 17 inside the PR and deferred or rejected the other 29 with a stated reason.
-- **After I saw them:** 7 of the 9 PRs got no commits after they were marked ready. The other two got one review fix each, plus a merge from main.
+- **After I saw them:** 7 of the 9 PRs got no commits after they were marked ready. #39 got a publish switch, a review fix and a merge. #43 got a copy fix and a merge.
 
 | PR | Package | Lines | Ready → merge | Commits after ready |
 |---|---|---|---|---|
@@ -126,36 +126,38 @@ Every count below comes from GitHub (`gh pr view`, and the timeline of each PR).
 | #42 | Romanian section | +635/−18 | 50 min | 0 |
 | #43 | Cleanup from #34–#40 follow-ups | +115/−73 | 50 min | 2: copy fix, merge |
 
-I didn't time my review per PR. The ready-to-merge gap is the upper bound I have, and it includes time a PR sat waiting: a median of 20 minutes. Five PRs (#35 to #38 and #40), 1,780 added lines between them, merged inside one 35-second window, 16:04 to 16:05. For most of this run, my review was minutes per PR, and it leaned on the evidence in each PR body. The next section shows what that cost.
+I didn't time my review per PR. The ready-to-merge gap is the upper bound I have, and it includes time a PR sat waiting: a median of 20 minutes. Five PRs (#35 to #38 and #40), 1,780 added lines between them, went ready between 15:44 and 15:56 and merged inside one 35-second window, 16:04 to 16:05. So I had at most 21 minutes for all five together, and that read leaned on the evidence in each PR body. The next section shows what that cost.
+
+One check was red on every PR: the Vercel preview failed project-wide in 0 seconds, the outage fix included, and the PR bodies say so. I merged on the local ladder.
 
 ## What the gate let through
 
 **The `/ro` section shipped as English.** The brief asked for `lang="ro"`. The agent on #42 put it on a wrapper `<div>` and left the root `<html lang="en">`, because a true Romanian root meant moving every route in the app. It wrote the shortcut down twice: in a code comment, and as follow-up 2 in its PR body ("`<html lang>` is still `en` on `/ro`, because the root layout is shared"). Every check in the ladder passed, because nothing in it tested the root language. I merged it at 17:09.
 
-An audit agent caught it the next morning as a P1: Bing and AI parsers read the root `lang`, which contradicted the `hreflang="ro"` tags. The fix ([#56](https://github.com/AdrianRusan/personal-portfolio/pull/56), commit `6916d5e`) split the app into English and Romanian root layouts and landed 17 hours after the merge.
+An audit agent caught it the next morning as a P1: Bing and AI parsers read the root `lang`, which contradicted the `hreflang="ro"` tags. The fix ([PR #61](https://github.com/AdrianRusan/personal-portfolio/pull/61), commit `6916d5e`) split the app into English and Romanian root layouts and landed 17 hours after the merge.
 
-The gate worked as designed: the agent disclosed the shortcut in writing. The miss was mine. I read a follow-up that contradicted a ruling in the brief and treated it as a note.
+The agent disclosed the shortcut in writing, so the gate did its part. I read a follow-up that contradicted a ruling in the brief, treated it as a note, and merged.
 
 **The first seven PRs left work behind.** At 16:08 the orchestrator turned the follow-ups from #34 to #40 into a ninth package, which became #43. It found real leaks: an unpublished post's social image answered 200 to anyone with the URL, and several CTAs didn't link to the new workshop and offer pages yet. Its own code review raised 9 findings, 8 of them on code from #35 to #40 that had already passed their gates.
 
-**I haven't traced all 29 deferred findings.** They sat in the follow-up lists that fed #43, and #43 ended with a follow-up list of its own (5 items, from a footer email to dead code). I haven't checked which of the 29 were fixed since and which are still open. That is the weakest link in this run.
+**The deferred findings became follow-up lists, and the lists leaked.** The 29 findings the agents didn't fix went into the follow-up list at the end of each PR body, mixed with other notes, so they can't be counted one by one. On 12 Oct I checked the 18 concrete code follow-ups from those lists against main: 15 are fixed and 3 are still open (a hand-written €4,000 in two components, an `en-US` site node that still renders on `/ro`, and a duplicated avatar block). None of the three was ever a ticket.
 
-## Does this transfer to a real codebase?
+## Where this transfers
 
-Partly. This was a 2,970-line change to a marketing site with no database, no payments and no other engineers. The method transfers: a brief with rulings and file ownership, one worktree per agent, and a ladder each PR must clear before a human reads it. The speed won't transfer to a codebase where one PR touches billing. There, I'd expect fewer packages in parallel and a longer read per PR, and the ladder matters more.
+This was a 2,970-line change to a marketing site with no database, no payments and no other engineers. The method carries over: a brief with rulings and file ownership, one worktree per agent, and a ladder each PR must clear before a human reads it. The speed won't carry over to a codebase where one PR touches billing. There, I'd expect fewer packages in parallel and a longer read per PR, and the ladder matters more.
 
 ## What to copy
 
 1. **Write the brief before the agents start.** Facts, numbered rulings, and which files each package owns. Every question it answers is one an agent doesn't stop to ask.
 2. **Give every PR a "Follow-ups" section, and block on any item that contradicts the brief.** That one rule would have stopped my miss.
 3. **Run an audit agent on the merged result the same day.** It found in one pass what nine per-PR gates let through.
-4. **Turn deferred review findings into issues before you merge.** Folding follow-ups into a cleanup PR worked once, and its own leftovers still ended up in a list.
+4. **Turn deferred review findings into issues before you merge.** Folding follow-ups into a cleanup PR fixed 15 of 18, and the 3 that stayed in a list are still open.
 
 ## FAQ
 
 ### How many Claude Code agents can you run in parallel?
 
-On this run the build set the limit. Nine agents worked during the afternoon, but the brief allowed only three to run a production build at the same time, because that is what one laptop's memory and CPU could take.
+On this run the laptop set the limit. Nine agents worked during the afternoon, but the brief allowed only three package agents at once, because three parallel Next.js production builds were what one laptop's memory and CPU could take. With the outage fix running too, four were live at the start.
 
 ### Do parallel agents make code review the bottleneck?
 
@@ -163,4 +165,4 @@ They do, unless each PR arrives pre-checked. Here, every PR cleared typecheck, l
 
 ### What did the agents get wrong?
 
-One shortcut the agent disclosed and I merged anyway (`/ro` served as English, fixed 17 hours later), a few leaks the cleanup PR caught, and 29 deferred review findings I haven't fully traced.
+One shortcut the agent disclosed and I merged anyway (`/ro` served as English, fixed 17 hours later), a few leaks the cleanup PR caught, and 3 follow-ups from the run still open on main two days later.

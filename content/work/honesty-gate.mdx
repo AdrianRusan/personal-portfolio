@@ -1,6 +1,6 @@
 ---
 title: "The Honesty Gate: Stopping Agents From Publishing Invented Facts"
-seoTitle: "Stop AI Inventing Facts in Published Copy"
+seoTitle: "Stop AI Agents Inventing Numbers in Copy"
 date: "2026-10-10"
 updated: "2026-10-12"
 tags: ["ai", "claude-code", "code-review", "agent-harness"]
@@ -12,11 +12,11 @@ forYou: "If agents write copy or data your customers see, this is the gate that 
 meta: "2026 · Client work (NDA) · Role: reviewer, author of the gates"
 ---
 
-A landing page was about to launch with a launch count labelled "real number, from delivered orders". The true count was 0, and nobody on the project had decided to lie.
+A landing page built by agents was about to launch with a count labelled "real number, from delivered orders". The true count was 0, and nobody had decided to lie.
 
-**Short answer:** Agents carried a number from a design comp into a "real number" line, and it looked plausible enough to ship. The fix gives every fact a provenance, makes every string on the rendered page trace back to one, and blocks the publish when a string can't, or when the check itself can't run. A prompt that says "don't invent facts" was never going to catch it.
+**Short answer:** Agents carried a number from a design comp into a "real number" line, and it looked plausible enough to ship. The fix gives every fact a provenance, makes every string on the rendered page trace back to one, and blocks the publish when a string can't, or when the check itself can't run. Wiring the gate in matters as much as writing it: an earlier pipeline exported ten gate functions, and its publish path called two.
 
-## Nobody decided to lie
+## How the invented numbers got in
 
 The numbers arrived in a design comp. The agents carried them forward faithfully, and each one looked plausible on its own.
 
@@ -31,7 +31,7 @@ Each one needed only an agent doing what it was asked with the data it was given
 
 ## Why proofreading and prompt rules don't hold
 
-I found three reasons in the run itself.
+Three reasons, two from this run and one from the pipeline before it.
 
 **Fan-out beats the source.** Fix the poisoned field and a render path nobody remembered still ships the claim. Only a check on the final rendered output sees all five copies.
 
@@ -107,21 +107,30 @@ The landing page got the same rule on 22 July 2026. The count now comes from rea
 
 The spec budgets the trace gate at about 1,400 strings in 90 milliseconds per page, and the proof scan at 40 milliseconds. Those are design budgets, and I haven't published a timing measured on the built gates.
 
+## The same rule on a repo you can check
+
+The client code is private. This site's repo is public, and it runs a smaller version of the same rule in its unit tests:
+
+- [`work-index.test.ts`](https://github.com/AdrianRusan/personal-portfolio/blob/main/__tests__/work-index.test.ts) fails if a headline figure on `/work` doesn't appear in the case study it summarises.
+- [`workflow-numbers.test.ts`](https://github.com/AdrianRusan/personal-portfolio/blob/main/__tests__/workflow-numbers.test.ts) fails if the 66-day post, or a page that quotes its numbers, drifts from the one constant they come from.
+
+Those two check that a number has a source. Like the client gates, they can't check that the source is right.
+
 ## What the gates don't catch
 
 **They check where a claim came from.** If the owner types "500 happy clients", that fact has owner provenance and it publishes. The gate guarantees that every claim on the page came from someone accountable for it. It can't tell you whether that person was right.
 
 **The trace gate is coarser than its design.** The design wanted every agent-written sentence to trace back to the verified facts it was derived from. The built gate can't verify that link, so it blocks derived facts from reaching the output at all. That is stricter than the design, and it also blocks some honest derived sentences.
 
-**I have no first-run count I can publish.** I can't tell you how many strings failed the trace the first time it ran. What I can show is the outcome on the page that started this: the line that would have shipped a false number now shows nothing.
+**I have no first-run count I can publish.** I can't tell you how many strings failed the trace the first time it ran. The client approved this study's text, and new numbers from their repo would need a new approval.
 
 ## Why this matters more since 2 August 2026
 
 Article 50 of the EU AI Act has applied since 2 August 2026. Providers of generative AI systems must mark their output as AI-generated in a machine-readable format, and systems already on the market before that date have until 2 December 2026 ([Goodwin, 3 Aug 2026](https://www.goodwinlaw.com/en/insights/publications/2026/08/alerts-technology-dpc-eu-ai-act-transparency-obligations-now-in-force)). That is my reading as an engineer, not legal advice.
 
-A label tells the reader a machine wrote the line. It doesn't stop the line from inventing a number, and that part is still on you.
+A label tells the reader a machine wrote the line, and the number in that line can still be invented. Checking the number is still your job.
 
-Developers already ask for the same thing a provenance gate gives you. In Stack Overflow's 2026 survey, 93% said trusting what an AI gives them requires source attribution ([Stack Overflow, 6 Oct 2026](https://stackoverflow.blog/2026/10/06/the-results-of-the-2026-developer-survey-are-here/)). Your customers will expect it of the copy they read.
+Developers already ask for the same thing a provenance gate gives you. In Stack Overflow's 2026 survey, 93% said trusting what an AI gives them requires source attribution ([Stack Overflow, 6 Oct 2026](https://stackoverflow.blog/2026/10/06/the-results-of-the-2026-developer-survey-are-here/)). Developers already expect it of their own tools.
 
 ## How to add one to your pipeline
 
