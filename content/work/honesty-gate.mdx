@@ -98,8 +98,16 @@ The landing page got the same rule. The count now comes from real go-live events
 
 **0.** That was the true value of the "real number" on launch day, so the line does not render. The trace gate checks the whole page in about 90 milliseconds, and the proof scan takes about 40.
 
+## How to add one to your pipeline
+
+You do not need the whole system on day one. In order:
+
+1. Find your claims. Grep the rendered output, not the source, for counts, ratings and "trusted by" lines. Include spelled-out numbers.
+2. Tag the facts behind them. Add a provenance field to each. Anything you cannot source becomes `unknown`.
+3. Add the proof scan. It is the smaller gate and catches the worst cases.
+4. Make it fail closed and wire it in. Check that it is called on the publish path and that a crash blocks.
+5. Add the trace gate once the scan is stable.
+
 ## The lesson
 
 A prompt that says "don't make things up" stops nothing on its own. What held was checking the rendered output instead of the source, making every string in it prove where it came from, and treating a check that couldn't run as a failure.
-
-If agents write copy your customers see, the AI Automation offer adds this gate to your pipeline.

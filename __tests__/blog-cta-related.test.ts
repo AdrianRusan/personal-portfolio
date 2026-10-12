@@ -2,7 +2,9 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { getRelatedPosts } from "@/lib/blog";
-import { BLOG_CTAS, getPostCta } from "@/lib/blog-cta";
+import { CALENDLY_URL } from "@/data";
+import { ladder, offerById } from "@/data/ladder";
+import { BLOG_CTAS, getPostCta, offerEyebrow } from "@/lib/blog-cta";
 import type { BlogFrontmatter, BlogPost } from "@/lib/blog-types";
 
 const fm = (over: Partial<BlogFrontmatter> = {}): BlogFrontmatter => ({
@@ -61,18 +63,41 @@ describe("getPostCta", () => {
     expect(BLOG_CTAS[cta].href).toBe(href);
   });
 
-  it("adds the free teardown as a second link on security/review posts", () => {
-    const c = getPostCta(fm({ cta: "audit", tags: ["security"] }));
-    expect(c.href).toBe("/services#ladder");
-    expect(c.secondary?.href).toBe("/teardown");
-    expect(
-      getPostCta(fm({ cta: "audit", tags: ["ai"] })).secondary,
-    ).toBeUndefined();
-    // An existing second link wins.
-    expect(
-      getPostCta(fm({ cta: "workshop", tags: ["code-review"] })).secondary
-        ?.href,
-    ).toBe("/workshops/half-day");
+  // A2 F7: a paid offer's second link is the free Scoping Call, on every post.
+  it.each(["audit", "cost-audit", "automation", "reviewed-pr", "harness"] as const)(
+    "offers the scoping call as the %s CTA's second link",
+    (cta) => {
+      for (const tags of [[], ["security"], ["code-review"]]) {
+        expect(getPostCta(fm({ cta, tags })).secondary?.href).toBe(CALENDLY_URL);
+      }
+    },
+  );
+
+  // The eyebrow price is the ladder's lowest price, never a copy of it.
+  it.each([
+    ["audit", "audit"],
+    ["cost-audit", "audit"],
+    ["workshop", "workshop"],
+    ["automation", "automation"],
+    ["reviewed-pr", "reviewed-pr"],
+    ["harness", "harness"],
+  ] as const)("prices the %s eyebrow from the ladder", (cta, id) => {
+    const { name, prices } = offerById(ladder, id);
+    const low = Math.min(...prices.map((p) => p.amount));
+    expect(BLOG_CTAS[cta].eyebrow).toBe(offerEyebrow(id));
+    expect(BLOG_CTAS[cta].eyebrow).toMatch(
+      new RegExp(`^${name} · (from )?€${low.toLocaleString("en-US")}$`),
+    );
+  });
+
+  it("keeps today's eyebrow wording", () => {
+    expect(offerEyebrow("audit")).toMatch(/^AI Audit · from €[\d,]+$/);
+    expect(offerEyebrow("workshop")).toMatch(/^Team workshop · from €[\d,]+$/);
+    expect(offerEyebrow("reviewed-pr")).toMatch(/^Reviewed PR · €[\d,]+$/);
+  });
+
+  it("keeps the teardown as a primary with no second link", () => {
+    expect(getPostCta(fm({ cta: "teardown", tags: ["security"] })).secondary).toBeUndefined();
   });
 
   it("offers the half-day workshop as the workshop CTA's second link", () => {

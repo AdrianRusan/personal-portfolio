@@ -10,8 +10,13 @@ export const caseStudyResults: Record<
     label: "shell-injection paths from request input, caught in review before merge",
   },
   "honesty-gate": {
-    figure: "1,400",
-    label: "strings per page traced to a source before anything publishes",
+    // A2 F13: the outcome, not the input size.
+    figure: "0",
+    label: 'the true count behind a landing-page line labelled "real number". The gate keeps lines like it off the page.',
+  },
+  "nine-prs-one-afternoon": {
+    figure: "9",
+    label: "reviewed PRs merged in 100 minutes, each through a review gate first",
   },
   "agent-cost-per-commit": {
     // R3-F15: a number like the other two; the rebound stays in the label.
@@ -26,6 +31,7 @@ export const caseStudyResults: Record<
 const CASE_STUDY_ORDER = [
   "30-reviewed-prs-3-vulnerabilities",
   "honesty-gate",
+  "nine-prs-one-afternoon",
   "agent-cost-per-commit",
 ];
 export function byCaseStudyOrder<T extends { slug: string }>(studies: T[]) {

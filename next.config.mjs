@@ -41,6 +41,23 @@ const nextConfig = {
     globalNotFound: true,
     optimizePackageImports: ['framer-motion', 'lucide-react'],
   },
+  // D7: cut posts 301 to the page that now holds their content.
+  async redirects() {
+    return [
+      // A4 F20: no workshops index; the offers live on the services ladder.
+      { source: '/workshops', destination: '/services#ladder', statusCode: 301 },
+      {
+        source: '/blog/30-prs-in-2-5-days/:path*',
+        destination: '/work/30-reviewed-prs-3-vulnerabilities',
+        statusCode: 301,
+      },
+      {
+        source: '/blog/claude-code-changed-how-i-ship-software/:path*',
+        destination: '/blog/2-3x-not-100x',
+        statusCode: 301,
+      },
+    ];
+  },
   async headers() {
     return [
       {

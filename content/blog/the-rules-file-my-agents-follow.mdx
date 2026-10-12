@@ -17,7 +17,7 @@ The model already writes decent code. What it gets wrong is a handful of specifi
 
 ## The shape: one index, small rule files
 
-The global `CLAUDE.md` ([Anthropic's memory docs](https://docs.anthropic.com/en/docs/claude-code/memory) explain how Claude Code loads it) is about 940 words. It does three jobs: load the active context (which client or project I am in), list the behaviors that override a default, and point to eight rule files for detail.
+The global `CLAUDE.md` ([Anthropic's memory docs](https://code.claude.com/docs/en/memory) explain how Claude Code loads it) is about 940 words. It does three jobs: load the active context (which client or project I am in), list the behaviors that override a default, and point to eight rule files for detail.
 
 The rule files cover git, security, taste, authoring, harness contracts, model choice and how output should be shaped for me to review.
 
@@ -110,5 +110,3 @@ The rules that survived describe *what* must be true: the gate refuses, the comm
 A rules file removes the five or six defaults that cost you the most review time. The gates and the review are still what make the code safe.
 
 The same rules running across several agents at once are in [how I run Claude Code agents in parallel](/blog/how-i-run-claude-code-agents-in-parallel).
-
-If you want this setup in your own repo, the Agent Fleet Setup is what I would install.

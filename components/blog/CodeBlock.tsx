@@ -28,6 +28,8 @@ export default function CodeBlock({ children, className, ...props }: CodeBlockPr
         className={[
           className ?? '',
           'rounded-xl overflow-x-auto text-sm leading-relaxed',
+          // A4 F10: room for the copy button, so it never sits on wrapped code.
+          'pr-12',
           // R3-F16: wrap on phones so the line that matters is never cut off.
           'max-sm:whitespace-pre-wrap max-sm:break-words',
           'border border-white/5 bg-[#1e1e2e]',

@@ -14,7 +14,8 @@ export default function PostHeader({ frontmatter, readingTime }: PostHeaderProps
   return (
     <header className="mb-10">
       <div className="flex flex-wrap gap-2 mb-4">
-        {frontmatter.tags?.map((tag) => (
+        {/* A4 F11: two tags keep the H1 near the top on phones; the rest are on the card. */}
+        {frontmatter.tags?.slice(0, 2).map((tag) => (
           <TagBadge key={tag} tag={tag} href={`/blog?tag=${encodeURIComponent(tag)}`} />
         ))}
       </div>
