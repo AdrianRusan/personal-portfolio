@@ -1,9 +1,9 @@
 ---
-title: "Claude Code Parallel Agents in October 2026: What the Built-ins Cover and What I Still Add"
-seoTitle: "Claude Code Parallel Agents: Built-in vs Herdr (Oct 2026)"
+title: "Claude Code Parallel Agents: What Git Worktrees Don't Isolate, and What the Built-ins Now Cover"
+seoTitle: "Claude Code Parallel Agents: What Worktrees Don't Isolate"
 date: "2026-10-24"
 tags: ["claude-code", "parallel-agents", "git-worktrees", "ai", "developer-productivity"]
-description: "Claude Code now ships -w worktrees, --bg background sessions and claude agents. What they cover, what I still run Herdr for, and the four things no worktree isolates: ports, services, shared git state and your usage limit."
+description: "Running Claude Code agents in parallel in October 2026: the five things a git worktree still shares (ports, services, .git, approvals, your usage limit), what -w, --bg and claude agents now handle, and what I still run Herdr for."
 published: true
 language: "en"
 cta: "workshop"
@@ -16,9 +16,23 @@ faq:
     a: "Anything outside the repository's files: ports, databases and other local services, and your plan's usage limit. Worktrees also share the repository's .git directory, so the stash and refs are shared, and Claude Code saves 'don't ask again' approvals to the main checkout's settings."
 ---
 
-**Short answer:** For one repo on one account, start with what Claude Code ships: `claude -w <name>` for a session in its own worktree, `claude --bg "<task>"` to dispatch one in the background, and `claude agents` to watch them. I still run Herdr on top, because it shows every project and every Claude Code config directory in one place. Neither one isolates ports, local services, shared git state or your usage limit. Those you set up yourself.
+**Short answer:** A git worktree per agent stops parallel sessions from editing the same files, and nothing else. Ports, local services, the shared `.git` directory, permission approvals and your usage limit are still shared, and each needs its own fix. For the worktrees themselves, start with what Claude Code ships: `claude -w <name>` for a session in its own worktree, `claude --bg "<task>"` to dispatch one in the background, and `claude agents` to watch them. I still run Herdr on top, because it shows every project and every Claude Code config directory in one place.
 
 At 18:11 on 12 October, Herdr listed 25 Claude Code agents across 15 workspaces on my laptop. `claude agents`, the built-in view, listed 9 of them. The other 16 were running under my three other Claude Code config directories.
+
+## What no worktree isolates
+
+A worktree gives each agent its own files and branch. Everything else on the machine is still shared:
+
+| Shared resource | What goes wrong | What I do |
+|---|---|---|
+| Ports | Two agents start a server on :3000; the second fails or tests the first one's build | Each agent gets its own port in the brief. In my 12 October content run, four writers had E2E ports 3081 to 3084 |
+| Local services | Two agents migrate or seed the same database | One database or schema per agent, named in the brief |
+| The `.git` directory | The stash is shared across worktrees, so one agent's `git stash pop` takes another's work | Agents never use a bare `git stash`. They commit work in progress instead |
+| Permission approvals | "Don't ask again" in one worktree is saved to the main checkout's settings, so it applies to every worktree | Approve narrowly, or keep the allow list in a reviewed settings file |
+| Your usage limit | The agent view docs: ten agents use quota "roughly ten times as fast" as one | The orchestrator never reads source files. Executors report exit codes and PR links, not file dumps |
+
+The usage limit is the one that stops everything at once. Over 66 days my logs show 37 separate usage-limit hits, with a peak of 18 sessions running together ([66 days of Claude Code, counted](/blog/66-days-of-claude-code-by-the-numbers)).
 
 ## What Claude Code ships now
 
@@ -45,7 +59,7 @@ Agent view is a research preview. The docs warn that the interface may change, a
 
 [Herdr](https://herdr.dev) is a terminal multiplexer built for coding agents. I used it before the built-ins existed, and three of its jobs still aren't covered for me:
 
-1. **Every config directory in one view.** I run Claude Code under four config directories, one per account or client setup. `claude agents` lists the sessions of the config directory it runs under. At 18:25 I ran it once per directory and got 9, 8, 6 and 2 sessions: 25, the same total Herdr showed in one screen. With the built-ins, that is four commands and four lists to read.
+1. **Every config directory in one view.** I run Claude Code under four config directories, one per account or client setup. `claude agents` lists the sessions of the config directory it runs under. Fourteen minutes after Herdr's count, at 18:25, I ran it once per directory and got 9, 8, 6 and 2 sessions: 25, the same total Herdr showed in one screen. With the built-ins, that is four commands and four lists to read.
 2. **An orchestrator that drives the others.** Herdr has a CLI, so one Claude session can create a worktree, start an agent in it, send it a brief and wait for it to finish:
 
 ```bash
@@ -59,20 +73,6 @@ herdr agent wait c3
 3. **Other agents in the same layout.** Herdr isn't tied to Claude, so a Codex session sits next to the Claude ones.
 
 If you run one account on one repo, the built-ins cover what I described above, and I'd start there. I haven't run the same task list both ways, so I can't tell you which one recovers better from a stuck agent.
-
-## What no worktree isolates
-
-A worktree gives each agent its own files and branch. Everything else on the machine is still shared:
-
-| Shared resource | What goes wrong | What I do |
-|---|---|---|
-| Ports | Two agents start a server on :3000; the second fails or tests the first one's build | Each agent gets its own port in the brief. In my 12 October content run, four writers had E2E ports 3081 to 3084 |
-| Local services | Two agents migrate or seed the same database | One database or schema per agent, named in the brief |
-| The `.git` directory | The stash is shared across worktrees, so one agent's `git stash pop` takes another's work | Agents never use a bare `git stash`. They commit work in progress instead |
-| Permission approvals | "Don't ask again" in one worktree is saved to the main checkout's settings, so it applies to every worktree | Approve narrowly, or keep the allow list in a reviewed settings file |
-| Your usage limit | The agent view docs: ten agents use quota "roughly ten times as fast" as one | The orchestrator never reads source files. Executors report exit codes and PR links, not file dumps |
-
-The usage limit is the one that stops everything at once. Over 66 days my logs show 37 separate usage-limit hits, with a peak of 18 sessions running together ([66 days of Claude Code, counted](/blog/66-days-of-claude-code-by-the-numbers)).
 
 ## The brief, and where the run lives
 

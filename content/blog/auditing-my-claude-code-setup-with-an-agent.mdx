@@ -16,7 +16,7 @@ faq:
     a: "As short as the corrections it has to carry. Mine went from 3,179 words in July 2026 to 939 in October, with 2,443 more across eight rule files. Cut anything that describes how to think rather than what must be true."
 ---
 
-**Short answer:** Audit a Claude Code setup with five checks: skills that never fire, words loaded into every session, the model your subagents actually run on, things nobody uses, and whether your own metrics can fail. In mine, 43 of 65 skills hadn't fired in 70 days, 81% of subagent spawns ran on the top model tier, and the honesty metric was wrong by 19 points.
+**Short answer:** Audit a Claude Code setup with five checks: skills that never fire, words loaded into every session, the model your subagents actually run on, things nobody uses, and whether your own metrics can fail. In mine, 43 of 65 skills hadn't fired in 70 days, 81% of subagent spawns ran on the top model tier, and my honesty metric said one agent claim in four was false when, over the claims it could check, none were.
 
 The rule that silenced most of those skills was one I wrote myself: keep every skill description under 80 characters.
 

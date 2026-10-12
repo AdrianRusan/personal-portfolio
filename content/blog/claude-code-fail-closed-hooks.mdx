@@ -12,7 +12,7 @@ faq:
   - q: "What does onFailure: \"block\" do in Claude Code hooks?"
     a: "It makes a failed command or HTTP hook block the action instead of letting it through. A failure means the hook can't start, times out, exits with a code other than 0 or 2, or prints JSON that can't be parsed or fails validation. The default is \"continue\". It needs Claude Code 2.1.295 or later, and it has no effect on Stop, SubagentStop, TaskCompleted, TeammateIdle or async hooks."
   - q: "Are Claude Code hooks fail-open by default?"
-    a: "Yes, on most events. Without onFailure set, a hook that can't start, times out or exits 1 is a non-blocking error and the action goes ahead. In my test on Claude Code 2.1.296, all five broken hooks let the command run. Only exit code 2, or a JSON deny decision, blocks it."
+    a: "Yes, on most events. Without onFailure set, a hook that can't start, times out or exits 1 is a non-blocking error and the action goes ahead. In my test on Claude Code 2.1.296, all six broken hooks let the command run. Only exit code 2, or a JSON deny decision, blocks it."
   - q: "Does onFailure: \"block\" catch a hook that prints broken JSON?"
     a: "Only if the output starts with { and ends with }. Output that starts with { but is cut off before the closing brace counts as plain text, which isn't a failure. In my test, a truncated JSON write let the command run even with onFailure set to block."
   - q: "Is onFailure: \"block\" enough to make a hook a safe gate?"
@@ -21,7 +21,7 @@ faq:
 
 **Short answer:** Claude Code hooks fail open by default. On 12 October 2026 I ran nine broken or misled hooks and one working gate through 20 headless sessions, each case once with the default and once with `onFailure: "block"`. With `block`, every hook that crashed, timed out, exited 1 or printed invalid JSON blocked the command. Without it, each of those five let the command run. Two things got through either way: JSON cut off before its closing brace, and a hook that ran fine and gave the wrong answer.
 
-The wrong answer is the one that matters. My secret-scanning hook let a staged AWS-style key into git history when the commit was wrapped in `bash -c`. An audit had flagged that exact gap on 20 September, and it was still open when I wrote this.
+The wrong answer is the one that matters. My secret-scanning hook let a staged AWS-style key into git history when the commit was wrapped in `bash -c`. An audit had flagged that exact gap on 20 September, and it was still open on 12 October 2026, when I ran these tests.
 
 ## What changed in Claude Code 2.1.295
 
@@ -107,6 +107,6 @@ claude -p "Run exactly: touch marker.txt. If blocked, don't retry." \
 test -f marker.txt && echo RAN || echo BLOCKED
 ```
 
-Change one thing in `settings.json` per run: a missing path, `exit 1`, a sleep past the timeout, half a JSON object, then your real gate with the prefixed command. A gate you have only seen pass is untested.
+Change one thing in `settings.json` per run: a missing path, `exit 1`, a sleep past the timeout, half a JSON object, then your real gate with the prefixed command. A gate you have only seen pass is untested. The kinds of fail-open code I look for when I review an agent's gate, alongside the other failures agents ship, are in [How to Review AI-Generated Code](/blog/what-agents-get-wrong).
 
 Any gate I install in a client repo gets these ten cases before I hand it over, with the result of each one in the handover notes.
