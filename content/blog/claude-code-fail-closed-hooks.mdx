@@ -17,7 +17,7 @@ faq:
     a: "No. It only sees the hook process. If the script runs a check, the check fails to run, and the script still exits 0, Claude Code sees a clean pass. The script has to treat its own failed checks as a refusal."
 ---
 
-**Short answer:** Since version 2.1.295 (8 October 2026), a Claude Code hook can set `onFailure: "block"`, so a hook that can't start, times out or exits with an unexpected code blocks the action instead of letting it through. That closes the gap around the hook process. It can't see a check that fails inside the script while the script still exits 0. My gate hooks have handled that second case since July.
+**Short answer:** Since version 2.1.295 (8 October 2026), a Claude Code hook can set `onFailure: "block"`, so a hook that can't start, times out or exits with an unexpected code blocks the action instead of letting it through. That closes the gap around the hook process. It can't see a check that fails inside the script while the script still exits 0. My secret and merge gates have handled that second case since July.
 
 Hooks are how I turn a rule into something an agent can't skip. A rule in `CLAUDE.md` is a request. A `PreToolUse` hook that denies `git commit` when the staged diff holds a key is a gate.
 
@@ -62,7 +62,7 @@ I run 20+ hooks. These three guard the actions that cost the most to undo, and e
 
 **`~/.claude/hooks/block-destructive.js`** (since April 2026) blocks destructive shell commands and pushes to protected branches. If it can't parse the tool input it was given, it denies the command and says it is failing closed.
 
-**`~/.claude/hooks/secret-scan.js`** (since July 2026) scans the staged diff on every `git commit`. If `git` can't list the staged files or produce the diff, it denies the commit. It has two written exceptions, below. Its own `git` helper checks `error`, a `null` status and a non-zero exit as separate cases.
+**`~/.claude/hooks/secret-scan.js`** (since July 2026) scans the staged diff on every `git commit`. If `git` can't list the staged files or produce the diff, it denies the commit. It has written exceptions, below. Its own `git` helper checks `error`, a `null` status and a non-zero exit as separate cases.
 
 **`~/.claude/hooks/gh-merge-gate.js`** (since July 2026) runs before `gh pr merge`. It denies a merge when checks are failing or pending, when a review requested changes, and whenever the `gh` call fails or returns output it can't parse.
 
@@ -74,7 +74,7 @@ Two things I learned from running these for months.
 
 **A fail-closed gate blocks good work too.** On 9 August 2026 `block-destructive.js` denied a harmless commit, because its message mentioned the words "git push origin main". It was matching words anywhere in the command line. I fixed the parser so a quoted phrase isn't read as a command. I didn't make the gate more lenient.
 
-**My scanner has two places where it lets a commit through.** `secret-scan.js` fails closed once it knows which repo a command targets. When it can't work that out, for example after a `cd` it can't follow, it allows the commit, logs it, and its header names the CI secret scan as the backstop. Blocking every such commit would stop work over a tooling gap. It also scans on `git push`, and on a branch's first push, where the range to scan can't be resolved, it allows the push, because the commit gate already scanned those commits.
+**My scanner lets a commit through in three written cases.** The first is deliberate: a `[skip-secret-scan]` token in the command, for a case like a test fixture with a fake key, and every use is logged. The other two are gaps I chose to accept. `secret-scan.js` fails closed once it knows which repo a command targets. When it can't work that out, for example after a `cd` it can't follow, it allows the commit, logs it, and its header names the CI secret scan as the backstop. Blocking every such commit would stop work over a tooling gap. It also scans on `git push`, and on a branch's first push, where the range to scan can't be resolved, it allows the push, because the commit gate already scanned those commits.
 
 The rule I apply: a gate refuses when its own check fails. Where I chose to let something through instead, the hook says so in writing and names the layer that covers it. An exception nobody wrote down is a fail-open bug.
 

@@ -10,7 +10,7 @@ cta: "reviewed-pr"
 forYou: "Your team adopted coding agents, PRs went up, and now they wait for review."
 faq:
   - q: "Is code review the bottleneck for AI-generated code?"
-    a: "In 2026 surveys, yes. Qodo's September 2026 survey of 500 US developers and 300 US engineering leaders found reviewing and validating AI-generated code was the top delivery constraint for both groups, at 26% each. On my own runs, 25 of 30 merged agent PRs needed at least one fix commit from review before merge."
+    a: "In 2026 surveys, yes. Qodo's September 2026 survey of 500 US developers and 300 US engineering leaders found reviewing and validating AI-generated code was the top delivery constraint for both groups, at 26% each. In one of my runs, 25 of 30 merged agent PRs needed at least one fix commit from review before merge."
   - q: "How do you speed up review of AI-written PRs?"
     a: "Make each PR arrive pre-checked. In my setup every agent runs typecheck, lint, build, tests and its own code review before the PR reaches me, and the PR body lists what it found and fixed. I still review every PR. What shrinks is how much each one needs from me."
   - q: "Can you skip human review if the agent's code passes CI?"
@@ -41,12 +41,12 @@ Counted from the git history after the run:
 | Measure | Count |
 |---|---|
 | PRs opened / merged | 31 / 30 |
-| Merged PRs with at least one fix or refactor commit before merge | 25 of 30 |
+| Merged PRs with at least one fix commit from review before merge | 25 of 30 |
 | Merged PRs that went in as the agent wrote them | 5 |
 | Shell-injection paths from request input, caught before merge | 3 |
 | Shell calls built from database values, missed | 1 |
 
-That is the verification tax in my own numbers. Five out of six PRs needed changes before I'd merge them. Review was also the biggest block of my time in those three days, which is why the speed-up I measured on that run is [2–3x, not 100x](/blog/2-3x-not-100x).
+That is the verification tax in my own numbers. Five out of six PRs needed changes before I'd merge them. Review also felt like the biggest block of my time in those three days (I didn't time it), which is why the speed-up I measured on that run is [2–3x, not 100x](/blog/2-3x-not-100x).
 
 And review still missed one. A shell call built from database values (#109) merged, and it was still open in that repo in October 2026. One human reading 30 diffs fast is a gate with a known failure rate.
 
