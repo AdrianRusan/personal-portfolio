@@ -57,7 +57,8 @@ export const roProofBand: ProofBandCopy = {
     { figure: "30", label: "PR-uri revizuite în mai puțin de 3 zile" },
     {
       figure: "3",
-      label: "căi de shell injection din input-ul cererilor, prinse în review înainte de merge",
+      label:
+        "căi de shell injection din input-ul cererilor, prinse în review înainte de merge",
     },
     { figure: "1", label: "ratată, iar studiul de caz arată care anume" },
   ],
@@ -65,7 +66,10 @@ export const roProofBand: ProofBandCopy = {
 };
 
 // Keyed by tag so a reordered or added EN step can't pick up the wrong copy.
-const roSteps: Record<string, { label: string; heading: string; body: string }> = {
+const roSteps: Record<
+  string,
+  { label: string; heading: string; body: string }
+> = {
   SHIP: {
     label: "Livrare",
     heading: "Agenții scriu volumul",
@@ -101,7 +105,8 @@ const roTagline = Object.fromEntries(roTiers.map((t) => [t.tier, t.tagline]));
 
 export const roOffers: OffersCopy = {
   heading: "Oferte și prețuri",
-  intro: "Fiecare ofertă are un preț de pornire afișat, iar prețul final îl stabilim înainte să încep lucrul. ",
+  intro:
+    "Fiecare ofertă are un preț de pornire afișat, iar prețul final îl stabilim înainte să încep lucrul. ",
   credit: RO_CREDIT_TERMS,
   // A7: yes.
   priceNote: "Prețuri pentru firme cu sediul în România.",
@@ -126,12 +131,14 @@ export const roPostTitles: PostTitles = {
       "Propriul meu dashboard de administrare, martie 2026: agenții au deschis 31 de PR-uri în mai puțin de trei zile și am făcut merge la 30 după review, fără teste și fără CI. Review-ul a prins 3 căi de shell injection și a ratat una.",
   },
   "honesty-gate": {
-    title: "Honesty gate: cum opresc faptele inventate în site‑urile construite de agenți",
+    title:
+      "Honesty gate: cum opresc faptele inventate în site‑urile construite de agenți",
     description:
-      "Un landing page prezenta ca real un număr de lansări. Numărul real era 0. Iată gate-ul care acum leagă fiecare text afișat de o sursă.",
+      "Un landing page construit de agenți prezenta un număr de lansări drept „număr real”. Numărul real era 0. Soluția: fiecare text afișat trebuie să-și dovedească sursa.",
   },
   "nine-prs-one-afternoon": {
-    title: "Nouă PR-uri revizuite într-o după-amiază: echipa de agenți care a refăcut acest site",
+    title:
+      "Nouă PR-uri revizuite într-o după-amiază: echipa de agenți care a refăcut acest site",
     description:
       "Un orchestrator, nouă agenți Claude Code în worktree-uri paralele, nouă PR-uri cu merge în 100 de minute. Fiecare a trecut întâi printr-un gate de review.",
   },
@@ -146,17 +153,20 @@ export const roPostTitles: PostTitles = {
       "463 de sesiuni, 335 de ore, 3.599 de subagenți și 45 de miliarde de tokeni. Ce spun propriile mele jurnale Claude Code despre bunele practici, numărate de un script, nu din memorie.",
   },
   "the-rules-file-my-agents-follow": {
-    title: "Fișierul de reguli pe care îl urmează agenții mei: exemple de CLAUDE.md din 270 de commit-uri",
+    title:
+      "Fișierul de reguli pe care îl urmează agenții mei: exemple de CLAUDE.md din 270 de commit-uri",
     description:
       "Exemple reale de CLAUDE.md dintr-un fișier de reguli ajustat de-a lungul a 270 de commit-uri: gate-uri care refuză când nu pot verifica, ritmul commit-urilor, repari doar bugul raportat și regulile pe care le-am șters.",
   },
   "how-i-run-claude-code-agents-in-parallel": {
-    title: "Cum rulez agenți Claude Code în paralel (worktrees, Herdr, un singur brief)",
+    title:
+      "Cum rulez agenți Claude Code în paralel (worktrees, Herdr, un singur brief)",
     description:
       "Agenți Claude Code în paralel, în practică: un git worktree pentru fiecare agent, un terminal multiplexer care îi rulează, un brief care le răspunde la întrebări și review-ul ca singurul pas făcut pe rând.",
   },
   "auditing-my-claude-code-setup-with-an-agent": {
-    title: "43 din 65 de skill-uri nu porniseră în 70 de zile: auditul setup-ului meu Claude Code",
+    title:
+      "43 din 65 de skill-uri nu porniseră în 70 de zile: auditul setup-ului meu Claude Code",
     description:
       "Zece audituri ale propriului meu setup Claude Code, rulate de agenți. Majoritatea skill-urilor nu porneau niciodată, regulile explicau cum să gândești, iar metricile erau greșite. Iată ce s-a schimbat.",
   },
@@ -166,9 +176,10 @@ export const roPostTitles: PostTitles = {
       "Agenți de review construiți pe neîncredere: un panel cu trei roluri în care câștigă verdictul cel mai strict, o buclă care triază comentariile boților și agenți care încearcă să infirme fiecare constatare dintr-un audit.",
   },
   "claude-code-fail-closed-hooks": {
-    title: "Claude Code are acum hook-uri care refuză la eroare. De ce le-am construit pe ale mele înainte",
+    title:
+      "Claude Code are acum hook-uri care refuză la eroare. De ce le-am construit pe ale mele înainte",
     description:
-      "Claude Code 2.1.295 a adăugat onFailure: \"block\" pentru hook-uri. Ce acoperă, ce nu vede în interiorul scriptului și cum refuză hook-urile mele când nu pot verifica.",
+      'Claude Code 2.1.295 a adăugat onFailure: "block" pentru hook-uri. Ce acoperă, ce nu vede în interiorul scriptului și cum refuză hook-urile mele când nu pot verifica.',
   },
   "review-bottleneck-measured-on-my-prs": {
     title: "Blocajul din review, măsurat pe propriile mele PR-uri",
@@ -176,17 +187,20 @@ export const roPostTitles: PostTitles = {
       "Studiile din 2026 arată că review-ul codului scris de AI e principala frână în livrare. PR-urile mele confirmă: 25 din 30 au avut nevoie de cel puțin un commit de corectură după review. Ce a mutat blocajul și ce nu.",
   },
   "what-agents-get-wrong": {
-    title: "Cum faci review la codul scris de AI: 6 greșeli ale agenților care trec de teste",
+    title:
+      "Cum faci review la codul scris de AI: 6 greșeli ale agenților care trec de teste",
     description:
       "Șase categorii de greșeli recurente pe care le prind în review-ul codului generat de AI: gate-uri de securitate care lasă totul să treacă la eroare, scope creep, erori înghițite în tăcere și altele. Iată ce să cauți.",
   },
   "catching-shell-injection-agents-wrote": {
-    title: "Bugurile de shell injection scrise de agenții mei și cel pe care l-am ratat",
+    title:
+      "Bugurile de shell injection scrise de agenții mei și cel pe care l-am ratat",
     description:
       "Trei căi de shell injection din input-ul cererilor, scrise de agenți și prinse în review înainte de merge, într-un repo fără teste și fără CI. Plus una pe care am ratat-o și ce am învățat.",
   },
   "2-3x-not-100x": {
-    title: "De 2–3 ori, nu de 100 de ori: cifra sinceră despre viteza programării cu AI",
+    title:
+      "De 2–3 ori, nu de 100 de ori: cifra sinceră despre viteza programării cu AI",
     description:
       "Cu cât e mai rapidă, de fapt, programarea cu AI? Răspunsul măsurat e de 2–3 ori, nu de 10–100 de ori. Iată metodologia, 30 de PR-uri revizuite în mai puțin de 3 zile, și ce lasă deoparte multiplicatorul.",
   },
@@ -232,7 +246,10 @@ export const roWhoFor: WhoForCopy = {
 };
 
 // Job titles and company names stay as they are; descriptions and dates in RO.
-const roJobs: Record<number, { period: string; desc: string; client?: string }> = {
+const roJobs: Record<
+  number,
+  { period: string; desc: string; client?: string }
+> = {
   1: {
     period: "dec. 2022 – prezent",
     client: `Client: ${FINTECH_EMPLOYER}, founding engineer (contract), din sep. 2024. Am construit platforma de bază și unelte interne cu AI; am condus o echipă de doi ingineri.`,
