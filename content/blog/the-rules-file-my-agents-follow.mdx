@@ -71,7 +71,7 @@ Claude Code 2.1.295 added `onFailure: "block"`, which covers a hook that crashes
 
 A checkpoint commit is cheap: a secrets scan and nothing else. The full validation ladder (typecheck, lint, build, test) runs only on the commit that ships.
 
-The rule shows up in my session logs, which I counted in [66 days of Claude Code, counted](/blog/66-days-of-claude-code-by-the-numbers).
+The rule shows up in my session logs, which I counted in [463 Claude Code sessions, counted](/blog/66-days-of-claude-code-by-the-numbers).
 
 The secrets half is a hook. `secret-scan.js` reads the staged diff and denies the commit on a match. It has a gap I measured on 12 October: when the commit is wrapped in `bash -c`, `sudo`, `timeout` or `env`, the hook doesn't recognise it as a commit, so the scan never runs.
 
