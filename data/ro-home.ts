@@ -181,9 +181,9 @@ export const roPostTitles: PostTitles = {
       "Trei căi de shell injection din input-ul cererilor, scrise de agenți și prinse în review înainte de merge, într-un repo fără teste și fără CI. Plus una pe care am ratat-o și ce am învățat.",
   },
   "2-3x-not-100x": {
-    title: "De 2–3 ori, nu de 100 de ori: cifra sinceră despre viteza programării cu AI",
+    title: "De 2–3 ori pe backlogul meu, 8% în 400 de companii: unde dispare câștigul din AI",
     description:
-      "Cu cât e mai rapidă, de fapt, programarea cu AI? Răspunsul măsurat e de 2–3 ori, nu de 10–100 de ori. Iată metodologia, 30 de PR-uri revizuite în mai puțin de 3 zile, și ce lasă deoparte multiplicatorul.",
+      "Cu cât e mai rapidă programarea cu AI? DX a măsurat sub 8% mai multe PR-uri în peste 400 de companii. PR-urile scrise de agenții mei au așteptat review-ul în mediană 44 de minute, față de peste 16 ore în datele LinearB. Timpii, estimarea și de ce diferă.",
   },
 };
 
