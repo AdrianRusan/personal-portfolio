@@ -84,7 +84,7 @@ Outside proof that a filter in front of a shell doesn't hold: Adversa AI's Guard
 PR #98 added an issues API for a project picker. The agent read `repo`, `state` and `label` from the query string and built a `gh` command from them:
 
 ```js
-// Trimmed from 0673fae. Still at the repo's HEAD.
+// Trimmed from 0673fae. Fixed on 12 Oct 2026 in taco-console#127.
 const repo = searchParams.get("repo");
 let cmd = `issue list -R ${repo} --state ${state}`;
 if (label) cmd += ` --label "${label}"`;
