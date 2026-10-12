@@ -7,7 +7,8 @@ export const caseStudyResults: Record<
 > = {
   "30-reviewed-prs-3-vulnerabilities": {
     figure: "3",
-    label: "shell-injection paths from request input, caught in review before merge",
+    // #98: the October re-audit found 5 security misses; the label points at them.
+    label: "shell-injection paths from request input caught in review. The study lists the 5 security bugs it missed.",
   },
   "honesty-gate": {
     // A2 F13: the outcome, not the input size.

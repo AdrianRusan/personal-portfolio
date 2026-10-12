@@ -19,6 +19,8 @@ const SCHEDULE = [
   // #90: A3 angles 1 and 4 fill the open 14 and 21 Nov slots.
   ["claude-code-fail-closed-hooks", "2026-11-14"],
   ["review-bottleneck-measured-on-my-prs", "2026-11-21"],
+  // #98 (K8): the AI-reviewer experiment.
+  ["ai-reviewers-on-the-bugs-i-missed", "2026-11-28"],
 ] as const;
 
 const at = (iso: string) => jest.useFakeTimers().setSystemTime(new Date(iso));
@@ -33,7 +35,7 @@ describe("post schedule", () => {
   });
 
   it("dates each post as scheduled", async () => {
-    at("2026-11-22T00:00:00Z");
+    at("2026-11-29T00:00:00Z");
     for (const [slug, date] of SCHEDULE) {
       expect((await getPost(slug)).frontmatter.date).toBe(date);
     }

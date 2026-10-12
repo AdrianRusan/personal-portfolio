@@ -121,9 +121,9 @@ export const roOffers: OffersCopy = {
 // Latest). The posts themselves stay in English; the cards say so once.
 export const roPostTitles: PostTitles = {
   "30-reviewed-prs-3-vulnerabilities": {
-    title: "30 de PR-uri revizuite, 3 căi de shell injection prinse",
+    title: "30 de PR-uri scrise de agenți, revizuite: 3 shell injection prinse, 5 buguri de securitate ratate",
     description:
-      "Propriul meu dashboard de administrare, martie 2026: agenții au deschis 31 de PR-uri în mai puțin de trei zile și am făcut merge la 30 după review, fără teste și fără CI. Review-ul a prins 3 căi de shell injection și a ratat una.",
+      "Propriul meu dashboard, martie 2026: agenții au deschis 31 de PR-uri și am făcut merge la 30 după review, fără teste și fără CI. Review-ul a prins 3 căi de shell injection. Un re-audit din octombrie a găsit 5 buguri de securitate pe care le-a ratat.",
   },
   "honesty-gate": {
     title: "Honesty gate: cum opresc agenții să publice fapte inventate",
@@ -161,9 +161,9 @@ export const roPostTitles: PostTitles = {
       "Cinci verificări pentru un setup Claude Code: skill-uri care nu pornesc niciodată, cuvinte încărcate în fiecare sesiune, modelul pe care rulează subagenții, lucruri nefolosite și metrici care nu pot pica. Ce a găsit fiecare în al meu, cu date.",
   },
   "reviewer-agents-that-dont-trust-other-agents": {
-    title: "Agenți de review care nu au încredere în alți agenți",
+    title: "Code review cu mai mulți agenți are nevoie de urme: 85 de PR-uri, 39 de verdicte neverificabile",
     description:
-      "Agenți de review construiți pe neîncredere: un panel cu trei roluri în care câștigă verdictul cel mai strict, o buclă care triază comentariile boților și agenți care încearcă să infirme fiecare constatare dintr-un audit.",
+      "Agenții mei de review au dat un verdict pe 85 de PR-uri între mai și iulie 2026. 39 dintre ele există doar ca rezumat de un rând scris de agentul care a scris codul, iar 3 BLOCK-uri au intrat în merge fără corectură. Designul panelului, cifrele și ce urmă ar trebui să lase un agent de review.",
   },
   "claude-code-fail-closed-hooks": {
     title: "Hook-urile Claude Code lasă acțiunea să treacă la eroare. Am testat onFailure: \"block\" pe propriile mele gate-uri",
@@ -176,15 +176,21 @@ export const roPostTitles: PostTitles = {
       "Studiile din 2026 arată că review-ul codului scris de AI e principala frână în livrare. PR-urile mele confirmă: 25 din 30 au avut nevoie de cel puțin un commit de corectură după review. Ce a mutat blocajul și ce nu.",
   },
   "what-agents-get-wrong": {
-    title: "Cum faci review la codul scris de AI: 6 greșeli ale agenților care trec de teste",
+    title: "Cum faci review la codul scris de AI: pentru ce au fost 64 de corecturi pe 30 de PR-uri ale agenților",
     description:
-      "Șase categorii de greșeli recurente pe care le prind în review-ul codului generat de AI: gate-uri de securitate care lasă totul să treacă la eroare, scope creep, erori înghițite în tăcere și altele. Iată ce să cauți.",
+      "Am sortat toate cele 64 de corecturi din review-ul a 30 de PR-uri scrise de agenți după ce era greșit: securitate, cod duplicat, tipuri, versiuni vechi de framework. Cifrele, câte un exemplu real și un checklist ordonat după frecvență.",
   },
   "catching-shell-injection-agents-wrote": {
-    title: "Bugurile de shell injection scrise de agenții mei și cel pe care l-am ratat",
+    title: "Bugurile de shell injection scrise de agenții mei: 4 prinse, 3 ratate",
     description:
-      "Trei căi de shell injection din input-ul cererilor, scrise de agenți și prinse în review înainte de merge, într-un repo fără teste și fără CI. Plus una pe care am ratat-o și ce am învățat.",
+      "Agenții au scris 7 comenzi shell construite din string-uri în 30 de PR-uri. Review-ul a prins 4, dintre care 3 din input-ul cererii, și a ratat 3, una tot din input-ul cererii. Codul și verificările.",
   },
+  "ai-reviewers-on-the-bugs-i-missed": {
+    title: "Am dat bugurile ratate de mine unor agenți de review AI: toate 5 semnalate, unul lăsat să treacă",
+    description:
+      "Am rulat /code-review din Claude Code și un panel de trei agenți, fără indicii, pe 8 commit-uri scrise de agenți pe care le revizuisem manual. Au semnalat cele 5 buguri de securitate ratate de mine și au lăsat unul să treacă, din același motiv ca mine.",
+  },
+
   "2-3x-not-100x": {
     title: "De 2–3 ori, nu de 100 de ori: cifra sinceră despre viteza programării cu AI",
     description:
@@ -198,8 +204,8 @@ export const roCaseStudyCards: CaseStudyCardsCopy = {
     "Client work (NDA)": "Proiect pentru client (NDA)",
     "Own setup": "Setup propriu",
     // The caseStudyResults labels (data/work.ts).
-    "shell-injection paths from request input, caught in review before merge":
-      "căi de shell injection din input-ul cererilor, prinse în review înainte de merge",
+    "shell-injection paths from request input caught in review. The study lists the 5 security bugs it missed.":
+      "căi de shell injection din input-ul cererilor, prinse în review. Studiul listează cele 5 buguri de securitate pe care le-a ratat.",
     'the true count behind a landing-page line labelled "real number". The gate keeps lines like it off the page.':
       "e numărul adevărat din spatele unui rând de pe un landing page etichetat „număr real”. Gate-ul ține astfel de rânduri departe de pagină.",
     "reviewed PRs merged in 100 minutes, each through typecheck, lint, build and tests first":
