@@ -20,7 +20,7 @@ faq:
     a: "Untrusted input interpolated into a command string that a shell parses, through exec, execSync, sh -c or shell: true. A semicolon, a pipe, a backtick or $(...) in that input runs a second command. Agents write it often because string interpolation is the shortest path to a command that works."
 ---
 
-**Short answer:** My Claude Code agents wrote 7 shell commands built from strings into 30 PRs on my own admin dashboard. The repo had no tests and no CI, so review was the only gate. Review caught 3 of the 4 that took request input and one built from config, and fixed all 4 before merge. It missed 3: a URL query string that reached the shell through a small wrapper function, two values from the database, and a stored repo name whose check a rebased PR deleted minutes after it landed. Those 3 are still open in that repo. This post counts shell strings only; the run's full security tally, XSS included, is in the case study.
+**Short answer:** My Claude Code agents wrote 7 shell commands built from strings into 30 PRs on my own admin dashboard. The repo had no tests and no CI, so review was the only gate. Review caught 3 of the 4 that took request input and one built from config, and fixed all 4 before merge. It missed 3: a URL query string that reached the shell through a small wrapper function, a PR number and repo name read from a database row, and a stored repo name whose check a rebased PR deleted minutes after it landed. As of 12 October 2026 those 3 were still open in that repo. This post counts shell strings only; the run's full security tally, XSS included, is in the case study.
 
 This post is the code. The run itself, with dates and every finding, is in [the 30-PR case study](/work/30-reviewed-prs-3-vulnerabilities). The sketches below are trimmed from the real diffs, and each fix commit is named so the claim can be checked.
 
@@ -101,7 +101,7 @@ ghExec(cmd); // execSync(`gh ${cmd}`)
 
 All 7 agents chose string interpolation into a shell, the shortest path to a command that works. Review caught 4 of them. Of the 3 it missed, one passed a request value to a wrapper function that added the shell, and two read their value from storage, one of them after a rebase deleted its check.
 
-I also gave the original commits to AI reviewers in October. The results are a separate post on 28 November.
+In October I gave the original commits to two AI reviewers. Both flagged #98 and #109; the full result is a separate post on 28 November.
 
 ## How I check agent-written shell calls now
 
@@ -114,3 +114,7 @@ I also gave the original commits to AI reviewers in October. The results are a s
 3. **Read the fix commit as a new diff.** A refactor that moves a shell string into a helper keeps the bug and makes it harder to find.
 4. **Re-read a PR after it's rebased onto another merge.** #118's rebase deleted a check #117 had just added, and the deletion was in the diff I approved.
 5. **Write the negative test.** If the repo has tests, they cover the happy path. Add one input with `;` or `$(` and assert the command never ran.
+
+## What this means for a repo with agent-written PRs
+
+3 of the 7 shell calls in this run got past a reviewer who was looking for exactly this bug. The ones that got through didn't look like the textbook case: the value went through a wrapper function, a database row or a rebase before it reached the shell. On these commits the grep in step 1 returned 2 to 4 lines each, so tracing every hit is a few minutes per PR (my estimate) and catches all 7. If your agents write code that reaches a shell, that trace is the first thing worth adding to review, before any tool.

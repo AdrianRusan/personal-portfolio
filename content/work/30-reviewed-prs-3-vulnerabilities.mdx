@@ -1,5 +1,5 @@
 ---
-title: "30 Agent PRs, Reviewed: 3 Shell Injections Caught, 5 Security Bugs Missed"
+title: "30 Agent PRs, One Reviewer: What Review Caught, and the 5 Security Bugs It Missed"
 seoTitle: "Reviewing AI Agent PRs: 30 PRs, 5 Security Misses, One Grep"
 date: "2026-10-11"
 updated: "2026-10-12"
@@ -12,7 +12,7 @@ forYou: "You're weighing agent-written PRs on a codebase with thin tests and wan
 meta: "Mar 2026 · Own project · under 3 days · Claude Code, Next.js, git worktrees · re-audited 12 Oct 2026"
 ---
 
-**Short answer:** In March 2026 Claude Code agents opened 31 pull requests on my own admin dashboard in under three days, and I reviewed and merged 30. The repo had no tests and no CI, so my review was the only gate. It caught 3 shell-injection paths from request input, a path traversal and a deleted allowlist before merge. On 12 October 2026 I re-audited the run and found 5 security bugs my review let through: 3 shell commands built from strings, one of them from request input, and 2 stored XSS sinks. All 5 are still open in that repo.
+**Short answer:** In March 2026 Claude Code agents opened 31 pull requests on my own admin dashboard in under three days, and I reviewed and merged 30. The repo had no tests and no CI, so my review was the only gate. It caught 3 shell-injection paths from request input, a path traversal and a deleted allowlist before merge. On 12 October 2026 I re-audited the run and found 5 security bugs my review let through: 3 shell commands built from strings, one of them from request input, and 2 stored XSS sinks. As of 12 October 2026 all 5 were still open in that repo.
 
 The repo is my own agent-monitoring dashboard: no client code, no client data. Every number on this page comes from its git history and `gh pr view`, and the commit SHAs are listed so the claims can be checked against the repo.
 
@@ -88,4 +88,9 @@ I ran it on the 5 agent commits behind the misses. It returns 2 to 4 lines per c
 
 In October I also ran two AI reviewers (Claude Code 2.1.296's `/code-review` and my own three-agent panel) blind on the original agent commits. The panel flagged all 5 misses and `/code-review` flagged 4. That test is its own post, published 28 November.
 
-What this changes for a repo like this one: a machine pass and that grep in CI before I read a diff, and every diff still read before it merges.
+## What a team running agents can take from this
+
+1. **Expect fixes on most agent PRs.** 25 of 30 needed at least one before merge, so budget review time for every PR, not a sample.
+2. **A careful reviewer catches what's in the diff in front of them.** All 5 misses here reached their sink through something else first: a wrapper function, a database row, a rebase or a rendering helper.
+3. **A mechanical pass covers exactly that gap.** The grep above surfaced all 5 misses, and the AI reviewers flagged 4 (`/code-review`) and 5 (the panel), at about a minute per commit.
+4. **Somebody still owns the merge.** Every one of these PRs merged on a human approval, mine. The misses are on that approval, which is why the record above shows them.

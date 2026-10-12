@@ -11,11 +11,11 @@ faq:
   - q: "What is multi-agent code review in Claude Code?"
     a: "Several subagents review the same diff in parallel, each with its own focus such as correctness, security or completeness, and their findings are merged. In my setup the strictest verdict wins: one BLOCK from any reviewer sends the PR back, and approval needs all three."
   - q: "Do AI reviewer agents catch real problems?"
-    a: "In my records, yes. Of 20 BLOCK findings sampled from 85 PRs, 11 were security findings, 11 led to a fix named in the next commit and 5 more were probably fixed. 3 were deferred and the PR merged without the fix. The weak part was the record: only 5 of the 85 verdicts were posted on GitHub by the full panel."
+    a: "In my records, yes. In a non-random sample of 20 BLOCK findings from 85 PRs, 11 were security findings, 11 led to a fix named in the next commit and 5 more were probably fixed. 3 were deferred and the PR merged without the fix. The weak part was the record: only 5 of the 85 verdicts were posted on GitHub by the full panel."
   - q: "Why should a reviewer agent post its verdict on the PR?"
     a: "Because a verdict that stays in a session transcript, or that the authoring agent summarises in one line, can't be checked later. On 85 of my PRs, 39 verdicts exist only as the author agent's summary. Post the verdict with its findings on the PR, every cycle."
   - q: "Do reviewer agents share the author's blind spots?"
-    a: "They can. Every reviewer in my panel is a Claude model, and so are most of the agents that write the code. I use a different model on the security role and read every PR myself after the panel, which narrows the gap without closing it."
+    a: "They can. Every reviewer in my panel is a Claude model, and so are most of the agents that write the code. The security reviewer runs on a different model from the other two reviewers, not necessarily from the author, and I read every PR myself after the panel. That narrows the gap without closing it."
 ---
 
 **Short answer:** Between 9 May and 10 July 2026 my reviewer agents left a verdict on 85 pull requests in 3 of my GitHub repos. Only 5 of those verdicts are the reviewer panel's own comment on the PR, with its findings counted. 41 came from one agent writing all three reviews, and 39 exist only as a one-line summary the authoring agent wrote in the PR body. The reviewers did real work: of 20 BLOCK findings sampled across the 3 repos, 11 were security issues and 16 were fixed or probably fixed before merge. 3 BLOCKs merged unfixed. A reviewer agent's verdict belongs on the PR, posted by the reviewer, every cycle, or nobody can check it later.
@@ -95,6 +95,6 @@ Anthropic's managed [Claude Code Review](https://code.claude.com/docs/en/code-re
 2. Grade findings BLOCK, WARN or NIT, and let any BLOCK send the PR back.
 3. Cap the cycles and report a stall as unresolved, never as approved.
 4. Have the reviewer post every verdict on the PR itself, with its counts, so the authoring agent never summarises its own review.
-5. Put a different model on the security role than the one that wrote the code, and read the PR yourself after the panel approves.
+5. Put a different model family on the security role. I haven't run that test yet. Read the PR yourself after the panel approves.
 
 In October I also ran this panel blind on 8 old agent commits whose bugs I already knew. Its security reviewer approved two commits with a shell string in them, because the values came from config or seed data. That test is its own post, on 28 November.
