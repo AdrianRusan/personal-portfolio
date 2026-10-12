@@ -9,7 +9,7 @@ language: "en"
 cta: "harness"
 faq:
   - q: "How do I find Claude Code skills that never get used?"
-    a: "Run /skill-doctor (Claude Code 2.1.252 or later). It lists every loaded skill with its context cost, recent token use and invocation count. Check its 'never invoked' list against your own prompt history before deleting anything: on 12 October 2026 it listed a skill I had typed twice that week as never used."
+    a: "Run /skill-doctor (Claude Code 2.1.252 or later). It lists every loaded skill with its context cost, recent token use and invocation count. Check its 'never invoked' list against your own prompt history before deleting anything: on 12 October 2026 it listed a skill I had typed on 8 October as never used."
   - q: "Why does a Claude Code skill never trigger?"
     a: "Claude picks a skill from its listing entry, so a short or vague description is the usual cause. The listing keeps up to 1,536 characters of description plus when_to_use per skill. In my setup, skills with a median 74-character description had mostly never fired, while external skills that did fire had a median of 657."
   - q: "How long should CLAUDE.md be?"
@@ -93,9 +93,9 @@ if it is removed.
 The deepest one, on 22 September, ran 69 agents in five phases: map, find then refute, simplify, sweep with new lenses, and a final critic. It produced 89 findings and caught 5 errors in my own brief. The agents proposed, and I decided. These counts come from the audit's own report, and so do its two misses:
 
 1. **The refuters were too agreeable.** They refuted 0 of 71 findings in one pass and 0 of 12 in the next. The real filtering happened earlier, when finder agents re-measured their own first-pass seeds and dropped 90. "Confirmed" in that report means reproduced once.
-2. **The read-only rule broke once.** An agent listing MCP config printed two API tokens into its own transcript, because its redaction only knew GitHub token shapes. The report's first decision for me was to rotate them.
+2. **The read-only rule broke once.** An agent listing MCP config printed two API tokens into its own transcript, because its redaction only knew GitHub token shapes. The audit tightened that rule for every later phase, and the report's first decision for me was to rotate both tokens. The gap behind it is still worth copying out: my deny list blocks reads of `.env`, key and credentials files, and on 12 October it still didn't cover `.claude.json`, where Claude Code keeps MCP server config.
 
-Tell the refuting agents to find the strongest case against each finding, and check how many they actually kill. Redact by default, not by pattern.
+Tell the refuting agents to find the strongest case against each finding, and check how many they actually kill. Have them redact every value they print.
 
 ## Where to start on yours
 

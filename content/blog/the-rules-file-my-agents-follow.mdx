@@ -16,7 +16,7 @@ faq:
     a: "A rule in CLAUDE.md is an instruction the model reads and can still get wrong. A PreToolUse hook is a script Claude Code runs before a tool call, and it can deny the call. Promote a rule to a hook when breaking it costs more than a review comment."
 ---
 
-**Short answer:** My rules file is 3,382 words: a 939-word `CLAUDE.md` and eight files in `~/.claude/rules/`, with 274 commits behind them on 12 October 2026. 2,408 of those words load in every session, and three path-scoped files load only when they apply. Five rules do most of the work. Only two of them are backed by a hook that can deny the action. The other three are requests the model reads and can still ignore. In the 20 days before I wrote this, a hook rejected 105 malformed commit messages, and agents typed the secret scan's skip token 204 times.
+**Short answer:** My rules file is 3,382 words: a 939-word `CLAUDE.md` and eight files in `~/.claude/rules/`, with 274 commits behind them on 12 October 2026. 2,408 of those words load in every session, and three path-scoped files load only when they apply. Five rules do most of the work. None of them is fully enforced by a hook. One is partly (a secret scan on every plain `git commit`), and hooks cap the damage when another one fails. The rest are requests the model reads and can still ignore. In the 20 days before I wrote this, a hook rejected 105 malformed commit messages, and agents typed the secret scan's skip token 204 times.
 
 Every rule below exists because the model got the same thing wrong more than once. For each one, the useful question is what happens when the model ignores it.
 
@@ -39,9 +39,11 @@ My hooks log what they do. From 23 September to 12 October 2026:
 1. The commit-format hook rejected 105 commit messages that didn't match the project's format. The rule alone hadn't stopped them.
 2. The outbound-message hook denied 6 Slack, email or PR-comment sends that hadn't gone through my voice check first. Its first denial was on 1 October.
 3. The secret scan read the staged diff 329 times. It let 24 commands through because it couldn't work out which repo they targeted, which is its written exception.
-4. In 204 commit or push commands, an agent typed the scan's skip token, 79 of them on 24 September alone. The token exists for test fixtures with fake keys. I haven't traced why it was used that often, and until I do, I can't call that gate enforced.
+4. In 204 commit or push commands, an agent typed the scan's skip token, 79 of them on 24 September alone. The token exists for test fixtures with fake keys.
 
-The fourth line is the lesson I'd take from this post. An escape hatch the agent can type turns a gate back into a request. My merge gate has one too.
+I traced the fourth line through my session transcripts, across all four Claude Code config directories. They hold 372 commands with the token (the log's 204 is lower, and I haven't reconciled the gap). 366 of the 372 came after the scan had denied a command earlier in the same session. 109 of the 112 denials I found came from the noisy check that flags variable names like `password =`, not from a real key shape. The other 3 were my own test key. And every deny message ended with "[skip-secret-scan] to override".
+
+So one false positive taught the agent the override, and it kept using it for the rest of the session. An escape hatch the agent can read about and type turns a gate back into a request. The fix is two parts: cut the false positives, and stop printing the override in the deny message. My merge gate has a typed token too, used 0 times in the same window.
 
 ## Rule 1: security gates fail closed
 
@@ -50,13 +52,11 @@ A gate whose job is to block bad input must also block when the check
 itself cannot run. Empty or missing configuration means REFUSE.
 ```
 
-This is the rule I would keep if I could keep one. The model's default, on the gates I reviewed, was to block only on the exit code that means "found something". A gate that can't even start has no exit code, so it passed. The rule spells out all three ways a subprocess fails:
+This is the rule I would keep if I could keep one. The model's default, on the gates I reviewed, was to block only on the exit code that means "found something". A gate that can't even start has no exit code, so it passed. The rule file spells out all three ways a subprocess fails:
 
-```js
-// Spawn failure returns { status: null, error }, not a non-zero exit.
-if (result.error || result.status === null || result.status !== 0) {
-  refuse();
-}
+```md
+- **Subprocess gates check all three failure modes**, not just a non-zero exit:
+  `if (result.error || result.status === null || result.status !== 0) { refuse }`
 ```
 
 Claude Code 2.1.295 added `onFailure: "block"`, which covers a hook that crashes, times out or exits with an unexpected code. It can't cover a hook that runs fine and can't see the thing it checks. That part stays in the script. I tested both on my own gates and will publish the results on 14 November.

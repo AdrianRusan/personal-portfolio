@@ -32,6 +32,8 @@ A worktree gives each agent its own files and branch. Everything else on the mac
 | Permission approvals | "Don't ask again" in one worktree is saved to the main checkout's settings, so it applies to every worktree | Approve narrowly, or keep the allow list in a reviewed settings file |
 | Your usage limit | The agent view docs: ten agents use quota "roughly ten times as fast" as one | The orchestrator never reads source files. Executors report exit codes and PR links, not file dumps |
 
+Two of these rows come from my own run on 10 October. An executor agent stopped its server with `pkill -f next-server` and took down another project's dev server on the same laptop, so every brief now says to stop only your own PID on your own port. And two `herdr worktree create` calls run at once raced on `.git/config.lock` and left branches with no worktree, so the orchestrator now creates worktrees one at a time.
+
 The usage limit is the one that stops everything at once. Over 66 days my logs show 37 separate usage-limit hits, with a peak of 18 sessions running together ([66 days of Claude Code, counted](/blog/66-days-of-claude-code-by-the-numbers)).
 
 ## What Claude Code ships now
