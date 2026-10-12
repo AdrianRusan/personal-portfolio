@@ -1,6 +1,10 @@
 // event slug must exist in Calendly (active "Scoping Call" event, slug "new-meeting")
 export const CALENDLY_URL = "https://calendly.com/adrian-rusan/new-meeting";
 
+// D1 / A1 F1: the LinkedIn positioning, for titles, OG cards and schema.
+export const SITE_TAGLINE = "AI Agents Ship It, I Review Every PR";
+export const SITE_TITLE = `Adrian Rusan | ${SITE_TAGLINE}`;
+
 // Async intake inbox for offers that don't require a call.
 export const CONTACT_EMAIL = "contact@adrian-rusan.com";
 

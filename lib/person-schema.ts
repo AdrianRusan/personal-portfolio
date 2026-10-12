@@ -7,12 +7,12 @@ import {
 
 // Person JSON-LD, rendered site-wide by app/root-shell.tsx. Lives here (not in the
 // layout) so a jest test can check its shape — layouts may only export Next fields.
-const JOB_TITLE = "Senior software engineer, agent-accelerated delivery";
+const JOB_TITLE = "Senior full-stack engineer";
 
 // City level only (#64 R3): no street, no postal code, no phone.
 const address = {
   "@type": "PostalAddress",
-  addressLocality: "Bucharest",
+  addressLocality: "Timișoara",
   addressCountry: "RO",
 };
 

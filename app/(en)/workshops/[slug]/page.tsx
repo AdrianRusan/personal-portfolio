@@ -67,7 +67,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
 
   return (
     // R2-F5: the workshop card is this page's one ask.
-    <PageShell hideFooterCta>
+    <PageShell hideFooterCta hideEmailCapture>
       <JsonLd
         data={[
           workshopJsonLd(w),
@@ -83,7 +83,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
         ]}
       />
 
-      <section className="px-5 sm:px-10 pt-36 pb-12 md:pb-16">
+      <section className="px-5 sm:px-10 pt-36 md:pt-44 pb-12 md:pb-16">
         <div className="container-section text-center">
           <p className="eyebrow">
             Team workshop · {w.length} · up to {w.maxPeople} people

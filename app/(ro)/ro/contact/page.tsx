@@ -12,7 +12,7 @@ export const metadata = proseMetadata(
 
 export default function RoContactPage() {
   return (
-    <PageShell ro hideFooterCta>
+    <PageShell ro hideFooterCta hideEmailCapture>
       <JsonLd
         data={pageJsonLd({
           path: roContactPage.path,

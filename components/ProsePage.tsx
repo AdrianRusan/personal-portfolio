@@ -10,32 +10,34 @@ import { Quote } from "./Testimonials";
 export function ProsePage({
   page,
   updatedLabel = "Last updated",
+  photo,
   children,
 }: {
   page: Page;
   updatedLabel?: string;
-  // Rendered under the lead, e.g. the Bio card on /about.
+  // A4 F8: the photo beside the H1 and lead (/about).
+  photo?: ReactNode;
+  // Rendered under the lead, e.g. the option blocks on /contact.
   children?: ReactNode;
 }) {
   return (
-    <article className="px-5 sm:px-10 pt-32 sm:pt-40 pb-8">
+    <article className="px-5 sm:px-10 pt-36 md:pt-44 pb-8">
       <div className="container-prose">
-        <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-balance">
-          {page.title}
-        </h1>
-        <p className="text-white-200 mt-5 leading-relaxed">{page.lead}</p>
-        {page.updated && (
-          <p className="text-sm text-white-200/75 mt-3">
-            {updatedLabel} {page.updated}
-          </p>
-        )}
-        {children}
-        {page.earlier && (
-          <div className="mt-8">
-            <p className="text-sm text-white-200/80">{page.earlier.label}</p>
-            <Quote testimonial={page.earlier.testimonial} className="mt-2" />
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
+          {photo}
+          <div>
+            <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-balance">
+              {page.title}
+            </h1>
+            <p className="text-white-200 mt-5 leading-relaxed">{page.lead}</p>
+            {page.updated && (
+              <p className="text-sm text-white-200/75 mt-3">
+                {updatedLabel} {page.updated}
+              </p>
+            )}
           </div>
-        )}
+        </div>
+        {children}
 
         {page.sections.map((section) => (
           <section key={section.heading} className="mt-10">
@@ -48,6 +50,12 @@ export function ProsePage({
                 options={{ mdxOptions: { format: "md" } }}
               />
             </div>
+            {section.quote && (
+              <div className="mt-8">
+                <p className="text-sm text-white-200/80">{section.quote.label}</p>
+                <Quote testimonial={section.quote.testimonial} className="mt-2" />
+              </div>
+            )}
           </section>
         ))}
       </div>

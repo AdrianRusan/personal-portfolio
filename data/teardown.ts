@@ -4,11 +4,12 @@ export const teardown = {
     "Free AI Code Teardown — a 15-min Loom of what your AI-generated code is hiding",
   description:
     "Send a repo or PR. Get a free 15-minute Loom of the security bugs your AI coding tools wrote that pass tests and merge anyway. No call, no pitch.",
-  eyebrow: "Free · no call",
+  // A1 F16: "no call" is said once, by the button.
+  eyebrow: "Free",
   heading:
     "Send me a repo. I'll show you what your AI-generated code is hiding.",
   intro:
-    "A free 15-minute Loom of a repo or a recent PR, showing the security bugs that pass your tests and merge anyway. No call. I only need your email.",
+    "A free 15-minute Loom of a repo or a recent PR, showing the security bugs that pass your tests and merge anyway. I only need your email.",
   // R2-F20. The 30-PR repo had no tests, so the line makes no claim about tests.
   proof:
     "On my own 30-PR run, review caught 3 shell-injection paths before merge.",

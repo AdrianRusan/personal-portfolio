@@ -7,7 +7,7 @@ export const alt = contactPage.description;
 
 export default function Image() {
   return renderOgCard({
-    eyebrow: "Bucharest, Romania · remote",
+    eyebrow: "Timișoara, Romania · remote",
     title: contactPage.title,
     subtitle: "Book a call, email, or send a repo for a free teardown.",
     footerRight: `adrian-rusan.com${contactPage.path}`,

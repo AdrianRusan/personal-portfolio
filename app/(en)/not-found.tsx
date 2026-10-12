@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <PageShell>
+    <PageShell hideEmailCapture>
       <section className="flex flex-col items-center text-center px-5 pt-36 md:pt-44 pb-12">
         <p className="eyebrow">
           <span className="num">404</span> · Page not found

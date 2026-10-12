@@ -11,7 +11,7 @@ export const metadata = proseMetadata(aboutPage, {
 
 export default function AboutPage() {
   return (
-    <PageShell>
+    <PageShell hideEmailCapture>
       <JsonLd
         data={pageJsonLd({
           path: aboutPage.path,
@@ -21,9 +21,7 @@ export default function AboutPage() {
           crumbs: [{ name: "About", path: aboutPage.path }],
         })}
       />
-      <ProsePage page={aboutPage}>
-        <Avatar className="mt-8 h-16 w-16 text-lg" />
-      </ProsePage>
+      <ProsePage page={aboutPage} photo={<Avatar className="h-24 w-24" />} />
     </PageShell>
   );
 }

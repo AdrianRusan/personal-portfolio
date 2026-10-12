@@ -161,12 +161,16 @@ export const proseMd = (page: ProsePage) =>
     `# ${page.title}`,
     page.lead,
     page.updated && `Last updated ${page.updated}`,
-    page.earlier &&
-      `${page.earlier.label}:\n\n${quoteMd(page.earlier.testimonial)}`,
     ...(page.options ?? []).map(
       (o) => `## ${o.heading}\n\n${o.body} [${o.cta}](${o.href})`,
     ),
-    ...page.sections.map((s) => `## ${s.heading}\n\n${s.body}`),
+    ...page.sections.map((s) =>
+      blocks(
+        `## ${s.heading}`,
+        s.body,
+        s.quote && `${s.quote.label}:\n\n${quoteMd(s.quote.testimonial)}`,
+      ),
+    ),
   );
 
 export const teardownMd = () =>

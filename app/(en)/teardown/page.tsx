@@ -43,7 +43,7 @@ export default function TeardownPage() {
         })}
       />
 
-      <section className="px-5 sm:px-10 pt-36 pb-12">
+      <section className="px-5 sm:px-10 pt-36 md:pt-44 pb-12">
         <div className="container-section text-center">
           <p className="eyebrow">{teardown.eyebrow}</p>
           <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-balance max-w-3xl mx-auto mt-3">
@@ -106,12 +106,6 @@ export default function TeardownPage() {
             >
               Prefer to talk? Book a scoping call →
             </CalendlyLink>
-            <a
-              href="/services"
-              className="text-sm font-medium text-blue-100 hover:text-purple transition-colors"
-            >
-              Or see the full delivery offer →
-            </a>
           </div>
         </div>
       </section>

@@ -8,7 +8,7 @@ import Bio from "@/components/Bio";
 import Testimonials from "@/components/Testimonials";
 import { PageShell } from "@/components/PageShell";
 import { ServicesFaq } from "@/components/services/ServicesFaq";
-import { HOME_FAQ_HEADING, homeFaqs } from "@/data";
+import { HOME_FAQ_HEADING, SITE_TITLE, homeFaqs } from "@/data";
 import type { Metadata } from "next";
 import { JsonLd, SITE_URL, faqJsonLd, pageJsonLd } from "@/lib/page-schema";
 
@@ -29,9 +29,9 @@ const homeJsonLd = [
   {
     ...pageJsonLd({
       path: "/",
-      name: "Adrian Rusan | Agent-Accelerated Delivery, Reviewed",
+      name: SITE_TITLE,
       description:
-        "Fixed-scope delivery sprints where Claude Code agents ship the backlog and a senior engineer security-reviews every pull request.",
+        "I ship your backlog with AI agents and review every pull request myself, security first, at a price fixed before work starts.",
       crumbs: [],
     }),
     mainEntity: { "@id": `${SITE_URL}/#person` },
@@ -40,7 +40,7 @@ const homeJsonLd = [
     "@context": "https://schema.org",
     "@type": "Service",
     "@id": `${SITE_URL}/#service`,
-    name: "Agent-Accelerated Delivery Sprint",
+    name: "Delivery Sprint",
     description:
       "A fixed-scope software delivery sprint where Claude Code agents ship backlog work and a senior engineer security-reviews every pull request before it reaches the client.",
     provider: { "@id": `${SITE_URL}/#person` },

@@ -23,7 +23,7 @@ const Hero = ({ copy = en }: { copy?: HeroCopy }) => {
     <section
       id="home"
       aria-labelledby="hero-heading"
-      className="px-5 sm:px-10 pt-36 pb-12 md:pt-48 md:pb-20"
+      className="px-5 sm:px-10 pt-36 pb-12 md:pt-44 md:pb-20"
     >
       <div className="container-section flex flex-col items-center text-center">
         <div className="flex items-center gap-3">
