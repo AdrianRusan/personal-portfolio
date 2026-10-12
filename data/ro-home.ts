@@ -151,9 +151,9 @@ export const roPostTitles: PostTitles = {
       "Exemple reale de CLAUDE.md dintr-un fișier de reguli cu 274 de commit-uri în spate: cinci reguli, de ce există fiecare și care sunt impuse de un hook, față de cele pe care modelul le poate ignora.",
   },
   "how-i-run-claude-code-agents-in-parallel": {
-    title: "Cum rulez agenți Claude Code în paralel (worktrees, Herdr, un singur brief)",
+    title: "Agenți Claude Code în paralel în octombrie 2026: ce acoperă funcțiile native și ce adaug eu",
     description:
-      "Agenți Claude Code în paralel, în practică: un git worktree pentru fiecare agent, un terminal multiplexer care îi rulează, un brief care le răspunde la întrebări și review-ul ca singurul pas făcut pe rând.",
+      "Claude Code are acum worktree-uri cu -w, sesiuni în fundal cu --bg și claude agents. Ce acoperă, pentru ce folosesc în continuare Herdr și cele patru lucruri pe care niciun worktree nu le izolează: porturi, servicii, starea git comună și limita de utilizare.",
   },
   "auditing-my-claude-code-setup-with-an-agent": {
     title: "Cum auditezi un setup Claude Code: 5 verificări și ce au găsit în al meu",
