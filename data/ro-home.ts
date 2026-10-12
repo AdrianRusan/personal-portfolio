@@ -54,14 +54,14 @@ export const roHero: HeroCopy = {
 export const roProofBand: ProofBandCopy = {
   ariaLabel: "Dovezi în cifre",
   stats: [
-    { figure: "30", label: "PR-uri revizuite în sub 3 zile" },
+    { figure: "30", label: "PR-uri revizuite în mai puțin de 3 zile" },
     {
       figure: "3",
       label: "căi de shell injection din input-ul cererilor, prinse în review înainte de merge",
     },
     { figure: "1", label: "ratată, iar studiul de caz arată care anume" },
   ],
-  note: "Toate trei cifrele vin dintr-o singură rulare documentată, pe propriul meu panou de administrare, în martie 2026.",
+  note: "Toate cele trei cifre vin dintr-o singură rulare documentată, pe propriul meu panou de administrare, în martie 2026.",
 };
 
 // Keyed by tag so a reordered or added EN step can't pick up the wrong copy.
@@ -178,7 +178,7 @@ export const roPostTitles: PostTitles = {
   "2-3x-not-100x": {
     title: "De 2–3 ori, nu de 100 de ori: cifra sinceră despre viteza programării cu AI",
     description:
-      "Cu cât e mai rapidă, de fapt, programarea cu AI? Răspunsul măsurat e de 2–3 ori, nu de 10–100 de ori. Iată metodologia, 30 de PR-uri revizuite în sub 3 zile, și ce lasă deoparte multiplicatorul.",
+      "Cu cât e mai rapidă, de fapt, programarea cu AI? Răspunsul măsurat e de 2–3 ori, nu de 10–100 de ori. Iată metodologia, 30 de PR-uri revizuite în mai puțin de 3 zile, și ce lasă deoparte multiplicatorul.",
   },
 };
 
