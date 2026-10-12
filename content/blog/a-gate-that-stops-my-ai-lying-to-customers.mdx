@@ -101,7 +101,7 @@ On this project the trace gate runs in about 90 milliseconds per page and the pr
 
 Both gates fail closed. If a gate cannot run for any reason, the result is the same as a failed check: the publish is blocked.
 
-Fair: the default instinct is to let a broken check pass so it does not block work, and a gate that blocks on its own crash can hold up a publish. But a gate that passes when it cannot run is no better than the eight unwired gates.
+I understand the instinct to let a broken check pass so it does not block work, and a gate that blocks on its own crash can hold up a publish. Still, a gate that passes when it cannot run is no better than the eight unwired gates.
 
 Wire both gates into the one path that publishes, and test the "cannot run" case as hard as the "found a claim" case.
 
@@ -121,6 +121,8 @@ You do not need the whole system on day one. In order:
 4. Make it fail closed and wire it in. Check that it is called on the publish path and that a crash blocks.
 5. Add the trace gate once the scan is stable.
 
-Keep the rule in your `CLAUDE.md`: it tells the agent what you want. Just do not count it as the thing that stops the problem.
+A rule in your `CLAUDE.md` is still worth having: it tells the agent what you want. Just do not count it as the thing that stops the problem.
 
-If you want the rendered output of your own AI-written code checked for claims like these, the audit below is where I would start.
+What held on this project was making every rendered string prove where it came from, checking the output instead of the source, and treating a check that could not run as a failure.
+
+If you want the rendered output of your own AI-written code checked for claims like these, the AI Audit is where I would start.
