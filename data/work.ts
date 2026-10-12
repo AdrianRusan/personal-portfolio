@@ -10,8 +10,9 @@ export const caseStudyResults: Record<
     label: "shell-injection paths from request input, caught in review before merge",
   },
   "honesty-gate": {
-    figure: "1,400",
-    label: "strings per page traced to a source before anything publishes",
+    // A2 F13: the outcome, not the input size.
+    figure: "0",
+    label: 'the true count behind a landing-page line labelled "real number". The gate keeps lines like it off the page.',
   },
   "nine-prs-one-afternoon": {
     figure: "9",

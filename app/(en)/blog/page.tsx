@@ -62,9 +62,9 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
           Notes from shipping with Claude Code agents
         </h1>
         <p className="text-white-200 text-lg max-w-xl">
-          What my agents get wrong, what review catches, and the numbers from
-          my own logs. I&apos;m a full-stack engineer with 10+ years in
-          production.
+          What my agents get wrong, what my review catches, and the numbers
+          from my own logs. I&apos;m a senior full-stack engineer, 10+ years in
+          production, and I review every PR my agents write.
         </p>
         </div>
 

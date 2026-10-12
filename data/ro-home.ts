@@ -132,7 +132,7 @@ export const roPostTitles: PostTitles = {
   "30-reviewed-prs-3-vulnerabilities": {
     title: "30 de PR-uri revizuite, 3 căi de shell injection prinse",
     description:
-      "Propriul meu dashboard de administrare, martie 2026: agenții au deschis 31 de PR-uri în mai puțin de trei zile și 30 au ajuns la review, fără teste și fără CI. Review-ul a prins 3 căi de shell injection și a ratat una.",
+      "Propriul meu dashboard de administrare, martie 2026: agenții au deschis 31 de PR-uri în mai puțin de trei zile și am făcut merge la 30 după review, fără teste și fără CI. Review-ul a prins 3 căi de shell injection și a ratat una.",
   },
   "honesty-gate": {
     title: "Honesty gate: cum opresc faptele inventate în site‑urile construite de agenți",
@@ -147,7 +147,7 @@ export const roPostTitles: PostTitles = {
   "agent-cost-per-commit": {
     title: "De ce măsor acum costul agenților în fiecare săptămână",
     description:
-      "Când am redus contextul, costul pe commit al agenților a scăzut o lună, apoi economia a dispărut pe nesimțite. Ce am învățat, ce pot și ce nu pot explica și măsurătoarea săptămânală pe care un audit AI o pune în practică pentru echipa ta.",
+      "O reducere a contextului a scăzut costul pe commit al agenților cu 68% într-o lună. Un registru săptămânal a prins revenirea din septembrie, odată cu mult mai multe rulări automate.",
   },
   "66-days-of-claude-code-by-the-numbers": {
     title: "66 de zile de Claude Code, în cifre",
@@ -165,12 +165,17 @@ export const roPostTitles: PostTitles = {
       "Agenți Claude Code în paralel, în practică: un git worktree pentru fiecare agent, un terminal multiplexer care îi rulează, un brief care le răspunde la întrebări și review-ul ca singurul pas făcut pe rând.",
   },
   "auditing-my-claude-code-setup-with-an-agent": {
-    title: "Mi-am auditat propriul setup Claude Code cu un agent",
+    title: "43 din 65 de skill-uri nu porniseră în 70 de zile: auditul setup-ului meu Claude Code",
     description:
       "Zece audituri ale propriului meu setup Claude Code, rulate de agenți. Majoritatea skill-urilor nu porneau niciodată, regulile explicau cum să gândești, iar metricile erau greșite. Iată ce s-a schimbat.",
   },
+  "reviewer-agents-that-dont-trust-other-agents": {
+    title: "Agenți de review care nu au încredere în alți agenți",
+    description:
+      "Agenți de review construiți pe neîncredere: un panel cu trei roluri în care câștigă verdictul cel mai strict, o buclă care triază comentariile boților și agenți care încearcă să infirme fiecare constatare dintr-un audit.",
+  },
   "what-agents-get-wrong": {
-    title: "Ce greșesc agenții AI care scriu cod: o clasificare din practică",
+    title: "Cum faci review la codul scris de AI: 6 greșeli ale agenților care trec de teste",
     description:
       "Șase categorii de greșeli recurente pe care le prind în review-ul codului generat de AI: gate-uri de securitate care lasă totul să treacă la eroare, scope creep, erori înghițite în tăcere și altele. Iată ce să cauți.",
   },

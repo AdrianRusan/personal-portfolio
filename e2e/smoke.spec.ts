@@ -30,7 +30,9 @@ const routes = [
 const scheduled: Record<string, string> = {
   '/blog/the-rules-file-my-agents-follow': '2026-10-17',
   '/blog/how-i-run-claude-code-agents-in-parallel': '2026-10-24',
-  '/blog/auditing-my-claude-code-setup-with-an-agent': '2026-10-31',
+  '/work/nine-prs-one-afternoon': '2026-10-24',
+  '/blog/reviewer-agents-that-dont-trust-other-agents': '2026-10-31',
+  '/blog/auditing-my-claude-code-setup-with-an-agent': '2026-11-07',
 };
 for (const [route, date] of Object.entries(scheduled)) {
   if (Date.now() >= new Date(date).getTime()) routes.push(route);

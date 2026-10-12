@@ -1,7 +1,7 @@
 ---
-title: "Auditing My Own Claude Code Setup With an Agent"
+title: "43 of 65 Skills Hadn't Fired in 70 Days: Auditing My Claude Code Setup"
 seoTitle: "Auditing My Claude Code Setup With an Agent"
-date: "2026-10-31"
+date: "2026-11-07"
 tags: ["claude-code", "agent-harness", "claude-md", "ai", "code-review"]
 description: "Ten audits of my own Claude Code setup, run by agents. Most skills never fired, the rules taught how to think, and the metrics were broken. Here is what changed."
 published: true
@@ -9,7 +9,7 @@ language: "en"
 cta: "harness"
 ---
 
-**Short answer:** I had agents audit my own Claude Code setup ten times between July and October. They found 43 of 65 skills had not fired in 70 days and that most rules taught the model how to think. Since then my `CLAUDE.md` shrank from 3,179 to 939 words and the skills from 53 to 19.
+**Short answer:** I had agents audit my own Claude Code setup ten times between July and October. They found 43 of 65 skills had not fired in 70 days and that most rules taught the model how to think. Since then my `CLAUDE.md` shrank from 3,179 to 939 words and the skills from 53 to 19 by October.
 
 Most Claude Code best practices are about the code the agent writes. Fewer are about the setup that runs it: the `CLAUDE.md`, rule files, skills, hooks and subagents that load into every session. That setup grows the way any codebase grows. Each piece solves a real problem when you add it, and nothing removes it when it stops paying.
 
@@ -80,7 +80,7 @@ The deep audit's one-line verdict: "The harness is not over-engineered, it is un
 3. 23 of 48 skills had no recorded use.
 4. Every prompt carried about 1.5 KB of stale warning banners.
 
-**What changed:** most of it went in four commits on 11 September. The three MCP servers, the memory layer and the stale banners were removed, and 19 skills, 2 orphaned agents and 2 orphaned scripts went in one commit. Tracked skills went from 53 at the start of July to 19 today. Dead weight also costs money: in my [cost case study](/work/agent-cost-per-commit), trimming always-loaded context is one of the changes that lines up with the cost per commit falling.
+**What changed:** most of it went in four commits on 11 September. The three MCP servers, the memory layer and the stale banners were removed, and 19 skills, 2 orphaned agents and 2 orphaned scripts went in one commit. Tracked skills went from 53 at the start of July to 19 in October. Dead weight also costs money: in my [cost case study](/work/agent-cost-per-commit), trimming always-loaded context is one of the changes that lines up with the cost per commit falling.
 
 ## Finding 5: the instruments lied about the agent
 
@@ -103,5 +103,3 @@ Before you conclude an agent is lying, check the thing that told you so.
 5. Your metrics. Make each check fail on purpose once. A test that cannot fail tells you nothing.
 
 Have the agents count and refute, then decide yourself. The numbers in this post came from agent reports, and I rechecked the headline config numbers against git before using them.
-
-If you want a setup like this in your own repo, the Agent Fleet Setup is how I install it.

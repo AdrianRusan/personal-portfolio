@@ -1,6 +1,6 @@
 ---
 title: "2–3x, Not 100x: The AI Coding Speed-Up That Survives Review"
-date: "2026-06-24"
+date: "2026-07-09"
 updated: "2026-10-11"
 tags: ["ai", "developer-productivity", "claude-code", "software-engineering"]
 description: "How much faster is AI coding really? From 30 reviewed PRs in under three days: 2–3x, not 10–100x. The method, and what the multiplier leaves out."
@@ -22,7 +22,7 @@ faq:
 
 The claims I keep seeing are 10x, 30x, and in one post 100x. The question I want answered every time is the same: *was the code reviewed before it counted?*
 
-I run coding agents every week, several at a time, in parallel git worktrees, dispatched by a CLAUDE.md contract. The number I would put in a contract and stake my name on is **2–3x**. Fair: the agents are fast. But shipping takes more than generating, and the bigger numbers leave out the difference.
+I run coding agents every week, several at a time, in parallel git worktrees, dispatched by a CLAUDE.md contract. The number I would put in a contract and stake my name on is **2–3x**. The agents are fast. Shipping takes more than generating, and the bigger numbers leave out the difference.
 
 ## Where does the 100x claim come from?
 
@@ -32,7 +32,7 @@ An agent can generate a 400-line pull request in ninety seconds. A senior engine
 
 Measure the actual delivery pipeline (read the diff, catch what's wrong, fix it, verify it's safe, merge it) and the multiplier drops. It doesn't drop to 1x: agents clear backlog faster than I can alone. It lands around 2–3x, because a new, expensive step appears that didn't exist before: reviewing code you didn't write, written by something that is confidently wrong in ways a human junior wouldn't be.
 
-So a quoted 10x, 30x or 100x is timing the generator and calling it delivery. Nothing in that measurement stood between the agent and production. In most software that's a bug that ships. In fintech, where I spend my days, that's how a breach ships.
+So a quoted 10x, 30x or 100x is timing the generator and calling it delivery. Nothing in that measurement stood between the agent and production. In most software that's a bug that ships. In anything that touches money or customer data, it's how a breach ships.
 
 > A 100x number and a review step don't fit in the same arithmetic.
 
@@ -92,7 +92,5 @@ Here's the comparison I'd put in front of a buyer, by what's being measured:
 - **One senior engineer, no agents (the old baseline)**: *1x*. Costs you the week you no longer have.
 
 The 2–3x row is the only one where the number and the safety hold at the same time.
-
-If you want your own agent-written code read the same way before you trust its multiplier, start with the free AI code teardown.
 
 *Related reading: [30 Reviewed PRs, 3 Shell-Injection Paths Caught](/work/30-reviewed-prs-3-vulnerabilities) · [The Shell-Injection Bugs My Agents Wrote, and the One I Missed](/blog/catching-shell-injection-agents-wrote) · [How to Review AI-Generated Code](/blog/what-agents-get-wrong).*
