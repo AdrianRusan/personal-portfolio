@@ -1,0 +1,103 @@
+---
+title: "How I Measure Claude Code ROI, and the 5 Traps That Broke My Numbers"
+seoTitle: "How to Measure Claude Code ROI: 5 Counting Traps"
+date: "2026-11-21"
+tags: ["claude-code", "ai", "llm-costs", "developer-productivity", "agent-harness"]
+description: "Claude Code deletes transcripts after 30 days, and what is left breaks in four more ways. My ledger method for cost per merged PR, and the traps it hit."
+published: true
+language: "en"
+cta: "cost-audit"
+faq:
+  - q: "How do you measure the ROI of Claude Code?"
+    a: "Put cost and delivery on the same unit. Cost per merged PR comes from token usage priced at a stated rate, divided by PRs merged on GitHub. Delivery comes from GitHub timestamps: open-to-merge time and review fix commits per PR. The value of the time saved needs an estimate of the work done without agents, and it should be labelled as an estimate."
+  - q: "How long does Claude Code keep usage data?"
+    a: "Session transcripts are deleted after cleanupPeriodDays, which defaults to 30 days, and /insights reports follow the same schedule. Raise the setting or export OpenTelemetry metrics before the month you want to measure ages out. Git and GitHub data are permanent, so commits and merged PRs can always be recounted."
+  - q: "Does Claude Code report merged PRs?"
+    a: "Its OpenTelemetry counter claude_code.pull_request.count counts pull requests created through a shell command or an MCP tool, not merged ones. For ROI, take merged PRs from GitHub and join them to cost by day."
+---
+
+Claude Code deletes its own transcripts after 30 days. By the time someone asks what the agents returned, the first month of evidence is gone, and the numbers you can still compute break in four more predictable ways. My ledger hit all five traps.
+
+**Short answer:** I measure Claude Code ROI as cost per merged PR next to review wait per PR, both weekly, with the counting method written down. Cost comes from transcripts priced at a stated list rate. Merged PRs and timestamps come from GitHub, which never deletes them. Five traps broke my numbers before the method held: data that expired, double-counted responses, spend outside any repo, failed reads recorded as zero, and the wrong denominator or price.
+
+## Why measure now
+
+DORA's report on the ROI of AI-assisted development describes a J-curve: value dips before it rises, partly because of "the verification tax imposed by reviewing AI-generated code" ([InfoQ, 11 May 2026](https://www.infoq.com/news/2026/05/dora-roi-ai-assisted-dev-report/); [the report](https://dora.dev/ai/roi/report/)). For spend per developer, the [cost case study](/work/agent-cost-per-commit) puts mine next to Anthropic's and Gartner's figures.
+
+If value dips first, nobody asks for ROI in week one. In my experience the question arrives a few months in, as a budget line, when the early data has already expired.
+
+## The method: two sides, one unit
+
+| Side | Number | Source | Strength |
+|---|---|---|---|
+| Cost | List-price cost per merged PR, weekly | transcripts priced at a stated rate, divided by GitHub merged PRs | measured, at a stated price |
+| Delivery | Open-to-merge time per PR, median and 90th percentile | GitHub `createdAt` and `mergedAt` | measured |
+| Delivery | Review fix commits per PR | git history | measured |
+| Value | Hours the same work would take without agents | your own judgment, per batch | **estimate, label it** |
+
+A merged PR is the unit because GitHub ties it to an account and someone reviewed it. My ledger, a nightly script over every Claude Code account I use, records the cost side per day. The delivery side is the review-wait data from [2–3x on my backlog](/blog/2-3x-not-100x). The results for my own setup, three months of them, are in the [cost case study](/work/agent-cost-per-commit). This post is how the numbers are made.
+
+## Trap 1: the data deletes itself
+
+Claude Code removes session transcripts after `cleanupPeriodDays`, 30 by default, and `/insights` reports go with them ([Claude Code docs](https://code.claude.com/docs/en/costs)). Until early October, three of my four accounts kept 30 days and one kept 60, so the earliest transcript left was from 6 August and August covered one account out of four. A pruned day can't be recovered from anywhere.
+
+**Avoid it:** raise the setting on every account before you start, and archive daily. I set 365 on the three accounts I control; the fourth is an employer's account that keeps 60 days, so its history stays shorter. Or export the built-in OpenTelemetry metrics to a store you control:
+
+```bash
+export CLAUDE_CODE_ENABLE_TELEMETRY=1
+export OTEL_METRICS_EXPORTER=otlp
+export OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
+```
+
+That gives you `claude_code.cost.usage`, `claude_code.commit.count` and `claude_code.active_time.total` per session ([monitoring docs](https://code.claude.com/docs/en/monitoring-usage)).
+
+## Trap 2: one response, counted twice
+
+Claude Code writes one transcript entry per content block (text, thinking, each tool call), and each entry repeats the full token usage of its API response. My first collector priced every entry. A 30-day re-scan priced both ways gave $45,295 per entry and $22,236 per response, a ratio of 2.04.
+
+**Avoid it:** group entries by message ID and request ID and count each response once. If your history already mixes both methods, mark the date of the change and never compare across it. I made that mistake once in public, and the [cost case study](/work/agent-cost-per-commit) shows the correction.
+
+## Trap 3: spend that belongs to no repo goes missing
+
+Attributing cost to a repo by the session's working directory drops two kinds of session. Worktree sessions run in a directory that isn't the repo's own, and orchestration sessions run in a parent folder above every repo. On 5 October, the transcript scan that evening found $191 of $702 in sessions outside any repo, 27%, and my ledger had been dropping them.
+
+**Avoid it:** resolve each worktree back to its main repo through its `.git` file, and keep a catch-all row for spend outside every repo instead of discarding it. Every dollar should land somewhere, even in "unattributed".
+
+## Trap 4: a failed read recorded as zero
+
+The merged-PR count comes from GitHub search, one call per account. For one GitHub owner my token could see only public repositories, so search returned nothing, and the ledger recorded 0 merged PRs in 30 days where GitHub had 102. Zero looked like a fact.
+
+GitHub search also stops at 1,000 results, and a busy organization merges more than that in a month, so an unchunked query undercounts it in silence.
+
+**Avoid it:** a failed or partial fetch keeps the previous value and says so, and a company you can't read shows "unknown", never 0. Split searches by month and halve any chunk that hits the cap.
+
+## Trap 5: the wrong denominator, and the wrong price
+
+**Denominator.** Agents that commit every working step produce far more commits than a person, so cost per commit moves with commit habits. Claude Code's own counter `claude_code.pull_request.count` counts PRs created, not merged. Take merged PRs from GitHub.
+
+**Price.** Every dollar figure in Claude Code, `/usage` and OpenTelemetry included, is an estimate at list price unless an admin sets the `modelPricing` managed setting (Claude Code 2.1.242 or later). List prices differ by model: Opus 5.5 lists cache reads at $0.20 per million and Opus 5 at $0.50 ([Anthropic pricing](https://platform.claude.com/docs/en/about-claude/pricing)), so a ledger priced at the wrong model can be off by 2.5x on cache reads alone. Even the built-in figure moves: Claude Code 2.1.296, released 9 Oct 2026, corrected `/cost` to price Sonnet 5.5 cache reads at $0.10 per million instead of $0.20 ([changelog](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)). And on a subscription, none of it is the invoice.
+
+**Avoid it:** state the price table next to every chart, and keep one table for the whole series.
+
+## The value side: a break-even, labelled
+
+ROI needs the hours the same work would have taken without agents, and nobody does the work twice. So I state the break-even and let the reader put their own rate in:
+
+| Input | Value | Kind |
+|---|---|---|
+| Cost per merged PR | $49 | my September figure at Opus 5 list price, from the [cost case study](/work/agent-cost-per-commit) |
+| Engineer cost per hour | $100 | **illustrative, use your own** |
+| Break-even: time saved minus your review time, per merged PR | 30 minutes | arithmetic |
+
+At those inputs a merged PR pays for its tokens if the time it saved, minus the time someone spent reviewing it, is at least half an hour. Review time is the term people leave out: my agent PRs merged a median 44 minutes after opening, and part of that was me reading the diff. The hours saved per PR is the estimate in this table, so I label it every time and defend the measured rows.
+
+## Start this week
+
+1. **Keep the data.** Set `cleanupPeriodDays` above 30 on every Claude Code account, today.
+2. **Count merged PRs weekly** from GitHub, per repo, with failed reads marked as unknown.
+3. **Price tokens at one stated rate,** one response at a time, with spend outside any repo kept.
+4. **Write the method down** with the date of every change to it.
+5. **Put review wait next to cost.** A cheap PR that waits 16 hours for review hasn't paid for itself yet.
+
+After four weeks you'll have the first trend you can show someone. Mine, and what it caught, are in [the cost case study](/work/agent-cost-per-commit).

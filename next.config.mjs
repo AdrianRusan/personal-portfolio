@@ -59,6 +59,12 @@ const nextConfig = {
         destination: '/blog/2-3x-not-100x',
         statusCode: 301,
       },
+      // #99 K1: the review-timing data now lives in the 2-3x post.
+      {
+        source: '/blog/review-bottleneck-measured-on-my-prs/:path*',
+        destination: '/blog/2-3x-not-100x',
+        statusCode: 301,
+      },
     ];
   },
   async headers() {

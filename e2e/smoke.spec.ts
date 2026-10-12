@@ -34,7 +34,7 @@ const scheduled: Record<string, string> = {
   '/blog/reviewer-agents-that-dont-trust-other-agents': '2026-10-31',
   '/blog/auditing-my-claude-code-setup-with-an-agent': '2026-11-07',
   '/blog/claude-code-fail-closed-hooks': '2026-11-14',
-  '/blog/review-bottleneck-measured-on-my-prs': '2026-11-21',
+  '/blog/how-i-measure-claude-code-roi': '2026-11-21',
   '/blog/ai-reviewers-on-the-bugs-i-missed': '2026-11-28',
 };
 for (const [route, date] of Object.entries(scheduled)) {
@@ -134,6 +134,7 @@ for (const [from, to] of [
   ['/workshops', '/services#ladder'],
   ['/blog/30-prs-in-2-5-days', '/work/30-reviewed-prs-3-vulnerabilities'],
   ['/blog/claude-code-changed-how-i-ship-software', '/blog/2-3x-not-100x'],
+  ['/blog/review-bottleneck-measured-on-my-prs', '/blog/2-3x-not-100x'],
 ]) {
   test(`${from} 301s to ${to}`, async ({ request }) => {
     const res = await request.get(from, { maxRedirects: 0 });

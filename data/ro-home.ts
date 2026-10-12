@@ -136,14 +136,14 @@ export const roPostTitles: PostTitles = {
       "9 PR-uri cu merge în 100 de minute, o scurtătură ratată. Nouă agenți Claude Code în worktree-uri git paralele, fiecare PR trecut întâi prin typecheck, lint, build și teste.",
   },
   "agent-cost-per-commit": {
-    title: "De ce măsor acum costul agenților în fiecare săptămână",
+    title: "Costul pe PR cu merge: ce arată 3 luni din registrul meu Claude Code",
     description:
-      "O reducere a contextului a scăzut costul pe commit al agenților cu 68% într-o lună. Un registru săptămânal a prins revenirea din septembrie, odată cu mult mai multe rulări automate.",
+      "O reducere a contextului a scăzut costul Claude Code pe PR cu merge de la 73 $ la 32 $ într-o lună. Apoi a crescut cu 42% până la începutul lui octombrie. Registrul, metoda și comparația pe care am greșit-o.",
   },
   "66-days-of-claude-code-by-the-numbers": {
-    title: "66 de zile de Claude Code, în cifre",
+    title: "463 de sesiuni Claude Code, numărate: promptul meu median avea 10 cuvinte",
     description:
-      "463 de sesiuni, 335 de ore, 3.599 de subagenți și 45 de miliarde de tokeni. Ce spun propriile mele jurnale Claude Code despre bunele practici, numărate de un script, nu din memorie.",
+      "463 de sesiuni Claude Code în 66 de zile, numărate de un script: un prompt median de 10 cuvinte, 2,7 sesiuni pentru fiecare oră la tastatură și 97,7% din 45 de miliarde de tokeni citiți din cache.",
   },
   "the-rules-file-my-agents-follow": {
     title: "Fișierul de reguli pe care îl urmează agenții mei: exemple de CLAUDE.md și hook-urile din spatele lor",
@@ -170,10 +170,10 @@ export const roPostTitles: PostTitles = {
     description:
       "Am trecut hook-urile mele Claude Code prin 20 de sesiuni headless. onFailure: \"block\" a oprit fiecare crash, timeout și cod de ieșire greșit. A ratat JSON-ul trunchiat și nu vede un hook care rulează corect, dar dă răspunsul greșit.",
   },
-  "review-bottleneck-measured-on-my-prs": {
-    title: "Blocajul din review, măsurat pe propriile mele PR-uri",
+  "how-i-measure-claude-code-roi": {
+    title: "Cum măsor ROI-ul Claude Code și cele 5 capcane care mi-au stricat cifrele",
     description:
-      "Studiile din 2026 arată că review-ul codului scris de AI e principala frână în livrare. PR-urile mele confirmă: 25 din 30 au avut nevoie de cel puțin un commit de corectură după review. Ce a mutat blocajul și ce nu.",
+      "Claude Code șterge transcrierile după 30 de zile, iar cifrele rămase se strică în cinci feluri. Metoda din registrul meu pentru costul pe PR cu merge și capcanele în care a căzut.",
   },
   "what-agents-get-wrong": {
     title: "Cum faci review la codul scris de AI: pentru ce au fost 64 de corecturi pe 30 de PR-uri ale agenților",
@@ -192,9 +192,9 @@ export const roPostTitles: PostTitles = {
   },
 
   "2-3x-not-100x": {
-    title: "De 2–3 ori, nu de 100 de ori: cifra sinceră despre viteza programării cu AI",
+    title: "De 2–3 ori pe backlogul meu, 8% în 400 de companii: unde dispare câștigul din AI",
     description:
-      "Cu cât e mai rapidă, de fapt, programarea cu AI? Răspunsul măsurat e de 2–3 ori, nu de 10–100 de ori. Iată metodologia, 30 de PR-uri revizuite în mai puțin de 3 zile, și ce lasă deoparte multiplicatorul.",
+      "Cu cât e mai rapidă programarea cu AI? DX a măsurat sub 8% mai multe PR-uri în peste 400 de companii. PR-urile scrise de agenții mei au intrat în main în mediană la 44 de minute după deschidere, cu review cu tot. În datele LinearB, PR-urile scrise de AI așteaptă peste 16 ore doar până le preia cineva. Timpii, estimarea și de ce diferă.",
   },
 };
 
@@ -210,8 +210,8 @@ export const roCaseStudyCards: CaseStudyCardsCopy = {
       "e numărul adevărat din spatele unui rând de pe un landing page etichetat „număr real”. Gate-ul ține astfel de rânduri departe de pagină.",
     "reviewed PRs merged in 100 minutes, each through typecheck, lint, build and tests first":
       "PR-uri revizuite, cu merge în 100 de minute, fiecare trecut întâi prin typecheck, lint, build și teste",
-    "lower cost per commit in one month, then it crept back":
-      "cost pe commit mai mic într-o lună, apoi a crescut din nou",
+    "lower cost per merged PR in one month, then it rose 42% by early October":
+      "cost mai mic pe PR cu merge într-o lună, apoi a crescut cu 42% până la începutul lui octombrie",
   },
   heading: "Studii de caz",
   // The one note for the whole page (R1-F21): studies and posts are in English.

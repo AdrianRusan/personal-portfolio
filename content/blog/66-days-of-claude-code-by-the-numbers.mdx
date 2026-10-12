@@ -1,30 +1,37 @@
 ---
-title: "66 Days of Claude Code, Counted: What My Logs Say About Best Practice"
-seoTitle: "Claude Code Best Practices From 66 Days of Logs"
+title: "463 Claude Code Sessions, Counted: My Median Prompt Was 10 Words"
+seoTitle: "Claude Code Usage Stats: 463 Sessions, 45B Tokens, 66 Days"
 date: "2026-10-10"
-updated: "2026-10-11"
+updated: "2026-10-12"
 tags: ["claude-code", "ai", "parallel-agents", "developer-productivity", "agent-harness"]
-description: "Claude Code best practices, counted from my own logs: 463 sessions, 335 hours, 3,599 subagents and 45 billion tokens over 66 days."
+description: "463 Claude Code sessions in 66 days, counted by a script: a 10-word median prompt, 2.7 sessions per keyboard hour, 97.7% of 45B tokens read from cache."
 published: true
 language: "en"
 cta: "harness"
+faq:
+  - q: "How long are prompts to Claude Code in practice?"
+    a: "Short, in my logs: across 10,511 prompts the median was 10 words and the mean 21. The long instructions sat in briefs, rules files and skills that the agent loads on every session, so the typed prompt was usually a correction, a slash command or 'continue'."
+  - q: "What share of Claude Code tokens are cache reads?"
+    a: "In my logs, 97.7% of about 45 billion tokens over 66 days were prompt-cache reads, because every turn rereads the rules, the code and the conversation. Priced at Opus 5.5 list rates, those reads were about half the dollars, and cache writes, only 2.1% of the tokens, were another 42%. A high hit rate says the cache works; the cost sits in context size and cache rebuilds."
 ---
 
-**Short answer:** Five Claude Code best practices, each backed by a count from 66 days of my own logs: one worktree per agent, commit every working step, review with fresh agents, keep stable context stable, and put the effort into the brief. The count, interactive sessions only: 463 sessions and 335 hours. Across all sessions, agents made 4,920 commits, and my median prompt was 10 words.
+In 66 days of my Claude Code logs, cache writes were 2.1% of the tokens and about two fifths of the list-price dollars. My median prompt was 10 words, because the real instructions live in files the agent rereads on every turn, and that rereading is where the tokens go.
 
-Most advice on Claude Code best practices comes from memory: "I run a few agents, I review everything, it is about twice as fast." I wanted the counted version, so I wrote a streaming script over my own session transcripts and prompt history and let it count.
+**Short answer:** Of about 45 billion tokens over 66 days (6 Aug to 10 Oct 2026), 97.7% were cache reads, and the 2.1% that were cache writes made up about 42% of the list-price dollars, so cache rebuilds cost more than their volume suggests. The same script counted 463 interactive sessions and 335 wall-clock hours, a median prompt of 10 words, about 2.7 sessions busy for every hour at the keyboard, and 1 in 5 subagents spent on code review.
 
 ## How I counted
 
-The transcripts on my machine start on 6 August 2026, so the window is 6 August to 10 October: 66 days. The prompt history goes back further, to 12 July, so prompt numbers cover 91 days, and I typed prompts on 76 of them. I say which is which below.
+The earliest surviving transcript is from 6 August 2026. Claude Code deletes transcripts after `cleanupPeriodDays`, 30 days by default, and until early October one of my four accounts kept 60 days and the other three 30. So August and early September cover only that one account, and the session counts grow partly because the coverage does: 80 sessions in August, 279 in September, 770 in the first ten days of October (all sessions). The prompt history keeps longer, back to 12 July, so prompt numbers cover 91 days, of which I typed on 76. Each number below says which window and which sessions it counts.
 
-Some rules the script followed:
+I wrote my own script instead of running `/insights`, for three reasons. `/insights` analyzes up to 200 new sessions per run ([Claude Code docs, fetched 12 Oct 2026](https://code.claude.com/docs/en/costs)), and I had 1,129. Its reports are deleted on the same 30-day schedule as the transcripts. And I needed headless runs separated from the sessions I drove myself.
 
-1. Interactive only, where it describes me. My logs also contain over 600 headless runs (scripted `claude -p` calls). They inflate everything, so the headline numbers below count only sessions I opened in a terminal, plus the subagents those sessions started.
-2. Deduplicated. Transcripts repeat events, so tokens are counted once per API request, messages once per message ID and tool calls once per call ID.
-3. Aggregate only. Most of my working directories are client work. Nothing here names a client or a project.
+The script follows three rules:
 
-The numbers come from my session logs. The script and its raw output stay on my machine.
+1. **Interactive where it describes me.** My logs also hold over 600 headless runs (scripted `claude -p` calls). The "interactive" rows count only sessions I opened in a terminal, plus the subagents they started. Rows marked "all sessions" include the headless runs.
+2. **Deduplicated.** Transcripts repeat events, so tokens count once per API request, messages once per message ID and tool calls once per call ID.
+3. **Aggregate only.** Most of my working directories are client work. Nothing here names a client or a project.
+
+The script and its raw output stay on my machine. Since then I set `cleanupPeriodDays` to 365 on three of my four Claude Code accounts, so the next count can cover a full quarter.
 
 ## The headline numbers
 
@@ -44,82 +51,90 @@ The numbers come from my session logs. The script and its raw output stay on my 
 | Prompts I typed | 10,511 | 91-day prompt window, 76 active days |
 | Usage-limit episodes | 37 | 66 days |
 
-"Active" means a gap of less than 15 minutes between events. A session left open over lunch does not count as working.
-
-## Claude Code best practices, backed by the count
-
-1. One worktree per agent: 454 worktrees in 66 days, and a peak of 18 sessions at once.
-2. Commit every working step: 4,920 commits; rollbacks cost one step.
-3. Review with fresh agents: 22.5% of subagents were reviewers.
-4. Keep stable context stable: 97.7% of tokens were cache reads.
-5. Write the brief, not the prompt: a median prompt of 10 words.
-
-## 2.7 sessions for every hour at the keyboard
-
-The two hour counts are the most useful pair in the table. Summed session by session, my sessions were active for 890 hours. Measured on the wall clock, with overlapping sessions merged, I was working for 335. That is about 2.7 sessions running for every hour I was at the keyboard.
-
-My busiest 10-minute window had 18 interactive sessions active at once. A median active day was about 6 hours on the clock, with 7 or 8 new sessions started.
-
-That ratio counts concurrency: about 2.7 sessions busy for every hour I'm at the keyboard. Speed is a separate measurement. The speed-up I measured on real merged PRs is the [2–3x from June](/blog/2-3x-not-100x).
-
-My guess is that running sessions in parallel is where most of that comes from, so [one worktree per agent](/blog/how-i-run-claude-code-agents-in-parallel) is the first thing I set up in any repo.
-
-## 4,920 commits, 928 PR attempts
-
-Across all sessions, agents ran `git commit` 4,920 times and `git push` 4,158 times. That is the "commit after every working step" rule from my [rules file](/blog/the-rules-file-my-agents-follow) showing up in the data.
-
-Small commits are recovery points. When an agent goes wrong, I roll back one step.
-
-`gh pr create` ran 928 times. Not every call produced a PR that merged, and some were retries, so treat it as an upper bound on PRs opened. Even as an upper bound, it means a reviewable unit of work every few sessions.
-
-Testing kept pace: 6,981 test runs and 2,835 typecheck runs. That is about 1.4 test runs per commit. The agents check their work more often than they save it.
-
-## One subagent in five is a reviewer
-
-My sessions spawned 1,119 subagents through the Agent tool. The breakdown:
-
-- General-purpose: 615
-- Read-only search (Explore): 132
-- Reviewers: 252, split across three roles (correctness, security, completeness)
-- Other roles, or no type given: 120
-
-So 22.5% of all spawned subagents had one job: review another agent's work. That is the practice I would defend hardest. This part is my judgment, not a count: an agent that wrote the code is a poor judge of it, and a fresh agent with a narrow brief catches what the author missed.
-
-The reviewers do not replace my review. In my experience, by the time a PR reaches me, the obvious problems are gone.
-
-The 3,599 subagent sessions in the table are counted from transcript files, a different source from these 1,119 Agent calls, so the two numbers do not match.
+"Active" means less than 15 minutes between events, so a session left open over lunch doesn't count as working.
 
 ## 97.7% of tokens were cache reads
 
-Token counts, deduplicated per request:
+Token counts across all sessions, deduplicated per request:
 
 - Cache reads: 43.97 billion
 - Cache writes: 950 million
 - Output: 83 million
 - Fresh input: 627 thousand
 
-That is about 45 billion tokens, and 97.7% of them were cache reads. Long sessions reread the same rules file, the same code and the same conversation many times, and the prompt cache serves almost all of it.
+That is about 45 billion tokens, 97.7% of them cache reads. Long sessions reread the same rules, code and conversation on every turn, and the prompt cache serves almost all of it.
 
-Stable context at the start of a session (rules, project notes, the brief) gets cached and reread cheaply. Context that changes every turn does not. If your agent bill is high, check the cache-read share before you check the model.
+<figure className="my-8">
+  <svg viewBox="0 0 360 180" role="img" aria-label="Two bars. Share of tokens: cache reads 97.7 percent, cache writes 2.1 percent, output 0.2 percent. Share of list-price dollars at Opus 5.5 rates: cache reads 49 percent, cache writes 42 percent, output 9 percent." className="block w-full max-w-md mx-auto">
+    <g fill="currentColor" fontSize="13">
+      <text x="0" y="22" fontWeight="700">Share of tokens</text>
+      <text x="0" y="102" fontWeight="700">Share of dollars, Opus 5.5 list price</text>
+    </g>
+    <rect x="0" y="32" width="351.7" height="28" fill="#A78BFA" />
+    <rect x="351.7" y="32" width="7.6" height="28" fill="#F87171" />
+    <rect x="0" y="112" width="176.4" height="28" fill="#A78BFA" />
+    <rect x="176.4" y="112" width="151.2" height="28" fill="#F87171" />
+    <rect x="327.6" y="112" width="32.4" height="28" fill="currentColor" fillOpacity="0.45" />
+    <g fill="#0B0B12" fontSize="12" fontWeight="700">
+      <text x="8" y="51">cache reads 97.7%</text>
+      <text x="8" y="131">reads 49%</text>
+      <text x="184" y="131">writes 42%</text>
+    </g>
+    <g fill="currentColor" fontSize="11">
+      <text x="0" y="76">cache writes 2.1% (red sliver)</text>
+      <text x="0" y="158">output 9% (grey)</text>
+    </g>
+  </svg>
+  <figcaption className="text-center text-sm text-white-200 mt-3">Tokens from my logs. Dollars are my arithmetic at Opus 5.5 list rates: $0.20 per million cache reads, $8 per million cache writes (the 1-hour cache a subscription uses), $20 per million output.</figcaption>
+</figure>
 
-On models: 90% of assistant messages came from the top-tier Opus models, 7% from Sonnet and the rest from smaller or newer models. I use the cheaper tiers for read-only exploration and keep the strongest one for writing and review.
+Priced at Opus 5.5 list rates, the 66 days come to roughly $18,000 by my arithmetic. The surprise is the cache writes: 2.1% of the tokens and 42% of the dollars, because a 1-hour cache write costs 40 times a read. A write happens whenever context isn't already cached: a new session, a first message after the cache expired, a compaction. So a 97.7% read share says the cache works, and the money is in how often it has to be rebuilt.
 
-## 37 times I hit the usage limit
+Two levers follow. Keep what loads on every turn small, since cache reads are still about half the dollars. And avoid needless rebuilds: since v2.1.251, `/usage` shows a `Prompt cache (main)` line with the misses, and since v2.1.260 their likely cause ([Claude Code docs, fetched 12 Oct 2026](https://code.claude.com/docs/en/costs)). My [cost case study](/work/agent-cost-per-commit) tracks the result per merged PR.
 
-The script found 37 distinct episodes where a session hit a usage limit, counted once per day and reset message. With 18 sessions running at peak, I expected that. In my experience it is also the main practical limit on parallel agents: you run out of plan before you run out of ideas.
+Those dollars aren't my invoice: the sessions ran on Claude subscriptions with a flat fee. They measure compute used.
 
-My fix is to keep the orchestrating session lean and let the executors spend the tokens.
+On models: 90% of assistant messages came from the Opus models, 7% from Sonnet and the rest from smaller or newer models. I use the cheaper tiers for read-only exploration and keep the strongest one for writing and review.
 
-## The habit I did not notice: short prompts
+## A median prompt of 10 words
 
-I typed 10,511 prompts in 91 days, on 76 of which I typed at least one. The median prompt was **10 words**. 1,620 of them were slash commands, and I interrupted a running agent 288 times.
+I typed 10,511 prompts. The median was **10 words** and the mean 21. 1,620 were slash commands, and I interrupted a running agent 288 times.
 
-I assumed I wrote long, careful prompts. I was wrong.
+Before counting, I would have said I write long, careful prompts. The long text actually sits in briefs, rules files and skills, written once and loaded every time. The prompt itself is usually "continue", a slash command or a one-line correction. Pasted text appears in my history as a short placeholder, so long pastes are undercounted, and the median holds anyway because pastes are a small share of 10,511.
 
-The long text lives in briefs, rules files and skills, written once and loaded every time. The prompt itself is usually "continue", a slash command or a one-line correction. (Pasted text shows up in my history as a short placeholder, so long pastes are undercounted. The median holds anyway.)
+The practice this points to: put the effort into files the agent rereads, and keep the prompt for steering.
 
-That is the practice the numbers point to: put the effort into files the agent rereads.
+## 2.7 sessions for every hour at the keyboard
 
-## What the numbers do not show
+Summed session by session, my interactive sessions were active for 890 hours. On the wall clock, with overlapping sessions merged, I worked 335. That is about 2.7 sessions running for every hour I was at the keyboard.
 
-4,920 commits say nothing about whether the code was good. What makes the volume safe is the part a script cannot count well: the gates each PR clears before I see it, and the review I do after. The [honesty gate](/work/honesty-gate) is one of those gates, written up.
+My busiest 10-minute window had 18 interactive sessions active at once. A median active day was about 6 hours on the clock, with 7 or 8 new sessions started. Each parallel session needs its own checkout, which is where the 454 `git worktree add` calls come from. How I run them is in [the parallel post](/blog/how-i-run-claude-code-agents-in-parallel).
+
+The ratio measures concurrency: how much work the agents produce while I'm there. How fast that work ships depends on review, which [2–3x on my backlog](/blog/2-3x-not-100x) measures with GitHub timestamps.
+
+## 1 in 5 subagents was a code reviewer
+
+My sessions spawned 1,119 subagents through the Agent tool:
+
+- General-purpose: 615
+- Read-only search (Explore): 132
+- Code reviewers: 252, across three roles (correctness, security, completeness)
+- Copy and design checkers: 86
+- Other named roles: 20
+- No type given: 14
+
+So 22.5% of spawned subagents were code reviewers, and 30% counting the copy and design checkers. That is the practice I would defend hardest. This is my judgment, uncounted. The agent that wrote the code is a poor judge of it, and a fresh agent with a narrow brief catches what the author missed. My judgment, also uncounted, is that most obvious problems are gone by the time a PR reaches me. Whether the reviewers catch real bugs is a different question, answered with outcomes in [reviewer agents that don't trust other agents](/blog/reviewer-agents-that-dont-trust-other-agents).
+
+The 3,599 subagent sessions in the table come from transcript files, a different source from these 1,119 Agent calls, so the two numbers don't match.
+
+## 1.4 test runs per commit
+
+Across all sessions, agents ran `git commit` 4,920 times and test suites 6,981 times, about 1.4 test runs per commit, plus 2,835 typecheck runs. The agents check their work more often than they save it. `gh pr create` ran 928 times, an upper bound on PRs opened, since some calls were retries. The commit-every-step rule behind those numbers is in [my rules file](/blog/the-rules-file-my-agents-follow).
+
+## 37 usage-limit episodes
+
+The script found 37 distinct episodes where a session hit a usage limit, counted once per day and reset message. With up to 18 sessions running, that is the practical ceiling on parallel agents for me. My fix is a lean orchestrating session that leaves the token spend to the executors; [the parallel post](/blog/how-i-run-claude-code-agents-in-parallel) has the setup.
+
+## What the numbers don't show
+
+4,920 commits say nothing about whether the code was good. What makes the volume safe is what a script can't count well: the review each PR gets before it merges, and [what I look for in it](/blog/what-agents-get-wrong). What these tokens cost per merged PR is in [the cost case study](/work/agent-cost-per-commit).

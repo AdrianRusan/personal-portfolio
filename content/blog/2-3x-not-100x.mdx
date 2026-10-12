@@ -1,96 +1,98 @@
 ---
-title: "2–3x, Not 100x: The AI Coding Speed-Up That Survives Review"
+title: "2–3x on My Backlog, 8% in DX's 400-Company Data: Where the AI Speed-Up Goes"
+seoTitle: "How Much Faster Is AI Coding, Really? 2026 Data and My PRs"
 date: "2026-07-09"
-updated: "2026-10-11"
-tags: ["ai", "developer-productivity", "claude-code", "software-engineering"]
-description: "How much faster is AI coding really? From 30 reviewed PRs in under three days: 2–3x, not 10–100x. The method, and what the multiplier leaves out."
+updated: "2026-10-12"
+tags: ["ai", "developer-productivity", "claude-code", "code-review", "software-engineering"]
+description: "How much faster is AI coding? DX found under 8% more PRs in a sample drawn from 400 companies. My agent PRs merged a median 44 minutes after opening."
 published: true
 language: "en"
 cta: "reviewed-pr"
 faq:
-  - q: "Is AI coding really 10x faster?"
-    a: "For raw code generation, sometimes more: an agent drafts a PR far faster than a human types one. For production delivery, including reading, reviewing, fixing and safely merging the code, the sustained figure is 2–3x. A 10x-or-higher delivery claim almost always means the review step was skipped."
-  - q: "What's a realistic AI coding speedup?"
-    a: "Around 2–3x for reviewed, production-grade delivery against an existing codebase with scoped work. I merged 30 reviewed PRs across 9 parallel agent batches in under three days, against my estimate of about a week solo. Expect less during the first weeks, while you build the harness and learn the failure patterns."
-  - q: "Why do people claim 100x if it's really 2–3x?"
-    a: "They measure generation speed, not delivery speed. An agent produces code in seconds, so the generation multiplier is enormous, but generation isn't the job. Once you add review, fixing and verification, the number drops to 2–3x. A 100x claim signals that nobody reviewed the output."
-  - q: "Does the 2–3x include time spent reviewing the AI's code?"
-    a: "Yes. Review is the bottleneck and it's counted against the clock. Reviewing agent code is slower per line than reviewing a colleague's because you can't assume intent. The 2–3x is the rate after paying that review cost, which is why it isn't higher."
+  - q: "How much faster is AI coding, really?"
+    a: "Across companies, not much yet. DX measured PR throughput rising just under 8% for a 65% rise in AI usage, in a sample drawn from 400 companies (March 2026), and its July 2026 benchmarks put the year-on-year rise near 20%. On my own scoped backlog, with agents writing and me reviewing every PR, I estimate 2–3x. The part I can measure is review wait: my agent PRs merged a median 44 minutes after opening, review included."
+  - q: "Why do AI coding gains disappear at the team level?"
+    a: "The code gets written faster and then waits. LinearB's 2026 data on 8.1 million PRs found AI-generated PRs wait more than 16 hours for a reviewer to pick them up, against about 200 minutes for unassisted work, and only 32.7% merge within 30 days. Faros found review time up 91% on teams with high AI adoption in 2025."
+  - q: "Is the 2–3x figure measured?"
+    a: "Partly. The merge timestamps are measured from GitHub: 30 agent PRs, median 44 minutes from open to merge, under three days in total. The solo side, 5–7 days of work, is my estimate, because I didn't do the work twice. So 2–3x is an estimate built on measured timestamps."
+  - q: "How do I measure review wait on my own team?"
+    a: "Pull createdAt and mergedAt for every PR with gh pr list --json, and split agent-authored PRs from the rest. Track the median and the 90th percentile of open-to-merge time, count review fix commits per PR, and count how many separate sittings the merges happened in. All three come from data GitHub already keeps."
 ---
 
-**Short answer:** AI coding is 2–3x faster for reviewed, merged production work, not 10x or 100x. My run: 30 merged PRs across 9 agent batches in under three days, every one reviewed before merge, against my estimate of about a week for the same work solo. Bigger numbers measure generation, not delivery, and leave the review out.
+DX measured AI coding lifting PR throughput by just under 8% in a sample drawn from 400 companies. On my own backlog I estimate 2–3x. The part I can measure: my agent PRs merged a median 44 minutes after they opened, review and fixes included, while LinearB's AI PRs waited over 16 hours on average just for a reviewer to pick them up.
 
-The claims I keep seeing are 10x, 30x, and in one post 100x. The question I want answered every time is the same: *was the code reviewed before it counted?*
+**Short answer:** For one senior engineer reviewing a scoped backlog of agent-written PRs, 2–3x faster is my estimate. The measured part: in March 2026, 30 agent PRs on my own dashboard merged a median 44 minutes after they opened, in 9 review sittings over under three days. In LinearB's 2026 data, AI-written PRs wait more than 16 hours just for a reviewer to pick them up. My explanation, which the timestamps support and can't prove: the review queue is one person who wrote the tickets.
 
-I run coding agents every week, several at a time, in parallel git worktrees, dispatched by a CLAUDE.md contract. The number I would put in a contract and stake my name on is **2–3x**. The agents are fast. Shipping takes more than generating, and the bigger numbers leave out the difference.
+## What 2026 measured across teams
 
-## Where does the 100x claim come from?
+The large studies find small gains, and I take them seriously because they measure delivery, not typing:
 
-The big multipliers measure the wrong thing correctly.
+- **DX, 11 Mar 2026:** in a random sample drawn from 400 companies (Nov 2024 to Feb 2026), AI usage rose 65% and PR throughput rose 7.76%. Most organizations landed between 5% and 15%. ([DX newsletter](https://newsletter.getdx.com/p/ai-productivity-gains-are-10-not)) DX's benchmarks updated on 21 Jul 2026 put year-on-year PR throughput up nearly 20%. ([DX benchmarks](https://getdx.com/blog/2026-dx-benchmarks-are-now-available/))
+- **LinearB, 4 May 2026:** across 8.1 million PRs from 4,800 teams, AI-generated PRs waited more than 16 hours on average before a reviewer picked them up, against about 200 minutes for unassisted work. Only 32.7% of AI PRs merged within 30 days, against 84.5% of manual ones. ([LinearB](https://linearb.io/blog/8-million-prs-engineering-productivity))
+- **Faros, 23 Jul 2025:** on teams with high AI adoption, PRs merged rose 98% and PR review time rose 91%, with no company-level improvement in throughput or DORA metrics. ([Faros AI](https://www.faros.ai/blog/ai-software-engineering))
+- **METR, 24 Feb 2026:** its 2025 trial had experienced developers 19% slower with AI. The 2026 update estimates 18% faster for the original group and 4% faster for new recruits, with confidence intervals that cross zero, and METR calls it "only very weak evidence". ([METR](https://metr.org/blog/2026-02-24-uplift-update/))
 
-An agent can generate a 400-line pull request in ninety seconds. A senior engineer writing that by hand might take three hours. Divide one by the other and you get a number like 100x. That number is true and useless, because *generation is not the job.* The job is code that merges and doesn't page you at 3 a.m.
+LinearB and Faros put the delay at review, and DX and METR find gains that are small or uncertain. DX's July figure of nearly 20% is year-on-year throughput from all causes, not a measured AI effect. Against that data, 2–3x is the high claim, so it needs its arithmetic shown.
 
-Measure the actual delivery pipeline (read the diff, catch what's wrong, fix it, verify it's safe, merge it) and the multiplier drops. It doesn't drop to 1x: agents clear backlog faster than I can alone. It lands around 2–3x, because a new, expensive step appears that didn't exist before: reviewing code you didn't write, written by something that is confidently wrong in ways a human junior wouldn't be.
+## My clock: 30 agent PRs, from open to merge
 
-So a quoted 10x, 30x or 100x is timing the generator and calling it delivery. Nothing in that measurement stood between the agent and production. In most software that's a bug that ships. In anything that touches money or customer data, it's how a breach ships.
+In March 2026 an agent fleet opened 31 PRs on my own admin dashboard and I merged 30 after review; the full account, including what review caught and missed, is in [the 30-PR case study](/work/30-reviewed-prs-3-vulnerabilities). Here is only the clock, pulled from GitHub with `gh pr list --json createdAt,mergedAt` on 12 Oct 2026:
 
-> A 100x number and a review step don't fit in the same arithmetic.
+| Measure | Value | How it was obtained |
+|---|---|---|
+| PRs merged / opened | 30 / 31 | GitHub |
+| Open to merge, median | 44 min | GitHub timestamps |
+| Open to merge, middle half | 28–62 min | GitHub timestamps |
+| Open to merge, 90th percentile | 2 h | GitHub timestamps |
+| Slowest two | 9.5 h and 17.6 h | GitHub timestamps |
+| Review sittings (merges less than 30 min apart) | 9 | GitHub timestamps |
+| First PR opened to last merge | 2 days 19 hours | GitHub timestamps |
+| Merged PRs with a fix commit from review | 25 of 30 | git history |
+| My active hours | unknown | the transcripts were deleted after Claude Code's 30-day default |
+| The same work done solo | 5–7 working days | **my estimate** |
 
-## How much faster is AI coding, really?
+The October run on this site has the same shape: [nine PRs](/work/nine-prs-one-afternoon) merged a median 27 minutes after opening, in 2 sittings. Across all 36 PRs merged on this repo from 10 to 12 October, the median was 27 minutes and the 90th percentile 2.3 hours.
 
-Don't take "2–3x" on faith either. Here's the actual run, on my own admin dashboard (March 2026, not client work).
+Here is the division. The solo side is my estimate of 5–7 working days. The elapsed side is 2.1 days from the first worker wave to the last merge, or 2.8 days from the first PR, nights included. 5–7 days over 2.1–2.8 days gives 1.8x to 3.3x, which I round to 2–3x and quote as an estimate. Of 30 PRs, one waited longer than 16 hours. It was #95, the first PR, opened a day before the worker waves started; the second slowest, #97 at 9.5 hours, redid a PR I had closed.
 
-**The evidence: 30 reviewed PRs, 9 agent batches, under three days.**
+## Three conditions I think explain the gap
 
-- **30 pull requests** merged out of 31 opened, every one through an adversarial security review before merge. The repo had no test suite and no CI, so that review was the only gate. 30 merged, not 30 drafts.
-- **9 batches** of parallel agents. Each agent got one issue, one worktree and the CLAUDE.md dispatch contract. I ran them concurrently, and that parallelism is where the speed comes from.
-- **Under three days** from the first agent wave to the last merge.
+Three things differ from the teams in those studies. Each one is a condition, so check whether your setup has it.
 
-Now the baseline. The comparison is the same 30 PRs delivered by me alone, the way I did it for 10+ years: pick up the issue, write it, test it, review my own work, ship. I didn't do the work twice to time it, so this side is my estimate: for a batch of this size, roughly a week of solo-senior effort, closer to a week and a half for the items with real complexity.
+1. **The queue is one person who is expecting the PRs.** I dispatched each agent wave and then sat down to review it. Merges landed in 9 bursts, and PR size didn't predict the wait in March: the rank correlation between lines changed and minutes waited was 0.07. The wait was set by when I sat down. My guess is that LinearB's 16 hours is mostly reviewers who weren't expecting the PR.
+2. **The reviewer wrote the tickets.** I scoped every issue in that run, so I knew what each diff was supposed to do before I opened it. That shortens the reading, and it is something a team reviewer picking up a stranger's agent PR doesn't have.
+3. **Almost everything merges.** 30 of 31 PRs merged, and 25 of them needed a fix commit first. Rejected work is the most expensive kind, and in LinearB's data two thirds of AI PRs hadn't merged after 30 days.
 
-About a week of work in under three days. That's the 2–3x, measured across the whole pipeline, review included.
+Where this breaks:
 
-It's the rate from the first wave to the last merge, reviewed and merged, with no best-ninety-seconds extrapolation. That's the only rate you can plan a roadmap against.
+- **A team of ten.** Review becomes a queue between people again, and the 16 hours comes back unless someone owns pickup time.
+- **Unclear or greenfield work.** My runs were backlog and feature work against an existing system. I haven't measured a vague "build me a product" brief, and I expect it to go slower than solo while the rewriting happens.
+- **Bigger PRs as the habit.** My median PR changed 388 lines, close to LinearB's 400+ at the 75th percentile for AI PRs. In October, across 36 PRs, bigger ones did wait longer (rank correlation 0.56).
+- **The ramp.** It took months of harness work (rules, hooks, review gates) before runs like these held up. Expect your first weeks to be slower than doing it yourself.
 
-## What the 2–3x does NOT include
+## What review cost, and what it still missed
 
-Here is what I did *not* count as speedup, because counting it would mislead you.
+Review is counted against the clock, and it isn't free. 25 of 30 PRs needed a fix commit before merge. Review also missed things: it fixed 3 shell-injection paths from request input before merge, and missed 5 security bugs, found when I re-audited the run on 12 October 2026: 3 shell strings, one of them from request input (#98), and 2 stored XSS sinks. As of 12 October 2026 all 5 were still open in that repo. [The case study](/work/30-reviewed-prs-3-vulnerabilities#what-review-missed) has the list.
 
-### It does not include review time as free
+Speed has a price here too: #109, one of the 5 misses, merged 29 minutes after it opened, in a sitting that merged two PRs in 13 seconds. It's one data point, and it was still open on 12 October 2026.
 
-Review is the bottleneck, and I count it against the clock. Reading a diff an agent wrote is slower per line than reading a colleague's, because you can't assume intent. The agent will do exactly what it was told plus something adjacent it invented, with equal confidence.
+That is why I won't quote a bigger number. A faster figure is available if you drop the review, and the misses above happened with it.
 
-In those three days, review was the single largest block of my time. The 2–3x is the number *after* paying that cost. Strip the review out and I could quote you a bigger figure, and that's the figure that gets a breach shipped.
+## Measure your own review wait this week
 
-### It does not include the failures
+You can get the measured half of this for your team from data GitHub already keeps:
 
-The agents got things wrong in categories I could recognize. In this run, review caught **3 shell-injection paths from request input** that agents wrote, all fixed before merge. It also missed a fourth shell call built from database values, which merged. No tests or CI existed to catch either.
+```bash
+gh pr list --state merged --limit 200 --json number,author,createdAt,mergedAt,additions,deletions \
+  | jq -r '.[] | [.number, .author.login, ((((.mergedAt|fromdate) - (.createdAt|fromdate)) / 60) | floor)] | @tsv'
+```
 
-There was scope creep, with agents gold-plating past the issue. There was confidently-wrong logic that looked right until I traced it. None of that counts in the multiplier as a win. It counts as time I spent catching it, which is why the number isn't 10x.
+If your agents open PRs under a human's login, as mine do, split them by branch prefix or label instead of author. Then track three numbers, agent PRs against the rest:
 
-### It does not include net-new greenfield work
+1. **Open-to-merge time, median and 90th percentile.** If agent PRs wait hours, the speed-up is going into the queue.
+2. **Fix commits per PR before merge.** This is the review cost. Mine was 25 of 30 PRs with at least one.
+3. **Review sittings.** Merges that land minutes apart are one sitting. In my runs, a few planned sittings kept the median wait under an hour.
 
-This was backlog and feature work against an existing system with real constraints. Agents do best with a clear issue, a defined contract and a codebase to pattern-match against.
+If the median wait for agent PRs is in hours, the cheapest gain is a named owner for pickup time, before any new tool.
 
-I haven't measured the opposite case, but my guess is that a vague "build me a startup" sends the multiplier the other way while you rewrite everything. The 2–3x assumes what all delivery assumes: someone senior scoped the work first.
-
-### It does not include the ramp
-
-Getting to a reliable 2–3x took building the harness: the CLAUDE.md dispatch, the hooks, the review discipline. My expectation is that your first week running agents will not be 2–3x. It'll likely be slower than doing it yourself while you learn what they get wrong. The number is what the practice produces once it's built, not what you get on day one.
-
-## Why is 2–3x the only number you can plan against?
-
-**You can build a roadmap on 2–3x.** If I tell a VP of Engineering that a week of backlog compresses to a couple of focused days, that's a commitment we can both hold. If I told them 100x, I'd be setting a date I'd miss and spending the one thing this work runs on: trust that the number is real.
-
-**2–3x survives the review gate; 100x doesn't.** The bigger figures only hold with no review step. Add the senior human who's accountable for what merges, which is the point of the service, and the multiplier settles at 2–3x. A number that only holds if you delete the safety step is a liability.
-
-Here's the comparison I'd put in front of a buyer, by what's being measured:
-
-- **Raw code generation** (agent vs. hand-typing): *10–100x*. Costs you nothing, until it reaches prod unreviewed.
-- **"Vibe-coded," shipped without a review gate**: *"10x," unaccountable*. Costs you the breach nobody caught.
-- **Reviewed, merged, production delivery (what I sell)**: ***2–3x, sustained***. Costs you review time, and I count it.
-- **One senior engineer, no agents (the old baseline)**: *1x*. Costs you the week you no longer have.
-
-The 2–3x row is the only one where the number and the safety hold at the same time.
-
-*Related reading: [30 Reviewed PRs, 3 Shell-Injection Paths Caught](/work/30-reviewed-prs-3-vulnerabilities) · [The Shell-Injection Bugs My Agents Wrote, and the One I Missed](/blog/catching-shell-injection-agents-wrote) · [How to Review AI-Generated Code](/blog/what-agents-get-wrong).*
+*Related: [what review caught and missed in the 30-PR run](/work/30-reviewed-prs-3-vulnerabilities) · [463 Claude Code sessions, counted](/blog/66-days-of-claude-code-by-the-numbers).*
