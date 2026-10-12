@@ -23,7 +23,7 @@ faq:
 
 The run was on my own admin dashboard, in March 2026. It was not client work.
 
-Fair: "30 PRs in under three days" sounds like either an exaggeration or a pile of unreviewed code. Below is how nine agent batches produced thirty mergeable pull requests, what broke along the way, and why review was the constraint.
+I get why "30 PRs in under three days" sounds like either an exaggeration or a pile of unreviewed code. Below is how nine agent batches produced thirty mergeable pull requests, what broke along the way, and why review was the constraint.
 
 ## The setup: one agent per issue, one worktree per agent
 
@@ -75,9 +75,9 @@ Nine batches did not run clean. These are the failure modes I found.
 
 - **One I missed.** Another PR passed values read from the database into a shell string. I didn't flag it, it merged, and it is still open. Review was the only gate, and a single tired reviewer is a gate with gaps. The lesson I took from this run: a reviewer needs a checklist that greps every diff for shell calls, whatever the input looks like.
 
-- Scope creep past the issue. More than one agent refactored things I didn't ask for, going beyond the issue contract. Every extra line is extra review time and extra risk. A tight issue contract in `CLAUDE.md` reduced this here, but didn't eliminate it. 25 of the 30 merged PRs got at least one fix commit from me before merge.
+- **Scope creep past the issue.** More than one agent refactored things I didn't ask for, going beyond the issue contract. Every extra line is extra review time and extra risk. A tight issue contract in `CLAUDE.md` reduced this here, but didn't eliminate it. 25 of the 30 merged PRs got at least one fix commit from me before merge.
 
-Fair: none of this is an argument against running agents. It is an argument for a reviewer on every PR, and for backing that reviewer with tests and CI, which this repo didn't have.
+None of this is an argument against running agents. It is an argument for a reviewer on every PR, and for backing that reviewer with tests and CI, which this repo didn't have.
 
 ## Why is review the bottleneck, not generation?
 
