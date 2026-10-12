@@ -13,7 +13,7 @@ meta: "Oct 2026 · Own project · 100 minutes · Claude Code, Herdr, git worktre
 
 Work the brief had scheduled over three weekends merged in 100 minutes on a Saturday afternoon. The agent that cut the one corner wrote it down in its PR, and I merged it anyway.
 
-**Short answer:** On 10 October, nine Claude Code agents, each in its own git worktree, opened nine PRs against this site, and all nine merged 100 minutes after the brief was saved. Each PR passed typecheck, lint, a production build, unit tests and an AI code review before I read it, and seven of the nine needed no commits after that. The gate didn't stop one shortcut: `/ro` shipped as `<html lang="en">`, and an audit agent caught it the next morning.
+**Short answer:** On 10 October, nine Claude Code agents, each in its own git worktree, opened nine PRs against this site, and all nine merged 100 minutes after the brief was saved. Each PR passed typecheck, lint, a production build and unit tests before I read it, eight of the nine bodies record an AI code review, and seven of the nine needed no commits after that. The gate didn't stop one shortcut: `/ro` shipped as `<html lang="en">`, and an audit agent caught it the next morning.
 
 ## The problem
 
@@ -80,7 +80,7 @@ Review was the harder limit. I am the only senior reviewer, and reading doesn't 
 
 Every agent got a prompt like this one, cut from the real WP0 prompt:
 
-```text
+```md
 Execute work package WP0 of the adrian-rusan.com final update: fix the dead
 Calendly booking link (R0) [...] ship as ready, not draft, and report immediately.
 
@@ -116,15 +116,15 @@ Every count below comes from GitHub (`gh pr view`, and the timeline of each PR).
 
 | PR | Package | Lines | Ready → merge | Commits after ready |
 |---|---|---|---|---|
-| #34 | Dead booking link | +15 / −4 | 21 min | 0 |
-| #35 | Credibility copy | +243 / −85 | 20 min | 0 |
-| #36 | Price ladder on /services | +428 / −80 | 19 min | 0 |
-| #37 | Blog author box and CTAs | +351 / −5 | 19 min | 0 |
-| #38 | Workshop pages | +481 / −0 | 10 min | 0 |
-| #40 | Homepage "Latest" block | +277 / −3 | 8 min | 0 |
-| #39 | First case study, /work route | +425 / −14 | 70 min | 3: publish switch, review fix, merge |
-| #42 | Romanian section | +635 / −18 | 50 min | 0 |
-| #43 | Cleanup after the first eight | +115 / −73 | 50 min | 2: copy fix, merge |
+| #34 | Dead booking link | +15/−4 | 21 min | 0 |
+| #35 | Credibility copy | +243/−85 | 20 min | 0 |
+| #36 | Price ladder on /services | +428/−80 | 19 min | 0 |
+| #37 | Blog author box and CTAs | +351/−5 | 19 min | 0 |
+| #38 | Workshop pages | +481/−0 | 10 min | 0 |
+| #40 | Homepage "Latest" block | +277/−3 | 8 min | 0 |
+| #39 | First case study, /work route | +425/−14 | 70 min | 3: publish switch, review fix, merge |
+| #42 | Romanian section | +635/−18 | 50 min | 0 |
+| #43 | Cleanup from #34–#40 follow-ups | +115/−73 | 50 min | 2: copy fix, merge |
 
 I didn't time my review per PR. The ready-to-merge gap is the upper bound I have, and it includes time a PR sat waiting: a median of 20 minutes. Five PRs (#35 to #38 and #40), 1,780 added lines between them, merged inside one 35-second window, 16:04 to 16:05. For most of this run, my review was minutes per PR, and it leaned on the evidence in each PR body. The next section shows what that cost.
 
@@ -159,7 +159,7 @@ On this run the build set the limit. Nine agents worked during the afternoon, bu
 
 ### Do parallel agents make code review the bottleneck?
 
-They do, unless each PR arrives pre-checked. Here, every PR cleared typecheck, lint, build, tests and an AI code review first, and the median gap from ready to merge was 20 minutes. The trade is that a fast review leans on the PR body, so the PR body has to be where shortcuts are impossible to miss.
+They do, unless each PR arrives pre-checked. Here, every PR cleared typecheck, lint, build and tests first, eight of nine also recorded an AI code review, and the median gap from ready to merge was 20 minutes. The trade is that a fast review leans on the PR body, so the PR body has to be where shortcuts are impossible to miss.
 
 ### What did the agents get wrong?
 
