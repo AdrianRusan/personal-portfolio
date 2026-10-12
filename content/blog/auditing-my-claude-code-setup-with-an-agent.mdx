@@ -67,7 +67,7 @@ Since October, a check at session start flags when the running model differs fro
 
 A subagent runs on the session's model unless you say otherwise. Mine almost never said otherwise. The July usage audit found **81% of 4,994 subagent spawns ran on the top model tier**, and 324 of 431 Agent calls passed no model at all.
 
-Fair: the missing parameter looks like the cause. But the audit showed it was not. Two accounts with a 27-point gap in how often they set `model:` had almost the same top-tier share. The session default decided it.
+The missing parameter does look like the cause. But the audit showed it was not. Two accounts with a 27-point gap in how often they set `model:` had almost the same top-tier share. The session default decided it.
 
 **What changed:** partly fixed. The session default is still the top tier, but stale model IDs that had reviewer agents running the previous generation were fixed on 7 October. Choosing models per role is still on my list.
 
@@ -104,4 +104,4 @@ Before you conclude an agent is lying, check the thing that told you so.
 
 Have the agents count and refute, then decide yourself. The numbers in this post came from agent reports, and I rechecked the headline config numbers against git before using them.
 
-If you want a setup like this in your own repo, the offer below is how I install it.
+If you want a setup like this in your own repo, the Agent Fleet Setup is how I install it.
