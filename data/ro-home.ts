@@ -207,8 +207,8 @@ export const roCaseStudyCards: CaseStudyCardsCopy = {
     "Client work (NDA)": "Proiect pentru client (NDA)",
     "Own setup": "Setup propriu",
     // The caseStudyResults labels (data/work.ts).
-    "shell-injection paths from request input, caught in review before merge":
-      "căi de shell injection din input-ul cererilor, prinse în review înainte de merge",
+    "shell-injection paths from request input caught in review. The study lists the 5 security bugs it missed.":
+      "căi de shell injection din input-ul cererilor, prinse în review. Studiul listează cele 5 buguri de securitate pe care le-a ratat.",
     'the true count behind a landing-page line labelled "real number". The gate keeps lines like it off the page.':
       "e numărul adevărat din spatele unui rând de pe un landing page etichetat „număr real”. Gate-ul ține astfel de rânduri departe de pagină.",
     "reviewed PRs merged in 100 minutes, each through a review gate first":
