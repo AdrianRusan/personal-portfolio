@@ -141,9 +141,9 @@ export const roPostTitles: PostTitles = {
       "O reducere a contextului a scăzut costul pe commit al agenților cu 68% într-o lună. Un registru săptămânal a prins revenirea din septembrie, odată cu mult mai multe rulări automate.",
   },
   "66-days-of-claude-code-by-the-numbers": {
-    title: "66 de zile de Claude Code, în cifre",
+    title: "463 de sesiuni Claude Code, numărate: promptul meu median avea 10 cuvinte",
     description:
-      "463 de sesiuni, 335 de ore, 3.599 de subagenți și 45 de miliarde de tokeni. Ce spun propriile mele jurnale Claude Code despre bunele practici, numărate de un script, nu din memorie.",
+      "463 de sesiuni Claude Code în 66 de zile, numărate de un script: un prompt median de 10 cuvinte, 2,7 sesiuni pentru fiecare oră la tastatură și 97,7% din 45 de miliarde de tokeni citiți din cache.",
   },
   "the-rules-file-my-agents-follow": {
     title: "Fișierul de reguli pe care îl urmează agenții mei: exemple de CLAUDE.md din 270 de commit-uri",
