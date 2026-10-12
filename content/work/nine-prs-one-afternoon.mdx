@@ -7,11 +7,15 @@ published: false
 language: "en"
 ---
 
+**Short answer:** 9 pull requests merged in 100 minutes, in work planned for three weekends. Nine Claude Code agents worked in parallel worktrees, at most three building at once, and every PR passed a review gate before it reached me.
+
 ## The problem
 
 On 10 October I wrote a brief for the site you are reading: an offer ladder with a price on every tier, workshop pages, a case-study route, a Romanian section, blog fixes and new structured data. The brief split the work into nine packages and scheduled them over three weekends.
 
-Before any of that, the fact check in the brief turned up an outage. The booking link behind every "book a call" button pointed at a Calendly event that no longer existed. The live site carried that link 8 times on the homepage and 20 times on `/services`, and every one of them landed on a 404 page. A site whose job is to book calls was booking none.
+Before any of that, the fact check in the brief turned up an outage.
+
+The booking link behind every "book a call" button pointed at a Calendly event that no longer existed. The live site carried that link 8 times on the homepage and 20 times on `/services`, and every one of them landed on a 404 page. A site whose job is to book calls was booking none.
 
 ## The constraint
 
@@ -76,7 +80,7 @@ The outage went first. The one-line fix shipped as its own PR, marked ready from
 
 ## The number
 
-**9 pull requests merged in 100 minutes**, from the brief at 15:31 to the last merge at 17:11, in work planned for three weekends. From GitHub:
+The run went from the brief at 15:31 to the last merge at 17:11. I took these counts from GitHub:
 
 - 9 issues closed, 57 commits, 2,970 lines added and 282 removed across the 9 PRs
 - First PR opened 5 minutes after the brief; first merge 30 minutes after it
@@ -85,8 +89,10 @@ The outage went first. The one-line fix shipped as its own PR, marked ready from
 
 ## The lesson
 
-Parallel agents did not make me faster at reviewing. They made the review smaller. Each PR arrived with its checks run, its screenshots attached and its review findings already sorted into fixed and deferred, so my part was reading evidence and merging.
+I reviewed at the same speed as before; what shrank was the amount of review each PR needed. I haven't timed it per PR, so that is my read, not a measurement.
+
+Each PR arrived with its checks run, its screenshots attached and its review findings already sorted into fixed and deferred. My part was reading evidence and merging.
 
 The other half is the brief. Every decision it settled up front was one an agent did not have to stop and ask about.
 
-If you want this setup in your own repo, the [Agent Fleet Setup](/services#harness) installs it in a week. If you want your team to run it, the [team workshop](/workshops/full-day) teaches it in a day.
+If you want this setup in your own repo, the [Agent Fleet Setup](/services#harness) installs it in a week, or the [team workshop](/workshops/full-day) teaches your team to run it in a day.

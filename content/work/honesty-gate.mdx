@@ -13,11 +13,15 @@ meta: "2026 · Client work (NDA) · Role: reviewer, author of the gates"
 
 ## The problem
 
+A landing page was about to launch with a launch count labelled "real number, from delivered orders". The count was hardcoded. At launch the true number was 0.
+
 The context is a client's agent-built SaaS (under NDA) that generates demo sites. Agents write most of its code and copy, and I review it.
 
-Before launch, the landing page carried a proof line for each of five industries: a count of businesses that had launched their site with us this month, two or three per industry, labelled "real number, from delivered orders". The count was hardcoded. At launch the true number was 0.
+The proof line ran once for each of five industries: a count of businesses that had launched their site with us this month, two or three per industry.
 
-It was not the only one. A strip of sites "made by us" linked three domains, and two of them did not resolve. The generated demo sites had the same disease: the fixtures that seed a demo shipped testimonials, a 4.9 rating and a count of 127 reviews across five business types, with nothing marking them as examples.
+It was not the only one. A strip of sites "made by us" linked three domains, and two of them did not resolve.
+
+The generated demo sites had the same problem. The fixtures that seed a demo shipped testimonials, a 4.9 rating and a count of 127 reviews across five business types, with nothing marking them as examples.
 
 Nobody decided to lie. The numbers arrived in a design comp, the agents carried them forward faithfully, and each one looked plausible on its own.
 
@@ -25,11 +29,11 @@ Nobody decided to lie. The numbers arrived in a design comp, the agents carried 
 
 Proofreading does not scale here, for three reasons I found in the run itself.
 
-First, fan-out. One poisoned source field reached five places in the output: two SEO descriptions, two social descriptions and the structured data. Fix the field and a render path nobody remembered still ships the claim.
+Fan-out. One poisoned source field reached five places in the output: two SEO descriptions, two social descriptions and the structured data. Fix the field and a render path nobody remembered still ships the claim.
 
-Second, a digit regex is easy to defeat. Spell it out, as in "over two hundred happy clients", and there is no digit to match, though the claim is exactly as invented as "200+ clients".
+A digit regex is easy to defeat. "Over two hundred happy clients" has no digit to match, and the claim is exactly as invented as "200+ clients".
 
-Third, gates that exist are not gates that run. An earlier pipeline exported ten gate functions. Only two were wired to anything that could stop a publish. The other eight were tested, exported and never consulted.
+Gates that exist are not gates that run. An earlier pipeline exported ten gate functions. Only two were wired to anything that could stop a publish. The other eight were tested and exported, and nothing called them.
 
 ## What I built
 
@@ -78,9 +82,15 @@ The fix moved the rule out of the prompt and into the data.
   <figcaption className="text-center text-sm text-white-200 mt-3">Both gates read the final rendered page.</figcaption>
 </figure>
 
-Every fact about a business carries provenance: the owner typed it, it came from a public listing, it was derived, or it is unknown. An unknown fact renders as a visibly marked slot the owner can fill, never as prose. Inventing a claim now means forging a provenance value, not writing a convincing sentence.
+Every fact about a business carries provenance: the owner typed it, it came from a public listing, it was derived, or it is unknown. An unknown fact renders as a visibly marked slot the owner can fill, never as prose.
 
-Two gates then read the final rendered page. The trace gate walks every string, roughly 1,400 per page, and requires each to map back to a fact, a catalog constant or a marked slot. The proof scan trusts nothing: any count, rating or urgency phrase, including counts spelled out from a 64-entry number-word lexicon, needs a backing fact. Ratings markup is emitted only from verified reviews. If either gate cannot run, the answer is the same as a failure: blocked.
+To invent a claim now, an agent has to forge a provenance value, and that shows up in a diff.
+
+Two gates then read the final rendered page. The trace gate walks every string, roughly 1,400 per page, and requires each to map back to a fact, a catalog constant or a marked slot.
+
+The proof scan trusts nothing. Any count, rating or urgency phrase needs a backing fact, including counts spelled out from a 64-entry number-word lexicon. Ratings markup is emitted only from verified reviews.
+
+If either gate cannot run, the result is the same as a failure: the publish is blocked.
 
 The landing page got the same rule. The count now comes from real go-live events and the whole line stays hidden until it reaches 2.
 
@@ -90,4 +100,6 @@ The landing page got the same rule. The count now comes from real go-live events
 
 ## The lesson
 
-A prompt that says "don't make things up" stops nothing on its own. What held was making every rendered string prove where it came from, checking the output instead of the source, and treating a check that couldn't run as a failure.
+A prompt that says "don't make things up" stops nothing on its own. What held was checking the rendered output instead of the source, making every string in it prove where it came from, and treating a check that couldn't run as a failure.
+
+If agents write copy your customers see, the AI Automation offer adds this gate to your pipeline.

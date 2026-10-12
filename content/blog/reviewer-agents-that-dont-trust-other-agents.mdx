@@ -15,17 +15,19 @@ faq:
     a: "In my panel the strictest verdict wins: one BLOCK from any reviewer blocks the PR. After three cycles without approval the panel stops and reports the result as unresolved. It never marks work as approved on a timeout."
 ---
 
-**Short answer:** I review AI-generated code with agents that start from distrust. Three fresh reviewers (correctness, security, completeness) read every diff in parallel, and the strictest verdict wins. Review-bot comments go through a loop that checks each one before fixing it. For audits, a second set of agents tries to refute every finding. About 30% of the subagents I start are reviewers of some kind.
+**Short answer:** I review AI-generated code with agents that start from distrust. Three fresh reviewers (correctness, security, completeness) read every diff in parallel, and the strictest verdict wins. Review-bot comments go through a loop that checks each one before fixing it. For audits, a second set of agents tries to refute every finding. I counted: about 30% of the subagents I start are reviewers of some kind.
 
-This is the agent half of how to review AI-generated code. The human half, the six failure types I still check by hand, is in [How to Review AI-Generated Code](/blog/what-agents-get-wrong). This post covers the reviewers I run before a PR reaches me, and why each one is built to assume the work in front of it is wrong.
+This is the agent half of how to review AI-generated code. The human half, the six failure types I still check by hand, is in [How to Review AI-Generated Code](/blog/what-agents-get-wrong).
+
+This post covers the reviewers I run before a PR reaches me. Each one is built to assume the work in front of it is wrong.
 
 The numbers below come from my own session logs (6 August to 10 October 2026) and prompt history (12 July to 10 October). They are aggregate counts across all my work. Nothing here names a client or a project.
 
 ## Why the author cannot review its own work
 
-An agent that wrote the code has the same context it wrote it with: the same reading of the ticket, the same assumptions, and the same blind spots. Asking it "is this correct?" mostly gets back a confirmation.
+An agent that wrote the code has the same context it wrote it with: the same reading of the ticket, the same assumptions, the same blind spots. In my experience, asking it "is this correct?" mostly gets back a confirmation.
 
-A fresh agent has none of that context. Give it the diff, the ticket and one job, and it reads the code the way a stranger would. That is the whole idea behind the reviewers in this post.
+A fresh agent has none of that context. Give it the diff, the ticket and one job, and it reads the code the way a stranger would. Every reviewer below is built on that.
 
 ## The three-role panel
 
@@ -41,27 +43,31 @@ A further 52 spawns were a copy reviewer that checks site text against my copy r
 
 The panel runs like this:
 
-1. **All three start at once**, each with a clean context and only its own focus.
-2. **Each returns findings graded BLOCK, WARN or NIT.**
-3. **The findings are merged.** Duplicates on the same file, line and category collapse into one, and the higher severity wins.
-4. **The strictest verdict wins.** If any reviewer says BLOCK, the PR goes back. Approval needs all three.
-5. **After a fix, the panel runs again**, up to three cycles.
+1. All three start at once, each with a clean context and only its own focus.
+2. Each returns findings graded BLOCK, WARN or NIT.
+3. The findings are merged. Duplicates on the same file, line and category collapse into one, and the higher severity wins.
+4. The strictest verdict wins. If any reviewer says BLOCK, the PR goes back. Approval needs all three.
+5. After a fix, the panel runs again, up to three cycles.
 
-The rule I care most about is in step 5. After three cycles without approval, the panel stops and reports the verdict as **unresolved**, names the findings that survived and posts that on the PR. A review that times out never reads as approval. A silent stall looks like a pass to anyone who was not watching, so the stall has to be loud.
+The rule I care most about is in step 5. After three cycles without approval, the panel stops, reports the verdict as unresolved, names the findings that survived and posts that on the PR.
 
-The security reviewer has one check it runs on every new gate: what happens when the check itself cannot run? If a missing config, a failed subprocess or an empty allowlist lets the request through, that is a BLOCK. Agents write this bug with confidence, and tests rarely catch it, because nobody writes a test for the gate failing to start.
+A review that times out never reads as approval. A silent stall looks like a pass to anyone who was not watching, so the stall has to be loud.
+
+The security reviewer runs one check on every new gate: what happens when the check itself cannot run? If a missing config, a failed subprocess or an empty allowlist lets the request through, that is a BLOCK.
+
+Agents write this bug with confidence. My guess is that tests rarely catch it because nobody writes a test for the gate failing to start.
 
 ## The review-bot loop
 
 Some repos I work in have a hosted review bot that comments on every PR. In my prompt history, 518 prompts were about review, and 196 of those were about bot review threads. Those counts come from keyword matching, so treat them as approximate.
 
-Bot comments are useful and noisy. Fixing every one blindly makes the PR worse. Ignoring them wastes the signal. So the loop treats each comment as a claim:
+Fair: bot comments find real bugs, and ignoring them wastes that. But fixing every one blindly makes the PR worse. So the loop treats each comment as a claim:
 
-1. **Fetch the unresolved threads** on the PR.
-2. **Classify each one**: a real bug, a valid but minor fix, or a false positive.
-3. **Fix the first two**, run the checks, commit and push.
-4. **Resolve the threads it handled**, so the PR shows what was done.
-5. **Repeat** until nothing is unresolved, up to a fixed number of rounds.
+1. Fetch the unresolved threads on the PR.
+2. Classify each one: a real bug, a valid but minor fix, or a false positive.
+3. Fix the first two, run the checks, commit and push.
+4. Resolve the threads it handled, so the PR shows what was done.
+5. Repeat until nothing is unresolved, up to a fixed number of rounds.
 
 Step 4 matters more than it looks. An unresolved thread on a merged PR tells the next reader nothing, including whether anyone read it.
 
@@ -69,26 +75,30 @@ Step 4 matters more than it looks. An unresolved thread on a merged PR tells the
 
 The panel checks code. For audits, where an agent reports findings about a whole system, I add a second layer: refuters. Each finding goes to a fresh agent told to disprove it, and the finding counts as refuted unless it survives.
 
-This is where distrust paid off most. In one audit of my own setup, the refuting pass refuted 9 of 149 findings. In a deeper audit the same week, it killed or cut 22 claims and found 5 errors in my own brief.
+In one audit of my own setup, the refuting pass refuted 9 of 149 findings. In a deeper audit the same week, it killed or cut 22 claims and found 5 errors in my own brief.
 
-Counts also beat estimates. One subagent estimated about 1,000 uses for each of three MCP servers I was thinking of removing. It had counted transcripts that merely listed the tool names. The real call counts were much lower. The audit is written up in [Auditing My Own Claude Code Setup](/blog/auditing-my-claude-code-setup-with-an-agent).
+Counts also beat estimates. One subagent estimated about 1,000 uses for each of three MCP servers I was thinking of removing. It had counted transcripts that merely listed the tool names. The real call counts were lower. The audit is written up in [Auditing My Own Claude Code Setup](/blog/auditing-my-claude-code-setup-with-an-agent).
 
 ## I don't trust the reviewers either
 
-None of this replaces my review. The agents make my review cheaper, because by the time a PR reaches me the obvious problems are gone and the PR body shows the evidence.
+None of this replaces my review. The agents make my review cheaper: by the time a PR reaches me, the obvious problems are gone and the PR body shows the evidence.
 
 On one afternoon run of nine PRs, seven PR bodies recorded a review count: 46 findings, 17 of them fixed before I saw the PR. I read evidence instead of re-running it.
 
-The limits are real, too. On my own 30-PR run, where review was the only gate, 25 of the 30 merged PRs needed at least one fix commit from review, and I caught three shell-injection paths. I also missed one shell call built from database values. The details are in [30 Reviewed PRs, 3 Shell-Injection Paths Caught](/work/30-reviewed-prs-3-vulnerabilities). No single review caught everything on that run, mine included. That is why both layers stay.
+The reviewers have limits, and so do I. On my own 30-PR run, where review was the only gate, 25 of the 30 merged PRs needed at least one fix commit from review, and I caught three shell-injection paths.
+
+I also missed one shell call built from database values. The details are in [30 Reviewed PRs, 3 Shell-Injection Paths Caught](/work/30-reviewed-prs-3-vulnerabilities). No single review caught everything on that run, mine included, which is why both layers stay.
 
 ## How to set this up
 
 You can start with one reviewer and grow:
 
-1. **Add one fresh reviewer per PR**, with a clean context, the diff, the ticket and one focus. Start with security.
-2. **Grade findings** BLOCK, WARN or NIT, and let any BLOCK stop the PR.
-3. **Cap the cycles** and report a stall as unresolved, never as approved.
-4. **Run a triage loop on bot comments** that classifies before it fixes and resolves every thread.
-5. **For audits, add refuters** that assume each finding is wrong.
+1. Add one fresh reviewer per PR, with a clean context, the diff, the ticket and one focus. Start with security.
+2. Grade findings BLOCK, WARN or NIT, and let any BLOCK stop the PR.
+3. Cap the cycles and report a stall as unresolved, never as approved.
+4. Run a triage loop on bot comments that classifies before it fixes and resolves every thread.
+5. For audits, add refuters that assume each finding is wrong.
 
 Then read the PR yourself. The reviewers decide what reaches you, and you still decide what merges.
+
+If you want this kind of review run on your own AI-written code, the AI Audit is where I would start.

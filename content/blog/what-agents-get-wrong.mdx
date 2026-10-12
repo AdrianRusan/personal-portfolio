@@ -30,47 +30,55 @@ faq:
 5. **Abstraction:** does each new interface, factory or flag serve at least three real call sites?
 6. **APIs:** does every call exist in the version you actually pin?
 
-Want this run on your own code? [Send a repo for a free teardown](/teardown), or take the [one-page agent PR review checklist (PDF)](/agent-pr-review-checklist.pdf) to your next review.
+The same list is a [one-page agent PR review checklist (PDF)](/agent-pr-review-checklist.pdf) you can take to your next review, and it's what I run when someone [sends a repo for a free teardown](/teardown).
 
-I review a lot of agent-written code. On my own admin dashboard (March 2026, not client work) I merged 30 reviewed pull requests across 9 parallel agent batches in under three days. That repo had no test suite and no CI, so my adversarial review of every PR before merge was the only gate. That volume is the point of the workflow, but it also turns code review into a sampling exercise. When you read that many diffs from the same class of author, the mistakes stop being random and start being a taxonomy.
+The list comes from volume. On my own admin dashboard (March 2026, not client work) I merged 30 reviewed pull requests across 9 parallel agent batches in under three days.
 
-The agents are good, and that makes the failures dangerous. They aren't the obvious garbage people picture when they hear "AI wrote it." The code compiles, reads cleanly and goes green in CI. The defects sit between "the tests pass" and "the code is safe," which is where a payment flow gets breached.
+That repo had no test suite and no CI, so my adversarial review of every PR before merge was the only gate. At that volume, review turns into a sampling exercise: when you read that many diffs from the same class of author, the mistakes repeat, and they sort into categories.
 
-Here are the six categories I see over and over. Each one is self-contained, so you can lift the one that matters to your review checklist.
+I'll grant that the agents are good. The code compiles, reads cleanly and goes green in CI. But that is what makes the failures dangerous. The defects sit between "the tests pass" and "the code is safe," and in a payment flow that gap is where a breach gets through.
+
+The six categories below are the ones I see repeatedly. Each section stands alone, so you can copy the one that matters into your own review checklist.
 
 ## 1. Security gates that fail open
 
 **The failure:** A check whose entire job is to *block* bad input quietly lets everything through when the check itself can't run. The agent handles the "input is bad" path correctly and forgets the "I couldn't evaluate the input" path.
 
-The version I catch most is a subprocess-based gate (a secret scanner, a schema validator, a linter invoked as a security check) that gates only on the exit code:
+The version I catch most is a subprocess-based gate (a secret scanner, a schema validator, a linter invoked as a security check) that blocks only on the exit code that means "found something":
 
 ```js
 // Agent's version: fails OPEN
 const result = spawnSync("scanner", args);
-if (result.status !== 0) {
+if (result.status === 1) {
   throw new Error("blocked");
 }
-// falls through to "allowed" on spawn failure
+// falls through to "allowed" on spawn failure, a kill or a crash
 ```
 
-If the binary isn't found, or the OS kills it, `spawnSync` returns `{ status: null, error: Error }`. `null !== 0` is false, so the code sails past the gate. The scanner never ran, and the agent treated "didn't run" as "passed." A security gate has to fail *closed*: the "I don't know" answer must be identical to the "no, blocked" answer.
+If the binary isn't found, `spawnSync` returns `{ status: null, error: Error }`. If the OS kills it, `status` is `null` and `signal` is set. If the scanner crashes, it exits with some other code, like 2. None of those is `1`, so all three go past the gate. I ran each case in Node to check. The scanner never finished, and the agent treated "didn't run" as "passed."
+
+A security gate has to fail *closed*: the "I don't know" answer must be identical to the "no, blocked" answer.
 
 ```js
-// Fails CLOSED
+// Fails CLOSED: spawn error, kill, and any non-zero exit all block
 if (result.error || result.status === null || result.status !== 0) {
   throw new Error("blocked");
 }
 ```
 
-I trust automated tooling least on this category, because the happy-path test (feed it a secret, watch it block) passes on both versions. You only catch it by asking "what happens when the check can't execute?" It is the same habit that produces shell injection: the agent handles the input it expects and never asks what happens with the one it doesn't. On that 30-PR run, review caught three shell-injection paths from request input and missed one shell call built from database values.
+I trust automated tooling least on this category, because the happy-path test (feed it a secret, watch it block) passes on both versions: exit code 1 blocks in each. You only catch it by asking "what happens when the check can't execute?"
+
+Shell injection comes from the same habit: the agent handles the input it expects and never asks what happens with the one it doesn't. On that 30-PR run, review caught three shell-injection paths from request input and missed one shell call built from database values.
 
 ## 2. Scope creep and gold-plating past the ticket
 
 **The failure:** The ticket says "add search by email." The agent adds search by email, phone and name, a fuzzy-match toggle, a new caching layer and a config flag for the page size. None of it was asked for, and all of it is now yours to maintain, review and secure.
 
-Agents are eager. Given a narrow instruction they will infer a "more complete" version of the feature and build that instead. It reads as helpfulness, but every unrequested line is unreviewed surface area, and the extra branches are where the untested edge cases hide. A `enablePhoneSearch` flag nobody requested is a flag nobody has thought about the security of.
+Given a narrow instruction, an agent will infer a "more complete" version of the feature and build that instead. Fair, it reads as helpfulness. But every unrequested line is unreviewed surface area, and the extra branches are where the untested edge cases hide. A `enablePhoneSearch` flag nobody requested is a flag nobody has thought about the security of.
 
-My rule when reviewing: the diff should map to the ticket and nothing else. If I can't point at the issue for a given change, it comes out. I hold my own work to the same rule: three similar lines beat the wrong abstraction, and a strong default beats a speculative flag.
+My rule when reviewing: the diff should map to the ticket and nothing else. If I can't point at the issue for a given change, it comes out.
+
+I hold my own work to the same rule: three similar lines beat the wrong abstraction, and a strong default beats a speculative flag.
 
 ## 3. Silent error swallowing
 
@@ -84,38 +92,48 @@ try {
 }
 ```
 
-Agents reach for this pattern because it makes the code "robust" in the shallow sense: nothing throws, the demo works, the test passes. Swallowing the error turns a detectable outage into undetectable data corruption. In a fintech context, "the balance call failed" and "the balance is zero" must never collapse into the same branch. I flag every catch that is broader than the error it handles, and every catch that recovers to a plausible but fabricated value.
+Agents reach for this pattern because it makes the code look safe in the shallow sense: nothing throws, the demo works, the test passes. Swallowing the error turns a detectable outage into undetectable data corruption.
+
+In a fintech context, "the balance call failed" and "the balance is zero" must never collapse into the same branch. I flag every catch that is broader than the error it handles, and every catch that recovers to a plausible but fabricated value.
 
 The same habit shows up outside code: an agent that fills a gap with a plausible number. The [honesty gate](/work/honesty-gate) is the check I built for that version of it.
 
 ## 4. Confidently-wrong logic
 
-**The failure:** Code that is structurally clean, well-named and reads as obviously correct, and is wrong on a boundary the author never considered. Off-by-one on a date range, an inverted conditional, a `>=` that should be `>`, timezone math that breaks at the DST boundary.
+**The failure:** Code that is structurally clean, well-named and reads as correct, and is wrong on a boundary the author never considered. Off-by-one on a date range, an inverted conditional, a `>=` that should be `>`, timezone math that breaks at the DST boundary.
 
-This is the hardest category to catch because there's nothing to smell. The variable names are good. The structure is idiomatic. The tests pass, because the agent wrote tests that assert the same wrong mental model the code implements. Agent-written code and agent-written tests share a blind spot, so green CI confirms itself instead of checking independently.
+In my review work this is the hardest category to catch, because there's nothing to smell. The variable names are good and the structure is idiomatic.
 
-The only defense is reading the logic against the *specification*. I re-derive the boundary conditions myself and check the code against my derivation, not against the suite. When the code and its tests agree but both disagree with reality, only an outside reader catches it.
+The tests pass, because the agent wrote tests that assert the same wrong mental model the code implements. Agent-written code and agent-written tests share a blind spot, so green CI confirms itself instead of checking independently.
+
+The only defense I've found is reading the logic against the *specification*. I re-derive the boundary conditions myself and check the code against my derivation, not against the suite. When the code and its tests agree but both disagree with reality, only an outside reader catches it.
 
 ## 5. Premature abstraction
 
 **The failure:** A generic `BaseHandler`, a config-driven factory, or a five-parameter "flexible" helper introduced to serve a single call site. Abstraction built for a future that hasn't arrived.
 
-Agents pattern-match on "good engineering" and reproduce the *shape* of extensible code without the *demand* for it. You end up with an interface, an abstract class and a registry to handle one concrete case. It's harder to read, harder to change, and it hides the actual behavior behind indirection for callers who will never show up.
+Agents pattern-match on "good engineering" and reproduce the *shape* of extensible code without the *demand* for it. You end up with an interface, an abstract class and a registry to handle one concrete case. It's harder to read and harder to change, and it hides the actual behavior behind indirection for callers who will never show up.
 
-My bar is the rule of three: don't extract a shared abstraction until the same pattern appears at three call sites with the same shape. Two similar blocks is a coincidence; three is a pattern. Until then, duplication is cheaper than the wrong abstraction, and far easier to review.
+My bar is the rule of three: don't extract a shared abstraction until the same pattern appears at three call sites with the same shape. Until then, duplication is cheaper than the wrong abstraction, and easier to review.
 
 ## 6. Stale or hallucinated APIs
 
-**The failure:** The agent calls a method that doesn't exist, uses a library's old signature, or invents a plausible option that was never in the API. The code looks right because it matches the *average* of how that library has been used across the training data, which may be a version you're not on, or a call that was never real.
+**The failure:** The agent calls a method that doesn't exist, uses a library's old signature, or invents a plausible option that was never in the API. My guess at the cause: the code matches the *average* of how that library has been used across the training data, which may be a version you're not on, or a call that was never real.
 
-You see `array.findLast()` in an environment that doesn't have it, a deprecated React lifecycle method, an SDK option that reads sensibly but isn't in the docs, or a config key that blends two real ones. Type checking and a real build catch a good share of these, which makes them the *least* dangerous category here. The ones that survive happen to type-check while being semantically wrong for your version. The fix is a pinned-version build and reading the dependency's actual source. Trusting that an API exists because the code looks fluent is the trap.
+You see `array.findLast()` in an environment that doesn't have it, a deprecated React lifecycle method, an SDK option that reads sensibly but isn't in the docs, or a config key that blends two real ones.
+
+Type checking and a real build catch a good share of these (I haven't counted the split), which makes them the *least* dangerous category here. The dangerous ones type-check while being semantically wrong for your version.
+
+The fix is a pinned-version build and reading the dependency's actual source. Fluent-looking code is not evidence that an API exists.
 
 ## Why do these pass the test suite?
 
-**None of the six is caught by a passing test suite.** Fail-open gates pass the happy-path test. Scope creep adds passing tests for the extra scope. Swallowed errors make tests greener, not redder. Confidently-wrong logic ships with confidently-wrong tests. Premature abstraction is fully tested; it just shouldn't exist. Hallucinated APIs that type-check, type-check.
+None of the six is caught by a passing test suite. Fail-open gates pass the happy-path test. Scope creep adds passing tests for the extra scope. Swallowed errors make tests greener, not redder. Confidently-wrong logic ships with confidently-wrong tests. Premature abstraction is fully tested; it just shouldn't exist. Hallucinated APIs that type-check, type-check.
 
-This is why I put the multiplier at 2–3x. Generation is fast. Review is the bottleneck, and it's a senior, human bottleneck, because these six failure modes are the ones that hide from automation. Agents optimize their output to make tests go green. Safety is a different target, and they don't aim at it.
+This is why I put the multiplier at 2–3x. Generation is fast. Review is the bottleneck, and it needs a senior human, because these six failure modes hide from automation. Agents optimize their output to make tests go green, and safety is a different target.
 
 If you're letting agents write production code, keep them: they earn the throughput. Put an adversarial reviewer between the green checkmark and the merge button, someone who assumes the code is wrong until proven safe and knows which six things to look for first.
 
 *Related reading: [The shell-injection bugs my agents wrote, and the one I missed](/blog/catching-shell-injection-agents-wrote).*
+
+If you want those six checked on your own codebase, the AI Audit is how I do it.

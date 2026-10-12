@@ -11,11 +11,13 @@ cta: "workshop"
 
 **Short answer:** To run Claude Code agents in parallel, give each agent its own git worktree and branch, start and watch them from one multiplexer, answer their questions from a written brief, and make every PR clear a fixed checklist before you review it. On 10 October this setup shipped nine reviewed PRs to this site in 100 minutes.
 
-On the evening of 10 October, while this post was being drafted, one orchestrator session was watching four executor agents, each on its own branch of this website, with a fifth scheduled to merge their work into one release PR. My busiest 10-minute window on record had 18 interactive sessions active at once. This post is the setup behind runs like that.
+On the evening of 10 October, while this post was being drafted, one orchestrator session was watching four executor agents, each on its own branch of this website, with a fifth scheduled to merge their work into one release PR. My busiest 10-minute window on record had 18 interactive sessions active at once.
+
+Below is the setup behind runs like that.
 
 ## Claude Code + git worktrees: one per agent
 
-The first rule of parallel agents is that they never share a working directory. Two agents in one checkout will edit the same file, run builds against each other's half-finished changes and stash each other's work.
+The first rule of parallel agents: they never share a working directory. Two agents in one checkout will edit the same file, run builds against each other's half-finished changes and stash each other's work.
 
 [Git worktrees](https://git-scm.com/docs/git-worktree) fix that. One repository, many checked-out branches, each in its own folder:
 
@@ -27,13 +29,15 @@ git worktree list
 git worktree remove ../repo-agent-1
 ```
 
-Each agent gets its own folder and its own branch. A broken build in one cannot touch another. When the PR lands, the worktree is removed.
+A broken build in one worktree cannot touch another. When the PR lands, the worktree is removed.
 
-Two practical notes. A worktree has no `node_modules`, so each one runs `npm ci` before its first build. And the git stash is shared across all worktrees of a repo, so agents never use a bare `git stash`. They commit work in progress instead.
+Two practical notes. A worktree has no `node_modules`, so each one runs `npm ci` before its first build.
+
+The git stash is shared across all worktrees of a repo, so agents never use a bare `git stash`. They commit work in progress instead.
 
 ## Herdr runs the fleet
 
-Opening eight terminals by hand and pasting prompts into each does not scale past three. I use [Herdr](https://herdr.dev), a terminal multiplexer built for coding agents. It creates the worktree, opens a pane in it, starts a Claude Code session and sends the first prompt:
+For me, opening eight terminals by hand and pasting prompts into each stops working past three. I use [Herdr](https://herdr.dev), a terminal multiplexer built for coding agents. It creates the worktree, opens a pane in it, starts a Claude Code session and sends the first prompt:
 
 ```bash
 herdr worktree create --cwd ~/Code/personal/personal-portfolio \
@@ -42,9 +46,11 @@ herdr agent start p3 --kind claude --pane <pane>
 herdr agent prompt p3 "/goal $(cat p3.prompt.txt)"
 ```
 
-The orchestrator then waits on each agent (`herdr agent wait p3`) and wakes up when one finishes or gets stuck. Herdr tracks each agent's status, so I can see at a glance which one is working and which one is waiting on me.
+The orchestrator then waits on each agent (`herdr agent wait p3`) and wakes up when one finishes or gets stuck.
 
-Herdr is not the important part. Any tool that gives you one pane per worktree and a way to see who is stuck will do. What matters is that starting agent number six is one command, not ten minutes of setup.
+Herdr tracks each agent's status, so I can see at a glance which one is working and which one is waiting on me.
+
+Fair: Herdr is my choice, and any tool that gives you one pane per worktree and a way to see who is stuck will do. What has to be true is that starting agent number six is one command instead of ten minutes of setup.
 
 ## The brief does the thinking up front
 
@@ -52,16 +58,20 @@ Parallel agents fail in a boring way: they stop and ask. Which branch name? Can 
 
 So before any agent starts, I write a brief. It has four parts:
 
-1. **Facts, verified.** Routes, commands, the current state of `main`, what is live. The fact check is where the first run found its outage: every booking link on this site pointed at a deleted calendar event.
-2. **Rulings.** Numbered decisions, written once. "Prices come from this table." "Never name a client." "No invented numbers." When an agent hits a choice, the orchestrator answers by citing a ruling.
-3. **File ownership.** Which agent owns which files. One agent owns the Romanian pages, another owns styling, another owns blog content, including this post. When two must touch the same file, the edit stays minimal and a later merge resolves the rest.
-4. **A definition of done.** The exact checks each PR must show before it can be marked ready.
+1. Facts, verified. Routes, commands, the current state of `main`, what is live. The fact check is where the first run found its outage: every booking link on this site pointed at a deleted calendar event.
+2. Rulings. Numbered decisions, written once. "Prices come from this table." "Never name a client." "No invented numbers." When an agent hits a choice, the orchestrator answers by citing a ruling.
+3. File ownership. Which agent owns which files. One agent owns the Romanian pages, another owns styling, another owns blog content, including this post. When two must touch the same file, the edit stays minimal and a later merge resolves the rest.
+4. A definition of done. The exact checks each PR must show before it can be marked ready.
 
-The brief also says what the agents may decide alone. The evening run's said: decide, record the decision in the PR body, keep going. That one line removes most of the waiting.
+The brief also says what the agents may decide alone. The evening run's said: decide, record the decision in the PR body, keep going.
+
+I haven't measured it, but my guess is that one line removes most of the waiting.
 
 ## Review stays serial, so make it small
 
-Generation parallelizes. Review does not. I am one senior reviewer, and eight PRs landing at once is eight reviews. If each PR shows up raw, parallel agents just move the queue from writing to reading. I covered that in [30 PRs in under three days](/blog/30-prs-in-2-5-days): the bottleneck moves, it does not disappear.
+Generation runs in parallel and review does not. I am one senior reviewer, and eight PRs landing at once is eight reviews.
+
+If each PR shows up raw, parallel agents just move the queue from writing to reading. I covered that in [30 PRs in under three days](/blog/30-prs-in-2-5-days): the bottleneck moves to review.
 
 So no PR reaches me until it has cleared the same checklist:
 
@@ -94,3 +104,5 @@ You do not need eight agents. Start with two:
 4. Review both PRs as evidence, then merge.
 
 When two runs without you answering questions, try four.
+
+If you want your team running this workflow, the team workshop teaches it.
