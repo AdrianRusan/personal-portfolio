@@ -24,7 +24,7 @@ Claude Code deletes its own transcripts after 30 days. By the time someone asks 
 
 DORA's report on the ROI of AI-assisted development describes a J-curve: value dips before it rises, partly because of "the verification tax imposed by reviewing AI-generated code" ([InfoQ, 11 May 2026](https://www.infoq.com/news/2026/05/dora-roi-ai-assisted-dev-report/); [the report](https://dora.dev/ai/roi/report/)). For spend per developer, the [cost case study](/work/agent-cost-per-commit) puts mine next to Anthropic's and Gartner's figures.
 
-So the ROI question usually arrives a few months in, as a budget line, when the early data has already expired.
+If value dips first, nobody asks for ROI in week one. In my experience the question arrives a few months in, as a budget line, when the early data has already expired.
 
 ## The method: two sides, one unit
 
@@ -76,7 +76,7 @@ GitHub search also stops at 1,000 results, and a busy organization merges more t
 
 **Denominator.** Agents that commit every working step produce far more commits than a person, so cost per commit moves with commit habits. Claude Code's own counter `claude_code.pull_request.count` counts PRs created, not merged. Take merged PRs from GitHub.
 
-**Price.** Every dollar figure in Claude Code, `/usage` and OpenTelemetry included, is an estimate at list price unless an admin sets the `modelPricing` managed setting (Claude Code 2.1.242 or later). List prices differ by model: my ledger prices at Opus 5 rates, and the Opus 5.5 rates most of my sessions used would make the same tokens half to two thirds of the dollars. Even the built-in figure moves: Claude Code 2.1.296, released 9 Oct 2026, corrected `/cost` to price Sonnet 5.5 cache reads at $0.10 per million instead of $0.20 ([changelog](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)). And on a subscription, none of it is the invoice.
+**Price.** Every dollar figure in Claude Code, `/usage` and OpenTelemetry included, is an estimate at list price unless an admin sets the `modelPricing` managed setting (Claude Code 2.1.242 or later). List prices differ by model: Opus 5.5 lists cache reads at $0.20 per million and Opus 5 at $0.50 ([Anthropic pricing](https://platform.claude.com/docs/en/about-claude/pricing)), so a ledger priced at the wrong model can be off by 2.5x on cache reads alone. Even the built-in figure moves: Claude Code 2.1.296, released 9 Oct 2026, corrected `/cost` to price Sonnet 5.5 cache reads at $0.10 per million instead of $0.20 ([changelog](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)). And on a subscription, none of it is the invoice.
 
 **Avoid it:** state the price table next to every chart, and keep one table for the whole series.
 
@@ -86,10 +86,9 @@ ROI needs the hours the same work would have taken without agents, and nobody do
 
 | Input | Value | Kind |
 |---|---|---|
-| Cost per merged PR, September | $49 | measured tokens at Opus 5 list price |
+| Cost per merged PR | $49 | my September figure at Opus 5 list price, from the [cost case study](/work/agent-cost-per-commit) |
 | Engineer cost per hour | $100 | **illustrative, use your own** |
-| Cost per merged PR at Opus 5.5 rates | $25–32 | my arithmetic |
-| Break-even: time saved minus your review time, per merged PR | 30 minutes (15–20 at Opus 5.5 rates) | arithmetic |
+| Break-even: time saved minus your review time, per merged PR | 30 minutes | arithmetic |
 
 At those inputs a merged PR pays for its tokens if the time it saved, minus the time someone spent reviewing it, is at least half an hour. Review time is the term people leave out: my agent PRs merged a median 44 minutes after opening, and part of that was me reading the diff. The hours saved per PR is the estimate in this table, so I label it every time and defend the measured rows.
 
@@ -101,4 +100,4 @@ At those inputs a merged PR pays for its tokens if the time it saved, minus the 
 4. **Write the method down** with the date of every change to it.
 5. **Put review wait next to cost.** A cheap PR that waits 16 hours for review hasn't paid for itself yet.
 
-After four weeks you'll have the first trend you can show someone. Mine showed a 42% rise in cost per merged PR from September to early October, in weeks that felt normal.
+After four weeks you'll have the first trend you can show someone. Mine, and what it caught, are in [the cost case study](/work/agent-cost-per-commit).

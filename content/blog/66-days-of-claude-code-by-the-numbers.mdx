@@ -127,13 +127,9 @@ So 22.5% of spawned subagents were code reviewers, and 30% counting the copy and
 
 The 3,599 subagent sessions in the table come from transcript files, a different source from these 1,119 Agent calls, so the two numbers don't match.
 
-## 4,920 commits, 928 PR attempts
+## 1.4 test runs per commit
 
-Across all sessions (headless included), agents ran `git commit` 4,920 times and `git push` 4,158 times. That is the "commit after every working step" rule from my [rules file](/blog/the-rules-file-my-agents-follow) showing up in the data. A small commit is a recovery point: when an agent goes wrong, I roll back one step.
-
-`gh pr create` ran 928 times in the same 1,129 sessions, so fewer than one PR attempt per session. Some calls were retries and not every PR merged, so 928 is an upper bound on PRs opened.
-
-Testing kept pace: 6,981 test runs and 2,835 typecheck runs, about 1.4 test runs per commit, both counted across all sessions. The agents check their work more often than they save it.
+Across all sessions, agents ran `git commit` 4,920 times and test suites 6,981 times, about 1.4 test runs per commit, plus 2,835 typecheck runs. The agents check their work more often than they save it. `gh pr create` ran 928 times, an upper bound on PRs opened, since some calls were retries. The commit-every-step rule behind those numbers is in [my rules file](/blog/the-rules-file-my-agents-follow).
 
 ## 37 usage-limit episodes
 
@@ -141,12 +137,4 @@ The script found 37 distinct episodes where a session hit a usage limit, counted
 
 ## What the numbers don't show
 
-4,920 commits say nothing about whether the code was good. What makes the volume safe is what a script can't count well: the gates each PR clears before I see it, and the review I do after. The [honesty gate](/work/honesty-gate) is one of those gates, written up.
-
-## Five habits behind these counts
-
-1. **Write the brief, keep the prompt short.** A 10-word median prompt works because the brief, rules and skills carry the detail.
-2. **One worktree per agent.** 454 worktrees in 66 days, with a peak of 18 sessions at once.
-3. **Review with fresh agents.** 1 in 5 subagents was a code reviewer.
-4. **Commit every working step.** 4,920 commits, so a rollback costs one step.
-5. **Shrink what loads on every turn, and watch cache rebuilds.** Reads were 97.7% of tokens and about half the dollars; writes were 2.1% of tokens and 42% of the dollars.
+4,920 commits say nothing about whether the code was good. What makes the volume safe is what a script can't count well: the review each PR gets before it merges, and [what I look for in it](/blog/what-agents-get-wrong). What these tokens cost per merged PR is in [the cost case study](/work/agent-cost-per-commit).

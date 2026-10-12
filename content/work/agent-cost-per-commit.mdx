@@ -18,11 +18,9 @@ My agent cost per merged PR fell from $73 to $32 between July and August, the mo
 
 ## How I count
 
-1. **Source.** A private ledger reads my Claude Code transcripts every night and records, per day, tokens and their list-price cost, the commits in my repos and the PRs merged under my GitHub accounts. It covers all my Claude Code accounts. Figures here are totals, never per client.
-2. **Price.** Every token is priced at Opus 5 list rates: $5 per million input, $25 output, $0.50 cache reads, $6.25–$10 cache writes. Most of my sessions ran on Opus 5.5, which lists at $4, $20 and $0.20 ([Anthropic pricing, fetched 12 Oct 2026](https://platform.claude.com/docs/en/about-claude/pricing)). With a quarter of my messages on Opus 5 and most of the rest on Opus 5.5, the same work comes to half to two thirds of the ledger's dollars, by my arithmetic. Moving work to a cheaper model doesn't show up in the ledger at all. Only fewer tokens do.
-3. **Not an invoice.** These sessions ran on Claude subscriptions with a flat fee. The dollars measure compute used.
-4. **Two methods.** Until September the ledger priced every transcript entry, which counts each API response about twice (2.04x on a 30-day re-scan). It also read only two of my four Claude Code accounts. From 11 September it counts each response once, across all accounts. July and August compare with each other, and September and October compare with each other. Never across.
-5. **Per merged PR first.** A merged PR is tied to a GitHub account and someone reviewed it. Agent commits are fine-grained checkpoints, so cost per commit moves with commit habits as much as with cost.
+1. **Ledger.** A nightly script records tokens, commits and merged PRs per day across all my Claude Code accounts, totals only. Tokens are priced at Opus 5 list rates ([Anthropic pricing, fetched 12 Oct 2026](https://platform.claude.com/docs/en/about-claude/pricing)); most sessions ran on the cheaper Opus 5.5, so the real list cost is half to two thirds of these dollars, by my arithmetic. It isn't my invoice: the sessions ran on flat-fee Claude subscriptions.
+2. **A counting change on 11 September.** Before it, the ledger counted each API response about twice and read two of my four accounts. Compare July with August and September with October, never across.
+3. **Per merged PR first.** A merged PR passed review; agent commits are checkpoints, so cost per commit moves with commit habits.
 
 ## What changed between July and August
 
@@ -58,7 +56,7 @@ I matched the weekly cost against the commit history of my Claude Code config.
 
 **Less text injected into every turn (10 August).** A hook added a reminder to every message I sent, and nothing showed it saved anything, so I turned it off. The same change parked ten skills for stacks I wasn't using, because every installed skill adds its description to what each session loads.
 
-**Shorter instructions (23 August).** An audit of my own setup cut `CLAUDE.md` and the rule files from 9,976 words to 4,106. Sessions load them at the start, and the model rereads them from the cache on every turn.
+**Shorter instructions (23 August).** An audit of my own setup cut `CLAUDE.md` and the rule files from 9,976 words to 4,106 (`wc -w` at the config commits before and after: the rules went from 8,803 words to 2,933, and `CLAUDE.md` stayed at 1,173). Sessions load them at the start, and the model rereads them from the cache on every turn.
 
 Full months, same method:
 
