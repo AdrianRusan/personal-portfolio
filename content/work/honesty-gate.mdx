@@ -14,7 +14,7 @@ meta: "2026 · Client work (NDA) · Role: reviewer, author of the gates"
 
 A landing page built by agents was about to launch with a count labelled "real number, from delivered orders". The true count was 0, and nobody had decided to lie.
 
-**Short answer:** Agents carried a number from a design comp into a "real number" line, and it looked plausible enough to ship. The fix gives every fact a provenance, makes every string on the rendered page trace back to one, and blocks the publish when a string can't, or when the check itself can't run. Wiring the gate in matters as much as writing it: an earlier pipeline exported ten gate functions, and its publish path called two.
+**Short answer:** Agents carried a number from a design comp into a "real number" line, and it looked plausible enough to ship. The fix gives every fact a provenance, makes every string on the rendered page trace back to one, and blocks the publish when a string can't, or when the check itself can't run. Wiring the gate in matters as much as writing it. The earlier pipeline exported ten gate functions, and two of them could stop a publish.
 
 ## How the invented numbers got in
 
@@ -24,7 +24,7 @@ The context is a client's agent-built SaaS (under NDA) that generates demo sites
 
 - **The launch count.** A hardcoded count of businesses that had "launched with us this month", two or three per industry, under a "real number, from delivered orders" label. It ran once for each of five industries. The true count was 0.
 - **The showcase strip.** A row of sites "made by us" linked three domains. Two of them didn't resolve.
-- **The demo fixtures.** The data that seeds a demo shipped testimonials, a 4.9 rating and "127 reviews" across five business types, with nothing marking them as examples.
+- **The demo fixtures.** As of 28 July 2026, the data that seeds a demo shipped testimonials, a 4.9 rating and "127 reviews" across five business types, with nothing marking them as examples.
 - **The fan-out.** One invented positioning field reached five places in the output: two SEO descriptions, two social descriptions and the structured data.
 
 Each one needed only an agent doing what it was asked with the data it was given.
@@ -37,9 +37,9 @@ Three reasons, two from this run and one from the pipeline before it.
 
 **A digit regex is easy to defeat.** "Over two hundred happy clients" has no digit to match, and it is exactly as invented as "200+ clients".
 
-**An exported gate stops nothing until the publish path calls it.** An earlier pipeline exported ten gate functions. Two were wired to anything that could stop a publish. The other eight were tested, exported and never called.
+**An exported gate stops nothing until the publish path calls it.** When I designed the new gates on 28 July 2026, I grepped every non-test caller in the earlier pipeline. It exported ten gate functions, and two of them could stop a publish. The other eight were tested, exported and never called.
 
-A prompt rule fails for the same reason a code comment fails: nothing runs it. The agent that wrote "real number" had no way to know the number wasn't real.
+A prompt rule has no exit code, so nothing stops a publish when the rule is broken. The agent that wrote "real number" had no way to know the number wasn't real.
 
 ## What I built
 
@@ -103,7 +103,7 @@ The landing page got the same rule on 22 July 2026. The count now comes from rea
 
 ## The result
 
-**0.** That was the true value of the "real number" on launch day, so the line didn't render. The showcase strip now lists only sites that really went live, which at launch was none, so it was hidden too.
+On launch day the true count was 0, so the line didn't render. The showcase strip now lists only sites that really went live, which at launch was none, so it was hidden too.
 
 ## The same rule on a repo you can check
 
@@ -117,8 +117,6 @@ Those two check that a number has a source. Like the client gates, they can't ch
 ## What the gates don't catch
 
 **They check where a claim came from.** If the owner types "500 happy clients", that fact has owner provenance and it publishes. The gate guarantees that every claim on the page came from someone accountable for it. It can't tell you whether that person was right.
-
-**I have no first-run count I can publish.** I can't tell you how many strings failed the trace the first time it ran. The client approved this study's text, and new numbers from their repo would need a new approval.
 
 ## Why this matters more since 2 August 2026
 
