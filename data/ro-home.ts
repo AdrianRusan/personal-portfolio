@@ -187,12 +187,13 @@ export const roCaseStudyCards: CaseStudyCardsCopy = {
     "Own project": "Proiect propriu",
     "Client work (NDA)": "Proiect pentru client (NDA)",
     "Own setup": "Setup propriu",
-    "1,400": "1.400",
     // The caseStudyResults labels (data/work.ts).
     "shell-injection paths from request input, caught in review before merge":
       "căi de shell injection din input-ul cererilor, prinse în review înainte de merge",
-    "strings per page traced to a source before anything publishes":
-      "de texte pe pagină, legate de o sursă înainte de publicare",
+    'the true count behind a landing-page line labelled "real number". The gate keeps lines like it off the page.':
+      "e numărul adevărat din spatele unui rând de pe un landing page etichetat „număr real”. Gate-ul ține astfel de rânduri departe de pagină.",
+    "reviewed PRs merged in 100 minutes, each through a review gate first":
+      "PR-uri revizuite, cu merge în 100 de minute, fiecare trecut întâi printr-un gate de review",
     "lower cost per commit in one month, then it crept back":
       "cost pe commit mai mic într-o lună, apoi a crescut din nou",
   },
