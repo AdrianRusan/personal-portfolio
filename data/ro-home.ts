@@ -140,7 +140,7 @@ export const roPostTitles: PostTitles = {
     title:
       "Nouă PR-uri revizuite într-o după-amiază: echipa de agenți care a refăcut acest site",
     description:
-      "Un orchestrator, nouă agenți Claude Code în worktree-uri paralele, nouă PR-uri cu merge în 100 de minute. Fiecare a trecut întâi printr-un gate de review.",
+      "Nouă agenți Claude Code în worktree-uri git paralele, nouă PR-uri cu merge în 100 de minute, fiecare verificat înainte de review. Plus scurtătura pe care am acceptat-o oricum.",
   },
   "agent-cost-per-commit": {
     title: "De ce măsor acum costul agenților în fiecare săptămână",
