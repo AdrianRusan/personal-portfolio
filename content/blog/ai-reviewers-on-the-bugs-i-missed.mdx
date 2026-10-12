@@ -10,7 +10,7 @@ cta: "reviewed-pr"
 forYou: "You're deciding whether an AI reviewer can replace a human review of agent-written code, or what it changes about one."
 faq:
   - q: "Can AI code review catch security bugs a human reviewer missed?"
-    a: "In my test, yes. On 8 agent-written commits I had reviewed by hand in March, Claude Code's /code-review and a three-agent panel flagged the shell injections I had approved, two stored XSS sinks I never saw and a crashing tab. The panel flagged all 5 security bugs my review let through; /code-review flagged 4. All of them are still in that repo."
+    a: "In my test, yes. On 8 agent-written commits I had reviewed by hand in March, Claude Code's /code-review and a three-agent panel flagged the shell injections I had approved, two stored XSS sinks I never saw and a crashing tab. The panel flagged all 5 security bugs my review let through; /code-review flagged 4. As of 12 October 2026 all of them were still in that repo."
   - q: "What did the AI reviewers miss?"
     a: "/code-review reports 10 findings at medium effort. On one commit it left a shell call built from a stored repo name out of its 10 and called it low risk because the value came from seeded data. The panel's security reviewer flagged the same call as a warning and approved the commit. That is the reasoning that made me miss a shell call built from database values."
   - q: "Should an AI reviewer replace human code review?"
