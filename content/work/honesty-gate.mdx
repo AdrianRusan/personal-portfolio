@@ -93,7 +93,7 @@ Every fact about a business carries provenance: the owner typed it, it came from
 Two gates then read the final rendered page:
 
 1. **The trace gate** walks every string and requires each to map back to a fact, a catalog constant or a marked slot. An unmapped string means a render path skipped the provenance helper, so the gate blocks.
-2. **The proof scan** trusts nothing, including the trace. Any count, rating or urgency phrase needs a backing fact. It also reads counts spelled out in words, from a 64-entry number-word lexicon.
+2. **The proof scan** trusts nothing, including the trace. Any count, rating or urgency phrase needs a backing fact. It also reads counts spelled out in words.
 
 The seeded fixtures got a denylist generated from the fixtures themselves. CI regenerates it and fails the build if it drifts from the committed copy, so nobody has to remember to update it. Ratings markup is emitted only from verified reviews.
 
@@ -104,8 +104,6 @@ The landing page got the same rule on 22 July 2026. The count now comes from rea
 ## The result
 
 **0.** That was the true value of the "real number" on launch day, so the line didn't render. The showcase strip now lists only sites that really went live, which at launch was none, so it was hidden too.
-
-The spec budgets the trace gate at about 1,400 strings in 90 milliseconds per page, and the proof scan at 40 milliseconds. Those are design budgets, and I haven't published a timing measured on the built gates.
 
 ## The same rule on a repo you can check
 
