@@ -126,14 +126,14 @@ export const roPostTitles: PostTitles = {
       "Propriul meu dashboard de administrare, martie 2026: agenții au deschis 31 de PR-uri în mai puțin de trei zile și am făcut merge la 30 după review, fără teste și fără CI. Review-ul a prins 3 căi de shell injection și a ratat una.",
   },
   "honesty-gate": {
-    title: "Honesty gate: cum opresc faptele inventate în site‑urile construite de agenți",
+    title: "Honesty gate: cum opresc agenții să publice fapte inventate",
     description:
-      "Un landing page prezenta ca real un număr de lansări. Numărul real era 0. Iată gate-ul care acum leagă fiecare text afișat de o sursă.",
+      "Un landing page construit de agenți prezenta un număr de lansări drept „număr real”. Numărul real era 0. Soluția: fiecare text afișat trebuie să-și dovedească sursa.",
   },
   "nine-prs-one-afternoon": {
     title: "Nouă PR-uri revizuite într-o după-amiază: echipa de agenți care a refăcut acest site",
     description:
-      "Un orchestrator, nouă agenți Claude Code în worktree-uri paralele, nouă PR-uri cu merge în 100 de minute. Fiecare a trecut întâi printr-un gate de review.",
+      "9 PR-uri cu merge în 100 de minute, o scurtătură ratată. Nouă agenți Claude Code în worktree-uri git paralele, fiecare PR trecut întâi prin typecheck, lint, build și teste.",
   },
   "agent-cost-per-commit": {
     title: "De ce măsor acum costul agenților în fiecare săptămână",
@@ -202,8 +202,8 @@ export const roCaseStudyCards: CaseStudyCardsCopy = {
       "căi de shell injection din input-ul cererilor, prinse în review înainte de merge",
     'the true count behind a landing-page line labelled "real number". The gate keeps lines like it off the page.':
       "e numărul adevărat din spatele unui rând de pe un landing page etichetat „număr real”. Gate-ul ține astfel de rânduri departe de pagină.",
-    "reviewed PRs merged in 100 minutes, each through a review gate first":
-      "PR-uri revizuite, cu merge în 100 de minute, fiecare trecut întâi printr-un gate de review",
+    "reviewed PRs merged in 100 minutes, each through typecheck, lint, build and tests first":
+      "PR-uri revizuite, cu merge în 100 de minute, fiecare trecut întâi prin typecheck, lint, build și teste",
     "lower cost per commit in one month, then it crept back":
       "cost pe commit mai mic într-o lună, apoi a crescut din nou",
   },
