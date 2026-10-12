@@ -94,7 +94,7 @@ The regex is an allowlist: it keeps letters, digits, spaces, dots, underscores a
 
 It does keep hyphens, so a query like `--files` still reached `rg` as an option. That lists file names instead of running a command, but it is the same mistake one level down.
 
-Fair: as written, it held. I still treated it as a finding. The only thing between the request and the shell was one regex, and the next edit to it, by an agent or a person, reopens the hole. The agent's commit message called it "shell-safe query sanitization", which is how a reviewer gets talked out of looking.
+As written, it held. I still treated it as a finding. The only thing between the request and the shell was one regex, and the next edit to it, by an agent or a person, reopens the hole. The agent's commit message called it "shell-safe query sanitization", which is how a reviewer gets talked out of looking.
 
 **The fix** is the same discipline as Vuln 1: pass the query as an argument that no shell parses, after a `--`. Then the filter stops being a security control and goes back to being input cleanup.
 
@@ -118,7 +118,7 @@ The reasoning I fell for: "these come from my own database, not from the request
 
 In each one the agent chose string interpolation into a shell, the shortest path to code that works. In each one the dangerous value came from somewhere the agent didn't treat as hostile: a URL, a query string, a database row.
 
-That's also why I don't accept "we have 90% test coverage" as a safety statement for agent-written code. Fair: coverage tells you which lines ran. It doesn't tell you which threats were considered, and a benign input runs the injection line just fine.
+That's also why I don't accept "we have 90% test coverage" as a safety statement for agent-written code. Coverage does tell you which lines ran. It doesn't tell you which threats were considered, and a benign input runs the injection line just fine.
 
 ## How I catch these on review
 
@@ -129,4 +129,4 @@ That's also why I don't accept "we have 90% test coverage" as a safety statement
 
 That's the verify half of ship/verify. The full list of failure categories I check is in [How to Review AI-Generated Code](/blog/what-agents-get-wrong), and the speed-up I measured is in [2–3x, Not 100x](/blog/2-3x-not-100x).
 
-If you want this grep-and-trace run on one of your own PRs, send it through the free teardown below.
+If you want this grep-and-trace run on one of your own PRs, send it through my free AI code teardown.
