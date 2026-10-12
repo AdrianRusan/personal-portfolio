@@ -36,7 +36,7 @@ The list comes from volume. On my own admin dashboard (March 2026, not client wo
 
 That repo had no test suite and no CI, so my adversarial review of every PR before merge was the only gate. At that volume, review turns into a sampling exercise: when you read that many diffs from the same class of author, the mistakes repeat, and they sort into categories.
 
-Fair: the agents are good. The code compiles, reads cleanly and goes green in CI. But that is what makes the failures dangerous. The defects sit between "the tests pass" and "the code is safe," and in a payment flow that gap is where a breach gets through.
+I'll grant that the agents are good. The code compiles, reads cleanly and goes green in CI. But that is what makes the failures dangerous. The defects sit between "the tests pass" and "the code is safe," and in a payment flow that gap is where a breach gets through.
 
 The six categories below are the ones I see repeatedly. Each section stands alone, so you can copy the one that matters into your own review checklist.
 
@@ -122,7 +122,7 @@ My bar is the rule of three: don't extract a shared abstraction until the same p
 
 You see `array.findLast()` in an environment that doesn't have it, a deprecated React lifecycle method, an SDK option that reads sensibly but isn't in the docs, or a config key that blends two real ones.
 
-Type checking and a real build catch most of these (I haven't counted the split), which makes them the *least* dangerous category here. The ones that survive type-check while being semantically wrong for your version.
+Type checking and a real build catch a good share of these (I haven't counted the split), which makes them the *least* dangerous category here. The dangerous ones type-check while being semantically wrong for your version.
 
 The fix is a pinned-version build and reading the dependency's actual source. Fluent-looking code is not evidence that an API exists.
 
@@ -136,4 +136,4 @@ If you're letting agents write production code, keep them: they earn the through
 
 *Related reading: [The shell-injection bugs my agents wrote, and the one I missed](/blog/catching-shell-injection-agents-wrote).*
 
-If you want those six checked on your own codebase, the audit below is how I do it.
+If you want those six checked on your own codebase, the AI Audit is how I do it.
