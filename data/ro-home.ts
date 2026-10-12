@@ -59,9 +59,9 @@ export const roProofBand: ProofBandCopy = {
       figure: "3",
       label: "căi de shell injection din input-ul cererilor, prinse în review înainte de merge",
     },
-    { figure: "1", label: "ratată, iar studiul de caz arată care anume" },
+    { figure: "2M+", label: "spectatori simultan la transmisiunile PGL Major pentru care am făcut grafica live" },
   ],
-  note: "Toate cele trei cifre vin dintr-o singură rulare documentată, pe propriul meu panou de administrare, în martie 2026.",
+  note: "30 și 3 vin dintr-o singură rulare documentată pe propriul meu panou de administrare, în martie 2026. Studiul de caz listează tot ce a prins review-ul și tot ce a scăpat.",
 };
 
 // Keyed by tag so a reordered or added EN step can't pick up the wrong copy.
