@@ -161,10 +161,11 @@ export const roPostTitles: PostTitles = {
       "Zece audituri ale propriului meu setup Claude Code, rulate de agenți. Majoritatea skill-urilor nu porneau niciodată, regulile explicau cum să gândești, iar metricile erau greșite. Iată ce s-a schimbat.",
   },
   "reviewer-agents-that-dont-trust-other-agents": {
-    title: "Agenți de review care nu au încredere în alți agenți",
+    title: "Code review cu mai mulți agenți în Claude Code: ce au blocat agenții mei de review pe 85 de PR-uri",
     description:
-      "Agenți de review construiți pe neîncredere: un panel cu trei roluri în care câștigă verdictul cel mai strict, o buclă care triază comentariile boților și agenți care încearcă să infirme fiecare constatare dintr-un audit.",
+      "Panelul meu de review din Claude Code a dat un verdict pe 85 de PR-uri din 3 repo-uri proprii. 47 au trecut din prima, 28 au fost trimise înapoi, iar 16 din 20 de BLOCK-uri verificate au dus la o corectură. Designul, cifrele și unde se oprește.",
   },
+
   "claude-code-fail-closed-hooks": {
     title: "Claude Code are acum hook-uri care refuză la eroare. De ce le-am construit pe ale mele înainte",
     description:
