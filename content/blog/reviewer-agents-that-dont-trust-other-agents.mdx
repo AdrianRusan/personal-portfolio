@@ -1,54 +1,59 @@
 ---
-title: "Multi-Agent Code Review in Claude Code: What My Reviewer Agents Blocked on 85 PRs"
-seoTitle: "Multi-Agent Code Review With Claude Code Subagents: 85 PRs"
+title: "Multi-Agent Code Review Needs a Paper Trail: 85 PRs, 5 Auditable Verdicts"
+seoTitle: "Multi-Agent Code Review in Claude Code: What 85 PRs Show"
 date: "2026-10-31"
 tags: ["claude-code", "code-review", "ai", "agent-harness", "security"]
-description: "My Claude Code reviewer panel left a verdict on 85 PRs across 3 of my repos. 47 passed first time, 28 were sent back, and 16 of 20 sampled BLOCKs led to a fix. The design, the numbers, and where it stops."
+description: "My reviewer agents left a verdict on 85 PRs between May and July 2026. Only 5 of those verdicts can be audited from GitHub, and 3 BLOCKs merged unfixed. The panel design, the counts, and the record a reviewer agent should leave."
 published: true
 language: "en"
 cta: "reviewed-pr"
 faq:
-  - q: "Can an AI agent review code another agent wrote?"
-    a: "Yes, if it starts with a fresh context and one job. On 85 of my PRs, reviewer agents sent 28 back with a REQUEST_CHANGES or BLOCK, and in a sample of 20 BLOCKs, 16 led to a fix before merge. 11 of the 20 were security findings. It doesn't replace a human review: I still read every PR before it merges."
   - q: "What is multi-agent code review in Claude Code?"
     a: "Several subagents review the same diff in parallel, each with its own focus such as correctness, security or completeness, and their findings are merged. In my setup the strictest verdict wins: one BLOCK from any reviewer sends the PR back, and approval needs all three."
-  - q: "Why not just use Claude Code Review?"
-    a: "Claude Code Review is Anthropic's managed multi-agent PR reviewer. Its docs put a review at $15 to $25 on average, it's a research preview for Team and Enterprise plans, and its findings don't approve or block a PR. My panel runs locally as three subagents and does block. Either can run before a human review. Neither replaces one."
+  - q: "Do AI reviewer agents catch real problems?"
+    a: "In my records, yes. Of 20 BLOCK findings sampled from 85 PRs, 11 were security findings, 11 led to a fix named in the next commit and 5 more were probably fixed. 3 were deferred and the PR merged without the fix. The weak part was the record: only 5 of the 85 verdicts were posted on GitHub by the full panel."
+  - q: "Why should a reviewer agent post its verdict on the PR?"
+    a: "Because a verdict that stays in a session transcript, or that the authoring agent summarises in one line, can't be checked later. On 85 of my PRs, 39 verdicts exist only as the author agent's summary. Post the verdict with its findings on the PR, every cycle."
   - q: "Do reviewer agents share the author's blind spots?"
-    a: "They can. Every reviewer in my panel is a Claude model, and so are the agents that write the code. I use different models per role and a human last, which narrows the gap without closing it."
+    a: "They can. Every reviewer in my panel is a Claude model, and so are most of the agents that write the code. I use a different model on the security role and read every PR myself after the panel, which narrows the gap without closing it."
 ---
 
-**Short answer:** Between May and July 2026 my Claude Code reviewer panel left a recorded verdict on 85 pull requests across 3 of my own repos. 47 passed first time, 28 were sent back with a REQUEST_CHANGES or a BLOCK, and none stalled at the three-cycle cap. In a sample of 20 BLOCK findings, 11 were security issues and 16 led to a fix before merge. The panel is three fresh subagents and one rule, the strictest verdict wins, and I still read every PR after it.
+**Short answer:** Between 9 May and 10 July 2026 my reviewer agents left a verdict on 85 pull requests in 3 of my GitHub repos. Only 5 of those verdicts are the reviewer panel's own comment on the PR, with its findings counted. 41 came from one agent writing all three reviews, and 39 exist only as a one-line summary the authoring agent wrote in the PR body. Where the record is good, the reviewers did real work: of 20 BLOCK findings sampled, 11 were security issues and 16 were fixed or probably fixed before merge. 3 BLOCKs merged unfixed. A reviewer agent's verdict belongs on the PR, every cycle, or it can't be audited.
 
-This post is the panel: how it works, what it blocked and where it falls short. What I check by hand after it is in [How to Review AI-Generated Code](/blog/what-agents-get-wrong).
+This post is the agent half of how I review. What I check by hand after it is in [How to Review AI-Generated Code](/blog/what-agents-get-wrong).
 
-## Why a fresh reviewer
+## The panel
 
-The agent that wrote a diff reads it with the same assumptions it wrote it with. A reviewer subagent starts with none of them: it gets the diff, the ticket and one job, and reads the code the way a stranger would.
+Three reviewer subagents read the same diff in parallel, each starting with a fresh context, the ticket and one job:
 
-The panel uses three of them, each on its own model:
-
-| Reviewer | Model | What it checks |
+| Reviewer | What it checks | Model since 7 Oct 2026 |
 | --- | --- | --- |
-| Correctness | Claude Sonnet 5.5 | Code paths, types, API usage, edge cases |
-| Security | Claude Opus 5.5 | Injection, secrets, auth, data exposure, gates that fail open |
-| Completeness | Claude Sonnet 5.5 | The ticket is met, error handling, tests, docs, scope creep |
+| Correctness | Code paths, types, API usage, edge cases | Claude Sonnet 5.5 |
+| Security | Injection, secrets, auth, data exposure, gates that fail open | Claude Opus 5.5 |
+| Completeness | The ticket is met, error handling, tests, docs, scope creep | Claude Sonnet 5.5 |
 
-## How the panel decides
+The models were pinned on 7 October 2026. The May to July reviews below ran on the earlier defaults.
 
-1. All three start at once, each with a clean context and only its own focus.
-2. Each returns findings graded BLOCK, WARN or NIT.
-3. Duplicates on the same file, line and category collapse into one, and the higher severity wins.
-4. One BLOCK from any reviewer sends the PR back. Approval needs all three.
-5. After a fix the panel runs again, up to three cycles. If it still hasn't approved after three, it stops and posts the verdict as unresolved, with the findings that survived.
+The rules:
 
-The rule I care most about is step 5. A review that times out must never read as approval, because a silent stall looks like a pass to anyone who wasn't watching.
+1. Each reviewer grades its findings BLOCK, WARN or NIT.
+2. Duplicates on the same file, line and category collapse into one, and the higher severity wins.
+3. One BLOCK from any reviewer sends the PR back. Approval needs all three.
+4. After a fix the panel runs again, up to three cycles. If it still hasn't approved, it stops and reports the verdict as unresolved, with the findings that survived. A stall never reads as a pass.
 
-The security reviewer asks one question of every new gate: what happens when the check itself can't run? If a missing config, a failed subprocess or an empty allowlist lets the request through, that's a BLOCK.
+The security reviewer also asks one question of every new gate: what happens when the check itself can't run? A missing config, a failed subprocess or an empty allowlist that lets the request through is a BLOCK.
 
-## What it did on 85 PRs
+## What 85 PRs recorded
 
-An agent pulled every panel verdict posted on my own GitHub repos and counted them, and I spot-checked the counts against the PRs. The window is 9 May to 10 July 2026, 3 repos, no client code.
+An agent pulled every reviewer verdict on my GitHub repos with read-only `gh` queries and counted them. I re-ran two of its searches as a spot check, and the repos and dates matched. The verdicts come in three forms, and they can't be read as one population:
+
+| What was posted | PRs | What it shows |
+| --- | ---: | --- |
+| The panel's own comment (3 reviewers, or 4 in an older roster), with BLOCK/WARN/NIT counts | 5 | Every cycle and every count |
+| One agent writing correctness, security and completeness sections | 41 | A verdict per round, graded P0 to P3 |
+| A one-line summary by the agent that wrote the code | 39 | One outcome, often without the cycle count |
+
+Across all 85:
 
 | Outcome | PRs |
 | --- | ---: |
@@ -56,43 +61,40 @@ An agent pulled every panel verdict posted on my own GitHub repos and counted th
 | Sent back, then approved | 7 |
 | Sent back, findings marked addressed, no second verdict recorded | 20 |
 | Sent back, then closed unmerged | 1 |
-| Verdict not stated in the record | 10 |
+| No verdict stated, only that the review ran | 10 |
 | Stalled at the three-cycle cap | 0 |
 
-81 of the 85 merged. Across the explicit tallies there were 26 BLOCKs, at least 57 WARNs and at least 28 NITs. 15 more findings were recorded as "BLOCK/HIGH" with no split.
+81 of the 85 merged. No PR needed more than two cycles, so the stall rule never fired.
 
-Two caveats change how to read that table. First, 41 of the 85 verdicts came from an older version where one agent wrote all three sections; the full three-reviewer panel covers 44 PRs. Second, for 20 PRs the record says the findings were addressed and has no second verdict, so "sent back, then approved" is a lower bound.
+## What the BLOCKs were
 
-### What the BLOCKs were
+The counting agent sampled 20 BLOCK findings spread across the 3 repos and read the commits that followed each one:
 
-I sampled 20 BLOCKs across the 3 repos and checked what happened next:
-
-| | BLOCKs |
+| What happened next | BLOCKs |
 | --- | ---: |
-| Led to a fix before merge | 16 |
-| Deferred to a follow-up issue, merged without the fix | 3 |
-| Unclear from the record | 1 |
+| Fixed: the next commit names the finding and touches the flagged file | 11 |
+| Probably fixed: the next commit touches the flagged files, with a generic message | 5 |
+| Deferred to a follow-up issue, PR merged without the fix | 3 |
+| Unclear, because the fixes were squashed into one commit | 1 |
 
-11 of the 20 were security findings, and 10 of those were fixed before merge; the eleventh is the unclear one. 4 were correctness and 4 were missing tests. All 3 deferred BLOCKs were completeness findings, a dead library left in place.
+By category: 11 security, 4 correctness, 4 missing tests and 1 naming rule. Of the 11 security BLOCKs, 10 were fixed or probably fixed and 1 is unclear. All 3 deferred BLOCKs were completeness findings about a library that was added and never wired up.
 
-## Where it falls short
+## The record is the weak part
 
-**The cap never fired.** No PR went past two cycles in this window, so the rule I care most about wasn't tested by real work. It may never fire because the BLOCKs are fixable, or because a reviewer that re-reads its own earlier findings is inclined to accept the fix. I can't tell which from this data.
+**39 verdicts are the author grading its own homework.** When the agent that wrote the code also writes "panel: approved, 2 BLOCKs fixed" in the PR body, nothing on GitHub shows the panel ran, what it found or what changed. 10 of those 39 don't state a verdict at all.
 
-**The record is thin.** 10 PRs have no stated verdict, and 20 have "addressed" with no re-check. A panel whose verdict lives only in a session transcript can't be audited later, which is why it now posts its verdict on the PR.
+**20 PRs end at "addressed".** The panel sent them back, the findings were marked fixed, and no second verdict was recorded. Maybe the second pass approved. The record can't tell me.
 
-**Same family, same blind spots.** Every reviewer is a Claude model, and so are the agents that write the code. Addy Osmani warns that a loop of models from the same family has "broadly correlated blind spots" ([Agentic Code Review, 15 June 2026](https://addyosmani.com/blog/agentic-code-review/)), and he cites a 146-PR experiment where 93.4% of the locations four review tools flagged were flagged by exactly one tool. I put a different model on the security role, which may narrow that, and the human read after the panel is the rest of my answer. In October I also ran the panel blind on 8 old agent commits whose bugs I already knew. Its security reviewer approved two commits with a shell string in them, because the values came from config or seed data. That test gets its own post on 28 November.
+**My own panel only posts to the PR on a stall.** Writing this post, I reread the panel's instructions: it posts its summary as a PR comment only after three cycles without approval. The 5 well-recorded PRs are exceptions. The change the panel needs is to post its verdict and findings on the PR after every cycle, approvals included.
 
-## Where Claude Code Review fits
-
-Anthropic's [Claude Code Review](https://code.claude.com/docs/en/code-review) runs a fleet of agents on each GitHub PR, verifies candidate findings against the code and posts them inline. Its docs put the cost at $15 to $25 per review on average and about 20 minutes, it's a research preview on Team and Enterprise plans, and its check run "always completes with a neutral conclusion", so it never blocks a merge on its own. The local `/code-review` command runs a single review of a diff in your terminal on any plan.
-
-My panel differs in one way that matters to me: a BLOCK sends the PR back. If you're choosing, run one of them before every human review. The one that blocks is the one that changes what merges.
+Anthropic's managed [Claude Code Review](https://code.claude.com/docs/en/code-review) already works this way: findings go inline on the PR and into a check run that keeps a severity table. Its check run always completes neutral, so it records without blocking. My panel blocks without recording. A review setup worth trusting does both.
 
 ## How to set this up
 
 1. Add one fresh reviewer subagent per PR, with a clean context, the diff, the ticket and one focus. Start with security.
 2. Grade findings BLOCK, WARN or NIT, and let any BLOCK send the PR back.
 3. Cap the cycles and report a stall as unresolved, never as approved.
-4. Post the verdict on the PR, every cycle, so it can be counted later.
+4. Have the reviewer post every verdict on the PR itself, with its counts, so the authoring agent never summarises its own review.
 5. Put a different model on the security role than the one that wrote the code, and read the PR yourself after the panel approves.
+
+In October I also ran this panel blind on 8 old agent commits whose bugs I already knew. Its security reviewer approved two commits with a shell string in them, because the values came from config or seed data. That test is its own post, on 28 November.
