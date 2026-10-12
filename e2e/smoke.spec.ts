@@ -188,6 +188,16 @@ test('the nav is one row and clears the H1 at scroll 0', async ({ page }) => {
   }
 });
 
+// A4 F15: the home link is marked current on both homes (Vercel reports the
+// EN home as "/index"; lib/locale navPathname folds it back).
+for (const [path, name] of [['/', 'Home'], ['/ro', 'Acasă']]) {
+  test(`${path} marks ${name} as the current page`, async ({ page }) => {
+    await page.goto(path);
+    const nav = page.getByRole('navigation', { name: path === '/' ? 'Main' : 'Principal' });
+    await expect(nav.getByRole('link', { name, exact: true })).toHaveAttribute('aria-current', 'page');
+  });
+}
+
 test('the locale switch reads "RO", with no glyph, where no twin exists', async ({ page }) => {
   for (const path of ['/teardown', '/does-not-exist']) {
     await page.goto(path);

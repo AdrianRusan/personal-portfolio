@@ -7,7 +7,12 @@ import { cn } from "@/lib/utils";
 import { CALENDLY_URL } from "@/data";
 import { type NavItem, primaryNav, roPrimaryNav } from "@/data/nav";
 import { track } from "@/lib/analytics";
-import { hasTwin, localeOf, switchLocalePath } from "@/lib/locale";
+import {
+  hasTwin,
+  localeOf,
+  navPathname,
+  switchLocalePath,
+} from "@/lib/locale";
 
 const isCurrent = (link: string, pathname: string) =>
   link === pathname ||
@@ -27,7 +32,8 @@ export const FloatingNav = ({
   navItems?: NavItem[] | undefined;
   className?: string;
 }) => {
-  const pathname = usePathname();
+  // A4 F15: on Vercel the EN home reports "/index"; see navPathname.
+  const pathname = navPathname(usePathname());
   const isRo = localeOf(pathname) === "ro";
   const twin = hasTwin(pathname);
   const items = navItems ?? (isRo ? roPrimaryNav : primaryNav);
