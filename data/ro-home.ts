@@ -161,9 +161,9 @@ export const roPostTitles: PostTitles = {
       "Zece audituri ale propriului meu setup Claude Code, rulate de agenți. Majoritatea skill-urilor nu porneau niciodată, regulile explicau cum să gândești, iar metricile erau greșite. Iată ce s-a schimbat.",
   },
   "reviewer-agents-that-dont-trust-other-agents": {
-    title: "Code review cu mai mulți agenți are nevoie de urme: 85 de PR-uri, 5 verdicte verificabile",
+    title: "Code review cu mai mulți agenți are nevoie de urme: 85 de PR-uri, 39 de verdicte neverificabile",
     description:
-      "Agenții mei de review au dat un verdict pe 85 de PR-uri între mai și iulie 2026. Doar 5 dintre verdicte pot fi verificate pe GitHub, iar 3 BLOCK-uri au intrat în merge fără corectură. Designul panelului, cifrele și ce urmă ar trebui să lase un agent de review.",
+      "Agenții mei de review au dat un verdict pe 85 de PR-uri între mai și iulie 2026. 39 dintre ele există doar ca rezumat de un rând scris de agentul care a scris codul, iar 3 BLOCK-uri au intrat în merge fără corectură. Designul panelului, cifrele și ce urmă ar trebui să lase un agent de review.",
   },
 
 

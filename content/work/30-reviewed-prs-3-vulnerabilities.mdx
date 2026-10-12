@@ -45,7 +45,7 @@ That is 2 days 19 hours from the first PR to the last merge. 31 PRs were opened,
 | #119 | A file path built from a route parameter with no containment (path traversal on read and write) | request (route) | `199d72c` → `e62ef29` |
 | #113 | A config path from an environment variable inside a shell string | operator config | `affddfd` → `b290d1c` |
 
-Of these, only #112 was directly exploitable as written. #98, in the next table, was too. #111 and #121 sat behind a regex that stripped every shell metacharacter, so they were one careless edit away from open. The code for all three is in [The Shell-Injection Bugs My Agents Wrote](/blog/catching-shell-injection-agents-wrote).
+#112 and the #119 traversal were directly exploitable as written, and so was #98 in the next table. #111 and #121 sat behind a regex that stripped every shell metacharacter, so they were one careless edit away from open. The code for all three is in [The Shell-Injection Bugs My Agents Wrote](/blog/catching-shell-injection-agents-wrote).
 
 ## What review missed
 
@@ -57,7 +57,7 @@ Of these, only #112 was directly exploitable as written. #98, in the next table,
 | #111 | Log lines rendered as raw HTML, nothing escaped (the search term is only regex-escaped): stored XSS | AI reviewers, 12 Oct |
 | #121 | Memory-file lines rendered the same way: stored XSS | AI reviewers, 12 Oct |
 
-All 5 are open: present at the repo's last commit, `30a6992` on 13 March 2026. The dashboard runs under PM2, and `middleware.ts` puts a bearer-token check in front of every API route when a token is configured, so reaching any of these needs that token. With no token configured the middleware lets every request through, which three of the AI reviewers flagged on their own.
+All 5 are open: present at the repo's last commit, `30a6992` on 13 March 2026. The repo describes itself as a local-only dashboard: SQLite and the local filesystem, run under PM2 on port 3333. Its `middleware.ts` checks a bearer token on every API route when one is configured and lets every request through when none is, which several of the AI reviewers flagged on their own. The token doesn't help against the XSS sinks, whose payload arrives through log and memory files. I haven't checked whether that port is reachable from outside the machine.
 
 The same audit found one functional bug review missed: the #109 diff tab reads `commit.sha`, but `gh` returns `oid`, so the tab throws on any PR with commits.
 

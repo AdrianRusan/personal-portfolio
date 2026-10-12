@@ -99,7 +99,7 @@ ghExec(cmd); // execSync(`gh ${cmd}`)
 
 ## What the seven have in common
 
-All 7 agents chose string interpolation into a shell, the shortest path to a command that works. Review caught the 4 where the value reached the shell straight from the request or config. The 3 it missed went through a shared helper, a database row or a rebase first.
+All 7 agents chose string interpolation into a shell, the shortest path to a command that works. Review caught the 4 where the value reached the shell straight from the request or config. The 3 it missed reached the shell through a wrapper function, a database row or a stored value whose check a rebase deleted.
 
 I also gave the original commits to AI reviewers in October. The results are a separate post on 28 November.
 

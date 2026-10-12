@@ -3,7 +3,7 @@ title: "I Gave My Missed Bugs to AI Reviewers: All 5 Flagged, 1 Waved Through"
 seoTitle: "AI Code Review vs Human Review: Blind Test on 8 Commits"
 date: "2026-11-28"
 tags: ["ai", "code-review", "security", "claude-code", "agent-harness"]
-description: "I ran /code-review and a three-agent panel, blind, on 8 agent commits I had reviewed by hand. They flagged every bug I missed and waved one through like I did."
+description: "I ran /code-review and a three-agent panel, blind, on 8 agent commits I'd reviewed. They flagged the 5 security bugs I missed and waved one through, as I did."
 published: true
 language: "en"
 cta: "reviewed-pr"
@@ -19,7 +19,7 @@ faq:
     a: "Claude Code Review, the managed GitHub service, averages $15 to $25 per review according to its docs, and it's in research preview for Team and Enterprise plans. I didn't run it. The local /code-review runs I did took about 58,000 tokens and 53 to 82 seconds per commit."
 ---
 
-**Short answer:** In March I reviewed 30 agent-written PRs by hand and let 2 shell injections through, #98 and #109. On 12 October I gave 8 of the original agent commits to Claude Code's built-in `/code-review` and to my own three-agent review panel, blind. Both flagged both injections, plus two stored XSS sinks and a crashing tab I had never seen. All of them are still in the repo. On a third shell call, #117, `/code-review` and the panel's security reviewer both rated the risk low because the value came from seed data, which is the reasoning that made me miss #109.
+**Short answer:** In March I reviewed 30 agent-written PRs by hand and let 2 shell injections through, #98 and #109. On 12 October I gave 8 of the original agent commits to Claude Code's built-in `/code-review` and to my own three-agent review panel, blind. Both flagged both injections and two stored XSS sinks I had never seen, plus a crashing tab. All of them are still in the repo. On a fifth security bug, a shell call in #117 that my review had only half-fixed, `/code-review` and the panel's security reviewer both rated the risk low because the value came from seed data, which is the reasoning that made me miss #109.
 
 The run is my own admin dashboard, and [the 30-PR case study](/work/30-reviewed-prs-3-vulnerabilities) has the full list of what my review caught and missed. This post is the test of whether a machine would have done better.
 
@@ -96,7 +96,7 @@ For scale: Claude Code Review's [docs](https://code.claude.com/docs/en/code-revi
 
 ## What I'd change in a review setup
 
-1. **Run the machine pass before the human one, on every agent PR.** In this test `/code-review` flagged all 5 bugs I had missed outright in those 8 commits, in about a minute per commit.
+1. **Run the machine pass before the human one, on every agent PR.** In this test the panel flagged all 5 security bugs my review let through, and `/code-review` flagged 4 of them plus the crash, in about a minute per commit.
 2. **Raise the finding cap on any diff that touches a shell, a file path or raw HTML.** The one bug `/code-review` dropped was below its cut-off.
 3. **Add the two rules above to `CLAUDE.md`,** so "the value comes from my own data" stops lowering the rating.
 4. **Keep a human who owns the merge.** The panel asked for changes on every commit, with 259 findings in total. Deciding which of them block a merge, and checking the "low risk" calls, is still the reviewer's job.

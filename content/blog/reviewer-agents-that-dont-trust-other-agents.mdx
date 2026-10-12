@@ -1,9 +1,9 @@
 ---
-title: "Multi-Agent Code Review Needs a Paper Trail: 85 PRs, 5 Auditable Verdicts"
+title: "Multi-Agent Code Review Needs a Paper Trail: 85 PRs, 39 Unverifiable Verdicts"
 seoTitle: "Multi-Agent Code Review in Claude Code: What 85 PRs Show"
 date: "2026-10-31"
 tags: ["claude-code", "code-review", "ai", "agent-harness", "security"]
-description: "My reviewer agents left verdicts on 85 PRs. Only 5 can be audited from GitHub, and 3 BLOCKs merged unfixed. The panel, the counts and the record to keep."
+description: "My reviewer agents left verdicts on 85 PRs. 39 exist only as the coding agent's one-line summary, and 3 BLOCKs merged unfixed. The panel and the record to keep."
 published: true
 language: "en"
 cta: "reviewed-pr"
@@ -18,7 +18,7 @@ faq:
     a: "They can. Every reviewer in my panel is a Claude model, and so are most of the agents that write the code. I use a different model on the security role and read every PR myself after the panel, which narrows the gap without closing it."
 ---
 
-**Short answer:** Between 9 May and 10 July 2026 my reviewer agents left a verdict on 85 pull requests in 3 of my GitHub repos. Only 5 of those verdicts are the reviewer panel's own comment on the PR, with its findings counted. 41 came from one agent writing all three reviews, and 39 exist only as a one-line summary the authoring agent wrote in the PR body. Where the record is good, the reviewers did real work: of 20 BLOCK findings sampled, 11 were security issues and 16 were fixed or probably fixed before merge. 3 BLOCKs merged unfixed. A reviewer agent's verdict belongs on the PR, every cycle, or it can't be audited.
+**Short answer:** Between 9 May and 10 July 2026 my reviewer agents left a verdict on 85 pull requests in 3 of my GitHub repos. Only 5 of those verdicts are the reviewer panel's own comment on the PR, with its findings counted. 41 came from one agent writing all three reviews, and 39 exist only as a one-line summary the authoring agent wrote in the PR body. The reviewers did real work: of 20 BLOCK findings sampled across all three formats, 11 were security issues and 16 were fixed or probably fixed before merge. 3 BLOCKs merged unfixed. A reviewer agent's verdict belongs on the PR, posted by the reviewer, every cycle, or nobody can check it later.
 
 This post is the agent half of how I review. What I check by hand after it is in [How to Review AI-Generated Code](/blog/what-agents-get-wrong).
 
@@ -68,7 +68,7 @@ Across all 85:
 
 ## What the BLOCKs were
 
-The counting agent sampled 20 BLOCK findings spread across the 3 repos and read the commits that followed each one:
+The counting agent picked 20 BLOCK findings spread across the 3 repos and all three formats, and read the commits that followed each one. It didn't pick them at random, so treat the split as a sample, not a rate:
 
 | What happened next | BLOCKs |
 | --- | ---: |
@@ -77,17 +77,17 @@ The counting agent sampled 20 BLOCK findings spread across the 3 repos and read 
 | Deferred to a follow-up issue, PR merged without the fix | 3 |
 | Unclear, because the fixes were squashed into one commit | 1 |
 
-By category: 11 security, 4 correctness, 4 missing tests and 1 naming rule. Of the 11 security BLOCKs, 10 were fixed or probably fixed and 1 is unclear. All 3 deferred BLOCKs were completeness findings about a library that was added and never wired up.
+By category: 11 security, 4 correctness, 4 completeness and 1 naming rule. Of the 11 security BLOCKs, 10 were fixed or probably fixed and 1 is unclear. The 3 deferred BLOCKs were completeness findings, all about a library that was added and never wired up.
 
 ## The record is the weak part
 
-**39 verdicts are the author grading its own homework.** When the agent that wrote the code also writes "panel: approved, 2 BLOCKs fixed" in the PR body, nothing on GitHub shows the panel ran, what it found or what changed. 10 of those 39 don't state a verdict at all.
+**39 verdicts are reported by the author, not the reviewer.** When the agent that wrote the code also writes the panel's outcome as one line of the PR body, nothing on GitHub shows the panel ran, what it found or what changed. 10 of those 39 don't state a verdict at all.
 
 **20 PRs end at "addressed".** The panel sent them back, the findings were marked fixed, and no second verdict was recorded. Maybe the second pass approved. The record can't tell me.
 
 **My own panel only posts to the PR on a stall.** Writing this post, I reread the panel's instructions: it posts its summary as a PR comment only after three cycles without approval. The 5 well-recorded PRs are exceptions. The change the panel needs is to post its verdict and findings on the PR after every cycle, approvals included.
 
-Anthropic's managed [Claude Code Review](https://code.claude.com/docs/en/code-review) already works this way: findings go inline on the PR and into a check run that keeps a severity table. Its check run always completes neutral, so it records without blocking. My panel blocks without recording. A review setup worth trusting does both.
+Anthropic's managed [Claude Code Review](https://code.claude.com/docs/en/code-review) already works this way: findings go inline on the PR and into a check run that keeps a severity table. Its check run always completes neutral, so a merge is gated only if your CI reads the result. My panel sends PRs back, and 39 of its 85 verdicts left nothing a reviewer could check later. The setup I'd trust posts every finding on the PR and lets a BLOCK stop the merge.
 
 ## How to set this up
 
