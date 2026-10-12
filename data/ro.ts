@@ -69,7 +69,7 @@ const ro: Record<
   "strategy-call": {
     name: "Sesiune de strategie AI",
     summary:
-      "O oră pe întrebarea ta despre AI, cu un rezumat scris.",
+      "O oră pe întrebarea ta despre AI, cu un rezumat scris în cel mult o zi lucrătoare.",
     prices: [{ amount: 110 }],
     duration: "1 oră",
     assurance: "Preț fix, plătit în avans.",
@@ -79,7 +79,7 @@ const ro: Record<
     name: "Audit AI",
     summary:
       "Îți verific codul scris de AI sau „vibe-coded”, fluxul LLM sau costurile cu tokenii: breșe de securitate, costul pe fiecare PR intrat în merge, folosirea cache-ului și rulările de agenți irosite. Primești un raport care îți spune ce repari întâi.",
-    prices: [{ amount: 500, from: true }],
+    prices: [{ amount: 850, from: true }],
     duration: "2–3 zile",
     assurance: "Prețul se stabilește înainte să încep.",
     ctas: [
@@ -95,8 +95,8 @@ const ro: Record<
     summary:
       "Claude Code, agenți în paralel, un fișier de reguli și review gates, lucrate practic. Echipa ta pleacă cu primul ei fișier de reguli și cu un setup cu un worktree pentru fiecare agent, pornit pe repo-ul vostru. Maximum 10 persoane.",
     prices: [
-      { amount: 1100, label: "jumătate de zi" },
-      { amount: 1900, label: "o zi întreagă" },
+      { amount: 1650, label: "jumătate de zi" },
+      { amount: 2750, label: "o zi întreagă" },
     ],
     duration: "3,5 ore / 8 ore",
     assurance:
