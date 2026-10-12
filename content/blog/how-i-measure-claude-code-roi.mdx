@@ -3,7 +3,7 @@ title: "How I Measure Claude Code ROI, and the 5 Traps That Broke My Numbers"
 seoTitle: "How to Measure Claude Code ROI: 5 Counting Traps"
 date: "2026-11-21"
 tags: ["claude-code", "ai", "llm-costs", "developer-productivity", "agent-harness"]
-description: "Claude Code deletes transcripts after 30 days, and the numbers left over break in five ways. The ledger method I use for cost per merged PR, and the traps it hit."
+description: "Claude Code deletes transcripts after 30 days, and what is left breaks in five ways. My ledger method for cost per merged PR, and the traps it hit."
 published: true
 language: "en"
 cta: "cost-audit"
@@ -22,9 +22,9 @@ Claude Code deletes its own transcripts after 30 days. By the time someone asks 
 
 ## Why measure now
 
-Two things changed in 2026. Gartner predicted in June that AI coding spend will pass the average developer's salary by 2028, and coverage of the same research reported nearly a quarter of tech leaders already spending $200–500 per developer per month on AI coding tokens ([DevOps.com, 30 Jun 2026](https://devops.com/ai-coding-costs-could-exceed-developer-salaries-gartner-warns/); Gartner's release returned an error when I fetched it). And DORA's report on the ROI of AI-assisted development describes a J-curve: value dips before it rises, partly because of "the verification tax imposed by reviewing AI-generated code" ([InfoQ, 11 May 2026](https://www.infoq.com/news/2026/05/dora-roi-ai-assisted-dev-report/); [the report](https://dora.dev/ai/roi/report/)).
+DORA's report on the ROI of AI-assisted development describes a J-curve: value dips before it rises, partly because of "the verification tax imposed by reviewing AI-generated code" ([InfoQ, 11 May 2026](https://www.infoq.com/news/2026/05/dora-roi-ai-assisted-dev-report/); [the report](https://dora.dev/ai/roi/report/)). Spend per developer is now a board-level number too; the [cost case study](/work/agent-cost-per-commit) puts mine next to Anthropic's and Gartner's figures.
 
-So the question reaches engineering leads as a budget line, often a few months in, when the early data has already expired.
+So the ROI question usually arrives a few months in, as a budget line, when the early data has already expired.
 
 ## The method: two sides, one unit
 
@@ -39,7 +39,7 @@ A merged PR is the unit because GitHub ties it to an account and someone reviewe
 
 ## Trap 1: the data deletes itself
 
-Claude Code removes session transcripts after `cleanupPeriodDays`, 30 by default, and `/insights` reports go with them ([Claude Code docs](https://code.claude.com/docs/en/costs)). My own count of 66 days of sessions starts on 6 August for exactly this reason: everything older had already been pruned. A pruned day can't be recovered from anywhere.
+Claude Code removes session transcripts after `cleanupPeriodDays`, 30 by default, and `/insights` reports go with them ([Claude Code docs](https://code.claude.com/docs/en/costs)). When I counted my own sessions in October, three of my four accounts still kept 30 days and one kept 60, so the earliest transcript left was from 6 August and August covered one account out of four. A pruned day can't be recovered from anywhere.
 
 **Avoid it:** raise the setting on every account before you start, and archive daily. I set 365 on three accounts. Or export the built-in OpenTelemetry metrics to a store you control:
 
@@ -76,13 +76,21 @@ GitHub search also stops at 1,000 results, and a busy organization merges more t
 
 **Denominator.** Agents that commit every working step produce far more commits than a person, so cost per commit moves with commit habits. Claude Code's own counter `claude_code.pull_request.count` counts PRs created, not merged. Take merged PRs from GitHub.
 
-**Price.** Every dollar figure in Claude Code, `/usage` and OpenTelemetry included, is an estimate at list price unless an admin sets the `modelPricing` managed setting (Claude Code 2.1.242 or later). List prices differ by model: my ledger prices at Opus 5 rates, and the Opus 5.5 rates most of my sessions used would make the same tokens about half the dollars. Even the built-in figure moves: Claude Code 2.1.296, released 9 Oct 2026, corrected `/cost` to price Sonnet 5.5 cache reads at $0.10 per million instead of $0.20 ([changelog](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)). And on a subscription, none of it is the invoice.
+**Price.** Every dollar figure in Claude Code, `/usage` and OpenTelemetry included, is an estimate at list price unless an admin sets the `modelPricing` managed setting (Claude Code 2.1.242 or later). List prices differ by model: my ledger prices at Opus 5 rates, and the Opus 5.5 rates most of my sessions used would make the same tokens half to two thirds of the dollars. Even the built-in figure moves: Claude Code 2.1.296, released 9 Oct 2026, corrected `/cost` to price Sonnet 5.5 cache reads at $0.10 per million instead of $0.20 ([changelog](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)). And on a subscription, none of it is the invoice.
 
 **Avoid it:** state the price table next to every chart, and keep one table for the whole series.
 
-## What I can't measure
+## The value side: a break-even, labelled
 
-The value side. ROI needs the hours the same work would have taken without agents, and nobody does the work twice. I estimate it per batch and label it as an estimate every time. The measured parts, cost per merged PR and review wait, are what I'd defend in front of a finance team.
+ROI needs the hours the same work would have taken without agents, and nobody does the work twice. So I state the break-even and let the reader put their own rate in:
+
+| Input | Value | Kind |
+|---|---|---|
+| Cost per merged PR, September | $49 | measured tokens at Opus 5 list price |
+| Engineer cost per hour | $100 | **illustrative, use your own** |
+| Break-even time saved per merged PR | 30 minutes | arithmetic |
+
+At those inputs a merged PR pays for its tokens if it saved half an hour of engineer time. Review time counts against it: my agent PRs merged a median 44 minutes after opening, and part of that was me reading the diff. The hours saved per PR is the estimate in this table, so I label it every time and defend the measured rows.
 
 ## Start this week
 

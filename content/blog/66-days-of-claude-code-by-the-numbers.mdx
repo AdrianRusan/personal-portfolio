@@ -9,8 +9,8 @@ published: true
 language: "en"
 cta: "harness"
 faq:
-  - q: "How long does Claude Code keep session transcripts?"
-    a: "30 days by default. Claude Code deletes transcripts, and the /insights reports built from them, after cleanupPeriodDays, which defaults to 30. To count more than a month of your own usage, raise that setting before the data you want ages out. A pruned day can't be recovered."
+  - q: "How long are prompts to Claude Code in practice?"
+    a: "Short, in my logs: across 10,511 prompts the median was 10 words and the mean 21. The long instructions sat in briefs, rules files and skills that the agent loads on every session, so the typed prompt was usually a correction, a slash command or 'continue'."
   - q: "What share of Claude Code tokens are cache reads?"
     a: "In my logs, 97.7% of about 45 billion tokens over 66 days were prompt-cache reads, because every turn rereads the rules, the code and the conversation. Priced at Opus 5.5 list rates, those reads were about half the dollars, and cache writes, only 2.1% of the tokens, were another third or more. A high hit rate says the cache works; the cost sits in context size and cache rebuilds."
 ---
@@ -21,9 +21,9 @@ I typed 10,511 prompts to Claude Code in 91 days, and the median was 10 words. T
 
 ## How I counted
 
-The transcripts on my machine start on 6 August 2026 because Claude Code deletes them after 30 days by default (`cleanupPeriodDays`). Everything older had already gone when I started counting. The prompt history keeps longer, back to 12 July, so prompt numbers cover 91 days, of which I typed on 76. Each number below says which window and which sessions it counts.
+The earliest surviving transcript is from 6 August 2026. Claude Code deletes transcripts after `cleanupPeriodDays`, 30 days by default, and when I ran the count one of my four accounts kept 60 days and the other three 30. So August and early September cover only that one account, and the session counts grow partly because the coverage does: 80 sessions in August, 279 in September, 770 in the first ten days of October (all sessions). The prompt history keeps longer, back to 12 July, so prompt numbers cover 91 days, of which I typed on 76. Each number below says which window and which sessions it counts.
 
-I wrote my own script instead of running `/insights`, for three reasons. `/insights` analyzes up to 200 sessions per run, and I had 1,129. Its reports are deleted on the same 30-day schedule as the transcripts. And I needed headless runs separated from the sessions I drove myself.
+I wrote my own script instead of running `/insights`, for three reasons. `/insights` analyzes up to 200 new sessions per run ([Claude Code docs, fetched 12 Oct 2026](https://code.claude.com/docs/en/costs)), and I had 1,129. Its reports are deleted on the same 30-day schedule as the transcripts. And I needed headless runs separated from the sessions I drove myself.
 
 The script follows three rules:
 
@@ -67,7 +67,7 @@ Summed session by session, my interactive sessions were active for 890 hours. On
 
 My busiest 10-minute window had 18 interactive sessions active at once. A median active day was about 6 hours on the clock, with 7 or 8 new sessions started. Each parallel session needs its own checkout, which is where the 454 `git worktree add` calls come from. How I run them is in [the parallel post](/blog/how-i-run-claude-code-agents-in-parallel).
 
-The ratio measures concurrency, and speed is a separate question. Concurrency is my inferred main source of the speed-up I estimate in [2–3x, Not 100x](/blog/2-3x-not-100x), where the measured part is how long each PR waited for me.
+The ratio measures concurrency: how much work the agents produce while I'm there. How fast that work ships depends on review, which [2–3x on my backlog](/blog/2-3x-not-100x) measures with GitHub timestamps.
 
 ## 1 in 5 subagents was a code reviewer
 
@@ -77,7 +77,8 @@ My sessions spawned 1,119 subagents through the Agent tool:
 - Read-only search (Explore): 132
 - Code reviewers: 252, across three roles (correctness, security, completeness)
 - Copy and design checkers: 86
-- No type given: 34
+- Other named roles: 20
+- No type given: 14
 
 So 22.5% of spawned subagents were code reviewers, and 30% counting the copy and design checkers. That is the practice I would defend hardest. The reason is my judgment, not a count: the agent that wrote the code is a poor judge of it, and a fresh agent with a narrow brief catches what the author missed. My judgment, also uncounted, is that most obvious problems are gone by the time a PR reaches me. Whether the reviewers catch real bugs is a different question, answered with outcomes in [reviewer agents that don't trust other agents](/blog/reviewer-agents-that-dont-trust-other-agents).
 
@@ -142,10 +143,10 @@ The script found 37 distinct episodes where a session hit a usage limit, counted
 
 4,920 commits say nothing about whether the code was good. What makes the volume safe is what a script can't count well: the gates each PR clears before I see it, and the review I do after. The [honesty gate](/work/honesty-gate) is one of those gates, written up.
 
-## Five practices the count supports
+## Five habits behind these counts
 
 1. **Write the brief, keep the prompt short.** A 10-word median prompt works because the brief, rules and skills carry the detail.
 2. **One worktree per agent.** 454 worktrees in 66 days, with a peak of 18 sessions at once.
 3. **Review with fresh agents.** 1 in 5 subagents was a code reviewer.
 4. **Commit every working step.** 4,920 commits, so a rollback costs one step.
-5. **Shrink what loads on every turn, and watch cache rebuilds.** Reads were 97.7% of tokens and about half the dollars; writes were 2.1% of tokens and a third or more. Before any of this, set `cleanupPeriodDays` above 30, or next month you won't have the data to check.
+5. **Shrink what loads on every turn, and watch cache rebuilds.** Reads were 97.7% of tokens and about half the dollars; writes were 2.1% of tokens and a third or more.

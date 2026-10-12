@@ -4,7 +4,7 @@ seoTitle: "Claude Code Cost per Merged PR: 3 Months of Ledger Data"
 date: "2026-10-10"
 updated: "2026-10-12"
 tags: ["ai", "claude-code", "llm-costs", "agent-harness"]
-description: "A context trim cut my Claude Code cost per merged PR from $73 to $32 in a month, then it rose 42% in four weeks. The ledger, the method, my counting mistake."
+description: "My Claude Code cost per merged PR fell from $73 to $32 in a month, then rose 42% in four weeks. Three months of ledger data, and my counting mistake."
 published: true
 language: "en"
 cta: "cost-audit"
@@ -12,14 +12,14 @@ forYou: "If your team's agent spend grows faster than what it merges, this is th
 meta: "Jul–Oct 2026 · Own setup · Claude Code"
 ---
 
-One context trim cut my agent cost per merged PR from $73 to $32 between July and August. Four weeks of September and October took it from $49 to $69, and the first version of this page compared those numbers across a counting change it shouldn't have.
+My agent cost per merged PR fell from $73 to $32 between July and August, the month I cut the text loaded on every turn, though the drop started before the first cut. Four weeks of September and October took it from $49 to $69, and the first version of this page compared those numbers across a counting change it shouldn't have.
 
-**Short answer:** I track Claude Code cost per merged PR in a ledger that records tokens, commits and merged PRs per day. July to August, on one counting method, cost per merged PR fell 57% after I cut the text loaded on every turn. On the current method, September averaged $49 per merged PR and the first 11 days of October $69. Subagent turns doubled and headless runs jumped while merged PRs per day fell, and I haven't measured which of those drove it. The dollars are list-price replacement cost, not my invoice, and at the Opus 5.5 rates most sessions ran on they would be about half.
+**Short answer:** I track Claude Code cost per merged PR in a ledger that records tokens, commits and merged PRs per day. July to August, on one counting method, cost per merged PR fell 57% in the month I cut the text loaded on every turn. On the current method, September averaged $49 per merged PR and the first 11 days of October $69. Subagent turns doubled and headless runs jumped while merged PRs per day fell, and I haven't measured which of those drove it. The dollars are list-price replacement cost, not my invoice, and at the Opus 5.5 rates most sessions ran on they would be half to two thirds of that.
 
 ## How I count
 
 1. **Source.** A private ledger reads my Claude Code transcripts every night and records, per day, tokens and their list-price cost, the commits in my repos and the PRs merged under my GitHub accounts. It covers all my Claude Code accounts. Figures here are totals, never per client.
-2. **Price.** Every token is priced at Opus 5 list rates: $5 per million input, $25 output, $0.50 cache reads, $6.25–$10 cache writes. Most of my sessions ran on Opus 5.5, which lists at $4, $20 and $0.20 ([Anthropic pricing, fetched 12 Oct 2026](https://platform.claude.com/docs/en/about-claude/pricing)). On my 66-day token mix that makes the same work about half the dollars, by my arithmetic. Moving work to a cheaper model doesn't show up in the ledger at all. Only fewer tokens do.
+2. **Price.** Every token is priced at Opus 5 list rates: $5 per million input, $25 output, $0.50 cache reads, $6.25–$10 cache writes. Most of my sessions ran on Opus 5.5, which lists at $4, $20 and $0.20 ([Anthropic pricing, fetched 12 Oct 2026](https://platform.claude.com/docs/en/about-claude/pricing)). With a quarter of my messages on Opus 5 and most of the rest on Opus 5.5, the same work comes to half to two thirds of the ledger's dollars, by my arithmetic. Moving work to a cheaper model doesn't show up in the ledger at all. Only fewer tokens do.
 3. **Not an invoice.** These sessions ran on Claude subscriptions with a flat fee. The dollars measure compute used.
 4. **Two methods.** Until September the ledger priced every transcript entry, which counts each API response about twice (2.04x on a 30-day re-scan). It also read only two of my four Claude Code accounts. From 11 September it counts each response once, across all accounts. July and August compare with each other, and September and October compare with each other. Never across.
 5. **Per merged PR first.** A merged PR is tied to a GitHub account and someone reviewed it. Agent commits are fine-grained checkpoints, so cost per commit moves with commit habits as much as with cost.
@@ -70,7 +70,7 @@ Full months, same method:
 | Commits | 995 | 1,091 | +10% |
 | Subagent turns | 144k | 43k | −70% |
 
-Cost fell after both dated changes and stayed low. They line up with the drop. I can't show how much of it they caused.
+Cost fell after both dated changes and stayed low. They line up with the drop. I can't show how much of it they caused, and one more thing moved: the mix of work across my accounts and clients shifted from month to month, which changes cost per PR on its own.
 
 ## September and October, week by week
 
@@ -135,18 +135,16 @@ The first version of this page said September was "roughly $23 on the old count,
 
 Anthropic's docs put the enterprise average at about $13 per developer per active day and $150–250 per developer per month, with 90% of users under $30 per active day ([Claude Code docs, fetched 12 Oct 2026](https://code.claude.com/docs/en/costs)). Gartner, as reported in June 2026, found that nearly a quarter of tech leaders spend $200–500 per developer per month on AI coding tools and about 6% spend more than $2,000 ([DevOps.com, 30 Jun 2026](https://devops.com/ai-coding-costs-could-exceed-developer-salaries-gartner-warns/); Gartner's own release returned an error when I fetched it).
 
-At list price my setup costs about $930 per active day, around 70 times Anthropic's average. I'm not a typical seat: up to 18 sessions at once, over a thousand subagents in 66 days, and orchestration runs that start other agents. That is why I run on flat subscriptions, and why the useful number for a buyer is the unit cost: about $49 per merged PR in September at Opus 5 list prices, roughly half that at Opus 5.5 rates.
+At Opus 5 list price my setup costs about $930 per active day, around 70 times Anthropic's average, or roughly 35 to 45 times at Opus 5.5 rates. I'm not a typical seat: up to 18 sessions at once, over a thousand subagents in 66 days, and orchestration runs that start other agents. That is why I run on flat subscriptions, and why the useful number for a buyer is the unit cost: about $49 per merged PR in September at Opus 5 list prices, $25–32 at Opus 5.5 rates.
 
 ## Why measure per merged PR, not per commit?
 
 A commit from an agent is a checkpoint, and agents that commit every working step can double the commit count without doing more work. September had 1,533 commits and 362 merged PRs. A merged PR passed review and changed the product, so cost per merged PR moves only when the cost of shipping moves.
 
-## Five checks for a team's setup
+## What I'd check first on a team's setup
 
-1. **Track cost per merged PR every week, with the method written down.** Note the date when the counting changes, and never compare across it.
-2. **Keep the raw data.** Claude Code deletes transcripts after 30 days by default (`cleanupPeriodDays`). Raise it, or export the built-in OpenTelemetry metrics (`claude_code.cost.usage`, `claude_code.pull_request.count`, `claude_code.commit.count`) ([monitoring docs](https://code.claude.com/docs/en/monitoring-usage)).
-3. **Cut what loads on every turn.** A hook that injects text into every message, unused skills and a long `CLAUDE.md` are paid for on every turn. My cut from 9,976 to 4,106 words lined up with the July–August drop.
-4. **Count headless runs and subagent turns separately.** They doubled in my October data while merged PRs fell.
-5. **Price at your real rates.** List prices differ by model, and `/usage` can show contracted rates through the `modelPricing` managed setting (Claude Code 2.1.242 or later).
+1. **Cost per merged PR, weekly, on one counting method.** A monthly total hid a 42% rise in mine.
+2. **What loads on every turn.** A hook that injects text into every message, unused skills and a long `CLAUDE.md` are paid for on every turn. My cut from 9,976 to 4,106 words lined up with the July–August drop.
+3. **Headless runs and subagent turns, counted apart from interactive work.** Both doubled in my October data while merged PRs per day fell.
 
 The measurement is what lasted. Without the ledger I would have reported "57% lower" in August and missed the climb in October.

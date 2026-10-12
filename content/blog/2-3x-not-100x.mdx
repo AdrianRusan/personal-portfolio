@@ -4,13 +4,13 @@ seoTitle: "How Much Faster Is AI Coding, Really? 2026 Data and My PRs"
 date: "2026-07-09"
 updated: "2026-10-12"
 tags: ["ai", "developer-productivity", "claude-code", "code-review", "software-engineering"]
-description: "How much faster is AI coding? DX found under 8% more PRs across 400+ companies. My agent PRs waited a median 44 minutes for review. The data and why."
+description: "How much faster is AI coding? DX found under 8% more PRs across 400+ companies. My agent PRs merged a median 44 minutes after opening. The data, and why."
 published: true
 language: "en"
 cta: "reviewed-pr"
 faq:
   - q: "How much faster is AI coding, really?"
-    a: "Across companies, not much yet. DX measured PR throughput rising just under 8% for a 65% rise in AI usage across 400+ engineering organizations (March 2026), and its July 2026 benchmarks put the year-on-year rise near 20%. On my own scoped backlog, with agents writing and me reviewing every PR, I estimate 2–3x. The gap is mostly review wait: my agent PRs merged a median 44 minutes after opening."
+    a: "Across companies, not much yet. DX measured PR throughput rising just under 8% for a 65% rise in AI usage across 400+ engineering organizations (March 2026), and its July 2026 benchmarks put the year-on-year rise near 20%. On my own scoped backlog, with agents writing and me reviewing every PR, I estimate 2–3x. The part I can measure is review wait: my agent PRs merged a median 44 minutes after opening, review included."
   - q: "Why do AI coding gains disappear at the team level?"
     a: "The code gets written faster and then waits. LinearB's 2026 data on 8.1 million PRs found AI-generated PRs wait more than 16 hours for a reviewer to pick them up, against about 200 minutes for unassisted work, and only 32.7% merge within 30 days. Faros found review time up 91% on teams with high AI adoption in 2025."
   - q: "Is the 2–3x figure measured?"
@@ -19,9 +19,9 @@ faq:
     a: "Pull createdAt and mergedAt for every PR with gh pr list --json, and split agent-authored PRs from the rest. Track the median and the 90th percentile of open-to-merge time, count review fix commits per PR, and count how many separate sittings the merges happened in. All three come from data GitHub already keeps."
 ---
 
-DX measured AI coding lifting PR throughput by just under 8% across more than 400 companies. On my own backlog I estimate 2–3x, and GitHub's timestamps show where most of that difference comes from: my agent PRs waited a median 44 minutes for review.
+DX measured AI coding lifting PR throughput by just under 8% across more than 400 companies. On my own backlog I estimate 2–3x. The part I can measure: my agent PRs merged a median 44 minutes after they opened, review and fixes included, while LinearB's average AI PR waited over 16 hours just for a reviewer to pick it up.
 
-**Short answer:** For one senior engineer reviewing a scoped backlog of agent-written PRs, 2–3x faster is my estimate. The measured part: in March 2026, 30 agent PRs on my own dashboard merged a median 44 minutes after they opened, in 9 review sittings over under three days. In LinearB's 2026 data, AI-written PRs wait more than 16 hours just for a reviewer to pick them up. Most of the speed-up survives because the review queue is one person who wrote the tickets.
+**Short answer:** For one senior engineer reviewing a scoped backlog of agent-written PRs, 2–3x faster is my estimate. The measured part: in March 2026, 30 agent PRs on my own dashboard merged a median 44 minutes after they opened, in 9 review sittings over under three days. In LinearB's 2026 data, AI-written PRs wait more than 16 hours just for a reviewer to pick them up. My explanation, which the timestamps support and can't prove: the review queue is one person who wrote the tickets.
 
 ## What 2026 measured across teams
 
@@ -32,7 +32,7 @@ The large studies find small gains, and I take them seriously because they measu
 - **Faros, 23 Jul 2025:** on teams with high AI adoption, PRs merged rose 98% and PR review time rose 91%, with no company-level improvement in throughput or DORA metrics. ([Faros AI](https://www.faros.ai/blog/ai-software-engineering))
 - **METR, 24 Feb 2026:** its 2025 trial had experienced developers 19% slower with AI. The 2026 update estimates 18% faster for the original group and 4% faster for new recruits, with confidence intervals that cross zero, and METR calls it "only very weak evidence". ([METR](https://metr.org/blog/2026-02-24-uplift-update/))
 
-Every one of these says the same thing from a different angle: generation got fast, and the work then queues at review. Against that data, 2–3x is the high claim, so it needs its arithmetic shown.
+LinearB and Faros put the delay at review, and DX and METR find gains that are small or uncertain. DX's July figure of nearly 20% is year-on-year throughput from all causes, not a measured AI effect. Against that data, 2–3x is the high claim, so it needs its arithmetic shown.
 
 ## My clock: 30 agent PRs, from open to merge
 
@@ -53,15 +53,15 @@ In March 2026 an agent fleet opened 31 PRs on my own admin dashboard and I merge
 
 The October run on this site has the same shape: [nine PRs](/work/nine-prs-one-afternoon) merged a median 27 minutes after opening, in 2 sittings. Across all 36 PRs merged on this repo from 10 to 12 October, the median was 27 minutes and the 90th percentile 2.3 hours.
 
-The 2–3x divides my estimate of solo effort (about a week) by elapsed calendar time (under three days, nights included). It is an estimate on one side and a clock on the other, so I quote it as an estimate and show the ingredients. What I can say from the measured part: of 30 PRs, one waited longer than 16 hours. It was #95, the first PR, opened a day before the worker waves started; the second slowest, #97 at 9.5 hours, redid a PR I had closed.
+Here is the division. The solo side is my estimate of 5 to 7 working days. The elapsed side is 2.1 days from the first worker wave to the last merge, or 2.8 days from the first PR, nights included. 5–7 days over 2.1–2.8 days gives 1.8x to 3.3x, which I round to 2–3x and quote as an estimate. Of 30 PRs, one waited longer than 16 hours. It was #95, the first PR, opened a day before the worker waves started; the second slowest, #97 at 9.5 hours, redid a PR I had closed.
 
 ## Why one reviewer beats the team average here
 
 Three things differ from the teams in those studies. Each one is a condition, so check whether your setup has it.
 
-1. **The queue is one person who is expecting the PRs.** I dispatched each agent wave and then sat down to review it. Merges landed in 9 bursts, and PR size didn't predict the wait in March: the rank correlation between lines changed and minutes waited was 0.07. The wait was set by when I sat down. LinearB's 16 hours is a reviewer who wasn't expecting the PR.
+1. **The queue is one person who is expecting the PRs.** I dispatched each agent wave and then sat down to review it. Merges landed in 9 bursts, and PR size didn't predict the wait in March: the rank correlation between lines changed and minutes waited was 0.07. The wait was set by when I sat down. My guess is that LinearB's 16 hours is mostly reviewers who weren't expecting the PR.
 2. **The reviewer wrote the tickets.** I scoped every issue in that run, so I knew what each diff was supposed to do before I opened it. That shortens the reading, and it is something a team reviewer picking up a stranger's agent PR doesn't have.
-3. **Almost everything merges.** 30 of 31 PRs merged, and 25 of them needed a fix commit first. Rejected work is the most expensive kind, and In LinearB's data, two thirds of AI PRs hadn't merged after 30 days.
+3. **Almost everything merges.** 30 of 31 PRs merged, and 25 of them needed a fix commit first. Rejected work is the most expensive kind, and in LinearB's data two thirds of AI PRs hadn't merged after 30 days.
 
 Where this breaks:
 
@@ -73,6 +73,8 @@ Where this breaks:
 ## What review cost, and what it still missed
 
 Review is counted against the clock, and it isn't free. 25 of 30 PRs needed a fix commit before merge. Review also missed things: in that run it fixed three shell-injection paths from request input, only partly fixed a fourth call (#117, a user-editable value still run through `sh -c`), and missed one built from database values (#109, still open). [The shell-injection post](/blog/catching-shell-injection-agents-wrote) has the code.
+
+Speed has a price here too: #109, the call review missed, merged 29 minutes after it opened, in a sitting that merged two PRs in 13 seconds. It's one data point, and it's the one that matters.
 
 That is why I won't quote a bigger number. A faster figure is available if you drop the review, and the misses above happened with it.
 
