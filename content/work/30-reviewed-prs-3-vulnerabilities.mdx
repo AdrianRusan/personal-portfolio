@@ -49,15 +49,15 @@ Only #112 was directly exploitable as written. #111 and #121 sat behind a regex 
 
 ## What review missed
 
-| PR | What got through | Input | How it was found | Status on 12 Oct |
-| --- | --- | --- | --- | --- |
-| #98 | `repo`, `state` and `label` from the URL query string go into a `gh` shell command (`app/api/github/issues/route.ts`) | request | an agent classifying the fix commits, 12 Oct; I confirmed it in the code | open |
-| #109 | A PR number and a repo name read from the database go into an `exec` shell string | database | found after the run | open |
-| #117 | A stored repo name goes into `sh -c`. Review added a format check, and #118 deleted its only call when it merged 3 minutes later. | stored, editable in the UI | the same fix-commit audit, 12 Oct | open |
-| #111 | Log lines rendered as HTML (`dangerouslySetInnerHTML`) with only the search term escaped: stored XSS | log files | AI reviewers on the original commit, 12 Oct | open |
-| #121 | Memory-file lines rendered the same way: stored XSS | memory files | AI reviewers on the original commit, 12 Oct | open |
+| PR | What got through | How it was found |
+| --- | --- | --- |
+| #98 | `repo`, `state` and `label` from the URL query string go into a `gh` shell command (`app/api/github/issues/route.ts`) | an agent classifying the fix commits on 12 Oct; I confirmed it in the code |
+| #109 | A PR number and a repo name read from the database go into an `exec` shell string | a fact-check of the run on 11 Oct; the AI reviewers flagged it too |
+| #117 | A stored repo name, editable in the UI, goes into `sh -c`. Review added a format check, and #118 deleted its only call when it merged 3 minutes later. | the same fix-commit audit, 12 Oct |
+| #111 | Log lines rendered as HTML (`dangerouslySetInnerHTML`) with only the search term escaped: stored XSS | AI reviewers on the original commit, 12 Oct |
+| #121 | Memory-file lines rendered the same way: stored XSS | AI reviewers on the original commit, 12 Oct |
 
-Open means present at the repo's last commit, `30a6992` on 13 March 2026. The dashboard hasn't been touched since.
+All 5 are open: present at the repo's last commit, `30a6992` on 13 March 2026. The dashboard hasn't been touched since.
 
 The same audit found one functional bug review missed: the #109 diff tab reads `commit.sha`, but `gh` returns `oid`, so the tab throws on any PR with commits.
 

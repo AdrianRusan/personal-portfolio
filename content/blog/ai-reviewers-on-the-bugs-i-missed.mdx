@@ -1,7 +1,7 @@
 ---
 title: "I Gave the Bug I Missed to the AI Reviewers. They Caught It, and Two More."
 seoTitle: "AI Code Review vs Human Review: A Blind Test on 7 Agent Commits"
-date: "2026-11-28"
+date: "2026-10-12"
 tags: ["ai", "code-review", "security", "claude-code", "agent-harness"]
 description: "I ran Claude Code's /code-review and a three-agent review panel, blind, on the 7 agent commits behind my 30-PR run's security findings. They caught the shell injection I missed, two XSS sinks I never saw, and repeated one of my mistakes."
 published: true
@@ -39,18 +39,20 @@ One limit matters more than the rest. The repo holds an `AUDIT.md` from a Februa
 
 The 7 findings from March, plus what review missed:
 
-| PR | The bug | My review in March | `/code-review` | Security reviewer | Correctness | Completeness |
-| --- | --- | --- | --- | --- | --- | --- |
-| #112 | Job ID from the URL in a shell string, allowlist deleted | caught | finding 1 of 10 | BLOCK | BLOCK | BLOCK |
-| #111 | Search query in a shell string, behind a filter | caught | as an `rg` flag injection | WARN | BLOCK | WARN |
-| #121 | The same pattern, in a second search | caught | finding 2 of 10 | BLOCK | WARN | BLOCK |
-| #119 | Path traversal on read and write | caught | finding 1 of 10 | BLOCK | BLOCK | BLOCK |
-| #113 | Config path in a shell string | caught | finding 2 of 10 | WARN, approved | WARN | WARN |
-| #117 | Stored repo name into a shell | half-fixed | not in its 10 | WARN, approved | WARN | WARN |
-| #109 | Database values in a shell string | **missed** | finding 2 of 10 | BLOCK | BLOCK | BLOCK |
-| #111 | Log lines rendered as raw HTML (stored XSS) | **missed** | finding 1 of 10 | BLOCK | BLOCK | BLOCK |
-| #121 | Memory-file lines rendered as raw HTML (stored XSS) | **missed** | finding 1 of 10 | BLOCK | BLOCK | BLOCK |
-| #109 | The diff tab reads `commit.sha`, `gh` returns `oid`: the tab throws | **missed** | finding 1 of 10 | not its lane | BLOCK | NIT |
+| PR | The bug | Me, March | `/code-review` | Panel |
+| --- | --- | --- | --- | --- |
+| #112 | Job ID from the URL in a shell string, allowlist deleted | caught | 1st of 10 | B · B · B |
+| #111 | Search query in a shell string, behind a filter | caught | 2nd, as a flag injection | W · B · W |
+| #121 | The same pattern, in a second search | caught | 2nd of 10 | B · W · B |
+| #119 | Path traversal on read and write | caught | 1st of 10 | B · B · B |
+| #113 | Config path in a shell string | caught | 2nd of 10 | W(ok) · W · W |
+| #117 | Stored repo name into a shell | half-fixed | not in its 10 | W(ok) · W · W |
+| #109 | Database values in a shell string | **missed** | 2nd of 10 | B · B · B |
+| #111 | Log lines rendered as raw HTML (stored XSS) | **missed** | 1st of 10 | B · B · B |
+| #121 | Memory-file lines rendered as raw HTML (stored XSS) | **missed** | 1st of 10 | B · B · B |
+| #109 | Diff tab reads `commit.sha`, `gh` returns `oid`: it throws | **missed** | 1st of 10 | n/a · B · N |
+
+Panel column: security · correctness · completeness reviewer. B is BLOCK, W is WARN, N is NIT, and W(ok) means the reviewer rated it WARN and approved the commit.
 
 I checked the last three rows against the code myself. The two XSS sinks are at `components/logs/log-viewer.tsx:535` and `app/memory/page.tsx:231` at the repo's last commit, and `gh pr view --json commits` on a real PR returns `oid` and `authors`, no `sha`.
 
