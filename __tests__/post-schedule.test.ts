@@ -13,7 +13,9 @@ const SCHEDULE = [
   ["66-days-of-claude-code-by-the-numbers", "2026-10-10"],
   ["the-rules-file-my-agents-follow", "2026-10-17"],
   ["how-i-run-claude-code-agents-in-parallel", "2026-10-24"],
-  ["auditing-my-claude-code-setup-with-an-agent", "2026-10-31"],
+  // A2 §3: the review post moves up, the setup audit follows it.
+  ["reviewer-agents-that-dont-trust-other-agents", "2026-10-31"],
+  ["auditing-my-claude-code-setup-with-an-agent", "2026-11-07"],
 ] as const;
 
 const at = (iso: string) => jest.useFakeTimers().setSystemTime(new Date(iso));
@@ -28,7 +30,7 @@ describe("post schedule", () => {
   });
 
   it("dates each post as scheduled", async () => {
-    at("2026-11-01T00:00:00Z");
+    at("2026-11-08T00:00:00Z");
     for (const [slug, date] of SCHEDULE) {
       expect((await getPost(slug)).frontmatter.date).toBe(date);
     }
@@ -65,14 +67,13 @@ const DRAFTS = fs
   );
 
 describe("draft posts", () => {
-  it("includes the queued drafts", () => {
-    expect(DRAFTS).toContain("hitting-usage-limits-with-18-sessions-open");
-  });
-
-  it.each(DRAFTS)("%s stays hidden", async (slug) => {
+  // No drafts are queued today; this still covers the next one.
+  it("keeps every draft hidden", async () => {
     at("2100-01-01T00:00:00Z");
-    expect(await slugs()).not.toContain(slug);
-    await expect(getPost(slug)).rejects.toThrow(/Post not found/);
+    for (const slug of DRAFTS) {
+      expect(await slugs()).not.toContain(slug);
+      await expect(getPost(slug)).rejects.toThrow(/Post not found/);
+    }
   });
 });
 

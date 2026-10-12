@@ -6,8 +6,6 @@ describe("getPosts", () => {
     const posts = await getPosts();
     expect(posts.length).toBeGreaterThan(0);
     expect(posts.every((p) => p.frontmatter.published === true)).toBe(true);
-    // hello-world.mdx is published: false and must be excluded
-    expect(posts.some((p) => p.slug === "hello-world")).toBe(false);
   });
 
   it("sorts newest first by date", async () => {
@@ -35,15 +33,23 @@ describe("getPost", () => {
     expect(post.source.length).toBeGreaterThan(0);
   });
 
+  it("hides an unpublished draft from the list and the page, whatever its date", async () => {
+    const fs = await import("fs");
+    const os = await import("os");
+    const path = await import("path");
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "blog-"));
+    fs.writeFileSync(
+      path.join(dir, "draft.mdx"),
+      '---\ntitle: "t"\ndescription: "d"\ndate: "2020-01-01"\ntags: []\npublished: false\n---\n\nbody\n',
+    );
+    expect(await getPosts(dir)).toEqual([]);
+    await expect(getPost("draft", dir)).rejects.toThrow(/Post not found/);
+  });
+
   it("throws for a missing slug", async () => {
     await expect(getPost("does-not-exist-xyz")).rejects.toThrow(
       /Post not found/,
     );
-  });
-
-  it("throws for an unpublished draft, so its page and OG image 404", async () => {
-    // hello-world.mdx is published: false
-    await expect(getPost("hello-world")).rejects.toThrow(/Post not found/);
   });
 });
 
@@ -60,7 +66,7 @@ describe("case studies (content/work via the dir param)", () => {
     const studies = await getPosts(WORK_DIR);
     expect(studies.every((s) => s.frontmatter.published === true)).toBe(true);
     // the blog list must not leak into the work list
-    expect(studies.some((s) => s.slug === "30-prs-in-2-5-days")).toBe(false);
+    expect(studies.some((s) => s.slug === "2-3x-not-100x")).toBe(false);
   });
 
   it("reads a case study by slug from content/work", async () => {

@@ -12,7 +12,7 @@ cta: "harness"
 
 **Short answer:** Five Claude Code best practices, each backed by a count from 66 days of my own logs: one worktree per agent, commit every working step, review with fresh agents, keep stable context stable, and put the effort into the brief. The count, interactive sessions only: 463 sessions and 335 hours. Across all sessions, agents made 4,920 commits, and my median prompt was 10 words.
 
-Most advice on Claude Code best practices comes from memory: "I run a few agents, I review everything, it is about twice as fast." Fair: memory is what most of us have. I wanted the counted version, so I wrote a streaming script over my own session transcripts and prompt history and let it count.
+Most advice on Claude Code best practices comes from memory: "I run a few agents, I review everything, it is about twice as fast." I wanted the counted version, so I wrote a streaming script over my own session transcripts and prompt history and let it count.
 
 ## How I counted
 
@@ -123,5 +123,3 @@ That is the practice the numbers point to: put the effort into files the agent r
 ## What the numbers do not show
 
 4,920 commits say nothing about whether the code was good. What makes the volume safe is the part a script cannot count well: the gates each PR clears before I see it, and the review I do after. The [honesty gate](/work/honesty-gate) is one of those gates, written up.
-
-If you want this setup in your own repo, the Agent Fleet Setup is what I install.

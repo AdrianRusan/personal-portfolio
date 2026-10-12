@@ -14,8 +14,10 @@ interface CaseStudyPageProps {
   params: Promise<{ slug: string }>;
 }
 
-// Only published case studies are routable; drafts (published: false) 404.
-export const dynamicParams = false;
+// Like the blog (#54 R4): a study dated after the build renders on demand once
+// its date passes; until then getPost() throws and the page 404s, as do drafts.
+export const dynamicParams = true;
+export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const studies = await getPosts(WORK_DIR);

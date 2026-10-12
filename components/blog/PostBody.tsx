@@ -132,14 +132,19 @@ export const mdxComponents: MDXComponents = {
       {children}
     </blockquote>
   ),
-  code: ({ children, ...props }: ComponentPropsWithoutRef<"code">) => (
-    <code
-      className="bg-purple/10 dark:bg-white/10 text-purple px-1.5 py-0.5 rounded text-sm font-mono"
-      {...props}
-    >
-      {children}
-    </code>
-  ),
+  // Inline code only: rehype-pretty-code marks block code with data-theme, and
+  // the pill styling would tint the block and pad its first line (A4 F10).
+  code: ({ children, ...props }: ComponentPropsWithoutRef<"code">) =>
+    "data-theme" in props ? (
+      <code {...props}>{children}</code>
+    ) : (
+      <code
+        className="bg-purple/10 dark:bg-white/10 text-purple px-1.5 py-0.5 rounded text-sm font-mono"
+        {...props}
+      >
+        {children}
+      </code>
+    ),
   table: ({ children, ...props }: ComponentPropsWithoutRef<"table">) => (
     <div className="my-6 overflow-x-auto">
       <table className="w-full text-sm text-white-200" {...props}>

@@ -11,10 +11,8 @@ const routes = [
   '/contact',
   '/blog',
   '/blog/2-3x-not-100x',
-  '/blog/30-prs-in-2-5-days',
   '/blog/66-days-of-claude-code-by-the-numbers',
   '/blog/catching-shell-injection-agents-wrote',
-  '/blog/claude-code-changed-how-i-ship-software',
   '/blog/what-agents-get-wrong',
   '/work',
   '/work/30-reviewed-prs-3-vulnerabilities',
@@ -32,7 +30,9 @@ const routes = [
 const scheduled: Record<string, string> = {
   '/blog/the-rules-file-my-agents-follow': '2026-10-17',
   '/blog/how-i-run-claude-code-agents-in-parallel': '2026-10-24',
-  '/blog/auditing-my-claude-code-setup-with-an-agent': '2026-10-31',
+  '/work/nine-prs-one-afternoon': '2026-10-24',
+  '/blog/reviewer-agents-that-dont-trust-other-agents': '2026-10-31',
+  '/blog/auditing-my-claude-code-setup-with-an-agent': '2026-11-07',
 };
 for (const [route, date] of Object.entries(scheduled)) {
   if (Date.now() >= new Date(date).getTime()) routes.push(route);
@@ -123,6 +123,20 @@ for (const path of ['/', '/blog/2-3x-not-100x', '/ro']) {
     const html = await request.get(path, { headers: { Accept: 'text/html' } });
     expect(html.status()).toBe(200);
     expect(html.headers()['content-type']).toContain('text/html');
+  });
+}
+
+// D7: cut posts 301 to the page that now holds their content; A4 F20: /workshops to the ladder.
+for (const [from, to] of [
+  ['/workshops', '/services#ladder'],
+  ['/blog/30-prs-in-2-5-days', '/work/30-reviewed-prs-3-vulnerabilities'],
+  ['/blog/claude-code-changed-how-i-ship-software', '/blog/2-3x-not-100x'],
+]) {
+  test(`${from} 301s to ${to}`, async ({ request }) => {
+    const res = await request.get(from, { maxRedirects: 0 });
+    expect(res.status()).toBe(301);
+    const location = new URL(res.headers()['location'], 'http://x');
+    expect(location.pathname + location.hash).toBe(to);
   });
 }
 

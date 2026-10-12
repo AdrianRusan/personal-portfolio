@@ -1,7 +1,7 @@
 ---
 title: "The Shell-Injection Bugs My Agents Wrote, and the One I Missed"
 seoTitle: "Shell-Injection Bugs AI Agents Wrote (and One I Missed)"
-date: "2026-07-01"
+date: "2026-07-09"
 updated: "2026-10-11"
 tags: ["ai", "security", "code-review", "claude-code", "software-engineering"]
 description: "Three shell-injection paths coding agents wrote from request input, caught in review before merge, one shell call I missed, and the checks that find them."
@@ -128,5 +128,3 @@ That's also why I don't accept "we have 90% test coverage" as a safety statement
 4. **Treat green as a statement about the happy path only.** If there are tests, they tell me nothing about the adversarial input. I write the missing negative case or reject the PR.
 
 That's the verify half of ship/verify. The full list of failure categories I check is in [How to Review AI-Generated Code](/blog/what-agents-get-wrong), and the speed-up I measured is in [2–3x, Not 100x](/blog/2-3x-not-100x).
-
-If you want this grep-and-trace run on one of your own PRs, send it through my free AI code teardown.

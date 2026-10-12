@@ -13,7 +13,7 @@ meta: "Mar 2026 · Own project · under 3 days · Claude Code, Next.js, git work
 
 In March 2026 Claude Code agents opened 31 pull requests on my own admin dashboard in under three days, and I reviewed and merged 30. My review caught 3 shell-injection paths from request input before merge. It also missed one shell call, and that miss is the lesson.
 
-The mechanics are in [30 PRs in Under Three Days](/blog/30-prs-in-2-5-days), and the code is in [The Shell-Injection Bugs My Agents Wrote](/blog/catching-shell-injection-agents-wrote).
+The code is in [The Shell-Injection Bugs My Agents Wrote](/blog/catching-shell-injection-agents-wrote).
 
 ## The problem
 
@@ -63,5 +63,3 @@ The check that would have caught it is about the call, not the source: any shell
 A repo with no tests and no CI also needs a second gate besides one reviewer, such as a lint rule or a CI grep for shell-string calls, so a single missed line doesn't ship.
 
 Generation was the cheap part of this run. Most of the time went on review, which is why the speed-up I measure is [2–3x](/blog/2-3x-not-100x).
-
-If you want one ticket from your own backlog put through the same review, the Reviewed PR offer is the place to start.
