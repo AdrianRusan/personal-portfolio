@@ -1,0 +1,85 @@
+---
+title: "The Review Bottleneck, Measured on My Own PRs"
+seoTitle: "AI Code Review Bottleneck, Measured on My Own PRs"
+date: "2026-11-21"
+tags: ["code-review", "ai", "claude-code", "developer-productivity", "software-engineering"]
+description: "2026 surveys name reviewing AI code as the top delivery constraint. My own PRs agree: 25 of 30 needed review fixes. What moved the bottleneck, and what didn't."
+published: true
+language: "en"
+cta: "reviewed-pr"
+forYou: "Your team adopted coding agents, PRs went up, and now they wait for review."
+faq:
+  - q: "Is code review the bottleneck for AI-generated code?"
+    a: "In 2026 surveys, yes. Qodo's September 2026 survey of 500 US developers and 300 US engineering leaders found reviewing and validating AI-generated code was the top delivery constraint for both groups, at 26% each. On my own runs, 25 of 30 merged agent PRs needed at least one fix commit from review before merge."
+  - q: "How do you speed up review of AI-written PRs?"
+    a: "Make each PR arrive pre-checked. In my setup every agent runs typecheck, lint, build, tests and its own code review before the PR reaches me, and the PR body lists what it found and fixed. I still review every PR. What shrinks is how much each one needs from me."
+  - q: "Can you skip human review if the agent's code passes CI?"
+    a: "Not for anything that touches auth, money or shell commands. In my 30-PR run the repo had no test suite and no CI, and review caught 3 shell-injection paths from request input before merge. It also missed 1 shell call built from database values, so review alone isn't enough either."
+---
+
+**Short answer:** Generation got fast and review didn't. Qodo's September 2026 survey found reviewing and validating AI-generated code is the top delivery constraint for developers and engineering leaders alike, at 26% each. My own PRs agree: in one run, 25 of 30 merged agent PRs needed at least one fix commit from review. In a later run with automated gates in front of me, 9 PRs merged in 100 minutes.
+
+"Generation was never the slow part, review is" is how my [About page](/about) puts it. In 2026 the surveys started saying it too, so I put my own numbers next to theirs.
+
+## What the 2026 surveys say
+
+Four sources, each one dated and linked.
+
+- **Qodo, 23 Sep 2026.** Censuswide surveyed 500 US developers and 300 US engineering leaders. Both groups picked reviewing and validating AI-generated code as their top delivery constraint: 26% of developers, 26% of leaders. 89% of organizations reported an AI-related production incident, and only 35% of developers said agents always follow their organization's standards. ([Qodo, State of AI Code Quality 2026](https://www.qodo.ai/blog/state-of-ai-code-quality-report-2026/))
+- **Sonar, 8 Jan 2026.** Of 1,100+ developers, 96% don't fully trust that AI-generated code is functionally correct, and only 48% always check it before committing. ([Sonar, 2026 State of Code survey](https://community.sonarsource.com/t/results-from-the-2026-state-of-code-developer-survey-are-here/172502))
+- **DORA, reported 11 May 2026.** InfoQ's write-up of DORA's ROI of AI-assisted Software Development report describes a J-curve: value dips before it rises, partly because of "the verification tax imposed by reviewing AI-generated code". The authors' answer is to invest in automated testing, continuous integration and small batches. ([InfoQ on the DORA report](https://www.infoq.com/news/2026/05/dora-roi-ai-assisted-dev-report/), [the report](https://dora.dev/ai/roi/report/))
+- **Veracode, 28 Jul 2026.** Roughly 44% of tested AI code-generation tasks produced code with a known vulnerability, and the average security pass rate across models was 56%. ([Veracode, 2026 GenAI Code Security Report](https://www.veracode.com/blog/2026-genai-code-security-report-ai-risk/))
+
+Qodo and Sonar sell review and code-quality tools, and Veracode sells security testing, so they have a stake in this finding. I read their numbers with that in mind. My own numbers point the same way.
+
+## My numbers, run 1: review as the only gate
+
+In March 2026 a Claude Code fleet opened 31 PRs on my own admin dashboard in under three days. I reviewed and merged 30. The repo had no test suite and no CI, so my review was the only gate. The full account is in [the 30-PR case study](/work/30-reviewed-prs-3-vulnerabilities).
+
+Counted from the git history after the run:
+
+| Measure | Count |
+|---|---|
+| PRs opened / merged | 31 / 30 |
+| Merged PRs with at least one fix or refactor commit before merge | 25 of 30 |
+| Merged PRs that went in as the agent wrote them | 5 |
+| Shell-injection paths from request input, caught before merge | 3 |
+| Shell calls built from database values, missed | 1 |
+
+That is the verification tax in my own numbers. Five out of six PRs needed changes before I'd merge them. Review was also the biggest block of my time in those three days, which is why the speed-up I measured on that run is [2–3x, not 100x](/blog/2-3x-not-100x).
+
+And review still missed one. A shell call built from database values (#109) merged, and it was still open in that repo in October 2026. One human reading 30 diffs fast is a gate with a known failure rate.
+
+## My numbers, run 2: gates before the human
+
+On 10 October 2026 I rebuilt parts of this site with nine Claude Code agents in parallel worktrees. This time each PR had to clear a ladder before it reached me: typecheck, lint, production build, unit tests, a curl of every route it touched, screenshots, then a code review of its own diff. The PR body carried the results.
+
+Counted from GitHub (the run is written up in [nine reviewed PRs in one afternoon](/work/nine-prs-one-afternoon)):
+
+| Measure | Count |
+|---|---|
+| PRs merged | 9 |
+| Brief to last merge | 100 minutes |
+| Brief to first merge | 30 minutes |
+| Code-review findings recorded in 5 PR bodies | 46 |
+| Of those, fixed inside the PR before I saw it | 17 |
+
+The other 29 findings were deferred or rejected, each with a stated reason in the PR body. I still reviewed and merged every PR myself.
+
+## What I haven't measured
+
+I have never timed my own review per PR. My read is that I review at about the same speed as before, and what shrank in run 2 is how much each PR needed from me. I have no timing data for it.
+
+The two runs also differ in more than the gates: a different repo, different work, and a written brief in run 2. So I won't claim the gates explain the whole gap. What I can show is where the review effort went. In run 1 it went into fix commits after I read the code. In run 2, 17 fixes landed before I opened the PR.
+
+Volume keeps rising either way. Across 66 days from August to October 2026, `gh pr create` ran 928 times in my sessions, counted from my logs in [66 days of Claude Code](/blog/66-days-of-claude-code-by-the-numbers). Some calls were retries, so treat 928 as an upper bound: up to about 14 PRs a day from one person's sessions. One reviewer doesn't scale with that.
+
+## What moved the bottleneck for me
+
+1. **Small PRs.** One ticket per PR, one agent per worktree. DORA recommends small batches for the same reason: a small diff is fast to read and cheap to reject.
+2. **Machine checks before the human.** Typecheck, lint, build and tests run before review, so I don't spend review time finding what a compiler finds. Where a repo has none of those, adding them is the first job.
+3. **Reviewer agents before me.** A fresh-context reviewer with one narrow job catches the obvious problems first. How I set those up is in [reviewer agents that don't trust other agents](/blog/reviewer-agents-that-dont-trust-other-agents).
+4. **Evidence in the PR body.** I read what ran and what was found, instead of re-running it.
+5. **Gates that refuse when they can't check.** A merge gate that lets a PR through because `gh` failed is worse than no gate. My hooks are in [Claude Code now ships fail-closed hooks](/blog/claude-code-fail-closed-hooks).
+
+None of these remove the human review. The 2026 surveys report the same thing I see: trust in AI code is low, incidents are common, and the checking is where the time goes. So my setup puts automated work in front of the review and leaves the merge decision with one accountable person.
