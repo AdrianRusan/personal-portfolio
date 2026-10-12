@@ -21,7 +21,7 @@ export const caseStudyResults: Record<
   "agent-cost-per-commit": {
     // R3-F15: a number like the other two; the rebound stays in the label.
     figure: "57%",
-    label: "lower cost per merged PR in one month, then it climbed 42% in four weeks",
+    label: "lower cost per merged PR in one month, then it rose 42% by early October",
   },
 };
 

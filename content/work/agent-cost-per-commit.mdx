@@ -4,7 +4,7 @@ seoTitle: "Claude Code Cost per Merged PR: 3 Months of Ledger Data"
 date: "2026-10-10"
 updated: "2026-10-12"
 tags: ["ai", "claude-code", "llm-costs", "agent-harness"]
-description: "My Claude Code cost per merged PR fell from $73 to $32 in a month, then rose 42% in four weeks. Three months of ledger data, and my counting mistake."
+description: "My Claude Code cost per merged PR fell from $73 to $32 in a month, then rose 42% by early October. Three months of ledger data, and my counting mistake."
 published: true
 language: "en"
 cta: "cost-audit"
@@ -12,9 +12,9 @@ forYou: "If your team's agent spend grows faster than what it merges, this is th
 meta: "Jul–Oct 2026 · Own setup · Claude Code"
 ---
 
-My agent cost per merged PR fell from $73 to $32 between July and August, the month I cut the text loaded on every turn, though the drop started before the first cut. Four weeks of September and October took it from $49 to $69, and the first version of this page compared those numbers across a counting change it shouldn't have.
+My agent cost per merged PR fell from $73 to $32 between July and August, the month I cut the text loaded on every turn, though the drop started before the first cut. From September to the first days of October it went from $49 to $69, and the first version of this page compared those numbers across a counting change it shouldn't have.
 
-**Short answer:** I track Claude Code cost per merged PR in a ledger that records tokens, commits and merged PRs per day. July to August, on one counting method, cost per merged PR fell 57% in the month I cut the text loaded on every turn. On the current method, September averaged $49 per merged PR and the first 11 days of October $69. Subagent turns doubled and headless runs jumped while merged PRs per day fell, and I haven't measured which of those drove it. The dollars are list-price replacement cost, not my invoice, and at the Opus 5.5 rates most sessions ran on they would be half to two thirds of that.
+**Short answer:** I track Claude Code cost per merged PR in a ledger that records tokens, commits and merged PRs per day. July to August, on one counting method, cost per merged PR fell 57% in the month I cut the text loaded on every turn. On the current method, September averaged $49 per merged PR and the first 11 days of October $69. Subagent turns doubled, headless runs jumped and the mix of work across my accounts shifted while merged PRs per day fell, and I haven't measured which of those drove it. The dollars are list-price replacement cost, not my invoice, and at the Opus 5.5 rates most sessions ran on they would be half to two thirds of that.
 
 ## How I count
 
@@ -64,8 +64,8 @@ Full months, same method:
 
 | | July | August | Change |
 |---|---:|---:|---:|
-| Cost per merged PR | $73 | $32 | −57% |
-| Cost per commit | $35 | $11 | −68% |
+| Cost per merged PR | $73.4 | $31.6 | −57% |
+| Cost per commit | $35.2 | $11.4 | −68% |
 | Merged PRs | 477 | 395 | −17% |
 | Commits | 995 | 1,091 | +10% |
 | Subagent turns | 144k | 43k | −70% |
@@ -112,7 +112,7 @@ Cost fell after both dated changes and stayed low. They line up with the drop. I
       <text x="235" y="230" textAnchor="middle" fontSize="11">current count, by week</text>
     </g>
   </svg>
-  <figcaption className="text-center text-sm text-white-200 mt-3">Cost per merged PR. The red line is the counting change on 11 September: the two sides don't compare, so the bars aren't joined.</figcaption>
+  <figcaption className="text-center text-sm text-white-200 mt-3">Cost per merged PR. The red line is the counting change on 11 September: the two sides don't compare, so the bars aren't joined. Weeks run Monday to Sunday, so the week of 28 Sep includes 1–4 Oct and the monthly averages in the table below split the days differently.</figcaption>
 </figure>
 
 After the counting change, cost per merged PR rose every week but one: $52, $51, $56, $65. Comparing September with the first 11 days of October on the same method:
@@ -125,7 +125,7 @@ After the counting change, cost per merged PR rose every week but one: $52, $51,
 | Subagent turns | 1,411 | 3,059 | +117% |
 | Cost per merged PR | $49 | $69 | +42% |
 
-Spend per day rose a fifth, and merged PRs per day fell. Subagent turns per day more than doubled. In the first ten days of October, 618 of my 770 Claude Code sessions were headless scripted runs, against 14 of 279 in September (counted from my session logs). I haven't measured how much of the cost those runs account for, so the cause is open. The ledger did its job: it caught a 42% rise within four weeks, while the monthly total would have looked like a busy month.
+Spend per day rose a fifth, and merged PRs per day fell. Subagent turns per day more than doubled. In the first ten days of October, 618 of my 770 Claude Code sessions were headless scripted runs, against 14 of 279 in September (counted from my session logs). The mix of work across my accounts also moved most in October. I haven't measured how much of the cost the headless runs or the mix account for, so the cause is open. The ledger did its job: it caught a 42% rise within six weeks, while the monthly total would have looked like a busy month.
 
 ## What I got wrong in the first version
 
@@ -143,8 +143,8 @@ A commit from an agent is a checkpoint, and agents that commit every working ste
 
 ## What I'd check first on a team's setup
 
-1. **Cost per merged PR, weekly, on one counting method.** A monthly total hid a 42% rise in mine.
+1. **Cost per merged PR, weekly, on one counting method.** A monthly total would have hidden a 42% rise in mine.
 2. **What loads on every turn.** A hook that injects text into every message, unused skills and a long `CLAUDE.md` are paid for on every turn. My cut from 9,976 to 4,106 words lined up with the July–August drop.
-3. **Headless runs and subagent turns, counted apart from interactive work.** Both doubled in my October data while merged PRs per day fell.
+3. **Headless runs and subagent turns, counted apart from interactive work.** In my October data subagent turns per day doubled and headless sessions went from 14 to 618, while merged PRs per day fell.
 
 The measurement is what lasted. Without the ledger I would have reported "57% lower" in August and missed the climb in October.

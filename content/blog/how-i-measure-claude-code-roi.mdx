@@ -3,7 +3,7 @@ title: "How I Measure Claude Code ROI, and the 5 Traps That Broke My Numbers"
 seoTitle: "How to Measure Claude Code ROI: 5 Counting Traps"
 date: "2026-11-21"
 tags: ["claude-code", "ai", "llm-costs", "developer-productivity", "agent-harness"]
-description: "Claude Code deletes transcripts after 30 days, and what is left breaks in five ways. My ledger method for cost per merged PR, and the traps it hit."
+description: "Claude Code deletes transcripts after 30 days, and what is left breaks in four more ways. My ledger method for cost per merged PR, and the traps it hit."
 published: true
 language: "en"
 cta: "cost-audit"
@@ -16,13 +16,13 @@ faq:
     a: "Its OpenTelemetry counter claude_code.pull_request.count counts pull requests created through a shell command or an MCP tool, not merged ones. For ROI, take merged PRs from GitHub and join them to cost by day."
 ---
 
-Claude Code deletes its own transcripts after 30 days. By the time someone asks what the agents returned, the first month of evidence is gone, and the numbers you can still compute break in five predictable ways. My ledger hit all five.
+Claude Code deletes its own transcripts after 30 days. By the time someone asks what the agents returned, the first month of evidence is gone, and the numbers you can still compute break in four more predictable ways. My ledger hit all five traps.
 
 **Short answer:** I measure Claude Code ROI as cost per merged PR next to review wait per PR, both weekly, with the counting method written down. Cost comes from transcripts priced at a stated list rate. Merged PRs and timestamps come from GitHub, which never deletes them. Five traps broke my numbers before the method held: data that expired, double-counted responses, spend outside any repo, failed reads recorded as zero, and the wrong denominator or price.
 
 ## Why measure now
 
-DORA's report on the ROI of AI-assisted development describes a J-curve: value dips before it rises, partly because of "the verification tax imposed by reviewing AI-generated code" ([InfoQ, 11 May 2026](https://www.infoq.com/news/2026/05/dora-roi-ai-assisted-dev-report/); [the report](https://dora.dev/ai/roi/report/)). Spend per developer is now a board-level number too; the [cost case study](/work/agent-cost-per-commit) puts mine next to Anthropic's and Gartner's figures.
+DORA's report on the ROI of AI-assisted development describes a J-curve: value dips before it rises, partly because of "the verification tax imposed by reviewing AI-generated code" ([InfoQ, 11 May 2026](https://www.infoq.com/news/2026/05/dora-roi-ai-assisted-dev-report/); [the report](https://dora.dev/ai/roi/report/)). For spend per developer, the [cost case study](/work/agent-cost-per-commit) puts mine next to Anthropic's and Gartner's figures.
 
 So the ROI question usually arrives a few months in, as a budget line, when the early data has already expired.
 
@@ -39,9 +39,9 @@ A merged PR is the unit because GitHub ties it to an account and someone reviewe
 
 ## Trap 1: the data deletes itself
 
-Claude Code removes session transcripts after `cleanupPeriodDays`, 30 by default, and `/insights` reports go with them ([Claude Code docs](https://code.claude.com/docs/en/costs)). When I counted my own sessions in October, three of my four accounts still kept 30 days and one kept 60, so the earliest transcript left was from 6 August and August covered one account out of four. A pruned day can't be recovered from anywhere.
+Claude Code removes session transcripts after `cleanupPeriodDays`, 30 by default, and `/insights` reports go with them ([Claude Code docs](https://code.claude.com/docs/en/costs)). Until early October, three of my four accounts kept 30 days and one kept 60, so the earliest transcript left was from 6 August and August covered one account out of four. A pruned day can't be recovered from anywhere.
 
-**Avoid it:** raise the setting on every account before you start, and archive daily. I set 365 on three accounts. Or export the built-in OpenTelemetry metrics to a store you control:
+**Avoid it:** raise the setting on every account before you start, and archive daily. I set 365 on the three accounts I control; the fourth is an employer's account that keeps 60 days, so its history stays shorter. Or export the built-in OpenTelemetry metrics to a store you control:
 
 ```bash
 export CLAUDE_CODE_ENABLE_TELEMETRY=1
@@ -60,7 +60,7 @@ Claude Code writes one transcript entry per content block (text, thinking, each 
 
 ## Trap 3: spend that belongs to no repo goes missing
 
-Attributing cost to a repo by the session's working directory drops two kinds of session. Worktree sessions run in a directory that isn't the repo's own, and orchestration sessions run in a parent folder above every repo. On 5 October, sessions outside any repo held $191 of $702 that day, 27%, and my ledger had been dropping them.
+Attributing cost to a repo by the session's working directory drops two kinds of session. Worktree sessions run in a directory that isn't the repo's own, and orchestration sessions run in a parent folder above every repo. On 5 October, the transcript scan that evening found $191 of $702 in sessions outside any repo, 27%, and my ledger had been dropping them.
 
 **Avoid it:** resolve each worktree back to its main repo through its `.git` file, and keep a catch-all row for spend outside every repo instead of discarding it. Every dollar should land somewhere, even in "unattributed".
 
@@ -88,9 +88,10 @@ ROI needs the hours the same work would have taken without agents, and nobody do
 |---|---|---|
 | Cost per merged PR, September | $49 | measured tokens at Opus 5 list price |
 | Engineer cost per hour | $100 | **illustrative, use your own** |
-| Break-even time saved per merged PR | 30 minutes | arithmetic |
+| Cost per merged PR at Opus 5.5 rates | $25–32 | my arithmetic |
+| Break-even: time saved minus your review time, per merged PR | 30 minutes (15–20 at Opus 5.5 rates) | arithmetic |
 
-At those inputs a merged PR pays for its tokens if it saved half an hour of engineer time. Review time counts against it: my agent PRs merged a median 44 minutes after opening, and part of that was me reading the diff. The hours saved per PR is the estimate in this table, so I label it every time and defend the measured rows.
+At those inputs a merged PR pays for its tokens if the time it saved, minus the time someone spent reviewing it, is at least half an hour. Review time is the term people leave out: my agent PRs merged a median 44 minutes after opening, and part of that was me reading the diff. The hours saved per PR is the estimate in this table, so I label it every time and defend the measured rows.
 
 ## Start this week
 
@@ -100,4 +101,4 @@ At those inputs a merged PR pays for its tokens if it saved half an hour of engi
 4. **Write the method down** with the date of every change to it.
 5. **Put review wait next to cost.** A cheap PR that waits 16 hours for review hasn't paid for itself yet.
 
-After four weeks you'll have the first trend you can show someone. Mine showed a 42% rise in cost per merged PR inside a month that felt normal.
+After four weeks you'll have the first trend you can show someone. Mine showed a 42% rise in cost per merged PR from September to early October, in weeks that felt normal.

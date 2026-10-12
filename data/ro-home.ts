@@ -138,7 +138,7 @@ export const roPostTitles: PostTitles = {
   "agent-cost-per-commit": {
     title: "Costul pe PR cu merge: ce arată 3 luni din registrul meu Claude Code",
     description:
-      "O reducere a contextului a scăzut costul Claude Code pe PR cu merge de la 73 $ la 32 $ într-o lună. Apoi a crescut cu 42% în patru săptămâni. Registrul, metoda și comparația pe care am greșit-o.",
+      "O reducere a contextului a scăzut costul Claude Code pe PR cu merge de la 73 $ la 32 $ într-o lună. Apoi a crescut cu 42% până la începutul lui octombrie. Registrul, metoda și comparația pe care am greșit-o.",
   },
   "66-days-of-claude-code-by-the-numbers": {
     title: "463 de sesiuni Claude Code, numărate: promptul meu median avea 10 cuvinte",
@@ -188,7 +188,7 @@ export const roPostTitles: PostTitles = {
   "2-3x-not-100x": {
     title: "De 2–3 ori pe backlogul meu, 8% în 400 de companii: unde dispare câștigul din AI",
     description:
-      "Cu cât e mai rapidă programarea cu AI? DX a măsurat sub 8% mai multe PR-uri în peste 400 de companii. PR-urile scrise de agenții mei au așteptat review-ul în mediană 44 de minute, față de peste 16 ore în datele LinearB. Timpii, estimarea și de ce diferă.",
+      "Cu cât e mai rapidă programarea cu AI? DX a măsurat sub 8% mai multe PR-uri în peste 400 de companii. PR-urile scrise de agenții mei au intrat în main în mediană la 44 de minute după deschidere, cu review cu tot. În datele LinearB, PR-urile scrise de AI așteaptă peste 16 ore doar până le preia cineva. Timpii, estimarea și de ce diferă.",
   },
 };
 
@@ -204,8 +204,8 @@ export const roCaseStudyCards: CaseStudyCardsCopy = {
       "e numărul adevărat din spatele unui rând de pe un landing page etichetat „număr real”. Gate-ul ține astfel de rânduri departe de pagină.",
     "reviewed PRs merged in 100 minutes, each through a review gate first":
       "PR-uri revizuite, cu merge în 100 de minute, fiecare trecut întâi printr-un gate de review",
-    "lower cost per merged PR in one month, then it climbed 42% in four weeks":
-      "cost mai mic pe PR cu merge într-o lună, apoi a crescut cu 42% în patru săptămâni",
+    "lower cost per merged PR in one month, then it rose 42% by early October":
+      "cost mai mic pe PR cu merge într-o lună, apoi a crescut cu 42% până la începutul lui octombrie",
   },
   heading: "Studii de caz",
   // The one note for the whole page (R1-F21): studies and posts are in English.

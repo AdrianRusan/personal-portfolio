@@ -14,12 +14,12 @@ faq:
   - q: "Why do AI coding gains disappear at the team level?"
     a: "The code gets written faster and then waits. LinearB's 2026 data on 8.1 million PRs found AI-generated PRs wait more than 16 hours for a reviewer to pick them up, against about 200 minutes for unassisted work, and only 32.7% merge within 30 days. Faros found review time up 91% on teams with high AI adoption in 2025."
   - q: "Is the 2–3x figure measured?"
-    a: "Partly. The merge timestamps are measured from GitHub: 30 agent PRs, median 44 minutes from open to merge, under three days in total. The solo side, about a week of work, is my estimate, because I didn't do the work twice. So 2–3x is an estimate built on measured timestamps."
+    a: "Partly. The merge timestamps are measured from GitHub: 30 agent PRs, median 44 minutes from open to merge, under three days in total. The solo side, 5–7 days of work, is my estimate, because I didn't do the work twice. So 2–3x is an estimate built on measured timestamps."
   - q: "How do I measure review wait on my own team?"
     a: "Pull createdAt and mergedAt for every PR with gh pr list --json, and split agent-authored PRs from the rest. Track the median and the 90th percentile of open-to-merge time, count review fix commits per PR, and count how many separate sittings the merges happened in. All three come from data GitHub already keeps."
 ---
 
-DX measured AI coding lifting PR throughput by just under 8% across more than 400 companies. On my own backlog I estimate 2–3x. The part I can measure: my agent PRs merged a median 44 minutes after they opened, review and fixes included, while LinearB's average AI PR waited over 16 hours just for a reviewer to pick it up.
+DX measured AI coding lifting PR throughput by just under 8% across more than 400 companies. On my own backlog I estimate 2–3x. The part I can measure: my agent PRs merged a median 44 minutes after they opened, review and fixes included, while LinearB's AI PRs waited over 16 hours on average just for a reviewer to pick them up.
 
 **Short answer:** For one senior engineer reviewing a scoped backlog of agent-written PRs, 2–3x faster is my estimate. The measured part: in March 2026, 30 agent PRs on my own dashboard merged a median 44 minutes after they opened, in 9 review sittings over under three days. In LinearB's 2026 data, AI-written PRs wait more than 16 hours just for a reviewer to pick them up. My explanation, which the timestamps support and can't prove: the review queue is one person who wrote the tickets.
 
@@ -49,13 +49,13 @@ In March 2026 an agent fleet opened 31 PRs on my own admin dashboard and I merge
 | First PR opened to last merge | 2 days 19 hours | GitHub timestamps |
 | Merged PRs with a fix commit from review | 25 of 30 | git history |
 | My active hours | unknown | the transcripts were deleted after Claude Code's 30-day default |
-| The same work done solo | about a week | **my estimate** |
+| The same work done solo | 5–7 working days | **my estimate** |
 
 The October run on this site has the same shape: [nine PRs](/work/nine-prs-one-afternoon) merged a median 27 minutes after opening, in 2 sittings. Across all 36 PRs merged on this repo from 10 to 12 October, the median was 27 minutes and the 90th percentile 2.3 hours.
 
-Here is the division. The solo side is my estimate of 5 to 7 working days. The elapsed side is 2.1 days from the first worker wave to the last merge, or 2.8 days from the first PR, nights included. 5–7 days over 2.1–2.8 days gives 1.8x to 3.3x, which I round to 2–3x and quote as an estimate. Of 30 PRs, one waited longer than 16 hours. It was #95, the first PR, opened a day before the worker waves started; the second slowest, #97 at 9.5 hours, redid a PR I had closed.
+Here is the division. The solo side is my estimate of 5–7 working days. The elapsed side is 2.1 days from the first worker wave to the last merge, or 2.8 days from the first PR, nights included. 5–7 days over 2.1–2.8 days gives 1.8x to 3.3x, which I round to 2–3x and quote as an estimate. Of 30 PRs, one waited longer than 16 hours. It was #95, the first PR, opened a day before the worker waves started; the second slowest, #97 at 9.5 hours, redid a PR I had closed.
 
-## Why one reviewer beats the team average here
+## Three conditions I think explain the gap
 
 Three things differ from the teams in those studies. Each one is a condition, so check whether your setup has it.
 
@@ -72,9 +72,9 @@ Where this breaks:
 
 ## What review cost, and what it still missed
 
-Review is counted against the clock, and it isn't free. 25 of 30 PRs needed a fix commit before merge. Review also missed things: in that run it fixed three shell-injection paths from request input, only partly fixed a fourth call (#117, a user-editable value still run through `sh -c`), and missed one built from database values (#109, still open). [The shell-injection post](/blog/catching-shell-injection-agents-wrote) has the code.
+Review is counted against the clock, and it isn't free. 25 of 30 PRs needed a fix commit before merge. Review also missed things: in that run it fixed three shell-injection paths from request input, only partly fixed a fourth call (#117, a user-editable value still run through `sh -c`), and missed one built from database values (#109, still unfixed when I checked in October 2026). [The shell-injection post](/blog/catching-shell-injection-agents-wrote) has the code.
 
-Speed has a price here too: #109, the call review missed, merged 29 minutes after it opened, in a sitting that merged two PRs in 13 seconds. It's one data point, and it's the one that matters.
+Speed has a price here too: #109, the call review missed, merged 29 minutes after it opened, in a sitting that merged two PRs in 13 seconds. It's one data point, and it is the miss that's still unfixed.
 
 That is why I won't quote a bigger number. A faster figure is available if you drop the review, and the misses above happened with it.
 
@@ -91,7 +91,7 @@ If your agents open PRs under a human's login, as mine do, split them by branch 
 
 1. **Open-to-merge time, median and 90th percentile.** If agent PRs wait hours, the speed-up is going into the queue.
 2. **Fix commits per PR before merge.** This is the review cost. Mine was 25 of 30 PRs with at least one.
-3. **Review sittings.** Merges that land minutes apart are one sitting. Fewer, planned sittings beat a reviewer interrupted all day.
+3. **Review sittings.** Merges that land minutes apart are one sitting. In my runs, a few planned sittings kept the median wait under an hour.
 
 If the median wait for agent PRs is in hours, the cheapest gain is a named owner for pickup time, before any new tool.
 
