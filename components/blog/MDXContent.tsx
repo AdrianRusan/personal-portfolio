@@ -35,7 +35,8 @@ const rehypePlugins: MDXOptions["rehypePlugins"] = [
   ],
   [
     rehypePrettyCode,
-    { theme: "github-dark-high-contrast", keepBackground: true },
+    // A4 F10: the navy code token from CodeBlock, not Shiki's grey.
+    { theme: "github-dark-high-contrast", keepBackground: false },
   ],
 ];
 

@@ -44,35 +44,37 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
   return (
     <PageShell>
-      <div className="max-w-5xl mx-auto px-5 sm:px-10 pt-32 sm:pt-40 pb-20">
-        <JsonLd
-          data={[
-            pageJsonLd({
-              path: "/blog",
-              name: "Notes from shipping with Claude Code agents",
-              description: BLOG_DESCRIPTION,
-              crumbs: [{ name: "Blog", path: "/blog" }],
-              type: "CollectionPage",
-            }),
-            itemListJsonLd(posts.map((p) => `/blog/${p.slug}`)),
-          ]}
-        />
-        <div className="mb-12">
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4 text-balance">
-          Notes from shipping with Claude Code agents
-        </h1>
-        <p className="text-white-200 text-lg max-w-xl">
-          What my agents get wrong, what my review catches, and the numbers
-          from my own logs. I&apos;m a senior full-stack engineer, 10+ years in
-          production, and I review every PR my agents write.
-        </p>
-        </div>
+      <div className="px-5 sm:px-10 pt-32 sm:pt-40 pb-20">
+        <div className="container-section">
+          <JsonLd
+            data={[
+              pageJsonLd({
+                path: "/blog",
+                name: "Notes from shipping with Claude Code agents",
+                description: BLOG_DESCRIPTION,
+                crumbs: [{ name: "Blog", path: "/blog" }],
+                type: "CollectionPage",
+              }),
+              itemListJsonLd(posts.map((p) => `/blog/${p.slug}`)),
+            ]}
+          />
+          <div className="mb-12">
+            <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 text-balance">
+            Notes from shipping with Claude Code agents
+          </h1>
+          <p className="text-white-200 text-lg max-w-xl">
+            What my agents get wrong, what my review catches, and the numbers
+            from my own logs. I&apos;m a senior full-stack engineer, 10+ years in
+            production, and I review every PR my agents write.
+          </p>
+          </div>
 
-        <BlogListClient
-          posts={posts}
-          allTags={allTags}
-          {...(tag ? { initialTag: tag } : {})}
-        />
+          <BlogListClient
+            posts={posts}
+            allTags={allTags}
+            {...(tag ? { initialTag: tag } : {})}
+          />
+        </div>
       </div>
     </PageShell>
   );

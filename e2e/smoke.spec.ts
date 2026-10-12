@@ -126,15 +126,17 @@ for (const path of ['/', '/blog/2-3x-not-100x', '/ro']) {
   });
 }
 
-// D7: cut posts 301 to the page that now holds their content.
+// D7: cut posts 301 to the page that now holds their content; A4 F20: /workshops to the ladder.
 for (const [from, to] of [
+  ['/workshops', '/services#ladder'],
   ['/blog/30-prs-in-2-5-days', '/work/30-reviewed-prs-3-vulnerabilities'],
   ['/blog/claude-code-changed-how-i-ship-software', '/blog/2-3x-not-100x'],
 ]) {
   test(`${from} 301s to ${to}`, async ({ request }) => {
     const res = await request.get(from, { maxRedirects: 0 });
     expect(res.status()).toBe(301);
-    expect(new URL(res.headers()['location'], 'http://x').pathname).toBe(to);
+    const location = new URL(res.headers()['location'], 'http://x');
+    expect(location.pathname + location.hash).toBe(to);
   });
 }
 
