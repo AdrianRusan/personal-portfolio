@@ -11,7 +11,7 @@ cta: "harness"
 
 **Short answer:** Good CLAUDE.md examples list failures, not preferences. My rules file is about 3,350 words across one `CLAUDE.md` and eight rule files, tuned over 270 commits. Each rule that stayed corrects something the model gets wrong by default: fail-open gates, batched commits, fixes that tighten unrelated limits. Everything else got deleted.
 
-If you search for CLAUDE.md examples, you mostly find lists of preferences: use tabs, prefer functional components, write tests. Fair: those are fine. But they are not why my agents behave.
+If you search for CLAUDE.md examples, you mostly find lists of preferences: use tabs, prefer functional components, write tests. Those are fine. But they are not why my agents behave.
 
 The model already writes decent code. What it gets wrong is a handful of specific defaults, the same ones every time. A rules file is the cheapest place I have found to correct them, and below is the one my Claude Code sessions load every day.
 
@@ -56,7 +56,7 @@ Left alone, an agent saves everything for one big commit at the end. You lose th
 
 A checkpoint commit is cheap: a secrets scan and nothing else. The full validation ladder (typecheck, lint, build, test) runs only on the commit that ships.
 
-The push rule depends on the context. For my own projects, every commit is pushed as it is made and a draft PR opens at the first push. Fair: holding commits locally to push as one batch looks tidy. But nobody can see the work until it lands.
+The push rule depends on the context. For my own projects, every commit is pushed as it is made and a draft PR opens at the first push. Holding commits locally to push as one batch looks tidy, I agree. But nobody can see the work until it lands.
 
 ## Rule 3: fix the reported thing only
 
@@ -111,4 +111,4 @@ A rules file removes the five or six defaults that cost you the most review time
 
 The same rules running across several agents at once are in [how I run Claude Code agents in parallel](/blog/how-i-run-claude-code-agents-in-parallel).
 
-If you want this setup in your own repo, the setup offer below is what I would install.
+If you want this setup in your own repo, the Agent Fleet Setup is what I would install.
