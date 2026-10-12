@@ -1,65 +1,91 @@
 ---
-title: "30 Reviewed PRs, 3 Shell-Injection Paths Caught"
-seoTitle: "30 Reviewed PRs, 3 Shell-Injection Paths Caught"
+title: "30 Agent PRs, Reviewed: 3 Shell Injections Caught, 5 Security Bugs Missed"
+seoTitle: "Reviewing AI-Generated PRs: What 30 Agent PRs Taught Me"
 date: "2026-10-11"
+updated: "2026-10-12"
 tags: ["ai", "claude-code", "code-review", "security"]
-description: "My own admin dashboard, March 2026: agents opened 31 PRs in under three days and 30 were merged after review. No tests, no CI: review was the only gate."
+description: "March 2026: agents opened 31 PRs on my own dashboard and I merged 30 after review, with no tests and no CI. Review caught 3 shell injections. An October re-audit found 5 security bugs it missed."
 published: true
 language: "en"
 cta: "reviewed-pr"
-forYou: "If you're weighing agent-written PRs on a codebase with thin tests, this is what one reviewer caught and missed across 30 of them."
-meta: "Mar 2026 · Own project · under 3 days · Claude Code, Next.js, git worktrees"
+forYou: "You're weighing agent-written PRs on a codebase with thin tests and want to know what one careful reviewer catches, and what gets past him."
+meta: "Mar 2026 · Own project · under 3 days · Claude Code, Next.js, git worktrees · re-audited 12 Oct 2026"
 ---
 
-In March 2026 Claude Code agents opened 31 pull requests on my own admin dashboard in under three days, and I reviewed and merged 30. My review caught 3 shell-injection paths from request input before merge. It also missed one shell call, and that miss is the lesson.
+**Short answer:** In March 2026 Claude Code agents opened 31 pull requests on my own admin dashboard in under three days, and I reviewed and merged 30. The repo had no tests and no CI, so my review was the only gate. It caught 3 shell-injection paths from request input, a path traversal and a deleted allowlist before merge. On 12 October 2026 I re-audited the run and found 5 security bugs my review let through: 3 shell commands built from strings, one of them from request input, and 2 stored XSS sinks. All 5 are still open in that repo.
 
-The code is in [The Shell-Injection Bugs My Agents Wrote](/blog/catching-shell-injection-agents-wrote).
+The repo is my own agent-monitoring dashboard: no client code, no client data. Every number on this page comes from its git history and `gh pr view`, and the commit SHAs are listed so the claims can be checked against the repo.
 
-## The problem
+## The setup
 
-I had a backlog of scoped issues for my own admin dashboard. Coding agents can produce that volume quickly. What I didn't know was whether the output could merge safely, or whether speed would mean shipping code nobody had read line by line.
+- **Repo:** a Next.js admin dashboard with a SQLite database and API routes that call CLIs (`gh`, `rg`, `du`, a cron tool).
+- **Work:** 33 scoped issues for version 2.0, one Claude Code agent and one git worktree per issue, every agent reading the same `CLAUDE.md`.
+- **Gate:** no test suite, no `test` script, no `.github/` directory. Nothing merged until I had read the diff and pushed fixes for what I found.
+- **Models:** the commit trailers name Claude Sonnet 4 and Claude Opus 4.6. Of the 7 commits behind the security findings below, 4 carry a Sonnet 4 trailer and 3 carry none.
 
-## The constraint
+## The timeline
 
-The repo had no test suite and no CI. Nothing automated stood between an agent's PR and the main branch. So the rule was: nothing merges until I have read the diff, assuming it is wrong until it is shown safe.
+| When (UTC) | What happened |
+| --- | --- |
+| 10 Mar, 13:54 | First PR opened (#95, the database schema) |
+| 11 Mar, 07:12 | First worker wave of 9 |
+| 13 Mar, 08:39 | Last PR opened |
+| 13 Mar, 09:35 | Last merge (#125) |
+| 12 Oct | Re-audit: every fix commit classified, AI reviewers run on the original agent commits |
 
-That made review the whole safety story, and it set the pace of the run.
+That is 2 days 19 hours from the first PR to the last merge. 31 PRs were opened, 30 merged, and 1 closed and redone. 25 of the 30 merged PRs got at least one fix commit from review before merge.
 
-## What I built
+## What review caught before merge
 
-One agent per issue, one git worktree per agent. Each worktree is its own branch in its own directory, backed by one repository, so several agents could edit at once without touching each other's files.
+| PR | What the agent wrote | Where the input came from | Fix |
+| --- | --- | --- | --- |
+| #112 | A job ID from the URL path inside an `execSync` string. The rewrite also deleted the allowlist that an earlier security fix had put on that ID. | request (URL) | `237cfaa` → `10bf07e` |
+| #111 | A log-search query inside a shell string, behind the agent's own character filter | request (query) | `cf68b1a` → `42f1b03` |
+| #121 | A memory-search query, the same pattern as #111 | request (query) | `d718495` → `b2d68a2` |
+| #119 | A file path built from a route parameter with no containment (path traversal on read and write) | request (route) | `199d72c` → `e62ef29` |
+| #113 | A config path from an environment variable inside a shell string | operator config | `affddfd` → `b290d1c` |
 
-Every agent read the same `CLAUDE.md` before writing code: the goal, the constraints and the format for branches, commits and PR bodies.
+Only #112 was directly exploitable as written. #111 and #121 sat behind a regex that stripped every shell metacharacter, so they were one careless edit away from open. The code for all three is in [The Shell-Injection Bugs My Agents Wrote](/blog/catching-shell-injection-agents-wrote).
 
-The run went in waves:
+## What review missed
 
-1. Dispatch the ready issues, one agent and one worktree each.
-2. Let the agents write the code and open a PR.
-3. Review every PR adversarially, and push fix commits where the review found a problem.
-4. Merge by hand once the review passed, then remove the worktree.
+| PR | What got through | Input | How it was found | Status on 12 Oct |
+| --- | --- | --- | --- | --- |
+| #98 | `repo`, `state` and `label` from the URL query string go into a `gh` shell command (`app/api/github/issues/route.ts`) | request | an agent classifying the fix commits, 12 Oct; I confirmed it in the code | open |
+| #109 | A PR number and a repo name read from the database go into an `exec` shell string | database | found after the run | open |
+| #117 | A stored repo name goes into `sh -c`. Review added a format check, and #118 deleted its only call when it merged 3 minutes later. | stored, editable in the UI | the same fix-commit audit, 12 Oct | open |
+| #111 | Log lines rendered as HTML (`dangerouslySetInnerHTML`) with only the search term escaped: stored XSS | log files | AI reviewers on the original commit, 12 Oct | open |
+| #121 | Memory-file lines rendered the same way: stored XSS | memory files | AI reviewers on the original commit, 12 Oct | open |
 
-While I reviewed one wave, the next was already generating.
+Open means present at the repo's last commit, `30a6992` on 13 March 2026. The dashboard hasn't been touched since.
 
-## The number
+The same audit found one functional bug review missed: the #109 diff tab reads `commit.sha`, but `gh` returns `oid`, so the tab throws on any PR with commits.
 
-- **31 PRs** opened by agents, **30 merged**. The other one was closed and redone.
-- **9 worker waves**, under three days from the first PR to the last merge.
-- **25 of the 30** merged PRs got at least one fix commit from review before they merged.
-- **3 shell-injection paths from request input**, all caught and fixed before merge:
-  1. A job ID from the URL path interpolated into a shell command. The agent's rewrite had also deleted an allowlist an earlier security fix put there.
-  2. A log-search query interpolated into a shell command, behind a character filter.
-  3. A memory-search query, the same pattern as the log search.
+## Why these got through
 
-  Only the first was directly exploitable. The other two sat behind an allowlist regex that stripped shell characters: no way out of the shell string as written, and one careless edit away from open.
-- Review also caught a path traversal (a file path built from a route parameter with no containment) and 2 more shell-string calls on internal values.
-- **1 missed:** a shell-string call built from database values. It is still open. The rows come from my overnight worker rather than a request, so it ranks below the three above.
+**#98: the fix commit touched the vulnerable line and kept it.** Review asked for a cleanup, and the fix commit (`28f057d`) moved the route's private `gh` wrapper into a shared helper and typed it. The string that carries `repo` into the shell came along unchanged. A review comment on a line got read as a review of the line.
 
-## The lesson
+**#117: a check added in one PR was deleted by the next.** #117 and #118 were open at the same time. The format check I asked for landed at 07:25 UTC on 13 March, and #118's feature commit removed its only call at 07:29. Each PR was fine against its own base. Nobody, me included, reviewed the merge of the two.
 
-Review was the only gate. It kept three injection paths from request input off the main branch, and it still let one through. The call I missed took its input from the database instead of the request. Data in the database came from somewhere, and a shell string built from it has the same problem as one built from a URL.
+**#111 and #121: the fix already existed in the repo.** On 16 February a security fix (`32fc549`) added `sanitizeSnippet` to the global search results for exactly this pattern. In March two agents wrote two new search screens with their own highlight helpers and skipped it. My review fixed the shell call in both PRs and never looked at how the results rendered.
 
-The check that would have caught it is about the call, not the source: any shell string with a variable in it is a finding, wherever the variable came from.
+**#109: I trusted the database.** The values came from rows my overnight worker writes, so I ranked them below request input and let the call through. Anything that can write that row can run a command.
 
-A repo with no tests and no CI also needs a second gate besides one reviewer, such as a lint rule or a CI grep for shell-string calls, so a single missed line doesn't ship.
+## The rest of review
 
-Generation was the cheap part of this run. Most of the time went on review, which is why the speed-up I measure is [2–3x](/blog/2-3x-not-100x).
+25 of 30 PRs needed fixes. Their fix commits hold 64 fixes for 61 distinct defects, because 3 defects were fixed twice on parallel branches. 12 fixes were security fixes. The largest groups were re-implemented helpers (11) and type-safety fixes (10). By my reading of the code, 9 of the 61 defects would have broken the build or a page at runtime; nothing was run to confirm it. The breakdown by category is in [How to Review AI-Generated Code](/blog/what-agents-get-wrong).
+
+## What I'd run now
+
+The check that catches all 5 misses is mechanical: flag every shell string with a variable in it and every raw-HTML sink, wherever the value comes from, then trace each hit.
+
+```bash
+git diff origin/main...HEAD -U0 | grep '^+' \
+  | grep -iE "exec[a-z]*\(|shell: true|dangerouslySetInnerHTML"
+```
+
+I ran it on the 5 agent commits behind the misses. It returns 4 or 5 lines per commit, and every miss is among them. It also returns safe calls, like `execFileSync` with an argument array, so tracing each hit is still the work. A CI step that fails on a new hit until someone signs it off is the second gate a repo like this needed.
+
+I also ran two AI reviewers, Claude Code's `/code-review` and my own three-agent panel, on the 7 original agent commits behind the security findings. Both flagged the #109 shell string and both XSS sinks.
+
+Generation was the cheap part of this run. Review set the pace, and review was also where the misses came from, which is why I now run a machine pass before I read a diff and still read every diff myself.

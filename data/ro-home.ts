@@ -121,9 +121,9 @@ export const roOffers: OffersCopy = {
 // Latest). The posts themselves stay in English; the cards say so once.
 export const roPostTitles: PostTitles = {
   "30-reviewed-prs-3-vulnerabilities": {
-    title: "30 de PR-uri revizuite, 3 căi de shell injection prinse",
+    title: "30 de PR-uri scrise de agenți, revizuite: 3 shell injection prinse, 5 buguri de securitate ratate",
     description:
-      "Propriul meu dashboard de administrare, martie 2026: agenții au deschis 31 de PR-uri în mai puțin de trei zile și am făcut merge la 30 după review, fără teste și fără CI. Review-ul a prins 3 căi de shell injection și a ratat una.",
+      "Propriul meu dashboard, martie 2026: agenții au deschis 31 de PR-uri și am făcut merge la 30 după review, fără teste și fără CI. Review-ul a prins 3 căi de shell injection. Un re-audit din octombrie a găsit 5 buguri de securitate pe care le-a ratat.",
   },
   "honesty-gate": {
     title: "Honesty gate: cum opresc faptele inventate în site‑urile construite de agenți",
