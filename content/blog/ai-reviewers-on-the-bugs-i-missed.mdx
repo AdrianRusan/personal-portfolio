@@ -1,9 +1,9 @@
 ---
-title: "AI Reviewers vs My Review: They Flagged All 5 Bugs I Missed, and Waved One Through Like I Did"
+title: "AI Reviewers vs My Review: The Panel Flagged All 5 Bugs I Missed, Then Approved One Anyway"
 seoTitle: "AI Code Review vs Human Review: Blind Test on 8 Commits"
 date: "2026-11-28"
 tags: ["ai", "code-review", "security", "claude-code", "agent-harness"]
-description: "I ran /code-review and a three-agent panel, blind, on 8 agent commits I'd reviewed. They flagged the 5 security bugs I missed and waved one through, as I did."
+description: "I ran /code-review and a three-agent panel, blind, on 8 agent commits I'd reviewed. The panel flagged all 5 security bugs I missed, /code-review 4, and both waved one through, as I did."
 published: true
 language: "en"
 cta: "reviewed-pr"
@@ -53,7 +53,7 @@ Two limits shape the result. First, the repo holds an `AUDIT.md` from a February
 
 Panel column: security · correctness · completeness reviewer. B is BLOCK, W is WARN, N is NIT, and W(ok) means the reviewer rated it WARN and approved the commit.
 
-I checked all 11 rows. The 5 caught rows match their March fix commits. The 5 security rows I missed, plus the crash, were still in the code at the repo's last commit when I checked on 12 October, and I fixed the 5 security rows that day: the two XSS sinks at `components/logs/log-viewer.tsx:535` and `app/memory/page.tsx:231`, and the crash because `gh pr view --json commits` on a real PR returns `oid` and `authors`, no `sha`.
+I checked all 11 rows. The 5 caught rows match their March fix commits. The 5 security rows I missed, plus the crash, were still in the code at the repo's last commit when I checked on 12 October, and I fixed the 5 security rows that day. That fix, taco-console#127, did not fix the crash. I confirmed the XSS sinks at `components/logs/log-viewer.tsx:535` and `app/memory/page.tsx:231` in the code, and the crash by running `gh pr view --json commits` on a real PR: it returns `oid` and `authors`, no `sha`.
 
 The panel asked for changes on all 8 commits. Its security reviewer alone would have approved #113 and #117.
 

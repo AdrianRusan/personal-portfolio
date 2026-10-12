@@ -30,11 +30,11 @@ import {
 
 // RO twin of HARNESS_PROOF (data/index.ts).
 export const RO_HARNESS_PROOF =
-  "peste 20 de skills și peste 20 de hooks care caută secrete, blochează comenzile distructive și refuză un merge când o verificare nu poate rula";
+  "peste 20 de skill-uri și peste 20 de hook-uri care caută secrete, blochează comenzile distructive și refuză un merge când o verificare nu poate rula";
 
 // RO twin of LEDGER_PROOF (data/index.ts): same constant, same source.
 const ro = (v: number) => v.toLocaleString("ro-RO");
-export const RO_LEDGER_PROOF = `${W.sessions} de sesiuni · ${W.hours} de ore · ${ro(W.commits)} de commit-uri · ${W.prsOpened} de PR-uri deschise (limită superioară, nu toate cu merge) — ${W.days} de zile, 6 aug.–10 oct. 2026, numărate din propriile mele jurnale de sesiuni.`;
+export const RO_LEDGER_PROOF = `${W.sessions} de sesiuni · ${W.hours} de ore · ${ro(W.commits)} de commit-uri · ${W.prsOpened} de PR-uri deschise (limită superioară, nu toate merge-uite), în ${W.days} de zile, 6 aug.–10 oct. 2026, numărate din propriile mele jurnale de sesiuni.`;
 
 // Romanian copy for the /ro homepage. Same sections and numbers as the English
 // page; RO prices come from data/ro.ts (brief R7).
@@ -69,7 +69,7 @@ const roSteps: Record<string, { label: string; heading: string; body: string }> 
   SHIP: {
     label: "Livrare",
     heading: "Agenții scriu volumul",
-    body: "Mai mulți agenți Claude Code lucrează în paralel, în git worktrees separate. Fiecare primește un tichet și urmează convențiile din CLAUDE.md-ul tău. De aici vine câștigul de 2–3 ori: throughput-ul unei echipe mici, de la un singur operator și un harness.",
+    body: "Mai mulți agenți Claude Code lucrează în paralel, în git worktree-uri separate. Fiecare primește un tichet și urmează convențiile din CLAUDE.md-ul tău. De aici vine câștigul de 2–3 ori: throughput-ul unei echipe mici, de la un singur operator și un harness.",
   },
   VERIFY: {
     label: "Verificare",
@@ -85,7 +85,7 @@ export const roShipVerify: ShipVerifyCopy = {
   stepsHeading: "Cum funcționează: agenții livrează, eu verific",
   steps: shipVerify.map((step) => ({ ...step, ...roSteps[step.tag] })),
   multiplierLink: "Iată ce greșesc agenții →",
-  sampleLink: "Vezi un raport exemplu →",
+  sampleLink: "Vezi un exemplu de raport →",
 };
 
 export const roBio: BioCopy = {
@@ -121,24 +121,24 @@ export const roOffers: OffersCopy = {
 // Latest). The posts themselves stay in English; the cards say so once.
 export const roPostTitles: PostTitles = {
   "30-reviewed-prs-3-vulnerabilities": {
-    title: "30 de PR-uri scrise de agenți, revizuite: 3 shell injection prinse, 5 buguri de securitate ratate",
+    title: "30 de PR-uri scrise de agenți, revizuite: 3 căi de shell injection prinse, 5 buguri de securitate ratate",
     description:
-      "Propriul meu dashboard, martie 2026: agenții au deschis 31 de PR-uri și am făcut merge la 30 după review, fără teste și fără CI. Review-ul a prins 3 căi de shell injection. Un re-audit din octombrie a găsit 5 buguri de securitate pe care le-a ratat.",
+      "Propriul meu dashboard, martie 2026: agenții au deschis 31 de PR-uri și am făcut merge la 30 după review, fără teste și fără CI. Review-ul a prins 3 căi de shell injection. Un re-audit din octombrie a găsit 5 buguri de securitate pe care review-ul le ratase.",
   },
   "honesty-gate": {
-    title: "Honesty gate: cum opresc agenții să publice fapte inventate",
+    title: "Honesty gate: cum îi împiedic pe agenți să publice fapte inventate",
     description:
       "Un landing page construit de agenți prezenta un număr de lansări drept „număr real”. Numărul real era 0. Soluția: fiecare text afișat trebuie să-și dovedească sursa.",
   },
   "nine-prs-one-afternoon": {
     title: "Nouă PR-uri revizuite într-o după-amiază: echipa de agenți care a refăcut acest site",
     description:
-      "9 PR-uri cu merge în 100 de minute, o scurtătură ratată. Nouă agenți Claude Code în worktree-uri git paralele, fiecare PR trecut întâi prin typecheck, lint, build și teste.",
+      "9 PR-uri merge-uite în 100 de minute, o scurtătură ratată. Nouă agenți Claude Code în worktree-uri git paralele, fiecare PR trecut întâi prin typecheck, lint, build și teste.",
   },
   "agent-cost-per-commit": {
-    title: "Costul pe PR cu merge: ce arată 3 luni din registrul meu Claude Code",
+    title: "Costul pe PR merge-uit: ce arată 3 luni din registrul meu Claude Code",
     description:
-      "O reducere a contextului a scăzut costul Claude Code pe PR cu merge de la 73 $ la 32 $ într-o lună. Apoi a crescut cu 42% până la începutul lui octombrie. Registrul, metoda și comparația pe care am greșit-o.",
+      "O reducere a contextului a scăzut costul Claude Code pe PR merge-uit de la 73 $ la 32 $ într-o lună. Apoi a crescut cu 42% până la începutul lui octombrie. Registrul, metoda și comparația pe care am greșit-o.",
   },
   "66-days-of-claude-code-by-the-numbers": {
     title: "463 de sesiuni Claude Code, numărate: promptul meu median avea 10 cuvinte",
@@ -153,7 +153,7 @@ export const roPostTitles: PostTitles = {
   "how-i-run-claude-code-agents-in-parallel": {
     title: "Agenți Claude Code în paralel: ce nu izolează git worktree și ce acoperă acum funcțiile native",
     description:
-      "Agenți Claude Code în paralel în octombrie 2026: cele cinci lucruri pe care un git worktree le împarte în continuare (porturi, servicii, .git, aprobări, limita de utilizare), ce rezolvă acum -w, --bg și claude agents și pentru ce folosesc încă Herdr.",
+      "Agenți Claude Code în paralel în octombrie 2026: cele cinci lucruri pe care worktree-urile le partajează în continuare (porturi, servicii, .git, aprobări, limita de utilizare), ce rezolvă acum -w, --bg și claude agents și pentru ce folosesc încă Herdr.",
   },
   "auditing-my-claude-code-setup-with-an-agent": {
     title: "Cum auditezi un setup Claude Code: 5 verificări și ce au găsit în al meu",
@@ -161,9 +161,9 @@ export const roPostTitles: PostTitles = {
       "Cinci verificări pentru un setup Claude Code: skill-uri care nu pornesc niciodată, cuvinte încărcate în fiecare sesiune, modelul pe care rulează subagenții, lucruri nefolosite și metrici care nu pot pica. Ce a găsit fiecare în al meu, cu date.",
   },
   "reviewer-agents-that-dont-trust-other-agents": {
-    title: "Code review cu mai mulți agenți are nevoie de urme: 85 de PR-uri, 39 de verdicte neverificabile",
+    title: "Code review-ul cu mai mulți agenți are nevoie de urme: 85 de PR-uri, 39 de verdicte neverificabile",
     description:
-      "Agenții mei de review au dat un verdict pe 85 de PR-uri între mai și iulie 2026. 39 dintre ele există doar ca rezumat de un rând scris de agentul care a scris codul, iar 3 BLOCK-uri au intrat în merge fără corectură. Designul panelului, cifrele și ce urmă ar trebui să lase un agent de review.",
+      "Agenții mei de review au dat un verdict pe 85 de PR-uri între mai și iulie 2026. 39 dintre ele există doar ca rezumat de un rând scris de agentul care a scris codul, iar 3 BLOCK-uri au intrat în merge fără corecție. Designul panelului, cifrele și ce urmă ar trebui să lase un agent de review.",
   },
   "claude-code-fail-closed-hooks": {
     title: "Hook-urile Claude Code lasă acțiunea să treacă la eroare. Am testat onFailure: \"block\" pe propriile mele gate-uri",
@@ -173,12 +173,12 @@ export const roPostTitles: PostTitles = {
   "how-i-measure-claude-code-roi": {
     title: "Cum măsor ROI-ul Claude Code și cele 5 capcane care mi-au stricat cifrele",
     description:
-      "Claude Code șterge transcrierile după 30 de zile, iar cifrele rămase se strică în cinci feluri. Metoda din registrul meu pentru costul pe PR cu merge și capcanele în care a căzut.",
+      "Claude Code șterge transcrierile după 30 de zile, iar cifrele rămase se strică în cinci feluri. Metoda din registrul meu pentru costul pe PR merge-uit și capcanele în care a căzut.",
   },
   "what-agents-get-wrong": {
-    title: "Cum faci review la codul scris de AI: pentru ce au fost 64 de corecturi pe 30 de PR-uri ale agenților",
+    title: "Cum faci review la codul scris de AI: pentru ce au fost 64 de corecții pe 30 de PR-uri ale agenților",
     description:
-      "Am sortat toate cele 64 de corecturi din review-ul a 30 de PR-uri scrise de agenți după ce era greșit: securitate, cod duplicat, tipuri, versiuni vechi de framework. Cifrele, câte un exemplu real și un checklist ordonat după frecvență.",
+      "Am sortat toate cele 64 de corecții din review-ul a 30 de PR-uri scrise de agenți după ce era greșit: securitate, cod duplicat, tipuri, versiuni vechi de framework. Cifrele, câte un exemplu real și un checklist ordonat după frecvență.",
   },
   "catching-shell-injection-agents-wrote": {
     title: "Bugurile de shell injection scrise de agenții mei: 4 prinse, 3 ratate",
@@ -186,13 +186,13 @@ export const roPostTitles: PostTitles = {
       "Agenții au scris 7 comenzi shell construite din string-uri în 30 de PR-uri. Review-ul a prins 4, dintre care 3 din input-ul cererii, și a ratat 3, una tot din input-ul cererii. Codul și verificările.",
   },
   "ai-reviewers-on-the-bugs-i-missed": {
-    title: "Am dat bugurile ratate de mine unor agenți de review AI: toate 5 semnalate, unul lăsat să treacă",
+    title: "Am dat bugurile ratate de mine unor agenți de review AI: toate cele 5 semnalate, unul lăsat să treacă",
     description:
       "Am rulat /code-review din Claude Code și un panel de trei agenți, fără indicii, pe 8 commit-uri scrise de agenți pe care le revizuisem manual. Au semnalat cele 5 buguri de securitate ratate de mine și au lăsat unul să treacă, din același motiv ca mine.",
   },
 
   "2-3x-not-100x": {
-    title: "De 2–3 ori pe backlogul meu, 8% în 400 de companii: unde dispare câștigul din AI",
+    title: "De 2–3 ori pe backlog-ul meu, 8% în 400 de companii: unde dispare câștigul din AI",
     description:
       "Cu cât e mai rapidă programarea cu AI? DX a măsurat sub 8% mai multe PR-uri în peste 400 de companii. PR-urile scrise de agenții mei au intrat în main în mediană la 44 de minute după deschidere, cu review cu tot. În datele LinearB, PR-urile scrise de AI așteaptă peste 16 ore doar până le preia cineva. Timpii, estimarea și de ce diferă.",
   },
@@ -209,9 +209,9 @@ export const roCaseStudyCards: CaseStudyCardsCopy = {
     'the true count behind a landing-page line labelled "real number". The gate keeps lines like it off the page.':
       "e numărul adevărat din spatele unui rând de pe un landing page etichetat „număr real”. Gate-ul ține astfel de rânduri departe de pagină.",
     "reviewed PRs merged in 100 minutes, each through typecheck, lint, build and tests first":
-      "PR-uri revizuite, cu merge în 100 de minute, fiecare trecut întâi prin typecheck, lint, build și teste",
+      "PR-uri revizuite și merge-uite în 100 de minute, fiecare trecut întâi prin typecheck, lint, build și teste",
     "lower cost per merged PR in one month, then it rose 42% by early October":
-      "cost mai mic pe PR cu merge într-o lună, apoi a crescut cu 42% până la începutul lui octombrie",
+      "cost mai mic pe PR merge-uit într-o lună, apoi a crescut cu 42% până la începutul lui octombrie",
   },
   heading: "Studii de caz",
   // The one note for the whole page (R1-F21): studies and posts are in English.
@@ -246,7 +246,7 @@ const roJobs: Record<number, { period: string; desc: string; client?: string }> 
   },
   2: {
     period: "sep. 2023 – sep. 2024",
-    desc: "Am construit parsere de date pentru mai multe surse (-70% timp de procesare), un dashboard Next.js/Nest.js pentru Facebook Ads care a eliminat 10 ore pe săptămână de raportare manuală și teste E2E cu Playwright, cu CI în GitHub Actions.",
+    desc: "Am construit parsere de date pentru mai multe surse (-70% timp de procesare), un dashboard Next.js/Nest.js pentru Facebook Ads care a eliminat 10 ore pe săptămână de raportare manuală, plus teste E2E cu Playwright și CI în GitHub Actions.",
   },
   3: {
     period: "oct. 2020 – oct. 2022",

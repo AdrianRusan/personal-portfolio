@@ -136,7 +136,7 @@ export const roDeliverySprint: DeliverySprintCopy = {
       rest: "în codul tău, ca echipa să știe unde să se uite de acum înainte.",
     },
   ],
-  sampleLink: "Vezi un raport de securitate exemplu (EN) →",
+  sampleLink: "Vezi un exemplu de raport de securitate (EN) →",
   pricingHeading: "Prețurile sprinturilor",
   rowHeader: "Criteriu",
   pricingRest: `Un Sprint Standard costă ${eur(standard.price)} pentru ${prs(1)} PR-uri, fiecare verificat pentru securitate, plus raportul de securitate.`,
@@ -159,10 +159,10 @@ export const roDeliverySprint: DeliverySprintCopy = {
       ],
     },
     {
-      label: "Cam cât",
+      label: "Dimensiune",
       values: [
         `O funcționalitate bine delimitată (~${prs(0)} PR-uri)`,
-        `O lună de contractor, revizuită (~${prs(1)} PR-uri)`,
+        `Echivalentul unei luni de muncă a unui contractor, revizuită (~${prs(1)} PR-uri)`,
         `O zonă mare a produsului, în profunzime (~${prs(2)}+ PR-uri)`,
       ],
     },
@@ -194,7 +194,7 @@ export const roDeliverySprint: DeliverySprintCopy = {
     },
     {
       title: "Primul PR",
-      body: "Dacă primul PR nu e unul pe care l-ai face merge, nu îl plătești. Riscul tău e cel mai mare înainte să fi livrat ceva.",
+      body: "Dacă primul PR nu e unul căruia i-ai da merge, nu îl plătești. Riscul tău e cel mai mare înainte să-ți fi livrat ceva.",
     },
   ],
   paymentHeading: "Plată",
@@ -216,7 +216,7 @@ export const roEntryOffer: EntryOfferCopy = {
   cta: "Începe cu un PR",
   emailSubject: "PR revizuit (550 €)",
   emailBody: "Link către repo sau tichet:\n\nCe trebuie livrat:\n",
-  emailLink: "Preferi e-mailul? Trimite tichetul →",
+  emailLink: "Preferi emailul? Trimite tichetul →",
 };
 
 export const roTrustStrip: TrustStripCopy = {
@@ -229,7 +229,7 @@ export const roTrustStrip: TrustStripCopy = {
     href: "/work/30-reviewed-prs-3-vulnerabilities",
     cta: "Citește studiul de caz (EN) →",
   },
-  sampleLink: "Vezi un raport de securitate exemplu (EN) →",
+  sampleLink: "Vezi un exemplu de raport de securitate (EN) →",
 };
 
 export const roRetainer: RetainerCopy = {
@@ -240,7 +240,7 @@ export const roRetainer: RetainerCopy = {
   deliverables: [
     "Un număr stabilit de PR-uri, fiecare verificat la fel ca într-un sprint.",
     "Un registru continuu cu problemele de securitate și o notă lunară despre ce au greșit agenții în codul tău.",
-    "Acces async la mine pentru întrebări despre livrare și review.",
+    "Îmi poți scrie oricând, async, cu întrebări despre livrare și review.",
     "Prioritate la timpul meu de review: clienții cu retainer își păstrează locul înaintea sprinturilor punctuale.",
   ],
   startsAt: "De la",
@@ -270,7 +270,7 @@ export const roRetainer: RetainerCopy = {
 export const roHarnessSetup: HarnessSetupCopy = {
   heading: "Agent Fleet Setup: setup-ul meu de agenți, în repo-ul tău",
   intro:
-    "Instalez harness-ul pe care îl folosesc eu în repo-ul tău, adaptat stack-ului și convențiilor tale, ca echipa ta să poată rula agenți cu review gates deja puse.",
+    "Instalez harness-ul pe care îl folosesc eu în repo-ul tău, adaptat stack-ului și convențiilor tale, ca echipa ta să poată rula agenți cu review gate-uri deja configurate.",
   deliveredHeading: "Ce primești",
   deliverables: [
     "Un setup Claude Code funcțional pe repo-ul tău: regulile de proiect în CLAUDE.md, un worktree pentru fiecare agent și integrarea în CI.",
@@ -283,7 +283,7 @@ export const roHarnessSetup: HarnessSetupCopy = {
   startsAt: "De la",
   price: "2.200 €",
   pricingBody:
-    "Un repo: setup-ul agenților, gate-uri de securitate în CI, checklist-ul de review, playbook-ul și suportul. Mai multe repo-uri, workshop-uri sau pair programming cresc scope-ul, iar prețul îl fixăm în discuție, înainte de orice lucru.",
+    "Un repo: setup-ul agenților, gate-uri de securitate în CI, checklist-ul de review, playbook-ul și suportul. Mai multe repo-uri, workshop-uri sau pair programming cresc scope-ul, iar prețul îl fixăm în discuție, înainte să înceapă lucrul.",
   cta: "Programează o discuție",
   termsHeading: "Condiții",
   terms: [
@@ -312,7 +312,7 @@ export const roServicesPageFaq: ServicesFaqCopy = {
       question:
         "Agenții nesupravegheați livrează vulnerabilități. Cum tratezi securitatea?",
       answer:
-        `Așa e. ${RO_VERACODE_LINE} De aceea securitatea e prima trecere din fiecare review: injection, autentificare, secrete, controlul accesului. Pe propria mea rulare de 30 de PR-uri, un repo fără teste, review-ul a prins 3 căi de shell injection din input-ul cererii înainte de merge. Ce scap din aria review-ului e acoperit de garanția de securitate din condițiile sprintului.`,
+        `Așa e. ${RO_VERACODE_LINE} De aceea securitatea e prima trecere din fiecare review: injection, autentificare, secrete, controlul accesului. Pe propria mea rulare de 30 de PR-uri, un repo fără teste, review-ul a prins 3 căi de shell injection din input-ul cererii înainte de merge. Ce îmi scapă din aria review-ului e acoperit de garanția de securitate din condițiile sprintului.`,
     },
     {
       question:
@@ -389,12 +389,12 @@ export const roServicesFaq: ServicesFaqCopy = {
     },
     {
       question: "Cum funcționează plata?",
-      answer: `Fiecare preț e fix înainte să înceapă munca, în EUR, fără TVA. Sesiunea de strategie se plătește în avans. Sprinturile: 50% ca să rezervi slotul, 50% la predare. PR-ul revizuit se plătește doar dacă e gata de merge după standardul tău. Retainerele se facturează lunar. ${RO_CREDIT_TERMS}`,
+      answer: `Fiecare preț e fix înainte să înceapă munca, în EUR, fără TVA. Sesiunea de strategie se plătește în avans. Sprinturile: 50% ca să rezervi slotul, 50% la predare. PR-ul revizuit se plătește doar dacă e gata de merge la standardele tale. Retainerele se facturează lunar. ${RO_CREDIT_TERMS}`,
     },
     {
       question: "Ce se întâmplă dacă nu merge?",
       answer:
-        "Dacă primul PR revizuit nu e gata de merge după standardul tău, nu îl plătești. Riscul tău e cel mai mare înainte să fi livrat ceva, așa că garanția stă exact acolo. Scope-ul se fixează în ziua 0, deci nu există facturi care o iau razna. La retainer, dacă luna 1 nu atinge ritmul stabilit, te poți opri acolo.",
+        "Dacă primul PR revizuit nu e gata de merge la standardele tale, nu îl plătești. Riscul tău e cel mai mare înainte să-ți fi livrat ceva, așa că garanția stă exact acolo. Scope-ul se fixează în ziua 0, deci nu există facturi care o iau razna. La retainer, dacă luna 1 nu atinge ritmul stabilit, te poți opri acolo.",
     },
     {
       question: "Poți lucra ca un contractor obișnuit, plătit pe zi?",
