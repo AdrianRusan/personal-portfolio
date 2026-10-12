@@ -38,7 +38,7 @@ if (result.error || result.status === null || result.status !== 0) {
 }
 ```
 
-Gating only on `status !== 0` turns a missing binary into a silent bypass.
+Blocking only on the one exit code that means "found something" (`status === 1`) turns a missing binary into a silent bypass: a spawn failure has no exit code to match.
 
 The same rule says an empty allowlist refuses everything, an unset required variable refuses instead of falling back, and a flag on a security tool is opt-out (`--no-strict`), never opt-in. The gate's "I don't know" must equal its "no."
 
