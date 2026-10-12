@@ -18,7 +18,7 @@ faq:
 
 **Short answer:** Over 66 days my Claude Code sessions hit a usage limit in 37 separate episodes, with up to 18 sessions active at once. 97.7% of the tokens were cache reads, so I went after context: a lean orchestrator that dispatches and waits while executors spend the tokens, and a context that stays stable so the cache serves it. A third change, model tiers for subagents, is half done. I cannot show the limit count falling yet.
 
-Most advice on how to reduce LLM API costs is about picking a cheaper model. Fair: a cheaper model lowers the price per token. But my logs, and my [cost case study](/work/agent-cost-per-commit), pointed somewhere else.
+Most advice on how to reduce LLM API costs is about picking a cheaper model. That holds as far as it goes: a cheaper model lowers the price per token. But my logs, and my [cost case study](/work/agent-cost-per-commit), pointed somewhere else.
 
 When you run agents in parallel, the expensive part is context that every session and subagent rereads on every turn.
 
@@ -134,4 +134,4 @@ If you run several agents and keep hitting the wall:
 
 On a subscription none of this changes the bill. It changes how many hours you spend waiting for a reset, because one wall stalls every session on the account.
 
-If you want your team running this workflow, the workshop below covers it.
+If you want your team running this workflow, the team workshop covers it.
