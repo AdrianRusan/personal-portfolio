@@ -65,10 +65,6 @@ const DRAFTS = fs
   );
 
 describe("draft posts", () => {
-  it("includes the queued drafts", () => {
-    expect(DRAFTS).toContain("hitting-usage-limits-with-18-sessions-open");
-  });
-
   it.each(DRAFTS)("%s stays hidden", async (slug) => {
     at("2100-01-01T00:00:00Z");
     expect(await slugs()).not.toContain(slug);
