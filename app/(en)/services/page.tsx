@@ -73,7 +73,7 @@ const ServicesJsonLd = () => (
 
 export default function ServicesPage() {
   return (
-    <PageShell hideFooterCta>
+    <PageShell hideFooterCta hideEmailCapture>
       <ServicesFaqJsonLd />
       <ServicesJsonLd />
       <JsonLd
@@ -85,12 +85,12 @@ export default function ServicesPage() {
         })}
       />
       <ServicesHero />
+      <TrustStrip />
       <Ladder />
       <ProcessSteps />
       <DeliverySprint />
       <QuoteBand testimonial={testimonials.doros} />
       <EntryOffer />
-      <TrustStrip />
       <Retainer />
       <QuoteBand testimonial={testimonials.iojiban} />
       <HarnessSetup />

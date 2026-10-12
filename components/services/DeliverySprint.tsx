@@ -83,9 +83,7 @@ const en = {
   sampleLink: "See a sample security report →",
   pricingHeading: "Sprint prices",
   rowHeader: "Feature",
-  // R2-F1: the anchor sits below the Standard price, and the math is stated.
-  pricingLead:
-    "A senior contractor-month costs €10–14k, and nobody reviews that code for security.",
+  // A1 F5: the contractor-month anchor had no source, so the price stands alone.
   pricingRest: `A Standard Sprint is ${eur(standard.price)} for ${prs(1)} PRs, each one security-reviewed, plus the security report.`,
   columns,
   rows,
@@ -159,7 +157,6 @@ export const DeliverySprint = ({
         <div className="border-t border-white/10 pt-8 pb-4">
           <h3 className="text-lg font-semibold mb-3">{copy.pricingHeading}</h3>
           <p className="text-white-200 mb-6 leading-relaxed max-w-3xl text-pretty">
-            <span className="text-white font-semibold">{copy.pricingLead}</span>{" "}
             {copy.pricingRest}
           </p>
           <PricingTable

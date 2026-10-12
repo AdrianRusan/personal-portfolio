@@ -2,6 +2,7 @@ import {
   CREDIT_TERMS,
   formatPrice,
   ladder,
+  offerById,
   tiers,
   type Tier,
 } from "@/data/ladder";
@@ -16,7 +17,7 @@ const en = {
   format: formatPrice,
   heading: "Prices",
   // The credit rule is stated here and nowhere else on the page (R2-F11).
-  intro: `Start with a €200 call or go straight to a sprint. ${CREDIT_TERMS} All prices are in EUR, excluding VAT.`,
+  intro: `Start with one Reviewed PR at ${formatPrice(offerById(ladder, "reviewed-pr"))}, or go straight to a sprint. ${CREDIT_TERMS} All prices are in EUR, excluding VAT.`,
   // RO adds the "firms based in Romania" qualifier (A7).
   note: undefined as string | undefined,
   limited: "One at a time",
@@ -28,7 +29,9 @@ const en = {
 
 export type LadderContent = typeof en;
 
-// R2-F12: one full-width row per tier, so no column ends early.
+// A4 F3: one compact row per offer (name, price, one sentence, links), grouped
+// by tier, in place of the card grid that left empty columns. A1 F10: Ship
+// rows drop the assurance line, because their detail blocks below repeat it.
 export const Ladder = ({ content = en }: { content?: LadderContent }) => {
   return (
     <section id="ladder" className="px-5 sm:px-10 py-12 md:py-16 scroll-mt-24">
@@ -46,69 +49,62 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
 
         <div className="mt-10 flex flex-col">
           {content.tiers.map(({ tier, tagline }) => (
-            <div
-              key={tier}
-              className="grid grid-cols-1 lg:grid-cols-[11rem_1fr] gap-4 lg:gap-8 border-t border-white/10 py-8"
-            >
-              <div>
-                <h3 className="text-lg font-semibold text-white">
-                  {content.tierName(tier)}
-                </h3>
-                <p className="text-sm text-white-200/80 mt-1 text-pretty">
+            <div key={tier} className="border-t border-white/10 pt-6 pb-2">
+              <h3 className="text-lg font-semibold text-white">
+                {content.tierName(tier)}
+                <span className="ml-3 text-sm font-normal text-white-200/80">
                   {tagline}
-                </p>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                </span>
+              </h3>
+              <ul className="mt-2">
                 {content.offers
                   .filter((offer) => offer.tier === tier)
                   .map((offer) => (
-                    <div
+                    <li
                       key={offer.id}
-                      className="flex flex-col rounded-xl border border-white/10 bg-black-200/40 p-5"
+                      className="grid gap-x-8 gap-y-1 border-t border-white/5 py-4 first:border-t-0 md:grid-cols-[13rem_1fr_auto]"
                     >
-                      <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div>
                         <h4 className="text-base font-semibold text-white">
                           {offer.name}
                         </h4>
-                        {offer.limited && (
-                          <span
-                            title={content.capacity}
-                            className="text-xs font-medium text-blue-100 border border-blue-100/30 rounded-full px-2 py-0.5"
-                          >
-                            {content.limited}
-                          </span>
-                        )}
+                        <p className="text-xs text-white-200/75 mt-0.5">
+                          {offer.duration}
+                          {offer.limited && (
+                            <span title={content.capacity}>
+                              {" "}
+                              · {content.limited}
+                            </span>
+                          )}
+                        </p>
                       </div>
-                      <p className="tabular-nums text-lg font-bold text-white mt-2">
+                      <div className="md:order-none order-last">
+                        <p className="text-sm text-white-200 leading-relaxed text-pretty">
+                          {keepRangesWhole(offer.summary)}
+                          {offer.tier !== "Ship" && offer.assurance && (
+                            <> {offer.assurance}</>
+                          )}
+                        </p>
+                        <div className="flex flex-wrap gap-x-4 mt-1">
+                          {offer.ctas.map((cta) => (
+                            <LadderLink
+                              key={cta.href}
+                              href={cta.href}
+                              offer={offer.id}
+                              source={content.source}
+                              className="inline-flex min-h-11 items-center text-sm font-medium text-purple hover:underline underline-offset-4"
+                            >
+                              {cta.label} {cta.href.startsWith("#") ? "↓" : "→"}
+                            </LadderLink>
+                          ))}
+                        </div>
+                      </div>
+                      <p className="tabular-nums text-base font-bold text-white md:text-right whitespace-nowrap">
                         {content.format(offer)}
                       </p>
-                      <p className="text-xs text-white-200/75 mt-1">
-                        {offer.duration}
-                      </p>
-                      <p className="text-sm text-white-200 leading-relaxed mt-3 flex-1">
-                        {keepRangesWhole(offer.summary)}
-                      </p>
-                      {offer.assurance && (
-                        <p className="text-xs text-white-200/80 mt-3">
-                          {offer.assurance}
-                        </p>
-                      )}
-                      <div className="flex flex-wrap gap-x-4 gap-y-1 mt-4">
-                        {offer.ctas.map((cta) => (
-                          <LadderLink
-                            key={cta.href}
-                            href={cta.href}
-                            offer={offer.id}
-                            source={content.source}
-                            className="text-sm font-medium text-purple hover:underline underline-offset-4"
-                          >
-                            {cta.label} {cta.href.startsWith("#") ? "↓" : "→"}
-                          </LadderLink>
-                        ))}
-                      </div>
-                    </div>
+                    </li>
                   ))}
-              </div>
+              </ul>
             </div>
           ))}
         </div>

@@ -9,6 +9,7 @@ import type { WhoForCopy } from "@/components/WhoFor";
 import type { LadderContent } from "@/components/services/Ladder";
 import type { ProcessStepsCopy } from "@/components/services/ProcessSteps";
 import type { ServicesHeroCopy } from "@/components/services/ServicesHero";
+import type { TrustStripCopy } from "@/components/services/TrustStrip";
 import { CALENDLY_URL, type Testimonial } from "@/data";
 import type { ProsePage } from "@/data/pages";
 import { teardown } from "@/data/teardown";
@@ -109,6 +110,7 @@ export const homeMd = (c: HomeCopy) =>
 
 export interface ServicesCopy {
   hero: ServicesHeroCopy;
+  trust: TrustStripCopy;
   ladder: LadderContent;
   process: ProcessStepsCopy;
   faq: Faq;
@@ -118,6 +120,7 @@ export interface ServicesCopy {
 
 export const servicesMd = ({
   hero,
+  trust,
   ladder,
   process,
   faq,
@@ -128,7 +131,8 @@ export const servicesMd = ({
     hero.intro,
     `> ${hero.guarantee}`,
     `[${hero.cta}](${CALENDLY_URL})`,
-    `${hero.proof}. [${hero.proofLink.label}](${hero.proofLink.href})`,
+    `${trust.label} ${trust.employers.join(", ")}.`,
+    `${trust.proof}. [${trust.study.cta.replace(/ →$/, "")}](${trust.study.href})`,
     `## ${ladder.heading}`,
     ladder.note ? `${ladder.intro} ${ladder.note}` : ladder.intro,
     ...ladder.tiers.map(({ tier, tagline }) =>
@@ -139,7 +143,7 @@ export const servicesMd = ({
             .filter((o) => o.tier === tier)
             .map(
               (o) =>
-                `**${o.name}** (${ladder.format(o)}, ${o.duration}). ${o.summary}${o.assurance ? ` ${o.assurance}` : ""}`,
+                `**${o.name}** (${ladder.format(o)}, ${o.duration}). ${o.summary}${o.tier !== "Ship" && o.assurance ? ` ${o.assurance}` : ""}`,
             ),
         ),
       ),

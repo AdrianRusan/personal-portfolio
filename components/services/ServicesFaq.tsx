@@ -15,7 +15,7 @@ const items: FaqItem[] = [
     question:
       "Unsupervised agents ship vulnerabilities. How do you handle security?",
     answer:
-      "They do, which is why security is the first pass of every review: injection, auth, secrets, access control. On my own 30-PR run, a repo with no test suite, the review caught 3 shell-injection paths from request input before merge. Anything in scope that I miss is covered by the security guarantee in the sprint terms.",
+      "They do. Veracode's July 2026 test found a known vulnerability in about 44% of AI code-generation tasks. That's why security is the first pass of every review: injection, auth, secrets, access control. On my own 30-PR run, a repo with no test suite, the review caught 3 shell-injection paths from request input before merge. Anything in scope that I miss is covered by the security guarantee in the sprint terms.",
   },
   {
     question:
@@ -46,9 +46,9 @@ const items: FaqItem[] = [
   },
   {
     question:
-      "Why not hire a contractor by the day, an agency, or more engineers?",
+      "Why not a contractor by the day, an agency, more engineers, or an AI review bot?",
     answer:
-      "Day-to-day capacity is the retainer, from €4,000/month. An agency sells a team's hours with a markup, and new hires take months to ramp. A sprint sells reviewed PRs at a price fixed up front, and the first one lands within days. To test the working relationship first, start with one Reviewed PR.",
+      "Day-to-day capacity is the retainer, from €4,000/month. An agency sells a team's hours with a markup, and new hires take months to ramp. An AI review bot is cheap and worth running, but it can't be held accountable for a merge. A sprint sells reviewed PRs at a price fixed up front, and the first one lands within days. To test the working relationship first, start with one Reviewed PR.",
   },
 ];
 

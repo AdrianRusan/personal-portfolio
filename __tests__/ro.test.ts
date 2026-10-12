@@ -40,9 +40,14 @@ describe("roLadder", () => {
     expect(formatPriceRo(roLadder.find((o) => o.id === id)!)).toBe(expected);
   });
 
-  it("prices every point at 55% of global, within 2% rounding", () => {
+  // D3 (2026-10-12): EN audit and workshop prices went up; RO keeps the R7
+  // prices pinned above, so those two no longer track 55% of global.
+  const D3_RAISED = new Set(["audit", "workshop"]);
+
+  it("prices every other point at 55% of global, within 2% rounding", () => {
     roLadder.forEach((ro, i) => {
       const global = ladder[i]!;
+      if (D3_RAISED.has(ro.id)) return;
       expect(ro.prices).toHaveLength(global.prices.length);
       ro.prices.forEach((p, j) => {
         const target = global.prices[j]!.amount * 0.55;

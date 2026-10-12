@@ -11,6 +11,7 @@ import { ladderCopy } from "@/components/services/Ladder";
 import { processStepsCopy } from "@/components/services/ProcessSteps";
 import { servicesFaqCopy } from "@/components/services/ServicesFaq";
 import { servicesHeroCopy } from "@/components/services/ServicesHero";
+import { trustStripCopy } from "@/components/services/TrustStrip";
 import {
   BLOG_DESCRIPTION,
   HOME_FAQ_HEADING,
@@ -45,6 +46,7 @@ import {
   roServicesPageFaq,
   roServicesHero,
   roServicesLadder,
+  roTrustStrip,
 } from "@/data/ro-services";
 import { WORK_DESCRIPTION, byCaseStudyOrder } from "@/data/work";
 import { workshops, type WorkshopSlug } from "@/data/workshops";
@@ -94,6 +96,7 @@ const staticPages: Record<string, () => string> = {
   "/services": () =>
     servicesMd({
       hero: servicesHeroCopy,
+      trust: trustStripCopy,
       ladder: ladderCopy,
       process: processStepsCopy,
       faq: servicesFaqCopy,
@@ -102,6 +105,7 @@ const staticPages: Record<string, () => string> = {
   "/ro/servicii": () =>
     servicesMd({
       hero: roServicesHero,
+      trust: roTrustStrip,
       ladder: roServicesLadder,
       process: roProcessSteps,
       faq: roServicesPageFaq,

@@ -5,27 +5,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { CALENDLY_URL } from "@/data";
-import {
-  type NavItem,
-  primaryNav,
-  roPrimaryNav,
-  roServicesSubNav,
-  servicesSubNav,
-} from "@/data/nav";
+import { type NavItem, primaryNav, roPrimaryNav } from "@/data/nav";
 import { track } from "@/lib/analytics";
 import { hasTwin, localeOf, switchLocalePath } from "@/lib/locale";
-
-const subNavs: Record<string, NavItem[]> = {
-  "/services": servicesSubNav,
-  "/ro/servicii": roServicesSubNav,
-};
 
 const isCurrent = (link: string, pathname: string) =>
   link === pathname ||
   (link !== "/" && link !== "/ro" && pathname.startsWith(link + "/"));
 
+// A4 F14: min-h-11 gives every nav link a 44px tap target at the same size.
 const linkClass =
-  "relative flex items-center whitespace-nowrap py-2 sm:py-0 text-xs sm:text-sm text-neutral-600 dark:text-neutral-50 hover:text-neutral-500 dark:hover:text-neutral-300 aria-[current=page]:font-semibold aria-[current=page]:text-purple dark:aria-[current=page]:text-purple";
+  "relative flex min-h-11 items-center whitespace-nowrap px-1.5 py-2 sm:py-0 text-xs sm:text-sm text-neutral-600 dark:text-neutral-50 hover:text-neutral-500 dark:hover:text-neutral-300 aria-[current=page]:font-semibold aria-[current=page]:text-purple dark:aria-[current=page]:text-purple";
 
 // Always visible: it carries the only persistent "Book a call". It shrinks
 // after the first scroll instead of hiding, so focus can never land in a hidden nav.
@@ -33,7 +23,7 @@ export const FloatingNav = ({
   navItems,
   className,
 }: {
-  // Omit to use the shared nav (data/nav.ts) and the page's sub-nav.
+  // Omit to use the shared nav (data/nav.ts).
   navItems?: NavItem[] | undefined;
   className?: string;
 }) => {
@@ -41,7 +31,6 @@ export const FloatingNav = ({
   const isRo = localeOf(pathname) === "ro";
   const twin = hasTwin(pathname);
   const items = navItems ?? (isRo ? roPrimaryNav : primaryNav);
-  const subNav = navItems ? undefined : subNavs[pathname];
 
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
@@ -78,16 +67,6 @@ export const FloatingNav = ({
           </Link>
         ))}
       </div>
-      {/* In-page anchors only from sm up, so the nav is one row on a phone. */}
-      {subNav && (
-        <div className="hidden sm:flex items-center gap-x-4 border-l border-black/10 dark:border-white/10 pl-4">
-          {subNav.map((item) => (
-            <Link key={item.link} href={item.link} className={linkClass}>
-              {item.name}
-            </Link>
-          ))}
-        </div>
-      )}
       <Link
         href={switchLocalePath(pathname)}
         hrefLang={isRo ? "en" : "ro"}
@@ -101,7 +80,7 @@ export const FloatingNav = ({
               : "RO, citește în română"
             : `${isRo ? "EN" : "RO"}, ${switchTitle}`
         }
-        className="relative flex-none py-2 sm:py-0 text-xs sm:text-sm font-medium text-neutral-600 dark:text-neutral-50 hover:text-purple dark:hover:text-purple"
+        className="relative flex min-h-11 flex-none items-center px-1.5 py-2 sm:py-0 text-xs sm:text-sm font-medium text-neutral-600 dark:text-neutral-50 hover:text-purple dark:hover:text-purple"
       >
         {isRo ? "EN" : "RO"}
       </Link>

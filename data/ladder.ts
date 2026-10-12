@@ -80,9 +80,8 @@ const offers: LadderOffer[] = [
     id: "strategy-call",
     tier: "Advise",
     name: "AI Strategy Call",
-    // R2-F8: says why this paid hour differs from the free scoping call.
-    summary:
-      "The free 30-min call scopes a project. This hour is advice on your own question, with a written summary.",
+    // A1 F4: listed on /services only; stated on its own terms, not by contrast.
+    summary: "One hour on your own AI question, with a written summary.",
     prices: [{ amount: 200 }],
     duration: "1 h",
     assurance: "Fixed price, paid up front.",
@@ -93,8 +92,9 @@ const offers: LadderOffer[] = [
     tier: "Advise",
     name: "AI Audit",
     summary:
-      "Your AI-written code, LLM workflow or LLM spend, reviewed: security gaps, cost per merged PR, cache use and wasted agent runs, in a ranked report of what to fix first.",
-    prices: [{ amount: 900, from: true }],
+      "Your AI-written or vibe-coded code, LLM workflow or token spend, reviewed: security gaps, cost per merged PR, cache use and wasted agent runs, in a ranked report of what to fix first.",
+    // D3 (Adi, 2026-10-12): €900 → €1,500. RO keeps its own 500 € (data/ro.ts).
+    prices: [{ amount: 1500, from: true }],
     duration: "2–3 days",
     assurance: "Price agreed before I start.",
     ctas: [
