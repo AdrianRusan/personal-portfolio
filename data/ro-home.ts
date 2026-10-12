@@ -187,6 +187,11 @@ export const roPostTitles: PostTitles = {
       "Agenții au scris 7 comenzi shell construite din string-uri în 30 de PR-uri. Review-ul a prins 4, dintre care 3 din input-ul cererii, și a ratat 3, una tot din input-ul cererii. Codul și verificările.",
   },
 
+  "ai-reviewers-on-the-bugs-i-missed": {
+    title: "Am dat bugul pe care l-am ratat agenților de review AI. L-au prins, plus încă două",
+    description:
+      "Am rulat /code-review din Claude Code și un panel de trei agenți, fără indicii, pe cele 7 commit-uri scrise de agenți din spatele constatărilor de securitate. Au prins shell injection-ul ratat de mine, două XSS-uri pe care nu le văzusem și au repetat una dintre greșelile mele.",
+  },
   "2-3x-not-100x": {
     title: "De 2–3 ori, nu de 100 de ori: cifra sinceră despre viteza programării cu AI",
     description:
