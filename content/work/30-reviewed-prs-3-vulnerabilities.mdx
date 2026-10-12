@@ -11,17 +11,17 @@ forYou: "If you're weighing agent-written PRs on a codebase with thin tests, thi
 meta: "Mar 2026 · Own project · under 3 days · Claude Code, Next.js, git worktrees"
 ---
 
-In March 2026 Claude Code agents opened 31 pull requests on my own admin dashboard in under three days, and I reviewed and merged 30. My review caught 3 shell-injection paths from request input before merge. It also missed one shell call, which is the lesson.
+In March 2026 Claude Code agents opened 31 pull requests on my own admin dashboard in under three days, and I reviewed and merged 30. My review caught 3 shell-injection paths from request input before merge. It also missed one shell call, and that miss is the lesson.
 
 The mechanics are in [30 PRs in Under Three Days](/blog/30-prs-in-2-5-days), and the code is in [The Shell-Injection Bugs My Agents Wrote](/blog/catching-shell-injection-agents-wrote).
 
 ## The problem
 
-I had a backlog of scoped issues for my own admin dashboard. Coding agents can produce that volume quickly. The question was whether the output could merge safely, or whether speed would mean shipping code nobody had really read.
+I had a backlog of scoped issues for my own admin dashboard. Coding agents can produce that volume quickly. What I didn't know was whether the output could merge safely, or whether speed would mean shipping code nobody had read line by line.
 
 ## The constraint
 
-The repo had no test suite and no CI. Nothing automated stood between an agent's PR and the main branch. So the rule was simple: nothing merges until I have read the diff, assuming it is wrong until it is shown safe.
+The repo had no test suite and no CI. Nothing automated stood between an agent's PR and the main branch. So the rule was: nothing merges until I have read the diff, assuming it is wrong until it is shown safe.
 
 That made review the whole safety story, and it set the pace of the run.
 
@@ -56,8 +56,12 @@ While I reviewed one wave, the next was already generating.
 
 ## The lesson
 
-Review was the only gate, and it caught a lot: three injection paths from request input never reached the main branch. It was not a perfect gate. The call I missed took its input from the database instead of the request. Data in the database came from somewhere, and a shell string built from it has the same problem as one built from a URL.
+Review was the only gate. It kept three injection paths from request input off the main branch, and it still let one through. The call I missed took its input from the database instead of the request. Data in the database came from somewhere, and a shell string built from it has the same problem as one built from a URL.
 
-The check that would have caught it is about the call, not the source: any shell string with a variable in it is a finding, wherever the variable came from. And a repo with no tests and no CI needs a second gate besides one reviewer, such as a lint rule or a CI grep for shell-string calls, so a single missed line doesn't ship.
+The check that would have caught it is about the call, not the source: any shell string with a variable in it is a finding, wherever the variable came from.
+
+A repo with no tests and no CI also needs a second gate besides one reviewer, such as a lint rule or a CI grep for shell-string calls, so a single missed line doesn't ship.
 
 Generation was the cheap part of this run. Most of the time went on review, which is why the speed-up I measure is [2–3x](/blog/2-3x-not-100x).
+
+If you want one ticket from your own backlog put through the same review, the Reviewed PR offer below is the place to start.
