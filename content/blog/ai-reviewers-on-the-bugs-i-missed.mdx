@@ -10,7 +10,7 @@ cta: "reviewed-pr"
 forYou: "You're deciding whether an AI reviewer can replace a human review of agent-written code, or what it changes about one."
 faq:
   - q: "Can AI code review catch security bugs a human reviewer missed?"
-    a: "In my test, yes. On 8 agent-written commits I had reviewed by hand in March, Claude Code's /code-review and a three-agent panel flagged the shell injections I had approved, two stored XSS sinks I never saw and a crashing tab. The panel flagged all 5 security bugs my review let through; /code-review flagged 4. As of 12 October 2026 all of them were still in that repo."
+    a: "In my test, yes. On 8 agent-written commits I had reviewed by hand in March, Claude Code's /code-review and a three-agent panel flagged the shell injections I had approved, two stored XSS sinks I never saw and a crashing tab. The panel flagged all 5 security bugs my review let through; /code-review flagged 4. All 5 had sat in that repo since March; I fixed them on 12 October 2026, the day of the test."
   - q: "What did the AI reviewers miss?"
     a: "/code-review reports 10 findings at medium effort. On one commit it left a shell call built from a stored repo name out of its 10 and called it low risk because the value came from seeded data. The panel's security reviewer flagged the same call as a warning and approved the commit. That is the reasoning that made me miss a shell call built from database values."
   - q: "Should an AI reviewer replace human code review?"
@@ -19,7 +19,7 @@ faq:
     a: "Claude Code Review, the managed GitHub service, averages $15 to $25 per review according to its docs, and it's in research preview for Team and Enterprise plans. I didn't run it. The local /code-review runs I did took about 58,000 tokens and 53 to 82 seconds per commit."
 ---
 
-**Short answer:** I gave two AI reviewers the 8 agent commits I'd already reviewed by hand in March. They flagged every security bug I missed, and on one they made my exact mistake. My three-agent panel flagged all 5 security bugs my review let through, and Claude Code's `/code-review` flagged 4, plus a crash I'd never noticed. On the fifth, both rated a shell call low risk because its value came from seed data, which is the reasoning that made me miss another one. As of 12 October 2026 all 5 bugs were still in that repo.
+**Short answer:** I gave two AI reviewers the 8 agent commits I'd already reviewed by hand in March. They flagged every security bug I missed, and on one they made my exact mistake. My three-agent panel flagged all 5 security bugs my review let through, and Claude Code's `/code-review` flagged 4, plus a crash I'd never noticed. On the fifth, both rated a shell call low risk because its value came from seed data, which is the reasoning that made me miss another one. I fixed all 5 bugs on 12 October 2026, the day of the test.
 
 The run is my own admin dashboard, and [the 30-PR case study](/work/30-reviewed-prs-3-vulnerabilities) has the full list of what my review caught and missed. This post is the test of whether a machine would have done better.
 
@@ -53,7 +53,7 @@ Two limits shape the result. First, the repo holds an `AUDIT.md` from a February
 
 Panel column: security · correctness · completeness reviewer. B is BLOCK, W is WARN, N is NIT, and W(ok) means the reviewer rated it WARN and approved the commit.
 
-I checked all 11 rows. The 5 caught rows match their March fix commits. The 5 security rows I missed, plus the crash, were still in the code at the repo's last commit when I checked on 12 October: the two XSS sinks at `components/logs/log-viewer.tsx:535` and `app/memory/page.tsx:231`, and the crash because `gh pr view --json commits` on a real PR returns `oid` and `authors`, no `sha`.
+I checked all 11 rows. The 5 caught rows match their March fix commits. The 5 security rows I missed, plus the crash, were still in the code at the repo's last commit when I checked on 12 October, and I fixed the 5 security rows that day: the two XSS sinks at `components/logs/log-viewer.tsx:535` and `app/memory/page.tsx:231`, and the crash because `gh pr view --json commits` on a real PR returns `oid` and `authors`, no `sha`.
 
 The panel asked for changes on all 8 commits. Its security reviewer alone would have approved #113 and #117.
 
