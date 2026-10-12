@@ -34,6 +34,9 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
+  // Next 15 streams metadata into <body> on dynamic pages (/blog reads searchParams)
+  // for non-bot user agents; block on it for every agent so the description is in <head>.
+  htmlLimitedBots: /.*/,
   serverExternalPackages: ['next-mdx-remote', 'shiki'],
   experimental: {
     inlineCss: true,
