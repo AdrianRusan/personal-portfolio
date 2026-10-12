@@ -88,8 +88,10 @@ export const proofStats = [
     // no tests or CI, so the stat makes no claim about tests.
     label: "shell-injection paths from request input, caught in review before merge",
   },
-  // A1 F9: the third stat is the miss (pratfall), not a repeat of the eyebrow.
-  { figure: "1", label: "missed, and the case study shows which" },
+  // Adi, 2026-10-12: a re-audit found 5 misses in the 30-PR run, not 1, so the
+  // miss count moved to the case study (where all 5 are listed) and the third
+  // stat is the PGL proof. Not "10+ yrs": the eyebrow already says it (A1 F9).
+  { figure: "2M+", label: "concurrent viewers on the PGL Major streams I built live graphics for" },
 ];
 
 export const shipVerify = [

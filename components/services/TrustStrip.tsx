@@ -9,7 +9,7 @@ const en = {
   // Newest first.
   employers: [FINTECH_EMPLOYER, "GoSocial", "PGL Esports", "Ipsos"],
   proof:
-    "30 reviewed PRs in under 3 days · 3 shell-injection paths caught before merge, 1 missed",
+    "30 reviewed PRs in under 3 days · 3 shell-injection paths caught before merge · every miss listed in the case study",
   study: {
     href: "/work/30-reviewed-prs-3-vulnerabilities",
     cta: "Read the case study →",

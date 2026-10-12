@@ -224,7 +224,7 @@ export const roTrustStrip: TrustStripCopy = {
   label: "Peste 10 ani de software livrat în producție, cu",
   employers: [FINTECH_EMPLOYER, "GoSocial", "PGL Esports", "Ipsos"],
   proof:
-    "30 de PR-uri revizuite în mai puțin de 3 zile · 3 căi de shell injection prinse înainte de merge, 1 ratată",
+    "30 de PR-uri revizuite în mai puțin de 3 zile · 3 căi de shell injection prinse înainte de merge · fiecare scăpare listată în studiul de caz",
   study: {
     href: "/work/30-reviewed-prs-3-vulnerabilities",
     cta: "Citește studiul de caz (EN) →",
