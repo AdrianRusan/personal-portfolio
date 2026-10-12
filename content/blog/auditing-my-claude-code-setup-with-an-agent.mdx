@@ -9,18 +9,18 @@ language: "en"
 cta: "harness"
 faq:
   - q: "How do I find Claude Code skills that never get used?"
-    a: "Run /skill-doctor (Claude Code 2.1.252 or later). It lists every loaded skill with its context cost, recent token use and invocation count. Check its 'never invoked' list against your own prompt history before deleting anything: on 12 October 2026 it listed a skill I had typed on 8 October as never used."
+    a: "Run /skill-doctor (Claude Code 2.1.252 or later). It lists every loaded skill with its context cost, recent token use and invocation count. Check its 'never invoked' list against your session transcripts before deleting anything: on 12 October 2026 it listed my ship skill as never used, while the transcripts in the same config directory held 15 invocations from the previous 7 days."
   - q: "Why does a Claude Code skill never trigger?"
     a: "Claude picks a skill from its listing entry, so a short or vague description is the usual cause. The listing keeps up to 1,536 characters of description plus when_to_use per skill. In my setup, skills with a median 74-character description had mostly never fired, while external skills that did fire had a median of 657."
   - q: "How long should CLAUDE.md be?"
     a: "As short as the corrections it has to carry. Mine went from 3,179 words in July 2026 to 939 in October, with 2,443 more across eight rule files. Cut anything that describes how to think rather than what must be true."
 ---
 
-**Short answer:** Audit a Claude Code setup with five checks: skills that never fire, words loaded into every session, the model your subagents actually run on, things nobody uses, and whether your own metrics can fail. In mine, 43 of 65 skills hadn't fired in 70 days, 81% of subagent spawns ran on the top model tier, and my honesty metric said one agent claim in four was false when, over the claims it could check, none were.
+**Short answer:** Audit a Claude Code setup with five checks: skills that never fire, words loaded into every session, the model your subagents actually run on, things nobody uses, and whether your own metrics can fail. In mine, an August analysis found 43 of 65 skills hadn't fired in 70 days, and my honesty metric said one agent claim in four was false when, over the claims it could check, none were. Recounted from my transcripts on 12 October: 21 of my 24 skills fired at least once since 28 August, and 84% of 3,279 subagent spawns still ran on Opus.
 
 The rule that silenced most of those skills was one I wrote myself: keep every skill description under 80 characters.
 
-Each check below says what to run, what mine showed, what changed and when. The counts come from two sources, and I mark which: git history I rechecked for this post, and audit reports written by agents, which I didn't recount.
+Each check below says what to run, what mine showed, what changed and when. The counts come from three sources, and I mark which: counts I recounted for this post from git and my session transcripts, and audit reports written by agents, which I quote with their dates.
 
 ## Check 1: skills that never fire
 
@@ -30,7 +30,9 @@ Each check below says what to run, what mine showed, what changed and when. The 
 
 **What changed (git):** the cap went on 10 August, replaced with "There is no length cap" and the reason. Descriptions now list the phrases a user actually types. Tracked skills went from 57 on 1 July to 19 on 12 October.
 
-**Cross-check the tool.** On 12 October `/skill-doctor` listed 20 of my 24 own skills as "never" used. (24 is the 19 skills tracked in git plus 5 that live outside it.) My prompt history shows I typed `/grill`, one of those 20, on 8 October. My guess is that it counts the skills Claude invokes and misses the ones I type. Either way, check its "never" list against your history before you delete anything.
+**Recounted (12 October, transcripts and prompt history across my four config directories, 28 August to 12 October):** 21 of my 24 skills fired at least once. The 3 that never fired are an onboarding skill for adding a new client and two audit skills.
+
+**Cross-check the tool.** On 12 October `/skill-doctor` listed 20 of my 24 own skills as "never" used. (24 is the 19 skills tracked in git plus 5 that live outside it.) The transcripts in the same config directory show `ship` invoked 15 times and `grill` 13 times in the previous 7 days, and both were on its "never" list. My first guess was that it misses skills I type, so I tested it: I typed `/status` in a headless session, reran `/skill-doctor`, and its count went from 0 to 1. Typed skills count. I haven't found what it skips. Treat its "never" list as leads to check against your transcripts before you delete anything.
 
 ## Check 2: words loaded into every session
 
@@ -42,8 +44,8 @@ Each check below says what to run, what mine showed, what changed and when. The 
 
 | | Before | After the cut | 12 Oct 2026 |
 |---|---|---|---|
-| `CLAUDE.md` | 3,179 (5 Jul) | 1,824 (7 Jul) | 939 |
-| Rule files | 8,803 (22 Aug) | 3,022 (24 Aug) | 2,443 |
+| `CLAUDE.md` alone | 3,179 (5 Jul) | 1,824 (7 Jul) | 939 |
+| `CLAUDE.md` + rule files | 9,976 (22 Aug) | 4,106 (23 Aug) | 3,382 |
 
 What the surviving rules say, and which of them a hook enforces, is in [the rules file my agents follow](/blog/the-rules-file-my-agents-follow).
 
@@ -53,7 +55,9 @@ What the surviving rules say, and which of them a hook enforces, is in [the rule
 
 **What mine showed (July, agent audit):** 81% of 4,994 subagent spawns ran on the top model tier, and 324 of 431 Agent calls passed no model at all. The obvious fix was to pass `model:` everywhere. The audit showed it wouldn't work: two accounts with a 27-point gap in how often they set `model:` had the same top-tier share, 86.7% and 86.9%. A subagent inherits the session model, so the session default decided it.
 
-**What changed:** partly fixed. Stale model IDs that had reviewer agents on the previous generation were fixed on 7 October. My session default is still the top tier, so most spawns still inherit it.
+**Recounted (12 October, subagent transcripts across my four config directories, 28 August to 12 October):** 2,769 of 3,279 subagent spawns (84%) ran on Opus. That is no better than July.
+
+**What changed:** less than I thought. Stale model IDs that had reviewer agents on the previous generation were fixed on 7 October. My session default is still Opus, so most spawns still inherit it, and the recount says this check is still open.
 
 ## Check 4: things nobody uses
 

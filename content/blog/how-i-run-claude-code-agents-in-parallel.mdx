@@ -1,5 +1,5 @@
 ---
-title: "Claude Code Parallel Agents: What Git Worktrees Don't Isolate, and What the Built-ins Now Cover"
+title: "Claude Code Parallel Agents: What Git Worktrees Don't Isolate"
 seoTitle: "Claude Code Parallel Agents: What Worktrees Don't Isolate"
 date: "2026-10-24"
 tags: ["claude-code", "parallel-agents", "git-worktrees", "ai", "developer-productivity"]
@@ -34,7 +34,7 @@ A worktree gives each agent its own files and branch. Everything else on the mac
 
 Two of these rows come from my own run on 10 October. An executor agent stopped its server with `pkill -f next-server` and took down another project's dev server on the same laptop, so every brief now says to stop only your own PID on your own port. And two `herdr worktree create` calls run at once raced on `.git/config.lock` and left branches with no worktree, so the orchestrator now creates worktrees one at a time.
 
-The usage limit is the one that stops everything at once. Over 66 days my logs show 37 separate usage-limit hits, with a peak of 18 sessions running together ([66 days of Claude Code, counted](/blog/66-days-of-claude-code-by-the-numbers)).
+The usage limit is the one that stops everything at once. How often it hit me over 66 days is in [66 days of Claude Code, counted](/blog/66-days-of-claude-code-by-the-numbers).
 
 ## What Claude Code ships now
 
@@ -78,7 +78,7 @@ If you run one account on one repo, the built-ins cover what I described above, 
 
 ## The brief, and where the run lives
 
-Parallel agents fail in a boring way: they stop and ask. So before any agent starts, I write one brief with verified facts, numbered rulings, which agent owns which files, and the checks each PR must show before it is marked ready. It also tells agents what they may decide alone: decide, record the decision in the PR body, keep going.
+The usual way parallel agents fail is that they stop and ask a question nobody is there to answer. So before any agent starts, I write one brief with verified facts, numbered rulings, which agent owns which files, and the checks each PR must show before it is marked ready. It also tells agents what they may decide alone: decide, record the decision in the PR body, keep going.
 
 What that brief produced on one afternoon, nine PRs with their timings, review counts and the one thing the gates let through, is written up once, in [Nine Reviewed PRs in One Afternoon](/work/nine-prs-one-afternoon).
 
