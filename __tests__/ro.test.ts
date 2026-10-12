@@ -8,8 +8,8 @@ import { roLadder, formatPriceRo } from "@/data/ro";
 // Brief R7 (2026-10-10): /ro prices, EUR ex-VAT. 55% of global, rounded clean.
 const R7: Record<string, string> = {
   "strategy-call": "110 €",
-  audit: "de la 500 €",
-  workshop: "1.100 € jumătate de zi / 1.900 € o zi întreagă",
+  audit: "de la 850 €",
+  workshop: "1.650 € jumătate de zi / 2.750 € o zi întreagă",
   automation: "de la 1.650 €",
   harness: "de la 2.200 €",
   "reviewed-pr": "550 €",

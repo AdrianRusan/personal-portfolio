@@ -81,7 +81,7 @@ const offers: LadderOffer[] = [
     tier: "Advise",
     name: "AI Strategy Call",
     // A1 F4: listed on /services only; stated on its own terms, not by contrast.
-    summary: "One hour on your own AI question, with a written summary.",
+    summary: "One hour on your own AI question, with a written summary within one working day.",
     prices: [{ amount: 200 }],
     duration: "1 h",
     assurance: "Fixed price, paid up front.",
@@ -93,7 +93,7 @@ const offers: LadderOffer[] = [
     name: "AI Audit",
     summary:
       "Your AI-written or vibe-coded code, LLM workflow or token spend, reviewed: security gaps, cost per merged PR, cache use and wasted agent runs, in a ranked report of what to fix first.",
-    // D3 (Adi, 2026-10-12): €900 → €1,500. RO keeps its own 500 € (data/ro.ts).
+    // D3 (Adi, 2026-10-12): €900 → €1,500. RO is 55% of EN: 850 € (data/ro.ts).
     prices: [{ amount: 1500, from: true }],
     duration: "2–3 days",
     assurance: "Price agreed before I start.",

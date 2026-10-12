@@ -102,7 +102,7 @@ const fullDay: Workshop = {
   slug: "full-day",
   name: "Team workshop: full day",
   length: "full day",
-  // D3 (Adi, 2026-10-12): €3,500 → €5,000. RO keeps its own 1.900 € (data/ro.ts).
+  // D3 (Adi, 2026-10-12): €3,500 → €5,000. RO is 55% of EN: 2.750 € (data/ro.ts).
   price: 5000,
   maxPeople: 10,
   title: "Full-day Claude Code workshop for engineering teams",
@@ -143,7 +143,7 @@ const halfDay: Workshop = {
   slug: "half-day",
   name: "Team workshop: half day",
   length: "half day",
-  // D3 (Adi, 2026-10-12): €2,000 → €3,000. RO keeps its own 1.100 € (data/ro.ts).
+  // D3 (Adi, 2026-10-12): €2,000 → €3,000. RO is 55% of EN: 1.650 € (data/ro.ts).
   price: 3000,
   maxPeople: 10,
   title: "Half-day Claude Code workshop for engineering teams",
