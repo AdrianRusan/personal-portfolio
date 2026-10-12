@@ -6,7 +6,8 @@ import { CALENDLY_URL, GUARANTEE } from "@/data";
 import { cn } from "@/lib/utils";
 
 const en = {
-  eyebrow: "Adrian Rusan · Senior full-stack engineer, 10+ years",
+  // The hero sub carries the page's one "2–3x, not 100x" (C-RULES).
+  eyebrow: "Adrian Rusan · Senior full-stack engineer, 10+\u00a0years",
   heading: "I ship your backlog with AI agents and review every PR myself.",
   body: "Security first: injection, auth, secrets and access control, checked line by line before a PR reaches you. Expect 2–3x the throughput, not 100x.",
   teardown: "Get a free teardown",

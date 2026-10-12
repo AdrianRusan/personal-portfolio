@@ -40,7 +40,7 @@ const CaseStudyCards = async ({ copy = en }: { copy?: CaseStudyCardsCopy }) => {
         </SectionHeading>
         <ul className="grid gap-5 mt-8 md:grid-cols-3">
           {studies.map((study) => {
-            const { title, description } = {
+            const { title } = {
               ...study.frontmatter,
               ...copy.titles[study.slug],
             };
@@ -66,12 +66,10 @@ const CaseStudyCards = async ({ copy = en }: { copy?: CaseStudyCardsCopy }) => {
                       </span>
                     </p>
                   )}
-                  <h3 className="text-lg font-semibold mt-4 text-balance">
+                  {/* Figure, label and title, as on /work: no description line. */}
+                  <h3 className="text-lg font-semibold mt-4 flex-1 text-balance">
                     {title}
                   </h3>
-                  <p className="text-sm text-white-200 mt-3 leading-relaxed flex-1 text-pretty">
-                    {description}
-                  </p>
                   <span className="text-sm font-semibold text-purple mt-5">
                     {copy.read}
                   </span>

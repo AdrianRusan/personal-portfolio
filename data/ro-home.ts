@@ -42,8 +42,9 @@ export const RO_LEDGER_PROOF = `${W.sessions} de sesiuni · ${W.hours} de ore ·
 export { RO_GUARANTEE } from "@/data/ro";
 
 export const roHero: HeroCopy = {
-  eyebrow: "Adrian Rusan · Inginer full-stack senior, peste 10 ani",
-  heading: "Îți livrez backlog-ul cu agenți AI și verific personal fiecare PR.",
+  eyebrow: "Adrian Rusan · Inginer full-stack senior, peste\u00a010\u00a0ani",
+  // U+2011 keeps "backlog‑ul" whole when the H1 wraps.
+  heading: "Îți livrez backlog‑ul cu agenți AI și verific personal fiecare PR.",
   body: "Întâi securitatea: injection, autentificare, secrete și controlul accesului, verificate linie cu linie înainte ca PR-ul să ajungă la tine. Te poți aștepta la de 2–3 ori mai mult volum, nu de 100 de ori.",
   teardown: "Teardown gratuit (EN)",
   call: "Programează o discuție",
@@ -83,7 +84,6 @@ export const roShipVerify: ShipVerifyCopy = {
   punch: "Agenții fără review livrează buguri mai repede.",
   stepsHeading: "Cum funcționează: agenții livrează, eu verific",
   steps: shipVerify.map((step) => ({ ...step, ...roSteps[step.tag] })),
-  multiplierBefore: "De 2–3 ori, nu de 100 de ori.",
   multiplierLink: "Iată ce greșesc agenții →",
   sampleLink: "Vezi un raport exemplu →",
 };

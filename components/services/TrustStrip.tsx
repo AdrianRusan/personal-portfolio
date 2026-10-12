@@ -23,7 +23,7 @@ export const TrustStrip = ({ copy = en }: { copy?: TrustStripCopy }) => {
   const link =
     "inline-flex min-h-11 items-center font-medium text-purple underline underline-offset-4 hover:text-white transition-colors";
   return (
-    <section aria-label={copy.ariaLabel} className="px-5 sm:px-10 pb-12 md:pb-16">
+    <section aria-label={copy.ariaLabel} className="px-5 sm:px-10 pb-4 md:pb-6">
       <div className="container-section border-y border-white/10 py-6 text-center">
         <p className="text-sm text-white-200/80">{copy.label}</p>
         {/* Gaps, not "·" separators: a wrapped row would start with an orphan dot. */}

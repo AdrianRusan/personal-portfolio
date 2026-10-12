@@ -88,7 +88,7 @@ export const homeMd = (c: HomeCopy) =>
     list(
       c.shipVerify.steps.map((s) => `**${s.label}: ${s.heading}.** ${s.body}`),
     ),
-    `${c.shipVerify.multiplierBefore} [${c.shipVerify.multiplierLink.replace(/ →$/, "")}](/blog/what-agents-get-wrong)`,
+    `[${c.shipVerify.multiplierLink.replace(/ →$/, "")}](/blog/what-agents-get-wrong)`,
     `## ${c.caseStudies.heading}`,
     c.caseStudies.lead,
     `[${c.caseStudies.all.replace(/ →$/, "")}](/work)`,

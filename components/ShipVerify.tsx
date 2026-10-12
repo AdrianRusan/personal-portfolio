@@ -8,8 +8,6 @@ const en = {
   punch: "Agents without review ship bugs faster.",
   stepsHeading: "How it works: agents ship, I review",
   steps: shipVerify,
-  // The page's one "2–3x, not 100x" (C-RULES).
-  multiplierBefore: "2–3x, not 100x.",
   multiplierLink: "Here's what the agents get wrong →",
   sampleLink: "See a sample report →",
 };
@@ -58,7 +56,6 @@ const ShipVerify = ({ copy = en }: { copy?: ShipVerifyCopy }) => {
           ))}
         </ol>
         <p className="text-sm text-white-200 mt-4">
-          {copy.multiplierBefore}{" "}
           <Link
             href="/blog/what-agents-get-wrong"
             className="font-medium text-purple underline underline-offset-4 hover:text-white transition-colors whitespace-nowrap"

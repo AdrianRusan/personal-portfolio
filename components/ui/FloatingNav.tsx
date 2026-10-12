@@ -15,7 +15,7 @@ const isCurrent = (link: string, pathname: string) =>
 
 // A4 F14: min-h-11 gives every nav link a 44px tap target at the same size.
 const linkClass =
-  "relative flex min-h-11 items-center whitespace-nowrap px-1.5 py-2 sm:py-0 text-xs sm:text-sm text-neutral-600 dark:text-neutral-50 hover:text-neutral-500 dark:hover:text-neutral-300 aria-[current=page]:font-semibold aria-[current=page]:text-purple dark:aria-[current=page]:text-purple";
+  "relative flex min-h-11 items-center whitespace-nowrap py-2 sm:px-1.5 sm:py-0 text-xs sm:text-sm text-neutral-600 dark:text-neutral-50 hover:text-neutral-500 dark:hover:text-neutral-300 aria-[current=page]:font-semibold aria-[current=page]:text-purple dark:aria-[current=page]:text-purple";
 
 // Always visible: it carries the only persistent "Book a call". It shrinks
 // after the first scroll instead of hiding, so focus can never land in a hidden nav.
@@ -47,7 +47,8 @@ export const FloatingNav = ({
       aria-label={isRo ? "Principal" : "Main"}
       className={cn(
         "flex w-fit max-w-[calc(100vw-1.5rem)] sm:max-w-fit md:min-w-[70vw] lg:min-w-fit fixed z-[5000] inset-x-0 mx-auto px-3 sm:px-10 rounded-lg border border-black/10 dark:border-white/10 shadow-sm items-center justify-center gap-x-2 sm:gap-x-4 transition-[top,padding] duration-200",
-        scrolled ? "top-3 py-1.5 sm:py-3" : "top-4 sm:top-10 py-2 sm:py-5",
+        // The 44px links carry the height, so the bar's own padding is small.
+        scrolled ? "top-3 py-0.5 sm:py-1" : "top-4 sm:top-10 py-1 sm:py-3",
         className,
         "floating-nav",
       )}
