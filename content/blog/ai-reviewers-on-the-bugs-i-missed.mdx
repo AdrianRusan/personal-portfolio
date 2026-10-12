@@ -40,7 +40,7 @@ Two limits shape the result. First, the repo holds an `AUDIT.md` from a February
 | PR | The bug | Me, March | `/code-review` | Panel |
 | --- | --- | --- | --- | --- |
 | #112 | Job ID from the URL in a shell string, allowlist deleted | caught | 1st of 10 | B · B · B |
-| #111 | Search query in a shell string, behind a filter | caught | 2nd, as a flag injection | W · B · W |
+| #111 | Search query in a shell string, behind a filter | caught | 2nd, as flag injection | W · B · W |
 | #121 | The same pattern, in a second search | caught | 2nd of 10 | B · W · B |
 | #119 | Path traversal on read and write | caught | 1st of 10 | B · B · B |
 | #113 | Config path in a shell string | caught | 2nd of 10 | W(ok) · W · W |
@@ -49,7 +49,7 @@ Two limits shape the result. First, the repo holds an `AUDIT.md` from a February
 | #109 | Database values in a shell string | **missed** | 2nd of 10 | B · B · B |
 | #111 | Log lines rendered as raw HTML (stored XSS) | **missed** | 1st of 10 | B · B · B |
 | #121 | Memory-file lines rendered as raw HTML (stored XSS) | **missed** | 1st of 10 | B · B · B |
-| #109 | Diff tab reads `commit.sha`, `gh` returns `oid`: it throws | **missed** | 1st of 10 | n/a · B · N |
+| #109 | Diff tab crashes: it reads `sha`, `gh` sends `oid` | **missed** | 1st of 10 | n/a · B · N |
 
 Panel column: security · correctness · completeness reviewer. B is BLOCK, W is WARN, N is NIT, and W(ok) means the reviewer rated it WARN and approved the commit.
 

@@ -51,11 +51,11 @@ Of these, only #112 was directly exploitable as written. #98, in the next table,
 
 | PR | What got through | How it was found |
 | --- | --- | --- |
-| #98 | `repo`, `state` and `label` from the URL query string go into a `gh` shell command (`app/api/github/issues/route.ts`) | an agent classifying the fix commits on 12 Oct; I confirmed it in the code |
-| #109 | A PR number and a repo name read from the database go into an `exec` shell string | a fact-check of the run on 11 Oct; the AI reviewers flagged it too |
-| #117 | A stored repo name, editable in the UI, goes into `sh -c`. Review added a format check, and #118 deleted its only call 3 minutes after it merged. | the same fix-commit audit, 12 Oct |
-| #111 | Log lines rendered as HTML (`dangerouslySetInnerHTML`) with nothing HTML-escaped (the search term is only regex-escaped): stored XSS | AI reviewers on the original commit, 12 Oct |
-| #121 | Memory-file lines rendered the same way: stored XSS | AI reviewers on the original commit, 12 Oct |
+| #98 | `repo`, `state` and `label` from the URL query string go into a `gh` shell command in the issues API | fix-commit audit, 12 Oct, confirmed by me in the code |
+| #109 | A PR number and a repo name read from the database go into an `exec` shell string | fact-check of the run, 11 Oct |
+| #117 | A stored repo name, editable in the UI, goes into `sh -c`. Review added a format check, and #118 deleted its only call 3 minutes after it merged. | fix-commit audit, 12 Oct |
+| #111 | Log lines rendered as raw HTML, nothing escaped (the search term is only regex-escaped): stored XSS | AI reviewers, 12 Oct |
+| #121 | Memory-file lines rendered the same way: stored XSS | AI reviewers, 12 Oct |
 
 All 5 are open: present at the repo's last commit, `30a6992` on 13 March 2026. The dashboard runs under PM2, and `middleware.ts` puts a bearer-token check in front of every API route when a token is configured, so reaching any of these needs that token. With no token configured the middleware lets every request through, which three of the AI reviewers flagged on their own.
 
