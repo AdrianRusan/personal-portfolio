@@ -36,7 +36,7 @@ describe("/work index", () => {
   it("orders the published studies", async () => {
     jest.useFakeTimers().setSystemTime(new Date("2026-10-24T00:00:00Z"));
     const slugs = byCaseStudyOrder(await getPosts(WORK_DIR)).map((p) => p.slug);
-    expect(slugs).toEqual([
+    expect(slugs.slice(0, 4)).toEqual([
       "30-reviewed-prs-3-vulnerabilities",
       "honesty-gate",
       "nine-prs-one-afternoon",

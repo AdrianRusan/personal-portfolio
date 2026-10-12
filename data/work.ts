@@ -16,7 +16,7 @@ export const caseStudyResults: Record<
   },
   "nine-prs-one-afternoon": {
     figure: "9",
-    label: "reviewed PRs merged in 100 minutes, each with its checks in the PR body",
+    label: "reviewed PRs merged in 100 minutes, each through a review gate first",
   },
   "agent-cost-per-commit": {
     // R3-F15: a number like the other two; the rebound stays in the label.

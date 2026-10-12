@@ -10,6 +10,9 @@ import {
 } from "@/data/work";
 import { JsonLd, itemListJsonLd, pageJsonLd } from "@/lib/page-schema";
 
+// A date-gated study joins the index within an hour of its date (as /blog does).
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: "Case studies",
   description: WORK_DESCRIPTION,

@@ -2,7 +2,7 @@ import { CalendlyLink } from "@/components/CalendlyLink";
 import { TrackedLink } from "@/components/TrackedLink";
 import MagicButton from "@/components/ui/MagicButton";
 import type { BlogCtaCopy } from "@/lib/blog-cta";
-import { isCalendly } from "@/lib/calendly";
+import { CALENDLY_URL } from "@/data";
 
 const secondaryClass =
   "block text-sm text-purple hover:underline underline-offset-4 mt-3";
@@ -41,7 +41,7 @@ export default function PostCta({
       </div>
       {cta.secondary &&
         // The scoping-call link counts as a booking click, like every other Calendly link.
-        (isCalendly(cta.secondary.href) ? (
+        (cta.secondary.href === CALENDLY_URL ? (
           <CalendlyLink source={`${source}_${cta.cta}`} className={secondaryClass}>
             {cta.secondary.label} →
           </CalendlyLink>

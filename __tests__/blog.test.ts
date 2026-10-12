@@ -33,6 +33,19 @@ describe("getPost", () => {
     expect(post.source.length).toBeGreaterThan(0);
   });
 
+  it("hides an unpublished draft from the list and the page, whatever its date", async () => {
+    const fs = await import("fs");
+    const os = await import("os");
+    const path = await import("path");
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "blog-"));
+    fs.writeFileSync(
+      path.join(dir, "draft.mdx"),
+      '---\ntitle: "t"\ndescription: "d"\ndate: "2020-01-01"\ntags: []\npublished: false\n---\n\nbody\n',
+    );
+    expect(await getPosts(dir)).toEqual([]);
+    await expect(getPost("draft", dir)).rejects.toThrow(/Post not found/);
+  });
+
   it("throws for a missing slug", async () => {
     await expect(getPost("does-not-exist-xyz")).rejects.toThrow(
       /Post not found/,

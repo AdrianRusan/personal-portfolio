@@ -45,12 +45,12 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: '/blog/30-prs-in-2-5-days',
+        source: '/blog/30-prs-in-2-5-days/:path*',
         destination: '/work/30-reviewed-prs-3-vulnerabilities',
         statusCode: 301,
       },
       {
-        source: '/blog/claude-code-changed-how-i-ship-software',
+        source: '/blog/claude-code-changed-how-i-ship-software/:path*',
         destination: '/blog/2-3x-not-100x',
         statusCode: 301,
       },

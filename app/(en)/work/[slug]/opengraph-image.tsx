@@ -4,6 +4,7 @@ import { getPost, WORK_DIR } from "@/lib/blog";
 
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
+export const revalidate = 3600;
 
 // Card alt = the study title (A1-22); URL /work/<slug>/opengraph-image/cover.
 // Drafts yield no entry, so their image 404s.
