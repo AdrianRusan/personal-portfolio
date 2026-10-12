@@ -1,25 +1,92 @@
 ---
-title: "43 of 65 Skills Hadn't Fired in 70 Days: Auditing My Claude Code Setup"
-seoTitle: "Auditing My Claude Code Setup With an Agent"
+title: "How to Audit a Claude Code Setup: 5 Checks and What They Found in Mine"
+seoTitle: "How to Audit Your Claude Code Setup (Skills, CLAUDE.md)"
 date: "2026-11-07"
 tags: ["claude-code", "agent-harness", "claude-md", "ai", "code-review"]
-description: "Ten audits of my own Claude Code setup, run by agents. Most skills never fired, the rules taught how to think, and the metrics were broken. Here is what changed."
+description: "Five checks for a Claude Code setup: skills that never fire, always-loaded words, subagent models, dead weight and broken metrics. What each found in mine, with dates, and where /skill-doctor helps and where it miscounts."
 published: true
 language: "en"
 cta: "harness"
+faq:
+  - q: "How do I find Claude Code skills that never get used?"
+    a: "Run /skill-doctor (Claude Code 2.1.252 or later). It lists every loaded skill with its context cost, recent token use and invocation count. Check its 'never invoked' list against your session transcripts before deleting anything: on 12 October 2026 it listed my ship skill as never used, while the transcripts in the same config directory held 15 invocations from the previous 7 days."
+  - q: "Why does a Claude Code skill never trigger?"
+    a: "Claude picks a skill from its listing entry, so a short or vague description is the usual cause. The listing keeps up to 1,536 characters of description plus when_to_use per skill. In my setup, skills with a median 74-character description had mostly never fired, while external skills that did fire had a median of 657."
+  - q: "How long should CLAUDE.md be?"
+    a: "As short as the corrections it has to carry. Mine went from 3,179 words in July 2026 to 939 in October, with 2,443 more across eight rule files. Cut anything that describes how to think rather than what must be true."
 ---
 
-**Short answer:** I had agents audit my own Claude Code setup ten times between July and October. They found 43 of 65 skills had not fired in 70 days and that most rules taught the model how to think. Since then my `CLAUDE.md` shrank from 3,179 to 939 words and the skills from 53 to 19 by October.
+**Short answer:** Audit a Claude Code setup with five checks: skills that never fire, words loaded into every session, the model your subagents actually run on, things nobody uses, and whether your own metrics can fail. In mine, an August analysis found 43 of 65 skills hadn't fired in 70 days, and my honesty metric said one agent claim in four was false when, over the claims it could check, none were. Recounted from my transcripts on 12 October: 21 of my 24 skills fired at least once since 28 August, and 84% of 3,279 subagent spawns still ran on Opus.
 
-Most Claude Code best practices are about the code the agent writes. Fewer are about the setup that runs it: the `CLAUDE.md`, rule files, skills, hooks and subagents that load into every session. That setup grows the way any codebase grows. Each piece solves a real problem when you add it, and nothing removes it when it stops paying.
+The rule that silenced most of those skills was one I wrote myself: keep every skill description under 80 characters.
 
-So I audit it the way I would audit a client's repo, with agents doing the reading and me deciding what to change.
+Each check below says what to run, what mine showed, what changed and when. The counts come from three sources, and I mark which: counts I recounted for this post from git and my session transcripts, and audit reports written by agents, which I quote with their dates.
 
-I took the config numbers from the git history of my setup. The rest come from the audit reports.
+## Check 1: skills that never fire
 
-## How the audit runs
+**Run:** `/skill-doctor`, added in Claude Code 2.1.252. Per the [skills docs](https://code.claude.com/docs/en/skills), it shows each skill's context cost and how often it gets used. Then check the descriptions: Claude picks a skill from its listing entry, which keeps up to 1,536 characters of `description` plus `when_to_use`.
 
-The brief for each audit states a goal, a scope, read-only rules and an output format. It does not prescribe a method. Two lines from the deep-audit brief do most of the work:
+**What mine showed (9 August, agent analysis):** 43 of 65 skills had not fired once in 70 days. My descriptions had a median of 74 characters. External skills that did fire had a median of 657. My own rule capped descriptions at 80 characters, and a hand-written routing table in `CLAUDE.md` existed only to make up for it.
+
+**What changed (git):** the cap went on 10 August, replaced with "There is no length cap" and the reason. Descriptions now list the phrases a user actually types. Tracked skills went from 57 on 1 July to 19 on 12 October.
+
+**Recounted (12 October, transcripts and prompt history across my four config directories, 28 August to 12 October):** 21 of my 24 skills fired at least once. The 3 that never fired are an onboarding skill for adding a new client and two audit skills.
+
+**Cross-check the tool.** On 12 October `/skill-doctor` listed 20 of my 24 own skills as "never" used. (24 is the 19 skills tracked in git plus 5 that live outside it.) The transcripts in the same config directory show `ship` invoked 15 times and `grill` 13 times in the previous 7 days, and both were on its "never" list. My first guess was that it misses skills I type, so I tested it: I typed `/status` in a headless session, reran `/skill-doctor`, and its count went from 0 to 1. Typed skills count. I haven't found what it skips. Treat its "never" list as leads to check against your transcripts before you delete anything.
+
+## Check 2: words loaded into every session
+
+**Run:** `wc -w` over `CLAUDE.md` and every rule file it pulls in. Then read each paragraph and ask whether it says *what* must be true or *how* to think.
+
+**What mine showed (4 July, agent audit):** most always-loaded text was method: phase sequences, routing tables, confidence rituals. A 3 July measurement had put always-loaded context at about 21,000 tokens a session, and the audit estimated 6,000 to 8,000 of them removable. It also found a trap: a `confidence: N` line the rules asked for was parsed by a script that gated an unattended pipeline. Every deletion started with a search for anything that read the text.
+
+**What changed (git, `wc -w`):**
+
+| | Before | After the cut | 12 Oct 2026 |
+|---|---|---|---|
+| `CLAUDE.md` alone | 3,179 (5 Jul) | 1,824 (7 Jul) | 939 |
+| `CLAUDE.md` + rule files | 9,976 (22 Aug) | 4,106 (23 Aug) | 3,382 |
+
+What the surviving rules say, and which of them a hook enforces, is in [the rules file my agents follow](/blog/the-rules-file-my-agents-follow).
+
+## Check 3: the model your subagents actually run on
+
+**Run:** count subagent spawns by model in your session transcripts. Settings tell you what you asked for. Transcripts tell you what ran.
+
+**What mine showed (July, agent audit):** 81% of 4,994 subagent spawns ran on the top model tier, and 324 of 431 Agent calls passed no model at all. The obvious fix was to pass `model:` everywhere. The audit showed it wouldn't work: two accounts with a 27-point gap in how often they set `model:` had the same top-tier share, 86.7% and 86.9%. A subagent inherits the session model, so the session default decided it.
+
+**Recounted (12 October, subagent transcripts across my four config directories, 28 August to 12 October):** 2,769 of 3,279 subagent spawns (84%) ran on Opus. That is no better than July.
+
+**What changed:** less than I thought. Stale model IDs that had reviewer agents on the previous generation were fixed on 7 October. My session default is still Opus, so most spawns still inherit it, and the recount says this check is still open.
+
+## Check 4: things nobody uses
+
+**Run:** count calls per MCP server, hook and memory layer over the last 30 to 70 days. Anything near zero costs tokens and attention in every session anyway.
+
+**What mine showed (agent audits, July to September, each checked against git):**
+
+1. Five metric scripts whose only output by September was a stale "REGRESSION" banner at session start. A 94-line doc still described them as "ran live".
+2. A custom memory layer that missed its own kill line: 4 organic writes by the review date, against a threshold of 10.
+3. A GitHub MCP server that ran unauthenticated while exposing `merge_pull_request` and `push_files`, which none of my `PreToolUse` gates could see.
+4. A trigger table that routed requests to 18 skills, 14 of which no longer existed.
+
+The 22 September audit's verdict was that nothing in the setup had been wrong to add. Nothing had ever been taken out.
+
+**What changed (git):** the metric scripts and the memory layer went on 11 September. The MCP server went on 22 September, from one account. On 12 October it was still configured under my second Claude Code config directory, so that fix is half done. In my [cost case study](/work/agent-cost-per-commit), trimming always-loaded context is one of the changes that lines up with the cost per commit falling.
+
+## Check 5: make your metrics fail once
+
+**Run:** break each check on purpose and confirm it reports the break. A test that can't fail tells you nothing.
+
+**What mine showed (July, agent audit):** my setup tracked how often the agent's completion claims checked out. It reported an honesty rate of 0.75, meaning one claim in four was false. The audit traced the misses to the instrument: a regex that couldn't read markdown, a repo resolved from the wrong directory, and commits probed against worktrees that had since been deleted. The script also counted every claim it couldn't check as a failed one.
+
+**What changed (29 July):** on the same 7-day window, failed claims went from 11 to 0. That includes the 2 the July audit itself had counted as real failures: after the repair, both turned out to be measurement bugs too. The overall rate went to 0.941, because claims the script still can't verify stay in the denominator. Over claims it could check, the rate was 1.0. The script test suite had reported "25/25" and could not fail. Repaired, it reported 130 of 133 and exited non-zero.
+
+Before you conclude an agent is lying, check the thing that told you so.
+
+## How I ran the audits
+
+Each audit had a brief with a goal, a scope, read-only rules and an output format, and no prescribed method. Two lines did most of the work:
 
 ```md
 A claim without a path and a line number or a count does not go in.
@@ -27,79 +94,19 @@ Prefer deletion; for every KEEP you must be able to say what breaks
 if it is removed.
 ```
 
-The deepest audit ran in five phases:
+The deepest one, on 22 September, ran 69 agents in five phases: map, find then refute, simplify, sweep with new lenses, and a final critic. It produced 89 findings and caught 5 errors in my own brief. The agents proposed, and I decided. These counts come from the audit's own report, and so do its two misses:
 
-1. Map. One agent per area (rules, skills, hooks, settings, scripts) records facts only.
-2. Find, then refute. Finder agents report problems. A second set of agents is told to disprove each one, and a finding counts as refuted unless it survives.
-3. Simplify. For each part: what would this be if I built it today?
-4. Sweep. New lenses (security, cost, a new joiner, failure modes) until two rounds find nothing new.
-5. Critic. One agent walks the whole tree and names anything no other agent covered.
+1. **The refuters were too agreeable.** They refuted 0 of 71 findings in one pass and 0 of 12 in the next. The real filtering happened earlier, when finder agents re-measured their own first-pass seeds and dropped 90. "Confirmed" in that report means reproduced once.
+2. **The read-only rule broke once.** An agent listing MCP config printed secrets from that file into its own transcript, because its redaction only recognised GitHub token shapes. Before your first audit agent starts, deny read access to every file that holds credentials, `.claude.json` included, since that is where Claude Code keeps MCP server config.
 
-That run used 69 agents and produced 89 findings. The refuting pass killed or cut 22 claims, and it found 5 errors in my own brief.
+Tell the refuting agents to find the strongest case against each finding, and check how many they actually kill. Have them redact every value they print.
 
-An earlier cleanup audit that day used 33 agents and logged 149 findings, 9 of them refuted.
+## Where to start on yours
 
-Audits only propose. Each report ends with a short table of decisions only I can make, and the agents leave the config untouched.
+1. Run `/skill-doctor`, then check its "never" list against your prompt history.
+2. `wc -w` your `CLAUDE.md` and rule files, and mark every paragraph that teaches a method.
+3. Count subagent spawns by model from transcripts, not settings.
+4. List every MCP server, hook and memory layer with its call count, and delete the zeros.
+5. Break each metric once on purpose.
 
-One more rule came out of this: counts beat estimates. One subagent estimated about 1,000 uses for each of three MCP servers. It had counted transcripts that merely listed the tool names, so the real call counts were lower.
-
-## Finding 1: most skills never fired
-
-A rule in my setup said every skill description must be one line of 80 characters or fewer. It looked tidy, and it was my mistake.
-
-Claude decides whether to load a skill by matching the request against that description and nothing else. My descriptions had a median of 74 characters. External skills that did fire had a median of 657.
-
-The audit found that **43 of 65 skills had not fired once in 70 days**. A hand-written routing table in `CLAUDE.md` existed only to make up for the short descriptions.
-
-**What changed:** the cap went on 10 August, replaced by "There is no length cap" and the reason why. Descriptions now list the phrases a user actually types. The routing table left `CLAUDE.md` on 19 August.
-
-## Finding 2: the rules taught how to think
-
-Most of my always-loaded instructions were recipes: phase sequences, routing tables, confidence rituals, role scripts. Each one helped an older model. Each one costs tokens on every turn and caps a newer model at my old understanding.
-
-The first audit estimated about 21,000 always-loaded tokens per session, 6,000 to 8,000 of them removable. It also found a trap. One "ritual", a `confidence: N` line at the end of a reply, was parsed by a script that gated an unattended pipeline. So every deletion started with a search for anything that read it.
-
-**What changed:** `CLAUDE.md` went from 3,179 to 1,781 words on 6 July, and the rule files from 8,803 to 2,823 words on 23 August.
-
-Since October, a check at session start flags when the running model differs from the one the setup was last audited against. A model upgrade now triggers the next deletion pass instead of relying on me to remember. I wrote up the [rules that survived](/blog/the-rules-file-my-agents-follow) separately.
-
-## Finding 3: subagents inherited the most expensive model
-
-A subagent runs on the session's model unless you say otherwise. Mine almost never said otherwise. The July usage audit found **81% of 4,994 subagent spawns ran on the top model tier**, and 324 of 431 Agent calls passed no model at all.
-
-The missing parameter does look like the cause. But the audit showed it was not. Two accounts with a 27-point gap in how often they set `model:` had almost the same top-tier share. The session default decided it.
-
-**What changed:** partly fixed. The session default is still the top tier, but stale model IDs that had reviewer agents running the previous generation were fixed on 7 October. Choosing models per role is still on my list.
-
-## Finding 4: dead weight was never collected
-
-The deep audit's one-line verdict: "The harness is not over-engineered, it is un-garbage-collected."
-
-1. Three MCP servers had 0, 2 and 5 calls all-time. One kept a 102 MB database and started a process every session.
-2. A custom memory layer had passed its own kill line: 4 organic writes against a threshold of 10.
-3. 23 of 48 skills had no recorded use.
-4. Every prompt carried about 1.5 KB of stale warning banners.
-
-**What changed:** most of it went in four commits on 11 September. The three MCP servers, the memory layer and the stale banners were removed, and 19 skills, 2 orphaned agents and 2 orphaned scripts went in one commit. Tracked skills went from 53 at the start of July to 19 in October. Dead weight also costs money: in my [cost case study](/work/agent-cost-per-commit), trimming always-loaded context is one of the changes that lines up with the cost per commit falling.
-
-## Finding 5: the instruments lied about the agent
-
-My setup measured how often the agent's completion claims checked out. It said the agent was dishonest in a quarter of them.
-
-The audit traced that to the instruments: a regex that could not read markdown, a repo resolved from the wrong directory, and commits checked against deleted worktrees.
-
-After the fixes, the honesty rate on the same 7-day window went from 0.75 to 0.941, and failed claims went from 11 to 0.
-
-The script test suite had reported "25/25" and could not fail. Repaired, it reported 130 of 133 and exited non-zero, as it should.
-
-Before you conclude an agent is lying, check the thing that told you so.
-
-## What I would tell you to audit first
-
-1. Skill descriptions. Count how often each skill fires. A skill that never fires is either dead or badly described.
-2. Always-loaded words. Add up `CLAUDE.md` and every rule file. Anything that describes *how* to think instead of *what* must be true is a deletion candidate.
-3. Subagent models. Check what model your spawned agents actually run on, not what you think they run on.
-4. Things nobody uses. MCP servers, hooks and memory layers with near-zero calls cost tokens and attention every session.
-5. Your metrics. Make each check fail on purpose once. A test that cannot fail tells you nothing.
-
-Have the agents count and refute, then decide yourself. The numbers in this post came from agent reports, and I rechecked the headline config numbers against git before using them.
+Checks 1 to 4 take an afternoon on most setups. Check 5 takes longer, and it is the one that changed what I believed about my agents.
