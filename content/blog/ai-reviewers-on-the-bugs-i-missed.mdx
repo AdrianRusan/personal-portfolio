@@ -10,7 +10,7 @@ cta: "reviewed-pr"
 forYou: "You're deciding whether an AI reviewer can replace a human review of agent-written code, or what it changes about one."
 faq:
   - q: "Can AI code review catch security bugs a human reviewer missed?"
-    a: "In my test, yes. On 8 agent-written commits I had reviewed by hand in March, Claude Code's /code-review and a three-agent panel flagged both shell injections I had approved, two stored XSS sinks I never saw and a crashing tab. All of them are still in that repo."
+    a: "In my test, yes. On 8 agent-written commits I had reviewed by hand in March, Claude Code's /code-review and a three-agent panel flagged the shell injections I had approved, two stored XSS sinks I never saw and a crashing tab. The panel flagged all 5 security bugs my review let through; /code-review flagged 4. All of them are still in that repo."
   - q: "What did the AI reviewers miss?"
     a: "/code-review reports 10 findings at medium effort. On one commit it left a shell call built from a stored repo name out of its 10 and called it low risk because the value came from seeded data. The panel's security reviewer flagged the same call as a warning and approved the commit. That is the reasoning that made me miss a shell call built from database values."
   - q: "Should an AI reviewer replace human code review?"
@@ -19,7 +19,7 @@ faq:
     a: "Claude Code Review, the managed GitHub service, averages $15 to $25 per review according to its docs, and it's in research preview for Team and Enterprise plans. I didn't run it. The local /code-review runs I did took about 58,000 tokens and 53 to 82 seconds per commit."
 ---
 
-**Short answer:** In March I reviewed 30 agent-written PRs by hand and let 2 shell injections through, #98 and #109. On 12 October I gave 8 of the original agent commits to Claude Code's built-in `/code-review` and to my own three-agent review panel, blind. Both flagged both injections and two stored XSS sinks I had never seen, plus a crashing tab. All of them are still in the repo. On a fifth security bug, a shell call in #117 that my review had only half-fixed, `/code-review` and the panel's security reviewer both rated the risk low because the value came from seed data, which is the reasoning that made me miss #109.
+**Short answer:** In March I reviewed 30 agent-written PRs by hand and let 3 shell calls through: #98 and #109 outright, and #117, whose format check a rebase deleted. On 12 October I gave 8 of the original agent commits to Claude Code's built-in `/code-review` and to my own three-agent review panel, blind. Both flagged #98, #109 and two stored XSS sinks I had never seen, plus a crashing tab. All of them are still in the repo. On #117, `/code-review` and the panel's security reviewer both rated the risk low because the value came from seed data, which is the reasoning that made me miss #109.
 
 The run is my own admin dashboard, and [the 30-PR case study](/work/30-reviewed-prs-3-vulnerabilities) has the full list of what my review caught and missed. This post is the test of whether a machine would have done better.
 
@@ -44,7 +44,7 @@ Two limits shape the result. First, the repo holds an `AUDIT.md` from a February
 | #121 | The same pattern, in a second search | caught | 2nd of 10 | B · W · B |
 | #119 | Path traversal on read and write | caught | 1st of 10 | B · B · B |
 | #113 | Config path in a shell string | caught | 2nd of 10 | W(ok) · W · W |
-| #117 | Stored repo name into a shell | half-fixed | not in its 10 | W(ok) · W · W |
+| #117 | Stored repo name into a shell | fix deleted | not in its 10 | W(ok) · W · W |
 | #98 | URL query params into a `gh` shell command | **missed** | 1st of 9 | B · B · B |
 | #109 | Database values in a shell string | **missed** | 2nd of 10 | B · B · B |
 | #111 | Log lines rendered as raw HTML (stored XSS) | **missed** | 1st of 10 | B · B · B |

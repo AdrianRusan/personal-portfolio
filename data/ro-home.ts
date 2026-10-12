@@ -165,8 +165,6 @@ export const roPostTitles: PostTitles = {
     description:
       "Agenții mei de review au dat un verdict pe 85 de PR-uri între mai și iulie 2026. 39 dintre ele există doar ca rezumat de un rând scris de agentul care a scris codul, iar 3 BLOCK-uri au intrat în merge fără corectură. Designul panelului, cifrele și ce urmă ar trebui să lase un agent de review.",
   },
-
-
   "claude-code-fail-closed-hooks": {
     title: "Claude Code are acum hook-uri care refuză la eroare. De ce le-am construit pe ale mele înainte",
     description:
@@ -182,18 +180,17 @@ export const roPostTitles: PostTitles = {
     description:
       "Am sortat toate cele 64 de corecturi din review-ul a 30 de PR-uri scrise de agenți după ce era greșit: securitate, cod duplicat, tipuri, versiuni vechi de framework. Cifrele, câte un exemplu real și un checklist ordonat după frecvență.",
   },
-
   "catching-shell-injection-agents-wrote": {
     title: "Bugurile de shell injection scrise de agenții mei: 4 prinse, 3 ratate",
     description:
       "Agenții au scris 7 comenzi shell construite din string-uri în 30 de PR-uri. Review-ul a prins 4, dintre care 3 din input-ul cererii, și a ratat 3, una tot din input-ul cererii. Codul și verificările.",
   },
-
   "ai-reviewers-on-the-bugs-i-missed": {
-    title: "Am dat bugul pe care l-am ratat agenților de review AI. L-au prins, plus încă două",
+    title: "Am dat bugurile ratate de mine unor agenți de review AI: toate 5 semnalate, unul lăsat să treacă",
     description:
-      "Am rulat /code-review din Claude Code și un panel de trei agenți, fără indicii, pe cele 7 commit-uri scrise de agenți din spatele constatărilor de securitate. Au prins shell injection-ul ratat de mine, două XSS-uri pe care nu le văzusem și au repetat una dintre greșelile mele.",
+      "Am rulat /code-review din Claude Code și un panel de trei agenți, fără indicii, pe 8 commit-uri scrise de agenți pe care le revizuisem manual. Au semnalat cele 5 buguri de securitate ratate de mine și au lăsat unul să treacă, din același motiv ca mine.",
   },
+
   "2-3x-not-100x": {
     title: "De 2–3 ori, nu de 100 de ori: cifra sinceră despre viteza programării cu AI",
     description:

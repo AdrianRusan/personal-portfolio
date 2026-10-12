@@ -11,7 +11,7 @@ language: "en"
 cta: "teardown"
 faq:
   - q: "Does AI write insecure code?"
-    a: "Yes. In one run of 30 merged agent PRs on my own repo, agents wrote 7 shell commands built from strings. Review caught and fixed the 3 that took request input directly, plus one from config. It missed 3: one from a URL query string, one from database values and one from a stored repo name whose check another agent PR deleted. Veracode's 2026 GenAI Code Security Report (28 July 2026) found a known vulnerability in about 44% of AI code-generation tasks."
+    a: "Yes. In one run of 30 merged agent PRs on my own repo, agents wrote 7 shell commands built from strings. Review caught and fixed 3 of the 4 that took request input, plus one from config. It missed 3: one from a URL query string, one from database values and one from a stored repo name whose check another agent PR deleted. Veracode's 2026 GenAI Code Security Report (28 July 2026) found a known vulnerability in about 44% of AI code-generation tasks."
   - q: "Do automated tests catch AI-written shell injection?"
     a: "Not the ones in my run, and I can't measure how many they would have caught, because that repo had no tests. A test suite asserts behaviour on the inputs its author wrote. Shell injection needs a semicolon, a backtick or a $(...) in the input, and happy-path tests don't send those."
   - q: "How do you review AI-generated code for shell injection?"
@@ -20,7 +20,7 @@ faq:
     a: "Untrusted input interpolated into a command string that a shell parses, through exec, execSync, sh -c or shell: true. A semicolon, a pipe, a backtick or $(...) in that input runs a second command. Agents write it often because string interpolation is the shortest path to a command that works."
 ---
 
-**Short answer:** My Claude Code agents wrote 7 shell commands built from strings into 30 PRs on my own admin dashboard. The repo had no tests and no CI, so review was the only gate. Review caught the 3 that took request input directly and one built from config, and fixed all 4 before merge. It missed 3: a URL query string, two values from the database, and a stored repo name whose check a rebased PR deleted minutes after it landed. Those 3 are still open in that repo. This post counts shell strings only; the run's full security tally, XSS included, is in the case study.
+**Short answer:** My Claude Code agents wrote 7 shell commands built from strings into 30 PRs on my own admin dashboard. The repo had no tests and no CI, so review was the only gate. Review caught 3 of the 4 that took request input and one built from config, and fixed all 4 before merge. It missed 3: a URL query string that reached the shell through a small wrapper function, two values from the database, and a stored repo name whose check a rebased PR deleted minutes after it landed. Those 3 are still open in that repo. This post counts shell strings only; the run's full security tally, XSS included, is in the case study.
 
 This post is the code. The run itself, with dates and every finding, is in [the 30-PR case study](/work/30-reviewed-prs-3-vulnerabilities). The sketches below are trimmed from the real diffs, and each fix commit is named so the claim can be checked.
 
@@ -99,7 +99,7 @@ ghExec(cmd); // execSync(`gh ${cmd}`)
 
 ## What the seven have in common
 
-All 7 agents chose string interpolation into a shell, the shortest path to a command that works. Review caught the 4 where the value reached the shell straight from the request or config. The 3 it missed reached the shell through a wrapper function, a database row or a stored value whose check a rebase deleted.
+All 7 agents chose string interpolation into a shell, the shortest path to a command that works. Review caught the 4 where the shell string sat in the route itself, with the value straight from the request or config. The 3 it missed reached the shell through a wrapper function, a database row or a stored value whose check a rebase deleted.
 
 I also gave the original commits to AI reviewers in October. The results are a separate post on 28 November.
 

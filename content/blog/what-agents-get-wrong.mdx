@@ -80,7 +80,7 @@ Running agents in parallel added a failure no single PR shows. #118 put a `null`
 
 ## Security: 9 fixed, 5 missed
 
-Review fixed 3 shell-injection paths from request input, 2 other shell strings, a path traversal, a deleted allowlist and 2 repo-format checks. It missed 3 shell strings, one of them from request input, and the 2 stored XSS sinks above. The code for the shell calls is in [The Shell-Injection Bugs My Agents Wrote](/blog/catching-shell-injection-agents-wrote), and the full list is in [the case study](/work/30-reviewed-prs-3-vulnerabilities#what-review-missed).
+Review fixed 3 shell-injection paths from request input, a config path in a shell string, a constant `which rg` call moved off the shell, a path traversal, a deleted allowlist and 2 repo-format checks. It missed 3 shell strings, one of them from request input, and the 2 stored XSS sinks above. The code for the shell calls is in [The Shell-Injection Bugs My Agents Wrote](/blog/catching-shell-injection-agents-wrote), and the full list is in [the case study](/work/30-reviewed-prs-3-vulnerabilities#what-review-missed).
 
 ## The checklist: security first, then by count
 
