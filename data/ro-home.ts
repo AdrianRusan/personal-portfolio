@@ -146,9 +146,9 @@ export const roPostTitles: PostTitles = {
       "463 de sesiuni, 335 de ore, 3.599 de subagenți și 45 de miliarde de tokeni. Ce spun propriile mele jurnale Claude Code despre bunele practici, numărate de un script, nu din memorie.",
   },
   "the-rules-file-my-agents-follow": {
-    title: "Fișierul de reguli pe care îl urmează agenții mei: exemple de CLAUDE.md din 270 de commit-uri",
+    title: "Fișierul de reguli pe care îl urmează agenții mei: exemple de CLAUDE.md și hook-urile din spatele lor",
     description:
-      "Exemple reale de CLAUDE.md dintr-un fișier de reguli ajustat de-a lungul a 270 de commit-uri: gate-uri care refuză când nu pot verifica, ritmul commit-urilor, repari doar bugul raportat și regulile pe care le-am șters.",
+      "Exemple reale de CLAUDE.md dintr-un fișier de reguli cu 274 de commit-uri în spate: cinci reguli, de ce există fiecare și care sunt impuse de un hook, față de cele pe care modelul le poate ignora.",
   },
   "how-i-run-claude-code-agents-in-parallel": {
     title: "Cum rulez agenți Claude Code în paralel (worktrees, Herdr, un singur brief)",
