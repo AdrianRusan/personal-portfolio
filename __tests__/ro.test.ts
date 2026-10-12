@@ -83,3 +83,16 @@ describe("roPostTitles", () => {
     expect(roPostTitles[slug]?.description).toBeTruthy();
   });
 });
+
+// A1 F2 / A4 F12: the /ro case cards show each study's figure and label in
+// Romanian. A new or changed EN label must get its RO twin here.
+describe("roCaseStudyCards", () => {
+  it("translates every case-study figure label and meta label", async () => {
+    const { caseStudyResults } = await import("@/data/work");
+    const { roCaseStudyCards } = await import("@/data/ro-home");
+    for (const { label } of Object.values(caseStudyResults))
+      expect([label, roCaseStudyCards.t[label]]).toEqual([label, expect.any(String)]);
+    for (const meta of ["Own project", "Client work (NDA)", "Own setup"])
+      expect(roCaseStudyCards.t[meta]).toEqual(expect.any(String));
+  });
+});

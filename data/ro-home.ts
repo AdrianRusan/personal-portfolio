@@ -183,25 +183,18 @@ export const roPostTitles: PostTitles = {
 };
 
 export const roCaseStudyCards: CaseStudyCardsCopy = {
-  labels: {
+  t: {
     "Own project": "Proiect propriu",
     "Client work (NDA)": "Proiect pentru client (NDA)",
     "Own setup": "Setup propriu",
-  },
-  // RO twins of caseStudyResults (data/work.ts), RO number format.
-  results: {
-    "30-reviewed-prs-3-vulnerabilities": {
-      figure: "3",
-      label: "căi de shell injection din input-ul cererilor, prinse în review înainte de merge",
-    },
-    "honesty-gate": {
-      figure: "1.400",
-      label: "de texte pe pagină, legate de o sursă înainte de publicare",
-    },
-    "agent-cost-per-commit": {
-      figure: "68%",
-      label: "cost pe commit mai mic într-o lună, apoi a crescut la loc",
-    },
+    "1,400": "1.400",
+    // The caseStudyResults labels (data/work.ts).
+    "shell-injection paths from request input, caught in review before merge":
+      "căi de shell injection din input-ul cererilor, prinse în review înainte de merge",
+    "strings per page traced to a source before anything publishes":
+      "de texte pe pagină, legate de o sursă înainte de publicare",
+    "lower cost per commit in one month, then it crept back":
+      "cost pe commit mai mic într-o lună, apoi a crescut la loc",
   },
   heading: "Studii de caz",
   // The one note for the whole page (R1-F21): studies and posts are in English.

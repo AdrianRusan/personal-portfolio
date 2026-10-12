@@ -10,10 +10,10 @@ import { SectionHeading } from "./ui/SectionHeading";
 // study's (the meta segment after the date), so client work never reads as
 // "Own project". A4 F12: the /work figure leads, as on /work.
 const en = {
-  // Translations of the meta labels (RO); EN shows them as written.
-  labels: {} as Record<string, string>,
-  // Per-slug translations of the /work figures (RO).
-  results: {} as Record<string, { figure: string; label: string }>,
+  // RO translations of the card's EN strings (meta label, figure, figure
+  // label), keyed by the EN text: an EN change falls back to EN, never to a
+  // stale translation. EN shows everything as written.
+  t: {} as Record<string, string>,
   heading: "Case studies",
   // Optional section-level note (RO: the studies are in English).
   lead: "",
@@ -45,7 +45,8 @@ const CaseStudyCards = async ({ copy = en }: { copy?: CaseStudyCardsCopy }) => {
               ...copy.titles[study.slug],
             };
             const label = study.frontmatter.meta?.split(" · ")[1];
-            const result = copy.results[study.slug] ?? caseStudyResults[study.slug];
+            const result = caseStudyResults[study.slug];
+            const t = (s: string) => copy.t[s] ?? s;
             return (
               <li key={study.slug}>
                 <Link
@@ -53,15 +54,15 @@ const CaseStudyCards = async ({ copy = en }: { copy?: CaseStudyCardsCopy }) => {
                   className="flex h-full flex-col rounded-xl border border-white/10 bg-black-200/40 p-6 hover:border-purple/40 transition-colors"
                 >
                   {label && (
-                    <span className="eyebrow">{copy.labels[label] ?? label}</span>
+                    <span className="eyebrow">{t(label)}</span>
                   )}
                   {result && (
                     <p className="mt-3">
                       <span className="block tabular-nums text-3xl font-bold tracking-tight text-white">
-                        {result.figure}
+                        {t(result.figure)}
                       </span>
                       <span className="mt-1 block text-sm text-white-200 text-pretty">
-                        {result.label}
+                        {t(result.label)}
                       </span>
                     </p>
                   )}

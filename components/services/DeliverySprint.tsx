@@ -171,7 +171,7 @@ export const DeliverySprint = ({
         </div>
 
         {/* The one guarantees block on /services (C32): Retainer points here. */}
-        <Fold title={copy.guaranteesHeading} defaultOpen>
+        <Fold title={copy.guaranteesHeading}>
           <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
             {copy.guarantees.map((g) => (
               <div key={g.title}>

@@ -52,7 +52,7 @@ const Testimonials = ({ copy = en }: { copy?: TestimonialsCopy }) => (
   >
     <div className="container-section">
       <SectionHeading id="testimonials-heading">{copy.heading}</SectionHeading>
-      <ul className="grid gap-5 mt-8 md:grid-cols-2">
+      <ul className="grid gap-5 mt-8 md:grid-cols-2 md:items-start">
         {copy.items.map((t) => (
           <li key={t.name}>
             <Quote testimonial={t} />

@@ -59,7 +59,7 @@ config/environment.ts  site config, feature flags, env validation
 
 ## Conventions
 
-- **Server components by default**; add `"use client"` only for interactivity (animation, theme, forms). Heavy client components → `dynamic()` import with `Skeleton` fallback.
+- **Server components by default**; add `"use client"` only for interactivity (animation, theme, forms). Heavy client components → `dynamic()` import.
 - **Named exports**, `import type` for types, no `any` (repo already has strict violations — don't add more).
 - **Styling**: Tailwind utilities + `cn()`; no inline style objects for themeable values (use CSS vars / tokens).
 - **Content edits**: site copy and numbers live in `data/*` (one constant per fact), not in components. Blog = MDX in `content/blog/`, case studies in `content/work/`. Change EN and RO together (`data/ro*.ts`).
