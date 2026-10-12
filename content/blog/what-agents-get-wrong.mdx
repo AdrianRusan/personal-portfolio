@@ -63,7 +63,7 @@ The same class includes a CLI's JSON. #109's diff viewer reads `commit.sha` and 
 
 Four times in this run a check that was already in the code went missing, and review caught one of them. Two of the four appear nowhere else on this site:
 
-- **#101** deleted the input schema #97 had added to the work-queue API, when its agent rewrote the route for a new feature. It was never restored.
+- **#101** deleted the input schema #97 had added to the work-queue API, when its agent rewrote the route for a new feature. It was still missing when I checked taco-console's main branch on 12 October 2026.
 - **#107**'s review fix, the commit I asked for, loosened a path check to `..` only.
 
 The other two, an allowlist deleted in #112 and a check removed by #118's rebase, are told with their code in [the shell-injection post](/blog/catching-shell-injection-agents-wrote). None of the four tickets asked for a check to change. Addy Osmani describes the same pattern with tests and CI: agents "weaken CI to make themselves pass" ([Agentic Code Review, 15 June 2026](https://addyosmani.com/blog/agentic-code-review/)). This repo had no tests or CI, so the checks that went missing were the ones in the code.
