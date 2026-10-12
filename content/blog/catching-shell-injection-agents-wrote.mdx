@@ -91,7 +91,7 @@ if (label) cmd += ` --label "${label}"`;
 ghExec(cmd); // execSync(`gh ${cmd}`)
 ```
 
-`?repo=x;id` runs `id`. I reviewed this PR and asked for a cleanup. The fix commit (`28f057d`) moved `ghExec` into a shared helper, typed the route and removed every `any`. The command string came along unchanged. I found it on 12 October, seven months later, when an agent classifying every fix commit in the run listed it and I read the route again.
+`?repo=x;id;%23` runs `id` and comments out the rest of the command. I reviewed this PR and asked for a cleanup. The fix commit (`28f057d`) moved `ghExec` into a shared helper, typed the route and removed every `any`. The command string came along unchanged. I found it on 12 October, seven months later, when an agent classifying every fix commit in the run listed it and I read the route again.
 
 ### #109 and #117: values from storage
 

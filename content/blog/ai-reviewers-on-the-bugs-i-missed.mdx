@@ -53,7 +53,7 @@ Two limits shape the result. First, the repo holds an `AUDIT.md` from a February
 
 Panel column: security · correctness · completeness reviewer. B is BLOCK, W is WARN, N is NIT, and W(ok) means the reviewer rated it WARN and approved the commit.
 
-I checked all 11 rows. The 6 caught rows match their March fix commits, and the 5 missed rows are still in the code at the repo's last commit: the two XSS sinks at `components/logs/log-viewer.tsx:535` and `app/memory/page.tsx:231`, and the crash because `gh pr view --json commits` on a real PR returns `oid` and `authors`, no `sha`.
+I checked all 11 rows. The 6 rows with a March fix commit match it, and the 4 security rows marked missed, plus the crash, are still in the code at the repo's last commit: the two XSS sinks at `components/logs/log-viewer.tsx:535` and `app/memory/page.tsx:231`, and the crash because `gh pr view --json commits` on a real PR returns `oid` and `authors`, no `sha`.
 
 The panel asked for changes on all 8 commits. Its security reviewer alone would have approved #113 and #117.
 

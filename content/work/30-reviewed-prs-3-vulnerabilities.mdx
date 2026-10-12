@@ -45,7 +45,7 @@ That is 2 days 19 hours from the first PR to the last merge. 31 PRs were opened,
 | #119 | A file path built from a route parameter with no containment (path traversal on read and write) | request (route) | `199d72c` → `e62ef29` |
 | #113 | A config path from an environment variable inside a shell string | operator config | `affddfd` → `b290d1c` |
 
-#112 and the #119 traversal were directly exploitable as written, and so was #98 in the next table. #111 and #121 sat behind a regex that stripped every shell metacharacter, so they were one careless edit away from open. The code for all three is in [The Shell-Injection Bugs My Agents Wrote](/blog/catching-shell-injection-agents-wrote).
+#112 and the #119 traversal were directly exploitable as written, and so was #98 in the next table. #111 and #121 sat behind a regex that stripped every shell metacharacter, so they were one careless edit away from open. The shell code for these is in [The Shell-Injection Bugs My Agents Wrote](/blog/catching-shell-injection-agents-wrote).
 
 ## What review missed
 
