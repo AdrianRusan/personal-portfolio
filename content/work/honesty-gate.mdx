@@ -111,7 +111,7 @@ The spec budgets the trace gate at about 1,400 strings in 90 milliseconds per pa
 
 The client code is private. This site's repo is public, and it runs a smaller version of the same rule in its unit tests:
 
-- [`work-index.test.ts`](https://github.com/AdrianRusan/personal-portfolio/blob/main/__tests__/work-index.test.ts) fails if a headline figure on `/work` doesn't appear in the case study it summarises.
+- [`work-index.test.ts`](https://github.com/AdrianRusan/personal-portfolio/blob/main/__tests__/work-index.test.ts) fails if a headline figure on `/work` is missing from the case study it summarises.
 - [`workflow-numbers.test.ts`](https://github.com/AdrianRusan/personal-portfolio/blob/main/__tests__/workflow-numbers.test.ts) fails if the 66-day post, or a page that quotes its numbers, drifts from the one constant they come from.
 
 Those two check that a number has a source. Like the client gates, they can't check that the source is right.
@@ -130,7 +130,7 @@ Article 50 of the EU AI Act has applied since 2 August 2026. Providers of genera
 
 A label tells the reader a machine wrote the line, and the number in that line can still be invented. Checking the number is still your job.
 
-Developers already ask for the same thing a provenance gate gives you. In Stack Overflow's 2026 survey, 93% said trusting what an AI gives them requires source attribution ([Stack Overflow, 6 Oct 2026](https://stackoverflow.blog/2026/10/06/the-results-of-the-2026-developer-survey-are-here/)). Developers already expect it of their own tools.
+Developers already ask for the same thing a provenance gate gives you. In Stack Overflow's 2026 survey, 93% said trusting what an AI gives them requires source attribution ([Stack Overflow, 6 Oct 2026](https://stackoverflow.blog/2026/10/06/the-results-of-the-2026-developer-survey-are-here/)).
 
 ## How to add one to your pipeline
 
