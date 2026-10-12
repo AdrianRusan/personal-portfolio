@@ -30,7 +30,7 @@ Each check below says what to run, what mine showed, what changed and when. The 
 
 **What changed (git):** the cap went on 10 August, replaced with "There is no length cap" and the reason. Descriptions now list the phrases a user actually types. Tracked skills went from 57 on 1 July to 19 on 12 October.
 
-**Cross-check the tool.** On 12 October `/skill-doctor` listed 20 of my 24 own skills as "never" used. My prompt history shows I typed `/grill`, one of those 20, twice in the same 7 days. My guess is that it counts the skills Claude invokes and misses the ones I type. Either way, check its "never" list against your history before you delete anything.
+**Cross-check the tool.** On 12 October `/skill-doctor` listed 20 of my 24 own skills as "never" used. (24 is the 19 skills tracked in git plus 5 that live outside it.) My prompt history shows I typed `/grill`, one of those 20, on 8 October. My guess is that it counts the skills Claude invokes and misses the ones I type. Either way, check its "never" list against your history before you delete anything.
 
 ## Check 2: words loaded into every session
 
@@ -66,9 +66,9 @@ What the surviving rules say, and which of them a hook enforces, is in [the rule
 3. A GitHub MCP server that ran unauthenticated while exposing `merge_pull_request` and `push_files`, which none of my `PreToolUse` gates could see.
 4. A trigger table that routed requests to 18 skills, 14 of which no longer existed.
 
-The verdict of the 22 September audit: "the harness is not over-engineered, it is un-garbage-collected."
+The 22 September audit's verdict was that nothing in the setup had been wrong to add. Nothing had ever been taken out.
 
-**What changed (git):** the metric scripts and the memory layer went on 11 September, the MCP server on 22 September. In my [cost case study](/work/agent-cost-per-commit), trimming always-loaded context is one of the changes that lines up with the cost per commit falling.
+**What changed (git):** the metric scripts and the memory layer went on 11 September. The MCP server went on 22 September, from one account. On 12 October it was still configured under my second Claude Code config directory, so that fix is half done. In my [cost case study](/work/agent-cost-per-commit), trimming always-loaded context is one of the changes that lines up with the cost per commit falling.
 
 ## Check 5: make your metrics fail once
 
@@ -76,7 +76,7 @@ The verdict of the 22 September audit: "the harness is not over-engineered, it i
 
 **What mine showed (July, agent audit):** my setup tracked how often the agent's completion claims checked out. It reported an honesty rate of 0.75, meaning one claim in four was false. The audit traced the misses to the instrument: a regex that couldn't read markdown, a repo resolved from the wrong directory, and commits probed against worktrees that had since been deleted. The script also counted every claim it couldn't check as a failed one.
 
-**What changed (29 July):** on the same 7-day window, failed claims went from 11 to 0. The overall rate went to 0.941, because claims the script still can't verify stay in the denominator. Over claims it could check, the rate was 1.0. The script test suite had reported "25/25" and could not fail. Repaired, it reported 130 of 133 and exited non-zero.
+**What changed (29 July):** on the same 7-day window, failed claims went from 11 to 0. That includes the 2 the July audit itself had counted as real failures: after the repair, both turned out to be measurement bugs too. The overall rate went to 0.941, because claims the script still can't verify stay in the denominator. Over claims it could check, the rate was 1.0. The script test suite had reported "25/25" and could not fail. Repaired, it reported 130 of 133 and exited non-zero.
 
 Before you conclude an agent is lying, check the thing that told you so.
 
@@ -90,7 +90,12 @@ Prefer deletion; for every KEEP you must be able to say what breaks
 if it is removed.
 ```
 
-The deepest one, on 22 September, ran 69 agents in five phases: map, find then refute, simplify, sweep with new lenses, and a final critic. It produced 89 findings. The refuting agents killed or cut 22 claims and found 5 errors in my own brief. The agents proposed, and I decided. These counts come from the audit's own report.
+The deepest one, on 22 September, ran 69 agents in five phases: map, find then refute, simplify, sweep with new lenses, and a final critic. It produced 89 findings and caught 5 errors in my own brief. The agents proposed, and I decided. These counts come from the audit's own report, and so do its two misses:
+
+1. **The refuters were too agreeable.** They refuted 0 of 71 findings in one pass and 0 of 12 in the next. The real filtering happened earlier, when finder agents re-measured their own first-pass seeds and dropped 90. "Confirmed" in that report means reproduced once.
+2. **The read-only rule broke once.** An agent listing MCP config printed two API tokens into its own transcript, because its redaction only knew GitHub token shapes. The report's first decision for me was to rotate them.
+
+Tell the refuting agents to find the strongest case against each finding, and check how many they actually kill. Redact by default, not by pattern.
 
 ## Where to start on yours
 

@@ -166,7 +166,7 @@ export const roPostTitles: PostTitles = {
       "Agenți de review construiți pe neîncredere: un panel cu trei roluri în care câștigă verdictul cel mai strict, o buclă care triază comentariile boților și agenți care încearcă să infirme fiecare constatare dintr-un audit.",
   },
   "claude-code-fail-closed-hooks": {
-    title: "onFailure: \"block\" în Claude Code, testat pe propriile mele hook-uri de tip gate",
+    title: "Hook-urile Claude Code lasă acțiunea să treacă la eroare. Am testat onFailure: \"block\" pe propriile mele gate-uri",
     description:
       "Am trecut hook-urile mele Claude Code prin 20 de sesiuni headless. onFailure: \"block\" a oprit fiecare crash, timeout și cod de ieșire greșit. A ratat JSON-ul trunchiat și nu vede un hook care rulează corect, dar dă răspunsul greșit.",
   },

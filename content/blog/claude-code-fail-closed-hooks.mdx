@@ -1,6 +1,6 @@
 ---
-title: "Claude Code onFailure: \"block\", Tested on My Own Gate Hooks"
-seoTitle: "Claude Code Hooks onFailure block, Tested in 20 Runs"
+title: "Claude Code Hooks Fail Open by Default. I Tested onFailure: \"block\" on My Own Gates"
+seoTitle: "Claude Code Hooks Fail Open: onFailure block, Tested"
 date: "2026-11-14"
 tags: ["claude-code", "agent-harness", "security", "ai", "code-review"]
 description: "I ran my Claude Code gate hooks through 20 headless sessions. onFailure: \"block\" stopped every crash, timeout and bad exit code. It missed truncated JSON, and it can't see a hook that runs fine and gives the wrong answer."
@@ -19,7 +19,7 @@ faq:
     a: "No. It only sees the hook process. If the hook runs, misreads the command or can't run its own check, and still exits 0, Claude Code records a pass. In my test, a staged AWS-style key committed through bash -c went straight through with onFailure set to block."
 ---
 
-**Short answer:** On 12 October 2026 I put ten broken or misled hooks through 20 headless Claude Code sessions, each case once with the default and once with `onFailure: "block"`. With `onFailure: "block"`, every hook that crashed, timed out, exited 1 or printed invalid JSON blocked the command. Without it, all five let the command run. Two things got through either way: JSON cut off before its closing brace, and a hook that ran fine and gave the wrong answer.
+**Short answer:** Claude Code hooks fail open by default. On 12 October 2026 I ran nine broken or misled hooks and one working gate through 20 headless sessions, each case once with the default and once with `onFailure: "block"`. With `block`, every hook that crashed, timed out, exited 1 or printed invalid JSON blocked the command. Without it, each of those five let the command run. Two things got through either way: JSON cut off before its closing brace, and a hook that ran fine and gave the wrong answer.
 
 The wrong answer is the one that matters. My secret-scanning hook let a staged AWS-style key into git history when the commit was wrapped in `bash -c`. An audit had flagged that exact gap on 20 September, and it was still open when I wrote this.
 
@@ -75,7 +75,7 @@ On 20 September I had three read-only agents audit my hooks. They found five ins
 
 1. The secret scan skipped prefixed commits (row 4 above).
 2. Two irreversible-action denies in my `gh` guard could be skipped with the same prefixes.
-3. The wrong-account push gate skipped every remote that uses an SSH host alias, 4 of 4 sampled. Every remote on a multi-account machine uses one.
+3. The wrong-account push gate skipped every remote that uses an SSH host alias, 4 of 4 sampled. Every remote on my machine uses one.
 4. A missing session marker let every `gh` call through.
 5. A "never merge in this project" rule was dropped when the hook couldn't read the git remote.
 
@@ -93,7 +93,7 @@ The lesson I take from three weeks of an open finding: an audit report is a list
 
 ## What I'd set up today
 
-1. Set `"onFailure": "block"` and a `timeout` on every gate: secrets, destructive commands, merges. Leave formatting and logging hooks on the default.
+1. Set `"onFailure": "block"` and a `timeout` on every gate: secrets, destructive commands, merges. Leave formatting and logging hooks on the default. My own `block-destructive.js` has `block` and no `timeout` as I write this, so a hang there waits the full 600 seconds.
 2. Block with exit 2 or a JSON `deny`, never exit 1.
 3. Write the deny decision in one `write` call, as one JSON object. Half a JSON object passes.
 4. Match commands with a parser, not a regex. Test `sudo`, `bash -c`, `timeout`, `env` and `xargs` forms of every command the gate watches.
@@ -108,3 +108,5 @@ test -f marker.txt && echo RAN || echo BLOCKED
 ```
 
 Change one thing in `settings.json` per run: a missing path, `exit 1`, a sleep past the timeout, half a JSON object, then your real gate with the prefixed command. A gate you have only seen pass is untested.
+
+Any gate I install in a client repo gets these ten cases before I hand it over, with the result of each one in the handover notes.

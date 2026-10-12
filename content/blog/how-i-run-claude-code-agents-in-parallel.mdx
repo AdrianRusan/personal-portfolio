@@ -16,9 +16,9 @@ faq:
     a: "Anything outside the repository's files: ports, databases and other local services, and your plan's usage limit. Worktrees also share the repository's .git directory, so the stash and refs are shared, and Claude Code saves 'don't ask again' approvals to the main checkout's settings."
 ---
 
-**Short answer:** For one repo on one account, start with what Claude Code ships: `claude -w <name>` for a session in its own worktree, `claude --bg "<task>"` to dispatch one in the background, and `claude agents` to watch them. I still run Herdr on top, because it shows every project and every Claude account in one place. Neither one isolates ports, local services, shared git state or your usage limit. Those you set up yourself.
+**Short answer:** For one repo on one account, start with what Claude Code ships: `claude -w <name>` for a session in its own worktree, `claude --bg "<task>"` to dispatch one in the background, and `claude agents` to watch them. I still run Herdr on top, because it shows every project and every Claude Code config directory in one place. Neither one isolates ports, local services, shared git state or your usage limit. Those you set up yourself.
 
-At 18:11 on 12 October, Herdr listed 25 Claude Code agents across 15 workspaces on my laptop. `claude agents`, the built-in view, listed 9 of them.
+At 18:11 on 12 October, Herdr listed 25 Claude Code agents across 15 workspaces on my laptop. `claude agents`, the built-in view, listed 9 of them. The other 16 were running under my three other Claude Code config directories.
 
 ## What Claude Code ships now
 
@@ -35,7 +35,7 @@ What each one does:
 
 1. **`-w`** creates the worktree under `.claude/worktrees/<name>/` on a branch named `worktree-<name>`, cut from your default branch. Set `worktree.baseRef` to `"head"` to branch from your current work instead.
 2. **`.worktreeinclude`** at the repo root lists gitignored files, such as `.env`, to copy into every new worktree. A worktree is still a fresh checkout, so each one installs dependencies (`npm ci`) before its first build.
-3. **`--bg`** sessions move into their own worktree before they edit anything. When done, they commit and push their branch, and they never push to `main`, force-push or merge.
+3. **`--bg`** sessions move into their own worktree before they edit anything. When done, they commit and push their branch, and they never push to `main`, force-push or merge. If your `CLAUDE.md` says you handle git yourself, that wins and they leave git to you.
 4. **Subagents** get their own worktree with `isolation: worktree` in their frontmatter.
 5. **Agent teams** coordinate several sessions through a lead and a shared task list. They are experimental, off by default, and teammates share one checkout, so you split the files between them yourself.
 
@@ -45,7 +45,7 @@ Agent view is a research preview. The docs warn that the interface may change, a
 
 [Herdr](https://herdr.dev) is a terminal multiplexer built for coding agents. I used it before the built-ins existed, and three of its jobs still aren't covered for me:
 
-1. **Every account in one view.** I run Claude Code under more than one account, each with its own config directory. Herdr listed 25 agents. `claude agents`, run from one account, listed 9. My reading is that the other 16 belong to other accounts' config directories. I didn't test that further.
+1. **Every config directory in one view.** I run Claude Code under four config directories, one per account or client setup. `claude agents` lists the sessions of the config directory it runs under. At 18:25 I ran it once per directory and got 9, 8, 6 and 2 sessions: 25, the same total Herdr showed in one screen. With the built-ins, that is four commands and four lists to read.
 2. **An orchestrator that drives the others.** Herdr has a CLI, so one Claude session can create a worktree, start an agent in it, send it a brief and wait for it to finish:
 
 ```bash
@@ -82,7 +82,7 @@ What that brief produced on one afternoon, nine PRs with their timings, review c
 
 ## Limits that bite past four agents
 
-1. **Machine resources.** Several Next.js production builds at once exhaust a laptop's memory. My briefs cap concurrent builds at three and start the next agent when a slot frees up.
+1. **Machine resources.** Several production builds at once exhaust a laptop's memory, so cap concurrent builds. The cap I use, and why, is in [the nine-PR case study](/work/nine-prs-one-afternoon).
 2. **Merge order.** Branches that pass alone can conflict together. An integrator agent merges them in a fixed order and reruns the full checks, so I review one PR instead of four.
 3. **Review stays serial.** Generation runs in parallel and I review one PR at a time. Every PR reaches me with its checks already run and the evidence in its body, or the queue just moves from writing to reading.
 4. **Workspaces you didn't start.** Client work runs in other workspaces on the same machine. Every brief says to touch only the workspace the orchestrator created.
