@@ -17,7 +17,7 @@ faq:
     a: "No. It only sees the hook process. If the script runs a check, the check fails to run, and the script still exits 0, Claude Code sees a clean pass. The script has to treat its own failed checks as a refusal."
 ---
 
-**Short answer:** Since version 2.1.295 (8 October 2026), a Claude Code hook can set `onFailure: "block"`, so a hook that can't start, times out or exits with an unexpected code blocks the action instead of letting it through. That closes the gap around the hook process. It can't see a check that fails inside the script while the script still exits 0. My secret and merge gates have handled that second case since July.
+**Short answer:** Since version 2.1.295 (8 October 2026), a Claude Code hook can set `onFailure: "block"`, so a hook that can't start, times out or exits with an unexpected code blocks the action instead of letting it through. That closes the gap around the hook process. It can't see a check that fails inside the script while the script still exits 0. My secret and merge gates have handled that second case since July. Since 12 October my three gate hooks also set `onFailure: "block"`, which covers the first.
 
 Hooks are how I turn a rule into something an agent can't skip. A rule in `CLAUDE.md` is a request. A `PreToolUse` hook that denies `git commit` when the staged diff holds a key is a gate.
 
@@ -66,7 +66,7 @@ I run 20+ hooks. These three guard the actions that cost the most to undo, and e
 
 **`~/.claude/hooks/gh-merge-gate.js`** (since July 2026) runs before `gh pr merge`. It denies a merge when checks are failing or pending, when a review requested changes, and whenever the `gh` call fails or returns output it can't parse.
 
-Each of these can still crash before it reaches its own error handling. A missing `node` binary, a typo in the settings path, a syntax error after an edit. That is exactly the case `onFailure: "block"` now covers, and my in-script handling never could. I checked my settings on 12 October 2026: none of my hooks set `onFailure` yet, so a hook that can't start still lets the action through. The three gates above are the ones that need it.
+Each of these can still crash before it reaches its own error handling. A missing `node` binary, a typo in the settings path, a syntax error after an edit. That is exactly the case `onFailure: "block"` now covers, and my in-script handling never could. On 12 October 2026 I set `"onFailure": "block"` on these three gates in my settings, so now a gate that can't start blocks the action. My other hooks keep the default `"continue"`, formatting and logging hooks included, because a crash there shouldn't stop work.
 
 ## Failing closed has a cost
 
