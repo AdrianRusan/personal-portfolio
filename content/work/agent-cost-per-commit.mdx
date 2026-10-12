@@ -12,13 +12,17 @@ forYou: "If your team's agent bill grows faster than its output, this is how I f
 meta: "Jul–Oct 2026 · Own setup · Claude Code"
 ---
 
-One round of trimming cut my agent cost per commit, and the next two months quietly took the savings back. What lasted is a weekly measurement with the counting method written down.
+One round of trimming cut my agent cost per commit, and the next two months took the savings back.
+
+What lasted is a weekly measurement with the counting method written down.
 
 ## The problem
 
-I wanted to reduce LLM API costs in my own agent workflow without shipping less. To do that I first had to measure it. I keep a private ledger that records, per day, my Claude Code token usage from session transcripts, the commits in my repos and my merged pull requests.
+I wanted to reduce LLM API costs in my own agent workflow without shipping less. To do that I first had to measure it.
 
-The dollar figures below are **replacement cost**: the tokens priced at one model's public list price. They are not an invoice and not what I paid. Read them as a measure of compute used, and trust the ratios more than the totals.
+I keep a private ledger that records, per day, my Claude Code token usage from session transcripts, the commits in my repos and my merged pull requests.
+
+The dollar figures below are replacement cost: the tokens priced at one model's public list price. They are not an invoice and not what I paid. Read them as a measure of compute used, and trust the ratios more than the totals.
 
 ## The constraint
 
@@ -26,8 +30,8 @@ I did not want to save money by doing less. Output had to hold up, and every PR 
 
 The ledger has two limits I had to respect:
 
-1. **One price for every token.** Moving a task to a cheaper model does not lower the ledger's dollars. Only fewer tokens do.
-2. **The counting changed on 11 September.** Before that date, the ledger counted each transcript entry, which roughly doubles every figure. From 11 September it counts each API response once. July and August use the old count, so they compare with each other. September and October use the new one.
+1. One price for every token. Moving a task to a cheaper model does not lower the ledger's dollars. Only fewer tokens do.
+2. The counting changed on 11 September. Before that date, the ledger counted each transcript entry, which roughly doubles every figure. From 11 September it counts each API response once. July and August use the old count, so they compare with each other. September and October use the new one.
 
 ## What changed
 
@@ -59,11 +63,11 @@ The ledger has two limits I had to respect:
 
 I matched the weekly cost curve against the commit history of my Claude Code config.
 
-**The first drop came before any change.** Subagent turns per prompt halved in the first week of August, and cost per commit fell with them. No config commit landed that week. My workflow changed, but no file records how, so I do not claim a cause.
+The first drop came before any change. Subagent turns per prompt halved in the first week of August, and cost per commit fell with them. No config commit landed that week. My workflow changed, but no file records how, so I do not claim a cause.
 
-**Less text injected into every turn (10 August).** A hook added a reminder to every message I sent, and nothing had shown it saved anything. I turned it off. The same change parked ten skills for stacks I was not using, because every installed skill adds its description to the list each session loads.
+Less text injected into every turn (10 August). A hook added a reminder to every message I sent, and nothing had shown it saved anything. I turned it off. The same change parked ten skills for stacks I was not using, because every installed skill adds its description to the list each session loads.
 
-**Shorter instructions (23 August).** An audit of my own setup cut `CLAUDE.md` and the rule files together from 9,976 words to 4,106. Sessions load them at the start, and the model rereads them from the cache on every turn.
+Shorter instructions (23 August). An audit of my own setup cut `CLAUDE.md` and the rule files together from 9,976 words to 4,106. Sessions load them at the start, and the model rereads them from the cache on every turn.
 
 The weekly cost per commit dropped again in the week after the 10 August change and stayed low after the 23 August one. I can show that they line up. I cannot show how much of the drop they caused.
 
@@ -114,24 +118,30 @@ July to August, full calendar months, same counting method:
 - Merged PRs: 477 → 395
 - Subagent turns: 144k → 43k
 
-Merged PRs fell while commits rose, so cost per PR is the stricter measure. Cache-read volume fell by 59%, but its share of the tokens barely moved: 99.6% of cache-read plus output tokens in July, 99.7% in August. The cache was already working. The savings came from sending fewer tokens through it.
+Merged PRs fell while commits rose, so cost per PR is the stricter measure.
 
-**Then it came back.** On the new count, September cost $11.55 per commit. That is roughly $23 on the old count, twice August. The first ten days of October cost $33 per commit on the new count, back above July. One traceable change: in those ten days, 618 of my 770 sessions were headless scripted runs rather than sessions I drove. I have not measured how much of the cost they account for.
+Cache-read volume fell by 59%, but its share of the tokens barely moved: 99.6% of cache-read plus output tokens in July, 99.7% in August. The cache was already working. The savings came from sending fewer tokens through it.
+
+Then it came back. On the new count, September cost $11.55 per commit. That is roughly $23 on the old count, twice August.
+
+The first ten days of October cost $33 per commit on the new count, back above July. One traceable change: in those ten days, 618 of my 770 sessions were headless scripted runs rather than sessions I drove. I have not measured how much of the cost they account for.
 
 ## How to reduce LLM API costs: what I'd check first
 
 These come from this study, in the order I would check them on a team's setup:
 
-1. **Measure cost per commit and per merged PR every week.** Write the counting method down, and note the date when it changes. Without that, a one-month win looks permanent.
-2. **Cut text injected into every turn.** A hook that adds a reminder to every message costs tokens on every turn. If nothing shows it saves anything, turn it off.
-3. **Park skills you don't use.** Every installed skill adds its description to what each session loads. I parked ten.
-4. **Shorten the instructions that load at session start.** My `CLAUDE.md` and rule files went from 9,976 words to 4,106, and the model rereads them from the cache on every turn.
-5. **Check the cache hit rate before chasing it.** Mine was already at 99.6% of cache-read plus output tokens. The savings came from sending fewer tokens through the cache.
-6. **Watch subagent turns per prompt, and route them.** Subagent turns fell from 144k to 43k between July and August. Where a subagent's task holds up on a cheaper model, route it there. My ledger prices every token at one rate, so it can't show that saving, but an invoice will.
-7. **Count scripted runs separately.** In early October, 618 of my 770 sessions were headless scripted runs, and cost per commit was back above July.
+1. Measure cost per commit and per merged PR every week. Write the counting method down, and note the date when it changes. Without that, a one-month win looks permanent.
+2. Cut text injected into every turn. A hook that adds a reminder to every message costs tokens on every turn. If nothing shows it saves anything, turn it off.
+3. Park skills you don't use. Every installed skill adds its description to what each session loads. I parked ten.
+4. Shorten the instructions that load at session start. My `CLAUDE.md` and rule files went from 9,976 words to 4,106, and the model rereads them from the cache on every turn.
+5. Check the cache hit rate before chasing it. Mine was already at 99.6% of cache-read plus output tokens. The savings came from sending fewer tokens through the cache.
+6. Watch subagent turns per prompt, and route them. Subagent turns fell from 144k to 43k between July and August. Where a subagent's task holds up on a cheaper model, route it there. My ledger prices every token at one rate, so it can't show that saving. I expect an invoice would, but I haven't measured it.
+7. Count scripted runs separately. In early October, 618 of my 770 sessions were headless scripted runs, and cost per commit was back above July.
 
 ## The lesson
 
 Trimming context that loads on every turn helped. I can date those changes and the curve moved after them. A new habit, such as more scripted runs or more subagents, then took it back within two months.
 
 What lasted is the measurement: cost per commit and per merged PR, every week, with the counting method written down. Without the ledger I would have reported "68% lower" and never seen October.
+
+If you want the same measurement on your team's setup, the audit below is how I run it.
