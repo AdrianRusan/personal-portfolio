@@ -18,25 +18,23 @@ faq:
     a: "Yes. Review is the bottleneck and it's counted against the clock. Reviewing agent code is slower per line than reviewing a colleague's because you can't assume intent. The 2–3x is the rate after paying that review cost, which is why it isn't higher."
 ---
 
-**Short answer:** AI coding is 2–3x faster for reviewed, merged production work, not 10x or 100x. My run: 30 merged PRs across 9 agent batches in under three days, every one reviewed before merge, against my estimate of about a week for the same work solo. Bigger numbers measure generation, not delivery: nobody reviewed the output.
+**Short answer:** AI coding is 2–3x faster for reviewed, merged production work, not 10x or 100x. My run: 30 merged PRs across 9 agent batches in under three days, every one reviewed before merge, against my estimate of about a week for the same work solo. Bigger numbers measure generation, not delivery, and leave the review out.
 
-I keep seeing the same claim: AI made someone 10x faster. 30x. One post said 100x. Every time, I want to ask one question: *did anyone review the code?*
+The claims I keep seeing are 10x, 30x, and in one post 100x. The question I want answered every time is the same: *was the code reviewed before it counted?*
 
-I run coding agents in production every week, several at a time, in parallel git worktrees, dispatched by a CLAUDE.md contract. I have shipped a lot of software this way, fast. The number I would put in a contract and stake my name on is **2–3x**. The agents aren't slow. Shipping takes more than generating, and the hype skips the difference.
-
-This is the number, how I got it, and what it deliberately leaves out.
+I run coding agents every week, several at a time, in parallel git worktrees, dispatched by a CLAUDE.md contract. The number I would put in a contract and stake my name on is **2–3x**. Fair: the agents are fast. But shipping takes more than generating, and the bigger numbers leave out the difference.
 
 ## Where does the 100x claim come from?
 
-The big multipliers are real measurements of the wrong thing.
+The big multipliers measure the wrong thing correctly.
 
 An agent can generate a 400-line pull request in ninety seconds. A senior engineer writing that by hand might take three hours. Divide one by the other and you get a number like 100x. That number is true and useless, because *generation is not the job.* The job is code that merges and doesn't page you at 3 a.m.
 
-Measure the actual delivery pipeline (read the diff, catch what's wrong, fix it, verify it's safe, merge it) and the multiplier drops. Not to 1x: agents clear backlog faster than I can alone. It lands around 2–3x, because a new, expensive step appears that didn't exist before: **reviewing code you didn't write, written by something that is confidently wrong in ways a human junior never would be.**
+Measure the actual delivery pipeline (read the diff, catch what's wrong, fix it, verify it's safe, merge it) and the multiplier drops. It doesn't drop to 1x: agents clear backlog faster than I can alone. It lands around 2–3x, because a new, expensive step appears that didn't exist before: reviewing code you didn't write, written by something that is confidently wrong in ways a human junior wouldn't be.
 
-So a quoted 10x, 30x or 100x tells you they're timing the generator and calling it delivery. It tells you nobody stood between the agent and production. In most software that's a bug that ships. In fintech, where I spend my days, it's the company.
+So a quoted 10x, 30x or 100x is timing the generator and calling it delivery. Nothing in that measurement stood between the agent and production. In most software that's a bug that ships. In fintech, where I spend my days, that's how a breach ships.
 
-> If someone promises you 100x, they haven't reviewed the code. The arithmetic doesn't allow both.
+> A 100x number and a review step don't fit in the same arithmetic.
 
 ## How much faster is AI coding, really?
 
@@ -48,37 +46,43 @@ Don't take "2–3x" on faith either. Here's the actual run, on my own admin dash
 - **9 batches** of parallel agents. Each agent got one issue, one worktree and the CLAUDE.md dispatch contract. I ran them concurrently, and that parallelism is where the speed comes from.
 - **Under three days** from the first agent wave to the last merge.
 
-Now the baseline, which most "multiplier" claims leave out. The comparison is the same 30 PRs delivered by me alone, the way I did it for 10+ years: pick up the issue, write it, test it, review my own work, ship. For a batch of this size and complexity, that's roughly **a week** of solo-senior effort, closer to a week and a half for the items with real complexity.
+Now the baseline. The comparison is the same 30 PRs delivered by me alone, the way I did it for 10+ years: pick up the issue, write it, test it, review my own work, ship. I didn't do the work twice to time it, so this side is my estimate: for a batch of this size, roughly a week of solo-senior effort, closer to a week and a half for the items with real complexity.
 
-About a week of work in under three days. That's the 2–3x, measured across the whole pipeline, including the step everyone else drops.
+About a week of work in under three days. That's the 2–3x, measured across the whole pipeline, review included.
 
-It isn't a peak or the best ninety seconds of the run extrapolated to a year. It's the sustained, door-to-door, reviewed-and-merged rate, the only rate you can plan a roadmap against.
+It's the rate from the first wave to the last merge, reviewed and merged, with no best-ninety-seconds extrapolation. That's the only rate you can plan a roadmap against.
 
 ## What the 2–3x does NOT include
 
-Here is what I explicitly did *not* count as speedup, because counting it would mislead you.
+Here is what I did *not* count as speedup, because counting it would mislead you.
 
 ### It does not include review time as free
 
-Review is the bottleneck, and I count it against the clock. Reading a diff an agent wrote is *slower* per line than reading a colleague's, because you can't assume intent. The agent will do exactly what it was told plus something adjacent it invented, with equal confidence. In those three days, review was the single largest block of my time. The 2–3x is the number *after* paying that cost. Strip the review out and I could quote you a bigger figure, the exact number that gets a breach shipped.
+Review is the bottleneck, and I count it against the clock. Reading a diff an agent wrote is slower per line than reading a colleague's, because you can't assume intent. The agent will do exactly what it was told plus something adjacent it invented, with equal confidence.
+
+In those three days, review was the single largest block of my time. The 2–3x is the number *after* paying that cost. Strip the review out and I could quote you a bigger figure, and that's the figure that gets a breach shipped.
 
 ### It does not include the failures
 
-The agents got things wrong, reliably, in recognizable categories. In this run, review caught **3 shell-injection paths from request input** that agents wrote, all fixed before merge. It also missed a fourth shell call built from database values, which merged. No tests or CI existed to catch either. There was scope creep, with agents gold-plating past the issue. There was confidently-wrong logic that looked right until you traced it. None of that counts in the multiplier as a win. It counts as *time I spent catching it*, which is why the number isn't 10x.
+The agents got things wrong in categories I could recognize. In this run, review caught **3 shell-injection paths from request input** that agents wrote, all fixed before merge. It also missed a fourth shell call built from database values, which merged. No tests or CI existed to catch either.
 
-### It does not include net-new greenfield magic
+There was scope creep, with agents gold-plating past the issue. There was confidently-wrong logic that looked right until I traced it. None of that counts in the multiplier as a win. It counts as time I spent catching it, which is why the number isn't 10x.
 
-This was backlog and feature work against a real, existing system with real constraints. Agents are strongest with a clear issue, a defined contract and a codebase to pattern-match against. Point them at a vague "build me a startup" and the multiplier goes the other way while you rewrite everything. The 2–3x assumes what all delivery assumes: someone senior scoped the work first.
+### It does not include net-new greenfield work
+
+This was backlog and feature work against an existing system with real constraints. Agents do best with a clear issue, a defined contract and a codebase to pattern-match against.
+
+I haven't measured the opposite case, but my guess is that a vague "build me a startup" sends the multiplier the other way while you rewrite everything. The 2–3x assumes what all delivery assumes: someone senior scoped the work first.
 
 ### It does not include the ramp
 
-Getting to a reliable 2–3x took building the harness: the CLAUDE.md dispatch, the hooks, the review discipline. Your first week running agents will not be 2–3x. It'll be slower than doing it yourself while you learn what they get wrong. The number is what the practice produces once it's built, not what you get on day one.
+Getting to a reliable 2–3x took building the harness: the CLAUDE.md dispatch, the hooks, the review discipline. My expectation is that your first week running agents will not be 2–3x. It'll likely be slower than doing it yourself while you learn what they get wrong. The number is what the practice produces once it's built, not what you get on day one.
 
 ## Why is 2–3x the only number you can plan against?
 
-**You can build a roadmap on 2–3x.** If I tell a VP of Engineering that a week of backlog compresses to a couple of focused days, that's a commitment we can both hold. If I told them 100x, I'd be setting a date I'd miss and eroding the one thing this work runs on: trust that the number is real.
+**You can build a roadmap on 2–3x.** If I tell a VP of Engineering that a week of backlog compresses to a couple of focused days, that's a commitment we can both hold. If I told them 100x, I'd be setting a date I'd miss and spending the one thing this work runs on: trust that the number is real.
 
-**2–3x survives the review gate; 100x doesn't.** The bigger claims only exist in a world with no review step. Add the senior human who's accountable for what merges, the entire point of the service, and the multiplier settles at 2–3x. A number that only holds if you delete the safety step is a liability.
+**2–3x survives the review gate; 100x doesn't.** The bigger figures only hold with no review step. Add the senior human who's accountable for what merges, which is the point of the service, and the multiplier settles at 2–3x. A number that only holds if you delete the safety step is a liability.
 
 Here's the comparison I'd put in front of a buyer, by what's being measured:
 
@@ -87,6 +91,8 @@ Here's the comparison I'd put in front of a buyer, by what's being measured:
 - **Reviewed, merged, production delivery (what I sell)**: ***2–3x, sustained***. Costs you review time, and I count it.
 - **One senior engineer, no agents (the old baseline)**: *1x*. Costs you the week you no longer have.
 
-The 2–3x row is the only one where the number and the safety hold at the same time, which makes it the only claim you can merge.
+The 2–3x row is the only one where the number and the safety hold at the same time.
+
+If you want your own agent-written code read the same way before you trust its multiplier, start with the free AI code teardown below.
 
 *Related reading: [Claude Code Changed How I Ship Software](/blog/claude-code-changed-how-i-ship-software) · [The Shell-Injection Bugs My Agents Wrote, and the One I Missed](/blog/catching-shell-injection-agents-wrote) · [How to Review AI-Generated Code](/blog/what-agents-get-wrong).*
