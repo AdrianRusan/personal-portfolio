@@ -1,4 +1,4 @@
-import MagicButton from "@/components/ui/MagicButton";
+import PrimaryCta from "@/components/ui/PrimaryCta";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { CALENDLY_URL, CONTACT_EMAIL } from "@/data";
 import { ladder, offerById } from "@/data/ladder";
@@ -42,7 +42,7 @@ export const EntryOffer = ({ copy = en }: { copy?: EntryOfferCopy }) => {
         </ol>
 
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-8">
-          <MagicButton
+          <PrimaryCta
             title={copy.cta}
             href={CALENDLY_URL}
             otherClasses="md:mt-0"

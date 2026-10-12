@@ -48,7 +48,7 @@ project-root/
 │
 ├── components/                    # React components (server-first)
 │   ├── ui/                        # Presentational (shadcn-style)
-│   │   └── button.tsx, FloatingNav.tsx, MagicButton.tsx, SectionHeading.tsx
+│   │   └── button.tsx, FloatingNav.tsx, PrimaryCta.tsx, SectionHeading.tsx
 │   ├── blog/                      # Blog-specific
 │   │   ├── MDXContent.tsx         # next-mdx-remote wrapper; RSC, rehype plugins
 │   │   ├── PostBody.tsx           # MDX component overrides (headings, links, images)

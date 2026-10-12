@@ -1,5 +1,5 @@
 import Link from "next/link";
-import MagicButton from "./ui/MagicButton";
+import PrimaryCta from "./ui/PrimaryCta";
 import EmailCapture from "./EmailCapture";
 import { CALENDLY_URL } from "@/data";
 
@@ -42,7 +42,7 @@ export function ClosingCta({
           </h2>
           <p className="mt-4 max-w-xl mx-auto text-white-200 text-pretty">{copy.body}</p>
           <div className="mt-8 flex justify-center">
-            <MagicButton
+            <PrimaryCta
               title={copy.button}
               href={CALENDLY_URL}
               otherClasses="md:mt-0"

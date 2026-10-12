@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell } from "@/components/PageShell";
-import MagicButton from "@/components/ui/MagicButton";
+import PrimaryCta from "@/components/ui/PrimaryCta";
 import {
   workshops,
   workshopJsonLd,
@@ -98,7 +98,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
             {euro(w.price)} for the {w.length} · {perEngineer(w)} · EUR, ex-VAT
           </p>
           <div className="flex justify-center mt-6">
-            <MagicButton
+            <PrimaryCta
               title={w.cta.label}
               href={w.cta.href}
               otherClasses="md:mt-0"
@@ -215,7 +215,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
             with the open dates and what to install beforehand.
           </p>
           <div className="flex justify-center mt-6">
-            <MagicButton
+            <PrimaryCta
               title={w.cta.label}
               href={w.cta.href}
               otherClasses="md:mt-0"

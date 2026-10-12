@@ -1,5 +1,5 @@
 import Link from "next/link";
-import MagicButton from "@/components/ui/MagicButton";
+import PrimaryCta from "@/components/ui/PrimaryCta";
 import { CALENDLY_URL } from "@/data";
 
 // The page's one closing ask (PageShell's shared one is off on /services).
@@ -35,7 +35,7 @@ export const ServicesFinalCta = ({
           {copy.body}
         </p>
         <div className="flex justify-center mt-8">
-          <MagicButton
+          <PrimaryCta
             title={copy.cta}
             href={CALENDLY_URL}
             otherClasses="md:mt-0"

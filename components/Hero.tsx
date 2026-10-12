@@ -1,4 +1,4 @@
-import MagicButton from "./ui/MagicButton";
+import PrimaryCta from "./ui/PrimaryCta";
 import { Avatar } from "./Bio";
 import { ctaSecondary } from "./ui/button";
 import { TrackedLink } from "@/components/TrackedLink";
@@ -43,7 +43,7 @@ const Hero = ({ copy = en }: { copy?: HeroCopy }) => {
 
         <div className="mt-8 flex w-full max-w-sm flex-col md:max-w-none md:w-auto md:flex-row items-center gap-3 md:gap-4">
           {/* Booking is the one filled button; the teardown is the outline one. */}
-          <MagicButton
+          <PrimaryCta
             title={copy.call}
             href={CALENDLY_URL}
             otherClasses="md:mt-0"

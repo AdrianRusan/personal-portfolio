@@ -1,4 +1,4 @@
-import MagicButton from "@/components/ui/MagicButton";
+import PrimaryCta from "@/components/ui/PrimaryCta";
 import { CALENDLY_URL, GUARANTEE } from "@/data";
 import { keepRangesWhole } from "@/lib/utils";
 
@@ -29,7 +29,7 @@ export const ServicesHero = ({ copy = en }: { copy?: ServicesHeroCopy }) => {
         </p>
 
         <div className="flex flex-col items-center gap-4 mt-8">
-          <MagicButton
+          <PrimaryCta
             title={copy.cta}
             href={CALENDLY_URL}
             otherClasses="md:mt-0"
