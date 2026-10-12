@@ -72,9 +72,9 @@ Where this breaks:
 
 ## What review cost, and what it still missed
 
-Review is counted against the clock, and it isn't free. 25 of 30 PRs needed a fix commit before merge. Review also missed things: it fixed 3 shell-injection paths from request input before merge, and missed 5 security bugs, found when I re-audited the run on 12 October 2026: 3 shell strings, one of them from request input (#98), and 2 stored XSS sinks. As of 12 October 2026 all 5 were still open in that repo. [The case study](/work/30-reviewed-prs-3-vulnerabilities#what-review-missed) has the list.
+Review is counted against the clock, and it isn't free. 25 of 30 PRs needed a fix commit before merge. Review also missed things: it fixed 3 shell-injection paths from request input before merge, and missed 5 security bugs, found when I re-audited the run on 12 October 2026: 3 shell strings, one of them from request input (#98), and 2 stored XSS sinks. They had sat in the code since March; I fixed all 5 the same day. [The case study](/work/30-reviewed-prs-3-vulnerabilities#what-review-missed) has the list.
 
-Speed has a price here too: #109, one of the 5 misses, merged 29 minutes after it opened, in a sitting that merged two PRs in 13 seconds. It's one data point, and it was still open on 12 October 2026.
+Speed has a price here too: #109, one of the 5 misses, merged 29 minutes after it opened, in a sitting that merged two PRs in 13 seconds. It's one data point, and the bug sat in the code for seven months before the re-audit found it.
 
 That is why I won't quote a bigger number. A faster figure is available if you drop the review, and the misses above happened with it.
 
