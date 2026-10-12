@@ -1,102 +1,100 @@
 ---
-title: "Reviewer Agents That Don't Trust Other Agents"
+title: "Multi-Agent Code Review Needs a Paper Trail: 85 PRs, 39 Unverifiable Verdicts"
+seoTitle: "Multi-Agent Code Review in Claude Code: What 85 PRs Show"
 date: "2026-10-31"
 tags: ["claude-code", "code-review", "ai", "agent-harness", "security"]
-description: "Reviewer agents built on distrust: a three-role panel where the strictest verdict wins, a loop that triages review-bot comments, and refuters for audits."
+description: "My reviewer agents left verdicts on 85 PRs. 39 exist only as the coding agent's one-line summary, and 3 BLOCKs merged unfixed. The panel and the record to keep."
 published: true
 language: "en"
 cta: "reviewed-pr"
 faq:
-  - q: "Can an AI agent review code another agent wrote?"
-    a: "Yes, if it starts fresh and has a narrow job. The agent that wrote the code shares its own blind spots, so a reviewer with a clean context and one focus (correctness, security or completeness) catches what the author missed. It does not replace a human review. It means the obvious problems are gone before the human looks."
-  - q: "How do you stop review bots from flooding a PR with noise?"
-    a: "Treat every bot comment as a claim to check. Classify each one as a real bug, a valid but minor fix, or a false positive, fix the first two, and resolve the thread either way. Cap the number of rounds so the loop cannot run forever."
-  - q: "What happens when reviewer agents disagree?"
-    a: "In my panel the strictest verdict wins: one BLOCK from any reviewer blocks the PR. After three cycles without approval the panel stops and reports the result as unresolved. It never marks work as approved on a timeout."
+  - q: "What is multi-agent code review in Claude Code?"
+    a: "Several subagents review the same diff in parallel, each with its own focus such as correctness, security or completeness, and their findings are merged. In my setup the strictest verdict wins: one BLOCK from any reviewer sends the PR back, and approval needs all three."
+  - q: "Do AI reviewer agents catch real problems?"
+    a: "In my records, yes. In a non-random sample of 20 BLOCK findings from 85 PRs, 11 were security findings, 11 led to a fix named in the next commit and 5 more were probably fixed. 3 were deferred and the PR merged without the fix. The weak part was the record: only 5 of the 85 verdicts were posted on GitHub by the full panel."
+  - q: "Why should a reviewer agent post its verdict on the PR?"
+    a: "Because a verdict that stays in a session transcript, or that the authoring agent summarises in one line, can't be checked later. On 85 of my PRs, 39 verdicts exist only as the author agent's summary. Post the verdict with its findings on the PR, every cycle."
+  - q: "Do reviewer agents share the author's blind spots?"
+    a: "They can. Every reviewer in my panel is a Claude model, and so are most of the agents that write the code. The security reviewer runs on a different model from the other two reviewers, not necessarily from the author, and I read every PR myself after the panel. That narrows the gap without closing it."
 ---
 
-**Short answer:** I review AI-generated code with agents that start from distrust. Three fresh reviewers (correctness, security, completeness) read every diff in parallel, and the strictest verdict wins. Review-bot comments go through a loop that checks each one before fixing it. For audits, a second set of agents tries to refute every finding. I counted: about 30% of the subagents I start are reviewers of some kind.
+**Short answer:** Between 9 May and 10 July 2026 my reviewer agents left a verdict on 85 pull requests in 3 of my GitHub repos. Only 5 of those verdicts are the reviewer panel's own comment on the PR, with its findings counted. 41 came from one agent writing all three reviews, and 39 exist only as a one-line summary the authoring agent wrote in the PR body. The reviewers did real work: of 20 BLOCK findings sampled across the 3 repos, 11 were security issues and 16 were fixed or probably fixed before merge. 3 BLOCKs merged unfixed. A reviewer agent's verdict belongs on the PR, posted by the reviewer, every cycle, or nobody can check it later.
 
-This is the agent half of how to review AI-generated code. The human half, the six failure types I still check by hand, is in [How to Review AI-Generated Code](/blog/what-agents-get-wrong).
+This post is the agent half of how I review. What I check by hand after it is in [How to Review AI-Generated Code](/blog/what-agents-get-wrong).
 
-This post covers the reviewers I run before a PR reaches me. Each one is built to assume the work in front of it is wrong.
+## The panel
 
-The numbers below come from my own session logs (6 August to 10 October 2026) and prompt history (12 July to 10 October). They are aggregate counts across all my work. Nothing here names a client or a project.
+Three reviewer subagents read the same diff in parallel, each starting with a fresh context, the ticket and one job:
 
-## Why the author cannot review its own work
+| Reviewer | What it checks | Model since 7 Oct 2026 |
+| --- | --- | --- |
+| Correctness | Code paths, types, API usage, edge cases | Claude Sonnet 5.5 |
+| Security | Injection, secrets, auth, data exposure, gates that fail open | Claude Opus 5.5 |
+| Completeness | The ticket is met, error handling, tests, docs, scope creep | Claude Sonnet 5.5 |
 
-An agent that wrote the code has the same context it wrote it with: the same reading of the ticket, the same assumptions, the same blind spots. In my experience, asking it "is this correct?" mostly gets back a confirmation.
+The models were pinned on 7 October 2026. The May to July reviews below ran on the earlier defaults.
 
-A fresh agent has none of that context. Give it the diff, the ticket and one job, and it reads the code the way a stranger would. Every reviewer below is built on that.
+The rules:
 
-## The three-role panel
+1. Each reviewer grades its findings BLOCK, WARN or NIT.
+2. Duplicates on the same file, line and category collapse into one, and the higher severity wins.
+3. One BLOCK from any reviewer sends the PR back. Approval needs all three.
+4. After a fix the panel runs again, up to three cycles. If it still hasn't approved, it stops and reports the verdict as unresolved, with the findings that survived. A stall never reads as a pass.
 
-My sessions started 1,119 subagents through the Agent tool over 66 days. 252 of them were panel reviewers:
+The security reviewer also asks one question of every new gate: what happens when the check itself can't run? A missing config, a failed subprocess or an empty allowlist that lets the request through is a BLOCK.
 
-| Role | Spawns | What it checks |
+## What 85 PRs recorded
+
+An agent pulled every reviewer verdict on my GitHub repos with read-only `gh` queries and counted them. I re-ran two of its searches as a spot check, and the repos and dates matched. The verdicts come in three forms, and they can't be read as one population:
+
+| What was posted | PRs | What it shows |
 | --- | ---: | --- |
-| Correctness | 94 | Every code path, types, API usage, edge cases |
-| Security | 87 | Secrets, injection, auth, data handling, fail-closed gates |
-| Completeness | 71 | Requirements met, error handling, tests, docs |
+| The panel's own comment (3 reviewers, or 4 in an older roster), with BLOCK/WARN/NIT counts | 5 | Every cycle and every count |
+| One agent writing correctness, security and completeness sections | 41 | A verdict per round, graded P0 to P3 |
+| A one-line summary by the agent that wrote the code | 39 | One outcome, often without the cycle count |
 
-A further 52 spawns were a copy reviewer that checks site text against my copy rules, and 34 checked a build against its design. In total, 338 of 1,119 spawns, about 30%, had one job: check someone else's work.
+Across all 85:
 
-The panel runs like this:
+| Outcome | PRs |
+| --- | ---: |
+| Approved on the first pass | 47 |
+| Sent back, then approved | 7 |
+| Sent back, findings marked addressed, no second verdict recorded | 20 |
+| Sent back, then closed unmerged | 1 |
+| No verdict stated, only that the review ran | 10 |
+| Stalled at the three-cycle cap | 0 |
 
-1. All three start at once, each with a clean context and only its own focus.
-2. Each returns findings graded BLOCK, WARN or NIT.
-3. The findings are merged. Duplicates on the same file, line and category collapse into one, and the higher severity wins.
-4. The strictest verdict wins. If any reviewer says BLOCK, the PR goes back. Approval needs all three.
-5. After a fix, the panel runs again, up to three cycles.
+81 of the 85 merged. No PR needed more than two cycles, so the stall rule never fired.
 
-The rule I care most about is in step 5. After three cycles without approval, the panel stops, reports the verdict as unresolved, names the findings that survived and posts that on the PR.
+## What the BLOCKs were
 
-A review that times out never reads as approval. A silent stall looks like a pass to anyone who was not watching, so the stall has to be loud.
+The counting agent picked 20 BLOCK findings spread across the 3 repos, and read the commits that followed each one. It didn't pick them at random, so treat the split as a sample, not a rate:
 
-The security reviewer runs one check on every new gate: what happens when the check itself cannot run? If a missing config, a failed subprocess or an empty allowlist lets the request through, that is a BLOCK.
+| What happened next | BLOCKs |
+| --- | ---: |
+| Fixed: the next commit names the finding and touches the flagged file | 11 |
+| Probably fixed: the next commit touches the flagged files, with a generic message | 5 |
+| Deferred to a follow-up issue, PR merged without the fix | 3 |
+| Unclear, because the fixes were squashed into one commit | 1 |
 
-Agents write this bug with confidence. My guess is that tests rarely catch it because nobody writes a test for the gate failing to start.
+By category: 11 security, 4 correctness, 4 completeness and 1 naming rule. Of the 11 security BLOCKs, 10 were fixed or probably fixed and 1 is unclear. The 3 deferred BLOCKs were completeness findings, all about a library that was added and never wired up.
 
-## The review-bot loop
+## The record is the weak part
 
-Some repos I work in have a hosted review bot that comments on every PR. In my prompt history, 518 prompts were about review, and 196 of those were about bot review threads. Those counts come from keyword matching, so treat them as approximate.
+**39 verdicts come only from the author's summary.** When the agent that wrote the code also writes the panel's outcome as one line of the PR body, nothing on GitHub shows the panel ran, what it found or what changed. 10 of those 39 don't state a verdict at all.
 
-Bot comments find real bugs. Fixing every one blindly makes the PR worse, so the loop treats each comment as a claim:
+**20 PRs end at "addressed".** The panel sent them back, the findings were marked fixed, and no second verdict was recorded. Maybe the second pass approved. The record can't tell me.
 
-1. Fetch the unresolved threads on the PR.
-2. Classify each one: a real bug, a valid but minor fix, or a false positive.
-3. Fix the first two, run the checks, commit and push.
-4. Resolve the threads it handled, so the PR shows what was done.
-5. Repeat until nothing is unresolved, up to a fixed number of rounds.
+**My own panel only posts to the PR on a stall.** Writing this post, I reread the panel's instructions: it posts its summary as a PR comment only after three cycles without approval. Nothing stalled in this window, so the 46 reviews that are on GitHub got there some other way, from an earlier version of the review step or a session told to post. The record doesn't say which. The change the panel needs is to post its verdict and findings on the PR after every cycle, approvals included.
 
-Step 4 matters more than it looks. An unresolved thread on a merged PR tells the next reader nothing, including whether anyone read it.
-
-## Refuters: assume the finding is wrong
-
-The panel checks code. For audits, where an agent reports findings about a whole system, I add a second layer: refuters. Each finding goes to a fresh agent told to disprove it, and the finding counts as refuted unless it survives.
-
-In one audit of my own setup, the refuting pass refuted 9 of 149 findings. In a deeper audit the same week, it killed or cut 22 claims and found 5 errors in my own brief.
-
-Counts also beat estimates. One subagent estimated about 1,000 uses for each of three MCP servers I was thinking of removing. It had counted transcripts that merely listed the tool names. The real call counts were lower.
-
-## I don't trust the reviewers either
-
-None of this replaces my review. The agents make my review cheaper: by the time a PR reaches me, the obvious problems are gone and the PR body shows the evidence.
-
-On one afternoon run of nine PRs, five PR bodies recorded a review count: 46 findings, 17 of them fixed before I saw the PR. I read evidence instead of re-running it.
-
-The reviewers have limits, and so do I. On my own 30-PR run, where review was the only gate, 25 of the 30 merged PRs needed at least one fix commit from review, and I caught three shell-injection paths.
-
-I also missed one shell call built from database values. The details are in [30 Reviewed PRs, 3 Shell-Injection Paths Caught](/work/30-reviewed-prs-3-vulnerabilities). No single review caught everything on that run, mine included, which is why both layers stay.
+Anthropic's managed [Claude Code Review](https://code.claude.com/docs/en/code-review) already works this way: findings go inline on the PR and into a check run that keeps a severity table. Its check run always completes neutral, so a merge is gated only if your CI reads the result. My panel sends PRs back, and 39 of its 85 verdicts left nothing a reviewer could check later. The setup I'd trust posts every finding on the PR and lets a BLOCK stop the merge.
 
 ## How to set this up
 
-You can start with one reviewer and grow:
-
-1. Add one fresh reviewer per PR, with a clean context, the diff, the ticket and one focus. Start with security.
-2. Grade findings BLOCK, WARN or NIT, and let any BLOCK stop the PR.
+1. Add one fresh reviewer subagent per PR, with a clean context, the diff, the ticket and one focus. Start with security.
+2. Grade findings BLOCK, WARN or NIT, and let any BLOCK send the PR back.
 3. Cap the cycles and report a stall as unresolved, never as approved.
-4. Run a triage loop on bot comments that classifies before it fixes and resolves every thread.
-5. For audits, add refuters that assume each finding is wrong.
+4. Have the reviewer post every verdict on the PR itself, with its counts, so the authoring agent never summarises its own review.
+5. Put a different model family on the security role. I haven't run that test yet. Read the PR yourself after the panel approves.
 
-Then read the PR yourself. The reviewers decide what reaches you, and you still decide what merges.
+In October I also ran this panel blind on 8 old agent commits whose bugs I already knew. Its security reviewer approved two commits with a shell string in them, because the values came from config or seed data. That test is its own post, on 28 November.

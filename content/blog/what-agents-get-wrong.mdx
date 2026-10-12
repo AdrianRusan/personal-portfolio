@@ -1,137 +1,93 @@
 ---
-title: "How to Review AI-Generated Code: 6 Failures Agents Ship That Pass Tests"
-seoTitle: "How to Review AI-Generated Code: 6 Failures to Check"
+title: "How to Review AI-Generated Code: What 64 Fixes on 30 Agent PRs Were For"
+seoTitle: "How to Review AI-Generated Code: Checklist From 64 Fixes"
 date: "2026-07-09"
-updated: "2026-10-11"
+updated: "2026-10-12"
 tags: ["ai", "code-review", "security", "claude-code", "software-engineering"]
-description: "How to review AI-generated code: six failure categories that pass tests, from fail-open security gates to swallowed errors, and what to check for each."
+description: "I sorted all 64 review fixes from 30 agent-written PRs by what was wrong. Counts, a real example of each, the misses and a checklist ordered by frequency."
 published: true
 language: "en"
 cta: "audit"
 faq:
   - q: "What mistakes do AI coding agents make most often?"
-    a: "In my review work the recurring six are: security gates that fail open, scope creep beyond the ticket, silently swallowed errors, confidently-wrong logic on unconsidered boundaries, premature abstraction, and stale or hallucinated API calls. All six commonly pass automated tests."
-  - q: "Why does AI-generated code pass tests but still fail?"
-    a: "Agents optimize output to make the test suite green, and often write the tests too, so the code and its tests share the same blind spot. Passing tests prove the code does what the tests check. They don't prove it's safe against inputs nobody wrote a test for."
+    a: "In 30 agent PRs I reviewed in March 2026, the 64 review fixes sorted into: duplicated code including helpers the repo already had (11), type-safety holes (10), security and hardening (9), code written for an older framework version (8), and smaller groups for error handling, input validation, client and API disagreeing on a payload, missing dependencies and docs. 9 of the 61 distinct defects would have broken the build or a page."
+  - q: "Why does AI-generated code pass review but still fail?"
+    a: "Each agent PR reads well against its own ticket. In my run the failures sat between PRs and around them: helpers the agent never searched for, checks deleted by a rewrite or a rebase, framework APIs from an older major version, and fix commits that refactored a vulnerable line without changing it."
   - q: "Can automated tools catch these problems?"
-    a: "Type checkers and builds catch most hallucinated-API errors, and linters catch some. Fail-open gates, confidently-wrong logic and swallowed errors pass green CI by construction. They need a human reading the logic against the specification, not against the tests."
+    a: "Some of them. A CI build would have stopped most of the 9 defects that broke the build or a page, by my reading of the code. Security bugs build fine. In October I ran AI reviewers on the original commits and they flagged two stored XSS sinks and two shell calls my review had missed."
   - q: "Are AI coding agents worth using, then?"
-    a: "Yes. They deliver a real 2–3x throughput gain. Agent speed is only mergeable with a senior review layer on top. Speed without the review is a liability; the two together are the product."
+    a: "On my own work, yes: 30 merged PRs in under three days on a scoped backlog. Every one of them was read before merge, and 25 needed a fix first. The review is what made the volume mergeable."
 ---
 
-**Short answer:** To review AI-generated code, read it against the spec, not the tests. The defects I catch in agent-written PRs fall into six categories: fail-open security gates, scope creep, swallowed errors, confidently-wrong logic, premature abstraction and stale APIs. A happy-path test suite misses all six, and on my own 30-PR run there was no test suite at all, so review was the only gate.
+**Short answer:** 25 of the 30 agent-written PRs I merged in March 2026 needed at least one fix before I'd merge them. I went back and sorted all 64 fixes by what was wrong. Duplicated code led with 11 fixes, often a helper the repo already had, then type-safety holes (10), security and hardening (9) and code written for an older Next.js (8). The checklist at the end puts security first and then follows those counts.
 
-## How to review AI-generated code (checklist)
+The repo is my own admin dashboard: no tests, no CI, so my review was the only gate. The run itself, with dates and every security finding, is in [the 30-PR case study](/work/30-reviewed-prs-3-vulnerabilities). This post is what the fixes were for.
 
-1. **Security gates:** what happens when the check itself can't run? It must block, not pass.
-2. **Scope:** does every change in the diff map to the ticket? Anything that doesn't comes out.
-3. **Error handling:** is any `catch` broader than the error it handles, or does it recover to a made-up value?
-4. **Logic:** re-derive the boundary conditions from the spec and check the code against your derivation, not the tests.
-5. **Abstraction:** does each new interface, factory or flag serve at least three real call sites?
-6. **APIs:** does every call exist in the version you actually pin?
+## How I counted
 
-The same list is a [one-page agent PR review checklist (PDF)](/agent-pr-review-checklist.pdf) you can take to your next review, and it's what I run when someone [sends a repo for a free teardown](/teardown).
+I read every fix commit made during review (28 commits, plus the build-fix part of one feature commit) and listed each defect it fixed. An agent did the first pass on 12 October 2026, and I checked every example below and every security row against the diffs. 2 defects were fixed on more than one parallel branch, one of them 3 times, so 64 fixes cover 61 distinct defects. "Would break" means the build or a page would have failed if it shipped; I judged that from the code, nothing was run.
 
-The list comes from volume. On my own admin dashboard (March 2026, not client work) I merged 30 reviewed pull requests across 9 parallel agent batches in under three days.
+| What was wrong | Fixes | Example |
+| --- | ---: | --- |
+| Duplicated code, including helpers the repo already had | 11 | #104: date-fns `formatDistanceToNow`, while `timeAgo` had been in `lib/format.ts` since February |
+| Type holes: `any`, unsafe casts, `null` in a non-null field | 10 | #118: `last_commit: null` broke the build on main |
+| Security and hardening: shell strings, a path traversal, a deleted allowlist, repo-format checks | 9 | #112: a job ID from the URL in a shell string (`237cfaa`) |
+| Written for an older Next.js | 8 | #119: sync route `params`, which Next.js 16 passes as a Promise |
+| Error handling | 4 | #100: no `res.ok` check, errors only logged |
+| Input validation: config values, duplicate queue items, empty lists | 3 | #97: a reorder with an empty list was accepted |
+| Client and API disagree on a payload or schema | 3 | #102: the client sent `reorderedIds`, the API expected `items`; every drag got a 400 |
+| Missing dependency or broken lockfile | 3 | `swr` imported by two pages, in neither `package.json` nor the lockfile |
+| Wrong behaviour | 2 | #101: two lists of repos that disagreed, so some projects couldn't be picked |
+| Docs that didn't match the code | 2 | #125: a route count and a phantom endpoint |
+| Other: foreign keys, a non-atomic seed, build artifacts, name clashes | 9 | #95: a seed loop outside a transaction |
 
-That repo had no test suite and no CI, so my adversarial review of every PR before merge was the only gate. At that volume, review turns into a sampling exercise: when you read that many diffs from the same class of author, the mistakes repeat, and they sort into categories.
+[CodeRabbit's December 2025 study](https://coderabbit.ai/blog/state-of-ai-vs-human-code-generation-report) counted 10.83 issues per AI-co-authored PR against 6.45 for human-only PRs, across 470 open-source PRs. CodeRabbit sells AI review and counted issues with its own taxonomy, so its numbers and mine measure different things. My run comes to about 2 fixed defects per PR.
 
-I'll grant that the agents are good. Their code compiles and reads cleanly, and where a repo has tests, it usually passes them. That is what makes the failures dangerous. The defects sit between "the tests pass" and "the code is safe."
+## Agents rebuild what the repo already has (11 fixes)
 
-The six categories below are the ones I see repeatedly. Each section stands alone, so you can copy the one that matters into your own review checklist.
+The biggest group looks harmless: duplicated date formatting, a second `gh` wrapper, a local copy of a priority parser. 11 fixes removed duplicated code. In at least 3 of them, #104, #106 and #115, the agent formatted dates its own way while `lib/format.ts` had held the same helpers since 16 February.
 
-## 1. Security gates that fail open
+It stopped being harmless in two search screens, whose agents wrote their own highlight helpers instead of using the repo's `sanitizeSnippet` and so shipped stored XSS that I missed ([the case study](/work/30-reviewed-prs-3-vulnerabilities#why-these-got-through) has the history).
 
-**The failure:** A check whose entire job is to *block* bad input quietly lets everything through when the check itself can't run. The agent handles the "input is bad" path correctly and forgets the "I couldn't evaluate the input" path.
+**The check:** for every new helper in a diff, search the repo for its job (`grep -rn "highlight\|sanitize\|escape" lib components`) before accepting it.
 
-The version I catch most is a subprocess-based gate (a secret scanner, a schema validator, a linter invoked as a security check) that blocks only on the exit code that means "found something":
+## Agents write for the version they learned (8 fixes)
 
-```js
-// Agent's version: fails OPEN
-const result = spawnSync("scanner", args);
-if (result.status === 1) {
-  throw new Error("blocked");
-}
-// falls through to "allowed" on spawn failure, a kill or a crash
-```
+The repo ran Next.js 16, where route handlers get `params` as a Promise. 4 agent PRs read `params.id` synchronously, which by my reading returns 404 or 500 on every request, and 4 more left out the `force-dynamic` export the repo's other routes declare. The commit trailers name Claude Sonnet 4 and Claude Opus 4.6.
 
-If the binary isn't found, `spawnSync` returns `{ status: null, error: Error }`. If the OS kills it, `status` is `null` and `signal` is set. If the scanner crashes, it exits with some other code, like 2. None of those is `1`, so all three go past the gate. I ran each case in Node to check. The scanner never finished, and the agent treated "didn't run" as "passed."
+The same class includes a CLI's JSON. #109's diff viewer reads `commit.sha` and `commit.author` from `gh pr view --json commits`, which returns `oid` and `authors`. I checked the output on 12 October: the tab throws on any PR with commits, and review missed it.
 
-A security gate has to fail *closed*: the "I don't know" answer must be identical to the "no, blocked" answer.
+**The check:** for every framework or CLI call in a diff, confirm it against the version in your lockfile or the tool's real output.
 
-```js
-// Fails CLOSED: spawn error, kill, and any non-zero exit all block
-if (result.error || result.status === null || result.status !== 0) {
-  throw new Error("blocked");
-}
-```
+## Checks disappear, and review doesn't notice
 
-I trust automated tooling least on this category, because the happy-path test (feed it a secret, watch it block) passes on both versions: exit code 1 blocks in each. You only catch it by asking "what happens when the check can't execute?"
+Four times in this run a check that was already in the code went missing, and review caught one of them. Two of the four appear nowhere else on this site:
 
-Shell injection comes from the same habit: the agent handles the input it expects and never asks what happens with the one it doesn't.
+- **#101** deleted the input schema #97 had added to the work-queue API, when its agent rewrote the route for a new feature. It was never restored.
+- **#107**'s review fix, the commit I asked for, loosened a path check to `..` only.
 
-## 2. Scope creep and gold-plating past the ticket
+The other two, an allowlist deleted in #112 and a check removed by #118's rebase, are told with their code in [the shell-injection post](/blog/catching-shell-injection-agents-wrote). None of the four tickets asked for a check to change. Addy Osmani describes the same pattern with tests and CI: agents "weaken CI to make themselves pass" ([Agentic Code Review, 15 June 2026](https://addyosmani.com/blog/agentic-code-review/)). This repo had no tests or CI, so the checks that went missing were the ones in the code.
 
-**The failure:** The ticket says "add search by email." The agent adds search by email, phone and name, a fuzzy-match toggle, a new caching layer and a config flag for the page size. None of it was asked for, and all of it is now yours to maintain, review and secure.
+**The check:** read the removed lines on their own, `git diff origin/main...HEAD | grep '^-' | grep -iE "schema|safe_|valid|allow|sanitize"`, and ask why each one went.
 
-Given a narrow instruction, an agent will infer a "more complete" version of the feature and build that instead. It reads as helpfulness. Every unrequested line is unreviewed surface area, and the extra branches are where the untested edge cases hide. A `enablePhoneSearch` flag nobody requested is a flag nobody has thought about the security of.
+## Parallel PRs break each other
 
-My rule when reviewing: the diff should map to the ticket and nothing else. If I can't point at the issue for a given change, it comes out.
+Running agents in parallel added a failure no single PR shows. #118 put a `null` in a non-null field and broke the build on main. Three later branches each found and fixed it separately. `swr` was missing from `package.json` in two branches, and #112's lockfile rewrite dropped a dependency that #113 then had to restore.
 
-I hold my own work to the same rule: three similar lines beat the wrong abstraction, and a strong default beats a speculative flag.
+**The check:** before merging the next PR in a parallel batch, rebuild main with it merged. A CI `next build` would have stopped most of the 9 defects that broke the build or a page, by my reading. It wouldn't have stopped any of the security ones.
 
-## 3. Silent error swallowing
+## Security
 
-**The failure:** A broad `try/catch` (or bare `except:`) that catches everything, logs nothing useful and returns a default. A real failure becomes a silent wrong answer instead of a loud crash.
+The 9 security and hardening fixes, and the 5 security bugs review missed, are listed in [the case study](/work/30-reviewed-prs-3-vulnerabilities#what-review-missed).
 
-```js
-try {
-  balance = await fetchBalance(userId);
-} catch (e) {
-  balance = 0; // now a fetch outage reads as "$0.00"
-}
-```
+## The checklist: security first, then by count
 
-Agents reach for this pattern because it makes the code look safe in the shallow sense: nothing throws, the demo works, the test passes. Swallowing the error turns a detectable outage into undetectable data corruption.
+1. **Security surfaces first.** Grep for shell and raw-HTML sinks and trace each value, as in [the shell-injection post](/blog/catching-shell-injection-agents-wrote#how-i-check-agent-written-shell-calls-now).
+2. **New helpers.** Search the repo for an existing one that does the same job, especially anything that escapes, validates or sanitizes.
+3. **Types.** No `any`, no casts that hide a mismatch, and nullability that matches the field.
+4. **Versions.** Every framework and CLI call checked against the version you pin and the tool's real output.
+5. **Deleted lines.** Any removed schema, allowlist or validation needs a reason in the ticket.
+6. **The batch.** Merge the open parallel PRs locally and build before you merge the next one.
+7. **Payloads.** The client sends what the API's schema accepts, field names included.
 
-Anywhere money is involved, "the balance call failed" and "the balance is zero" must never collapse into the same branch. I flag every catch that is broader than the error it handles, and every catch that recovers to a plausible but fabricated value.
-
-The same habit shows up outside code: an agent that fills a gap with a plausible number. The [honesty gate](/work/honesty-gate) is the check I built for that version of it.
-
-## 4. Confidently-wrong logic
-
-**The failure:** Code that is structurally clean, well-named and reads as correct, and is wrong on a boundary the author never considered. Off-by-one on a date range, an inverted conditional, a `>=` that should be `>`, timezone math that breaks at the DST boundary.
-
-In my review work this is the hardest category to catch, because there's nothing to smell. The variable names are good and the structure is idiomatic.
-
-The tests pass, because the agent wrote tests that assert the same wrong mental model the code implements. Agent-written code and agent-written tests share a blind spot, so green CI confirms itself instead of checking independently.
-
-The only defense I've found is reading the logic against the *specification*. I re-derive the boundary conditions myself and check the code against my derivation, not against the suite. When the code and its tests agree but both disagree with reality, only an outside reader catches it.
-
-## 5. Premature abstraction
-
-**The failure:** A generic `BaseHandler`, a config-driven factory, or a five-parameter "flexible" helper introduced to serve a single call site. Abstraction built for a future that hasn't arrived.
-
-Agents pattern-match on "good engineering" and reproduce the *shape* of extensible code without the *demand* for it. You end up with an interface, an abstract class and a registry to handle one concrete case. It's harder to read and harder to change, and it hides the actual behavior behind indirection for callers who will never show up.
-
-My bar is the rule of three: don't extract a shared abstraction until the same pattern appears at three call sites with the same shape. Until then, duplication is cheaper than the wrong abstraction, and easier to review.
-
-## 6. Stale or hallucinated APIs
-
-**The failure:** The agent calls a method that doesn't exist, uses a library's old signature, or invents a plausible option that was never in the API. My guess at the cause: the code matches the *average* of how that library has been used across the training data, which may be a version you're not on, or a call that was never real.
-
-You see `array.findLast()` in an environment that doesn't have it, a deprecated React lifecycle method, an SDK option that reads sensibly but isn't in the docs, or a config key that blends two real ones.
-
-Type checking and a real build catch a good share of these (I haven't counted the split), which makes them the *least* dangerous category here. The dangerous ones type-check while being semantically wrong for your version.
-
-The fix is a pinned-version build and reading the dependency's actual source. Fluent-looking code is not evidence that an API exists.
-
-## Why do these pass the test suite?
-
-None of the six is caught by a passing test suite. Fail-open gates pass the happy-path test. Scope creep adds passing tests for the extra scope. Swallowed errors make tests greener, not redder. Confidently-wrong logic ships with confidently-wrong tests. Premature abstraction is fully tested; it just shouldn't exist. Hallucinated APIs that type-check, type-check.
-
-This is why I put the multiplier at 2–3x. Generation is fast. Review is the bottleneck, and it needs a senior human, because these six failure modes hide from automation. Agents optimize their output to make tests go green, and safety is a different target.
-
-If you're letting agents write production code, keep them: they earn the throughput. Put an adversarial reviewer between the green checkmark and the merge button, someone who assumes the code is wrong until proven safe and knows which six things to look for first.
-
-*Related reading: [The shell-injection bugs my agents wrote, and the one I missed](/blog/catching-shell-injection-agents-wrote).*
+Item 1 surfaces every shell string and raw-HTML sink in this run, the 5 misses included. Item 2 would have pointed both search screens at `sanitizeSnippet`, the existing fix for the two XSS sinks.

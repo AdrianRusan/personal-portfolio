@@ -7,7 +7,8 @@ export const caseStudyResults: Record<
 > = {
   "30-reviewed-prs-3-vulnerabilities": {
     figure: "3",
-    label: "shell-injection paths from request input, caught in review before merge",
+    // #98: the October re-audit found 5 security misses; the label points at them.
+    label: "shell-injection paths from request input caught in review. The study lists the 5 security bugs it missed.",
   },
   "honesty-gate": {
     // A2 F13: the outcome, not the input size.
@@ -16,7 +17,7 @@ export const caseStudyResults: Record<
   },
   "nine-prs-one-afternoon": {
     figure: "9",
-    label: "reviewed PRs merged in 100 minutes, each through a review gate first",
+    label: "reviewed PRs merged in 100 minutes, each through typecheck, lint, build and tests first",
   },
   "agent-cost-per-commit": {
     // R3-F15: a number like the other two; the rebound stays in the label.

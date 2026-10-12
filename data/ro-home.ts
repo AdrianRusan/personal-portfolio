@@ -59,9 +59,9 @@ export const roProofBand: ProofBandCopy = {
       figure: "3",
       label: "căi de shell injection din input-ul cererilor, prinse în review înainte de merge",
     },
-    { figure: "1", label: "ratată, iar studiul de caz arată care anume" },
+    { figure: "2M+", label: "spectatori simultan la transmisiunile PGL Major pentru care am făcut grafica live" },
   ],
-  note: "Toate cele trei cifre vin dintr-o singură rulare documentată, pe propriul meu panou de administrare, în martie 2026.",
+  note: "30 și 3 vin dintr-o singură rulare documentată pe propriul meu panou de administrare, în martie 2026. Studiul de caz listează tot ce a prins review-ul și tot ce a scăpat.",
 };
 
 // Keyed by tag so a reordered or added EN step can't pick up the wrong copy.
@@ -121,19 +121,19 @@ export const roOffers: OffersCopy = {
 // Latest). The posts themselves stay in English; the cards say so once.
 export const roPostTitles: PostTitles = {
   "30-reviewed-prs-3-vulnerabilities": {
-    title: "30 de PR-uri revizuite, 3 căi de shell injection prinse",
+    title: "30 de PR-uri scrise de agenți, revizuite: 3 shell injection prinse, 5 buguri de securitate ratate",
     description:
-      "Propriul meu dashboard de administrare, martie 2026: agenții au deschis 31 de PR-uri în mai puțin de trei zile și am făcut merge la 30 după review, fără teste și fără CI. Review-ul a prins 3 căi de shell injection și a ratat una.",
+      "Propriul meu dashboard, martie 2026: agenții au deschis 31 de PR-uri și am făcut merge la 30 după review, fără teste și fără CI. Review-ul a prins 3 căi de shell injection. Un re-audit din octombrie a găsit 5 buguri de securitate pe care le-a ratat.",
   },
   "honesty-gate": {
-    title: "Honesty gate: cum opresc faptele inventate în site‑urile construite de agenți",
+    title: "Honesty gate: cum opresc agenții să publice fapte inventate",
     description:
-      "Un landing page prezenta ca real un număr de lansări. Numărul real era 0. Iată gate-ul care acum leagă fiecare text afișat de o sursă.",
+      "Un landing page construit de agenți prezenta un număr de lansări drept „număr real”. Numărul real era 0. Soluția: fiecare text afișat trebuie să-și dovedească sursa.",
   },
   "nine-prs-one-afternoon": {
     title: "Nouă PR-uri revizuite într-o după-amiază: echipa de agenți care a refăcut acest site",
     description:
-      "Un orchestrator, nouă agenți Claude Code în worktree-uri paralele, nouă PR-uri cu merge în 100 de minute. Fiecare a trecut întâi printr-un gate de review.",
+      "9 PR-uri cu merge în 100 de minute, o scurtătură ratată. Nouă agenți Claude Code în worktree-uri git paralele, fiecare PR trecut întâi prin typecheck, lint, build și teste.",
   },
   "agent-cost-per-commit": {
     title: "Costul pe PR cu merge: ce arată 3 luni din registrul meu Claude Code",
@@ -146,29 +146,29 @@ export const roPostTitles: PostTitles = {
       "463 de sesiuni Claude Code în 66 de zile, numărate de un script: un prompt median de 10 cuvinte, 2,7 sesiuni pentru fiecare oră la tastatură și 97,7% din 45 de miliarde de tokeni citiți din cache.",
   },
   "the-rules-file-my-agents-follow": {
-    title: "Fișierul de reguli pe care îl urmează agenții mei: exemple de CLAUDE.md din 270 de commit-uri",
+    title: "Fișierul de reguli pe care îl urmează agenții mei: exemple de CLAUDE.md și hook-urile din spatele lor",
     description:
-      "Exemple reale de CLAUDE.md dintr-un fișier de reguli ajustat de-a lungul a 270 de commit-uri: gate-uri care refuză când nu pot verifica, ritmul commit-urilor, repari doar bugul raportat și regulile pe care le-am șters.",
+      "Exemple reale de CLAUDE.md dintr-un fișier de reguli cu 274 de commit-uri în spate: cinci reguli, de ce există fiecare și care sunt impuse de un hook, față de cele pe care modelul le poate ignora.",
   },
   "how-i-run-claude-code-agents-in-parallel": {
-    title: "Cum rulez agenți Claude Code în paralel (worktrees, Herdr, un singur brief)",
+    title: "Agenți Claude Code în paralel: ce nu izolează git worktree și ce acoperă acum funcțiile native",
     description:
-      "Agenți Claude Code în paralel, în practică: un git worktree pentru fiecare agent, un terminal multiplexer care îi rulează, un brief care le răspunde la întrebări și review-ul ca singurul pas făcut pe rând.",
+      "Agenți Claude Code în paralel în octombrie 2026: cele cinci lucruri pe care un git worktree le împarte în continuare (porturi, servicii, .git, aprobări, limita de utilizare), ce rezolvă acum -w, --bg și claude agents și pentru ce folosesc încă Herdr.",
   },
   "auditing-my-claude-code-setup-with-an-agent": {
-    title: "43 din 65 de skill-uri nu porniseră în 70 de zile: auditul setup-ului meu Claude Code",
+    title: "Cum auditezi un setup Claude Code: 5 verificări și ce au găsit în al meu",
     description:
-      "Zece audituri ale propriului meu setup Claude Code, rulate de agenți. Majoritatea skill-urilor nu porneau niciodată, regulile explicau cum să gândești, iar metricile erau greșite. Iată ce s-a schimbat.",
+      "Cinci verificări pentru un setup Claude Code: skill-uri care nu pornesc niciodată, cuvinte încărcate în fiecare sesiune, modelul pe care rulează subagenții, lucruri nefolosite și metrici care nu pot pica. Ce a găsit fiecare în al meu, cu date.",
   },
   "reviewer-agents-that-dont-trust-other-agents": {
-    title: "Agenți de review care nu au încredere în alți agenți",
+    title: "Code review cu mai mulți agenți are nevoie de urme: 85 de PR-uri, 39 de verdicte neverificabile",
     description:
-      "Agenți de review construiți pe neîncredere: un panel cu trei roluri în care câștigă verdictul cel mai strict, o buclă care triază comentariile boților și agenți care încearcă să infirme fiecare constatare dintr-un audit.",
+      "Agenții mei de review au dat un verdict pe 85 de PR-uri între mai și iulie 2026. 39 dintre ele există doar ca rezumat de un rând scris de agentul care a scris codul, iar 3 BLOCK-uri au intrat în merge fără corectură. Designul panelului, cifrele și ce urmă ar trebui să lase un agent de review.",
   },
   "claude-code-fail-closed-hooks": {
-    title: "Claude Code are acum hook-uri care refuză la eroare. De ce le-am construit pe ale mele înainte",
+    title: "Hook-urile Claude Code lasă acțiunea să treacă la eroare. Am testat onFailure: \"block\" pe propriile mele gate-uri",
     description:
-      "Claude Code 2.1.295 a adăugat onFailure: \"block\" pentru hook-uri. Ce acoperă, ce nu vede în interiorul scriptului și cum refuză hook-urile mele când nu pot verifica.",
+      "Am trecut hook-urile mele Claude Code prin 20 de sesiuni headless. onFailure: \"block\" a oprit fiecare crash, timeout și cod de ieșire greșit. A ratat JSON-ul trunchiat și nu vede un hook care rulează corect, dar dă răspunsul greșit.",
   },
   "how-i-measure-claude-code-roi": {
     title: "Cum măsor ROI-ul Claude Code și cele 5 capcane care mi-au stricat cifrele",
@@ -176,15 +176,21 @@ export const roPostTitles: PostTitles = {
       "Claude Code șterge transcrierile după 30 de zile, iar cifrele rămase se strică în cinci feluri. Metoda din registrul meu pentru costul pe PR cu merge și capcanele în care a căzut.",
   },
   "what-agents-get-wrong": {
-    title: "Cum faci review la codul scris de AI: 6 greșeli ale agenților care trec de teste",
+    title: "Cum faci review la codul scris de AI: pentru ce au fost 64 de corecturi pe 30 de PR-uri ale agenților",
     description:
-      "Șase categorii de greșeli recurente pe care le prind în review-ul codului generat de AI: gate-uri de securitate care lasă totul să treacă la eroare, scope creep, erori înghițite în tăcere și altele. Iată ce să cauți.",
+      "Am sortat toate cele 64 de corecturi din review-ul a 30 de PR-uri scrise de agenți după ce era greșit: securitate, cod duplicat, tipuri, versiuni vechi de framework. Cifrele, câte un exemplu real și un checklist ordonat după frecvență.",
   },
   "catching-shell-injection-agents-wrote": {
-    title: "Bugurile de shell injection scrise de agenții mei și cel pe care l-am ratat",
+    title: "Bugurile de shell injection scrise de agenții mei: 4 prinse, 3 ratate",
     description:
-      "Trei căi de shell injection din input-ul cererilor, scrise de agenți și prinse în review înainte de merge, într-un repo fără teste și fără CI. Plus una pe care am ratat-o și ce am învățat.",
+      "Agenții au scris 7 comenzi shell construite din string-uri în 30 de PR-uri. Review-ul a prins 4, dintre care 3 din input-ul cererii, și a ratat 3, una tot din input-ul cererii. Codul și verificările.",
   },
+  "ai-reviewers-on-the-bugs-i-missed": {
+    title: "Am dat bugurile ratate de mine unor agenți de review AI: toate 5 semnalate, unul lăsat să treacă",
+    description:
+      "Am rulat /code-review din Claude Code și un panel de trei agenți, fără indicii, pe 8 commit-uri scrise de agenți pe care le revizuisem manual. Au semnalat cele 5 buguri de securitate ratate de mine și au lăsat unul să treacă, din același motiv ca mine.",
+  },
+
   "2-3x-not-100x": {
     title: "De 2–3 ori pe backlogul meu, 8% în 400 de companii: unde dispare câștigul din AI",
     description:
@@ -198,12 +204,12 @@ export const roCaseStudyCards: CaseStudyCardsCopy = {
     "Client work (NDA)": "Proiect pentru client (NDA)",
     "Own setup": "Setup propriu",
     // The caseStudyResults labels (data/work.ts).
-    "shell-injection paths from request input, caught in review before merge":
-      "căi de shell injection din input-ul cererilor, prinse în review înainte de merge",
+    "shell-injection paths from request input caught in review. The study lists the 5 security bugs it missed.":
+      "căi de shell injection din input-ul cererilor, prinse în review. Studiul listează cele 5 buguri de securitate pe care le-a ratat.",
     'the true count behind a landing-page line labelled "real number". The gate keeps lines like it off the page.':
       "e numărul adevărat din spatele unui rând de pe un landing page etichetat „număr real”. Gate-ul ține astfel de rânduri departe de pagină.",
-    "reviewed PRs merged in 100 minutes, each through a review gate first":
-      "PR-uri revizuite, cu merge în 100 de minute, fiecare trecut întâi printr-un gate de review",
+    "reviewed PRs merged in 100 minutes, each through typecheck, lint, build and tests first":
+      "PR-uri revizuite, cu merge în 100 de minute, fiecare trecut întâi prin typecheck, lint, build și teste",
     "lower cost per merged PR in one month, then it rose 42% by early October":
       "cost mai mic pe PR cu merge într-o lună, apoi a crescut cu 42% până la începutul lui octombrie",
   },

@@ -1,9 +1,10 @@
 ---
-title: "The Honesty Gate: Blocking Invented Facts in Agent-Built Sites"
-seoTitle: "The Honesty Gate: Blocking Invented Facts"
+title: "The Honesty Gate: Stopping Agents From Publishing Invented Facts"
+seoTitle: "Stop AI Agents Inventing Numbers in Copy"
 date: "2026-10-10"
+updated: "2026-10-12"
 tags: ["ai", "claude-code", "code-review", "agent-harness"]
-description: "A landing page labelled a launch count as real. The true count was 0. Here is the gate that now traces every rendered string to a source."
+description: "An agent-built landing page labelled a launch count \"real number\". The true count was 0. The fix makes every rendered string prove where it came from."
 published: true
 language: "en"
 cta: "automation"
@@ -11,29 +12,34 @@ forYou: "If agents write copy or data your customers see, this is the gate that 
 meta: "2026 · Client work (NDA) · Role: reviewer, author of the gates"
 ---
 
-## The problem
+A landing page built by agents was about to launch with a count labelled "real number, from delivered orders". The true count was 0, and nobody had decided to lie.
 
-A landing page was about to launch with a launch count labelled "real number, from delivered orders". The count was hardcoded. At launch the true number was 0.
+**Short answer:** Agents carried a number from a design comp into a "real number" line, and it looked plausible enough to ship. The fix gives every fact a provenance, makes every string on the rendered page trace back to one, and blocks the publish when a string can't, or when the check itself can't run. Wiring the gate in matters as much as writing it. The earlier pipeline exported ten gate functions, and two of them could stop a publish.
 
-The context is a client's agent-built SaaS (under NDA) that generates demo sites. Agents write most of its code and copy, and I review it.
+## How the invented numbers got in
 
-The proof line ran once for each of five industries: a count of businesses that had launched their site with us this month, two or three per industry.
+The numbers arrived in a design comp. The agents carried them forward faithfully, and each one looked plausible on its own.
 
-It was not the only one. A strip of sites "made by us" linked three domains, and two of them did not resolve.
+The context is a client's agent-built SaaS (under NDA) that generates demo sites. Agents write most of its code and copy, and I review it. Four problems were in the output before launch:
 
-The generated demo sites had the same problem. The fixtures that seed a demo shipped testimonials, a 4.9 rating and a count of 127 reviews across five business types, with nothing marking them as examples.
+- **The launch count.** A hardcoded count of businesses that had "launched with us this month", two or three per industry, under a "real number, from delivered orders" label. It ran once for each of five industries. The true count was 0.
+- **The showcase strip.** A row of sites "made by us" linked three domains. Two of them didn't resolve.
+- **The demo fixtures.** As of 28 July 2026, the data that seeds a demo shipped testimonials, a 4.9 rating and "127 reviews" across five business types, with nothing marking them as examples.
+- **The fan-out.** One invented positioning field reached five places in the output: two SEO descriptions, two social descriptions and the structured data.
 
-Nobody decided to lie. The numbers arrived in a design comp, the agents carried them forward faithfully, and each one looked plausible on its own.
+Each one needed only an agent doing what it was asked with the data it was given.
 
-## The constraint
+## Why proofreading and prompt rules don't hold
 
-Proofreading does not scale here, for three reasons I found in the run itself.
+Three reasons, two from this run and one from the pipeline before it.
 
-Fan-out. One poisoned source field reached five places in the output: two SEO descriptions, two social descriptions and the structured data. Fix the field and a render path nobody remembered still ships the claim.
+**Fan-out beats the source.** Fix the poisoned field and a render path nobody remembered still ships the claim. Only a check on the final rendered output sees all five copies.
 
-A digit regex is easy to defeat. "Over two hundred happy clients" has no digit to match, and the claim is exactly as invented as "200+ clients".
+**A digit regex is easy to defeat.** "Over two hundred happy clients" has no digit to match, and it is exactly as invented as "200+ clients".
 
-Gates that exist are not gates that run. An earlier pipeline exported ten gate functions. Only two were wired to anything that could stop a publish. The other eight were tested and exported, and nothing called them.
+**An exported gate stops nothing until the publish path calls it.** When I designed the new gates on 28 July 2026, I grepped every non-test caller in the earlier pipeline. It exported ten gate functions, and two of them could stop a publish. The other eight were tested, exported and never called.
+
+A prompt rule has no exit code, so nothing stops a publish when the rule is broken. The agent that wrote "real number" had no way to know the number wasn't real.
 
 ## What I built
 
@@ -82,32 +88,66 @@ The fix moved the rule out of the prompt and into the data.
   <figcaption className="text-center text-sm text-white-200 mt-3">Both gates read the final rendered page.</figcaption>
 </figure>
 
-Every fact about a business carries provenance: the owner typed it, it came from a public listing, it was derived, or it is unknown. An unknown fact renders as a visibly marked slot the owner can fill, never as prose.
+Every fact about a business carries provenance: the owner typed it, it came from a public listing, it was derived, or it is unknown. An unknown fact renders as a visibly marked slot the owner can fill, never as prose. To invent a claim now, an agent has to forge a provenance value, and that shows up in a diff.
 
-To invent a claim now, an agent has to forge a provenance value, and that shows up in a diff.
+Two gates then read the final rendered page:
 
-Two gates then read the final rendered page. The trace gate walks every string, roughly 1,400 per page, and requires each to map back to a fact, a catalog constant or a marked slot.
+1. **The trace gate** walks every string and requires each to map back to a fact, a catalog constant or a marked slot. An unmapped string means a render path skipped the provenance helper, so the gate blocks.
+2. **The proof scan** trusts nothing, including the trace. Any count, rating or urgency phrase needs a backing fact. It also reads counts spelled out in words.
 
-The proof scan trusts nothing. Any count, rating or urgency phrase needs a backing fact, including counts spelled out from a 64-entry number-word lexicon. Ratings markup is emitted only from verified reviews.
+The seeded fixtures got a denylist generated from the fixtures themselves. CI regenerates it and fails the build if it drifts from the committed copy, so nobody has to remember to update it. Ratings markup is emitted only from verified reviews.
 
-If either gate cannot run, the result is the same as a failure: the publish is blocked.
+If either gate can't run (a missing map, a missing lexicon, a hash mismatch), the exit code is the same as a failure, and the publish is blocked.
 
-The landing page got the same rule. The count now comes from real go-live events and the whole line stays hidden until it reaches 2.
+The landing page got the same rule on 22 July 2026. The count now comes from real go-live events, never from an `updatedAt` that bumps on unrelated edits. The line stays hidden until the count reaches 2.
 
-## The number
+## The result
 
-**0.** That was the true value of the "real number" on launch day, so the line does not render. The trace gate checks the whole page in about 90 milliseconds, and the proof scan takes about 40.
+On launch day the true count was 0, so the line didn't render. The showcase strip now lists only sites that really went live, which at launch was none, so it was hidden too.
+
+## The same rule on a repo you can check
+
+The client code is private. This site's repo is public, and it runs a smaller version of the same rule in its unit tests:
+
+- [`work-index.test.ts`](https://github.com/AdrianRusan/personal-portfolio/blob/main/__tests__/work-index.test.ts) fails if a headline figure on `/work` is missing from the case study it summarises.
+- [`workflow-numbers.test.ts`](https://github.com/AdrianRusan/personal-portfolio/blob/main/__tests__/workflow-numbers.test.ts) fails if the 66-day post, or a page that quotes its numbers, drifts from the one constant they come from.
+
+Those two check that a number has a source. Like the client gates, they can't check that the source is right.
+
+## What the gates don't catch
+
+**They check where a claim came from.** If the owner types "500 happy clients", that fact has owner provenance and it publishes. The gate guarantees that every claim on the page came from someone accountable for it. It can't tell you whether that person was right.
+
+## Why this matters more since 2 August 2026
+
+Article 50 of the EU AI Act has applied since 2 August 2026. Providers of generative AI systems must mark their output as AI-generated in a machine-readable format, and systems already on the market before that date have until 2 December 2026 ([Goodwin, 3 Aug 2026](https://www.goodwinlaw.com/en/insights/publications/2026/08/alerts-technology-dpc-eu-ai-act-transparency-obligations-now-in-force)). That is my reading as an engineer, not legal advice.
+
+A label tells the reader a machine wrote the line, and the number in that line can still be invented. Checking the number is still your job.
+
+Developers already ask for the same thing a provenance gate gives you. In Stack Overflow's 2026 survey, 93% said trusting what an AI gives them requires source attribution ([Stack Overflow, 6 Oct 2026](https://stackoverflow.blog/2026/10/06/the-results-of-the-2026-developer-survey-are-here/)).
 
 ## How to add one to your pipeline
 
-You do not need the whole system on day one. In order:
+You don't need the whole system on day one. In order:
 
-1. Find your claims. Grep the rendered output, not the source, for counts, ratings and "trusted by" lines. Include spelled-out numbers.
-2. Tag the facts behind them. Add a provenance field to each. Anything you cannot source becomes `unknown`.
-3. Add the proof scan. It is the smaller gate and catches the worst cases.
-4. Make it fail closed and wire it in. Check that it is called on the publish path and that a crash blocks.
-5. Add the trace gate once the scan is stable.
+1. **Find your claims.** Grep the rendered output, not the source, for counts, ratings and "trusted by" lines. Include spelled-out numbers.
+2. **Tag the facts behind them.** Add a provenance field to each. Anything you can't source becomes `unknown` and renders as a marked slot.
+3. **Add the proof scan.** It is the smaller gate and catches the worst cases.
+4. **Make it fail closed and wire it in.** Check that the publish path calls it, and that a crash blocks.
+5. **Add the trace gate** once the scan is stable.
 
-## The lesson
+Start with step 1 today. It is one grep over your built pages, and it tells you how many unsourced claims you already ship.
 
-A prompt that says "don't make things up" stops nothing on its own. What held was checking the rendered output instead of the source, making every string in it prove where it came from, and treating a check that couldn't run as a failure.
+## FAQ
+
+### How do you stop AI from making up numbers in customer-facing copy?
+
+Give every fact a provenance field (owner, public listing, derived or unknown), render unknown facts as marked slots, and run a gate on the final rendered page that blocks any count, rating or urgency phrase without a sourced fact behind it. Make the gate fail closed, so a crash blocks the publish too.
+
+### Why doesn't a prompt rule work?
+
+The agent can't tell an invented number from a real one when the number arrives in its input, as it did here from a design comp. A prompt rule also has no exit code. A gate on the rendered output catches the claim wherever it lands, including render paths nobody remembered.
+
+### Does an AI-generated label under the EU AI Act solve this?
+
+No. Article 50 marking tells the reader that a machine wrote the content. It says nothing about whether the numbers in it are true. You need the label and a provenance check.
