@@ -176,15 +176,17 @@ export const roPostTitles: PostTitles = {
       "Studiile din 2026 arată că review-ul codului scris de AI e principala frână în livrare. PR-urile mele confirmă: 25 din 30 au avut nevoie de cel puțin un commit de corectură după review. Ce a mutat blocajul și ce nu.",
   },
   "what-agents-get-wrong": {
-    title: "Cum faci review la codul scris de AI: 6 greșeli ale agenților care trec de teste",
+    title: "Cum faci review la codul scris de AI: pentru ce au fost 64 de corecturi pe 30 de PR-uri ale agenților",
     description:
-      "Șase categorii de greșeli recurente pe care le prind în review-ul codului generat de AI: gate-uri de securitate care lasă totul să treacă la eroare, scope creep, erori înghițite în tăcere și altele. Iată ce să cauți.",
+      "Am sortat toate cele 64 de corecturi din review-ul a 30 de PR-uri scrise de agenți după ce era greșit: securitate, cod duplicat, tipuri, versiuni vechi de framework. Cifrele, câte un exemplu real și un checklist ordonat după frecvență.",
   },
+
   "catching-shell-injection-agents-wrote": {
-    title: "Bugurile de shell injection scrise de agenții mei și cel pe care l-am ratat",
+    title: "Bugurile de shell injection scrise de agenții mei: 4 prinse, 3 ratate",
     description:
-      "Trei căi de shell injection din input-ul cererilor, scrise de agenți și prinse în review înainte de merge, într-un repo fără teste și fără CI. Plus una pe care am ratat-o și ce am învățat.",
+      "Agenții au scris 7 comenzi shell construite din string-uri în 30 de PR-uri. Review-ul a prins 4, dintre care 3 din input-ul cererii, și a ratat 3, una tot din input-ul cererii. Codul și verificările.",
   },
+
   "2-3x-not-100x": {
     title: "De 2–3 ori, nu de 100 de ori: cifra sinceră despre viteza programării cu AI",
     description:
