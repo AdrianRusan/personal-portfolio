@@ -156,9 +156,9 @@ export const roPostTitles: PostTitles = {
       "Agenți Claude Code în paralel, în practică: un git worktree pentru fiecare agent, un terminal multiplexer care îi rulează, un brief care le răspunde la întrebări și review-ul ca singurul pas făcut pe rând.",
   },
   "auditing-my-claude-code-setup-with-an-agent": {
-    title: "43 din 65 de skill-uri nu porniseră în 70 de zile: auditul setup-ului meu Claude Code",
+    title: "Cum auditezi un setup Claude Code: 5 verificări și ce au găsit în al meu",
     description:
-      "Zece audituri ale propriului meu setup Claude Code, rulate de agenți. Majoritatea skill-urilor nu porneau niciodată, regulile explicau cum să gândești, iar metricile erau greșite. Iată ce s-a schimbat.",
+      "Cinci verificări pentru un setup Claude Code: skill-uri care nu pornesc niciodată, cuvinte încărcate în fiecare sesiune, modelul pe care rulează subagenții, lucruri nefolosite și metrici care nu pot pica. Ce a găsit fiecare în al meu, cu date.",
   },
   "reviewer-agents-that-dont-trust-other-agents": {
     title: "Agenți de review care nu au încredere în alți agenți",
