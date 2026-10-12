@@ -39,7 +39,7 @@ developersdigest [ran six configurations on 2.1.295](https://www.developersdiges
 
 Setup: a scratch git repo, a `PreToolUse` hook on `Bash`, and `claude -p` (2.1.296, Haiku) asked to run `touch marker.txt` once. If the file exists afterwards, the command ran. User settings were excluded with `--setting-sources local`, so only the test hook loaded.
 
-| What the hook does | Default (`continue`) | `onFailure: "block"` |
+| What the hook does | Default | `block` |
 |---|---|---|
 | Script path doesn't exist | ran | blocked |
 | Exits 1 | ran | blocked |
@@ -54,7 +54,7 @@ The last row surprised me until I read the parsing rules. Output that starts wit
 
 Setup: copies of my real `secret-scan.js` and its helper in a scratch directory, a repo with a staged file holding a fake AWS-style access key, and Claude asked to commit. The result is whether the key reached git history.
 
-| Case | Default | `onFailure: "block"` |
+| Case | Default | `block` |
 |---|---|---|
 | `git commit -m test` | refused | refused |
 | `git diff` fails inside the hook (simulated) | refused | refused |

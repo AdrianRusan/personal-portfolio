@@ -18,7 +18,7 @@ faq:
 
 **Short answer:** Audit a Claude Code setup with five checks: skills that never fire, words loaded into every session, the model your subagents actually run on, things nobody uses, and whether your own metrics can fail. In mine, 43 of 65 skills hadn't fired in 70 days, 81% of subagent spawns ran on the top model tier, and the honesty metric was wrong by 19 points.
 
-43 of my 65 Claude Code skills hadn't fired in 70 days. The rule that broke them was one I wrote: keep every skill description under 80 characters.
+The rule that silenced most of those skills was one I wrote myself: keep every skill description under 80 characters.
 
 Each check below says what to run, what mine showed, what changed and when. The counts come from two sources, and I mark which: git history I rechecked for this post, and audit reports written by agents, which I didn't recount.
 
