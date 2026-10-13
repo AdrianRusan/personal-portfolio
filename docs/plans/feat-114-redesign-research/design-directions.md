@@ -1,6 +1,22 @@
 # Design directions (#114)
 
-## Round 3 (current)
+## Round 4 (current)
+
+Adi on round 3: "We are still not sure about content... content research based on past session transcripts, LinkedIn, history and everything will be a future step. So the designs need to accommodate kinda generic... But so far, G is the best one."
+
+So round 4 is three G-family layouts with the same look (warm paper with grain, Host Grotesk at weight 380 with tight tracking, pill CTAs, Geist Mono meta, one accent). No section depends on a specific number or case study. Every proof area is a slot that takes any quote, case study, post or figure, and lists grow or shrink.
+
+**Recommendation: J, Studio.** It is G's layout with the review-log panel replaced by Adi's photo and a floating quote chip, which works with any testimonial. Below it, a three-slot proof strip (each slot is labelled with its kind: case study, client, writing) takes whatever the content research finds. It also has a closing CTA band.
+
+| | J · Studio | K · Window | L · Sidebar |
+|---|---|---|---|
+| Hero | H1 + pills left; tall portrait with a floating quote chip right | Centred statement; a framed "how a ticket becomes a merged PR" window with 3 working tabs (agents ship / I review / you merge) | A fixed identity column (photo, H1, CTA, local time, nav); everything else scrolls on the right |
+| Content slots | 3-slot proof strip of mixed kinds; services rows; closing CTA | case-study cards with a typographic cover (no screenshots needed); two quotes; a price panel | ruled lists: Start here, Selected work, Clients, Writing; each list takes 1–n rows |
+| Accent | orange-red `#D63A12` | electric blue `#2F3BF5` on a blue-grey stage | orange-red |
+| Depends on specific content | no | the tabs describe the process (stable) | no |
+| Risk | the photo is the LCP image (needs a sized, priority-loaded `next/image`) | the tabs need a small client component | the side column needs a sticky, scroll-safe layout; on mobile it stacks |
+
+## Round 3 (G favoured)
 
 Adi on round 2: "I kinda like E and D. Not completely but I like them still." So round 3 blends D and E and adds what the gallery pass (20 Awwwards/Minimal Gallery/SiteInspire sites, Aug–Oct 2026) found: visible structure, paper texture, one hot accent, big light grotesk with tight tracking, plain-text status in the header, and the work itself as the hero. Every proof element on all three is now real data. D's made-up queue is gone; the hero shows the actual review log from the 30-PR run (#112, #111, #121, #119 caught; #109 missed), worded from the canonical facts.
 
