@@ -15,7 +15,7 @@ const isCurrent = (link: string, pathname: string) =>
 
 // A4 F14: min-h-11 gives every nav link a 44px tap target at the same size.
 const linkClass =
-  "relative flex min-h-11 items-center whitespace-nowrap px-1 text-sm text-white-200 hover:text-white aria-[current=page]:text-white aria-[current=page]:underline aria-[current=page]:decoration-purple aria-[current=page]:decoration-2 aria-[current=page]:underline-offset-[6px]";
+  "relative flex min-h-11 items-center whitespace-nowrap px-0.5 text-[13px] sm:text-sm text-white-200 hover:text-purple aria-[current=page]:text-white aria-[current=page]:underline aria-[current=page]:decoration-purple aria-[current=page]:decoration-2 aria-[current=page]:underline-offset-[6px]";
 
 // Timișoara local time, shown once mounted so server and client HTML match.
 function LocalTime() {
@@ -28,12 +28,19 @@ function LocalTime() {
         minute: "2-digit",
       });
     setTime(fmt());
-    const id = setInterval(() => setTime(fmt()), 30_000);
-    return () => clearInterval(id);
+    // Tick on the minute boundary, so the clock is never a minute behind.
+    let id: ReturnType<typeof setTimeout>;
+    const tick = () => {
+      setTime(fmt());
+      id = setTimeout(tick, 60_000 - (Date.now() % 60_000));
+    };
+    tick();
+    return () => clearTimeout(id);
   }, []);
+  if (!time) return null;
   return (
-    <span className="hidden lg:inline min-w-[7.5rem] text-right font-mono text-xs tabular-nums text-white-100">
-      Timișoara {time}
+    <span className="hidden lg:inline font-mono text-xs tabular-nums text-white-100">
+      Timișoara <time aria-label={`local time in Timișoara: ${time}`}>{time}</time>
     </span>
   );
 }

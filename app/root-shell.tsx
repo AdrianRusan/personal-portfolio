@@ -9,17 +9,18 @@ import { JsonLd } from "@/lib/page-schema";
 import { SITE_TAGLINE, SITE_TITLE } from "@/data";
 
 // #114 M: one variable grotesk for text and display, a mono for small meta.
-// The mono isn't preloaded: it never paints the LCP element.
+// `subsets` only picks what is preloaded: the latin-ext faces (ă, ș, ț) are
+// still in the CSS and load on demand on /ro. The mono is preloaded too: the
+// hero eyebrow uses it above the fold, and a late swap would shift the H1.
 const sans = Host_Grotesk({
-  subsets: ["latin", "latin-ext"],
+  subsets: ["latin"],
   display: "swap",
   variable: "--font-sans",
 });
 const mono = Geist_Mono({
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: "400",
   display: "swap",
-  preload: false,
   variable: "--font-mono",
 });
 
