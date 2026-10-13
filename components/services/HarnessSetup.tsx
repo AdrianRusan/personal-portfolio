@@ -48,7 +48,7 @@ export const HarnessSetup = async ({
   // The post is scheduled; link it only once it's live (checked at build).
   const rulesLive = (await getPosts()).some((p) => p.slug === RULES_POST);
   return (
-    <section id="harness" className="px-5 md:px-12 py-12 md:py-16 scroll-mt-24">
+    <section id="harness" className="px-5 sm:px-10 lg:px-12 py-12 md:py-16 scroll-mt-24">
       <div className="container-wide">
         <SectionHeading lead={copy.intro}>{copy.heading}</SectionHeading>
 

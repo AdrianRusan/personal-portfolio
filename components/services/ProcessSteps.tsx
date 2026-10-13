@@ -50,31 +50,30 @@ export type ProcessStepsCopy = typeof en;
 
 export const ProcessSteps = ({ copy = en }: { copy?: ProcessStepsCopy }) => {
   return (
-    <section id="process" className="px-5 md:px-12 py-12 md:py-16 scroll-mt-24">
+    <section id="process" className="px-5 sm:px-10 lg:px-12 py-16 md:py-24 scroll-mt-24">
       <div className="container-wide">
         <SectionHeading lead={copy.intro}>{copy.heading}</SectionHeading>
 
-        <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-black-300 border border-white/15 rounded-xl overflow-hidden mt-10">
+        {/* #114 M: ruled columns; the review step's rule is the accent. */}
+        <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-10">
           {copy.steps.map((step) => (
             <li
               key={step.tag}
-              className={`p-6 flex flex-col ${
-                step.verify
-                  ? "bg-black-200 border-t-2 md:border-t-0 md:border-l-2 border-purple"
-                  : "bg-black-200/30"
+              className={`flex flex-col border-t-2 py-6 md:pr-8 ${
+                step.verify ? "border-purple" : "border-white"
               }`}
             >
               <span
-                className={`text-xs font-medium ${
-                  step.verify ? "text-purple" : "text-blue-100"
+                className={`font-mono text-xs ${
+                  step.verify ? "text-blue-100" : "text-white-100"
                 }`}
               >
                 {step.tag}
               </span>
-              <h3 className="text-base font-semibold mt-2 mb-2">
+              <h3 className="text-xl type-light mt-3 mb-2">
                 {step.heading}
               </h3>
-              <p className="text-sm text-white-200 leading-relaxed flex-1">
+              <p className="text-white-200 leading-relaxed flex-1">
                 {keepRangesWhole(step.body)}
                 {step.link && (
                   <>

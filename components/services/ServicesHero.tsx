@@ -27,7 +27,7 @@ export const ServicesHero = ({
   aside?: ReactNode;
 }) => {
   return (
-    <section className="px-5 md:px-12 pt-28 md:pt-36 pb-16 md:pb-24">
+    <section className="px-5 sm:px-10 lg:px-12 pt-28 md:pt-36 pb-16 md:pb-24">
       <div className="container-wide grid gap-12 lg:grid-cols-[7fr_5fr] lg:gap-16 lg:items-start">
         <div>
         <h1 className="display text-[40px] md:text-6xl xl:text-7xl text-balance">

@@ -33,7 +33,7 @@ export const TrustStrip = ({ copy = en }: { copy?: TrustStripCopy }) => {
         {copy.employers.map((name) => (
           <li
             key={name}
-            className="border-b border-white/15 px-4 py-3 text-xl font-[380] tracking-[-0.02em] text-white last:border-b-0"
+            className="border-b border-white/15 px-4 py-3 text-xl type-light text-white last:border-b-0"
           >
             {name}
           </li>

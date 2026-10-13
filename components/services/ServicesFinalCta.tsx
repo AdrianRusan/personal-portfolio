@@ -22,19 +22,20 @@ export const ServicesFinalCta = ({
   return (
     <section
       aria-labelledby="services-final-cta"
-      className="px-5 md:px-12 pt-24 pb-12 md:pb-16 scroll-mt-24"
+      className="px-5 sm:px-10 lg:px-12 pt-20 pb-20 md:pt-28 scroll-mt-24 border-t border-white/15 bg-chip/50"
     >
-      <div className="container-prose text-center">
+      {/* #114 M: the same closing band as ClosingCta. */}
+      <div className="container-wide">
         <h2
           id="services-final-cta"
-          className="text-3xl md:text-4xl font-[380] tracking-[-0.03em] text-balance"
+          className="display max-w-[14em] text-4xl md:text-6xl xl:text-7xl text-balance"
         >
           {copy.heading}
         </h2>
-        <p className="text-white-200 mt-4 max-w-xl mx-auto text-pretty">
+        <p className="mt-6 max-w-xl text-lg text-white-200 text-pretty">
           {copy.body}
         </p>
-        <div className="flex justify-center mt-8">
+        <div className="flex mt-8">
           <PrimaryCta
             title={copy.cta}
             href={CALENDLY_URL}
@@ -45,7 +46,7 @@ export const ServicesFinalCta = ({
             }}
           />
         </div>
-        <p className="mt-5 text-sm">
+        <p className="mt-5">
           <Link
             href="/teardown"
             className="inline-flex min-h-11 items-center font-medium text-white-200 underline underline-offset-4 hover:text-purple transition-colors"

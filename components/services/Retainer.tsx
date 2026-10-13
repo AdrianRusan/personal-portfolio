@@ -47,7 +47,7 @@ export const Retainer = ({ copy = en }: { copy?: RetainerCopy }) => {
   return (
     <section
       id="retainer"
-      className="px-5 md:px-12 py-12 md:py-16 scroll-mt-24"
+      className="px-5 sm:px-10 lg:px-12 py-12 md:py-16 scroll-mt-24"
     >
       <div className="container-wide">
         <SectionHeading lead={copy.intro}>{copy.heading}</SectionHeading>

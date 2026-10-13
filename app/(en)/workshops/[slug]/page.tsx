@@ -83,21 +83,21 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
         ]}
       />
 
-      <section className="px-5 md:px-12 pt-36 md:pt-44 pb-12 md:pb-16">
-        <div className="container-wide text-center">
+      <section className="px-5 sm:px-10 lg:px-12 pt-28 md:pt-36 pb-12 md:pb-16">
+        <div className="container-wide">
           <p className="eyebrow">
             Team workshop · {w.length} · up to {w.maxPeople} people
           </p>
-          <h1 className="text-3xl md:text-5xl font-[380] tracking-[-0.03em] text-balance max-w-3xl mx-auto mt-3">
+          <h1 className="display text-[40px] md:text-6xl xl:text-7xl text-balance max-w-[18em] mt-5">
             {w.headline}
           </h1>
-          <p className="text-white-200 mt-5 leading-relaxed max-w-2xl mx-auto text-pretty">
+          <p className="text-[17px] md:text-lg text-white-200 mt-6 leading-relaxed max-w-[38em] text-pretty">
             {w.intro}
           </p>
           <p className="text-sm text-white-200/80 mt-5">
             {euro(w.price)} for the {w.length} · {perEngineer(w)} · EUR, ex-VAT
           </p>
-          <div className="flex justify-center mt-6">
+          <div className="flex mt-6">
             <PrimaryCta
               title={w.cta.label}
               href={w.cta.href}
@@ -113,35 +113,36 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
 
       <section
         id="agenda"
-        className="px-5 md:px-12 py-12 md:py-16 scroll-mt-24"
+        className="px-5 sm:px-10 lg:px-12 py-12 md:py-16 scroll-mt-24"
         aria-label="Agenda"
       >
-        <div className="container-prose">
-          <h2 className="text-2xl md:text-3xl font-[380] tracking-[-0.03em]">
+        <div className="container-wide">
+          <h2 className="text-3xl md:text-5xl type-light">
             Agenda
           </h2>
           <div className="flex flex-col gap-10 mt-8">
             {w.agenda.map((part) => (
               <div key={part.label}>
-                <h3 className="text-sm font-semibold text-purple">
+                <h3 className="eyebrow">
                   {part.label}
                   {part.duration && ` · ${part.duration}`}
                 </h3>
-                <ul className="flex flex-col gap-5 mt-4">
+                {/* #114 M: ruled rows, the time in the left column. */}
+                <ul className="mt-4 border-t border-white">
                   {part.blocks.map((block) => (
                     <li
                       key={block.title}
-                      className="rounded-2xl border border-white/15 bg-black-200 p-5 md:p-6"
+                      className="grid gap-1 border-b border-white/15 py-5 md:grid-cols-[10rem_minmax(0,1fr)] md:gap-8"
                     >
-                      {block.time && (
-                        <p className="num text-xs text-purple mb-1">
-                          {block.time}
-                        </p>
-                      )}
-                      <p className="font-semibold">{block.title}</p>
-                      <p className="text-sm text-white-200 mt-2 leading-relaxed">
-                        {block.body}
+                      <p className="font-mono text-xs text-white-100 md:pt-1.5">
+                        {block.time}
                       </p>
+                      <div>
+                        <p className="text-xl type-light">{block.title}</p>
+                        <p className="text-white-200 mt-2 leading-relaxed max-w-[42em]">
+                          {block.body}
+                        </p>
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -151,9 +152,9 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
         </div>
       </section>
 
-      <section className="px-5 md:px-12 py-12 md:py-16" aria-label="What you leave with">
-        <div className="container-prose">
-          <h2 className="text-2xl md:text-3xl font-[380] tracking-[-0.03em]">
+      <section className="px-5 sm:px-10 lg:px-12 py-12 md:py-16" aria-label="What you leave with">
+        <div className="container-wide">
+          <h2 className="text-3xl md:text-5xl type-light">
             What your team leaves with
           </h2>
           <p className="text-white mt-4 font-medium leading-relaxed">
@@ -187,9 +188,9 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
         </div>
       </section>
 
-      <section className="px-5 md:px-12 py-12 md:py-16" aria-label="Logistics">
-        <div className="container-prose">
-          <h2 className="text-2xl md:text-3xl font-[380] tracking-[-0.03em]">
+      <section className="px-5 sm:px-10 lg:px-12 py-12 md:py-16" aria-label="Logistics">
+        <div className="container-wide">
+          <h2 className="text-3xl md:text-5xl type-light">
             Logistics
           </h2>
           <ul className="flex flex-col gap-3 mt-6 list-disc pl-5 marker:text-purple">
@@ -205,16 +206,16 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
         </div>
       </section>
 
-      <section className="px-5 md:px-12 pt-12 pb-20" aria-label="Book the workshop">
-        <div className="container-prose rounded-2xl border border-white/15 bg-black-200 p-6 md:p-10 text-center">
-          <h2 className="text-2xl md:text-3xl font-[380] tracking-[-0.03em] text-balance">
+      <section className="px-5 sm:px-10 lg:px-12 pt-20 pb-20 md:pt-28 border-t border-white/15 bg-chip/50" aria-label="Book the workshop">
+        <div className="container-wide">
+          <h2 className="display max-w-[14em] text-4xl md:text-6xl text-balance">
             Tell me your team size and a few dates that work
           </h2>
-          <p className="text-white-200 mt-4 text-pretty">
+          <p className="mt-6 max-w-xl text-lg text-white-200 text-pretty">
             {euro(w.price)} for up to {w.maxPeople} people, EUR, ex-VAT. I reply
             with the open dates and what to install beforehand.
           </p>
-          <div className="flex justify-center mt-6">
+          <div className="flex mt-8">
             <PrimaryCta
               title={w.cta.label}
               href={w.cta.href}

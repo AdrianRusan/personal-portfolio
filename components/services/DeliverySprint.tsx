@@ -122,7 +122,7 @@ export const DeliverySprint = ({
   copy?: DeliverySprintCopy;
 }) => {
   return (
-    <section id="sprint" className="px-5 md:px-12 py-12 md:py-16 scroll-mt-24">
+    <section id="sprint" className="px-5 sm:px-10 lg:px-12 py-12 md:py-16 scroll-mt-24">
       <div className="container-wide">
         <SectionHeading eyebrow={copy.eyebrow} lead={copy.intro}>
           {copy.heading}
