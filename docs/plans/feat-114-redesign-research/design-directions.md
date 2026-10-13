@@ -1,6 +1,23 @@
 # Design directions (#114)
 
-## Round 2 (current)
+## Round 3 (current)
+
+Adi on round 2: "I kinda like E and D. Not completely but I like them still." So round 3 blends D and E and adds what the gallery pass (20 Awwwards/Minimal Gallery/SiteInspire sites, Aug–Oct 2026) found: visible structure, paper texture, one hot accent, big light grotesk with tight tracking, plain-text status in the header, and the work itself as the hero. Every proof element on all three is now real data. D's made-up queue is gone; the hero shows the actual review log from the 30-PR run (#112, #111, #121, #119 caught; #109 missed), worded from the canonical facts.
+
+**Recommendation: G, Review Log.** It keeps what worked in D (warm paper, quiet type, a product panel as the hero, pill CTAs) and swaps the illustrative queue for E's honesty: the real review log, with the miss shown next to the catches. It is the most readable of the three for a CTO skimming on a phone, and the lightest to build.
+
+| | G · Review Log | H · Field Sheet | I · Signal |
+|---|---|---|---|
+| From | D-led, plus E's real data | E-led, warmer, with bigger type | the gallery's boldest pattern |
+| Look | Paper `#F4F3EE` with SVG grain, Host Grotesk 88 px at weight 380, tracking −4.5 %, orange-red `#D63A12` CTA, Geist Mono for meta | A page framed in hairlines with crop marks, nav in ruled cells, Geist 128 px at weight 300, electric blue `#1F3BFF`, highlighter yellow for misses | "Adrian Rusan" as a 232 px red wordmark, white `#FFFFFB`, one red `#D11F14` used three times (wordmark, CTA, Reviewed PR price) |
+| Header status | Timișoara local time | "one sprint at a time" (from `CAPACITY`) + local time | local time + contact email |
+| Hero | H1 + CTA left; review-log panel right | H1 in a big ruled cell; dithered portrait cell; three cells below (pitch, CTAs, `curl` line) | wordmark, then H1 + red CTA; review log as a full-width ruled table below |
+| Proof | Stroe + Doros quotes | the 31-PR grid figure + Doros | the review log + Doros |
+| Prices | three ruled columns, big light numbers | three ruled cells, Reviewed PR tinted | three ruled columns, Reviewed PR price in red |
+
+All three keep: one primary ask (scoping call) with the teardown as the fallback, the guarantee line, AA contrast in both themes, and server-rendered text. The SVG grain and the dithered PNG are the only decoration.
+
+## Round 2 (D and E partly liked)
 
 Adi rejected A, B and C ("I don't like any of them") and asked for directions based on modern sites from October 2026. A second research pass captured 27 live sites at 1440 and 390 (Cursor, Warp, Zed, Linear, Vercel, Factory, Cognition, Poolside, Mintlify, Anthropic, rauno.me, emilkowal.ski, paco.me, leerob and others). The traits that read as late 2026:
 
