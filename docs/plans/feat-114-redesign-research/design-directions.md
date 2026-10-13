@@ -1,6 +1,32 @@
 # Design directions (#114)
 
-**Recommendation: A, Merge Record.** It puts the thing a buyer is actually unsure about (can I trust AI-written code?) in the hero as a concrete object: the five-step review every PR gets. It is also the lightest of the three to build and to load.
+## Round 2 (current)
+
+Adi rejected A, B and C ("I don't like any of them") and asked for directions based on modern sites from October 2026. A second research pass captured 27 live sites at 1440 and 390 (Cursor, Warp, Zed, Linear, Vercel, Factory, Cognition, Poolside, Mintlify, Anthropic, rauno.me, emilkowal.ski, paco.me, leerob and others). The traits that read as late 2026:
+
+1. warm or neutral paper grounds with one rare electric accent;
+2. the agent's real work as the hero (queues, "ready for review", PR counts);
+3. monospace as the brand voice, laid out like a spec sheet with visible grid lines and figure captions;
+4. texture instead of gradient blobs (dithering, paper grain, procedural line art);
+5. quiet headlines: sentence case, weight 400–500, often one full sentence;
+6. agent-native touches in the first screen (a copyable command, a Markdown/skill URL).
+
+The traits that now look dated: navy with neon glows, bento grids with giant stat numbers, and one bold grotesk on cool grey with a SaaS green. A and C each had one of these.
+
+**Recommendation: E, Spec Sheet.** Its main figure is the real 30-PR run, with every PR from #95 to #125 marked merged, closed, injection caught, or miss found, straight from the canonical facts. That makes the honesty the visual itself, and nothing on it is illustrative. It has the strongest 2026 vocabulary of the three: mono, grid lines, figure captions, a dithered portrait, and a real agent-native line (`curl -H "Accept: text/markdown"`, which the site already supports).
+
+| | D · Review Queue | E · Spec Sheet | F · Index |
+|---|---|---|---|
+| Look | Cursor-like: warm paper `#F7F7F4`, quiet 56 px Host Grotesk H1, electric blue `#3B3BF5`, procedural contour backdrop | Warp/Zed-like: Geist Mono throughout, Instrument Serif italic H1, page frame with grid lines, indigo `#2A1EFF` + highlighter yellow | Emil/Paco/Rauno-like: Geist 15 px, one narrow column, labelled sections, one big blue round "Book a scoping call" button |
+| Hero | An example review queue (agents working, waiting for my review, merged), with the caught injection shown as a review note | H1 + CTAs + the curl line; dithered portrait as fig. 1 | One sentence that says it all, next to the round button |
+| Proof | 30 / 3 / 5 list + Doros quote | fig. 2: the 31-PR grid from real data, with a legend | Linked 30-PR summary + two quotes as text |
+| Prices | Three bordered tiles, Reviewed PR highlighted | Spec table, Reviewed PR price highlighted | Three plain rows |
+| Risk | The queue is illustrative (captioned as such), so it can read as proof that isn't real | Mono body text is slower to read on long pages (services); keep mono for UI and data, and use the serif or a sans for long prose if needed | Reads as a personal blog; the offer is less visible. Weakest at selling |
+| Lighthouse | text LCP, 2 fonts, inline SVG backdrop | text LCP, 2 fonts, 11 KB dithered PNG | lightest of all |
+
+## Round 1 (rejected)
+
+**Recommendation at the time: A, Merge Record.** It puts the thing a buyer is actually unsure about (can I trust AI-written code?) in the hero as a concrete object: the five-step review every PR gets. It is also the lightest of the three to build and to load.
 
 Canvas (12 artboards: each direction's hero, one proof section and the services price rows, light and dark, at 1440 and 390): https://claude.ai/artifact/2HTiHx1b3gBpsZZjAMNUMo. The canvas is private until Adi shares it.
 
@@ -36,7 +62,7 @@ Where B is better: testimonial presentation. A can borrow it: one large pull-quo
 ## 3. Libraries (R6): recommend zero new runtime deps
 
 1. **Fonts via `next/font/google`** (already used for Inter). Self-hosted at build, no runtime dep. A uses Instrument Sans and JetBrains Mono, both SIL Open Font License. JetBrains Mono loads only the 400 weight, subset to Latin.
-2. **`motion` v12: not adopted.** `framer-motion` is imported in one file today (`components/blog/BlogListClient.tsx`). The direction needs one hero reveal at most, which CSS handles with `prefers-reduced-motion` respected. Proposal for the tokens PR: replace that one use with CSS and drop `framer-motion`, so the redesign removes a dependency instead of adding one. If Adi prefers to keep it, it stays as is.
+2. **`motion` v12: not adopted.** `framer-motion` is imported in one file today (`components/blog/BlogListClient.tsx`). The direction needs one hero reveal at most, which CSS handles with `prefers-reduced-motion` respected. Adi's ruling (2026-10-13): keep `framer-motion` 11 as it is. No migration and no removal.
 3. **Copy-paste registries** (Magic UI, Aceternity, Origin UI, React Bits, Cult UI): nothing in A needs them. Their effects (spotlights, beams, marquees) are the template look we are leaving.
 4. **GSAP and Lenis: no.** There is no scroll storytelling in A, and Lenis would add scroll hijacking risk for keyboard users.
 5. **Tailwind 4: deferred.** It isn't needed for A, and a zero-visual-change upgrade PR would delay the redesign. It is listed as a deferred item in HANDOFF.md.
