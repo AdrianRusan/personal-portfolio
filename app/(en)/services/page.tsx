@@ -84,8 +84,7 @@ export default function ServicesPage() {
           crumbs: [{ name: "Services", path: "/services" }],
         })}
       />
-      <ServicesHero />
-      <TrustStrip />
+      <ServicesHero aside={<TrustStrip />} />
       <Ladder />
       <ProcessSteps />
       <DeliverySprint />

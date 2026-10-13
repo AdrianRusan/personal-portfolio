@@ -23,22 +23,25 @@ export const TrustStrip = ({ copy = en }: { copy?: TrustStripCopy }) => {
   const link =
     "inline-flex min-h-11 items-center font-medium text-purple underline underline-offset-4 hover:text-white transition-colors";
   return (
-    <section aria-label={copy.ariaLabel} className="px-5 sm:px-10 pb-4 md:pb-6">
-      <div className="container-section border-y border-white/10 py-6 text-center">
-        <p className="text-sm text-white-200/80">{copy.label}</p>
-        {/* Gaps, not "·" separators: a wrapped row would start with an orphan dot. */}
-        <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-2 mt-3">
-          {copy.employers.map((name) => (
-            <span
-              key={name}
-              className="text-base font-semibold text-white-200 whitespace-nowrap"
-            >
-              {name}
-            </span>
-          ))}
-        </div>
-        <p className="text-sm text-white-200 mt-5 text-pretty">{copy.proof}</p>
-        <div className="flex flex-wrap justify-center gap-x-6 text-sm">
+    // #114 M: the services hero panel (ServicesHero `aside`).
+    <aside
+      aria-label={copy.ariaLabel}
+      className="overflow-hidden rounded-xl border border-white/15 bg-black-200 shadow-[0_40px_80px_-48px_rgba(31,30,26,0.45)] dark:shadow-[0_40px_80px_-48px_rgba(0,0,0,0.7)]"
+    >
+      <p className="border-b border-white/15 px-4 py-3 font-mono text-xs text-white-100">{copy.label}</p>
+      <ul className="border-b border-white/15">
+        {copy.employers.map((name) => (
+          <li
+            key={name}
+            className="border-b border-white/15 px-4 py-3 text-xl font-[380] tracking-[-0.02em] text-white last:border-b-0"
+          >
+            {name}
+          </li>
+        ))}
+      </ul>
+      <div className="bg-black-100/60 px-4 py-4">
+        <p className="text-sm text-white-200 text-pretty">{copy.proof}</p>
+        <div className="flex flex-wrap gap-x-6 text-sm">
           <Link href={copy.study.href} className={link}>
             {copy.study.cta}
           </Link>
@@ -54,7 +57,7 @@ export const TrustStrip = ({ copy = en }: { copy?: TrustStripCopy }) => {
           )}
         </div>
       </div>
-    </section>
+    </aside>
   );
 };
 

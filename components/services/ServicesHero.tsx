@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import PrimaryCta from "@/components/ui/PrimaryCta";
 import { CALENDLY_URL, GUARANTEE } from "@/data";
 import { keepRangesWhole } from "@/lib/utils";
@@ -17,18 +18,26 @@ const en = {
 
 export type ServicesHeroCopy = typeof en;
 
-export const ServicesHero = ({ copy = en }: { copy?: ServicesHeroCopy }) => {
+// #114 M: two columns like the home hero; `aside` is the panel on the right.
+export const ServicesHero = ({
+  copy = en,
+  aside,
+}: {
+  copy?: ServicesHeroCopy;
+  aside?: ReactNode;
+}) => {
   return (
-    <section className="px-5 sm:px-10 pt-36 md:pt-44 pb-8 md:pb-10">
-      <div className="container-section text-center">
-        <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-balance max-w-3xl mx-auto">
+    <section className="px-5 md:px-12 pt-28 md:pt-36 pb-16 md:pb-24">
+      <div className="container-wide grid gap-12 lg:grid-cols-[7fr_5fr] lg:gap-16 lg:items-start">
+        <div>
+        <h1 className="display text-[40px] md:text-6xl xl:text-7xl text-balance">
           {keepRangesWhole(copy.heading)}
         </h1>
-        <p className="text-white-200 mt-5 leading-relaxed max-w-2xl mx-auto text-pretty">
+        <p className="text-[17px] md:text-lg text-white-200 mt-6 leading-relaxed max-w-[34em] text-pretty">
           {copy.intro}
         </p>
 
-        <div className="flex flex-col items-center gap-4 mt-8">
+        <div className="flex flex-col items-start gap-4 mt-8">
           <PrimaryCta
             title={copy.cta}
             href={CALENDLY_URL}
@@ -44,10 +53,12 @@ export const ServicesHero = ({ copy = en }: { copy?: ServicesHeroCopy }) => {
           >
             {copy.tiersLink}
           </a>
-          <p className="text-sm text-white-200/80 max-w-xl text-pretty">
+          <p className="text-sm text-white-200 max-w-xl text-pretty">
             {copy.guarantee}
           </p>
         </div>
+        </div>
+        {aside}
       </div>
     </section>
   );
