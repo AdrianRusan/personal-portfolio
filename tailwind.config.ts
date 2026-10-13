@@ -30,6 +30,11 @@ const config = {
       },
     },
     extend: {
+      // #114 M: Host Grotesk for everything, Geist Mono for small meta and code.
+      fontFamily: {
+        sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
+      },
       // "white" text and borders mean foreground in this dark-first codebase,
       // so they flip in light mode; bg-white stays literal white.
       textColor: { white: { DEFAULT: "rgb(var(--fg) / <alpha-value>)" } },
@@ -52,6 +57,7 @@ const config = {
           "100": "rgb(var(--blue-100) / <alpha-value>)",
         },
         purple: "rgb(var(--purple) / <alpha-value>)",
+        chip: "rgb(var(--chip) / <alpha-value>)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
