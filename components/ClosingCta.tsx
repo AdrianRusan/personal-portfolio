@@ -29,19 +29,19 @@ export function ClosingCta({
   if (hideCta && hideEmailCapture) return null;
   return (
     <section
-      className="px-5 sm:px-10 pt-24 pb-20"
+      className="px-5 md:px-12 pt-20 pb-20 md:pt-28 border-t border-white/15 bg-chip/50"
       {...(hideCta ? {} : { "aria-labelledby": "closing-cta-heading" })}
     >
       {!hideCta && (
-        <div className="container-prose text-center">
+        <div className="container-wide">
           <h2
             id="closing-cta-heading"
-            className="text-3xl md:text-4xl font-bold tracking-tight text-balance"
+            className="display max-w-[14em] text-4xl md:text-6xl xl:text-7xl text-balance"
           >
             {copy.heading}
           </h2>
-          <p className="mt-4 max-w-xl mx-auto text-white-200 text-pretty">{copy.body}</p>
-          <div className="mt-8 flex justify-center">
+          <p className="mt-6 max-w-xl text-lg text-white-200 text-pretty">{copy.body}</p>
+          <div className="mt-8 flex">
             <PrimaryCta
               title={copy.button}
               href={CALENDLY_URL}
@@ -49,7 +49,7 @@ export function ClosingCta({
               trackEvent={{ event: "calendly_click", props: { source } }}
             />
           </div>
-          <p className="mt-5 text-sm">
+          <p className="mt-5">
             <Link
               href="/teardown"
               className="font-medium text-white-200 underline underline-offset-4 hover:text-purple transition-colors"
