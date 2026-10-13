@@ -22,7 +22,7 @@ export default function PostCta({
       <p className="eyebrow">{cta.eyebrow}</p>
       <h2
         id="post-cta-heading"
-        className="text-xl md:text-2xl font-bold tracking-tight mt-2 text-white"
+        className="text-2xl md:text-3xl type-light mt-2 text-white"
       >
         {cta.heading}
       </h2>

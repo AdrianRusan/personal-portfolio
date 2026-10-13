@@ -73,7 +73,7 @@ export const mdxComponents: MDXComponents = {
   img: MDXImage,
   h2: ({ children, ...props }: ComponentPropsWithoutRef<"h2">) => (
     <h2
-      className="text-2xl font-bold text-white mt-12 mb-4 scroll-mt-20 group"
+      className="text-3xl type-light text-white mt-14 mb-4 scroll-mt-24 group"
       {...props}
     >
       {children}
@@ -81,7 +81,7 @@ export const mdxComponents: MDXComponents = {
   ),
   h3: ({ children, ...props }: ComponentPropsWithoutRef<"h3">) => (
     <h3
-      className="text-xl font-semibold text-white mt-8 mb-3 scroll-mt-20 group"
+      className="text-2xl type-light text-white mt-10 mb-3 scroll-mt-24 group"
       {...props}
     >
       {children}
@@ -89,14 +89,14 @@ export const mdxComponents: MDXComponents = {
   ),
   h4: ({ children, ...props }: ComponentPropsWithoutRef<"h4">) => (
     <h4
-      className="text-lg font-semibold text-white mt-6 mb-2 scroll-mt-20 group"
+      className="text-lg font-medium text-white mt-6 mb-2 scroll-mt-24 group"
       {...props}
     >
       {children}
     </h4>
   ),
   p: ({ children, ...props }: ComponentPropsWithoutRef<"p">) => (
-    <p className="text-white-200 leading-relaxed mb-5 text-base" {...props}>
+    <p className="text-white-200 leading-[1.7] mb-5 text-[17px]" {...props}>
       {children}
     </p>
   ),
@@ -126,7 +126,7 @@ export const mdxComponents: MDXComponents = {
     ...props
   }: ComponentPropsWithoutRef<"blockquote">) => (
     <blockquote
-      className="border-l-4 border-purple/60 pl-4 my-6 text-white-200/80 italic"
+      className="border-l-2 border-purple pl-5 my-8 text-xl leading-snug text-white"
       {...props}
     >
       {children}

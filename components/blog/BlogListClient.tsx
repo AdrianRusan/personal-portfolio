@@ -141,7 +141,7 @@ export default function BlogListClient({
             )}
 
             {regularPosts.length > 0 && (
-              <div className="grid gap-5 md:grid-cols-2">
+              <div className="grid gap-x-10 md:grid-cols-2">
                 {regularPosts.map((post) => (
                   <motion.div
                     key={post.slug}

@@ -26,9 +26,8 @@ export default function PostCard({
     <Link href={`/blog/${slug}`} className="group block h-full">
       <article
         className={[
-          'h-full flex flex-col gap-4 p-6 rounded-2xl border transition-all duration-300',
-          'bg-black-200 border-black-300',
-          'hover:border-purple/30 hover:shadow-lg hover:shadow-purple/5 hover:-translate-y-0.5',
+          // #114 M: a ruled entry, no card box.
+          'h-full flex flex-col gap-4 border-t border-white/15 pt-6 pb-8',
           featured ? 'md:flex-row md:items-start md:gap-6' : '',
         ].join(' ')}
       >
@@ -41,14 +40,14 @@ export default function PostCard({
 
           <Heading
             className={[
-              'font-semibold text-white group-hover:text-purple transition-colors',
-              featured ? 'text-xl md:text-2xl' : 'text-lg',
+              'type-light text-white text-balance group-hover:underline decoration-purple underline-offset-4',
+              featured ? 'text-3xl md:text-4xl' : 'text-2xl',
             ].join(' ')}
           >
             {frontmatter.title}
           </Heading>
 
-          <p className="text-white-200 text-sm leading-relaxed line-clamp-3">
+          <p className="text-white-200 leading-relaxed line-clamp-3 max-w-[40em]">
             {frontmatter.description}
           </p>
 
