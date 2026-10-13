@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <PageShell hideEmailCapture>
-      <section className="container-wide flex flex-col items-start px-5 sm:px-10 lg:px-12 pt-28 md:pt-36 pb-12">
+      <section className="container-wide box-content flex flex-col items-start px-5 sm:px-10 lg:px-12 pt-28 md:pt-36 pb-12">
         <p className="eyebrow">
           <span className="num">404</span> · Page not found
         </p>

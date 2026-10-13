@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og';
+import { OG_PALETTE } from '@/lib/og'
 import { notFound } from 'next/navigation';
 import { getPost } from '@/lib/blog';
 
@@ -50,7 +51,7 @@ export default async function OGImage({ params }: OGImageProps) {
           flexDirection: 'column',
           justifyContent: 'space-between',
           padding: '60px',
-          background: '#F4F3EE', // #114 M: warm paper, ink, one orange-red accent
+          background: OG_PALETTE.paper, // #114 M: lib/og OG_PALETTE
           fontFamily: 'sans-serif',
         }}
       >
@@ -62,7 +63,7 @@ export default async function OGImage({ params }: OGImageProps) {
             left: 0,
             right: 0,
             height: '8px',
-            background: '#C4340E',
+            background: OG_PALETTE.accent,
           }}
         />
 
@@ -77,7 +78,7 @@ export default async function OGImage({ params }: OGImageProps) {
                   style={{
                     background: 'rgba(196, 52, 14, 0.1)',
                     border: '1px solid rgba(196, 52, 14, 0.3)',
-                    color: '#B23210',
+                    color: OG_PALETTE.accentText,
                     padding: '4px 12px',
                     borderRadius: '20px',
                     fontSize: '14px',
@@ -95,7 +96,7 @@ export default async function OGImage({ params }: OGImageProps) {
             style={{
               fontSize: title.length > 60 ? '40px' : '52px',
               fontWeight: 500,
-              color: '#1F1E1A',
+              color: OG_PALETTE.ink,
               lineHeight: 1.05,
               letterSpacing: '-0.035em',
               maxWidth: '900px',
@@ -108,7 +109,7 @@ export default async function OGImage({ params }: OGImageProps) {
           <div
             style={{
               fontSize: '22px',
-              color: '#33312B',
+              color: OG_PALETTE.body,
               lineHeight: 1.5,
               maxWidth: '820px',
               display: '-webkit-box',
@@ -126,7 +127,7 @@ export default async function OGImage({ params }: OGImageProps) {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            borderTop: '1px solid rgba(31,30,26,0.14)',
+            borderTop: `1px solid ${OG_PALETTE.rule}`,
             paddingTop: '28px',
           }}
         >
@@ -136,22 +137,22 @@ export default async function OGImage({ params }: OGImageProps) {
                 width: '44px',
                 height: '44px',
                 borderRadius: '50%',
-                background: '#C4340E',
+                background: OG_PALETTE.accent,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: '#F4F3EE',
+                color: OG_PALETTE.paper,
                 fontWeight: 600,
                 fontSize: '16px',
               }}
             >
               AR
             </div>
-            <span style={{ color: '#1F1E1A', fontSize: '18px', fontWeight: 600 }}>
+            <span style={{ color: OG_PALETTE.ink, fontSize: '18px', fontWeight: 600 }}>
               Adrian Rusan
             </span>
           </div>
-          <span style={{ color: '#5C5A50', fontSize: '16px' }}>
+          <span style={{ color: OG_PALETTE.muted, fontSize: '16px' }}>
             adrian-rusan.com/blog
           </span>
         </div>

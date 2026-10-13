@@ -40,7 +40,7 @@ export default function PostCard({
 
           <Heading
             className={[
-              'type-light text-white text-balance group-hover:underline decoration-purple underline-offset-4',
+              'type-light text-white text-balance group-hover:underline group-focus-visible:underline decoration-purple underline-offset-4',
               featured ? 'text-3xl md:text-4xl' : 'text-2xl',
             ].join(' ')}
           >

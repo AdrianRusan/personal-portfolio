@@ -3,6 +3,17 @@ import { ImageResponse } from "next/og";
 export const OG_SIZE = { width: 1200, height: 630 };
 export const OG_CONTENT_TYPE = "image/png";
 
+// #114 M palette for every OG card (this file and the blog post card).
+export const OG_PALETTE = {
+  paper: "#F4F3EE",
+  ink: "#1F1E1A",
+  body: "#33312B",
+  muted: "#5C5A50",
+  accent: "#C4340E",
+  accentText: "#B23210",
+  rule: "rgba(31,30,26,0.14)",
+} as const;
+
 interface OgCardProps {
   eyebrow: string;
   title: string;
@@ -30,7 +41,7 @@ export function renderOgCard({
         flexDirection: "column",
         justifyContent: "space-between",
         padding: "64px",
-        background: "#F4F3EE",
+        background: OG_PALETTE.paper,
         fontFamily: "sans-serif",
       }}
     >
@@ -41,7 +52,7 @@ export function renderOgCard({
           left: 0,
           right: 0,
           height: "8px",
-          background: "#C4340E",
+          background: OG_PALETTE.accent,
         }}
       />
 
@@ -56,7 +67,7 @@ export function renderOgCard({
       >
         <span
           style={{
-            color: "#5C5A50",
+            color: OG_PALETTE.muted,
             fontSize: "24px",
             fontWeight: 400,
           }}
@@ -67,7 +78,7 @@ export function renderOgCard({
           style={{
             fontSize: title.length > 42 ? "60px" : "72px",
             fontWeight: 500,
-            color: "#1F1E1A",
+            color: OG_PALETTE.ink,
             lineHeight: 1.02,
             letterSpacing: "-0.04em",
             maxWidth: "980px",
@@ -78,7 +89,7 @@ export function renderOgCard({
         <div
           style={{
             fontSize: "28px",
-            color: "#33312B",
+            color: OG_PALETTE.body,
             lineHeight: 1.45,
             maxWidth: "920px",
           }}
@@ -92,7 +103,7 @@ export function renderOgCard({
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          borderTop: "1px solid rgba(31,30,26,0.14)",
+          borderTop: `1px solid ${OG_PALETTE.rule}`,
           paddingTop: "28px",
         }}
       >
@@ -102,22 +113,22 @@ export function renderOgCard({
               width: "48px",
               height: "48px",
               borderRadius: "50%",
-              background: "#C4340E",
+              background: OG_PALETTE.accent,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: "#F4F3EE",
+              color: OG_PALETTE.paper,
               fontWeight: 600,
               fontSize: "18px",
             }}
           >
             AR
           </div>
-          <span style={{ color: "#1F1E1A", fontSize: "20px", fontWeight: 600 }}>
+          <span style={{ color: OG_PALETTE.ink, fontSize: "20px", fontWeight: 600 }}>
             Adrian Rusan
           </span>
         </div>
-        <span style={{ color: "#5C5A50", fontSize: "18px" }}>
+        <span style={{ color: OG_PALETTE.muted, fontSize: "18px" }}>
           {footerRight}
         </span>
       </div>

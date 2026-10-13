@@ -108,7 +108,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   // R3-F06: the PostCta is the page's one ask; the shell keeps only the checklist.
   return (
     <PageShell hideFooterCta>
-      <div className="max-w-5xl mx-auto px-5 sm:px-10 lg:px-12 pt-28 md:pt-36 pb-20">
+      <div className="max-w-5xl mx-auto box-content px-5 sm:px-10 lg:px-12 pt-28 md:pt-36 pb-20">
         <JsonLd
           data={[
             {

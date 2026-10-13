@@ -14,7 +14,7 @@ export function ContactOptions({
   options: NonNullable<ProsePage["options"]>;
 }) {
   return (
-    <ul className="mt-12 border-t border-white">
+    <ul className="mt-12 max-w-[60rem] border-t border-white">
       {options.map((o) => (
         <li
           key={o.heading}
@@ -22,7 +22,7 @@ export function ContactOptions({
         >
           <div>
             <h2 className="text-2xl type-light">{o.heading}</h2>
-            <p className="mt-1 text-white-200 leading-relaxed text-pretty">
+            <p className="mt-1 max-w-[38em] text-white-200 leading-relaxed text-pretty">
               {o.body}
             </p>
           </div>

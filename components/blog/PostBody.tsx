@@ -102,7 +102,7 @@ export const mdxComponents: MDXComponents = {
   ),
   ul: ({ children, ...props }: ComponentPropsWithoutRef<"ul">) => (
     <ul
-      className="list-disc list-outside pl-6 text-white-200 space-y-2 mb-5"
+      className="list-disc list-outside pl-6 text-[17px] text-white-200 space-y-2 mb-5"
       {...props}
     >
       {children}
@@ -110,14 +110,14 @@ export const mdxComponents: MDXComponents = {
   ),
   ol: ({ children, ...props }: ComponentPropsWithoutRef<"ol">) => (
     <ol
-      className="list-decimal list-outside pl-6 text-white-200 space-y-2 mb-5"
+      className="list-decimal list-outside pl-6 text-[17px] text-white-200 space-y-2 mb-5"
       {...props}
     >
       {children}
     </ol>
   ),
   li: ({ children, ...props }: ComponentPropsWithoutRef<"li">) => (
-    <li className="leading-relaxed" {...props}>
+    <li className="leading-[1.7]" {...props}>
       {children}
     </li>
   ),
@@ -126,7 +126,7 @@ export const mdxComponents: MDXComponents = {
     ...props
   }: ComponentPropsWithoutRef<"blockquote">) => (
     <blockquote
-      className="border-l-2 border-purple pl-5 my-8 text-xl leading-snug text-white"
+      className="border-l-2 border-purple pl-5 my-8 [&_p]:mb-0 [&_p]:text-xl [&_p]:leading-snug [&_p]:text-white [&_p+p]:mt-3"
       {...props}
     >
       {children}

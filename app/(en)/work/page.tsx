@@ -82,7 +82,7 @@ export default async function WorkIndexPage() {
                       </div>
                     )}
                     <div className="flex flex-col flex-1">
-                      <h2 className="text-2xl md:text-3xl type-light text-balance text-white group-hover:underline decoration-purple underline-offset-4">
+                      <h2 className="text-2xl md:text-3xl type-light text-balance text-white group-hover:underline group-focus-visible:underline decoration-purple underline-offset-4">
                         {study.frontmatter.title}
                       </h2>
                       {study.frontmatter.meta && (
