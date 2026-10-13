@@ -62,6 +62,8 @@ html {
     --white-100: 92 90 80;
     /* >= 4.5:1 on paper even at the /70 muted opacity */
     --white-200: 51 49 43;
+    /* Accent text on accent tints (badges, inline code, active filters):
+       >= 4.5:1 on paper, on white and on bg-purple/10 in both themes. */
     --blue-100: 178 50 16;
     /* #C4340E: >= 4.5:1 as small text on paper and under white or paper text */
     --purple: 196 52 14;

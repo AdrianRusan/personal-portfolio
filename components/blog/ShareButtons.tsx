@@ -54,7 +54,7 @@ export default function ShareButtons({ title, slug }: ShareButtonsProps) {
 
       <button
         onClick={copyLink}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white-200 hover:bg-purple/10 hover:border-purple/30 hover:text-purple transition-all text-sm"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white-200 hover:bg-purple/10 hover:border-purple/30 hover:text-blue-100 transition-all text-sm"
         aria-label={copied ? 'Link copied!' : 'Copy link'}
       >
         {copied ? (

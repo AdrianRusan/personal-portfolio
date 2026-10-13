@@ -55,7 +55,7 @@ export const PricingTable = ({
           className={
             column.featured
               ? "inline-flex items-center rounded-lg bg-purple px-4 py-2 text-xs font-semibold text-black-100 hover:opacity-90 transition-opacity"
-              : "inline-flex items-center rounded-lg border border-purple/40 px-4 py-2 text-xs font-medium text-purple hover:bg-purple/10 transition-colors"
+              : "inline-flex items-center rounded-lg border border-purple/40 px-4 py-2 text-xs font-medium text-blue-100 hover:bg-purple/10 transition-colors"
           }
         >
           {ctaLabel}
