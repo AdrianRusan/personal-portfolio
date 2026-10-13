@@ -14,14 +14,14 @@ export function ContactOptions({
   options: NonNullable<ProsePage["options"]>;
 }) {
   return (
-    <ul className="mt-10 border-t border-white/10">
+    <ul className="mt-12 border-t border-white">
       {options.map((o) => (
         <li
           key={o.heading}
-          className="flex flex-col gap-4 border-b border-white/10 py-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8"
+          className="flex flex-col gap-4 border-b border-white/15 py-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8"
         >
           <div>
-            <h2 className="text-lg font-semibold tracking-tight">{o.heading}</h2>
+            <h2 className="text-2xl type-light">{o.heading}</h2>
             <p className="mt-1 text-white-200 leading-relaxed text-pretty">
               {o.body}
             </p>
