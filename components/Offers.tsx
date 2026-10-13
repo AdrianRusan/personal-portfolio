@@ -24,8 +24,8 @@ const en = {
 };
 export type OffersCopy = typeof en;
 
-// P2: the home page shows the ladder as four rows (tier → offers → from-price);
-// the full cards live on /services.
+// P2: the home page shows the ladder as one ruled column per tier (#114 M:
+// tier → from-price → tagline → offers); the full cards live on /services.
 const Offers = ({ copy = en }: { copy?: OffersCopy }) => {
   // The tier's cheapest price, keeping that offer's unit (e.g. /month).
   const fromPrice = (offers: LadderOffer[]) => {
@@ -38,7 +38,7 @@ const Offers = ({ copy = en }: { copy?: OffersCopy }) => {
   };
 
   return (
-    <section id="offers" className="px-5 md:px-12 py-16 md:py-28 border-t border-white/15">
+    <section id="offers" className="px-5 sm:px-10 lg:px-12 py-16 md:py-28 border-t border-white/15">
       <div className="container-wide">
         <SectionHeading
           lead={
@@ -64,7 +64,7 @@ const Offers = ({ copy = en }: { copy?: OffersCopy }) => {
                 className="flex flex-col gap-2 border-b border-white/15 py-6 md:pr-8"
               >
                 <h3 className="eyebrow">{name}</h3>
-                <p className="tabular-nums text-3xl md:text-4xl font-[380] tracking-[-0.04em] text-white whitespace-nowrap">
+                <p className="tabular-nums text-3xl xl:text-[32px] type-light text-white text-balance">
                   {fromPrice(offers)}
                 </p>
                 <p className="text-white-200 text-pretty">{tagline}</p>

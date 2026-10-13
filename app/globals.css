@@ -154,6 +154,11 @@ html {
     @apply font-mono text-xs leading-5 text-white-100;
   }
 
+  /* Section-level type (M): light weight, slightly tight. */
+  .type-light {
+    @apply font-[380] tracking-[-0.03em];
+  }
+
   /* Display type (M): big, light, tight. */
   .display {
     @apply font-[380] tracking-[-0.045em] leading-[0.98];

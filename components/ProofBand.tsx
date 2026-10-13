@@ -24,7 +24,7 @@ const ProofBand = ({ copy = en }: { copy?: ProofBandCopy }) => {
             key={stat.figure}
             className="grid grid-cols-[5.5rem_1fr] items-baseline gap-4 border-b border-white/15 px-4 py-4"
           >
-            <span className="tabular-nums text-4xl font-[380] tracking-[-0.04em] text-white">
+            <span className="tabular-nums text-4xl type-light text-white">
               {stat.figure}
             </span>
             <span className="text-[15px] text-white-200 text-pretty">

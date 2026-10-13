@@ -29,7 +29,7 @@ export function ClosingCta({
   if (hideCta && hideEmailCapture) return null;
   return (
     <section
-      className="px-5 md:px-12 pt-20 pb-20 md:pt-28 border-t border-white/15 bg-chip/50"
+      className="px-5 sm:px-10 lg:px-12 pt-20 pb-20 md:pt-28 border-t border-white/15 bg-chip/50"
       {...(hideCta ? {} : { "aria-labelledby": "closing-cta-heading" })}
     >
       {!hideCta && (
@@ -60,10 +60,9 @@ export function ClosingCta({
         </div>
       )}
       {!hideEmailCapture && (
-        <EmailCapture
-          variant="footer"
-          className={hideCta ? "mx-auto" : "mx-auto mt-16"}
-        />
+        <div className="container-wide">
+          <EmailCapture variant="footer" className={hideCta ? "" : "mt-16"} />
+        </div>
       )}
     </section>
   );

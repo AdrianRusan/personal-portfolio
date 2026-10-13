@@ -15,7 +15,7 @@ export type ShipVerifyCopy = typeof en;
 
 const ShipVerify = ({ copy = en }: { copy?: ShipVerifyCopy }) => {
   return (
-    <section id="ship-verify" className="px-5 md:px-12 py-16 md:py-28 border-t border-white/15">
+    <section id="ship-verify" className="px-5 sm:px-10 lg:px-12 py-16 md:py-28 border-t border-white/15">
       <div className="container-wide">
         <SectionHeading
           lead={
@@ -37,7 +37,7 @@ const ShipVerify = ({ copy = en }: { copy?: ShipVerifyCopy }) => {
               <p className="eyebrow">
                 <span className="num">{i + 1}</span> · {step.label}
               </p>
-              <h4 className="text-2xl md:text-3xl font-[380] tracking-[-0.03em] mt-3">{step.heading}</h4>
+              <h4 className="text-2xl md:text-3xl type-light mt-3">{step.heading}</h4>
               <p className="text-white-200 leading-relaxed mt-3 max-w-[36em]">
                 {step.body}
               </p>
