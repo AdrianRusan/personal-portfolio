@@ -1,6 +1,33 @@
 # Design directions (#114)
 
-## Round 4 (current)
+## Decision: M (G + J), settled by /grill on 2026-10-13
+
+Adi ranked G and J highest (then D and E) and asked to be grilled. His answers (all were the recommended options):
+
+| Question | Adi's decision |
+|---|---|
+| Hero right half | a **swappable panel** (G/D). Today it holds the review log; later it can hold any artifact |
+| Visible structure | **soft** (G/J): warm paper, hairline rules between sections, mono only for small meta |
+| Accent | **orange-red**: `#D63A12` light / `#FF6A3D` dark |
+| Headline voice | **big light grotesk**: Host Grotesk ~84–88 px, weight 380, tracking −4.5 % |
+| Photo | a **small portrait line above the H1** (44 px photo + name + role in mono) |
+| Below the hero | **proof strip → quotes → prices → closing CTA** (J's 3-slot strip and closing band) |
+| Header | **local time + "Book a call" pill** (no availability claims) |
+| Texture | **subtle grain** (inline SVG noise, ~16 % light / ~10 % dark) |
+| Copy | **design now, copy later**: today's copy from `data/*` and the `*Copy` objects, trimmed only to fit slots (through /adi-voice). The full EN/RO rewrite becomes its own issue after content research. |
+| Libraries | keep `framer-motion` 11; no new runtime deps |
+
+Canvas page "Chosen: M (G + J)" shows the result with today's copy, light and dark, 1440 and 390.
+
+**Constraints:** every slot takes any content (no section depends on a PR count or one case study); URLs, `data/` single sources, Markdown twins, JSON-LD and claim tests stay intact; prices and the ladder are unchanged; AA in both themes; reduced motion respected; no overflow at 390; no Lighthouse drop against `lighthouse-baseline.md`.
+
+**Acceptance:** tokens PR first (colour, type, radius, grain, buttons), then home + `/ro`, services + teardown + workshops, then the rest, each PR green on the full ladder with screenshots at 1440/390 in light and dark.
+
+**Excluded now:** the copy rewrite (moved to a follow-up issue), new pages, Tailwind 4.
+
+**Open:** what the hero panel shows after content research (it ships with the review log, which is already published in the 30-PR case study).
+
+## Round 4
 
 Adi on round 3: "We are still not sure about content... content research based on past session transcripts, LinkedIn, history and everything will be a future step. So the designs need to accommodate kinda generic... But so far, G is the best one."
 
