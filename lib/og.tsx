@@ -13,7 +13,7 @@ interface OgCardProps {
 /**
  * Shared positioning-led social card, reused by the home + services
  * opengraph-image / twitter-image route files. Kept visually consistent with
- * the blog OG card (dark navy gradient, purple accent).
+ * the blog OG card (#114 M: warm paper, ink, one orange-red accent).
  */
 export function renderOgCard({
   eyebrow,
@@ -30,8 +30,7 @@ export function renderOgCard({
         flexDirection: "column",
         justifyContent: "space-between",
         padding: "64px",
-        background:
-          "linear-gradient(135deg, #000319 0%, #0d0d2b 50%, #000319 100%)",
+        background: "#F4F3EE",
         fontFamily: "sans-serif",
       }}
     >
@@ -41,8 +40,8 @@ export function renderOgCard({
           top: 0,
           left: 0,
           right: 0,
-          height: "4px",
-          background: "linear-gradient(90deg, #CBACF9, #818cf8, #CBACF9)",
+          height: "8px",
+          background: "#C4340E",
         }}
       />
 
@@ -57,11 +56,9 @@ export function renderOgCard({
       >
         <span
           style={{
-            color: "#CBACF9",
-            fontSize: "22px",
-            fontWeight: 600,
-            letterSpacing: "0.08em",
-            textTransform: "uppercase",
+            color: "#5C5A50",
+            fontSize: "24px",
+            fontWeight: 400,
           }}
         >
           {eyebrow}
@@ -69,9 +66,10 @@ export function renderOgCard({
         <div
           style={{
             fontSize: title.length > 42 ? "60px" : "72px",
-            fontWeight: 800,
-            color: "#FFFFFF",
-            lineHeight: 1.1,
+            fontWeight: 500,
+            color: "#1F1E1A",
+            lineHeight: 1.02,
+            letterSpacing: "-0.04em",
             maxWidth: "980px",
           }}
         >
@@ -80,7 +78,7 @@ export function renderOgCard({
         <div
           style={{
             fontSize: "28px",
-            color: "#BEC1DD",
+            color: "#33312B",
             lineHeight: 1.45,
             maxWidth: "920px",
           }}
@@ -94,7 +92,7 @@ export function renderOgCard({
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          borderTop: "1px solid rgba(255,255,255,0.08)",
+          borderTop: "1px solid rgba(31,30,26,0.14)",
           paddingTop: "28px",
         }}
       >
@@ -104,23 +102,22 @@ export function renderOgCard({
               width: "48px",
               height: "48px",
               borderRadius: "50%",
-              background: "rgba(203, 172, 249, 0.2)",
-              border: "2px solid rgba(203, 172, 249, 0.4)",
+              background: "#C4340E",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: "#CBACF9",
-              fontWeight: 700,
+              color: "#F4F3EE",
+              fontWeight: 600,
               fontSize: "18px",
             }}
           >
             AR
           </div>
-          <span style={{ color: "#FFFFFF", fontSize: "20px", fontWeight: 600 }}>
+          <span style={{ color: "#1F1E1A", fontSize: "20px", fontWeight: 600 }}>
             Adrian Rusan
           </span>
         </div>
-        <span style={{ color: "#BEC1DD", fontSize: "18px", opacity: 0.7 }}>
+        <span style={{ color: "#5C5A50", fontSize: "18px" }}>
           {footerRight}
         </span>
       </div>
