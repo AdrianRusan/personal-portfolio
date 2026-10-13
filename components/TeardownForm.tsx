@@ -112,12 +112,12 @@ const TeardownForm = ({ className }: { className?: string }) => {
     );
 
   const inputClass =
-    "w-full h-11 rounded-lg border border-white/10 bg-black-200/60 px-4 text-sm text-white placeholder:text-white-200/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:border-purple disabled:opacity-50";
+    "w-full h-11 rounded-lg border border-white/15 bg-black-200 px-4 text-sm text-white placeholder:text-white-200/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:border-purple disabled:opacity-50";
 
   return (
     <div
       className={cn(
-        "rounded-xl border border-white/10 bg-black-200/40 p-6 md:p-8",
+        "rounded-xl border border-white/15 bg-black-200 p-6 md:p-8",
         className,
       )}
     >
@@ -206,7 +206,7 @@ const TeardownForm = ({ className }: { className?: string }) => {
               value={note}
               onChange={(event) => setNote(event.target.value)}
               disabled={status === "loading"}
-              className="w-full rounded-lg border border-white/10 bg-black-200/60 px-4 py-3 text-sm text-white placeholder:text-white-200/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:border-purple disabled:opacity-50 resize-y"
+              className="w-full rounded-lg border border-white/15 bg-black-200 px-4 py-3 text-sm text-white placeholder:text-white-200/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:border-purple disabled:opacity-50 resize-y"
             />
           </div>
 

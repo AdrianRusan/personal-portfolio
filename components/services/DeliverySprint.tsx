@@ -122,8 +122,8 @@ export const DeliverySprint = ({
   copy?: DeliverySprintCopy;
 }) => {
   return (
-    <section id="sprint" className="px-5 sm:px-10 py-12 md:py-16 scroll-mt-24">
-      <div className="container-section">
+    <section id="sprint" className="px-5 md:px-12 py-12 md:py-16 scroll-mt-24">
+      <div className="container-wide">
         <SectionHeading eyebrow={copy.eyebrow} lead={copy.intro}>
           {copy.heading}
         </SectionHeading>
@@ -154,7 +154,7 @@ export const DeliverySprint = ({
           </Fold>
         </div>
 
-        <div className="border-t border-white/10 pt-8 pb-4">
+        <div className="border-t border-white/15 pt-8 pb-4">
           <h3 className="text-lg font-semibold mb-3">{copy.pricingHeading}</h3>
           <p className="text-white-200 mb-6 leading-relaxed max-w-3xl text-pretty">
             {copy.pricingRest}

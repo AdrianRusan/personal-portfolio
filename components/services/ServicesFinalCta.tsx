@@ -22,12 +22,12 @@ export const ServicesFinalCta = ({
   return (
     <section
       aria-labelledby="services-final-cta"
-      className="px-5 sm:px-10 pt-24 pb-12 md:pb-16 scroll-mt-24"
+      className="px-5 md:px-12 pt-24 pb-12 md:pb-16 scroll-mt-24"
     >
       <div className="container-prose text-center">
         <h2
           id="services-final-cta"
-          className="text-3xl md:text-4xl font-bold tracking-tight text-balance"
+          className="text-3xl md:text-4xl font-[380] tracking-[-0.03em] text-balance"
         >
           {copy.heading}
         </h2>

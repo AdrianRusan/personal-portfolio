@@ -50,17 +50,17 @@ export type ProcessStepsCopy = typeof en;
 
 export const ProcessSteps = ({ copy = en }: { copy?: ProcessStepsCopy }) => {
   return (
-    <section id="process" className="px-5 sm:px-10 py-12 md:py-16 scroll-mt-24">
-      <div className="container-section">
+    <section id="process" className="px-5 md:px-12 py-12 md:py-16 scroll-mt-24">
+      <div className="container-wide">
         <SectionHeading lead={copy.intro}>{copy.heading}</SectionHeading>
 
-        <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-black-300 border border-white/10 rounded-xl overflow-hidden mt-10">
+        <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-black-300 border border-white/15 rounded-xl overflow-hidden mt-10">
           {copy.steps.map((step) => (
             <li
               key={step.tag}
               className={`p-6 flex flex-col ${
                 step.verify
-                  ? "bg-black-200/60 border-t-2 md:border-t-0 md:border-l-2 border-purple"
+                  ? "bg-black-200 border-t-2 md:border-t-0 md:border-l-2 border-purple"
                   : "bg-black-200/30"
               }`}
             >

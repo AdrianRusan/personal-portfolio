@@ -43,10 +43,10 @@ export default function TeardownPage() {
         })}
       />
 
-      <section className="px-5 sm:px-10 pt-36 md:pt-44 pb-12">
-        <div className="container-section text-center">
+      <section className="px-5 md:px-12 pt-36 md:pt-44 pb-12">
+        <div className="container-wide text-center">
           <p className="eyebrow">{teardown.eyebrow}</p>
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-balance max-w-3xl mx-auto mt-3">
+          <h1 className="text-3xl md:text-5xl font-[380] tracking-[-0.03em] text-balance max-w-3xl mx-auto mt-3">
             {teardown.heading}
           </h1>
           <p className="text-white-200 mt-5 leading-relaxed max-w-2xl mx-auto text-pretty">
@@ -58,7 +58,7 @@ export default function TeardownPage() {
         </div>
       </section>
 
-      <section className="px-5 sm:px-10 pb-16" aria-label="Request a teardown">
+      <section className="px-5 md:px-12 pb-16" aria-label="Request a teardown">
         <div className="max-w-2xl mx-auto">
           <TeardownForm />
           <ul className="flex flex-col gap-2 mt-5 text-xs text-white-200/80 leading-relaxed">
@@ -70,7 +70,7 @@ export default function TeardownPage() {
       </section>
 
       <section
-        className="px-5 sm:px-10 pb-16"
+        className="px-5 md:px-12 pb-16"
         aria-label="How the teardown works"
       >
         <div className="max-w-2xl mx-auto">
@@ -88,8 +88,8 @@ export default function TeardownPage() {
         </div>
       </section>
 
-      <section className="px-5 sm:px-10 pb-20" aria-label="Why free">
-        <div className="max-w-2xl mx-auto border-t border-white/10 pt-8">
+      <section className="px-5 md:px-12 pb-20" aria-label="Why free">
+        <div className="max-w-2xl mx-auto border-t border-white/15 pt-8">
           <h2 className="text-lg font-semibold tracking-tight">
             {teardown.whyHeading}
           </h2>
