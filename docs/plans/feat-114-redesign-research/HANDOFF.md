@@ -58,7 +58,7 @@ Credits spent: **144** (account had 454 at the start, not the 2,000 the brief as
 3. `Person.email` publishes the personal Gmail next to `contact@` (`schema-findings.md`): Adi to confirm, then a one-line change.
 4. The hero panel's content after content research (today: the proof stats; Adi liked the real review log on canvas G).
 5. Tailwind 4: not needed for M; skipped.
-6. `app/icon.svg` and the manifest `theme_color` still use the old violet.
+6. `app/apple-icon.png` (iOS home-screen icon) is still the old navy and violet PNG; `icon.svg` and the manifest moved to M in #119.
 7. The blog's `AuthorBox`, `RelatedPosts` and `EmailCapture` card were only restyled through tokens, with no layout pass.
 
 ## 6. After merging (Adi)
