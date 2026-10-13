@@ -23,19 +23,19 @@ const WhoFor = ({ copy = en }: { copy?: WhoForCopy }) => {
   return (
     <section
       aria-labelledby="who-for-heading"
-      className="px-5 sm:px-10 py-12 md:py-20"
+      className="px-5 md:px-12 py-16 md:py-28 border-t border-white/15"
     >
-      <div className="container-section">
+      <div className="container-wide">
         <SectionHeading id="who-for-heading">{copy.heading}</SectionHeading>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 mt-10">
           {lists.map(({ heading, items, mark, muted }) => (
-            <div key={heading} className="border-t border-white/10 pt-5">
-              <h3 className="font-semibold text-white">{heading}</h3>
+            <div key={heading} className="border-t border-white pt-5">
+              <h3 className="text-xl md:text-2xl font-[380] tracking-[-0.02em] text-white">{heading}</h3>
               <ul className="flex flex-col gap-3 mt-4">
                 {items.map((item) => (
                   <li
                     key={item}
-                    className={`flex gap-3 text-sm leading-relaxed ${muted ? "text-white-200/80" : "text-white-200"}`}
+                    className={`flex gap-3 border-b border-white/15 pb-3 leading-relaxed ${muted ? "text-white-200/80" : "text-white-200"}`}
                   >
                     <span
                       aria-hidden="true"

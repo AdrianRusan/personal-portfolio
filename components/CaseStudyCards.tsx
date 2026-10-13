@@ -32,13 +32,13 @@ const CaseStudyCards = async ({ copy = en }: { copy?: CaseStudyCardsCopy }) => {
     <section
       id="work"
       aria-labelledby="case-studies-heading"
-      className="px-5 sm:px-10 py-12 md:py-20 scroll-mt-24"
+      className="px-5 md:px-12 py-16 md:py-28 scroll-mt-24 border-t border-white/15"
     >
-      <div className="container-section">
+      <div className="container-wide">
         <SectionHeading id="case-studies-heading" lead={copy.lead || undefined}>
           {copy.heading}
         </SectionHeading>
-        <ul className="grid gap-5 mt-8 md:grid-cols-3">
+        <ul className="grid mt-10 md:grid-cols-3 border-t border-white">
           {studies.map((study) => {
             const { title } = {
               ...study.frontmatter,
@@ -51,14 +51,14 @@ const CaseStudyCards = async ({ copy = en }: { copy?: CaseStudyCardsCopy }) => {
               <li key={study.slug}>
                 <Link
                   href={`/work/${study.slug}`}
-                  className="flex h-full flex-col rounded-xl border border-white/10 bg-black-200/40 p-6 hover:border-purple/40 transition-colors"
+                  className="group flex h-full flex-col border-b border-white/15 py-6 md:pr-8"
                 >
                   {label && (
                     <span className="eyebrow">{t(label)}</span>
                   )}
                   {result && (
                     <p className="mt-3">
-                      <span className="block tabular-nums text-3xl font-bold tracking-tight text-white">
+                      <span className="block tabular-nums text-4xl md:text-5xl font-[380] tracking-[-0.04em] text-white">
                         {t(result.figure)}
                       </span>
                       <span className="mt-1 block text-sm text-white-200 text-pretty">
@@ -67,10 +67,10 @@ const CaseStudyCards = async ({ copy = en }: { copy?: CaseStudyCardsCopy }) => {
                     </p>
                   )}
                   {/* Figure, label and title, as on /work: no description line. */}
-                  <h3 className="text-lg font-semibold mt-4 flex-1 text-balance">
+                  <h3 className="text-xl md:text-[22px] leading-snug tracking-[-0.02em] mt-4 flex-1 text-balance group-hover:underline decoration-purple underline-offset-4">
                     {title}
                   </h3>
-                  <span className="text-sm font-semibold text-purple mt-5">
+                  <span className="text-sm font-medium text-purple mt-5">
                     {copy.read}
                   </span>
                 </Link>
@@ -80,7 +80,7 @@ const CaseStudyCards = async ({ copy = en }: { copy?: CaseStudyCardsCopy }) => {
         </ul>
         <Link
           href="/work"
-          className="inline-block text-sm font-semibold text-purple hover:underline underline-offset-4 mt-6"
+          className="inline-block text-sm font-medium text-purple hover:underline underline-offset-4 mt-6"
         >
           {copy.all}
         </Link>
