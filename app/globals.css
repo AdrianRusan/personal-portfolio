@@ -140,6 +140,11 @@ html {
     @apply mx-auto w-full max-w-5xl;
   }
 
+  /* #114 M: the wide page frame for the redesigned sections. */
+  .container-wide {
+    @apply mx-auto w-full max-w-[1360px];
+  }
+
   .container-prose {
     @apply mx-auto w-full max-w-3xl;
   }

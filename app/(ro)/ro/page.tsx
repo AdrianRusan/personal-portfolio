@@ -76,8 +76,7 @@ export default function RoHome() {
           home: { name: "Acasă", path: "/ro" },
         })}
       />
-      <Hero copy={roHero} />
-      <ProofBand copy={roProofBand} />
+      <Hero copy={roHero} aside={<ProofBand copy={roProofBand} />} />
       <ShipVerify copy={roShipVerify} />
       <CaseStudyCards copy={roCaseStudyCards} />
       <Testimonials copy={roTestimonialsSection} />
