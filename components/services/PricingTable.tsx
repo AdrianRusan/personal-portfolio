@@ -72,9 +72,7 @@ export const PricingTable = ({
           <li
             key={column.name}
             className={`rounded-xl border p-5 ${
-              column.featured
-                ? "border-purple bg-black-200"
-                : "border-white/15"
+              column.featured ? "border-purple bg-black-200" : "border-white/15"
             }`}
           >
             {column.badge && (

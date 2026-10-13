@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { FINTECH_EMPLOYER, SAMPLE_REPORT_URL } from "@/data";
 
-// A4 F4 / A1 F10: right under the hero, the names a buyer knows and one
-// proof line a buyer can check (the 30-PR case study and a sample report).
+// A4 F4 / A1 F10: the names a buyer knows and one proof line a buyer can
+// check (the 30-PR case study and a sample report). #114 M: the hero panel.
 const en = {
   ariaLabel: "Track record",
   label: "10+ years shipping production software with",
@@ -24,11 +24,10 @@ export const TrustStrip = ({ copy = en }: { copy?: TrustStripCopy }) => {
     "inline-flex min-h-11 items-center font-medium text-purple underline underline-offset-4 hover:text-white transition-colors";
   return (
     // #114 M: the services hero panel (ServicesHero `aside`).
-    <aside
-      aria-label={copy.ariaLabel}
-      className="overflow-hidden rounded-xl border border-white/15 bg-black-200 shadow-[0_40px_80px_-48px_rgba(31,30,26,0.45)] dark:shadow-[0_40px_80px_-48px_rgba(0,0,0,0.7)]"
-    >
-      <p className="border-b border-white/15 px-4 py-3 font-mono text-xs text-white-100">{copy.label}</p>
+    <aside aria-label={copy.ariaLabel} className="hero-panel">
+      <p className="border-b border-white/15 px-4 py-3 font-mono text-xs text-white-100">
+        {copy.label}
+      </p>
       <ul className="border-b border-white/15">
         {copy.employers.map((name) => (
           <li

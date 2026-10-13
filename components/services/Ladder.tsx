@@ -34,7 +34,10 @@ export type LadderContent = typeof en;
 // rows drop the assurance line, because their detail blocks below repeat it.
 export const Ladder = ({ content = en }: { content?: LadderContent }) => {
   return (
-    <section id="ladder" className="px-5 sm:px-10 lg:px-12 py-12 md:py-16 scroll-mt-24">
+    <section
+      id="ladder"
+      className="px-5 sm:px-10 lg:px-12 py-12 md:py-16 scroll-mt-24"
+    >
       <div className="container-wide">
         <SectionHeading
           lead={
@@ -99,7 +102,7 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
                           ))}
                         </div>
                       </div>
-                      <p className="tabular-nums text-base font-[380] text-white md:text-right whitespace-nowrap">
+                      <p className="tabular-nums text-base type-light text-white md:text-right whitespace-nowrap">
                         {content.format(offer)}
                       </p>
                     </li>

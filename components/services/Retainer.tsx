@@ -68,7 +68,7 @@ export const Retainer = ({ copy = en }: { copy?: RetainerCopy }) => {
           </div>
           <div className="rounded-xl border border-white/15 bg-black-200 p-6 md:p-8 self-start">
             <p className="text-sm text-white-200/80">{copy.startsAt}</p>
-            <p className="tabular-nums text-3xl md:text-4xl font-[380] text-white mt-1">
+            <p className="tabular-nums text-3xl md:text-4xl type-light text-white mt-1">
               {copy.price}
               <span className="text-base font-normal text-white-200">
                 {copy.perMonth}

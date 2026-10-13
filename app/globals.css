@@ -159,6 +159,11 @@ html {
     @apply font-[380] tracking-[-0.03em];
   }
 
+  /* The hero panel (M): the framed, raised surface beside a hero H1. */
+  .hero-panel {
+    @apply overflow-hidden rounded-xl border border-white/15 bg-black-200 shadow-[0_40px_80px_-48px_rgba(31,30,26,0.45)] dark:shadow-[0_40px_80px_-48px_rgba(0,0,0,0.7)];
+  }
+
   /* Display type (M): big, light, tight. */
   .display {
     @apply font-[380] tracking-[-0.045em] leading-[0.98];

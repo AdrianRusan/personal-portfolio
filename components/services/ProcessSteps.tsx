@@ -50,16 +50,19 @@ export type ProcessStepsCopy = typeof en;
 
 export const ProcessSteps = ({ copy = en }: { copy?: ProcessStepsCopy }) => {
   return (
-    <section id="process" className="px-5 sm:px-10 lg:px-12 py-16 md:py-24 scroll-mt-24">
+    <section
+      id="process"
+      className="px-5 sm:px-10 lg:px-12 py-16 md:py-24 scroll-mt-24"
+    >
       <div className="container-wide">
         <SectionHeading lead={copy.intro}>{copy.heading}</SectionHeading>
 
         {/* #114 M: ruled columns; the review step's rule is the accent. */}
-        <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-10">
+        <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-x-8 mt-10">
           {copy.steps.map((step) => (
             <li
               key={step.tag}
-              className={`flex flex-col border-t-2 py-6 md:pr-8 ${
+              className={`flex flex-col border-t-2 py-6 ${
                 step.verify ? "border-purple" : "border-white"
               }`}
             >
@@ -70,9 +73,7 @@ export const ProcessSteps = ({ copy = en }: { copy?: ProcessStepsCopy }) => {
               >
                 {step.tag}
               </span>
-              <h3 className="text-xl type-light mt-3 mb-2">
-                {step.heading}
-              </h3>
+              <h3 className="text-xl type-light mt-3 mb-2">{step.heading}</h3>
               <p className="text-white-200 leading-relaxed flex-1">
                 {keepRangesWhole(step.body)}
                 {step.link && (

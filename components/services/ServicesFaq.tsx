@@ -15,8 +15,7 @@ const items: FaqItem[] = [
   {
     question:
       "Unsupervised agents ship vulnerabilities. How do you handle security?",
-    answer:
-      `They do. ${VERACODE_LINE} That's why security is the first pass of every review: injection, auth, secrets, access control. On my own 30-PR run, a repo with no test suite, the review caught 3 shell-injection paths from request input before merge. Anything in scope that I miss is covered by the security guarantee in the sprint terms.`,
+    answer: `They do. ${VERACODE_LINE} That's why security is the first pass of every review: injection, auth, secrets, access control. On my own 30-PR run, a repo with no test suite, the review caught 3 shell-injection paths from request input before merge. Anything in scope that I miss is covered by the security guarantee in the sprint terms.`,
   },
   {
     question:
@@ -76,7 +75,10 @@ export const ServicesFaq = ({
   copy?: ServicesFaqCopy;
 }) => {
   return (
-    <section id="faq" className="px-5 sm:px-10 lg:px-12 py-16 md:py-28 scroll-mt-24 border-t border-white/15">
+    <section
+      id="faq"
+      className="px-5 sm:px-10 lg:px-12 py-16 md:py-28 scroll-mt-24 border-t border-white/15"
+    >
       <div className="container-wide grid gap-8 lg:grid-cols-[4fr_7fr] lg:gap-16">
         <SectionHeading>{copy.heading}</SectionHeading>
         <div className="border-b border-white/15">

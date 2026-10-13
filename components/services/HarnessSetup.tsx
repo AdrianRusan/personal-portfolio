@@ -48,7 +48,10 @@ export const HarnessSetup = async ({
   // The post is scheduled; link it only once it's live (checked at build).
   const rulesLive = (await getPosts()).some((p) => p.slug === RULES_POST);
   return (
-    <section id="harness" className="px-5 sm:px-10 lg:px-12 py-12 md:py-16 scroll-mt-24">
+    <section
+      id="harness"
+      className="px-5 sm:px-10 lg:px-12 py-12 md:py-16 scroll-mt-24"
+    >
       <div className="container-wide">
         <SectionHeading lead={copy.intro}>{copy.heading}</SectionHeading>
 
@@ -76,7 +79,7 @@ export const HarnessSetup = async ({
           </div>
           <div className="rounded-xl border border-white/15 bg-black-200 p-6 md:p-8 self-start">
             <p className="text-sm text-white-200/80">{copy.startsAt}</p>
-            <p className="tabular-nums text-3xl md:text-4xl font-[380] text-white mt-1">
+            <p className="tabular-nums text-3xl md:text-4xl type-light text-white mt-1">
               {copy.price}
             </p>
             <p className="text-sm text-white-200 mt-4 leading-relaxed text-pretty">

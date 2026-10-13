@@ -1,0 +1,38 @@
+import type { ReactNode } from "react";
+
+// #114 M: the one closing band (ClosingCta, ServicesFinalCta, workshop pages).
+// A display heading, a lead, then the page's own ask as children.
+export function ClosingBand({
+  id,
+  heading,
+  body,
+  children,
+}: {
+  // The heading id; the section is labelled by it.
+  id: string;
+  heading: ReactNode;
+  body?: ReactNode;
+  children: ReactNode;
+}) {
+  return (
+    <section
+      aria-labelledby={id}
+      className="px-5 sm:px-10 lg:px-12 pt-20 pb-20 md:pt-28 scroll-mt-24 border-t border-white/15 bg-chip/50"
+    >
+      <div className="container-wide">
+        <h2
+          id={id}
+          className="display max-w-[14em] text-4xl md:text-6xl xl:text-7xl text-balance"
+        >
+          {heading}
+        </h2>
+        {body && (
+          <p className="mt-6 max-w-xl text-lg text-white-200 text-pretty">
+            {body}
+          </p>
+        )}
+        {children}
+      </div>
+    </section>
+  );
+}
