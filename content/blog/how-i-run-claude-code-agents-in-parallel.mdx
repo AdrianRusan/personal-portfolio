@@ -1,99 +1,89 @@
 ---
-title: "Claude Code Parallel Agents: What Git Worktrees Don't Isolate"
-seoTitle: "Claude Code Parallel Agents: What Worktrees Don't Isolate"
+title: "Claude Code Worktrees: What Parallel Agents Still Share"
+seoTitle: "Claude Code Worktrees: What Parallel Agents Still Share"
 date: "2026-10-24"
 tags: ["claude-code", "parallel-agents", "git-worktrees", "ai", "developer-productivity"]
-description: "Running Claude Code agents in parallel in October 2026: the five things a git worktree still shares (ports, services, .git, approvals, your usage limit), what -w, --bg and claude agents now handle, and what I still run Herdr for."
+description: "A git worktree gives each Claude Code agent its own files and nothing else. The 5 things parallel agents still share, 2 incidents they caused, and the fixes."
 published: true
 language: "en"
 cta: "workshop"
 faq:
   - q: "How do I run Claude Code agents in parallel?"
-    a: "Give each session its own git worktree so they never edit the same checkout. In Claude Code, claude -w <name> starts a session in a new worktree, claude --bg \"<task>\" dispatches one in the background, and claude agents shows them all on one screen. Then give each agent its own port and test database, because worktrees don't isolate those."
+    a: "Give each session its own git worktree so they never edit the same checkout. claude -w <name> starts a session in a new worktree, claude --bg \"<task>\" dispatches one in the background, and claude agents shows them on one screen. Then give each agent its own port and test database, because worktrees don't isolate those."
   - q: "Does Claude Code have built-in worktree support?"
     a: "Yes. claude --worktree <name> (or -w) creates a worktree under .claude/worktrees/<name> on a new branch and starts the session in it. A .worktreeinclude file copies gitignored files such as .env into each new worktree. Background sessions started with --bg move into their own worktree before they edit files."
   - q: "What do git worktrees not isolate?"
-    a: "Anything outside the repository's files: ports, databases and other local services, and your plan's usage limit. Worktrees also share the repository's .git directory, so the stash and refs are shared, and Claude Code saves 'don't ask again' approvals to the main checkout's settings."
+    a: "Anything outside the repository's files: ports, databases and other local services, and your plan's usage limit. Worktrees also share the repository's .git directory, so the stash and refs are shared, and Claude Code saves 'don't ask again' approvals to the main checkout's settings, so one approval applies to every worktree."
+  - q: "How many Claude Code agents can run in parallel?"
+    a: "As many as your usage limit and machine allow. Claude Code's docs say ten background agents use quota roughly ten times as fast as one. In my own work the limits were the usage cap, machine resources during parallel builds, and my review queue."
 ---
 
-**Short answer:** A git worktree per agent stops parallel sessions from editing the same files, and nothing else. Ports, local services, the shared `.git` directory, permission approvals and your usage limit are still shared, and each needs its own fix. For the worktrees themselves, start with what Claude Code ships: `claude -w <name>` for a session in its own worktree, `claude --bg "<task>"` to dispatch one in the background, and `claude agents` to watch them. I still run Herdr on top, because it shows every project and every Claude Code config directory in one place.
+A git worktree gives each Claude Code agent its own files and branch, and nothing else. On my laptop five things stayed shared between parallel agents, and two of them caused real incidents on the same day: an agent killed another project's dev server, and two worktree creations raced and left branches with no checkout.
 
-At 18:11 on 12 October, Herdr listed 25 Claude Code agents across 15 workspaces on my laptop. `claude agents`, the built-in view, listed 9 of them. The other 16 were running under my three other Claude Code config directories.
+If you're planning to run agents in parallel on a team, those five are the list to settle first. Below is each one with what can go wrong and what I do now, what Claude Code ships for this as of version 2.1.299 (14 October 2026), and the limits that showed up past four agents.
 
-## What no worktree isolates
+## What do git worktrees not isolate?
 
-A worktree gives each agent its own files and branch. Everything else on the machine is still shared:
+A worktree is a second checkout of the same repository. Everything outside the repository's files is still shared. The first two rows are the ones the tutorials skip; the last row caused one of my incidents:
 
 | Shared resource | What goes wrong | What I do |
 |---|---|---|
-| Ports | Two agents start a server on :3000; the second fails or tests the first one's build | Each agent gets its own port in the brief. In my 12 October content run, four writers had E2E ports 3081 to 3084 |
-| Local services | Two agents migrate or seed the same database | One database or schema per agent, named in the brief |
-| The `.git` directory | The stash is shared across worktrees, so one agent's `git stash pop` takes another's work | Agents never use a bare `git stash`. They commit work in progress instead |
-| Permission approvals | "Don't ask again" in one worktree is saved to the main checkout's settings, so it applies to every worktree | Approve narrowly, or keep the allow list in a reviewed settings file |
-| Your usage limit | The agent view docs: ten agents use quota "roughly ten times as fast" as one | The orchestrator never reads source files. Executors report exit codes and PR links, not file dumps |
+| Permission approvals | "Don't ask again" in one worktree is saved to the main checkout's settings, so it applies to every worktree ([worktree docs](https://code.claude.com/docs/en/worktrees)) | Approve narrowly, and keep the allow list in a settings file that goes through review |
+| Your usage limit | The [agent view docs](https://code.claude.com/docs/en/agent-view): ten agents in parallel use quota "roughly ten times as fast" as one | The orchestrating session never reads source files. Executors report exit codes and PR links, not file dumps |
+| Ports and local services | Two agents start a server on :3000, or seed the same database | A port and a database per agent, named in the brief. In one content run, four writers had E2E ports 3081 to 3084 |
+| The `.git` directory | The stash, the refs and `.git/config` are shared across worktrees (a [git fact](https://git-scm.com/docs/git-worktree)), so one agent's `git stash pop` can take another's work | Agents never use a bare `git stash`, and worktrees are created one at a time (incident 2 below) |
 
-Two of these rows come from my own run on 10 October. An executor agent stopped its server with `pkill -f next-server` and took down another project's dev server on the same laptop, so every brief now says to stop only your own PID on your own port. And two `herdr worktree create` calls run at once raced on `.git/config.lock` and left branches with no worktree, so the orchestrator now creates worktrees one at a time.
+The first two cross sessions without anyone noticing. A broad approval clicked in one worktree is saved to the main checkout's local settings, so it becomes a rule for every worktree on that machine. And every session on one account draws on the same usage limit.
 
-The usage limit is the one that stops everything at once. How often it hit me over 66 days is in [463 Claude Code sessions, counted](/blog/66-days-of-claude-code-by-the-numbers).
+## Two incidents from one day
 
-## What Claude Code ships now
+Both happened on 10 October 2026, during a run where an orchestrating agent started executor agents in parallel worktrees on my laptop.
 
-As of 2.1.296 (9 October 2026), per the [worktree](https://code.claude.com/docs/en/worktrees) and [agent view](https://code.claude.com/docs/en/agent-view) docs:
+1. **A pattern kill.** An executor stopped its own server with `pkill -f next-server` and took down another project's dev server on the same machine. The fix is a rule in every brief: stop only your own process, by PID, on your own port. Never kill by name.
+2. **A lock race.** Two `herdr worktree create` calls ran at once, raced on `.git/config.lock`, and left branches with no worktree. Both calls write the same repository's config. No worktree separates that file, so the orchestrator now creates worktrees one at a time.
+
+## What Claude Code ships for parallel agents
+
+Per the [worktree](https://code.claude.com/docs/en/worktrees) and [agent view](https://code.claude.com/docs/en/agent-view) docs, fetched 14 October 2026:
 
 ```bash
-claude -w billing-fix                  # new worktree + branch, session starts in it
-claude --bg "fix the flaky checkout test"   # background session, returns at once
-claude agents                          # one screen: every session, its state
-claude attach 7c5dcf5d                 # open a background session here
+claude -w billing-fix                        # new worktree + branch, session starts in it
+claude --bg "fix the flaky checkout test"    # background session, returns at once
+claude agents                                # one screen: sessions and their state
+claude attach billing                        # open a background session here (by id or name)
 ```
 
 What each one does:
 
 1. **`-w`** creates the worktree under `.claude/worktrees/<name>/` on a branch named `worktree-<name>`, cut from your default branch. Set `worktree.baseRef` to `"head"` to branch from your current work instead.
-2. **`.worktreeinclude`** at the repo root lists gitignored files, such as `.env`, to copy into every new worktree. A worktree is still a fresh checkout, so each one installs dependencies (`npm ci`) before its first build.
-3. **`--bg`** sessions move into their own worktree before they edit anything. When done, they commit and push their branch, and they never push to `main`, force-push or merge. If your `CLAUDE.md` says you handle git yourself, that wins and they leave git to you.
+2. **`.worktreeinclude`** at the repo root lists gitignored files, such as `.env`, to copy into each new worktree. A worktree is still a fresh checkout, so each one installs dependencies before its first build.
+3. **`--bg`** sessions move into their own worktree before they edit anything. They commit and push their branch, and never push to `main` or `master`, force-push or merge. If your `CLAUDE.md` says you handle git yourself, Claude leaves git to you.
 4. **Subagents** get their own worktree with `isolation: worktree` in their frontmatter.
-5. **Agent teams** coordinate several sessions through a lead and a shared task list. They are experimental, off by default, and teammates share one checkout, so you split the files between them yourself.
+5. **Agent teams** coordinate several sessions through a lead and a shared task list. They're experimental and off by default, and teammates share one checkout, so you split the files between them yourself.
+6. **Cross-session messaging** lets one session pass findings to another ([docs](https://code.claude.com/docs/en/cross-session-messaging)). I haven't used it yet.
 
-Agent view is a research preview. The docs warn that the interface may change, and that sessions stop if the machine shuts down.
+Agent view is a research preview. The docs say the interface may change, and that interactive sessions open in other terminals don't appear in it until you background them.
 
-## What I still run Herdr for
+## Where the built-ins stop for me
 
-[Herdr](https://herdr.dev) is a terminal multiplexer built for coding agents. I used it before the built-ins existed, and three of its jobs still aren't covered for me:
+I run Claude Code under four config directories, one per account setup. The docs say each `CLAUDE_CONFIG_DIR` runs "as a separate instance with its own sessions", and that's what I saw. At 18:11 on 12 October, [Herdr](https://herdr.dev), the terminal multiplexer I use for agents, listed 25 Claude Code agents across 15 workspaces. `claude agents` listed 9. Run once per config directory, it gave 9, 8, 6 and 2: the same 25, in four lists.
 
-1. **Every config directory in one view.** I run Claude Code under four config directories, one per account or client setup. `claude agents` lists the sessions of the config directory it runs under. Fourteen minutes after Herdr's count, at 18:25, I ran it once per directory and got 9, 8, 6 and 2 sessions: 25, the same total Herdr showed in one screen. With the built-ins, that is four commands and four lists to read.
-2. **An orchestrator that drives the others.** Herdr has a CLI, so one Claude session can create a worktree, start an agent in it, send it a brief and wait for it to finish:
+So I still run Herdr on top, for two jobs. It shows every config directory in one screen, and it has a CLI, so one session can create a worktree, start an agent in it, send it a brief and wait for it. If you run one account on one repo, the built-ins cover what this post describes, and I'd start there.
 
-```bash
-herdr worktree create --cwd ~/Code/personal/personal-portfolio \
-  --branch feat/100-content-c3 --base origin/main --label "C3" --no-focus
-herdr agent start c3 --kind claude --pane <pane>
-herdr agent prompt c3 "/goal $(cat c3.prompt.txt)"
-herdr agent wait c3
-```
+## Limits that showed up in bigger runs
 
-3. **Other agents in the same layout.** Herdr isn't tied to Claude, so a Codex session sits next to the Claude ones.
+1. **Usage limit.** It's the one that stops everything at once. How often it hit me over 66 days is in [Claude Code usage, counted](/blog/66-days-of-claude-code-by-the-numbers).
+2. **Machine resources.** Production builds are the heaviest thing an agent runs, so I cap how many run at once. The cap and why are in the nine-PR study below.
+3. **Merge order.** Branches that pass alone can conflict together. An integrator merges them in a fixed order and reruns the full checks.
+4. **Review stays serial.** Generation runs in parallel. I review one PR at a time, so every PR has to arrive with its checks already run. [Where the AI speed-up goes](/blog/2-3x-not-100x) has the timestamps.
 
-If you run one account on one repo, the built-ins cover what I described above, and I'd start there. I haven't run the same task list both ways, so I can't tell you which one recovers better from a stuck agent.
-
-## The brief, and where the run lives
-
-The usual way parallel agents fail is that they stop and ask a question nobody is there to answer. So before any agent starts, I write one brief with verified facts, numbered rulings, which agent owns which files, and the checks each PR must show before it is marked ready. It also tells agents what they may decide alone: decide, record the decision in the PR body, keep going.
-
-What that brief produced on one afternoon, nine PRs with their timings, review counts and the one thing the gates let through, is written up once, in [Nine Reviewed PRs in One Afternoon](/work/nine-prs-one-afternoon).
-
-## Limits that bite past four agents
-
-1. **Machine resources.** Several production builds at once exhaust a laptop's memory, so cap concurrent builds. The cap I use, and why, is in [the nine-PR case study](/work/nine-prs-one-afternoon).
-2. **Merge order.** Branches that pass alone can conflict together. An integrator agent merges them in a fixed order and reruns the full checks, so I review one PR instead of four.
-3. **Review stays serial.** Generation runs in parallel and I review one PR at a time. Every PR reaches me with its checks already run and the evidence in its body, or the queue just moves from writing to reading.
-4. **Workspaces you didn't start.** Client work runs in other workspaces on the same machine. Every brief says to touch only the workspace the orchestrator created.
+[Nine Reviewed PRs in One Afternoon](/work/nine-prs-one-afternoon) has one afternoon of this setup: the timings, the review counts and the one shortcut the gates let through.
 
 ## Where to start
 
-1. Pick two independent tasks and write a one-page brief: facts, rulings, which files each agent owns, a port each, and what done looks like.
+1. Pick two independent tasks and write a one-page brief: facts, which files each agent owns, a port and a database each, and what done looks like.
 2. Start both with `claude --bg "<task>"` from the repo root, or `claude -w <name>` in two terminals.
 3. Watch them in `claude agents`. Each one should open a draft PR at its first push, with its checks in the body.
-4. Review both PRs as evidence, then merge.
+4. Review both PRs, then merge in order.
 
-When two run without asking you anything, try four.
+When two run without asking you anything, try four. If you want your team to run this, the workshop below covers it hands-on. If you'd rather have it set up for you, with the approvals, ports and gates decided once and committed to the repo, that's the harness setup on [my services page](/services).
