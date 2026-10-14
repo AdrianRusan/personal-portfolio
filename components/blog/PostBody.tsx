@@ -161,7 +161,7 @@ export const mdxComponents: MDXComponents = {
     </th>
   ),
   td: ({ children, ...props }: ComponentPropsWithoutRef<"td">) => (
-    <td className="border-b border-rule/60 py-2 pr-4 align-top" {...props}>
+    <td className="border-b border-rule py-2 pr-4 align-top" {...props}>
       {children}
     </td>
   ),
