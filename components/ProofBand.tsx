@@ -1,13 +1,13 @@
-import { proofStats } from "@/data";
+import { reviewLog } from "@/data";
 
 const en = {
-  ariaLabel: "Proof by the numbers",
-  stats: proofStats,
-  note: "The 30 and the 3 come from one documented run on my own admin dashboard, March 2026. The case study lists everything review caught and everything it missed.",
+  ariaLabel: "Review log",
+  stats: reviewLog,
+  note: "From my own repos, not client work. The 30-PR case study lists every catch and all 5 misses.",
 };
 export type ProofBandCopy = typeof en;
 
-// P2: three stats and one labelling line. #114 M: rendered as the hero's
+// P2: rows and one labelling line (#125: a review log). #114 M: rendered as the hero's
 // panel (Hero `aside`), a framed list that takes any number of rows.
 const ProofBand = ({ copy = en }: { copy?: ProofBandCopy }) => {
   return (

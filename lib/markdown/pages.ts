@@ -78,7 +78,7 @@ export const homeMd = (c: HomeCopy) =>
     `# ${c.hero.heading}`,
     c.hero.body,
     `> ${c.hero.guarantee}`,
-    `[${c.hero.call}](${CALENDLY_URL}) · [${c.hero.teardown}](/teardown)`,
+    `[${c.hero.call}](${CALENDLY_URL}) · [${c.hero.teardown}](${c.hero.teardownHref})`,
     `## ${c.proof.ariaLabel}`,
     list(c.proof.stats.map((s) => `**${s.figure}** ${s.label}`)),
     c.proof.note,

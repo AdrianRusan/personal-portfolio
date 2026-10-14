@@ -10,8 +10,11 @@ import type { TestimonialsCopy } from "@/components/Testimonials";
 import type { WhoForCopy } from "@/components/WhoFor";
 import type { PostTitles } from "@/lib/blog-types";
 import {
+  CONTACT_EMAIL,
   FINTECH_EMPLOYER,
+  reviewLog,
   shipVerify,
+  THROUGHPUT as T,
   testimonials,
   workExperience,
   WORKFLOW_NUMBERS as W,
@@ -36,6 +39,15 @@ export const RO_HARNESS_PROOF =
 const ro = (v: number) => v.toLocaleString("ro-RO");
 export const RO_LEDGER_PROOF = `${W.sessions} de sesiuni · ${W.hours} de ore · ${ro(W.commits)} de commit-uri · ${W.prsOpened} de PR-uri deschise (limită superioară, nu toate merge-uite), în ${W.days} de zile, 6 aug.–10 oct. 2026, numărate din propriile mele jurnale de sesiuni.`;
 
+// RO twin of THROUGHPUT_LINE (data/index.ts): same constant, same source.
+export const RO_THROUGHPUT_LINE = `${T.mergedPrs} de PR-uri merge-uite în ${T.activeDays} de zile active (11 sep.–13 oct. 2026), proiecte pentru clienți și proprii la un loc, numărate din registrul meu de inginerie`;
+
+// /ro title and description. #125: the description follows the EN homepage;
+// the title keeps its RO term (no RO keyword data, keyword-research.md).
+export const RO_HOME_TITLE = "Livrare cu agenți AI, revizuită de un senior";
+export const RO_HOME_DESCRIPTION =
+  "Cod scris de agenți AI, verificat linie cu linie de un inginer senior înainte să ajungă la tine. Preț fix, securitatea întâi, peste 10 ani în producție.";
+
 // Romanian copy for the /ro homepage. Same sections and numbers as the English
 // page; RO prices come from data/ro.ts (brief R7).
 
@@ -46,22 +58,27 @@ export const roHero: HeroCopy = {
   // U+2011 keeps "backlog‑ul" whole when the H1 wraps.
   heading: "Îți livrez backlog‑ul cu agenți AI și verific personal fiecare PR.",
   body: "Întâi securitatea: injection, autentificare, secrete și controlul accesului, verificate linie cu linie înainte ca PR-ul să ajungă la tine. Te poți aștepta la un volum de 2–3 ori mai mare, nu de 100 de ori.",
-  teardown: "Teardown gratuit (EN)",
+  // #125: no RO teardown page yet, so the RO fallback is email (Adi, gate Q6).
+  teardown: "Trimite-mi un repo pe email",
+  teardownHref: `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Teardown gratuit")}`,
   call: "Programează o discuție",
   guarantee: RO_GUARANTEE,
 };
 
+// RO labels for the review log, keyed by PR so a reordered EN row can't pick
+// up the wrong text.
+const roReviewLog: Record<string, string> = {
+  "#112": "mar. 2026 · panoul meu · Un ID de job din URL ajungea într-o comandă shell. Reparat înainte de merge.",
+  "#111": "mar. 2026 · panoul meu · O căutare din cerere ajungea într-o comandă shell. Reparat înainte de merge.",
+  "#119": "mar. 2026 · panoul meu · O cale de fișier construită dintr-un parametru de rută, fără limitare. Reparat înainte de merge.",
+  "#109": "mar. 2026 · panoul meu · Valori din baza de date într-un string de shell. L-am ratat; re-auditul din octombrie l-a găsit, plus încă 4.",
+  "#39": "oct. 2026 · acest site · Verificarea de placeholder-e din studiile de caz rula doar în teste. Am mutat-o în build.",
+};
+
 export const roProofBand: ProofBandCopy = {
-  ariaLabel: "Dovezi în cifre",
-  stats: [
-    { figure: "30", label: "PR-uri revizuite în mai puțin de 3 zile" },
-    {
-      figure: "3",
-      label: "căi de shell injection din input-ul cererilor, prinse în review înainte de merge",
-    },
-    { figure: "2M+", label: "spectatori simultan la transmisiunile PGL Major pentru care am făcut grafica live" },
-  ],
-  note: "30 și 3 vin dintr-o singură rulare documentată pe propriul meu panou de administrare, în martie 2026. Studiul de caz listează tot ce a prins review-ul și tot ce a scăpat.",
+  ariaLabel: "Jurnal de review",
+  stats: reviewLog.map((row) => ({ ...row, label: roReviewLog[row.figure] ?? row.label })),
+  note: "Din proiectele mele, nu din munca pentru clienți. Studiul de caz cu 30 de PR-uri listează tot ce a prins review-ul și toate cele 5 ratări.",
 };
 
 // Keyed by tag so a reordered or added EN step can't pick up the wrong copy.
@@ -69,7 +86,7 @@ const roSteps: Record<string, { label: string; heading: string; body: string }> 
   SHIP: {
     label: "Livrare",
     heading: "Agenții scriu volumul",
-    body: "Mai mulți agenți Claude Code lucrează în paralel, în git worktree-uri separate. Fiecare primește un tichet și urmează convențiile din CLAUDE.md-ul tău. De aici vine câștigul de 2–3 ori: throughput-ul unei echipe mici, de la un singur operator și un harness.",
+    body: `Mai mulți agenți Claude Code lucrează în paralel, în git worktree-uri separate, câte un tichet fiecare, după CLAUDE.md-ul tău. De aici vine câștigul de 2–3 ori. Ca ordin de mărime: ${RO_THROUGHPUT_LINE}.`,
   },
   VERIFY: {
     label: "Verificare",
@@ -79,8 +96,8 @@ const roSteps: Record<string, { label: string; heading: string; body: string }> 
 };
 
 export const roShipVerify: ShipVerifyCopy = {
-  heading: "Backlog-ul crește, iar codul scris de agenți are nevoie de review",
-  body: "Agenții pot scrie cea mai mare parte dintr-un backlog. Scriu și buguri de injection. În rularea mea cu 30 de PR-uri, fără teste și fără CI, review-ul a fost singura verificare.",
+  heading: "Agenții scriu cod repede. Cineva trebuie să decidă ce intră în merge.",
+  body: "Agenții pot scrie cea mai mare parte dintr-un backlog, inclusiv buguri de injection. În rularea mea cu 30 de PR-uri, fără teste și fără CI, review-ul a fost singura verificare.",
   punch: "Agenții fără review livrează buguri mai repede.",
   stepsHeading: "Cum funcționează: agenții livrează, eu verific",
   steps: shipVerify.map((step) => ({ ...step, ...roSteps[step.tag] })),

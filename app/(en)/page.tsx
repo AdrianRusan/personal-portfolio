@@ -8,7 +8,12 @@ import Bio from "@/components/Bio";
 import Testimonials from "@/components/Testimonials";
 import { PageShell } from "@/components/PageShell";
 import { ServicesFaq } from "@/components/services/ServicesFaq";
-import { HOME_FAQ_HEADING, SITE_TITLE, homeFaqs } from "@/data";
+import {
+  HOME_DESCRIPTION,
+  HOME_FAQ_HEADING,
+  HOME_SHARE_TITLE,
+  homeFaqs,
+} from "@/data";
 import type { Metadata } from "next";
 import { JsonLd, SITE_URL, faqJsonLd, pageJsonLd } from "@/lib/page-schema";
 
@@ -17,6 +22,8 @@ export const revalidate = 3600;
 
 // Home canonical + hreflang pair; the root layout sets no canonical (A1-16).
 export const metadata: Metadata = {
+  title: { absolute: HOME_SHARE_TITLE },
+  description: HOME_DESCRIPTION,
   alternates: {
     canonical: "https://www.adrian-rusan.com",
     languages: { en: "/", ro: "/ro", "x-default": "/" },
@@ -29,9 +36,8 @@ const homeJsonLd = [
   {
     ...pageJsonLd({
       path: "/",
-      name: SITE_TITLE,
-      description:
-        "I ship your backlog with AI agents and review every pull request myself, security first, at a price fixed before work starts.",
+      name: HOME_SHARE_TITLE,
+      description: HOME_DESCRIPTION,
       crumbs: [],
     }),
     mainEntity: { "@id": `${SITE_URL}/#person` },
