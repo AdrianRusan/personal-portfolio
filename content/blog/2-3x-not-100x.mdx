@@ -12,7 +12,7 @@ faq:
   - q: "How much faster is AI coding, really?"
     a: "Across companies, not much yet. DX measured PR throughput rising just under 8% for a 65% rise in AI usage, in a sample drawn from 400 companies (March 2026), and its 2026 benchmarks (updated 21 July 2026) report PR throughput up nearly 20%, from all causes rather than a measured AI effect. On my own scoped backlog, with agents writing and me reviewing every PR, I estimate 2–3x. The part I can measure is review wait: my agent PRs merged a median 44 minutes after opening, review included."
   - q: "Why do AI coding gains disappear at the team level?"
-    a: "The code gets written faster and then waits. LinearB's 2026 data on 8.1 million PRs found AI-generated PRs wait more than 16 hours for a reviewer to pick them up, against about 200 minutes for unassisted work, and only 32.7% merge within 30 days. Faros found review time up 91% on teams with high AI adoption in 2025."
+    a: "The code gets written faster and then waits. LinearB's 2026 data on 8.1 million PRs found AI-generated PRs wait more than 16 hours for a reviewer to pick them up, against about 200 minutes for unassisted work, and only 32.7% merge within 30 days. Faros found review time up 91% on teams with high AI adoption in 2025, and median review time up 5x in its 2026 telemetry."
   - q: "Is the 2–3x figure measured?"
     a: "Partly. The merge timestamps are measured from GitHub: 30 agent PRs, median 44 minutes from open to merge, under three days in total. The solo side, 5–7 days of work, is my estimate, because I didn't do the work twice. So 2–3x is an estimate built on measured timestamps."
   - q: "How do I measure review wait on my own team?"
@@ -29,7 +29,7 @@ The large studies find small gains. I take them seriously because they measure m
 
 - **DX, 11 Mar 2026:** in a random sample drawn from 400 companies (Nov 2024 to Feb 2026), AI usage rose 65% and PR throughput rose 7.76%. The author, Justin Reock, adds from talks with engineering leaders that most organizations land between 5% and 15%. ([DX newsletter](https://newsletter.getdx.com/p/ai-productivity-gains-are-10-not)) DX's 2026 benchmarks (last updated 21 Jul 2026) report PR throughput up nearly 20%. ([DX benchmarks](https://getdx.com/blog/2026-dx-benchmarks-are-now-available/))
 - **LinearB, 4 May 2026:** across 8.1 million PRs from 4,800 teams, AI-generated PRs waited more than 16 hours on average before a reviewer picked them up, against about 200 minutes for unassisted work. Only 32.7% of AI PRs merged within 30 days, against 84.5% of manual ones. ([LinearB](https://linearb.io/blog/8-million-prs-engineering-productivity))
-- **Faros, Q2 2026:** its "Acceleration Whiplash" report, two years of telemetry from 22,000 developers across 4,000 teams, found median review time up 5x and PR size up 51%, while deployments per week fell 11.7%. The page gives no publish date. ([Faros AI](https://faros.ai/research/ai-acceleration-whiplash)) Its [July 2025 study](https://www.faros.ai/blog/ai-software-engineering) had already seen review time up 91% on high-adoption teams.
+- **Faros, 2026:** its "Acceleration Whiplash" report, two years of telemetry from 22,000 developers across 4,000 teams, found median review time up 5x and PR size up 51%, while deployments per week fell 11.7%. The report is labelled Q2 2026; the page gives no publish date. ([Faros AI](https://faros.ai/research/ai-acceleration-whiplash)) Its [July 2025 study](https://www.faros.ai/blog/ai-software-engineering) had already seen review time up 91% on high-adoption teams.
 - **METR, 24 Feb 2026:** its 2025 trial had experienced developers 19% slower with AI. The 2026 update estimates 18% faster for the original group and 4% faster for new recruits, with confidence intervals that cross zero. METR thinks AI speeds developers up more than in early 2025, and calls its own data "only very weak evidence" for how big that increase is. ([METR](https://metr.org/blog/2026-02-24-uplift-update/))
 
 LinearB and Faros put the delay at review, and DX and METR find gains that are small or uncertain. DX's nearly 20% is PR throughput from all causes, not a measured AI effect. Against that data, 2–3x is the high claim, so it needs its arithmetic shown.
@@ -55,9 +55,9 @@ The October run on this site has the same shape: nine PRs merged a median 27 min
 
 Here is the division. The solo side is my estimate of 5–7 working days. The elapsed side is 2.1 days from the first worker wave to the last merge, or 2.8 days from the first PR, nights included. 5–7 days over 2.1–2.8 days gives 1.8x to 3.3x, which I round to 2–3x and quote as an estimate. Of 30 PRs, one waited longer than 16 hours. It was #95, the first PR, opened a day before the worker waves started; the second slowest, #97 at 9.5 hours, redid a PR I had closed.
 
-## Why do AI coding gains disappear at the team level?
+## Why didn't my agent PRs wait?
 
-My answer, from one reviewer's timestamps: they wait for review. Three conditions I think explain why mine didn't wait.
+Three conditions I think explain it, from one reviewer's timestamps.
 
 1. **The queue is one person who is expecting the PRs.** I dispatched each agent wave and then sat down to review it. Merges landed in 9 bursts, and PR size didn't predict the wait in March: the rank correlation between lines changed and minutes waited was 0.07. The wait was set by when I sat down. My guess is that LinearB's 16 hours is mostly reviewers who weren't expecting the PR.
 2. **The reviewer wrote the tickets.** I scoped every issue in that run, so I knew what each diff was supposed to do before I opened it. That shortens the reading, and it is something a team reviewer picking up a stranger's agent PR doesn't have.
@@ -78,7 +78,7 @@ One data point on speed: #109, one of the 5 misses, merged 29 minutes after it o
 
 That's why I won't quote a bigger number. Dropping review would make the clock look better, and the misses above happened with review in place.
 
-## How do you measure review wait on your own team?
+## How to measure review wait on your team
 
 You can get the measured half of this for your team from data GitHub already keeps:
 
