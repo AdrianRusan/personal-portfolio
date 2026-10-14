@@ -90,6 +90,6 @@ export const personJsonLd = {
       "Claude Code, AI coding agents, code review, application security, TypeScript, Next.js, React, Node.js",
   },
   address,
-  email: "rusan.adrian.ionut@gmail.com",
+  email: CONTACT_EMAIL,
   contactPoint,
 };

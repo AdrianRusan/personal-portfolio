@@ -63,6 +63,7 @@ State as of 2026-10-14 (main after PRs #34–#131).
 - `verify:tests` (inside `verify:all`) is environment-dependent; `npm test` and `npm run e2e` are the reliable gates.
 
 ## Open Items (Adi)
+- `contact@adrian-rusan.com` has no MX records (no mailbox). `CONTACT_EMAIL` points at the Gmail until forwarding exists (#145); then switch the one constant back.
 - Stripe payment links for the paid calls; then set the `*_STRATEGY_CALL_CALENDLY_URL` constants (or wire the links) in place of the `mailto:` fallbacks.
 - YouTube channel: set `YOUTUBE_CHANNEL_ID` when live (null hides every YouTube surface).
 

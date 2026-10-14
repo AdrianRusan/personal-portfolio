@@ -14,7 +14,7 @@ export const config = {
     url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.adrian-rusan.com",
     description:
       "Explore the portfolio of Adrian Rusan, a full-stack engineer with 10+ years of experience in web development.",
-    email: "contact@adrian-rusan.com",
+    email: "rusan.adrian.ionut@gmail.com",
   },
 
   // Analytics

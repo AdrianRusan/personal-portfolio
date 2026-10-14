@@ -15,7 +15,8 @@ export const HOME_DESCRIPTION =
   "AI-generated code, reviewed line by line by a senior engineer before it reaches you. Fixed price, security first, 10+ years in production.";
 
 // Async intake inbox for offers that don't require a call.
-export const CONTACT_EMAIL = "contact@adrian-rusan.com";
+// ponytail: Gmail until contact@adrian-rusan.com has MX records (#145); switch back here.
+export const CONTACT_EMAIL = "rusan.adrian.ionut@gmail.com";
 
 // Paid 1:1 advice call (€200). null until Adi creates the paid Calendly event
 // (ADI-3); set it and every €200 CTA switches from email to booking, label too.

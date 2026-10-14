@@ -53,7 +53,7 @@ describe("Organization JSON-LD", () => {
     expect(org.contactPoint).toEqual({
       "@type": "ContactPoint",
       contactType: "sales",
-      email: "contact@adrian-rusan.com",
+      email: "rusan.adrian.ionut@gmail.com",
       url: "https://calendly.com/adrian-rusan/new-meeting",
       availableLanguage: ["en", "ro"],
     });

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import * as Sentry from "@sentry/nextjs";
+import { CONTACT_EMAIL } from "@/data";
 
 // Free-teardown intake → Resend. On submit we notify Adrian of the request,
 // send the submitter a confirmation, and (best-effort) add them to the nurture
@@ -10,11 +11,11 @@ import * as Sentry from "@sentry/nextjs";
 //   RESEND_API_KEY       server-side API key (never exposed to the client)
 //   EMAIL_FROM           verified sender, e.g. "Adrian Rusan <hello@adrian-rusan.com>"
 // Optional:
-//   TEARDOWN_NOTIFY_TO   where the request notification lands (default contact@)
+//   TEARDOWN_NOTIFY_TO   where the request notification lands (default CONTACT_EMAIL)
 //   RESEND_AUDIENCE_ID   audience an opted-in submitter is added to (best-effort nurture only)
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const NOTIFY_TO = process.env.TEARDOWN_NOTIFY_TO ?? "contact@adrian-rusan.com";
+const NOTIFY_TO = process.env.TEARDOWN_NOTIFY_TO ?? CONTACT_EMAIL;
 const MAX_NOTE = 2000;
 
 // User-supplied values are embedded in an HTML email body — escape to prevent

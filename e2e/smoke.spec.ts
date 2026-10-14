@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync } from 'fs';
 import { test, expect } from '@playwright/test';
+import { CONTACT_EMAIL } from '../data';
 
 // Every public route, EN and RO. Keep in sync with app/sitemap.ts.
 const routes = [
@@ -168,7 +169,7 @@ for (const path of ['/about', '/blog', '/does-not-exist', '/', '/ro', '/ro/despr
     await expect(page.locator('#closing-cta-heading')).toHaveCount(1);
     await expect(page.locator('footer a[href*="calendly.com"]')).toHaveCount(0);
     // D6 / A4 F6: the email lives in the footer; the checklist on the blog only.
-    await expect(page.locator('footer a[href^="mailto:contact@"]')).toHaveCount(1);
+    await expect(page.locator(`footer a[href^="mailto:${CONTACT_EMAIL}"]`)).toHaveCount(1);
     if (path !== '/blog') await expect(page.locator('input[type="email"]')).toHaveCount(0);
   });
 }
@@ -189,7 +190,7 @@ for (const path of ['/contact', '/ro/contact']) {
     await page.goto(path);
     await expect(page.locator('#closing-cta-heading')).toHaveCount(0);
     await expect(page.locator('main a[href*="calendly.com"]')).toHaveCount(1);
-    await expect(page.locator('main a[href^="mailto:contact@"]')).not.toHaveCount(0);
+    await expect(page.locator(`main a[href^="mailto:${CONTACT_EMAIL}"]`)).not.toHaveCount(0);
     // #125: RO has no teardown page, so its teardown option is an email.
     const teardown = path.startsWith('/ro') ? 'main a[href*="subject=Teardown"]' : 'main a[href="/teardown"]';
     await expect(page.locator(teardown)).toHaveCount(1);
