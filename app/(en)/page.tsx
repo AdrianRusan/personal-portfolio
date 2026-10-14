@@ -11,7 +11,7 @@ import { ServicesFaq } from "@/components/services/ServicesFaq";
 import {
   HOME_DESCRIPTION,
   HOME_FAQ_HEADING,
-  HOME_TITLE,
+  HOME_SHARE_TITLE,
   homeFaqs,
 } from "@/data";
 import type { Metadata } from "next";
@@ -22,7 +22,7 @@ export const revalidate = 3600;
 
 // Home canonical + hreflang pair; the root layout sets no canonical (A1-16).
 export const metadata: Metadata = {
-  title: HOME_TITLE,
+  title: { absolute: HOME_SHARE_TITLE },
   description: HOME_DESCRIPTION,
   alternates: {
     canonical: "https://www.adrian-rusan.com",
@@ -36,7 +36,7 @@ const homeJsonLd = [
   {
     ...pageJsonLd({
       path: "/",
-      name: `${HOME_TITLE} | Adrian Rusan`,
+      name: HOME_SHARE_TITLE,
       description: HOME_DESCRIPTION,
       crumbs: [],
     }),

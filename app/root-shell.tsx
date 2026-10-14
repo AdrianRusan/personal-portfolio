@@ -6,7 +6,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { organizationJsonLd, personJsonLd } from "@/lib/person-schema";
 import { JsonLd } from "@/lib/page-schema";
-import { HOME_DESCRIPTION, HOME_TITLE, SITE_TAGLINE, SITE_TITLE } from "@/data";
+import { HOME_DESCRIPTION, HOME_SHARE_TITLE, SITE_TAGLINE, SITE_TITLE } from "@/data";
 
 // #114 M: one variable grotesk for text and display, a mono for small meta.
 // `subsets` only picks what is preloaded: the latin-ext faces (ă, ș, ț) are
@@ -29,9 +29,8 @@ const DESCRIPTION =
   "I ship your backlog with AI agents and review every PR myself, security first. Senior full-stack engineer, 10+ years, fixed prices up front.";
 
 // The layout's share card is the homepage's (pages with their own card restate
-// openGraph/twitter); a page-level openGraph would drop app/opengraph-image.tsx.
-const HOME_SHARE_TITLE = `${HOME_TITLE} | Adrian Rusan`;
-
+// openGraph/twitter); a page-level openGraph on / would drop
+// app/opengraph-image.tsx.
 // Shared by the (en) and (ro) root layouts (D1): each re-exports this and
 // renders <RootShell lang=…>, so <html lang> is true per route group.
 export const siteMetadata: Metadata = {
