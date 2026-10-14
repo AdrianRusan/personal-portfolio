@@ -72,10 +72,11 @@ export const FloatingNav = ({
         "floating-nav",
       )}
     >
-      <div className="mx-auto flex lg:grid max-w-[1360px] lg:grid-cols-[1fr_auto_1fr] items-center gap-x-3 sm:gap-x-4 px-3 sm:px-5 md:px-12 py-1 lg:py-2">
+      {/* box-content: max-w counts without the padding, like the page sections. */}
+      <div className="mx-auto box-content flex lg:grid max-w-[1360px] lg:grid-cols-[1fr_auto_1fr] items-center gap-x-3 sm:gap-x-4 px-3 sm:px-5 md:px-12 py-1 lg:py-2">
         <Link
           href={isRo ? "/ro" : "/"}
-          className="hidden lg:flex min-h-11 items-center font-semibold text-white"
+          className="hidden lg:flex justify-self-start min-h-11 items-center font-semibold text-white"
         >
           Adrian Rusan
         </Link>

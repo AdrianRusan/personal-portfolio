@@ -18,7 +18,7 @@ export function ContactOptions({
       {options.map((o) => (
         <li
           key={o.heading}
-          className="flex flex-col gap-4 border-b border-white/15 py-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8"
+          className="flex flex-col gap-4 border-b border-white/15 last:border-b-0 py-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8"
         >
           <div>
             <h2 className="text-2xl type-light">{o.heading}</h2>

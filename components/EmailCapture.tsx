@@ -34,6 +34,7 @@ const EmailCapture = ({
   // Two captures can share a page (inline + footer), so ids must be unique.
   const inputId = useId();
   const errorId = useId();
+  const headingId = useId();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -87,8 +88,10 @@ const EmailCapture = ({
     }
   };
 
+  // A labelled region, so it is a landmark wherever it sits (axe "region").
   return (
-    <div
+    <section
+      aria-labelledby={headingId}
       className={cn(
         // Solid in both themes, so nothing behind it shows through.
         "rounded-xl border border-white/10 bg-white dark:bg-black-200 p-6 md:p-8",
@@ -96,7 +99,7 @@ const EmailCapture = ({
         className,
       )}
     >
-      <p className="text-lg font-semibold tracking-tight text-white">
+      <p id={headingId} className="text-lg font-semibold tracking-tight text-white">
         {copy.heading}
       </p>
       <p className="text-sm text-white-200 leading-relaxed mt-2">{copy.body}</p>
@@ -164,7 +167,7 @@ const EmailCapture = ({
           {copy.privacy}
         </Link>
       </p>
-    </div>
+    </section>
   );
 };
 
