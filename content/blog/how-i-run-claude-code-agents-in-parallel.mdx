@@ -6,7 +6,7 @@ tags: ["claude-code", "parallel-agents", "git-worktrees", "ai", "developer-produ
 description: "A git worktree gives each Claude Code agent its own files and nothing else. The 5 things parallel agents still share, 2 incidents they caused, and the fixes."
 published: true
 language: "en"
-cta: "harness"
+cta: "workshop"
 faq:
   - q: "How do I run Claude Code agents in parallel?"
     a: "Give each session its own git worktree so they never edit the same checkout. claude -w <name> starts a session in a new worktree, claude --bg \"<task>\" dispatches one in the background, and claude agents shows them on one screen. Then give each agent its own port and test database, because worktrees don't isolate those."
@@ -86,4 +86,4 @@ So I still run Herdr on top, for two jobs. It shows every config directory in on
 3. Watch them in `claude agents`. Each one should open a draft PR at its first push, with its checks in the body.
 4. Review both PRs, then merge in order.
 
-When two run without asking you anything, try four. If you want this set up for a team, with the approvals, ports and gates decided once and committed to the repo, that's the harness setup on [my services page](/services).
+When two run without asking you anything, try four. If you want your team to run this, the workshop below covers it hands-on. If you'd rather have it set up for you, with the approvals, ports and gates decided once and committed to the repo, that's the harness setup on [my services page](/services).
