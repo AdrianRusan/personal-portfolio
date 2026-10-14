@@ -183,9 +183,9 @@ export const roPostTitles: PostTitles = {
       "Verdicte de review pe 85 de PR-uri, dintre care 39 nu mai pot fi verificate. 84% din mesajele subagenților au rulat pe Opus. Cum îmi definesc subagenții Claude Code și cât costă.",
   },
   "claude-code-fail-closed-hooks": {
-    title: "Hook-urile Claude Code lasă acțiunea să treacă la eroare. Am testat onFailure: \"block\" pe propriile mele gate-uri",
+    title: "Hook-urile Claude Code lasă comenzile să treacă la eroare: ce nu vede onFailure",
     description:
-      "Am trecut hook-urile mele Claude Code prin 20 de sesiuni headless. onFailure: \"block\" a oprit fiecare crash, timeout și cod de ieșire greșit. A ratat JSON-ul trunchiat și nu vede un hook care rulează corect, dar dă răspunsul greșit.",
+      "Hook-ul meu de scanare a secretelor a lăsat commit-uri nescanate 75 de zile, iar onFailure: \"block\" nu l-ar fi prins. Am testat gate-urile mele Claude Code: ce blochează și ce trece.",
   },
   "how-i-measure-claude-code-roi": {
     title: "Cum măsor ROI-ul Claude Code și cele 5 capcane care mi-au stricat cifrele",
