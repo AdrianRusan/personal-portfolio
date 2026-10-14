@@ -1,14 +1,10 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import PrimaryCta from "@/components/ui/PrimaryCta";
 import { PageShell } from "@/components/PageShell";
 import { roPrimaryNav } from "@/data/nav";
 
-// #143 I-23: the RO twin of app/(en)/not-found.tsx.
-export const metadata: Metadata = {
-  title: { absolute: "Pagina nu există | Adrian Rusan" },
-  description: "Pagina căutată nu există.",
-};
+// #143 I-23: the RO twin of app/(en)/not-found.tsx. Its title is set by
+// ./[...missing]/page.tsx (#147).
 
 export default function RoNotFound() {
   return (
