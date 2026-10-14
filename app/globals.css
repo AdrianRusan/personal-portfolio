@@ -129,6 +129,37 @@ html {
   }
 }
 
+@layer components {
+  /* Design system (#123). Pick by role, never by pixel; DESIGN.md has the table.
+     Names avoid the text-* prefix so cn()/tailwind-merge never drops them. */
+
+  /* Type scale. Each role sets size, weight and tracking. */
+  .type-hero { @apply display text-[44px] md:text-7xl xl:text-[84px]; }
+  .type-title { @apply display text-[40px] md:text-6xl xl:text-7xl; }
+  .type-title-sm { @apply display text-[38px] sm:text-5xl md:text-6xl; }
+  .type-section { @apply type-light text-3xl md:text-5xl leading-[1.05]; }
+  .type-subsection { @apply type-light text-2xl md:text-3xl; }
+  .type-item { @apply type-light text-xl md:text-2xl; }
+  .type-label { @apply text-lg font-semibold; }
+  .type-stat { @apply type-light tabular-nums text-4xl md:text-5xl; }
+  .type-lead { @apply text-[17px] leading-relaxed md:text-lg; }
+  .type-prose { @apply text-[17px]; }
+  .type-prose-h2 { @apply type-light text-3xl; }
+  .type-prose-h3 { @apply type-light text-2xl; }
+
+  /* Text measures (line length). */
+  .measure-title { @apply max-w-[16em]; }
+  .measure-sm { @apply max-w-[34em]; }
+  .measure { @apply max-w-[38em]; }
+  .measure-lg { @apply max-w-[42em]; }
+
+  /* Page layout: one gutter, two section rhythms and the page head. */
+  .gutter { @apply px-5 sm:px-10 lg:px-12; }
+  .section { @apply gutter py-16 md:py-28 scroll-mt-24; }
+  .section-compact { @apply gutter py-12 md:py-16 scroll-mt-24; }
+  .page-head { @apply gutter pt-28 md:pt-36; }
+}
+
 @layer utilities {
   /* Design system (P1). Marketing sections sit in .container-section, prose in
      .container-prose. Mono is for code and numbers only (.num). */

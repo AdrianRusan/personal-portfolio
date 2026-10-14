@@ -9,7 +9,7 @@ export default function RelatedPosts({ posts }: { posts: BlogPost[] }) {
     <section aria-labelledby="related-heading" className="mt-16">
       <h2
         id="related-heading"
-        className="text-2xl type-light text-white mb-4"
+        className="type-subsection text-white mb-4"
       >
         Related posts
       </h2>

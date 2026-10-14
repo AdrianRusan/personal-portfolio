@@ -123,7 +123,7 @@ const TeardownForm = ({ className }: { className?: string }) => {
     >
       {status === "success" ? (
         <div role="status" aria-live="polite">
-          <h2 className="text-lg font-semibold tracking-tight text-purple">
+          <h2 className="type-label text-purple">
             Got it — your teardown is on the way.
           </h2>
           <p className="text-sm text-white-200 leading-relaxed mt-2">

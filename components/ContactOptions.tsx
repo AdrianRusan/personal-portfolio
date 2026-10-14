@@ -21,8 +21,8 @@ export function ContactOptions({
           className="flex flex-col gap-4 border-b border-white/15 last:border-b-0 py-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8"
         >
           <div>
-            <h2 className="text-2xl type-light">{o.heading}</h2>
-            <p className="mt-1 max-w-[38em] text-white-200 leading-relaxed text-pretty">
+            <h2 className="type-subsection">{o.heading}</h2>
+            <p className="mt-1 measure text-white-200 leading-relaxed text-pretty">
               {o.body}
             </p>
           </div>

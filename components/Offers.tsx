@@ -38,7 +38,7 @@ const Offers = ({ copy = en }: { copy?: OffersCopy }) => {
   };
 
   return (
-    <section id="offers" className="px-5 sm:px-10 lg:px-12 py-16 md:py-28 border-t border-white/15">
+    <section id="offers" className="section border-t border-white/15">
       <div className="container-wide">
         <SectionHeading
           lead={
@@ -64,7 +64,7 @@ const Offers = ({ copy = en }: { copy?: OffersCopy }) => {
                 className="flex flex-col gap-2 border-b border-white/15 py-6 md:pr-8"
               >
                 <h3 className="eyebrow">{name}</h3>
-                <p className="tabular-nums text-3xl xl:text-[32px] type-light text-white text-balance">
+                <p className="tabular-nums text-3xl type-light text-white text-balance">
                   {fromPrice(offers)}
                 </p>
                 <p className="text-white-200 text-pretty">{tagline}</p>

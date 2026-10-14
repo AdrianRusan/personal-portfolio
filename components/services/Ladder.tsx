@@ -36,7 +36,7 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
   return (
     <section
       id="ladder"
-      className="px-5 sm:px-10 lg:px-12 py-12 md:py-16 scroll-mt-24"
+      className="section-compact"
     >
       <div className="container-wide">
         <SectionHeading
@@ -53,7 +53,7 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
         <div className="mt-10 flex flex-col">
           {content.tiers.map(({ tier, tagline }) => (
             <div key={tier} className="border-t border-white/15 pt-6 pb-2">
-              <h3 className="text-lg font-semibold text-white">
+              <h3 className="type-label text-white">
                 {content.tierName(tier)}
                 <span className="ml-3 text-sm font-normal text-white-200/80">
                   {tagline}

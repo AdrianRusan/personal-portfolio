@@ -47,7 +47,7 @@ export default function PostCard({
             {frontmatter.title}
           </Heading>
 
-          <p className="text-white-200 leading-relaxed line-clamp-3 max-w-[40em]">
+          <p className="text-white-200 leading-relaxed line-clamp-3 measure-lg">
             {frontmatter.description}
           </p>
 

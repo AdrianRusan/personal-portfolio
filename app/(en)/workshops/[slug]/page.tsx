@@ -83,15 +83,15 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
         ]}
       />
 
-      <section className="px-5 sm:px-10 lg:px-12 pt-28 md:pt-36 pb-12 md:pb-16">
+      <section className="page-head pb-12 md:pb-16">
         <div className="container-wide">
           <p className="eyebrow">
             Team workshop · {w.length} · up to {w.maxPeople} people
           </p>
-          <h1 className="display text-[40px] md:text-6xl xl:text-7xl text-balance max-w-[18em] mt-5">
+          <h1 className="type-title text-balance measure-title mt-5">
             {w.headline}
           </h1>
-          <p className="text-[17px] md:text-lg text-white-200 mt-6 leading-relaxed max-w-[38em] text-pretty">
+          <p className="type-lead text-white-200 mt-6 measure text-pretty">
             {w.intro}
           </p>
           <p className="text-sm text-white-200/80 mt-5">
@@ -101,7 +101,6 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
             <PrimaryCta
               title={w.cta.label}
               href={w.cta.href}
-              otherClasses="md:mt-0"
               trackEvent={{
                 event: "cta_click",
                 props: { cta: "workshop", source: `workshop_${w.slug}_hero` },
@@ -113,11 +112,11 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
 
       <section
         id="agenda"
-        className="px-5 sm:px-10 lg:px-12 py-12 md:py-16 scroll-mt-24"
+        className="section-compact"
         aria-label="Agenda"
       >
         <div className="container-wide">
-          <h2 className="text-3xl md:text-5xl type-light">Agenda</h2>
+          <h2 className="type-section">Agenda</h2>
           <div className="flex flex-col gap-10 mt-8">
             {w.agenda.map((part) => (
               <div key={part.label}>
@@ -139,7 +138,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
                       )}
                       <div className="md:col-start-2">
                         <p className="text-xl type-light">{block.title}</p>
-                        <p className="text-white-200 mt-2 leading-relaxed max-w-[42em]">
+                        <p className="text-white-200 mt-2 leading-relaxed measure-lg">
                           {block.body}
                         </p>
                       </div>
@@ -153,11 +152,11 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
       </section>
 
       <section
-        className="px-5 sm:px-10 lg:px-12 py-12 md:py-16"
+        className="section-compact"
         aria-label="What you leave with"
       >
         <div className="container-wide">
-          <h2 className="text-3xl md:text-5xl type-light">
+          <h2 className="type-section">
             What your team leaves with
           </h2>
           <p className="text-white mt-4 font-medium leading-relaxed">
@@ -192,11 +191,11 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
       </section>
 
       <section
-        className="px-5 sm:px-10 lg:px-12 py-12 md:py-16"
+        className="section-compact"
         aria-label="Logistics"
       >
         <div className="container-wide">
-          <h2 className="text-3xl md:text-5xl type-light">Logistics</h2>
+          <h2 className="type-section">Logistics</h2>
           <ul className="flex flex-col gap-3 mt-6 list-disc pl-5 marker:text-purple">
             {workshopLogistics.map((item) => (
               <li
@@ -219,7 +218,6 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
           <PrimaryCta
             title={w.cta.label}
             href={w.cta.href}
-            otherClasses="md:mt-0"
             trackEvent={{
               event: "cta_click",
               props: { cta: "workshop", source: `workshop_${w.slug}_final` },

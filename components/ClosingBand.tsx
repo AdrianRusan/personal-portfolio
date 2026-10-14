@@ -17,12 +17,12 @@ export function ClosingBand({
   return (
     <section
       aria-labelledby={id}
-      className="px-5 sm:px-10 lg:px-12 pt-20 pb-20 md:pt-28 scroll-mt-24 border-t border-white/15 bg-chip/50"
+      className="gutter pt-20 pb-20 md:pt-28 scroll-mt-24 border-t border-white/15 bg-chip/50"
     >
       <div className="container-wide">
         <h2
           id={id}
-          className="display max-w-[14em] text-4xl md:text-6xl xl:text-7xl text-balance"
+          className="type-title measure-title text-balance"
         >
           {heading}
         </h2>

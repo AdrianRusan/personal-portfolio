@@ -73,7 +73,7 @@ export const mdxComponents: MDXComponents = {
   img: MDXImage,
   h2: ({ children, ...props }: ComponentPropsWithoutRef<"h2">) => (
     <h2
-      className="text-3xl type-light text-white mt-14 mb-4 scroll-mt-24 group"
+      className="type-prose-h2 text-white mt-14 mb-4 scroll-mt-24 group"
       {...props}
     >
       {children}
@@ -81,7 +81,7 @@ export const mdxComponents: MDXComponents = {
   ),
   h3: ({ children, ...props }: ComponentPropsWithoutRef<"h3">) => (
     <h3
-      className="text-2xl type-light text-white mt-10 mb-3 scroll-mt-24 group"
+      className="type-prose-h3 text-white mt-10 mb-3 scroll-mt-24 group"
       {...props}
     >
       {children}
@@ -96,13 +96,13 @@ export const mdxComponents: MDXComponents = {
     </h4>
   ),
   p: ({ children, ...props }: ComponentPropsWithoutRef<"p">) => (
-    <p className="text-white-200 leading-[1.7] mb-5 text-[17px]" {...props}>
+    <p className="text-white-200 leading-[1.7] mb-5 type-prose" {...props}>
       {children}
     </p>
   ),
   ul: ({ children, ...props }: ComponentPropsWithoutRef<"ul">) => (
     <ul
-      className="list-disc list-outside pl-6 text-[17px] text-white-200 space-y-2 mb-5"
+      className="list-disc list-outside pl-6 type-prose text-white-200 space-y-2 mb-5"
       {...props}
     >
       {children}
@@ -110,7 +110,7 @@ export const mdxComponents: MDXComponents = {
   ),
   ol: ({ children, ...props }: ComponentPropsWithoutRef<"ol">) => (
     <ol
-      className="list-decimal list-outside pl-6 text-[17px] text-white-200 space-y-2 mb-5"
+      className="list-decimal list-outside pl-6 type-prose text-white-200 space-y-2 mb-5"
       {...props}
     >
       {children}

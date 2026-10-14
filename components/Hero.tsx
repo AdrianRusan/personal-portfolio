@@ -31,7 +31,7 @@ const Hero = ({
     <section
       id="home"
       aria-labelledby="hero-heading"
-      className="px-5 sm:px-10 lg:px-12 pt-28 pb-16 md:pt-36 md:pb-24"
+      className="page-head pb-16 md:pb-24"
     >
       <div className="container-wide grid gap-12 lg:grid-cols-[7fr_5fr] lg:gap-16 lg:items-start">
         <div className="flex flex-col">
@@ -41,11 +41,11 @@ const Hero = ({
           </div>
           <h1
             id="hero-heading"
-            className="display mt-6 text-[44px] md:text-7xl xl:text-[84px] text-balance"
+            className="type-hero mt-6 text-balance"
           >
             {copy.heading}
           </h1>
-          <p className="mt-6 max-w-[34em] text-[17px] md:text-lg text-white-200 leading-relaxed text-pretty">
+          <p className="mt-6 measure-sm type-lead text-white-200 text-pretty">
             {copy.body}
           </p>
 
@@ -54,7 +54,7 @@ const Hero = ({
             <PrimaryCta
               title={copy.call}
               href={CALENDLY_URL}
-              otherClasses="md:mt-0 md:min-w-0"
+              otherClasses="md:min-w-0"
               trackEvent={{ event: "calendly_click", props: { source: "hero" } }}
             />
             <TrackedLink

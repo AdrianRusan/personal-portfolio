@@ -50,14 +50,14 @@ export const HarnessSetup = async ({
   return (
     <section
       id="harness"
-      className="px-5 sm:px-10 lg:px-12 py-12 md:py-16 scroll-mt-24"
+      className="section-compact"
     >
       <div className="container-wide">
         <SectionHeading lead={copy.intro}>{copy.heading}</SectionHeading>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10 border-t border-white/15 pt-8">
           <div>
-            <h3 className="text-lg font-semibold">{copy.deliveredHeading}</h3>
+            <h3 className="type-label">{copy.deliveredHeading}</h3>
             <ul className="flex flex-col gap-3 mt-4 list-disc pl-5 marker:text-purple">
               {copy.deliverables.map((item) => (
                 <li

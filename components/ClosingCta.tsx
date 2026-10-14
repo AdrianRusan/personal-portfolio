@@ -30,7 +30,7 @@ export function ClosingCta({
   if (hideCta && hideEmailCapture) return null;
   if (hideCta)
     return (
-      <section className="px-5 sm:px-10 lg:px-12 py-20 border-t border-white/15">
+      <section className="gutter py-20 border-t border-white/15">
         <div className="container-wide">
           <EmailCapture variant="footer" />
         </div>
@@ -46,7 +46,6 @@ export function ClosingCta({
         <PrimaryCta
           title={copy.button}
           href={CALENDLY_URL}
-          otherClasses="md:mt-0"
           trackEvent={{ event: "calendly_click", props: { source } }}
         />
       </div>
