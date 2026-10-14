@@ -1,93 +1,109 @@
 ---
-title: "How to Review AI-Generated Code: What 64 Fixes on 30 Agent PRs Were For"
-seoTitle: "How to Review AI-Generated Code: Checklist From 64 Fixes"
+title: "How to Review AI-Generated Code: What 30 Agent PRs Needed"
+seoTitle: "How to Review AI-Generated Code: What 30 Agent PRs Needed"
 date: "2026-07-09"
-updated: "2026-10-12"
+updated: "2026-10-14"
 tags: ["ai", "code-review", "security", "claude-code", "software-engineering"]
-description: "I sorted all 64 review fixes from 30 agent-written PRs by what was wrong. Counts, a real example of each, the misses and a checklist ordered by frequency."
+description: "25 of 30 agent PRs needed a fix before merge. I counted all 79 fixes: duplicated code led, security came third, and review still missed 5 security bugs."
 published: true
 language: "en"
-cta: "audit"
+cta: "reviewed-pr"
 faq:
   - q: "What mistakes do AI coding agents make most often?"
-    a: "In 30 agent PRs I reviewed in March 2026, the 64 review fixes sorted into: duplicated code including helpers the repo already had (11), type-safety holes (10), security and hardening (9), code written for an older framework version (8), and smaller groups for error handling, input validation, client and API disagreeing on a payload, missing dependencies and docs. 9 of the 61 distinct defects would have broken the build or a page."
+    a: "In 30 agent PRs I reviewed in March 2026, I counted 79 review fixes, one per bullet in the fix commit messages. Duplicated code led with 18, often a helper the repo already had. Then type holes (13), security and hardening (11), error handling (8) and code written for an older Next.js (8). 76 of the 79 were distinct defects; the other 3 were the same bug fixed again on a parallel branch."
+  - q: "How do you review AI-generated code?"
+    a: "Check security sinks first, then follow the frequency: search the repo for an existing helper before accepting a new one, reject the `any` type and unsafe casts, check every framework and CLI call against the pinned version, read the deleted lines on their own, and build the batch of parallel PRs together before merging the next one."
   - q: "Why does AI-generated code pass review but still fail?"
     a: "Each agent PR reads well against its own ticket. In my run the failures sat between PRs and around them: helpers the agent never searched for, checks deleted by a rewrite or a rebase, framework APIs from an older major version, and fix commits that refactored a vulnerable line without changing it."
-  - q: "Can automated tools catch these problems?"
-    a: "Some of them. A CI build would have stopped most of the 9 defects that broke the build or a page, by my reading of the code. Security bugs build fine. In October I ran AI reviewers on the original commits and my three-agent panel flagged all 5 security bugs my review had missed: two stored XSS sinks and three shell calls. I fixed all 5 on 12 October 2026."
   - q: "Are AI coding agents worth using, then?"
-    a: "On my own work, yes: 30 merged PRs in under three days on a scoped backlog. Every one of them was read before merge, and 25 needed a fix first. The review is what made the volume mergeable."
+    a: "On my own work, yes: 30 merged PRs in under three days on a scoped backlog. Every one was read before merge, 25 needed a fix first, and the security bugs review missed were found by a re-audit in October. Review is what made the volume mergeable."
 ---
 
-**Short answer:** 25 of the 30 agent-written PRs I merged in March 2026 needed at least one fix before I'd merge them. I went back and sorted all 64 fixes by what was wrong. Duplicated code led with 11 fixes, often a helper the repo already had, then type-safety holes (10), security and hardening (9) and code written for an older Next.js (8). The checklist at the end puts security first and then follows those counts.
+25 of the 30 agent-written PRs I merged in March 2026 needed a fix before I'd merge them. When I counted every fix, duplicated code led with 18 of 79 and security came third with 11. Security is also where my review missed the most: 5 bugs, found by a re-audit in October.
 
-The repo is my own admin dashboard: no tests, no CI, so my review was the only gate. The run itself, with dates and every security finding, is in [the 30-PR case study](/work/30-reviewed-prs-3-vulnerabilities). This post is what the fixes were for.
+The repo is my own admin dashboard. It had no tests and no CI, so my review was the only gate. The run itself, with dates and every security finding, is in [the 30-PR case study](/work/30-reviewed-prs-3-vulnerabilities). This post is what the fixes were for, and the checklist I review agent PRs with now.
 
-## How I counted
-
-I read every fix commit made during review (28 commits, plus the build-fix part of one feature commit) and listed each defect it fixed. An agent did the first pass on 12 October 2026, and I checked every example below and every security row against the diffs. 2 defects were fixed on more than one parallel branch, one of them 3 times, so 64 fixes cover 61 distinct defects. "Would break" means the build or a page would have failed if it shipped; I judged that from the code, nothing was run.
+## What 79 fixes were for
 
 | What was wrong | Fixes | Example |
 | --- | ---: | --- |
-| Duplicated code, including helpers the repo already had | 11 | #104: date-fns `formatDistanceToNow`, while `timeAgo` had been in `lib/format.ts` since February |
-| Type holes: `any`, unsafe casts, `null` in a non-null field | 10 | #118: `last_commit: null` broke the build on main |
-| Security and hardening: shell strings, a path traversal, a deleted allowlist, repo-format checks | 9 | #112: a job ID from the URL in a shell string (`237cfaa`) |
+| Duplicated code, including helpers the repo already had | 18 | #104: date-fns `formatDistanceToNow`, while `timeAgo` had been in `lib/format.ts` since February |
+| Type holes: `any`, unsafe casts, `null` in a non-null field | 13 | #118: `last_commit: null` broke the build on main |
+| Security and hardening: shell strings, path containment, a deleted allowlist, input formats | 11 | #112: a job ID from the URL in a shell string |
+| Error handling: unchecked responses, `alert()` instead of an error state | 8 | #100: no `res.ok` check, errors only logged |
 | Written for an older Next.js | 8 | #119: sync route `params`, which Next.js 16 passes as a Promise |
-| Error handling | 4 | #100: no `res.ok` check, errors only logged |
-| Input validation: config values, duplicate queue items, empty lists | 3 | #97: a reorder with an empty list was accepted |
-| Client and API disagree on a payload or schema | 3 | #102: the client sent `reorderedIds`, the API expected `items`; every drag got a 400 |
+| Other: schema alignment, a non-atomic seed, foreign keys, build artifacts, name clashes | 9 | #95: a seed loop outside a transaction |
+| Input validation | 3 | #97: a reorder with unknown IDs was accepted |
 | Missing dependency or broken lockfile | 3 | `swr` imported by two pages, in neither `package.json` nor the lockfile |
-| Wrong behaviour | 2 | #101: two lists of repos that disagreed, so some projects couldn't be picked |
+| Client and API disagree on a payload | 2 | #102: the client sent `reorderedIds`, the API expected `items`, so every drag got a 400 |
+| Wrong behaviour | 2 | #101: a hard-coded project list that disagreed with the shared one |
 | Docs that didn't match the code | 2 | #125: a route count and a phantom endpoint |
-| Other: foreign keys, a non-atomic seed, build artifacts, name clashes | 9 | #95: a seed loop outside a transaction |
 
-[CodeRabbit's December 2025 study](https://coderabbit.ai/blog/state-of-ai-vs-human-code-generation-report) counted 10.83 issues per AI-co-authored PR against 6.45 for human-only PRs, across 470 open-source PRs. CodeRabbit sells AI review and counted issues with its own taxonomy, so its numbers and mine measure different things. My run comes to about 2 fixed defects per PR.
+## How I counted
 
-## Agents rebuild what the repo already has (11 fixes)
+I counted one fix per bullet in each review fix commit's message: 28 commits on the 25 PRs plus the build fix inside one feature commit, leaving out doc comments, log prefixes and other lines that don't fix anything. 3 of the 79 are the same bug fixed again on a parallel branch, so 76 distinct defects, about 2.5 per PR across all 30. The full rule is at the end of this post.
 
-The biggest group looks harmless: duplicated date formatting, a second `gh` wrapper, a local copy of a priority parser. 11 fixes removed duplicated code. In at least 3 of them, #104, #106 and #115, the agent formatted dates its own way while `lib/format.ts` had held the same helpers since 16 February.
+For scale, [CodeRabbit's December 2025 study](https://coderabbit.ai/blog/state-of-ai-vs-human-code-generation-report) counted 10.83 issues per AI-co-authored PR against 6.45 for human-only PRs, across 470 open-source PRs. CodeRabbit sells AI review and used its own taxonomy, so its numbers and mine measure different things. Mine count only what review fixed before merge.
 
-It stopped being harmless in two search screens, whose agents wrote their own highlight helpers instead of using the repo's `sanitizeSnippet` and so shipped stored XSS that I missed ([the case study](/work/30-reviewed-prs-3-vulnerabilities#why-these-got-through) has the history).
+## What do AI coding agents get wrong most often?
+
+Duplicated code: 18 fixes, against 13 for the next group. A date formatter, a second `gh` wrapper, a local priority parser, a column list typed out again in a new query. In #104, #106 and #115 the agent formatted dates its own way while `lib/format.ts` had held the same helpers since 16 February.
+
+Each copy looks harmless in its own PR. It stopped being harmless in two search screens, whose agents wrote their own highlight helpers instead of using the repo's `sanitizeSnippet`, and so shipped stored XSS that I missed. [The case study](/work/30-reviewed-prs-3-vulnerabilities#why-these-got-through) has that history.
+
+My reading of why: an agent works from its ticket and the files it opens. A helper in a file it never opened doesn't exist for it.
 
 **The check:** for every new helper in a diff, search the repo for its job (`grep -rn "highlight\|sanitize\|escape" lib components`) before accepting it.
 
-## Agents write for the version they learned (8 fixes)
+## Agents write for the version they learned
 
-The repo ran Next.js 16, where route handlers get `params` as a Promise. 4 agent PRs read `params.id` synchronously, which by my reading returns 404 or 500 on every request, and 4 more left out the `force-dynamic` export the repo's other routes declare. The commit trailers name Claude Sonnet 4 and Claude Opus 4.6.
+The repo ran Next.js 16, where route handlers get `params` as a Promise. 4 agent PRs read route `params` synchronously, which by my reading returns a 404 or 500 on every request. 4 more left out the `force-dynamic` export the repo's other routes declare. The commit trailers name Claude Sonnet 4 and Claude Opus 4.6.
 
-The same class includes a CLI's JSON. #109's diff viewer reads `commit.sha` and `commit.author` from `gh pr view --json commits`, which returns `oid` and `authors`. I checked the output on 12 October: the tab throws on any PR with commits, and review missed it.
+The same class includes a CLI's JSON. #109's diff viewer reads `commit.sha` and `commit.author` from `gh pr view --json commits`, which returns `oid` and `authors`. I checked the real output on 12 October: the tab throws on any PR with commits. Review missed it, so it's not in the 79.
 
 **The check:** for every framework or CLI call in a diff, confirm it against the version in your lockfile or the tool's real output.
 
 ## Checks disappear, and review doesn't notice
 
-Four times in this run a check that was already in the code went missing, and review caught one of them. Two of the four appear nowhere else on this site:
+Four times in this run a check that was already in the code went missing. Review caught one of them.
 
-- **#101** deleted the input schema #97 had added to the work-queue API, when its agent rewrote the route for a new feature. It was still missing when I checked taco-console's main branch on 12 October 2026.
-- **#107**'s review fix, the commit I asked for, loosened a path check to `..` only.
+- **#101** deleted the input schema #97 had added to the work-queue API, when its agent rewrote the route for a new feature. It was still missing at the run's last merge.
+- **#107**'s review fix, the commit I asked for, loosened a path check to block `..` only. That change is left out of the count (see the rule at the end).
+- **#112** deleted an allowlist from a February security fix. Review caught that one.
+- **#118**'s rebase removed the only call to a repo-format check #117 had just added.
 
-The other two, an allowlist deleted in #112 and a check removed by #118's rebase, are told with their code in [the shell-injection post](/blog/catching-shell-injection-agents-wrote). None of the four tickets asked for a check to change. Addy Osmani describes the same pattern with tests and CI: agents "weaken CI to make themselves pass" ([Agentic Code Review, 15 June 2026](https://addyosmani.com/blog/agentic-code-review/)). This repo had no tests or CI, so the checks that went missing were the ones in the code.
+The last two are told with their code in [the shell-injection post](/blog/catching-shell-injection-agents-wrote). None of the four tickets asked for a check to change. Addy Osmani describes the same pattern with tests and CI: agents "weaken CI to make themselves pass" ([Agentic Code Review, 15 June 2026](https://addyosmani.com/blog/agentic-code-review/)). This repo had no tests or CI, so the checks that went missing were the ones in the code.
 
 **The check:** read the removed lines on their own, `git diff origin/main...HEAD | grep '^-' | grep -iE "schema|safe_|valid|allow|sanitize"`, and ask why each one went.
 
 ## Parallel PRs break each other
 
-Running agents in parallel added a failure no single PR shows. #118 put a `null` in a non-null field and broke the build on main. Three later branches each found and fixed it separately. `swr` was missing from `package.json` in two branches, and #112's lockfile rewrite dropped a dependency that #113 then had to restore.
+Running agents in parallel added a failure no single PR shows. #118 put a `null` in a non-null field and broke the build on main, and three later branches each found and fixed it separately. `swr` was missing from `package.json` on two branches. #112's lockfile rewrite dropped a dependency that #113 then had to restore.
 
-**The check:** before merging the next PR in a parallel batch, rebuild main with it merged. A CI `next build` would have stopped most of the 9 defects that broke the build or a page, by my reading. It wouldn't have stopped any of the security ones.
+A CI build would have stopped the type, dependency and lockfile ones, by my reading. It wouldn't have stopped any of the security ones, because insecure code builds fine.
 
-## Security
+**The check:** before merging the next PR in a parallel batch, merge the open ones locally and build.
 
-The 9 security and hardening fixes, and the 5 security bugs review missed, are listed in [the case study](/work/30-reviewed-prs-3-vulnerabilities#what-review-missed).
+## How to review AI-generated code: the checklist
 
-## The checklist: security first, then by count
+Security goes first because it's the costliest to miss, even though it's third by count. After that, the order follows the counts above.
 
-1. **Security surfaces first.** Grep for shell and raw-HTML sinks and trace each value, as in [the shell-injection post](/blog/catching-shell-injection-agents-wrote#how-i-check-agent-written-shell-calls-now).
+1. **Security sinks.** Grep for shell and raw-HTML sinks and trace each value to where it was first accepted, as in [the shell-injection post](/blog/catching-shell-injection-agents-wrote).
 2. **New helpers.** Search the repo for an existing one that does the same job, especially anything that escapes, validates or sanitizes.
 3. **Types.** No `any`, no casts that hide a mismatch, and nullability that matches the field.
-4. **Versions.** Every framework and CLI call checked against the version you pin and the tool's real output.
-5. **Deleted lines.** Any removed schema, allowlist or validation needs a reason in the ticket.
-6. **The batch.** Merge the open parallel PRs locally and build before you merge the next one.
-7. **Payloads.** The client sends what the API's schema accepts, field names included.
+4. **Errors.** Every response checked, every failure visible to the user.
+5. **Versions.** Every framework and CLI call checked against the version you pin and the tool's real output.
+6. **Deleted lines.** Any removed schema, allowlist or validation needs a reason in the ticket.
+7. **The batch.** Merge the open parallel PRs locally and build before you merge the next one.
 
-Item 1 surfaces every shell string and raw-HTML sink in this run, the 5 misses included. Item 2 would have pointed both search screens at `sanitizeSnippet`, the existing fix for the two XSS sinks.
+By my reading of the diffs, item 1 would have surfaced every shell string and raw-HTML sink in this run, the 5 security misses included. Item 2 would have pointed both search screens at `sanitizeSnippet`, the existing fix for the two XSS sinks.
+
+## The counting rule
+
+One fix per bullet in a review fix commit's message, and one per defect named in the subject when a commit has no bullets. Left out: doc comments, log prefixes, re-exports, unused imports, `.gitignore` lines, the plumbing behind a dedupe, refactors that don't fix a defect, bullets that only explain the one above, follow-on bullets (calling a validator the same commit added, removing a package once its last import is gone) and the PR's own feature. Also left out: the bullet in #107's review commit that loosened a path check, because it made the code worse. That commit's other fixes are counted.
+
+An earlier version of this post said 64, from an agent's first-pass list I didn't keep, and [the case study](/work/30-reviewed-prs-3-vulnerabilities) still uses that count. A second recount with a looser rule gave about 75. The order of the categories is the same under all three counts.
+
+In October I gave the same commits to AI reviewers, blind, to see how many of my misses they'd catch. That result is a separate post, [AI reviewers vs my review](/blog/ai-reviewers-on-the-bugs-i-missed).
+
+If your team is merging agent PRs faster than anyone can read them, I review them for you: one reviewed PR is the smallest paid start, on [my services page](/services).
