@@ -43,7 +43,6 @@ The repo is my own admin dashboard. It had no tests and no CI, so my review was 
 
 I counted one fix per bullet in each review fix commit's message: 28 commits on the 25 PRs plus the build fix inside one feature commit, leaving out doc comments, log prefixes and other lines that don't fix anything. 3 of the 79 are the same bug fixed again on a parallel branch, so 76 distinct defects, about 2.5 per PR across all 30. The full rule is at the end of this post.
 
-
 For scale, [CodeRabbit's December 2025 study](https://coderabbit.ai/blog/state-of-ai-vs-human-code-generation-report) counted 10.83 issues per AI-co-authored PR against 6.45 for human-only PRs, across 470 open-source PRs. CodeRabbit sells AI review and used its own taxonomy, so its numbers and mine measure different things. Mine count only what review fixed before merge.
 
 ## What do AI coding agents get wrong most often?
@@ -69,7 +68,7 @@ The same class includes a CLI's JSON. #109's diff viewer reads `commit.sha` and 
 Four times in this run a check that was already in the code went missing. Review caught one of them.
 
 - **#101** deleted the input schema #97 had added to the work-queue API, when its agent rewrote the route for a new feature. It was still missing at the run's last merge.
-- **#107**'s review fix, the commit I asked for, loosened a path check to block `..` only. That's the commit left out of the count (see the rule at the end).
+- **#107**'s review fix, the commit I asked for, loosened a path check to block `..` only. That change is left out of the count (see the rule at the end).
 - **#112** deleted an allowlist from a February security fix. Review caught that one.
 - **#118**'s rebase removed the only call to a repo-format check #117 had just added.
 
@@ -101,9 +100,9 @@ By my reading of the diffs, item 1 would have surfaced every shell string and ra
 
 ## The counting rule
 
-One fix per bullet in a review fix commit's message, and one per defect named in the subject when a commit has no bullets. Left out: doc comments, log prefixes, re-exports, unused imports, `.gitignore` lines, the plumbing behind a dedupe, refactors that don't fix a defect, bullets that only explain the one above, follow-on bullets (calling a validator the same commit added, removing a package once its last import is gone) and the PR's own feature. Also left out: one review commit that loosened a path check, because it made the code worse.
+One fix per bullet in a review fix commit's message, and one per defect named in the subject when a commit has no bullets. Left out: doc comments, log prefixes, re-exports, unused imports, `.gitignore` lines, the plumbing behind a dedupe, refactors that don't fix a defect, bullets that only explain the one above, follow-on bullets (calling a validator the same commit added, removing a package once its last import is gone) and the PR's own feature. Also left out: the bullet in #107's review commit that loosened a path check, because it made the code worse. That commit's other fixes are counted.
 
-An earlier version of this post said 64, from an agent's first-pass list I didn't keep. A second recount with a looser rule gave about 75. The order of the categories is the same under all three counts.
+An earlier version of this post said 64, from an agent's first-pass list I didn't keep, and [the case study](/work/30-reviewed-prs-3-vulnerabilities) still uses that count. A second recount with a looser rule gave about 75. The order of the categories is the same under all three counts.
 
 In October I gave the same commits to AI reviewers, blind, to see how many of my misses they'd catch. That result is a separate post, [AI reviewers vs my review](/blog/ai-reviewers-on-the-bugs-i-missed).
 
