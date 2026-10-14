@@ -1,0 +1,94 @@
+---
+title: "Claude Code for Teams: What to Commit on Day One"
+seoTitle: "Claude Code for Teams: What to Commit on Day One"
+date: "2026-11-28"
+tags: ["claude-code", "agent-harness", "claude-md", "code-review", "ai"]
+description: "What a team should commit on day one of Claude Code: shared settings, gates that fail closed, a short CLAUDE.md, pinned subagents and a number to watch."
+published: true
+language: "en"
+cta: "workshop"
+faq:
+  - q: "How do you roll out Claude Code to a team?"
+    a: "Commit the shared setup to the repo before anyone builds habits: .claude/settings.json with permissions and hooks, a short CLAUDE.md, and reviewer subagents with a pinned model, plus a .worktreeinclude if people run agents in parallel. Personal overrides go in .claude/settings.local.json, which stays out of git. Then track cost per merged PR and review wait weekly."
+  - q: "Which Claude Code settings file should a team commit?"
+    a: "The shared project file, .claude/settings.json. Claude Code's docs say to commit it so everyone who clones the repository gets the same permissions, hooks and plugins. .claude/settings.local.json is personal and stays out of git, and managed settings are for organization-wide security policy that a project file can't override."
+  - q: "What should a team enforce with hooks and what should it leave to CLAUDE.md?"
+    a: "Enforce anything whose failure costs more than a review comment: secrets in commits, destructive commands, merges with failing or unreadable checks, and opening a PR before the checks pass. Set onFailure to block and a timeout on each of those gates. Leave style and taste to CLAUDE.md and review."
+---
+
+In my own Claude Code setup, agents typed a gate's override in about 300 commands, and 84% of subagent messages ran on the top model because nothing pinned them. Both are settled by files you commit, so a team rollout should start there: shared settings with gates that fail closed, a short `CLAUDE.md`, reviewer subagents with a pinned model, and one weekly number to watch.
+
+This is the setup I'd install, taken from the harness I run across my own Claude Code accounts. It isn't a measured team rollout. I'm one engineer with four accounts, so what follows is what my own audits of that setup found in its first months, and the problems I'd expect a team to hit at the same stage.
+
+## Which Claude Code settings should a team commit?
+
+Claude Code reads settings from several places, and only one of them is meant for the team. Per the [settings docs](https://code.claude.com/docs/en/settings):
+
+| File | Who it reaches | What goes in it |
+|---|---|---|
+| Managed settings (`managed-settings.json`, MDM or the claude.ai console) | Everyone the organization deploys it to; it overrides the rest. This is the enterprise layer | Security policy that a repo file mustn't be able to loosen |
+| `.claude/settings.json` | Everyone who clones the repo, once it's committed | Team permissions, hooks, plugins, project environment variables |
+| `.claude/settings.local.json` | You, in this project | Personal overrides. Claude Code keeps it out of git when it creates the file |
+| `~/.claude/settings.json` | You, in every project | Your own defaults |
+
+The docs' own advice is to commit `.claude/settings.json` "so everyone who clones the repository gets the same permissions, hooks, and plugins." On a Team or Enterprise plan, put the few rules nobody should be able to loosen in managed settings, and everything else in that committed file.
+
+One trap from my [worktrees post](/blog/how-i-run-claude-code-agents-in-parallel): a "don't ask again" approval clicked in a worktree is saved to the main checkout's local settings, so it applies to every worktree on that machine. Keep the allow list in the committed file, where it goes through review, and approve narrowly in the moment.
+
+## What to enforce with hooks
+
+A rule in `CLAUDE.md` is a request. A `PreToolUse` hook can deny the tool call. These are the gates in my own harness. Each is meant to refuse when it can't do its check, and testing showed where they didn't:
+
+1. **Secrets.** A commit with a secret in the staged diff is refused, and so is one where the diff can't be read. Mine failed open for 75 days on one common command shape before I found it.
+2. **Destructive commands.** Recursive deletes on protected paths and force-pushes to protected branches are refused, and `git clean` asks first.
+3. **Merges.** A merge is refused on failing or pending checks, requested changes, or any state the hook can't read.
+4. **Opening a PR.** `gh pr create` is refused unless typecheck, lint, build and tests passed.
+
+Set `"onFailure": "block"` and a `timeout` on each one. Without `onFailure`, a hook that crashes lets the command through ([hooks docs](https://code.claude.com/docs/en/hooks)). I tested where even `block` stops working, a gate that runs and misreads the command, in [Claude Code hooks fail open](/blog/claude-code-fail-closed-hooks).
+
+Don't give a gate an override the agent can read and type. My secret scan prints its skip token in its deny messages, and agents used it in about 300 commands, almost all of them after a first deny in the same session. That's in [my CLAUDE.md post](/blog/the-rules-file-my-agents-follow).
+
+The demand is there. Stack Overflow's [May 2026 pulse survey](https://stackoverflow.blog/2026/05/27/agents-on-a-leash-agentic-ai-remains-mostly-monitored-at-work) of 1,100 developers and working professionals found 60% "block agents from making unapproved system changes", and 63% "rarely or never let agents run entirely on autopilot."
+
+## What goes in the team CLAUDE.md
+
+I cut my own rules from 10,667 words to 3,382, and the rules that kept working were the ones a hook could check or that override a default the model gets wrong. A study of AGENTS.md files ([arXiv 2602.11988](https://arxiv.org/abs/2602.11988), revised 29 September 2026) found that context files generally didn't raise task success and added more than 20% to inference cost.
+
+For a team file, I'd keep four kinds of line:
+
+1. Defaults the model gets wrong in your codebase, written as checks.
+2. Facts it can't read from the code: where things live, which commands to run, what not to touch.
+3. Failures you've corrected in review more than once.
+4. Security rules, which should also be hooks.
+
+Put per-person preferences in each person's user settings, not in the shared file.
+
+## Pin the model on every subagent
+
+Unless the call or the `CLAUDE_CODE_SUBAGENT_MODEL` variable sets one, a subagent without a `model` field runs on the main session's model ([subagents docs](https://code.claude.com/docs/en/sub-agents)). In my own logs from 11 September to 13 October 2026, 84% of subagent messages ran on Opus, most likely because my subagents didn't set a model and my main sessions ran on Opus. Commit the reviewer subagents to `.claude/agents/` with `model` set, strongest model on security, and define a project `Explore` agent on a cheaper model for search. [The subagents post](/blog/claude-code-subagents-in-review) has my reviewer's frontmatter and what 85 reviewed PRs showed.
+
+## What breaks in month two
+
+My own audits of this setup, from July to September 2026, found four problems I'd expect a team to hit once the novelty wears off:
+
+1. **Skills that never fire.** On 9 August an agent's analysis found 43 of my 65 skills hadn't fired once in 70 days. My skill descriptions had a median of 74 characters, because a rule of mine capped them at 80, and Claude picks a skill from its description. External skills that did fire had a median of 657. Claude Code's listing keeps up to 1,536 characters of a skill's `description` and `when_to_use` combined ([skills docs](https://code.claude.com/docs/en/skills)). I deleted the cap on 10 August.
+2. **Rules nobody reads.** Always-loaded text grows one correction at a time. Count it with `wc -w` every month.
+3. **Things nobody uses.** Mine were metric scripts that only printed stale banners, and a memory layer nobody wrote to. Count calls per hook, MCP server and memory layer every month, and delete the zeros. In my view `.claude/` deserves a code owner for the same reason.
+4. **Metrics that can't fail.** My harness reported an honesty rate of 0.75 for agents' completion claims. An audit traced most of the misses to the measuring script, not the agents, and after the repair on 29 July the rate was 0.941 on the same window. Break each metric once on purpose before you trust it.
+
+`/skill-doctor` (Claude Code 2.1.252 and later) lists each skill's context cost and usage. On 12 October it listed some of my most-used skills as never invoked, so check its list against your session history before deleting anything.
+
+## The number to watch
+
+Pick one weekly number before the rollout starts, so you have a baseline: cost per merged PR, next to review wait per agent PR. Mine rose from $52 to $65 in four weeks from mid-September, and I'd only have seen it by counting weekly. [Claude Code cost per merged PR](/blog/how-i-measure-claude-code-roi) has the method and the traps.
+
+## A day-one checklist
+
+1. Commit `.claude/settings.json` with the allow and deny rules, and the four gates above with `onFailure: "block"` and a `timeout`.
+2. Commit a `CLAUDE.md` under a page long.
+3. Commit reviewer subagents to `.claude/agents/` with `model` pinned.
+4. Commit a `.worktreeinclude` if people will run agents in parallel, so each worktree gets the gitignored files it needs ([worktrees docs](https://code.claude.com/docs/en/worktrees)).
+5. Set `cleanupPeriodDays` above its default of 30 on every account ([Claude Code docs](https://code.claude.com/docs/en/claude-directory)), so the usage data survives long enough to measure.
+6. Start the weekly number.
+
+If you want your team taken through this hands-on, the workshop below covers it in a day. If you'd rather have it installed in your repos, that's the harness setup on [my services page](/services).

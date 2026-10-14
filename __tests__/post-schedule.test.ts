@@ -20,6 +20,8 @@ const SCHEDULE = [
   // #90: A3 angle 1 fills the 14 Nov slot. #99: the ROI method post takes 21 Nov.
   ["claude-code-fail-closed-hooks", "2026-11-14"],
   ["how-i-measure-claude-code-roi", "2026-11-21"],
+  // #134 slate: team rollout absorbs the cut setup-audit checks.
+  ["claude-code-team-rollout", "2026-11-28"],
 ] as const;
 
 const at = (iso: string) => jest.useFakeTimers().setSystemTime(new Date(iso));

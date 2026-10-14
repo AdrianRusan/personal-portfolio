@@ -172,6 +172,11 @@ export const roPostTitles: PostTitles = {
     description:
       "Un git worktree îi dă fiecărui agent propriile fișiere și atât. Cele cinci lucruri pe care agenții paraleli le împart în continuare, două incidente reale și ce fac acum.",
   },
+  "claude-code-team-rollout": {
+    title: "Claude Code pentru echipe: ce pui în repo din prima zi",
+    description:
+      "Ce ar trebui să pună o echipă în repo din prima zi de Claude Code: setări comune, porți care refuză când nu pot verifica, un CLAUDE.md scurt, subagenți cu model fixat și o cifră urmărită săptămânal.",
+  },
   "claude-code-subagents-in-review": {
     title: "Subagenți Claude Code: ce arată 85 de PR-uri revizuite",
     description:
