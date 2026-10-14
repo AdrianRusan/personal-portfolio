@@ -130,10 +130,6 @@ html {
 }
 
 @layer utilities {
-  .heading {
-    @apply font-[380] tracking-[-0.035em] text-4xl md:text-5xl text-center;
-  }
-
   /* Design system (P1). Marketing sections sit in .container-section, prose in
      .container-prose. Mono is for code and numbers only (.num). */
   .container-section {

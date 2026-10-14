@@ -106,7 +106,7 @@ const TeardownForm = ({ className }: { className?: string }) => {
   });
   const fieldError = (key: Field) =>
     fieldErrors[key] && (
-      <p id={`teardown-${key}-error`} className="text-sm text-red-400 mt-2">
+      <p id={`teardown-${key}-error`} className="text-sm text-destructive mt-2">
         {fieldErrors[key]}
       </p>
     );
@@ -226,7 +226,7 @@ const TeardownForm = ({ className }: { className?: string }) => {
           {status === "error" && (
             <p
               id="teardown-error"
-              className="text-sm text-red-400"
+              className="text-sm text-destructive"
               role="alert"
             >
               {errorMessage}

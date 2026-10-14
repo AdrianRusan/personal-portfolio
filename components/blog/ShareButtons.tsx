@@ -58,7 +58,7 @@ export default function ShareButtons({ title, slug }: ShareButtonsProps) {
         aria-label={copied ? 'Link copied!' : 'Copy link'}
       >
         {copied ? (
-          <Check size={15} className="text-green-400" />
+          <Check size={15} className="text-purple" />
         ) : (
           <Link2 size={15} />
         )}
