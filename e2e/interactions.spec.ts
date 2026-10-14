@@ -191,7 +191,6 @@ test.describe("links (I-01..I-08)", () => {
     project,
   }) => {
     desktopOnly(project.name);
-    test.fail(true, "I-04: taco-console is private, its PR links 404");
     // Private repos 404 for visitors; cite them as plain text.
     for (const path of await sitemapPaths(request)) {
       const html = await (await request.get(path)).text();
