@@ -172,6 +172,11 @@ export const roPostTitles: PostTitles = {
     description:
       "Un git worktree îi dă fiecărui agent propriile fișiere și atât. Cele cinci lucruri pe care agenții paraleli le împart în continuare, două incidente reale și ce fac acum.",
   },
+  "vibe-coded-app-keep-fix-or-rebuild": {
+    title: "Aplicație făcută cu vibe coding: o păstrezi, o repari sau o rescrii?",
+    description:
+      "Propria mea aplicație scrisă de agenți avea 5 buguri de securitate ratate la review, un token de autentificare în git și autentificare care se oprea singură. Toate reparate într-o zi. Rulează întâi 5 verificări.",
+  },
   "claude-code-team-rollout": {
     title: "Claude Code pentru echipe: ce pui în repo din prima zi",
     description:

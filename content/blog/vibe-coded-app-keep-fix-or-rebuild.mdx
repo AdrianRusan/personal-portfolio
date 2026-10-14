@@ -1,0 +1,91 @@
+---
+title: "Vibe-Coded App: Keep, Fix or Rebuild?"
+seoTitle: "Vibe-Coded App Security: Keep, Fix or Rebuild?"
+date: "2026-12-05"
+tags: ["ai", "security", "code-review", "claude-code", "software-engineering"]
+description: "My own agent-built app had 5 security bugs that review missed and an auth token in git, and most of it was fixed in a day. Run 5 checks before you rebuild."
+published: true
+language: "en"
+cta: "teardown"
+faq:
+  - q: "Should I rebuild my vibe-coded app?"
+    a: "Usually not before you've checked it. In my view a rebuild is for an app whose data model or login model is wrong at the core, or that nobody can explain. Run five checks first: where user input reaches dangerous code, secrets and login defaults, database access rules, deleted checks, and whether it builds from a clean copy."
+  - q: "Is vibe coding secure?"
+    a: "Not by default. Veracode's 2026 GenAI Code Security Report (28 July 2026) found a known vulnerability in about 44% of the AI code-generation tasks it tested, and an average security pass rate of 56%, barely changed from 55% a year earlier. In March 2025 a researcher found inadequate database access rules in 170 of 1,645 projects built with Lovable."
+  - q: "What should I check first in an AI-built app?"
+    a: "Where user input reaches a shell, a file path or a page as raw HTML. Then whether secrets sit in the code, whether login switches itself off when a setting is missing, and whether the database has access rules on every table. Then deleted validation, and whether the app builds from a clean copy."
+---
+
+When I re-audited an agent-built app of my own in October 2026, it had 5 security bugs that my review had let through and an auth token committed to git in plain text. I fixed the 5 bugs and the token in two PRs on the same day, which is why my answer to "should we rebuild the thing the AI built?" is usually not yet.
+
+The app is my own admin dashboard. In March, coding agents wrote 30 merged PRs for it in under three days, with no tests and no CI, so my review was the only gate. The full run is in [the 30-PR case study](/work/30-reviewed-prs-3-vulnerabilities).
+
+One difference from your app: mine is a single-user tool that runs on one machine, with no customers and no payments, and I set its structure myself, so I can explain every part of it. That's what made a same-day fix possible. What carries over: even with a senior engineer reading every diff, 5 security bugs got through.
+
+## Is vibe coding secure?
+
+Not by default, and newer models haven't changed that much. Veracode's [2026 GenAI Code Security Report](https://www.veracode.com/blog/2026-genai-code-security-report-ai-risk/) (28 July 2026) found that "roughly 44% of tested AI code generation tasks resulted in code with a known vulnerability." The average security pass rate across models was 56%, "barely changed from 55% in the first report", and the report says bigger models "are not solving the secure coding problem either."
+
+App builders add their own failure. In March 2025 Matt Palmer, a developer advocate at Replit, [found 170 of 1,645 Lovable projects](https://mattpalmer.io/posts/statement-on-CVE-2025-48757/) (statement dated 29 May 2025) with inadequate database access rules. Outsiders could read user, transaction and subscription data, and on one site write records.
+
+So expect problems. What you need to know is whether they're the kind you fix in place or the kind that mean starting over. Five checks tell you.
+
+## The five checks
+
+Each one has a plain-terms line for you and the technical half for whoever runs it. Where my own app gave an answer, it's below.
+
+### 1. Where does user input reach dangerous code?
+
+**In plain terms:** can someone type something into your app that makes your server run a command, open a file it shouldn't, or make a script run in other users' browsers?
+
+**On my app:** agents wrote 7 shell commands built by pasting values into a command string. Review fixed 4 before merge and missed or only partly fixed 3, plus two places where stored text was shown on a page as raw HTML (stored XSS). [The shell-injection post](/blog/catching-shell-injection-agents-wrote) has the code.
+
+**For your engineer:** find every shell call (`exec`, `shell: true`, `sh -c`), every file path built from a parameter, and every raw HTML insert such as `dangerouslySetInnerHTML`. Trace each value back to where a user can set it.
+
+### 2. Are secrets in the code, and does login switch itself off?
+
+**In plain terms:** is a password or API key written into the code, and does your app stop asking for a login when a setting is missing?
+
+**On my app:** the process config held the auth token in plain text, committed to git, and the server listened on every network interface although it was meant to be local only. Its middleware also skipped auth entirely when the token wasn't set. The same-day fix moved the token to an ignored `.env` file, made startup refuse an empty token, and limited the server to the local machine. The old token stays in git history, so the fix's first instruction was to change it. The middleware still skips auth when the token is unset, and that one is still on my list.
+
+**For your engineer:** search the repo and its history for keys and tokens, and read what the auth code does when a setting is missing.
+
+### 3. Does every database table have access rules?
+
+**In plain terms:** if your app uses a hosted database such as Supabase, can a stranger with the key that ships inside your app's web page (Supabase calls it the anon key) read your users' data?
+
+My dashboard doesn't use one, so I have nothing to show here, and it's the check I'd run first on an app built with Lovable, Bolt or similar. That's where Palmer's 170 projects failed.
+
+**For your engineer:** list every table and confirm row-level security is on, with a policy that matches who should see each row. Then try reading each table with the public key, logged out.
+
+### 4. Did any validation quietly disappear?
+
+**In plain terms:** did a later change remove a safety check an earlier change had added?
+
+**On my app:** four times in that run, a check that was already in the code went missing, and review caught one. An agent rewriting a route for a new feature dropped the input validation another PR had added. [How to review AI-generated code](/blog/what-agents-get-wrong) has all four, along with the 79 fixes review made on the run.
+
+**For your engineer:** read the deleted lines of the history on their own, and ask why each schema, allowlist or validator went.
+
+### 5. Does it build from a clean copy?
+
+**In plain terms:** if a new engineer downloads the code tomorrow, does it run?
+
+**On my app:** one PR broke the build on the main branch with a type error. A library two pages used was never added to the project's dependency list. One agent's rewrite of the lockfile, the file that pins exact versions, dropped a package another PR then had to restore.
+
+**For your engineer:** clone the repo fresh, install from the lockfile, build. If it fails, it only builds on the machine it was written on.
+
+## Keep, fix or rebuild?
+
+My view, from that re-audit and from reviewing agent PRs since:
+
+| What the checks find | My call |
+|---|---|
+| Nothing serious, and someone can explain how it works | **Keep.** Add tests on the parts that handle money, logins and user input, and keep shipping |
+| Real problems, but each one is local: one unsafe call, one missing rule, one broken dependency | **Fix.** This was my case, and it needed someone who could explain the code |
+| The data model or the login model is wrong at its core, or nobody can say what a part does | **Rebuild that part.** Not the whole app, unless every part lands in this row |
+
+The expensive mistake is rebuilding before you know which row you're in. A rewrite with the same tools and no review can bring back the same bugs.
+
+## What it costs to find out
+
+My estimate: checks 1, 4 and 5 take an engineer who knows what to look for an afternoon on a small app, and checks 2 and 3 need someone who has read a lot of auth and database code. If you want a second pair of eyes first, send me the repo or one recent PR: the free teardown below is a 15-minute video of what I'd block. If you want the fixes made and reviewed, that's the Reviewed PR on [my services page](/services).
