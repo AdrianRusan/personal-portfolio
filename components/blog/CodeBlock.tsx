@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { Copy, Check } from 'lucide-react';
+import { Copy, Check, X } from 'lucide-react';
 
 interface CodeBlockProps {
   children: React.ReactNode;
@@ -10,16 +10,24 @@ interface CodeBlockProps {
 }
 
 export default function CodeBlock({ children, className, ...props }: CodeBlockProps) {
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<'ok' | 'failed' | null>(null);
   const preRef = useRef<HTMLPreElement>(null);
 
   const handleCopy = async () => {
     if (!preRef.current) return;
     const code = preRef.current.querySelector('code')?.textContent ?? '';
-    await navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    // #143 I-56: a blocked clipboard says so instead of failing silently.
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied('ok');
+    } catch {
+      setCopied('failed');
+    }
+    setTimeout(() => setCopied(null), 2000);
   };
+
+  const label =
+    copied === 'ok' ? 'Copied!' : copied === 'failed' ? "Couldn't copy the code" : 'Copy code';
 
   return (
     <div className="relative group my-6">
@@ -42,11 +50,13 @@ export default function CodeBlock({ children, className, ...props }: CodeBlockPr
       <button
         onClick={handleCopy}
         className="absolute top-3 right-3 p-1.5 rounded-md bg-white/10 hover:bg-white/20 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 [@media(hover:none)]:opacity-100 transition-all duration-200"
-        aria-label={copied ? 'Copied!' : 'Copy code'}
-        title={copied ? 'Copied!' : 'Copy code'}
+        aria-label={label}
+        title={label}
       >
-        {copied ? (
+        {copied === 'ok' ? (
           <Check size={13} className="text-green-400" />
+        ) : copied === 'failed' ? (
+          <X size={13} className="text-neutral-50" />
         ) : (
           <Copy size={13} className="text-neutral-50/60 hover:text-neutral-50" />
         )}
