@@ -20,7 +20,7 @@ faq:
 
 My review subagents left a verdict on 85 pull requests, and 39 of those verdicts can't be checked now, because they exist only as a one-line summary written by the agent that wrote the code. Across all my work from 11 September to 13 October 2026, 84% of subagent messages ran on Opus, probably because subagents without a `model` field run on the main session's model, and my main sessions were 93% Opus.
 
-Subagents earn their place in review and in search. Both findings are about what's easy to skip once they work: keeping a record of what the reviewer said, and choosing what each one runs on. Each section below names its window, because the data comes from three of them.
+Subagents earn their place in review and in search. Both findings are about what's easy to skip once they work: keeping a record of what the reviewer said, and choosing what each one runs on. The data comes from three windows, and each number below says which.
 
 ## What are Claude Code subagents for?
 
@@ -43,6 +43,8 @@ Reviewers are the use I'd defend first. The agent that wrote a diff is a poor ju
 
 ## The review panel
 
+**Window for the panel and the 85 PRs below: 9 May to 10 July 2026.**
+
 Three reviewer subagents read the same diff in parallel, each starting fresh with the ticket and one job:
 
 | Reviewer | What it checks | Model since 7 Oct 2026 |
@@ -62,7 +64,7 @@ The rules:
 
 ## What 85 PRs recorded
 
-**Window: 9 May to 10 July 2026.** In that window, a review verdict in one of three forms landed on 85 PRs in 3 of my own repos. An agent pulled every verdict with read-only `gh` queries and counted them, and I re-ran two of its searches as a spot check. The verdicts come in three forms, and they can't be read as one population:
+A review verdict in one of three forms landed on 85 PRs in 3 of my own repos. An agent pulled every verdict with read-only `gh` queries and counted them, and I re-ran two of its searches as a spot check. The verdicts come in three forms, and they can't be read as one population:
 
 | What was posted | PRs | What it shows |
 | --- | ---: | --- |
@@ -96,7 +98,7 @@ The counting agent picked 20 BLOCK findings spread across the 3 repos and read t
 
 By category: 11 security, 4 correctness, 4 completeness and 1 naming rule. Of the 11 security BLOCKs, 10 were fixed or probably fixed and 1 is unclear. The 3 deferred BLOCKs were completeness findings, all about a library that was added and never wired up.
 
-A separate, blind test of the same panel on commits whose bugs I already knew is [Claude Code Review vs my review](/blog/ai-reviewers-on-the-bugs-i-missed). Between them, the reviewers flagged every security bug I had missed. Its security reviewer also approved two commits with shell strings in them, because the values came from config or seed data.
+A separate, blind test of the same panel on commits whose bugs I already knew is [Claude Code /code-review vs my review](/blog/ai-reviewers-on-the-bugs-i-missed). Between the panel and `/code-review`, every security bug I had missed was flagged. Its security reviewer also approved two commits with shell strings in them, because the values came from config or seed data.
 
 ## The record is the weak part
 
@@ -110,7 +112,7 @@ Anthropic's managed [Claude Code Review](https://code.claude.com/docs/en/code-re
 
 ## What do subagents cost?
 
-**Window: 11 September to 13 October 2026.** Two numbers from my engineering ledger and session logs, which count all my work, client and own together. Dollars and turns come from session logs; merged PRs from GitHub.
+**Window: 11 September to 13 October 2026.** Two numbers from my engineering ledger and session logs, which count all my work, client and own together. Turns come from session logs, merged PRs from GitHub. For dollars, see [Claude Code cost per merged PR](/blog/how-i-measure-claude-code-roi).
 
 1. **Subagent turns per merged PR rose in each of the four full weeks:** 60, 81, 130 and 168 in the weeks starting 14 September, 21 September, 28 September and 5 October. Over the same weeks, merged PRs per active day went 11, 26, 22 and 18. Day by day, subagent turns and merged PRs had no correlation at all (r = 0.00 over 33 days). That's an estimate with limits: a PR often merges a day after its work, and subagent work includes research and review, which shouldn't produce PRs anyway. I can't show that more subagent turns meant more shipped.
 2. **84% of subagent messages ran on Opus** (54,992 of 65,363), 15% on Sonnet and under 1% on Haiku. Main sessions were 93% Opus. I'd written a hook to route subagents to cheaper models. It came out on 11 September, in a cleanup of hooks that rewrote things behind the model's back.

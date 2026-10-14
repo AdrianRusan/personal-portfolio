@@ -21,9 +21,9 @@ faq:
 
 My secret-scanning hook failed open for 75 days on one of my most common commit shapes. Claude Code's new `onFailure: "block"` wouldn't have caught it, because the hook ran fine and gave the wrong answer.
 
-A hook is a script Claude Code runs before or after a tool call; a `PreToolUse` hook can deny the call. When I tested my gates on 12 October 2026, `block` stopped every hook that crashed, timed out or exited 1, and let through the two failures that look like success.
+A hook is a script Claude Code runs before or after a tool call; a `PreToolUse` hook can deny the call. When I tested my gates on 12 October 2026, `block` stopped every hook that crashed, timed out or exited 1, and let through the failures that look like success.
 
-The test was nine broken or misled hooks and one working gate, each run once with the default and once with `block`: 20 headless sessions, plus a control. Claude Code hooks fail open by default, so without `block` every crashing hook let the command run. With it, two things still got through: JSON cut off before its closing brace, and a hook that ran and misread the command.
+The test was nine broken or misled hooks and one working gate, each run once with the default and once with `block`: 20 headless sessions, plus a control. Claude Code hooks fail open by default, so without `block` every crashing hook let the command run. With it, three things still got through: JSON cut off before its closing brace, a hook that couldn't run its own check, and a hook that ran and misread the command.
 
 ## What does onFailure: "block" change?
 
@@ -72,7 +72,7 @@ Setup: a scratch git repo, a `PreToolUse` hook on `Bash`, and `claude -p` (2.1.2
 | Prints valid JSON with `permissionDecision: "maybe"` | ran | blocked |
 | Prints `{"hookSpecificOutput": {"permissionDecision": ` and exits 0 (cut off) | ran | **ran** |
 
-The last row surprised me until I read the parsing rules. Output that starts with `{` and doesn't end with `}` is treated as plain text, and the reference says "plain-text stdout from a command hook isn't a failure." A gate that crashes halfway through writing its deny decision, after exiting 0, passes.
+The last row surprised me until I read the parsing rules. Output that starts with `{` and doesn't end with `}` is treated as plain text, and the reference says "plain-text stdout from a command hook isn't a failure." A gate that writes half of its deny decision and then exits 0, for example by catching its own error, passes.
 
 ## Test 2: what happens when a hook runs and gets it wrong?
 

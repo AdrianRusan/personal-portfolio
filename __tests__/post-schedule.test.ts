@@ -13,8 +13,8 @@ const SCHEDULE = [
   ["66-days-of-claude-code-by-the-numbers", "2026-10-10"],
   ["the-rules-file-my-agents-follow", "2026-10-17"],
   ["how-i-run-claude-code-agents-in-parallel", "2026-10-24"],
-  // #134 slate: the blind AI-reviewer test moves up; the reviewer-agents post
-  // takes 7 Nov and the setup-audit post is cut (never live, no redirect).
+  // #134 slate: the blind AI-reviewer test moves up; the subagents post (was
+  // reviewer-agents) takes 7 Nov and the setup-audit post is cut (never live, no redirect).
   ["ai-reviewers-on-the-bugs-i-missed", "2026-10-31"],
   ["claude-code-subagents-in-review", "2026-11-07"],
   // #90: A3 angle 1 fills the 14 Nov slot. #99: the ROI method post takes 21 Nov.
