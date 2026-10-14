@@ -1,9 +1,9 @@
 ---
-title: "Claude Code Hooks Fail Open by Default. I Tested onFailure: \"block\" on My Own Gates"
-seoTitle: "Claude Code Hooks Fail Open: onFailure block, Tested"
+title: "Claude Code Hooks Fail Open: What onFailure Can't See"
+seoTitle: "Claude Code Hooks Fail Open: What onFailure Can't See"
 date: "2026-11-14"
 tags: ["claude-code", "agent-harness", "security", "ai", "code-review"]
-description: "I ran my Claude Code gate hooks through 20 headless sessions. onFailure: \"block\" stopped every crash, timeout and bad exit code. It missed truncated JSON, and it can't see a hook that runs fine and gives the wrong answer."
+description: "My secret-scan hook failed open for 75 days, and onFailure: \"block\" wouldn't have caught it. I tested my Claude Code gates: what blocks and what gets through."
 published: true
 language: "en"
 cta: "harness"
@@ -19,23 +19,47 @@ faq:
     a: "No. It only sees the hook process. If the hook runs, misreads the command or can't run its own check, and still exits 0, Claude Code records a pass. In my test, a staged AWS-style key committed through bash -c went straight through with onFailure set to block."
 ---
 
-**Short answer:** Claude Code hooks fail open by default. On 12 October 2026 I ran nine broken or misled hooks and one working gate through 20 headless sessions, each case once with the default and once with `onFailure: "block"`. With `block`, every hook that crashed, timed out, exited 1 or printed invalid JSON blocked the command. Without it, each of those five let the command run. Two things got through either way: JSON cut off before its closing brace, and a hook that ran fine and gave the wrong answer.
+My secret-scanning hook failed open for 75 days on one of my most common commit shapes. Claude Code's new `onFailure: "block"` wouldn't have caught it, because the hook ran fine and gave the wrong answer.
 
-The wrong answer is the one that matters. My secret-scanning hook let a staged AWS-style key into git history when the commit was wrapped in `bash -c`. An audit had flagged that exact gap on 20 September, and it was still open on 12 October 2026, when I ran these tests.
+A hook is a script Claude Code runs before or after a tool call; a `PreToolUse` hook can deny the call. When I tested my gates on 12 October 2026, `block` stopped every hook that crashed, timed out or exited 1, and let through the two failures that look like success.
 
-## What changed in Claude Code 2.1.295
+The test was nine broken or misled hooks and one working gate, each run once with the default and once with `block`: 20 headless sessions, plus a control. Claude Code hooks fail open by default, so without `block` every crashing hook let the command run. With it, two things still got through: JSON cut off before its closing brace, and a hook that ran and misread the command.
+
+## What does onFailure: "block" change?
 
 The [changelog](https://code.claude.com/docs/en/changelog) entry for 2.1.295 (8 October 2026) added `onFailure: "block"` for command and HTTP hooks. The [hooks reference](https://code.claude.com/docs/en/hooks) states the default it replaces: on most events, "a policy hook with a wrong path or a crashing script lets everything through."
 
 Three details from the reference matter for a gate:
 
-1. **Exit 1 doesn't block.** "Without valid JSON on stdout, Claude Code treats exit code 1 as a non-blocking error, even though 1 is the conventional Unix failure code." A hand-written gate that exits 1 on a bad match has never blocked anything. Exit 2 blocks.
+1. **Exit 1 doesn't block by default.** "Without valid JSON on stdout, Claude Code treats exit code 1 as a non-blocking error, even though 1 is the conventional Unix failure code." A hand-written gate that exits 1 on a bad match doesn't block unless `onFailure` is `block`. Exit 2 always blocks.
 2. **Some hooks are out of scope.** The field has no effect on `Stop`, `SubagentStop`, `TaskCompleted`, `TeammateIdle` or async hooks, and it is documented only for `command` and `http` hooks.
 3. **The default timeout is 600 seconds** for a command hook. A gate with no `timeout` that hangs holds the tool call for ten minutes before `block` does anything.
 
+Here's the shape of a gate in `settings.json`. My destructive-command gate has `onFailure` set and, as of 14 October, no `timeout`; the `timeout` below is the one I'm adding:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$HOME/.claude/hooks/block-destructive.js\"",
+            "onFailure": "block",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
 developersdigest [ran six configurations on 2.1.295](https://www.developersdigest.tech/blog/coding-agent-hooks-fail-open-vs-fail-closed-2026) on 9 October and got the same core result. I ran the same kinds of failure on my own gates and added three cases they didn't test: truncated JSON, schema-invalid JSON, and a real secret scanner with a staged key.
 
-## Test 1: the hook process fails
+## Test 1: what happens when a hook crashes?
 
 Setup: a scratch git repo, a `PreToolUse` hook on `Bash`, and `claude -p` (2.1.296, Haiku) asked to run `touch marker.txt` once. If the file exists afterwards, the command ran. User settings were excluded with `--setting-sources local`, so only the test hook loaded.
 
@@ -50,7 +74,7 @@ Setup: a scratch git repo, a `PreToolUse` hook on `Bash`, and `claude -p` (2.1.2
 
 The last row surprised me until I read the parsing rules. Output that starts with `{` and doesn't end with `}` is treated as plain text, and the reference says "plain-text stdout from a command hook isn't a failure." A gate that crashes halfway through writing its deny decision, after exiting 0, passes.
 
-## Test 2: the hook runs and the check fails
+## Test 2: what happens when a hook runs and gets it wrong?
 
 Setup: copies of my real `secret-scan.js` and its helper in a scratch directory, a repo with a staged file holding a fake AWS-style access key, and Claude asked to commit. The result is whether the key reached git history.
 
@@ -59,9 +83,9 @@ Setup: copies of my real `secret-scan.js` and its helper in a scratch directory,
 | `git commit -m test` | refused | refused |
 | `git diff` fails inside the hook (simulated) | refused | refused |
 | `git` missing from the hook's `PATH` | **committed** | **committed** |
-| `bash -c 'git commit -m test'` | **committed** | **committed** |
+| `bash -c 'git commit -m test'` (before the fix below) | **committed** | **committed** |
 
-Row 2 is the in-script handling working: the hook couldn't read the diff, so it denied the commit. It checks `error`, a `null` status and a non-zero exit as separate cases, which is [rule 1 in my rules file](/blog/the-rules-file-my-agents-follow).
+Row 2 is the in-script handling working: the hook couldn't read the diff, so it denied the commit. It checks `error`, a `null` status and a non-zero exit as separate cases, which is the first rule in [my CLAUDE.md](/blog/the-rules-file-my-agents-follow).
 
 Row 3 is a gap I chose and wrote down. When the hook can't work out which repo a command targets, it allows the commit, logs it and names CI's secret scan as the backstop. With no `git` at all, every repo is "unknown", so the exception swallowed the whole check.
 
@@ -69,33 +93,38 @@ Row 4 is a bug. The hook decides whether a command is a commit with a regex that
 
 `onFailure` saw none of rows 2 to 4. In each one the hook exited 0.
 
-## The audit that found it, and what happened next
+## 75 days of a scanner that wasn't scanning
 
-On 20 September I had three read-only agents audit my hooks. They found five instances of one failure class, a gate that allows when it can't run its check:
+The worst failure of this hook wasn't in the lab. From the day I shipped it, 9 July 2026, it couldn't resolve the repo when a command started with `cd ~/...`, because it never expanded the `~`. An unresolved repo is one of its written exceptions, so it allowed the commit. My agents write commits in that shape all the time.
 
-1. The secret scan skipped prefixed commits (row 4 above).
-2. Two irreversible-action denies in my `gh` guard could be skipped with the same prefixes.
-3. The wrong-account push gate skipped every remote that uses an SSH host alias, 4 of 4 sampled. Every remote on my machine uses one.
-4. A missing session marker let every `gh` call through.
-5. A "never merge in this project" rule was dropped when the hook couldn't read the git remote.
+I fixed it on 22 September. In the 75 days before that, the hook logged 269 commit and push attempts it let through unscanned, on 24 different days. One attempt can log more than once, so 269 is an upper bound. The hook ran, exited 0 and logged an allowed exception every time, so `onFailure` had nothing to see.
 
-On 22 September I fixed two neighbours of the same class. `cd ~/.claude && git commit`, the most common shape, had been skipping the scan because the hook never expanded `~`. My PR-creation gate moved from a regex to a command parser. Both were verified the same day.
+After the fix, from 22 September to 14 October, 783 commit attempts reached the hook. 75% were scanned. 18% carried the audited skip token, and 7% still couldn't resolve their repo. So about 1 in 4 still reached git without a scan. The skip token is its own story, in [my CLAUDE.md post](/blog/the-rules-file-my-agents-follow): once an agent saw the override in a deny message, it kept using it. These counts cover all my Claude Code accounts, client work included, as totals only.
 
-The five findings themselves were still open on 12 October. I re-tested the first end to end (the table above) and re-read the code for the other four. The fix is known: `base.js` already has `invokesCommand()`, a parser that finds a command behind `sudo`, `bash -c` and quoted text, and the PR gate uses it. The secret scan doesn't.
+## The audit that found the rest
 
-The lesson I take from three weeks of an open finding: an audit report is a list, and a list doesn't block a commit. A failing test in the hook's own suite would have.
+On 20 September I had three read-only agents audit my hooks. They found five instances of one failure class, a gate that allows when it can't run its check. The two worth testing on your own setup:
 
-## Failing closed has a cost
+1. **Prefixed commands.** The secret scan skipped commits behind `bash -c`, `sudo` and the like (row 4 above), and two denies in my `gh` guard could be skipped the same way.
+2. **Unusual config.** My wrong-account push gate skipped every remote that uses an SSH host alias, 4 of 4 sampled, and a "never merge here" rule was dropped when the hook couldn't read the git remote.
+
+On 22 September I fixed two neighbours of the same class: the `~` bug above, and my PR-creation gate, which moved from a regex to a command parser. Both were verified the same day.
+
+All five were still open on 12 October. I re-tested the first end to end (the table above) and re-read the code for the other four. The fix was already in the codebase: `base.js` has `invokesCommand()`, a parser that finds a command behind `sudo`, `bash -c` and quoted text, and the PR gate used it. I've since moved the secret scan onto the same parser.
+
+What would have closed them sooner is a failing test in the hook's own suite. An audit report doesn't block a commit.
+
+## What does failing closed cost?
 
 **A fail-closed gate blocks good work too.** On 9 August 2026 `block-destructive.js` denied a harmless commit because its message contained "git push origin main". I fixed the parser so quoted text isn't read as a command, and kept the gate as strict.
 
-**Every exception has to be written down.** My secret scan has three: a logged skip token for test fixtures, the unresolved-repo case from row 3, and a first push whose range can't be resolved. Each is in the hook's header with its reason. While testing I found an unwritten fourth: when the hook can't parse its own input, it allows, and the comment above that line says it should fail closed for commits. An exception nobody wrote down is a fail-open bug, and that one is mine.
+**Every exception has to be written down.** My secret scan has three: a logged skip token for test fixtures, the unresolved-repo case from row 3, and a first push whose range can't be resolved. Each is written in the hook with its reason. While testing I found an unwritten fourth: when the hook can't parse its own input, it allows, and the comment above that line says it should fail closed for commits. That one is a fail-open bug, and it's mine.
 
 ## What I'd set up today
 
-1. Set `"onFailure": "block"` and a `timeout` on every gate: secrets, destructive commands, merges. Leave formatting and logging hooks on the default. My own `block-destructive.js` had `block` and no `timeout` on 12 October 2026, so a hang there waits the full 600 seconds.
+1. Set `"onFailure": "block"` and a `timeout` on every gate: secrets, destructive commands, merges. Leave formatting and logging hooks on the default. Without a `timeout`, a hung gate holds the call for the full 600 seconds.
 2. Block with exit 2 or a JSON `deny`, never exit 1.
-3. Write the deny decision in one `write` call, as one JSON object. Half a JSON object passes.
+3. Prefer exit 2 with the reason on stderr. It doesn't depend on stdout, so a half-written JSON object can't turn a deny into a pass. If you use JSON, write it in one call.
 4. Match commands with a parser, not a regex. Test `sudo`, `bash -c`, `timeout`, `env` and `xargs` forms of every command the gate watches.
 5. Run the lab. It took me under an hour, and this is the whole loop:
 
@@ -107,6 +136,8 @@ claude -p "Run exactly: touch marker.txt. If blocked, don't retry." \
 test -f marker.txt && echo RAN || echo BLOCKED
 ```
 
-Change one thing in `settings.json` per run: a missing path, `exit 1`, a sleep past the timeout, half a JSON object, then your real gate with the prefixed command. A gate you have only seen pass is untested. The kinds of fail-open code I look for when I review an agent's gate, alongside the other failures agents ship, are in [How to Review AI-Generated Code](/blog/what-agents-get-wrong).
+Change one thing in `settings.json` per run: a missing path, `exit 1`, a sleep past the timeout, half a JSON object, then your real gate with the prefixed command. Until you've seen a gate fail, you haven't tested it. The kinds of fail-open code I look for when I review an agent's gate, alongside the other failures agents ship, are in [How to Review AI-Generated Code](/blog/what-agents-get-wrong).
 
-Any gate I install in a client repo gets these ten cases before I hand it over, with the result of each one in the handover notes.
+6. Log every allowed exception with a count you look at weekly. My 75 days were in the log the whole time.
+
+Any gate I install in a client repo gets these ten cases before I hand it over, with the result of each one in the handover notes. That's the harness setup on [my services page](/services).
