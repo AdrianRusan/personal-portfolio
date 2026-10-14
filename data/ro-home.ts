@@ -172,15 +172,15 @@ export const roPostTitles: PostTitles = {
     description:
       "Un git worktree îi dă fiecărui agent propriile fișiere și atât. Cele cinci lucruri pe care agenții paraleli le împart în continuare, două incidente reale și ce fac acum.",
   },
-  "reviewer-agents-that-dont-trust-other-agents": {
-    title: "Code review-ul cu mai mulți agenți are nevoie de urme: 85 de PR-uri, 39 de verdicte neverificabile",
+  "claude-code-subagents-in-review": {
+    title: "Subagenți Claude Code: ce arată 85 de PR-uri revizuite",
     description:
-      "Agenții mei de review au dat un verdict pe 85 de PR-uri între mai și iulie 2026. 39 dintre ele există doar ca rezumat de un rând scris de agentul care a scris codul, iar 3 BLOCK-uri au intrat în merge fără corecție. Designul panelului, cifrele și ce urmă ar trebui să lase un agent de review.",
+      "Verdicte de review pe 85 de PR-uri, dintre care 39 nu mai pot fi verificate. 84% din mesajele subagenților au rulat pe Opus. Cum îmi definesc subagenții Claude Code și cât costă.",
   },
   "claude-code-fail-closed-hooks": {
-    title: "Hook-urile Claude Code lasă acțiunea să treacă la eroare. Am testat onFailure: \"block\" pe propriile mele gate-uri",
+    title: "Hook-urile Claude Code lasă comenzile să treacă la eroare: ce nu vede onFailure",
     description:
-      "Am trecut hook-urile mele Claude Code prin 20 de sesiuni headless. onFailure: \"block\" a oprit fiecare crash, timeout și cod de ieșire greșit. A ratat JSON-ul trunchiat și nu vede un hook care rulează corect, dar dă răspunsul greșit.",
+      "Hook-ul meu de scanare a secretelor a lăsat commit-uri nescanate 75 de zile, iar onFailure: \"block\" nu l-ar fi prins. Am testat gate-urile mele Claude Code: ce blochează și ce trece.",
   },
   "how-i-measure-claude-code-roi": {
     title: "Cum măsor ROI-ul Claude Code și cele 5 capcane care mi-au stricat cifrele",

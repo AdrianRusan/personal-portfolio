@@ -1,0 +1,141 @@
+---
+title: "Claude Code Subagents: What 85 Reviewed PRs Show"
+seoTitle: "Claude Code Subagents: What 85 Reviewed PRs Show"
+date: "2026-11-07"
+tags: ["claude-code", "code-review", "ai", "agent-harness", "security"]
+description: "Review verdicts on 85 PRs, and 39 can't be checked. 84% of subagent messages ran on Opus. How I define Claude Code subagents, and what they cost."
+published: true
+language: "en"
+cta: "reviewed-pr"
+faq:
+  - q: "What are Claude Code subagents?"
+    a: "Specialised assistants that Claude Code starts for a task. Each one runs in its own context window with its own system prompt, tool access and permissions, so it can read a diff or search a codebase without filling the main conversation. You define them in Markdown files with frontmatter, including which model and tools they get."
+  - q: "Which model does a Claude Code subagent use?"
+    a: "The model passed for that call, if any, then the one in its model frontmatter field. Without either, Claude Code falls back to the CLAUDE_CODE_SUBAGENT_MODEL environment variable and then to the main conversation's model. The built-in Explore agent uses the main conversation's model too. In my logs from 11 September to 13 October 2026, 84% of subagent messages ran on Opus."
+  - q: "Do AI reviewer subagents catch real problems?"
+    a: "In my records, yes. In a non-random sample of 20 BLOCK findings from 85 PRs, more than half were security findings. 11 of the 20 led to a fix named in the next commit, and 5 more were probably fixed. 3 were deferred and the PR merged without the fix. The weak part was the record: only 5 of the 85 verdicts were posted on GitHub by the full panel."
+  - q: "Why should a reviewer subagent post its verdict on the PR?"
+    a: "Because a verdict that stays in a session transcript, or that the authoring agent summarises in one line, can't be checked later. On 85 of my PRs, 39 verdicts exist only as the author agent's summary. Post the verdict with its findings on the PR, every cycle."
+---
+
+My review subagents left a verdict on 85 pull requests, and 39 of those verdicts can't be checked now, because they exist only as a one-line summary written by the agent that wrote the code. Across all my work from 11 September to 13 October 2026, 84% of subagent messages ran on Opus, probably because subagents without a `model` field run on the main session's model, and my main sessions were 93% Opus.
+
+Subagents earn their place in review and in search. Both findings are about what's easy to skip once they work: keeping a record of what the reviewer said, and choosing what each one runs on. The data comes from three windows, and each number below says which.
+
+## What are Claude Code subagents for?
+
+Per the [subagents docs](https://code.claude.com/docs/en/sub-agents), each subagent "runs in its own context window with a custom system prompt, specific tool access, and independent permissions." You define one in a Markdown file with frontmatter: its job, its tools, its model. This is the frontmatter of my security reviewer, `~/.claude/agents/reviewer-beta.md`, trimmed to the fields that matter here:
+
+```markdown
+---
+name: reviewer-beta
+description: Security reviewer — secrets, injection, auth bypass, data exposure, OWASP Top 10. Part of the 3-reviewer panel (Alpha/Beta/Gamma).
+model: claude-opus-5-5
+tools: Read, Grep, Glob, Bash
+---
+```
+
+The `tools` line is an allowlist, so this reviewer can read and run commands but has no edit tool. The body below the frontmatter is its system prompt: one job, the severity scale, and what to return.
+
+**Window: 6 August to 10 October 2026.** In my own sessions over those 66 days, the Agent tool started 1,119 subagents. 615 were general-purpose, 132 were Explore (read-only search) and 252 were code reviewers, about 1 in 5. That split comes from [Claude Code usage, counted](/blog/66-days-of-claude-code-by-the-numbers).
+
+Reviewers are the use I'd defend first. The agent that wrote a diff is a poor judge of it. A fresh subagent with a narrow brief and no memory of writing the code reads it differently, and it costs the main session nothing in context.
+
+## The review panel
+
+**Window for the panel and the 85 PRs below: 9 May to 10 July 2026.**
+
+Three reviewer subagents read the same diff in parallel, each starting fresh with the ticket and one job:
+
+| Reviewer | What it checks | Model since 7 Oct 2026 |
+| --- | --- | --- |
+| Correctness | Code paths, types, API usage, edge cases | Claude Sonnet 5.5 |
+| Security | Injection, secrets, auth, data exposure, gates that fail open | Claude Opus 5.5 |
+| Completeness | The ticket is met, error handling, tests, docs, scope creep | Claude Sonnet 5.5 |
+
+The models were pinned on 7 October 2026. The May to July reviews below ran on the earlier defaults.
+
+The rules:
+
+1. Each reviewer grades its findings BLOCK, WARN or NIT.
+2. Duplicates on the same file, line and category collapse into one, and the higher severity wins.
+3. One BLOCK from any reviewer sends the PR back. Approval needs all three.
+4. After a fix the panel runs again, up to three cycles. If it still hasn't approved, it reports the verdict as unresolved, with the findings that survived, and never as approved.
+
+## What 85 PRs recorded
+
+A review verdict in one of three forms landed on 85 PRs in 3 of my own repos. An agent pulled every verdict with read-only `gh` queries and counted them, and I re-ran two of its searches as a spot check. The verdicts come in three forms, and they can't be read as one population:
+
+| What was posted | PRs | What it shows |
+| --- | ---: | --- |
+| The panel's own comment (3 reviewers, or 4 in an older roster), with BLOCK/WARN/NIT counts | 5 | Every cycle and every count |
+| One agent writing correctness, security and completeness sections | 41 | A verdict per round, graded P0 to P3 |
+| A one-line summary by the agent that wrote the code | 39 | One outcome, often without the cycle count |
+
+Across all 85:
+
+| Outcome | PRs |
+| --- | ---: |
+| Approved on the first pass | 47 |
+| Sent back, then approved | 7 |
+| Sent back, findings marked addressed, no second verdict recorded | 20 |
+| Sent back, then closed unmerged | 1 |
+| No verdict stated, only that the review ran | 10 |
+| Stalled at the three-cycle cap | 0 |
+
+81 of the 85 merged. No PR needed more than two cycles, so the stall rule never fired.
+
+## Do reviewer subagents catch real problems?
+
+The counting agent picked 20 BLOCK findings spread across the 3 repos and read the commits that followed each one. It didn't pick them at random, and they come from all three forms, about half of them from author summaries. Treat the split as a sample, not a rate:
+
+| What happened next | BLOCKs |
+| --- | ---: |
+| Fixed: the next commit names the finding and touches the flagged file | 11 |
+| Probably fixed: the next commit touches the flagged files, with a generic message | 5 |
+| Deferred to a follow-up issue, PR merged without the fix | 3 |
+| Unclear, because the fixes were squashed into one commit | 1 |
+
+By category: 11 security, 4 correctness, 4 completeness and 1 naming rule. Of the 11 security BLOCKs, 10 were fixed or probably fixed and 1 is unclear. The 3 deferred BLOCKs were completeness findings, all about a library that was added and never wired up.
+
+A separate, blind test of the same panel on commits whose bugs I already knew is [Claude Code /code-review vs my review](/blog/ai-reviewers-on-the-bugs-i-missed). Between the panel and `/code-review`, every security bug I had missed was flagged. Its security reviewer also approved two commits with shell strings in them, because the values came from config or seed data.
+
+## The record is the weak part
+
+**39 verdicts come only from the author's summary.** When the agent that wrote the code also writes the panel's outcome as one line of the PR body, nothing on GitHub shows the panel ran, what it found or what changed. 10 of those 39 don't state a verdict at all.
+
+**20 PRs end at "addressed".** The panel sent them back, the findings were marked fixed, and no second verdict was recorded. Maybe the second pass approved. The record can't tell me.
+
+**My panel only posted to the PR on a stall.** Rereading its instructions for this post, I found they post a PR comment only after three cycles without approval. Nothing stalled in this window, so the 46 reviews that are on GitHub got there some other way, and the record doesn't say which. The change it needs is to post its verdict and findings on the PR after every cycle, approvals included.
+
+Anthropic's managed [Claude Code Review](https://code.claude.com/docs/en/code-review) already works this way: findings go inline on the PR and into a check run with a severity table. Its check run always completes neutral, so a merge is gated only if your CI reads the result.
+
+## What do subagents cost?
+
+**Window: 11 September to 13 October 2026.** Two numbers from my engineering ledger and session logs, which count all my work, client and own together. Turns come from session logs, merged PRs from GitHub. For dollars, see [Claude Code cost per merged PR](/blog/how-i-measure-claude-code-roi).
+
+1. **Subagent turns per merged PR rose in each of the four full weeks:** 60, 81, 130 and 168 in the weeks starting 14 September, 21 September, 28 September and 5 October. Over the same weeks, merged PRs per active day went 11, 26, 22 and 18. Day by day, subagent turns and merged PRs had no correlation at all (r = 0.00 over 33 days). That's an estimate with limits: a PR often merges a day after its work, and subagent work includes research and review, which shouldn't produce PRs anyway. I can't show that more subagent turns meant more shipped.
+2. **84% of subagent messages ran on Opus** (54,992 of 65,363), 15% on Sonnet and under 1% on Haiku. Main sessions were 93% Opus. I'd written a hook to route subagents to cheaper models. It came out on 11 September, in a cleanup of hooks that rewrote things behind the model's back.
+
+The docs suggest why. Unless the call passes a model, a subagent without a `model` field falls back to the `CLAUDE_CODE_SUBAGENT_MODEL` environment variable and then to the main conversation's model, and the built-in Explore agent uses the main conversation's model too. The docs' own fix for search is one file, a project subagent named `Explore` that overrides the built-in. I haven't switched mine yet, so this is the docs' pattern, not a measured change:
+
+```markdown
+---
+name: Explore
+description: Read-only codebase search.
+model: haiku
+tools: Read, Grep, Glob
+---
+```
+
+## How to set up review subagents
+
+1. Add one fresh reviewer subagent per PR, with a clean context, the diff, the ticket and one focus. Start with security.
+2. Set `model` on every subagent you define. Put the strongest model on security and a cheaper one on search.
+3. Grade findings BLOCK, WARN or NIT, and let any BLOCK send the PR back.
+4. Cap the cycles and report a stall as unresolved, never as approved.
+5. Have the reviewer post every verdict on the PR itself, with its counts, so the authoring agent never summarises its own review.
+
+Then read the PR yourself after the panel approves. All my reviewers are Claude models, and so are most of the agents that write the code, so they can share blind spots. A reviewer from another model family is a test I haven't run yet.
+
+If you want a senior reviewer behind your agents' PRs, with this panel in front, that's the Reviewed PR on [my services page](/services).
