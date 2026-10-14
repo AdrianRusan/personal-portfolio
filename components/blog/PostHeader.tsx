@@ -20,7 +20,7 @@ export default function PostHeader({ frontmatter, readingTime }: PostHeaderProps
         ))}
       </div>
 
-      <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-5">
+      <h1 className="display text-[38px] sm:text-5xl md:text-6xl text-white mb-6 text-balance">
         {frontmatter.title}
       </h1>
 

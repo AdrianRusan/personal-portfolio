@@ -41,8 +41,8 @@ export default async function WorkIndexPage() {
 
   return (
     <PageShell>
-      <div className="px-5 sm:px-10 pt-32 sm:pt-40 pb-20">
-        <div className="container-section">
+      <div className="px-5 sm:px-10 lg:px-12 pt-28 md:pt-36 pb-20">
+        <div className="container-wide">
           <JsonLd
             data={[
               pageJsonLd({
@@ -56,24 +56,24 @@ export default async function WorkIndexPage() {
             ]}
           />
           <div className="mb-12">
-            <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
+            <h1 className="display text-[40px] md:text-6xl xl:text-7xl text-white mb-6">
               Case studies
             </h1>
-            <p className="text-white-200 text-lg max-w-xl">{WORK_DESCRIPTION}</p>
+            <p className="text-white-200 text-lg max-w-[38em]">{WORK_DESCRIPTION}</p>
           </div>
 
-          <ul className="flex flex-col gap-5">
+          <ul className="flex flex-col border-t border-white">
             {studies.map((study) => {
               const result = caseStudyResults[study.slug];
               return (
                 <li key={study.slug}>
                   <Link
                     href={`/work/${study.slug}`}
-                    className="flex flex-col md:flex-row gap-5 rounded-2xl border border-white/10 bg-black-200/40 p-6 hover:border-purple/40 transition-colors"
+                    className="group flex flex-col md:flex-row gap-5 md:gap-10 border-b border-white/15 py-8"
                   >
                     {result && (
-                      <div className="md:w-48 flex-none">
-                        <p className="text-3xl font-bold tracking-tight text-purple">
+                      <div className="md:w-56 flex-none">
+                        <p className="text-4xl md:text-5xl type-light tabular-nums text-white">
                           {result.figure}
                         </p>
                         <p className="text-[13px] leading-relaxed text-white-200 mt-2">
@@ -82,7 +82,7 @@ export default async function WorkIndexPage() {
                       </div>
                     )}
                     <div className="flex flex-col flex-1">
-                      <h2 className="text-lg md:text-xl font-semibold text-balance text-white">
+                      <h2 className="text-2xl md:text-3xl type-light text-balance text-white group-hover:underline group-focus-visible:underline decoration-purple underline-offset-4">
                         {study.frontmatter.title}
                       </h2>
                       {study.frontmatter.meta && (
@@ -90,10 +90,10 @@ export default async function WorkIndexPage() {
                           {study.frontmatter.meta}
                         </p>
                       )}
-                      <p className="text-sm text-white-200 mt-3 leading-relaxed flex-1">
+                      <p className="text-white-200 mt-3 leading-relaxed flex-1 max-w-[42em]">
                         {study.frontmatter.description}
                       </p>
-                      <span className="text-sm font-semibold text-purple mt-4">
+                      <span className="text-sm font-medium text-purple mt-4">
                         Read the case study →
                       </span>
                     </div>

@@ -21,17 +21,21 @@ export function ProsePage({
   children?: ReactNode;
 }) {
   return (
-    <article className="px-5 sm:px-10 pt-36 md:pt-44 pb-8">
-      <div className="container-prose">
+    // #114 M: a left-aligned display title, then ruled two-column sections
+    // (heading left, body right) in the wide frame.
+    <article className="px-5 sm:px-10 lg:px-12 pt-28 md:pt-36 pb-8">
+      <div className="container-wide">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
           {photo}
-          <div>
-            <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-balance">
+          <div className="max-w-[46rem]">
+            <h1 className="display text-[40px] md:text-6xl xl:text-7xl text-balance">
               {page.title}
             </h1>
-            <p className="text-white-200 mt-5 leading-relaxed">{page.lead}</p>
+            <p className="text-[17px] md:text-lg text-white-200 mt-6 leading-relaxed text-pretty">
+              {page.lead}
+            </p>
             {page.updated && (
-              <p className="text-sm text-white-200/75 mt-3">
+              <p className="eyebrow mt-4">
                 {updatedLabel} {page.updated}
               </p>
             )}
@@ -40,22 +44,30 @@ export function ProsePage({
         {children}
 
         {page.sections.map((section) => (
-          <section key={section.heading} className="mt-10">
-            <h2 className="text-xl md:text-2xl font-semibold tracking-tight">
+          <section
+            key={section.heading}
+            className="mt-14 grid gap-4 border-t border-white/15 pt-6 lg:grid-cols-[4fr_7fr] lg:gap-16"
+          >
+            <h2 className="text-2xl md:text-3xl type-light text-balance">
               {section.heading}
             </h2>
-            <div className="mt-3 text-white-200 leading-relaxed [&_a]:text-purple [&_a]:underline [&_a]:underline-offset-2 [&_li]:mt-2 [&_p+p]:mt-3 [&_p+ul]:mt-3 [&_ul+p]:mt-3 [&_strong]:text-white [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:pl-6">
+            <div>
+            <div className="max-w-[42rem] text-white-200 leading-relaxed [&_a]:text-purple [&_a]:underline [&_a]:underline-offset-2 [&_li]:mt-2 [&_p+p]:mt-3 [&_p+ul]:mt-3 [&_ul+p]:mt-3 [&_strong]:text-white [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:pl-6">
               <MDXRemote
                 source={section.body}
                 options={{ mdxOptions: { format: "md" } }}
               />
             </div>
             {section.quote && (
-              <div className="mt-8">
-                <p className="text-sm text-white-200/80">{section.quote.label}</p>
-                <Quote testimonial={section.quote.testimonial} className="mt-2" />
+              <div className="mt-8 border-t border-white/15 pt-6">
+                <p className="eyebrow">{section.quote.label}</p>
+                <Quote
+                  testimonial={section.quote.testimonial}
+                  className="mt-3 border-t-0 pt-0"
+                />
               </div>
             )}
+            </div>
           </section>
         ))}
       </div>

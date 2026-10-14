@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og';
+import { OG_PALETTE } from '@/lib/og'
 import { notFound } from 'next/navigation';
 import { getPost } from '@/lib/blog';
 
@@ -50,7 +51,7 @@ export default async function OGImage({ params }: OGImageProps) {
           flexDirection: 'column',
           justifyContent: 'space-between',
           padding: '60px',
-          background: 'linear-gradient(135deg, #000319 0%, #0d0d2b 50%, #000319 100%)',
+          background: OG_PALETTE.paper, // #114 M: lib/og OG_PALETTE
           fontFamily: 'sans-serif',
         }}
       >
@@ -61,8 +62,8 @@ export default async function OGImage({ params }: OGImageProps) {
             top: 0,
             left: 0,
             right: 0,
-            height: '4px',
-            background: 'linear-gradient(90deg, #CBACF9, #818cf8, #CBACF9)',
+            height: '8px',
+            background: OG_PALETTE.accent,
           }}
         />
 
@@ -75,9 +76,9 @@ export default async function OGImage({ params }: OGImageProps) {
                 <span
                   key={tag}
                   style={{
-                    background: 'rgba(203, 172, 249, 0.15)',
-                    border: '1px solid rgba(203, 172, 249, 0.3)',
-                    color: '#CBACF9',
+                    background: 'rgba(196, 52, 14, 0.1)',
+                    border: '1px solid rgba(196, 52, 14, 0.3)',
+                    color: OG_PALETTE.accentText,
                     padding: '4px 12px',
                     borderRadius: '20px',
                     fontSize: '14px',
@@ -94,9 +95,10 @@ export default async function OGImage({ params }: OGImageProps) {
           <div
             style={{
               fontSize: title.length > 60 ? '40px' : '52px',
-              fontWeight: 800,
-              color: '#FFFFFF',
-              lineHeight: 1.15,
+              fontWeight: 500,
+              color: OG_PALETTE.ink,
+              lineHeight: 1.05,
+              letterSpacing: '-0.035em',
               maxWidth: '900px',
             }}
           >
@@ -107,7 +109,7 @@ export default async function OGImage({ params }: OGImageProps) {
           <div
             style={{
               fontSize: '22px',
-              color: '#BEC1DD',
+              color: OG_PALETTE.body,
               lineHeight: 1.5,
               maxWidth: '820px',
               display: '-webkit-box',
@@ -125,7 +127,7 @@ export default async function OGImage({ params }: OGImageProps) {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            borderTop: '1px solid rgba(255,255,255,0.08)',
+            borderTop: `1px solid ${OG_PALETTE.rule}`,
             paddingTop: '28px',
           }}
         >
@@ -135,23 +137,22 @@ export default async function OGImage({ params }: OGImageProps) {
                 width: '44px',
                 height: '44px',
                 borderRadius: '50%',
-                background: 'rgba(203, 172, 249, 0.2)',
-                border: '2px solid rgba(203, 172, 249, 0.4)',
+                background: OG_PALETTE.accent,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: '#CBACF9',
-                fontWeight: 700,
+                color: OG_PALETTE.paper,
+                fontWeight: 600,
                 fontSize: '16px',
               }}
             >
               AR
             </div>
-            <span style={{ color: '#BEC1DD', fontSize: '18px', fontWeight: 600 }}>
+            <span style={{ color: OG_PALETTE.ink, fontSize: '18px', fontWeight: 600 }}>
               Adrian Rusan
             </span>
           </div>
-          <span style={{ color: '#BEC1DD', fontSize: '16px', opacity: 0.6 }}>
+          <span style={{ color: OG_PALETTE.muted, fontSize: '16px' }}>
             adrian-rusan.com/blog
           </span>
         </div>

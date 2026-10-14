@@ -29,10 +29,13 @@ const link = "hover:text-purple transition-colors";
 
 const Footer = ({ copy = en }: { copy?: FooterCopy }) => {
   return (
-    <footer className="border-t border-white/10 px-5 sm:px-10 py-10">
-      <div className="container-section flex flex-col items-center gap-4 text-sm text-white-200">
-        <p>Copyright © {new Date().getFullYear()} Adrian Rusan</p>
-        <div className="flex flex-wrap justify-center gap-x-5 gap-y-2">
+    // #114 M: one ruled row on desktop (name, links, contact), stacked on phones.
+    <footer className="border-t border-white/15 px-5 sm:px-10 lg:px-12 py-10">
+      <div className="container-wide flex flex-col gap-5 text-sm text-white-200 lg:flex-row lg:items-center lg:justify-between">
+        <p className="font-mono text-xs text-white-100">
+          Copyright © {new Date().getFullYear()} Adrian Rusan
+        </p>
+        <div className="flex flex-wrap gap-x-5 gap-y-2">
           <LocaleSwitch className={link} />
           <Link href={copy.aboutHref} className={link}>
             {copy.about}
@@ -47,10 +50,11 @@ const Footer = ({ copy = en }: { copy?: FooterCopy }) => {
             {copy.rss}
           </a>
         </div>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
         <a href={`mailto:${CONTACT_EMAIL}`} className={link}>
           {CONTACT_EMAIL}
         </a>
-        <nav className="flex items-center gap-2" aria-label={copy.socialAria}>
+        <nav className="-ml-2 flex items-center gap-1" aria-label={copy.socialAria}>
           {socialMedia.map((info) => {
             const Icon = socialIcons[info.id];
             return (
@@ -67,6 +71,7 @@ const Footer = ({ copy = en }: { copy?: FooterCopy }) => {
             );
           })}
         </nav>
+        </div>
       </div>
     </footer>
   );
