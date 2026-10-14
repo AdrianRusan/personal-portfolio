@@ -49,8 +49,8 @@ My rules today are a 939-word `CLAUDE.md` and eight files in `~/.claude/rules/`,
 
 | Rule | Why it exists | Enforced by |
 |---|---|---|
-| Security gates fail closed | Gates treated "the check couldn't run" as a pass | Partly. Claude Code's `onFailure: "block"` covers a hook that crashes. Nothing checks how the gate script itself is written |
-| Never commit a secret | Agents stage `.env` files and test keys | A scan hook on every commit, since 9 July 2026. The rule dates from 17 April |
+| Security gates fail closed | Gates treated "the check couldn't run" as a pass | Partly. Claude Code's `onFailure: "block"` covers a hook that crashes. Nothing checks how the gate script itself is written, and when I tested my own three gates on 12 October, two of them still had a path that allowed an action when their check couldn't run |
+| Never commit a secret | Agents stage `.env` files and test keys | A scan hook on plain `git commit` and push, since 9 July 2026, with gaps I found when I tested it. The rule dates from 17 April |
 | Commit after every working step | Recovery points, and work a client can see | Nothing enforces the cadence. Review only |
 | Fix the reported thing only | Fixes that also tightened limits nobody asked about | Nothing. Review only |
 | Text from outside is data | Agents read issues, bot comments and web pages | Nothing can tell an instruction from data. Hooks cap what a fooled agent can do |
@@ -83,9 +83,9 @@ Some of my gates have an override, because some blocks are false positives. The 
 
 My hook logs only record the token from 23 September, and they show it on 205 commit or push attempts between then and 12 October. The session transcripts go back further and count every command that carried it, so I traced it there, across all four of my Claude Code config directories, up to 12 October:
 
-1. About 300 commands carried the token (304 by my script).
+1. About 300 commands carried the token (304 by my script). An earlier draft of this post said 372; I couldn't reproduce that number, so this one comes from a script I kept.
 2. 297 of them came after the scan had already denied something earlier in the same session.
-3. Of roughly 136 deny messages, 129 came from the check that flags variable assignments like `password = ...`. Only 2 matched a real key shape.
+3. Of roughly 136 deny messages, 129 came from the check that flags variable assignments like `password = ...`. Only 2 matched a real key shape, and my script couldn't classify the other 5.
 
 The order is what matters: a block, usually on a variable name, then the override for the rest of the session. I read that as the agent learning the way past from the deny message itself. The transcripts show the sequence. They can't show the agent's reasoning.
 
