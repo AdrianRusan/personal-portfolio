@@ -1,6 +1,6 @@
-# Slate: 12 posts, one every Friday to 5 Dec (#134, 2026-10-14)
+# Slate: 12 posts, one every Saturday 00:00 UTC to 5 Dec (#134, 2026-10-14)
 
-**Verdict:** keep 9 posts and rewrite them all. One post is re-angled (reviewer-agents becomes the subagents post), one is cut by merging (the setup audit) and two are new: team rollout and a founder post. That makes 12 posts, with one new Friday, 5 Dec. The 4 live slugs stay, so no 301 is needed. Approving this takes about 10 minutes: the table, then the 4 questions at the end.
+**Verdict:** keep 9 posts and rewrite them all. One post is re-angled (reviewer-agents becomes the subagents post), one is cut by merging (the setup audit) and two are new: team rollout and a founder post. That makes 12 posts, with one new slot, 5 Dec. The 4 live slugs stay, so no 301 is needed. Approving this takes about 10 minutes: the table, then the 4 questions at the end.
 
 Evidence: `post-audit.md` (claims, scores, SERPs) and `topic-research.md` (demand, volumes, first-hand data). Every proof below is a receipt listed in the private claims sheet, or an external source with its date.
 
@@ -19,7 +19,7 @@ Evidence: `post-audit.md` (claims, scores, SERPs) and `topic-research.md` (deman
 | 9 | 11-14 | `claude-code-fail-closed-hooks` | Claude Code Hooks Fail Open: What I Tested | claude code hooks (3,600 / 16) | `onFailure: "block"` stopped every crash, timeout and bad exit code in my tests, and missed truncated JSON. Separately, my own secret scanner failed open for 75 days on `cd ~/… && git commit`. | Claude Code docs + changelog (2.1.295); 12 Oct test files (20 runs + 1 control); `~/.claude` git (the `~` fix, 22 Sep 2026); hook-log counts | KEEP+REWRITE. See Q3 |
 | 10 | 11-21 | `how-i-measure-claude-code-roi` | Claude Code Cost per Merged PR: How to Measure It | claude code cost (4,400 / 38) | Count cost per merged PR, not tokens. Mine went up, not down, through October, and about a fifth of the spend never touched a repo. | ledger method (same-method window from 11 Sep only, Opus 5 list rates stated); cost case study ($49 Sep, $69 1–11 Oct); OTel + `cleanupPeriodDays` docs; LinearB link for the 16-hour wait | KEEP+REWRITE (team-lead angle). See Q2 |
 | 11 | 11-28 | `claude-code-team-rollout` (NEW) | Rolling Out Claude Code to a Team: What to Commit | claude code for teams (170 / 28); claude code enterprise (720 / 35) | What a team should commit on day one: settings, hooks that fail closed, a short CLAUDE.md, and one number to watch. It's the harness I run, with the gates that block and the ones that only remind. | harness counts (22 skills, 22 hooks); gate list N8; Stack Overflow pulse (fetched before citing); Sonar (8 Jan 2026); the 5 setup-audit checks from the cut post | NEW (absorbs `auditing-my-claude-code-setup-with-an-agent`, never live, no 301). Framed as "the harness I'd install", not a measured team rollout |
-| 12 | **12-05** (new Friday) | `vibe-coded-app-keep-fix-or-rebuild` (NEW) | Vibe-Coded App: Keep, Fix or Rebuild? | vibe coding security (110 / 16, CPC $99) | Most AI-built MVPs don't need a rewrite. They need the 5 checks I'd run first, and I show what those checks found on a real agent-built repo with no tests and no CI. | 30-PR run as the analogue (own repo, no tests, no CI); Veracode 2026; Apiiro (Sep 2025, vendor, labelled); teardown sample | NEW, founder side → Teardown → Reviewed PR |
+| 12 | **12-05** (new slot) | `vibe-coded-app-keep-fix-or-rebuild` (NEW) | Vibe-Coded App: Keep, Fix or Rebuild? | vibe coding security (110 / 16, CPC $99) | Most AI-built MVPs don't need a rewrite. They need the 5 checks I'd run first, and I show what those checks found on a real agent-built repo with no tests and no CI. | 30-PR run as the analogue (own repo, no tests, no CI); Veracode 2026; Apiiro (Sep 2025, vendor, labelled); teardown sample | NEW, founder side → Teardown → Reviewed PR |
 
 Unchanged rules for every post: one target query, title ≤60, description ≤160, a question H2 for the FAQ extract, ≥2 internal links plus 1 to `/services`, `BlogPosting` JSON-LD intact, and the post-end CTA reading `data/ladder.ts`. Each one gets a `blog-factcheck` pass, a blind reviewer and `/adi-voice` before its commit.
 
@@ -29,7 +29,7 @@ None needed. The 4 live slugs stay. The two retired slugs (`reviewer-agents-that
 
 ## PR plan (stacked off PR 1, slot order)
 
-1. `feat/134-blog-posts-1`: #5 rules file (needs merging by **Thu 16 Oct** to go live rewritten), plus live fixes #2 and #1 (the shell title currently contradicts the site's miss count).
+1. `feat/134-blog-posts-1`: #5 rules file (needs merging by **Fri 16 Oct** to go live rewritten), plus live fixes #2 and #1 (the shell title currently contradicts the site's miss count).
 2. `feat/134-blog-posts-2`: #3 2-3x and #4 usage (live).
 3. `feat/134-blog-posts-3`: #6 worktrees (by 23 Oct) and #7 Claude Code Review (by 30 Oct).
 4. `feat/134-blog-posts-4`: #8 subagents (by 6 Nov) and #9 hooks (by 13 Nov).

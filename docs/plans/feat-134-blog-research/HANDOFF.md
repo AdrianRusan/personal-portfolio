@@ -1,6 +1,6 @@
 # HANDOFF: blog remake #134
 
-**Verdict: ready to merge in order.** All 12 slate posts are written, fact-checked, blind-reviewed and voiced. Every PR is green on the full ladder (tsc → lint → build → jest → e2e). Two dates are hard: merge PR 1–2 by **Thu 16 Oct** for the rules post, and fix the secret-scan parser by **Thu 13 Nov** for the hooks post. Reviewing takes about 45 minutes: 25 for the five post PRs, 20 for the RO card strings and the teasers.
+**Verdict: ready to merge in order.** All 12 slate posts are written, fact-checked, blind-reviewed and voiced. Every PR passed the full ladder locally (tsc → lint → build → jest → e2e); GitHub shows only the GitGuardian and Vercel checks, because the repo has no CI workflow. Two dates are hard: merge PR 1–2 by **Fri 16 Oct** for the rules post, and fix the secret-scan parser by **Fri 13 Nov** for the hooks post. Reviewing takes about 45 minutes: 25 for the five post PRs, 20 for the RO card strings and the teasers.
 
 ## 1. Merge order and go-live deadlines
 
@@ -8,14 +8,14 @@ The PRs are stacked, so merge strictly in this order. Each one contains the ones
 
 | # | PR | What | Must be merged by | Why that date |
 |---|---|---|---|---|
-| 1 | #137 `feat/134-blog-research` | audit, topic research, slate (docs only) | Thu 16 Oct | the base of the stack |
-| 2 | #138 `feat/134-blog-posts-1` | rules (17 Oct), shell-injection and review posts (live) | **Thu 16 Oct** | the rules post goes live Sat 17 Oct 00:00 UTC either way; unmerged, the old version goes live |
+| 1 | #137 `feat/134-blog-research` | audit, topic research, slate (docs only) | Fri 16 Oct | the base of the stack |
+| 2 | #138 `feat/134-blog-posts-1` | rules (17 Oct), shell-injection and review posts (live) | **Fri 16 Oct** | the rules post goes live Sat 17 Oct 00:00 UTC either way; unmerged, the old version goes live |
 | 3 | #139 `feat/134-blog-posts-2` | 2-3x and usage posts (live) | as soon as possible | both are live today with the old numbers |
-| 4 | #140 `feat/134-blog-posts-3` | worktrees (24 Oct), AI reviewers moved to 31 Oct, setup-audit cut | **Thu 23 Oct** | the worktrees post goes live 24 Oct |
-| 5 | #141 `feat/134-blog-posts-4` | subagents (7 Nov), hooks (14 Nov) | **Thu 6 Nov** | the subagents slug has to exist before 7 Nov |
-| 6 | #142 `feat/134-blog-posts-5` | cost (21 Nov), team rollout (28 Nov), vibe-coded app (5 Dec). Closes #134 | **Thu 20 Nov** | the cost post goes live 21 Nov |
+| 4 | #140 `feat/134-blog-posts-3` | worktrees (24 Oct), AI reviewers moved to 31 Oct, setup-audit cut | **Fri 23 Oct** | the worktrees post goes live 24 Oct |
+| 5 | #141 `feat/134-blog-posts-4` | subagents (7 Nov), hooks (14 Nov) | **Fri 6 Nov** | the subagents slug has to exist before 7 Nov |
+| 6 | #142 `feat/134-blog-posts-5` | cost (21 Nov), team rollout (28 Nov), vibe-coded app (5 Dec). Closes #134 | **Fri 20 Nov** | the cost post goes live 21 Nov |
 
-All slots are Saturday 00:00 UTC (Friday 17:00 PDT, Saturday 03:00 EEST). That was already the pattern, and the slate kept it.
+All slots are Saturday 00:00 UTC, which is 03:00 EEST until 25 Oct and 02:00 EET after it (Friday evening in the US). That was already the pattern, and the slate kept it. "Merge by Fri" means by Friday evening your time; the post goes live a few hours later.
 
 Base branches: when #137 merges, GitHub retargets #138 to `main`, and so on down the stack. If a retarget fails, edit the PR's base to `main` by hand before merging.
 
@@ -44,12 +44,24 @@ The 4 live slugs are unchanged. The existing #86 301s still point at `/blog/2-3x
 
 ## 5. What to check (about 20 minutes)
 
-1. **RO card strings** in `data/ro-home.ts` for the 10 retitled or new posts. These are cards only, not post translations. The `roPostTitles` test requires one per published post, and the repo rule says EN and RO change together.
+1. **RO card strings** in `data/ro-home.ts` for the 11 retitled or new posts. These are cards only, not post translations. The `roPostTitles` test requires one per published post, and the repo rule says EN and RO change together.
 2. **Two numbers that replaced published ones:** "79 fixes / 76 distinct" in `what-agents-get-wrong` (it used to say 64; the counting rule is published in the post). The case study `/work/30-reviewed-prs-3-vulnerabilities` still says 64, because case studies were out of scope. The post says so.
 3. **Aggregates you approved at the gate (Q2):** cost per merged PR by week, 42% of spend on zero-PR repo-days, subagent turns per PR, the 1,010 gh-guard tokens, and the scanner counts. All are totals with no client named.
 4. **The vibe-coded post** describes your dashboard's committed auth token (taco-console #128, which said to rotate it) and says the middleware still skips auth when the token is unset. Rotate the token if that hasn't happened yet. If you fix the middleware before 5 Dec, change that sentence in the post.
 
-## 6. Post-merge steps
+## 6. Spot check (brief §7.5)
+
+Five claims picked across the posts, each traced to its receipt in the private `claims.md`:
+
+1. 84% of subagent messages on Opus (subagents post): 54,992 of 65,363 in `tx_out.json`, summed by hand.
+2. 36 hooks written, 14 deleted (rules post): `git -C ~/.claude log --diff-filter=A/D`, recounted.
+3. 79 fixes / 76 distinct (review post): recounted by hand, then reproduced independently by the fact-check agent.
+4. $65 per merged PR, week of 5 Oct (cost post): `ledger2.py`, re-run on 14 Oct.
+5. Veracode about 44%, 28 Jul 2026 (shell and vibe posts): fetched on 14 Oct.
+
+All five trace.
+
+## 7. Post-merge steps
 
 1. After each merge, check in the Vercel dashboard that production runs the last merge commit, and promote it if not (CONTEXT Known Issues).
 2. On or after **24 Oct**: restore `[nine PRs](/work/nine-prs-one-afternoon)` in `content/blog/2-3x-not-100x.mdx` (R9, memory `relink-nine-prs-2026-10-24`).
@@ -57,7 +69,7 @@ The 4 live slugs are unchanged. The existing #86 301s still point at `/blog/2-3x
 4. Deferred, not done: the Markdown twin (`/api/markdown`) keeps links to not-yet-live posts as live links, which 404 for agents until the date. The HTML page shows them as plain text. The fix is in `lib/markdown/` (strip non-live `/blog/` links, as `MDXContent` does).
 5. Deferred: `data/workshops.ts` `workshopHubLink` still points at the worktrees post. That works, since the post's CTA is the workshop, but a dedicated workshop post would fit better.
 
-## 7. LinkedIn teaser drafts (NOT posted)
+## 8. LinkedIn teaser drafts (NOT posted)
 
 Written through `/adi-voice`, in English for LinkedIn. One per post, to go out on its go-live day. Each one is short-first, with one ask at the end.
 
