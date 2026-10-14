@@ -73,7 +73,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   return (
     // R3-F06: the offer card is the page's one ask; the shell keeps the checklist.
     <PageShell hideFooterCta>
-      <div className="px-5 sm:px-10 lg:px-12 pt-28 md:pt-36 pb-20">
+      <div className="page-head pb-20">
       <div className="container-prose">
         <JsonLd
           data={[
@@ -103,25 +103,25 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
           ]}
         />
         <article>
-          <header className="mb-10 pb-8 border-b border-black-300">
+          <header className="mb-10 pb-8 border-b border-rule">
             <Link href="/work" className="eyebrow hover:underline">
               Case study
             </Link>
-            <h1 className="display text-[38px] sm:text-5xl md:text-6xl mt-4 mb-6 text-balance">
+            <h1 className="type-title-sm mt-4 mb-6 text-balance">
               {study.frontmatter.title}
             </h1>
-            <p className="text-white-200 text-lg leading-relaxed">
+            <p className="text-body text-lg leading-relaxed">
               {study.frontmatter.description}
             </p>
             {study.frontmatter.meta && (
-              <p className="text-sm text-white-200/80 mt-5">
+              <p className="text-sm text-body/80 mt-5">
                 {study.frontmatter.meta}
               </p>
             )}
           </header>
 
           {study.frontmatter.forYou && (
-            <p className="text-white text-lg leading-relaxed mb-8 border-l-2 border-purple pl-4">
+            <p className="text-ink text-lg leading-relaxed mb-8 border-l-2 border-accent pl-4">
               {study.frontmatter.forYou}
             </p>
           )}

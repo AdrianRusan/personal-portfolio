@@ -77,26 +77,26 @@ export const ServicesFaq = ({
   return (
     <section
       id="faq"
-      className="px-5 sm:px-10 lg:px-12 py-16 md:py-28 scroll-mt-24 border-t border-white/15"
+      className="section border-t border-ink/15"
     >
       <div className="container-wide grid gap-8 lg:grid-cols-[4fr_7fr] lg:gap-16">
         <SectionHeading>{copy.heading}</SectionHeading>
-        <div className="border-b border-white/15">
+        <div className="border-b border-ink/15">
           {copy.items.map((item) => (
             <details
               key={item.question}
-              className="group border-t border-white/15 py-5 first:border-white"
+              className="group border-t border-ink/15 py-5 first:border-ink"
             >
-              <summary className="flex min-h-11 cursor-pointer list-none items-start justify-between gap-4 text-lg text-white [&::-webkit-details-marker]:hidden">
+              <summary className="flex min-h-11 cursor-pointer list-none items-start justify-between gap-4 text-lg text-ink [&::-webkit-details-marker]:hidden">
                 {item.question}
                 <span
                   aria-hidden="true"
-                  className="text-2xl leading-none text-purple transition-transform group-open:rotate-45"
+                  className="text-2xl leading-none text-accent transition-transform group-open:rotate-45"
                 >
                   +
                 </span>
               </summary>
-              <p className="text-white-200 leading-relaxed mt-3 max-w-3xl">
+              <p className="text-body leading-relaxed mt-3 max-w-3xl">
                 {item.answer}
               </p>
             </details>

@@ -15,7 +15,7 @@ const isCurrent = (link: string, pathname: string) =>
 
 // A4 F14: min-h-11 gives every nav link a 44px tap target at the same size.
 const linkClass =
-  "relative flex min-h-11 items-center whitespace-nowrap px-0.5 text-[13px] sm:text-sm text-white-200 hover:text-purple aria-[current=page]:text-white aria-[current=page]:underline aria-[current=page]:decoration-purple aria-[current=page]:decoration-2 aria-[current=page]:underline-offset-[6px]";
+  "relative flex min-h-11 items-center whitespace-nowrap px-0.5 text-[13px] sm:text-sm text-body hover:text-accent aria-[current=page]:text-ink aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:decoration-2 aria-[current=page]:underline-offset-[6px]";
 
 // Timișoara local time, shown once mounted so server and client HTML match.
 function LocalTime() {
@@ -39,7 +39,7 @@ function LocalTime() {
   }, []);
   if (!time) return null;
   return (
-    <span className="hidden lg:inline font-mono text-xs tabular-nums text-white-100">
+    <span className="hidden lg:inline font-mono text-xs tabular-nums text-muted">
       Timișoara <time aria-label={`local time in Timișoara: ${time}`}>{time}</time>
     </span>
   );
@@ -76,7 +76,7 @@ export const FloatingNav = ({
       <div className="mx-auto box-content flex lg:grid max-w-[1360px] lg:grid-cols-[1fr_auto_1fr] items-center gap-x-3 sm:gap-x-4 px-3 sm:px-5 md:px-12 py-1 lg:py-2">
         <Link
           href={isRo ? "/ro" : "/"}
-          className="hidden lg:flex justify-self-start min-h-11 items-center font-semibold text-white"
+          className="hidden lg:flex justify-self-start min-h-11 items-center font-semibold text-ink"
         >
           Adrian Rusan
         </Link>
@@ -111,7 +111,7 @@ export const FloatingNav = ({
                   : "RO, citește în română"
                 : `${isRo ? "EN" : "RO"}, ${switchTitle}`
             }
-            className="flex min-h-11 items-center px-1 text-sm font-medium text-white-100 hover:text-purple"
+            className="flex min-h-11 items-center px-1 text-sm font-medium text-muted hover:text-accent"
           >
             {isRo ? "EN" : "RO"}
           </Link>
@@ -124,7 +124,7 @@ export const FloatingNav = ({
                 source: isRo ? "ro_floating_nav" : "floating_nav",
               })
             }
-            className="inline-flex min-h-11 shrink-0 items-center whitespace-nowrap rounded-full bg-purple px-4 text-sm font-medium text-black-100 transition-colors hover:bg-purple/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:ring-offset-2 focus-visible:ring-offset-black-100"
+            className="inline-flex min-h-11 shrink-0 items-center whitespace-nowrap rounded-full bg-accent px-4 text-sm font-medium text-page transition-colors hover:bg-accent/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-page"
           >
             {isRo ? "Programează" : "Book a call"}
           </a>

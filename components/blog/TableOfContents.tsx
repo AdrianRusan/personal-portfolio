@@ -38,7 +38,7 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
 
   return (
     <nav aria-label="Table of contents">
-      <p className="text-xs font-semibold uppercase tracking-widest text-white-200/75 mb-3">
+      <p className="text-xs font-semibold uppercase tracking-widest text-body/75 mb-3">
         On this page
       </p>
       <ul className="space-y-1">
@@ -60,8 +60,8 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
               className={[
                 'block text-sm py-0.5 transition-colors leading-snug',
                 activeId === heading.id
-                  ? 'text-purple font-medium'
-                  : 'text-white-200/75 hover:text-white-200',
+                  ? 'text-accent font-medium'
+                  : 'text-body/75 hover:text-body',
               ].join(' ')}
             >
               {heading.text}

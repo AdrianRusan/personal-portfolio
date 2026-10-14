@@ -44,7 +44,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
   return (
     <PageShell>
-      <div className="px-5 sm:px-10 lg:px-12 pt-28 md:pt-36 pb-20">
+      <div className="page-head pb-20">
         <div className="container-wide">
           <JsonLd
             data={[
@@ -59,10 +59,10 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
             ]}
           />
           <div className="mb-12">
-            <h1 className="display text-[40px] md:text-6xl xl:text-7xl text-white mb-6 text-balance">
+            <h1 className="type-title text-ink mb-6 text-balance">
             {BLOG_HEADING}
           </h1>
-          <p className="text-white-200 text-lg max-w-xl">{BLOG_INTRO}</p>
+          <p className="text-body text-lg max-w-xl">{BLOG_INTRO}</p>
           </div>
 
           <BlogListClient

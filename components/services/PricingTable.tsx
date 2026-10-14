@@ -73,22 +73,22 @@ export const PricingTable = ({
           <li
             key={column.name}
             className={`rounded-xl border p-5 ${
-              column.featured ? "border-purple bg-black-200" : "border-white/15"
+              column.featured ? "border-accent bg-raised" : "border-ink/15"
             }`}
           >
             {column.badge && (
-              <span className="block text-xs font-medium text-purple mb-1">
+              <span className="block text-xs font-medium text-accent mb-1">
                 {column.badge}
               </span>
             )}
-            <h4 className="text-base font-semibold text-white">
+            <h4 className="text-base font-semibold text-ink">
               {column.name}
             </h4>
             <dl className="mt-3 flex flex-col gap-3 text-sm">
               {rows.map((row) => (
                 <div key={row.label}>
-                  <dt className="font-medium text-white-200/75">{row.label}</dt>
-                  <dd className="text-white-200 leading-relaxed">
+                  <dt className="font-medium text-body/75">{row.label}</dt>
+                  <dd className="text-body leading-relaxed">
                     {row.values[index]}
                   </dd>
                 </div>
@@ -110,16 +110,16 @@ export const PricingTable = ({
                   key={column.name}
                   className={`text-left align-bottom pb-4 px-4 border-b ${
                     column.featured
-                      ? "border-purple bg-black-200"
-                      : "border-white/15"
+                      ? "border-accent bg-raised"
+                      : "border-ink/15"
                   }`}
                 >
                   {column.badge && (
-                    <span className="block text-xs font-medium text-purple mb-1">
+                    <span className="block text-xs font-medium text-accent mb-1">
                       {column.badge}
                     </span>
                   )}
-                  <span className="text-base font-semibold text-white">
+                  <span className="text-base font-semibold text-ink">
                     {column.name}
                   </span>
                 </th>
@@ -128,10 +128,10 @@ export const PricingTable = ({
           </thead>
           <tbody>
             {rows.map((row) => (
-              <tr key={row.label} className="border-b border-white/15">
+              <tr key={row.label} className="border-b border-ink/15">
                 <th
                   scope="row"
-                  className="text-left align-top py-4 pr-4 font-medium text-white-200 whitespace-nowrap"
+                  className="text-left align-top py-4 pr-4 font-medium text-body whitespace-nowrap"
                 >
                   {row.label}
                 </th>
@@ -140,8 +140,8 @@ export const PricingTable = ({
                   return (
                     <td
                       key={`${row.label}-${column?.name ?? index}`}
-                      className={`align-top py-4 px-4 text-white-200 leading-relaxed ${
-                        column?.featured ? "bg-black-200" : ""
+                      className={`align-top py-4 px-4 text-body leading-relaxed ${
+                        column?.featured ? "bg-raised" : ""
                       }`}
                     >
                       {value}
@@ -155,7 +155,7 @@ export const PricingTable = ({
               {columns.map((column) => (
                 <td
                   key={column.name}
-                  className={`py-6 px-4 ${column.featured ? "bg-black-200" : ""}`}
+                  className={`py-6 px-4 ${column.featured ? "bg-raised" : ""}`}
                 >
                   {link(column)}
                 </td>

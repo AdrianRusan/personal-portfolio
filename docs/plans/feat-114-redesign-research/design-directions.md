@@ -8,7 +8,7 @@ Adi ranked G and J highest (then D and E) and asked to be grilled. His answers (
 |---|---|
 | Hero right half | a **swappable panel** (G/D). Today it holds the review log; later it can hold any artifact |
 | Visible structure | **soft** (G/J): warm paper, hairline rules between sections, mono only for small meta |
-| Accent | **orange-red**: `#D63A12` light / `#FF6A3D` dark |
+| Accent | **orange-red**: `#D63A12` light / `#FF6A3D` dark (shipped as `#C4340E` light for AA; tokens live in `DESIGN.md`) |
 | Headline voice | **big light grotesk**: Host Grotesk ~84–88 px, weight 380, tracking −4.5 % |
 | Photo | a **small portrait line above the H1** (44 px photo + name + role in mono) |
 | Below the hero | **proof strip → quotes → prices → closing CTA** (J's 3-slot strip and closing band) |

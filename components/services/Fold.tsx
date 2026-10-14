@@ -11,12 +11,12 @@ export const Fold = ({
   defaultOpen?: boolean;
   children: React.ReactNode;
 }) => (
-  <details open={defaultOpen} className="group border-t border-white/15 py-5">
+  <details open={defaultOpen} className="group border-t border-ink/15 py-5">
     <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-semibold [&::-webkit-details-marker]:hidden">
       <h3>{title}</h3>
       <span
         aria-hidden="true"
-        className="text-purple transition-transform group-open:rotate-45"
+        className="text-accent transition-transform group-open:rotate-45"
       >
         +
       </span>

@@ -31,7 +31,6 @@ export const ServicesFinalCta = ({
         <PrimaryCta
           title={copy.cta}
           href={CALENDLY_URL}
-          otherClasses="md:mt-0"
           trackEvent={{
             event: "calendly_click",
             props: { source: copy.ctaSource },
@@ -41,7 +40,7 @@ export const ServicesFinalCta = ({
       <p className="mt-5">
         <Link
           href={copy.teardownHref}
-          className="inline-flex min-h-11 items-center font-medium text-white-200 underline underline-offset-4 hover:text-purple transition-colors"
+          className="inline-flex min-h-11 items-center font-medium text-body underline underline-offset-4 hover:text-accent transition-colors"
         >
           {copy.teardown}
         </Link>

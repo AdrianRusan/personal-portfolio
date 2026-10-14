@@ -31,7 +31,7 @@ export function ClosingCta({
   if (hideCta && hideEmailCapture) return null;
   if (hideCta)
     return (
-      <section className="px-5 sm:px-10 lg:px-12 py-20 border-t border-white/15">
+      <section className="gutter py-20 border-t border-ink/15">
         <div className="container-wide">
           <EmailCapture variant="footer" />
         </div>
@@ -47,19 +47,18 @@ export function ClosingCta({
         <PrimaryCta
           title={copy.button}
           href={CALENDLY_URL}
-          otherClasses="md:mt-0"
           trackEvent={{ event: "calendly_click", props: { source } }}
         />
       </div>
       <p className="mt-5">
         <Link
           href={copy.teardownHref}
-          className="inline-flex min-h-11 items-center text-pretty font-medium text-white-200 underline underline-offset-4 hover:text-purple transition-colors"
+          className="inline-flex min-h-11 items-center text-pretty font-medium text-body underline underline-offset-4 hover:text-accent transition-colors"
         >
           {copy.teardown}
         </Link>
       </p>
-      {!hideEmailCapture && <EmailCapture variant="footer" className="mt-16 border-t border-white/15 pt-8" />}
+      {!hideEmailCapture && <EmailCapture variant="footer" className="mt-16 border-t border-ink/15 pt-8" />}
     </ClosingBand>
   );
 }

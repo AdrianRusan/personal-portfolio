@@ -5,7 +5,7 @@ import type { BlogCtaCopy } from "@/lib/blog-cta";
 import { CALENDLY_URL } from "@/data";
 
 const secondaryClass =
-  "block text-sm text-purple hover:underline underline-offset-4 mt-3";
+  "block text-sm text-accent hover:underline underline-offset-4 mt-3";
 
 export default function PostCta({
   cta,
@@ -17,22 +17,21 @@ export default function PostCta({
   return (
     <section
       aria-labelledby="post-cta-heading"
-      className="border-t-2 border-purple pt-6"
+      className="border-t-2 border-accent pt-6"
     >
       <p className="eyebrow">{cta.eyebrow}</p>
       <h2
         id="post-cta-heading"
-        className="text-2xl md:text-3xl type-light mt-2 text-white"
+        className="type-subsection mt-2 text-ink"
       >
         {cta.heading}
       </h2>
-      <p className="text-sm text-white-200 leading-relaxed mt-3">{cta.body}</p>
+      <p className="text-sm text-body leading-relaxed mt-3">{cta.body}</p>
       {/* PrimaryCta's own top margin is desktop-only (R3-F17). */}
       <div className="mt-6">
         <PrimaryCta
           title={cta.label}
           href={cta.href}
-          otherClasses="md:mt-0"
           trackEvent={{
             event: "cta_click",
             props: { cta: cta.cta, source },

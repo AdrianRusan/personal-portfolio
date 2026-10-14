@@ -7,7 +7,7 @@ import { ctaPrimary } from "./button";
 
 // The filled primary CTA. Grows with its label (min-w-60 on desktop) so long
 // labels never clip.
-const layout = "w-full md:w-auto md:min-w-60 md:mt-10";
+const layout = "w-full md:w-auto md:min-w-60";
 
 const PrimaryCta = ({
   title,
