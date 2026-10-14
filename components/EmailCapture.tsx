@@ -151,7 +151,7 @@ const EmailCapture = ({
       {status === "error" && (
         <p
           id={errorId}
-          className="text-sm text-red-400 mt-3"
+          className="text-sm text-destructive mt-3"
           role="alert"
         >
           {errorMessage}
