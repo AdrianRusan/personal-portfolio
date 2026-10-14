@@ -136,7 +136,7 @@ The method, agents ship and I review, is [on the home page](/#ship-verify). The 
       body: `- Agents give you 2–3x the throughput, not 100x, and they get specific things wrong. [Here's what they get wrong](/blog/what-agents-get-wrong).
 - Workflow numbers: ${LEDGER_PROOF}
 - Each case study says whether it's my own project or client work under NDA.
-- This site checks its own claims: the build fails if a page says tests passed for a run that had none, or still has a placeholder.`,
+- This site checks its own claims: a test fails if a page says tests passed for a run that had none, and the build fails if a case study still has a placeholder.`,
     },
   ],
 };
@@ -217,7 +217,7 @@ Studiile de caz și articolele sunt în engleză: [Studii de caz](/work) · [Blo
       body: `- Agenții îți dau de 2–3 ori mai mult volum, nu de 100 de ori, și greșesc lucruri anume. [Iată ce greșesc](/blog/what-agents-get-wrong).
 - Cifrele fluxului de lucru: ${RO_LEDGER_PROOF}
 - Fiecare studiu de caz spune dacă e proiectul meu sau un proiect pentru un client, sub NDA.
-- Site-ul își verifică singur afirmațiile: build-ul pică dacă o pagină spune că testele au trecut pentru o rulare care nu avea teste sau dacă a rămas un placeholder.`,
+- Site-ul își verifică singur afirmațiile: un test pică dacă o pagină spune că testele au trecut pentru o rulare care nu avea teste, iar build-ul pică dacă într-un studiu de caz a rămas un placeholder.`,
     },
   ],
 };
