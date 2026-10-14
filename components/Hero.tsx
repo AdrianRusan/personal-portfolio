@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import PrimaryCta from "./ui/PrimaryCta";
 import { Avatar } from "./Bio";
 import { ctaSecondary } from "./ui/button";
@@ -16,52 +17,61 @@ const en = {
 };
 export type HeroCopy = typeof en;
 
-// P2: H1, one subhead, the two CTAs, the guarantee. The background is the
-// page's own (PageShell), so the hero has no effects of its own. A4 F2: the
-// face sits by the name, so the one accountable human is above the fold.
-const Hero = ({ copy = en }: { copy?: HeroCopy }) => {
+// P2: H1, one subhead, the two CTAs, the guarantee. A4 F2: the face sits by
+// the name, so the one accountable human is above the fold. #114 M: the hero
+// is two columns; `aside` is the swappable panel on the right (any content).
+const Hero = ({
+  copy = en,
+  aside,
+}: {
+  copy?: HeroCopy;
+  aside?: ReactNode;
+}) => {
   return (
     <section
       id="home"
       aria-labelledby="hero-heading"
-      className="px-5 sm:px-10 pt-36 pb-12 md:pt-44 md:pb-20"
+      className="px-5 sm:px-10 lg:px-12 pt-28 pb-16 md:pt-36 md:pb-24"
     >
-      <div className="container-section flex flex-col items-center text-center">
-        <div className="flex items-center gap-3">
-          <Avatar className="h-12 w-12" decorative priority />
-          <p className="eyebrow text-left">{copy.eyebrow}</p>
-        </div>
-        <h1
-          id="hero-heading"
-          className="mt-4 max-w-4xl text-[40px] leading-[1.1] md:text-6xl font-bold tracking-tight text-balance"
-        >
-          {copy.heading}
-        </h1>
-        <p className="mt-6 max-w-2xl text-base md:text-xl text-white-200 leading-relaxed text-pretty">
-          {copy.body}
-        </p>
-
-        <div className="mt-8 flex w-full max-w-sm flex-col md:max-w-none md:w-auto md:flex-row items-center gap-3 md:gap-4">
-          {/* Booking is the one filled button; the teardown is the outline one. */}
-          <PrimaryCta
-            title={copy.call}
-            href={CALENDLY_URL}
-            otherClasses="md:mt-0"
-            trackEvent={{ event: "calendly_click", props: { source: "hero" } }}
-          />
-          <TrackedLink
-            href="/teardown"
-            event="cta_click"
-            props={{ cta: "teardown", source: "hero" }}
-            className={cn(ctaSecondary, "w-full md:w-auto md:min-w-60")}
+      <div className="container-wide grid gap-12 lg:grid-cols-[7fr_5fr] lg:gap-16 lg:items-start">
+        <div className="flex flex-col">
+          <div className="flex items-center gap-3">
+            <Avatar className="h-11 w-11" decorative priority />
+            <p className="eyebrow">{copy.eyebrow}</p>
+          </div>
+          <h1
+            id="hero-heading"
+            className="display mt-6 text-[44px] md:text-7xl xl:text-[84px] text-balance"
           >
-            {copy.teardown}
-          </TrackedLink>
-        </div>
+            {copy.heading}
+          </h1>
+          <p className="mt-6 max-w-[34em] text-[17px] md:text-lg text-white-200 leading-relaxed text-pretty">
+            {copy.body}
+          </p>
 
-        <p className="mt-5 max-w-xl text-sm text-white-200 text-pretty">
-          {copy.guarantee}
-        </p>
+          <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-3">
+            {/* Booking is the one filled pill; the teardown is the quiet one. */}
+            <PrimaryCta
+              title={copy.call}
+              href={CALENDLY_URL}
+              otherClasses="md:mt-0 md:min-w-0"
+              trackEvent={{ event: "calendly_click", props: { source: "hero" } }}
+            />
+            <TrackedLink
+              href="/teardown"
+              event="cta_click"
+              props={{ cta: "teardown", source: "hero" }}
+              className={cn(ctaSecondary, "w-full sm:w-auto")}
+            >
+              {copy.teardown}
+            </TrackedLink>
+          </div>
+
+          <p className="mt-5 max-w-xl text-sm text-white-200 text-pretty">
+            {copy.guarantee}
+          </p>
+        </div>
+        {aside}
       </div>
     </section>
   );

@@ -24,8 +24,8 @@ const en = {
 };
 export type OffersCopy = typeof en;
 
-// P2: the home page shows the ladder as four rows (tier → offers → from-price);
-// the full cards live on /services.
+// P2: the home page shows the ladder as one ruled column per tier (#114 M:
+// tier → from-price → tagline → offers); the full cards live on /services.
 const Offers = ({ copy = en }: { copy?: OffersCopy }) => {
   // The tier's cheapest price, keeping that offer's unit (e.g. /month).
   const fromPrice = (offers: LadderOffer[]) => {
@@ -38,8 +38,8 @@ const Offers = ({ copy = en }: { copy?: OffersCopy }) => {
   };
 
   return (
-    <section id="offers" className="px-5 sm:px-10 py-12 md:py-20">
-      <div className="container-section">
+    <section id="offers" className="px-5 sm:px-10 lg:px-12 py-16 md:py-28 border-t border-white/15">
+      <div className="container-wide">
         <SectionHeading
           lead={
             <>
@@ -54,24 +54,22 @@ const Offers = ({ copy = en }: { copy?: OffersCopy }) => {
           {copy.heading}
         </SectionHeading>
 
-        <ul className="mt-8 border-t border-white/10">
+        <ul className="mt-10 grid border-t border-white md:grid-cols-2 xl:grid-cols-4">
           {copy.tiers.map(({ tier, name, tagline }) => {
             const offers = copy.ladder.filter((o) => o.tier === tier);
             if (offers.length === 0) return null;
             return (
               <li
                 key={tier}
-                className="grid gap-1 md:grid-cols-[12rem_1fr_auto] md:gap-6 md:items-baseline border-b border-white/10 py-4 md:py-5"
+                className="flex flex-col gap-2 border-b border-white/15 py-6 md:pr-8"
               >
-                <div>
-                  <h3 className="font-semibold text-white">{name}</h3>
-                  <p className="text-sm text-white-200/80">{tagline}</p>
-                </div>
-                <p className="text-sm text-white-200 text-pretty">
-                  {offers.map((o) => o.name).join(" · ")}
-                </p>
-                <p className="tabular-nums text-sm font-semibold text-white md:text-right whitespace-nowrap">
+                <h3 className="eyebrow">{name}</h3>
+                <p className="tabular-nums text-3xl xl:text-[32px] type-light text-white text-balance">
                   {fromPrice(offers)}
+                </p>
+                <p className="text-white-200 text-pretty">{tagline}</p>
+                <p className="text-sm text-white-200/80 text-pretty">
+                  {offers.map((o) => o.name).join(" · ")}
                 </p>
               </li>
             );
@@ -81,7 +79,7 @@ const Offers = ({ copy = en }: { copy?: OffersCopy }) => {
         <div className="mt-6 flex flex-col gap-3 md:flex-row md:items-baseline md:justify-between">
           <Link
             href={copy.href}
-            className="text-sm font-semibold text-purple hover:underline underline-offset-4"
+            className="text-sm font-medium text-purple hover:underline underline-offset-4"
           >
             {copy.more}
           </Link>

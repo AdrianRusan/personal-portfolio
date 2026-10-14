@@ -140,6 +140,11 @@ html {
     @apply mx-auto w-full max-w-5xl;
   }
 
+  /* #114 M: the wide page frame for the redesigned sections. */
+  .container-wide {
+    @apply mx-auto w-full max-w-[1360px];
+  }
+
   .container-prose {
     @apply mx-auto w-full max-w-3xl;
   }
@@ -147,6 +152,11 @@ html {
   /* Small meta label: mono, muted (M). The accent is kept for actions. */
   .eyebrow {
     @apply font-mono text-xs leading-5 text-white-100;
+  }
+
+  /* Section-level type (M): light weight, slightly tight. */
+  .type-light {
+    @apply font-[380] tracking-[-0.03em];
   }
 
   /* Display type (M): big, light, tight. */

@@ -7,32 +7,36 @@ const en = {
 };
 export type ProofBandCopy = typeof en;
 
-// P2: three stats in the sans, one labelling line. The workflow ledger is on
-// /about only.
+// P2: three stats and one labelling line. #114 M: rendered as the hero's
+// panel (Hero `aside`), a framed list that takes any number of rows.
 const ProofBand = ({ copy = en }: { copy?: ProofBandCopy }) => {
   return (
-    <section aria-label={copy.ariaLabel} className="px-5 sm:px-10">
-      <div className="container-section">
-        <div className="grid grid-cols-1 sm:grid-cols-3 border-y border-white/10 divide-y sm:divide-y-0 sm:divide-x divide-white/10">
-          {copy.stats.map((stat) => (
-            <div
-              key={stat.figure}
-              className="py-5 sm:py-6 sm:px-6 sm:first:pl-0"
-            >
-              <p className="flex items-baseline gap-3 sm:block">
-                <span className="tabular-nums text-3xl md:text-4xl font-bold tracking-tight text-white">
-                  {stat.figure}
-                </span>
-                <span className="block text-sm text-white-200 sm:mt-2">
-                  {stat.label}
-                </span>
-              </p>
-            </div>
-          ))}
-        </div>
-        <p className="mt-3 text-sm text-white-200/80">{copy.note}</p>
-      </div>
-    </section>
+    <aside
+      aria-label={copy.ariaLabel}
+      className="overflow-hidden rounded-xl border border-white/15 bg-black-200 shadow-[0_40px_80px_-48px_rgba(31,30,26,0.45)] dark:shadow-[0_40px_80px_-48px_rgba(0,0,0,0.7)]"
+    >
+      <p className="border-b border-white/15 px-4 py-3 font-mono text-xs text-white-100">
+        {copy.ariaLabel}
+      </p>
+      <ul>
+        {copy.stats.map((stat) => (
+          <li
+            key={stat.figure}
+            className="grid grid-cols-[5.5rem_1fr] items-baseline gap-4 border-b border-white/15 px-4 py-4"
+          >
+            <span className="tabular-nums text-4xl type-light text-white">
+              {stat.figure}
+            </span>
+            <span className="text-[15px] text-white-200 text-pretty">
+              {stat.label}
+            </span>
+          </li>
+        ))}
+      </ul>
+      <p className="bg-black-100/60 px-4 py-4 text-sm text-white-200">
+        {copy.note}
+      </p>
+    </aside>
   );
 };
 

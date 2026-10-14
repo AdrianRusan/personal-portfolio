@@ -15,8 +15,8 @@ export type ShipVerifyCopy = typeof en;
 
 const ShipVerify = ({ copy = en }: { copy?: ShipVerifyCopy }) => {
   return (
-    <section id="ship-verify" className="px-5 sm:px-10 py-12 md:py-20">
-      <div className="container-section">
+    <section id="ship-verify" className="px-5 sm:px-10 lg:px-12 py-16 md:py-28 border-t border-white/15">
+      <div className="container-wide">
         <SectionHeading
           lead={
             <>
@@ -28,17 +28,17 @@ const ShipVerify = ({ copy = en }: { copy?: ShipVerifyCopy }) => {
           {copy.heading}
         </SectionHeading>
 
-        <h3 className="text-lg md:text-xl font-semibold tracking-tight mt-12 mb-5">
+        <h3 className="eyebrow mt-14 mb-4">
           {copy.stepsHeading}
         </h3>
-        <ol className="grid grid-cols-1 md:grid-cols-2 gap-px overflow-hidden rounded-xl border border-white/10 bg-white/10">
+        <ol className="grid grid-cols-1 md:grid-cols-2 border-t border-white">
           {copy.steps.map((step, i) => (
-            <li key={step.tag} className="bg-black-100 p-6 md:p-8">
+            <li key={step.tag} className="border-b border-white/15 py-6 md:py-8 md:pr-12">
               <p className="eyebrow">
                 <span className="num">{i + 1}</span> · {step.label}
               </p>
-              <h4 className="text-lg font-semibold mt-2">{step.heading}</h4>
-              <p className="text-sm text-white-200 leading-relaxed mt-2">
+              <h4 className="text-2xl md:text-3xl type-light mt-3">{step.heading}</h4>
+              <p className="text-white-200 leading-relaxed mt-3 max-w-[36em]">
                 {step.body}
               </p>
               {/* C64: show what the verify step produces (ADI-6). */}

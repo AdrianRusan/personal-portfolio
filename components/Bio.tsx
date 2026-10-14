@@ -69,13 +69,13 @@ const Bio = ({ copy = en }: { copy?: BioCopy }) => {
   return (
     <section
       aria-labelledby="bio-heading"
-      className="px-5 sm:px-10 py-12 md:py-20"
+      className="px-5 sm:px-10 lg:px-12 py-16 md:py-28 border-t border-white/15"
     >
-      <div className="container-section">
+      <div className="container-wide grid gap-8 lg:grid-cols-[4fr_7fr] lg:gap-16">
         {/* A4 F2: the photo moved up to the hero. */}
-        <div className="max-w-3xl">
-          <SectionHeading id="bio-heading">{copy.heading}</SectionHeading>
-          <p className="mt-4 text-white-200 leading-relaxed text-pretty">
+        <SectionHeading id="bio-heading">{copy.heading}</SectionHeading>
+        <div>
+          <p className="text-lg md:text-xl text-white-200 leading-relaxed text-pretty">
             {copy.body}
           </p>
           <div className="flex items-center gap-1 mt-3 -ml-3">

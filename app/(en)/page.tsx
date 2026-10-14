@@ -64,8 +64,7 @@ export default function Home() {
   return (
     <PageShell hideEmailCapture closingSource="final_cta">
       <JsonLd data={homeJsonLd} />
-      <Hero />
-      <ProofBand />
+      <Hero aside={<ProofBand />} />
       <ShipVerify />
       <CaseStudyCards />
       <Testimonials />

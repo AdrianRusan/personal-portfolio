@@ -3,29 +3,33 @@ import { cn } from "@/lib/utils";
 import { SectionHeading } from "./ui/SectionHeading";
 
 // #76: text, name, role and company only. No photos, initials or logos.
+// #114 M: a ruled quote, no card. `size="lg"` is the lead quote of a list.
 export const Quote = ({
   testimonial: { quote, name, role, company, lang },
   className,
+  size = "md",
 }: {
   testimonial: Testimonial;
   className?: string;
+  size?: "md" | "lg";
 }) => (
   <figure
     lang={lang}
-    className={cn(
-      "flex h-full flex-col rounded-xl border border-white/10 bg-black-200/40 p-6",
-      className,
-    )}
+    className={cn("flex h-full flex-col border-t border-white/15 pt-6", className)}
   >
-    <blockquote className="flex-1 text-white-200 leading-relaxed text-pretty">
+    <blockquote
+      className={cn(
+        "flex-1 text-white leading-snug text-pretty",
+        size === "lg"
+          ? "text-2xl md:text-[32px] tracking-[-0.01em]"
+          : "text-lg md:text-xl",
+      )}
+    >
       &ldquo;{quote}&rdquo;
     </blockquote>
-    <figcaption className="mt-4 text-sm">
-      <span className="font-semibold text-white">{name}</span>
-      <span className="text-white-200/80">
-        , {role}
-        {company && `, ${company}`}
-      </span>
+    <figcaption className="mt-4 font-mono text-xs text-white-100">
+      {name}, {role}
+      {company && `, ${company}`}
     </figcaption>
   </figure>
 );
@@ -48,14 +52,14 @@ export type TestimonialsCopy = typeof en;
 const Testimonials = ({ copy = en }: { copy?: TestimonialsCopy }) => (
   <section
     aria-labelledby="testimonials-heading"
-    className="px-5 sm:px-10 py-12 md:py-20"
+    className="px-5 sm:px-10 lg:px-12 py-16 md:py-28 border-t border-white/15"
   >
-    <div className="container-section">
+    <div className="container-wide grid gap-10 lg:grid-cols-[4fr_7fr] lg:gap-16">
       <SectionHeading id="testimonials-heading">{copy.heading}</SectionHeading>
-      <ul className="grid gap-5 mt-8 md:grid-cols-2 md:items-start">
-        {copy.items.map((t) => (
+      <ul className="flex flex-col gap-8">
+        {copy.items.map((t, i) => (
           <li key={t.name}>
-            <Quote testimonial={t} />
+            <Quote testimonial={t} size={i === 0 ? "lg" : "md"} />
           </li>
         ))}
       </ul>
