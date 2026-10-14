@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { Search, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { BlogPost } from '@/lib/blog-types';
@@ -23,6 +23,7 @@ export default function BlogListClient({
   initialTag,
 }: BlogListClientProps) {
   const [search, setSearch] = useState('');
+  const searchRef = useRef<HTMLInputElement>(null);
   const [activeTag, setActiveTag] = useState<string | null>(
     initialTag && allTags.includes(initialTag) ? initialTag : null,
   );
@@ -59,6 +60,7 @@ export default function BlogListClient({
               className="absolute left-3 top-1/2 -translate-y-1/2 text-body/40"
             />
             <input
+              ref={searchRef}
               type="text"
               placeholder="Search posts..."
               aria-label="Search posts"
@@ -68,7 +70,11 @@ export default function BlogListClient({
             />
             {search && (
               <button
-                onClick={() => setSearch('')}
+                // The button unmounts once search is empty; keep focus in the box.
+                onClick={() => {
+                  setSearch('');
+                  searchRef.current?.focus();
+                }}
                 aria-label="Clear search"
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-body/40 hover:text-body transition-colors"
               >
