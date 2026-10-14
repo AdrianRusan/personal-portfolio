@@ -22,7 +22,7 @@ export const revalidate = 3600;
 
 // Home canonical + hreflang pair; the root layout sets no canonical (A1-16).
 export const metadata: Metadata = {
-  title: { absolute: `${HOME_TITLE} | Adrian Rusan` },
+  title: HOME_TITLE,
   description: HOME_DESCRIPTION,
   alternates: {
     canonical: "https://www.adrian-rusan.com",

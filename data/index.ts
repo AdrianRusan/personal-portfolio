@@ -73,11 +73,11 @@ export const SERVICES_DESCRIPTION =
 export const RULES_WORDS = { from: 10667, to: 3382 } as const;
 
 // #125: merged PRs from the engineering ledger, same-method window only
-// (11 Sep–14 Oct 2026; days before 11 Sep use another method). PRs authored by
+// (11 Sep–13 Oct 2026, complete days; days before 11 Sep use another method). PRs authored by
 // Adi's GitHub identities and merged, client and own work together, no split.
 // Active day = a day with session time. Approved at the #125 gate.
-export const THROUGHPUT = { mergedPrs: 632, activeDays: 33 } as const;
-export const THROUGHPUT_LINE = `${THROUGHPUT.mergedPrs} merged PRs in ${THROUGHPUT.activeDays} active days (11 Sep–14 Oct 2026), client and own work together, counted from my engineering ledger`;
+export const THROUGHPUT = { mergedPrs: 632, activeDays: 32 } as const;
+export const THROUGHPUT_LINE = `${THROUGHPUT.mergedPrs} merged PRs in ${THROUGHPUT.activeDays} active days (11 Sep–13 Oct 2026), client and own work together, counted from my engineering ledger`;
 
 // The one capacity line (Offers, the ladder, /about).
 export const CAPACITY =
@@ -107,7 +107,9 @@ export const GUARANTEE =
 // gate). figure = the PR, label = date · repo · what review caught · outcome.
 // taco-console rows: goals/2026-10-11-30pr-canonical-facts.md (#109 is one of
 // the 5 misses; never "1 missed"). #39: the TODO(adi) check moved into the
-// build (lib/blog.ts). The workflow ledger lives on /about only.
+// build (lib/blog.ts). WORKFLOW_NUMBERS (usage) stay on /about only; the
+// merged-PR count (THROUGHPUT) is an output, approved for the homepage at the
+// #125 gate.
 export const reviewLog = [
   {
     figure: "#112",

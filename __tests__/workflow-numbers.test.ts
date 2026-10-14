@@ -48,8 +48,8 @@ describe("workflow numbers", () => {
     expect(RO_LEDGER_PROOF).toContain("4.920");
   });
 
-  // P2 (R1-F10): the ledger is said once, on /about; the home stats are
-  // buyer outcomes, not usage.
+  // P2 (R1-F10): the usage ledger is said once, on /about. #125: the home
+  // panel is a review log; the merged-PR count is THROUGHPUT, tested below.
   it("show the ledger on /about only, once", () => {
     const count = (s: string, needle: string) => s.split(needle).length - 1;
     expect(count(JSON.stringify(aboutPage), "463 sessions")).toBe(1);
@@ -58,13 +58,21 @@ describe("workflow numbers", () => {
     expect(JSON.stringify([reviewLog, roProofBand])).not.toContain("463");
   });
 
+  // #125: a new EN review-log row must get its RO label, or /ro shows English.
+  it("translate every review-log row on /ro", () => {
+    roProofBand.stats.forEach((row, i) => {
+      expect(row.figure).toBe(reviewLog[i]!.figure);
+      expect(row.label).not.toBe(reviewLog[i]!.label);
+    });
+  });
+
   // #125: the merged-PR count comes from the same-method ledger window
-  // (11 Sep–14 Oct 2026) and only through THROUGHPUT; the window is stated.
+  // (11 Sep–13 Oct 2026) and only through THROUGHPUT; the window is stated.
   it("render the merged-PR line from one constant, window stated", () => {
-    expect(THROUGHPUT).toEqual({ mergedPrs: 632, activeDays: 33 });
-    expect(THROUGHPUT_LINE).toContain("632 merged PRs in 33 active days (11 Sep–14 Oct 2026)");
+    expect(THROUGHPUT).toEqual({ mergedPrs: 632, activeDays: 32 });
+    expect(THROUGHPUT_LINE).toContain("632 merged PRs in 32 active days (11 Sep–13 Oct 2026)");
     expect(THROUGHPUT_LINE).toContain("client and own work");
-    expect(RO_THROUGHPUT_LINE).toContain("632 de PR-uri merge-uite în 33 de zile active");
+    expect(RO_THROUGHPUT_LINE).toContain("632 de PR-uri merge-uite în 32 de zile active");
     const literal = files.filter(
       (f) => f !== path.join("data", "index.ts") && /\b632\b/.test(fs.readFileSync(f, "utf8")),
     );

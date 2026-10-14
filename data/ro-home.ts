@@ -41,9 +41,10 @@ const ro = (v: number) => v.toLocaleString("ro-RO");
 export const RO_LEDGER_PROOF = `${W.sessions} de sesiuni · ${W.hours} de ore · ${ro(W.commits)} de commit-uri · ${W.prsOpened} de PR-uri deschise (limită superioară, nu toate merge-uite), în ${W.days} de zile, 6 aug.–10 oct. 2026, numărate din propriile mele jurnale de sesiuni.`;
 
 // RO twin of THROUGHPUT_LINE (data/index.ts): same constant, same source.
-export const RO_THROUGHPUT_LINE = `${T.mergedPrs} de PR-uri merge-uite în ${T.activeDays} de zile active (11 sep.–14 oct. 2026), proiecte pentru clienți și proprii la un loc, numărate din registrul meu de inginerie`;
+export const RO_THROUGHPUT_LINE = `${T.mergedPrs} de PR-uri merge-uite în ${T.activeDays} de zile active (11 sep.–13 oct. 2026), proiecte pentru clienți și proprii la un loc, numărate din registrul meu de inginerie`;
 
-// /ro title and description (#125: same frame as the EN homepage).
+// /ro title and description. #125: the description follows the EN homepage;
+// the title keeps its RO term (no RO keyword data, keyword-research.md).
 export const RO_HOME_TITLE = "Livrare cu agenți AI, revizuită de un senior";
 export const RO_HOME_DESCRIPTION =
   "Cod scris de agenți AI, verificat linie cu linie de un inginer senior înainte să ajungă la tine. Preț fix, securitatea întâi, peste 10 ani în producție.";
