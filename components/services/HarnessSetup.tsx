@@ -48,11 +48,14 @@ export const HarnessSetup = async ({
   // The post is scheduled; link it only once it's live (checked at build).
   const rulesLive = (await getPosts()).some((p) => p.slug === RULES_POST);
   return (
-    <section id="harness" className="px-5 sm:px-10 py-12 md:py-16 scroll-mt-24">
-      <div className="container-section">
+    <section
+      id="harness"
+      className="px-5 sm:px-10 lg:px-12 py-12 md:py-16 scroll-mt-24"
+    >
+      <div className="container-wide">
         <SectionHeading lead={copy.intro}>{copy.heading}</SectionHeading>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10 border-t border-white/10 pt-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10 border-t border-white/15 pt-8">
           <div>
             <h3 className="text-lg font-semibold">{copy.deliveredHeading}</h3>
             <ul className="flex flex-col gap-3 mt-4 list-disc pl-5 marker:text-purple">
@@ -74,9 +77,9 @@ export const HarnessSetup = async ({
               </Link>
             )}
           </div>
-          <div className="rounded-xl border border-white/10 bg-black-200/40 p-6 md:p-8 self-start">
+          <div className="rounded-xl border border-white/15 bg-black-200 p-6 md:p-8 self-start">
             <p className="text-sm text-white-200/80">{copy.startsAt}</p>
-            <p className="tabular-nums text-3xl md:text-4xl font-bold text-white mt-1">
+            <p className="tabular-nums text-3xl md:text-4xl type-light text-white mt-1">
               {copy.price}
             </p>
             <p className="text-sm text-white-200 mt-4 leading-relaxed text-pretty">

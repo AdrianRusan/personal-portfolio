@@ -34,8 +34,11 @@ export type LadderContent = typeof en;
 // rows drop the assurance line, because their detail blocks below repeat it.
 export const Ladder = ({ content = en }: { content?: LadderContent }) => {
   return (
-    <section id="ladder" className="px-5 sm:px-10 py-12 md:py-16 scroll-mt-24">
-      <div className="container-section">
+    <section
+      id="ladder"
+      className="px-5 sm:px-10 lg:px-12 py-12 md:py-16 scroll-mt-24"
+    >
+      <div className="container-wide">
         <SectionHeading
           lead={
             <>
@@ -49,7 +52,7 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
 
         <div className="mt-10 flex flex-col">
           {content.tiers.map(({ tier, tagline }) => (
-            <div key={tier} className="border-t border-white/10 pt-6 pb-2">
+            <div key={tier} className="border-t border-white/15 pt-6 pb-2">
               <h3 className="text-lg font-semibold text-white">
                 {content.tierName(tier)}
                 <span className="ml-3 text-sm font-normal text-white-200/80">
@@ -99,7 +102,7 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
                           ))}
                         </div>
                       </div>
-                      <p className="tabular-nums text-base font-bold text-white md:text-right whitespace-nowrap">
+                      <p className="tabular-nums text-base type-light text-white md:text-right whitespace-nowrap">
                         {content.format(offer)}
                       </p>
                     </li>
@@ -109,7 +112,7 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
           ))}
         </div>
 
-        <div className="border-t border-white/10 pt-6">
+        <div className="border-t border-white/15 pt-6">
           <p className="text-sm text-white-200/80 max-w-3xl text-pretty">
             {content.capacity}
           </p>

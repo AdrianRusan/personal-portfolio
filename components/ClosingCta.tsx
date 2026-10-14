@@ -1,6 +1,7 @@
 import Link from "next/link";
 import PrimaryCta from "./ui/PrimaryCta";
 import EmailCapture from "./EmailCapture";
+import { ClosingBand } from "./ClosingBand";
 import { CALENDLY_URL } from "@/data";
 
 // The one closing ask (P1). PageShell renders it on every page; pages with
@@ -27,44 +28,38 @@ export function ClosingCta({
   hideEmailCapture?: boolean;
 }) {
   if (hideCta && hideEmailCapture) return null;
+  if (hideCta)
+    return (
+      <section className="px-5 sm:px-10 lg:px-12 py-20 border-t border-white/15">
+        <div className="container-wide">
+          <EmailCapture variant="footer" />
+        </div>
+      </section>
+    );
   return (
-    <section
-      className="px-5 sm:px-10 lg:px-12 pt-20 pb-20 md:pt-28 border-t border-white/15 bg-chip/50"
-      {...(hideCta ? {} : { "aria-labelledby": "closing-cta-heading" })}
+    <ClosingBand
+      id="closing-cta-heading"
+      heading={copy.heading}
+      body={copy.body}
     >
-      {!hideCta && (
-        <div className="container-wide">
-          <h2
-            id="closing-cta-heading"
-            className="display max-w-[14em] text-4xl md:text-6xl xl:text-7xl text-balance"
-          >
-            {copy.heading}
-          </h2>
-          <p className="mt-6 max-w-xl text-lg text-white-200 text-pretty">{copy.body}</p>
-          <div className="mt-8 flex">
-            <PrimaryCta
-              title={copy.button}
-              href={CALENDLY_URL}
-              otherClasses="md:mt-0"
-              trackEvent={{ event: "calendly_click", props: { source } }}
-            />
-          </div>
-          <p className="mt-5">
-            <Link
-              href="/teardown"
-              className="font-medium text-white-200 underline underline-offset-4 hover:text-purple transition-colors"
-            >
-              {copy.teardown}
-            </Link>
-          </p>
-        </div>
-      )}
-      {!hideEmailCapture && (
-        <div className="container-wide">
-          <EmailCapture variant="footer" className={hideCta ? "" : "mt-16"} />
-        </div>
-      )}
-    </section>
+      <div className="mt-8 flex">
+        <PrimaryCta
+          title={copy.button}
+          href={CALENDLY_URL}
+          otherClasses="md:mt-0"
+          trackEvent={{ event: "calendly_click", props: { source } }}
+        />
+      </div>
+      <p className="mt-5">
+        <Link
+          href="/teardown"
+          className="inline-flex min-h-11 items-center font-medium text-white-200 underline underline-offset-4 hover:text-purple transition-colors"
+        >
+          {copy.teardown}
+        </Link>
+      </p>
+      {!hideEmailCapture && <EmailCapture variant="footer" className="mt-16" />}
+    </ClosingBand>
   );
 }
 

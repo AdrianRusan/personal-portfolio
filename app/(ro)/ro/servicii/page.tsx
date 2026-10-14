@@ -83,8 +83,10 @@ export default function RoServicesPage() {
       />
       <FloatingNav />
       <main id="main">
-        <ServicesHero copy={roServicesHero} />
-        <TrustStrip copy={roTrustStrip} />
+        <ServicesHero
+          copy={roServicesHero}
+          aside={<TrustStrip copy={roTrustStrip} />}
+        />
         <Ladder content={roServicesLadder} />
         <ProcessSteps copy={roProcessSteps} />
         <DeliverySprint copy={roDeliverySprint} />

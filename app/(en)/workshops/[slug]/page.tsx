@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell } from "@/components/PageShell";
+import { ClosingBand } from "@/components/ClosingBand";
 import PrimaryCta from "@/components/ui/PrimaryCta";
 import {
   workshops,
@@ -55,7 +56,6 @@ export async function generateMetadata({
   };
 }
 
-
 export default async function WorkshopPage({ params }: WorkshopPageProps) {
   const w = workshops[(await params).slug];
   const other =
@@ -83,21 +83,21 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
         ]}
       />
 
-      <section className="px-5 sm:px-10 pt-36 md:pt-44 pb-12 md:pb-16">
-        <div className="container-section text-center">
+      <section className="px-5 sm:px-10 lg:px-12 pt-28 md:pt-36 pb-12 md:pb-16">
+        <div className="container-wide">
           <p className="eyebrow">
             Team workshop · {w.length} · up to {w.maxPeople} people
           </p>
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-balance max-w-3xl mx-auto mt-3">
+          <h1 className="display text-[40px] md:text-6xl xl:text-7xl text-balance max-w-[18em] mt-5">
             {w.headline}
           </h1>
-          <p className="text-white-200 mt-5 leading-relaxed max-w-2xl mx-auto text-pretty">
+          <p className="text-[17px] md:text-lg text-white-200 mt-6 leading-relaxed max-w-[38em] text-pretty">
             {w.intro}
           </p>
           <p className="text-sm text-white-200/80 mt-5">
             {euro(w.price)} for the {w.length} · {perEngineer(w)} · EUR, ex-VAT
           </p>
-          <div className="flex justify-center mt-6">
+          <div className="flex mt-6">
             <PrimaryCta
               title={w.cta.label}
               href={w.cta.href}
@@ -113,35 +113,36 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
 
       <section
         id="agenda"
-        className="px-5 sm:px-10 py-12 md:py-16 scroll-mt-24"
+        className="px-5 sm:px-10 lg:px-12 py-12 md:py-16 scroll-mt-24"
         aria-label="Agenda"
       >
-        <div className="container-prose">
-          <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
-            Agenda
-          </h2>
+        <div className="container-wide">
+          <h2 className="text-3xl md:text-5xl type-light">Agenda</h2>
           <div className="flex flex-col gap-10 mt-8">
             {w.agenda.map((part) => (
               <div key={part.label}>
-                <h3 className="text-sm font-semibold text-purple">
+                <h3 className="eyebrow">
                   {part.label}
                   {part.duration && ` · ${part.duration}`}
                 </h3>
-                <ul className="flex flex-col gap-5 mt-4">
+                {/* #114 M: ruled rows, the time in the left column. */}
+                <ul className="mt-4 border-t border-white">
                   {part.blocks.map((block) => (
                     <li
                       key={block.title}
-                      className="rounded-2xl border border-white/10 bg-black-200/40 p-5 md:p-6"
+                      className="grid gap-1 border-b border-white/15 py-5 md:grid-cols-[10rem_minmax(0,1fr)] md:gap-8"
                     >
                       {block.time && (
-                        <p className="num text-xs text-purple mb-1">
+                        <p className="font-mono text-xs text-white-100 md:pt-1.5">
                           {block.time}
                         </p>
                       )}
-                      <p className="font-semibold">{block.title}</p>
-                      <p className="text-sm text-white-200 mt-2 leading-relaxed">
-                        {block.body}
-                      </p>
+                      <div className="md:col-start-2">
+                        <p className="text-xl type-light">{block.title}</p>
+                        <p className="text-white-200 mt-2 leading-relaxed max-w-[42em]">
+                          {block.body}
+                        </p>
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -151,9 +152,12 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
         </div>
       </section>
 
-      <section className="px-5 sm:px-10 py-12 md:py-16" aria-label="What you leave with">
-        <div className="container-prose">
-          <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
+      <section
+        className="px-5 sm:px-10 lg:px-12 py-12 md:py-16"
+        aria-label="What you leave with"
+      >
+        <div className="container-wide">
+          <h2 className="text-3xl md:text-5xl type-light">
             What your team leaves with
           </h2>
           <p className="text-white mt-4 font-medium leading-relaxed">
@@ -187,11 +191,12 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
         </div>
       </section>
 
-      <section className="px-5 sm:px-10 py-12 md:py-16" aria-label="Logistics">
-        <div className="container-prose">
-          <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
-            Logistics
-          </h2>
+      <section
+        className="px-5 sm:px-10 lg:px-12 py-12 md:py-16"
+        aria-label="Logistics"
+      >
+        <div className="container-wide">
+          <h2 className="text-3xl md:text-5xl type-light">Logistics</h2>
           <ul className="flex flex-col gap-3 mt-6 list-disc pl-5 marker:text-purple">
             {workshopLogistics.map((item) => (
               <li
@@ -205,61 +210,56 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
         </div>
       </section>
 
-      <section className="px-5 sm:px-10 pt-12 pb-20" aria-label="Book the workshop">
-        <div className="container-prose rounded-2xl border border-white/10 bg-black-200/60 p-6 md:p-10 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-balance">
-            Tell me your team size and a few dates that work
-          </h2>
-          <p className="text-white-200 mt-4 text-pretty">
-            {euro(w.price)} for up to {w.maxPeople} people, EUR, ex-VAT. I reply
-            with the open dates and what to install beforehand.
-          </p>
-          <div className="flex justify-center mt-6">
-            <PrimaryCta
-              title={w.cta.label}
-              href={w.cta.href}
-              otherClasses="md:mt-0"
-              trackEvent={{
-                event: "cta_click",
-                props: { cta: "workshop", source: `workshop_${w.slug}_final` },
-              }}
-            />
-          </div>
-          {w.secondaryCta ? (
-            <a
-              href={w.secondaryCta.href}
-              className="inline-block mt-4 text-sm text-white-200 underline underline-offset-4 hover:text-purple"
-            >
-              {w.secondaryCta.label}
-            </a>
-          ) : (
-            // R2-F22: the address in plain sight for webmail users.
-            <p className="mt-4 text-sm text-white-200">
-              or write to{" "}
-              <a
-                href={w.cta.href}
-                className="font-medium underline underline-offset-4 hover:text-purple"
-              >
-                {CONTACT_EMAIL}
-              </a>
-            </p>
-          )}
-          <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 mt-8 text-sm font-medium">
-            <Link
-              href={`/workshops/${other.slug}`}
-              className="text-blue-100 hover:text-purple transition-colors"
-            >
-              Or see the {other.length} version ({euro(other.price)}) →
-            </Link>
-            <Link
-              href="/services"
-              className="text-blue-100 hover:text-purple transition-colors"
-            >
-              All services and prices →
-            </Link>
-          </div>
+      <ClosingBand
+        id="workshop-book-heading"
+        heading="Tell me your team size and a few dates that work"
+        body={`${euro(w.price)} for up to ${w.maxPeople} people, EUR, ex-VAT. I reply with the open dates and what to install beforehand.`}
+      >
+        <div className="flex mt-8">
+          <PrimaryCta
+            title={w.cta.label}
+            href={w.cta.href}
+            otherClasses="md:mt-0"
+            trackEvent={{
+              event: "cta_click",
+              props: { cta: "workshop", source: `workshop_${w.slug}_final` },
+            }}
+          />
         </div>
-      </section>
+        {w.secondaryCta ? (
+          <a
+            href={w.secondaryCta.href}
+            className="inline-block mt-4 text-sm text-white-200 underline underline-offset-4 hover:text-purple"
+          >
+            {w.secondaryCta.label}
+          </a>
+        ) : (
+          // R2-F22: the address in plain sight for webmail users.
+          <p className="mt-4 text-sm text-white-200">
+            or write to{" "}
+            <a
+              href={w.cta.href}
+              className="font-medium underline underline-offset-4 hover:text-purple"
+            >
+              {CONTACT_EMAIL}
+            </a>
+          </p>
+        )}
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mt-8 text-sm font-medium">
+          <Link
+            href={`/workshops/${other.slug}`}
+            className="text-blue-100 hover:text-purple transition-colors"
+          >
+            Or see the {other.length} version ({euro(other.price)}) →
+          </Link>
+          <Link
+            href="/services"
+            className="text-blue-100 hover:text-purple transition-colors"
+          >
+            All services and prices →
+          </Link>
+        </div>
+      </ClosingBand>
     </PageShell>
   );
 }

@@ -72,9 +72,7 @@ export const PricingTable = ({
           <li
             key={column.name}
             className={`rounded-xl border p-5 ${
-              column.featured
-                ? "border-purple bg-black-200/60"
-                : "border-white/10"
+              column.featured ? "border-purple bg-black-200" : "border-white/15"
             }`}
           >
             {column.badge && (
@@ -111,8 +109,8 @@ export const PricingTable = ({
                   key={column.name}
                   className={`text-left align-bottom pb-4 px-4 border-b ${
                     column.featured
-                      ? "border-purple bg-black-200/60"
-                      : "border-white/10"
+                      ? "border-purple bg-black-200"
+                      : "border-white/15"
                   }`}
                 >
                   {column.badge && (
@@ -129,7 +127,7 @@ export const PricingTable = ({
           </thead>
           <tbody>
             {rows.map((row) => (
-              <tr key={row.label} className="border-b border-white/10">
+              <tr key={row.label} className="border-b border-white/15">
                 <th
                   scope="row"
                   className="text-left align-top py-4 pr-4 font-medium text-white-200 whitespace-nowrap"
@@ -142,7 +140,7 @@ export const PricingTable = ({
                     <td
                       key={`${row.label}-${column?.name ?? index}`}
                       className={`align-top py-4 px-4 text-white-200 leading-relaxed ${
-                        column?.featured ? "bg-black-200/60" : ""
+                        column?.featured ? "bg-black-200" : ""
                       }`}
                     >
                       {value}
@@ -156,7 +154,7 @@ export const PricingTable = ({
               {columns.map((column) => (
                 <td
                   key={column.name}
-                  className={`py-6 px-4 ${column.featured ? "bg-black-200/60" : ""}`}
+                  className={`py-6 px-4 ${column.featured ? "bg-black-200" : ""}`}
                 >
                   {link(column)}
                 </td>
