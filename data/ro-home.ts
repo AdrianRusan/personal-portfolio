@@ -10,7 +10,6 @@ import type { TestimonialsCopy } from "@/components/Testimonials";
 import type { WhoForCopy } from "@/components/WhoFor";
 import type { PostTitles } from "@/lib/blog-types";
 import {
-  CONTACT_EMAIL,
   FINTECH_EMPLOYER,
   reviewLog,
   shipVerify,

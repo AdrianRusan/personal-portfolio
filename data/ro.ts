@@ -1,7 +1,4 @@
 import { CALENDLY_URL, CONTACT_EMAIL, CREDIT_DAYS } from "@/data";
-
-// #125: the RO stand-in for the EN-only /teardown form (gate Q6): an email.
-export const RO_TEARDOWN_EMAIL = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Teardown gratuit")}`;
 import {
   ladder,
   perPrBand,
@@ -12,6 +9,9 @@ import {
   type Price,
   type Tier,
 } from "@/data/ladder";
+
+// #125: the RO stand-in for the EN-only /teardown form (gate Q6): an email.
+export const RO_TEARDOWN_EMAIL = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Teardown gratuit")}`;
 
 // Paid 110 € call (brief R3/R7). null until Adi creates the Calendly event;
 // set it and the RO CTAs switch from email to booking, label too.
