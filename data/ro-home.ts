@@ -158,19 +158,19 @@ export const roPostTitles: PostTitles = {
       "O reducere a contextului a scăzut costul Claude Code pe PR merge-uit de la 73 $ la 32 $ într-o lună. Apoi a crescut cu 42% până la începutul lui octombrie. Registrul, metoda și comparația pe care am greșit-o.",
   },
   "66-days-of-claude-code-by-the-numbers": {
-    title: "463 de sesiuni Claude Code, numărate: promptul meu median avea 10 cuvinte",
+    title: "Utilizarea Claude Code: 463 de sesiuni, 45 de miliarde de tokeni, numărate",
     description:
-      "463 de sesiuni Claude Code în 66 de zile, numărate de un script: un prompt median de 10 cuvinte, 2,7 sesiuni pentru fiecare oră la tastatură și 97,7% din 45 de miliarde de tokeni citiți din cache.",
+      "66 de zile de Claude Code, numărate de un script: scrierile în cache au fost 2,1% din tokeni și 42% din dolarii la preț de listă. Sesiuni, prompturi, subagenți și limite.",
   },
   "the-rules-file-my-agents-follow": {
-    title: "Fișierul de reguli pe care îl urmează agenții mei: exemple de CLAUDE.md și hook-urile din spatele lor",
+    title: "Exemple de CLAUDE.md: ce am tăiat și ce a devenit hook",
     description:
-      "Exemple reale de CLAUDE.md dintr-un fișier de reguli cu 274 de commit-uri în spate: cinci reguli, de ce există fiecare și care sunt impuse de un hook, față de cele pe care modelul le poate ignora.",
+      "Am redus regulile agenților mei de la 10.667 de cuvinte la 3.382, iar regulile care au contat au devenit hook-uri. Plus datele despre o poartă pe care agenții au ocolit-o de aproximativ 300 de ori.",
   },
   "how-i-run-claude-code-agents-in-parallel": {
-    title: "Agenți Claude Code în paralel: ce nu izolează git worktree și ce acoperă acum funcțiile native",
+    title: "Worktree-uri Claude Code: ce împart în continuare agenții paraleli",
     description:
-      "Agenți Claude Code în paralel în octombrie 2026: cele cinci lucruri pe care worktree-urile le partajează în continuare (porturi, servicii, .git, aprobări, limita de utilizare), ce rezolvă acum -w, --bg și claude agents și pentru ce folosesc încă Herdr.",
+      "Un git worktree îi dă fiecărui agent propriile fișiere și atât. Cele cinci lucruri pe care agenții paraleli le împart în continuare, două incidente reale și ce fac acum.",
   },
   "claude-code-subagents-in-review": {
     title: "Subagenți Claude Code: ce arată 85 de PR-uri revizuite",
@@ -188,25 +188,25 @@ export const roPostTitles: PostTitles = {
       "Claude Code șterge transcrierile după 30 de zile, iar cifrele rămase se strică în cinci feluri. Metoda din registrul meu pentru costul pe PR merge-uit și capcanele în care a căzut.",
   },
   "what-agents-get-wrong": {
-    title: "Cum faci review la codul scris de AI: pentru ce au fost 64 de corecții pe 30 de PR-uri ale agenților",
+    title: "Cum faci review la codul scris de AI: de ce au avut nevoie 30 de PR-uri ale agenților",
     description:
-      "Am sortat toate cele 64 de corecții din review-ul a 30 de PR-uri scrise de agenți după ce era greșit: securitate, cod duplicat, tipuri, versiuni vechi de framework. Cifrele, câte un exemplu real și un checklist ordonat după frecvență.",
+      "25 din 30 de PR-uri scrise de agenți au avut nevoie de o corecție înainte de merge. Am numărat toate cele 79: codul duplicat a fost primul, securitatea a treia, iar review-ul a ratat 5 buguri de securitate.",
   },
   "catching-shell-injection-agents-wrote": {
-    title: "Bugurile de shell injection scrise de agenții mei: 4 prinse, 3 ratate",
+    title: "Bugurile de shell injection scrise de agenții mei și cele 3 ratate de mine",
     description:
-      "Agenții au scris 7 comenzi shell construite din string-uri în 30 de PR-uri. Review-ul a prins 4, dintre care 3 din input-ul cererii, și a ratat 3, una tot din input-ul cererii. Codul și verificările.",
+      "Agenții au scris 7 comenzi shell construite din string-uri în 30 de PR-uri pe propriul meu repo. Review-ul a corectat 4 și a ratat 3. Diff-urile, corecțiile și verificarea pe care o fac acum.",
   },
   "ai-reviewers-on-the-bugs-i-missed": {
-    title: "Am dat bugurile ratate de mine unor agenți de review AI: toate cele 5 semnalate, unul lăsat să treacă",
+    title: "/code-review din Claude Code față de review-ul meu: un test orb",
     description:
-      "Am rulat /code-review din Claude Code și un panel de trei agenți, fără indicii, pe 8 commit-uri scrise de agenți pe care le revizuisem manual. Au semnalat cele 5 buguri de securitate ratate de mine și au lăsat unul să treacă, din același motiv ca mine.",
+      "Am rulat /code-review și un panel de trei agenți, fără indicii, pe 8 commit-uri revizuite deja de mine. Panelul a semnalat cele 5 buguri de securitate ratate de mine și a repetat greșeala mea pe unul.",
   },
 
   "2-3x-not-100x": {
-    title: "De 2–3 ori pe backlog-ul meu, 8% în 400 de companii: unde dispare câștigul din AI",
+    title: "Unde dispare câștigul din AI: în coada de review",
     description:
-      "Cu cât e mai rapidă programarea cu AI? DX a măsurat sub 8% mai multe PR-uri în peste 400 de companii. PR-urile scrise de agenții mei au intrat în main în mediană la 44 de minute după deschidere, cu review cu tot. În datele LinearB, PR-urile scrise de AI așteaptă peste 16 ore doar până le preia cineva. Timpii, estimarea și de ce diferă.",
+      "Cu cât e mai rapidă programarea cu AI? DX a găsit sub 8% mai multe PR-uri într-un eșantion din 400 de companii. PR-urile agenților mei au intrat în merge în mediană la 44 de minute după deschidere.",
   },
 };
 
