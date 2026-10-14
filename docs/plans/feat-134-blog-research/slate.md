@@ -41,3 +41,10 @@ None needed. The 4 live slugs stay. The two retired slugs (`reviewer-agents-that
 2. **Aggregates that include client work, as totals with no split:** ledger cost per merged PR by week, "about a fifth of spend outside any repo", and "subagent turns per PR rose 60 → 168 while PRs per day fell". Publish (Q2 = yes), or keep the posts to own-repo numbers only?
 3. **The secret-scanner story (post #9):** the hook counts include commits in client repos (counts only, no names). Also, the audit says one scan bypass described in the current post is **still open in the harness today**. I can't edit `~/.claude` in this run. Fix it before 14 Nov, or should the post say it's open?
 4. **The fix recount (post #1):** publish the recount (~75 defects, counted one per fix bullet, same ranking) in place of "64"?
+
+## Gate answers (Adi, 2026-10-14)
+
+1. Slate: **approved as is**.
+2. Aggregates that include client work: **yes, totals only** (no names, no split).
+3. Scan bypass: **Adi fixes it before 14 Nov**; post #9 says "found and fixed", and HANDOFF lists the deadline.
+4. Recount: **publish the recount** with its counting rule.
