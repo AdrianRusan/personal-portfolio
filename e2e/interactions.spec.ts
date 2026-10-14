@@ -381,6 +381,37 @@ test.describe("locale switch (I-20..I-22)", () => {
       );
     });
   }
+
+  test("the footer switch says when it lands on the other homepage (I-22)", async ({
+    page,
+  }) => {
+    await page.goto("/blog");
+    const footer = page.locator("footer a[hreflang]");
+    await expect(footer).toHaveAttribute("href", "/ro");
+    await expect(footer).toHaveAttribute("title", "Pagina principală în română");
+    await expect(footer).toHaveAttribute(
+      "aria-label",
+      "Română, Pagina principală în română",
+    );
+    // With a twin page it stays a plain link.
+    await page.goto("/services");
+    await expect(page.locator("footer a[hreflang]")).not.toHaveAttribute(
+      "title",
+      /./,
+    );
+  });
+
+  test("an unknown /ro/ URL gets the Romanian 404 (I-23)", async ({ page }) => {
+    const res = await page.goto("/ro/nu-exista");
+    expect(res?.status()).toBe(404);
+    await expect(page.locator("html")).toHaveAttribute("lang", "ro");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+      "Pagina asta nu există.",
+    );
+    await expect(
+      page.getByRole("link", { name: "Înapoi la pagina principală" }),
+    ).toHaveAttribute("href", "/ro");
+  });
 });
 
 // Captures Vercel Analytics calls (window.va) and blocks the real script.
@@ -636,6 +667,21 @@ test.describe("controls and keyboard (I-50..I-56)", () => {
     await expect(all).toHaveAttribute("aria-pressed", "false");
   });
 
+  test("the tag filter is in the URL and survives a reload (I-60)", async ({
+    page,
+  }) => {
+    await page.goto("/blog");
+    await hydrated(page);
+    await page.getByRole("button", { name: "Security", exact: true }).click();
+    await expect.poll(() => new URL(page.url()).search).toBe("?tag=security");
+    await page.reload();
+    await expect(
+      page.getByRole("button", { name: "Security", exact: true }),
+    ).toHaveAttribute("aria-pressed", "true");
+    await page.getByRole("button", { name: "All", exact: true }).click();
+    await expect.poll(() => new URL(page.url()).search).toBe("");
+  });
+
   test("FAQ items open and close by keyboard (I-51)", async ({ page }) => {
     await page.goto("/services");
     // The first item starts open; the second starts closed.
@@ -721,5 +767,25 @@ test.describe("controls and keyboard (I-50..I-56)", () => {
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
       canonical,
     );
+  });
+
+  test("a blocked clipboard says so on Copy link and Copy code (I-56)", async ({
+    page,
+  }, { project }) => {
+    desktopOnly(project.name);
+    await page.addInitScript(() => {
+      navigator.clipboard.writeText = () =>
+        Promise.reject(new DOMException("blocked", "NotAllowedError"));
+    });
+    await page.goto("/blog/2-3x-not-100x");
+    await hydrated(page);
+    await page.getByRole("button", { name: "Copy link" }).click();
+    await expect(
+      page.getByRole("button", { name: "Couldn't copy the link" }),
+    ).toBeVisible();
+    await page.getByRole("button", { name: "Copy code" }).first().click();
+    await expect(
+      page.getByRole("button", { name: "Couldn't copy the code" }),
+    ).toBeVisible();
   });
 });

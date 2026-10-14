@@ -24,9 +24,19 @@ export default function BlogListClient({
 }: BlogListClientProps) {
   const [search, setSearch] = useState('');
   const searchRef = useRef<HTMLInputElement>(null);
-  const [activeTag, setActiveTag] = useState<string | null>(
+  const [activeTag, setActiveTagState] = useState<string | null>(
     initialTag && allTags.includes(initialTag) ? initialTag : null,
   );
+  // #143 I-60: keep ?tag= in the URL so a filter survives reload and sharing.
+  // history.replaceState updates Next's router without refetching the page.
+  const setActiveTag = (tag: string | null) => {
+    setActiveTagState(tag);
+    window.history.replaceState(
+      null,
+      '',
+      tag ? `/blog?tag=${encodeURIComponent(tag)}` : '/blog',
+    );
+  };
 
   const filtered = useMemo(() => {
     return posts.filter((post) => {

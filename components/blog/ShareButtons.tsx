@@ -10,7 +10,7 @@ interface ShareButtonsProps {
 }
 
 export default function ShareButtons({ title, slug }: ShareButtonsProps) {
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<'ok' | 'failed' | null>(null);
 
   // #133 I-55: the canonical URL, never the reader's (their UTMs and #hash
   // would travel with every share), and the same on server and client.
@@ -19,10 +19,15 @@ export default function ShareButtons({ title, slug }: ShareButtonsProps) {
   const encodedUrl = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title);
 
+  // #143 I-56: a blocked clipboard says so instead of failing silently.
   const copyLink = async () => {
-    await navigator.clipboard.writeText(url);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied('ok');
+    } catch {
+      setCopied('failed');
+    }
+    setTimeout(() => setCopied(null), 2000);
   };
 
   return (
@@ -54,14 +59,22 @@ export default function ShareButtons({ title, slug }: ShareButtonsProps) {
       <button
         onClick={copyLink}
         className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-ink/10 text-body hover:bg-accent/10 hover:border-accent/30 hover:text-accent-ink transition-all text-sm"
-        aria-label={copied ? 'Link copied!' : 'Copy link'}
+        aria-label={
+          copied === 'ok'
+            ? 'Link copied!'
+            : copied === 'failed'
+              ? "Couldn't copy the link"
+              : 'Copy link'
+        }
       >
-        {copied ? (
+        {copied === 'ok' ? (
           <Check size={15} className="text-accent" />
         ) : (
           <Link2 size={15} />
         )}
-        <span className="hidden sm:inline">{copied ? 'Copied!' : 'Copy link'}</span>
+        <span className="hidden sm:inline">
+          {copied === 'ok' ? 'Copied!' : copied === 'failed' ? "Couldn't copy" : 'Copy link'}
+        </span>
       </button>
     </div>
   );
