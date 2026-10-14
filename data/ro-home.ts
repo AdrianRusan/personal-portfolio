@@ -175,7 +175,7 @@ export const roPostTitles: PostTitles = {
   "claude-code-subagents-in-review": {
     title: "Subagenți Claude Code: ce arată 85 de PR-uri revizuite",
     description:
-      "Agenții mei de review au dat un verdict pe 85 de PR-uri între mai și iulie 2026. 39 dintre ele există doar ca rezumat de un rând scris de agentul care a scris codul, iar 3 BLOCK-uri au intrat în merge fără corecție. Designul panelului, cifrele și ce urmă ar trebui să lase un agent de review.",
+      "Verdicte de review pe 85 de PR-uri, dintre care 39 nu mai pot fi verificate. 84% din mesajele subagenților au rulat pe Opus. Cum îmi definesc subagenții Claude Code și cât costă.",
   },
   "claude-code-fail-closed-hooks": {
     title: "Hook-urile Claude Code lasă acțiunea să treacă la eroare. Am testat onFailure: \"block\" pe propriile mele gate-uri",
