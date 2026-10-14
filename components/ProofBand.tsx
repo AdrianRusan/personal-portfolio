@@ -11,7 +11,7 @@ export type ProofBandCopy = typeof en;
 // panel (Hero `aside`), a framed list that takes any number of rows.
 const ProofBand = ({ copy = en }: { copy?: ProofBandCopy }) => {
   return (
-    <aside aria-label={copy.ariaLabel} className="hero-panel">
+    <section aria-label={copy.ariaLabel} className="hero-panel">
       <p className="border-b border-white/15 px-4 py-3 font-mono text-xs text-white-100">
         {copy.ariaLabel}
       </p>
@@ -33,7 +33,7 @@ const ProofBand = ({ copy = en }: { copy?: ProofBandCopy }) => {
       <p className="bg-black-100/60 px-4 py-4 text-sm text-white-200">
         {copy.note}
       </p>
-    </aside>
+    </section>
   );
 };
 

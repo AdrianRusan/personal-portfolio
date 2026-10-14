@@ -24,7 +24,7 @@ export const TrustStrip = ({ copy = en }: { copy?: TrustStripCopy }) => {
     "inline-flex min-h-11 items-center font-medium text-purple underline underline-offset-4 hover:text-white transition-colors";
   return (
     // #114 M: the services hero panel (ServicesHero `aside`).
-    <aside aria-label={copy.ariaLabel} className="hero-panel">
+    <section aria-label={copy.ariaLabel} className="hero-panel">
       <p className="border-b border-white/15 px-4 py-3 font-mono text-xs text-white-100">
         {copy.label}
       </p>
@@ -56,7 +56,7 @@ export const TrustStrip = ({ copy = en }: { copy?: TrustStripCopy }) => {
           )}
         </div>
       </div>
-    </aside>
+    </section>
   );
 };
 
