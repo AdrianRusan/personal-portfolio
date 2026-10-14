@@ -147,7 +147,7 @@ export const contactPage: ProsePage = {
   // #125: unique title (it was "Contact" on both /contact and /ro/contact).
   title: "Contact: Book a Scoping Call",
   description:
-    "Book a 30-minute scoping call, email contact@adrian-rusan.com or send a repo for a free teardown. Adrian Rusan works remotely from Timișoara, Romania.",
+    `Book a 30-minute scoping call, email ${CONTACT_EMAIL} or send a repo for a free teardown. Adrian Rusan works remotely from Timișoara, Romania.`,
   lead: "The quickest way to start is a 30-minute scoping call. If you'd rather write, email works just as well.",
   options: [
     {
@@ -226,7 +226,7 @@ export const roContactPage: ProsePage = {
   path: "/ro/contact",
   title: "Contact: programează o discuție",
   description:
-    "Programează o discuție de 30 de minute, scrie la contact@adrian-rusan.com sau trimite un repo pentru un teardown gratuit. Remote, din Timișoara.",
+    `Programează o discuție de 30 de minute, scrie la ${CONTACT_EMAIL} sau trimite un repo pentru un teardown gratuit. Remote, din Timișoara.`,
   lead: "Cel mai rapid începem cu o discuție de 30 de minute. Dacă preferi să scrii, un email merge la fel de bine.",
   options: [
     {
