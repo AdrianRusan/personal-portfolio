@@ -192,10 +192,17 @@ test.describe("links (I-01..I-08)", () => {
   }) => {
     desktopOnly(project.name);
     // Private repos 404 for visitors; cite them as plain text.
+    // HTML and the Markdown twin agents read.
     for (const path of await sitemapPaths(request)) {
       const html = await (await request.get(path)).text();
       expect(html, path).not.toMatch(
         /href="https:\/\/github\.com\/AdrianRusan\/taco-console/,
+      );
+      const md = await (
+        await request.get(path, { headers: { Accept: "text/markdown" } })
+      ).text();
+      expect(md, `${path} (Markdown)`).not.toMatch(
+        /\(https:\/\/github\.com\/AdrianRusan\/taco-console/,
       );
     }
   });
