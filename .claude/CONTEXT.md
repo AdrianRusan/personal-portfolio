@@ -1,9 +1,11 @@
 # CONTEXT — Personal Portfolio
 
 Living context. Update after each session. Keep under 200 lines.
-State as of 2026-10-12 (main after PRs #34–#95).
+State as of 2026-10-14 (main after PRs #34–#131).
 
 ## Recent Changes
+- [2026-10-14] #126, #129, #131 (issue #125) copy rewrite from content research, words only: the hero panel on `/` and `/ro` is a review log (`reviewLog`, own repos, the #109 miss included); keyword-led titles on every page (`HOME_TITLE`, `SERVICES_TITLE`, `WORK_TITLE`, `BLOG_TITLE`, /about "Hire a Senior Full-Stack Developer", distinct /contact and /ro/contact); new numbers `THROUGHPUT` (632 merged PRs, 32 active days), `NOW_BOARD`, `RULES_WORDS`; RO teardown fallbacks are an email (`RO_TEARDOWN_EMAIL`). Private research and receipts: `~/Code/personal/goals/2026-10-14-1-content-research/`.
+- [2026-10-13/14] #114 redesign (direction M) and #123 design system (semantic tokens, type scale, `DESIGN.md`). Decisions in `docs/plans/feat-114-redesign-research/` and `DESIGN.md`.
 - [2026-10-12] #91 two posts, live 14 Nov (fail-closed hooks) and 21 Nov (review bottleneck), every external number sourced and dated. #93 `htmlLimitedBots` keeps metadata in `<head>` on dynamic pages (/blog). #95 RO prices back to 55% of EN (audit from 850 €, workshops 1.650 € / 2.750 €); the strategy call promises a written summary within one working day.
 - [2026-10-12] #87 marketing pass on pages (EN + RO): hero mirrors the LinkedIn headline, photo in the hero, one free door (Scoping Call) + teardown fallback, paid first step = €1,000 Reviewed PR, €200 call on /services only, compact /services price rows, honest case-study labels, harness proof, Veracode line in the security FAQ, location Timișoara. EN prices raised: AI Audit from €1,500, workshops €3,000 / €5,000 (RO prices unchanged).
 - [2026-10-12] #86 blog cut from 13 files to 8 (301s in `next.config.mjs`), post-end CTAs read prices from `data/ladder.ts`, `/workshops` → `/services#ladder`, nine-PR case study goes live 24 Oct, Herdr-vs-agent-teams paragraph in the parallel post.
@@ -24,7 +26,7 @@ State as of 2026-10-12 (main after PRs #34–#95).
 - **API**: `app/api/subscribe` (Resend), `app/api/teardown` (form), `app/api/markdown`.
 - **Claim tests** (jest, `__tests__/`): guard the honesty rules below.
   - `thirty-pr-claims.test.ts`: no "tests passed"/"CI green" near a 30-PR or shell-injection claim (EN + RO).
-  - `workflow-numbers.test.ts`: every workflow number derives from `WORKFLOW_NUMBERS`.
+  - `workflow-numbers.test.ts`: every workflow number derives from `WORKFLOW_NUMBERS`; the merged-PR count only from `THROUGHPUT`; every review-log row has an RO label.
   - `experience.test.ts`: bans receipt-project phrases on every public surface.
   - `testimonials.test.ts`: exact quote texts; Tim Claes only on `/about` and `/ro/despre`.
   - `post-schedule.test.ts`: weekly post dates and the 00:00 UTC go-live.
@@ -44,7 +46,12 @@ State as of 2026-10-12 (main after PRs #34–#95).
 - **RO parity**: `/ro` mirrors `/` in layout and sections, only translated. RO copy lives in `data/ro*.ts`.
 - **Rendering**: server components by default; `"use client"` only for interactivity.
 
+- **Merged-PR count**: only `THROUGHPUT` (632 merged PRs in 32 active days, 11 Sep–13 Oct 2026, ledger same-method window, client and own work together, no split). Approved by Adi at the #125 gate. Recount only within one ledger method (never across 11 Sep 2026).
+- **Hero panel = review log** (`reviewLog`, RO labels in `roProofBand`): own repos only, each row a real PR with a receipt, misses shown next to catches. Adding a client row needs Adi's approval of the exact line.
+- **RO teardown fallback**: `RO_TEARDOWN_EMAIL` (mailto, subject "Teardown gratuit") everywhere RO used to link the EN-only `/teardown`, until an RO teardown page exists.
+
 ## Known Issues / Gotchas
+- **`/` metadata**: the layout's `title.template` doesn't apply to a page in the layout's own folder, so `/` sets an absolute `HOME_SHARE_TITLE`. A page-level `openGraph` on `/` drops the root `app/opengraph-image.tsx`, so the home share text lives in the layout (`root-shell.tsx`). `/privacy` and the 404s inherit that card.
 - **Re-link "nine PRs" on or after 2026-10-24**: `content/blog/2-3x-not-100x.mdx` (the October-run paragraph) had its link to `/work/nine-prs-one-afternoon` removed, because that study is dated 2026-10-24 and 404s until then. Once it is live, restore `[nine PRs](/work/nine-prs-one-afternoon)`.
 - **Vercel production deploys fail when merges land seconds apart** ("Git information retrieval failed"; seen on #87, #93, #95 on 2026-10-12). The older deploys fail and the newest one usually succeeds. After merging several PRs, check that the deploy of the LAST merge commit succeeded; if it failed too, Deployments → Redeploy without build cache.
 - **Vercel project must be on Node 24** (Project Settings → Node.js Version).
