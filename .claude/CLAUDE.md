@@ -14,7 +14,7 @@ Freelance/consultant portfolio + lead-gen funnel for Adrian Rusan (Full-Stack En
 - **Tests**: Jest 30 (unit + claim tests, `__tests__/`) · Playwright (`e2e/smoke.spec.ts`)
 - **Deploy**: Vercel (Node 24), branch previews. Package manager: npm.
 
-## Commands (verified 2026-10-11 against package.json)
+## Commands (verified 2026-10-14 against package.json)
 
 | Task | Command | Notes |
 |---|---|---|
@@ -23,7 +23,7 @@ Freelance/consultant portfolio + lead-gen funnel for Adrian Rusan (Full-Stack En
 | Start | `npm start` | `next start`; pass `-- -p <port>` for a non-default port |
 | Lint | `npm run lint` | `next lint` (eslint-config-next) |
 | Typecheck | `npx tsc --noEmit` | no script; excludes `e2e/` |
-| Unit + claim tests | `npm test` | jest; 26 suites, 238 tests on 2026-10-11 |
+| Unit + claim tests | `npm test` | jest; 28 suites, 270 tests on 2026-10-14 |
 | E2E | `npm run e2e` | `playwright test`; starts `npm start` on :3045 (`E2E_PORT`), so run `npm run build` first; every route at 1440 + 390 |
 | Security | `npm run security-check` | `scripts/security-check.js` |
 | Verify all | `npm run verify:all` | `verify:build` → `verify:tests` → `verify:security` |
