@@ -30,7 +30,6 @@ export const ServicesFinalCta = ({
         <PrimaryCta
           title={copy.cta}
           href={CALENDLY_URL}
-          otherClasses="md:mt-0"
           trackEvent={{
             event: "calendly_click",
             props: { source: copy.ctaSource },

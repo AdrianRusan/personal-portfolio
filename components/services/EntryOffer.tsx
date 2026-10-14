@@ -26,7 +26,7 @@ export const EntryOffer = ({ copy = en }: { copy?: EntryOfferCopy }) => {
   return (
     <section
       id="entry-offer"
-      className="px-5 sm:px-10 lg:px-12 py-12 md:py-16 scroll-mt-24"
+      className="section-compact"
     >
       <div className="container-wide">
         <SectionHeading eyebrow={copy.eyebrow} lead={copy.intro}>
@@ -45,7 +45,6 @@ export const EntryOffer = ({ copy = en }: { copy?: EntryOfferCopy }) => {
           <PrimaryCta
             title={copy.cta}
             href={CALENDLY_URL}
-            otherClasses="md:mt-0"
             trackEvent={{
               event: "calendly_click",
               props: { source: "entry_offer" },

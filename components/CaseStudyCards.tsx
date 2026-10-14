@@ -32,7 +32,7 @@ const CaseStudyCards = async ({ copy = en }: { copy?: CaseStudyCardsCopy }) => {
     <section
       id="work"
       aria-labelledby="case-studies-heading"
-      className="px-5 sm:px-10 lg:px-12 py-16 md:py-28 scroll-mt-24 border-t border-white/15"
+      className="section border-t border-white/15"
     >
       <div className="container-wide">
         <SectionHeading id="case-studies-heading" lead={copy.lead || undefined}>
@@ -58,7 +58,7 @@ const CaseStudyCards = async ({ copy = en }: { copy?: CaseStudyCardsCopy }) => {
                   )}
                   {result && (
                     <p className="mt-3">
-                      <span className="block tabular-nums text-4xl md:text-5xl type-light text-white">
+                      <span className="block type-stat text-white">
                         {t(result.figure)}
                       </span>
                       <span className="mt-1 block text-sm text-white-200 text-pretty">
@@ -67,7 +67,7 @@ const CaseStudyCards = async ({ copy = en }: { copy?: CaseStudyCardsCopy }) => {
                     </p>
                   )}
                   {/* Figure, label and title, as on /work: no description line. */}
-                  <h3 className="text-xl md:text-[22px] leading-snug tracking-[-0.02em] mt-4 flex-1 text-balance group-hover:underline decoration-purple underline-offset-4">
+                  <h3 className="type-item leading-snug mt-4 flex-1 text-balance group-hover:underline decoration-purple underline-offset-4">
                     {title}
                   </h3>
                   <span className="text-sm font-medium text-purple mt-5">

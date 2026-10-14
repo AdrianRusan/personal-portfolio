@@ -77,7 +77,7 @@ export const ServicesFaq = ({
   return (
     <section
       id="faq"
-      className="px-5 sm:px-10 lg:px-12 py-16 md:py-28 scroll-mt-24 border-t border-white/15"
+      className="section border-t border-white/15"
     >
       <div className="container-wide grid gap-8 lg:grid-cols-[4fr_7fr] lg:gap-16">
         <SectionHeading>{copy.heading}</SectionHeading>

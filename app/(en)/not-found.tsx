@@ -15,11 +15,11 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <PageShell hideEmailCapture>
-      <section className="container-wide box-content flex flex-col items-start px-5 sm:px-10 lg:px-12 pt-28 md:pt-36 pb-12">
+      <section className="container-wide box-content flex flex-col items-start page-head pb-12">
         <p className="eyebrow">
           <span className="num">404</span> · Page not found
         </p>
-        <h1 className="display text-[40px] md:text-6xl xl:text-7xl mt-5 mb-6 text-balance">
+        <h1 className="type-title mt-5 mb-6 text-balance">
           This page doesn&apos;t exist.
         </h1>
         <p className="text-white-200 text-lg mb-8 max-w-md text-pretty">
@@ -28,7 +28,6 @@ export default function NotFound() {
         <PrimaryCta
           title="Back to the homepage"
           href="/"
-          otherClasses="md:mt-0"
         />
         <nav aria-label="Main pages" className="flex flex-wrap gap-x-6 gap-y-3 mt-8 text-sm font-medium">
           {primaryNav.slice(1).map((item) => (

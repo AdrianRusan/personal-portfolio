@@ -22,7 +22,7 @@ export default function PostCta({
       <p className="eyebrow">{cta.eyebrow}</p>
       <h2
         id="post-cta-heading"
-        className="text-2xl md:text-3xl type-light mt-2 text-white"
+        className="type-subsection mt-2 text-white"
       >
         {cta.heading}
       </h2>
@@ -32,7 +32,6 @@ export default function PostCta({
         <PrimaryCta
           title={cta.label}
           href={cta.href}
-          otherClasses="md:mt-0"
           trackEvent={{
             event: "cta_click",
             props: { cta: cta.cta, source },

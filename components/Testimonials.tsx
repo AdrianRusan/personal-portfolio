@@ -21,7 +21,7 @@ export const Quote = ({
       className={cn(
         "flex-1 text-white leading-snug text-pretty",
         size === "lg"
-          ? "text-2xl md:text-[32px] tracking-[-0.01em]"
+          ? "text-2xl md:text-3xl tracking-[-0.01em]"
           : "text-lg md:text-xl",
       )}
     >
@@ -36,7 +36,7 @@ export const Quote = ({
 
 // One quote inside a /services section, under the offer it speaks to.
 export const QuoteBand = ({ testimonial }: { testimonial: Testimonial }) => (
-  <div className="px-5 sm:px-10 pb-4">
+  <div className="gutter pb-4">
     <div className="container-section">
       <Quote testimonial={testimonial} className="max-w-3xl" />
     </div>
@@ -52,7 +52,7 @@ export type TestimonialsCopy = typeof en;
 const Testimonials = ({ copy = en }: { copy?: TestimonialsCopy }) => (
   <section
     aria-labelledby="testimonials-heading"
-    className="px-5 sm:px-10 lg:px-12 py-16 md:py-28 border-t border-white/15"
+    className="section border-t border-white/15"
   >
     <div className="container-wide grid gap-10 lg:grid-cols-[4fr_7fr] lg:gap-16">
       <SectionHeading id="testimonials-heading">{copy.heading}</SectionHeading>
