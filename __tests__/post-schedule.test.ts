@@ -16,7 +16,7 @@ const SCHEDULE = [
   // #134 slate: the blind AI-reviewer test moves up; the reviewer-agents post
   // takes 7 Nov and the setup-audit post is cut (never live, no redirect).
   ["ai-reviewers-on-the-bugs-i-missed", "2026-10-31"],
-  ["reviewer-agents-that-dont-trust-other-agents", "2026-11-07"],
+  ["claude-code-subagents-in-review", "2026-11-07"],
   // #90: A3 angle 1 fills the 14 Nov slot. #99: the ROI method post takes 21 Nov.
   ["claude-code-fail-closed-hooks", "2026-11-14"],
   ["how-i-measure-claude-code-roi", "2026-11-21"],
