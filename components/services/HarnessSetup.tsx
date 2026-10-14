@@ -55,14 +55,14 @@ export const HarnessSetup = async ({
       <div className="container-wide">
         <SectionHeading lead={copy.intro}>{copy.heading}</SectionHeading>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10 border-t border-white/15 pt-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10 border-t border-ink/15 pt-8">
           <div>
             <h3 className="type-label">{copy.deliveredHeading}</h3>
-            <ul className="flex flex-col gap-3 mt-4 list-disc pl-5 marker:text-purple">
+            <ul className="flex flex-col gap-3 mt-4 list-disc pl-5 marker:text-accent">
               {copy.deliverables.map((item) => (
                 <li
                   key={item}
-                  className="text-sm text-white-200 leading-relaxed"
+                  className="text-sm text-body leading-relaxed"
                 >
                   {item}
                 </li>
@@ -71,22 +71,22 @@ export const HarnessSetup = async ({
             {rulesLive && (
               <Link
                 href={`/blog/${RULES_POST}`}
-                className="inline-block mt-4 text-sm font-medium text-purple underline underline-offset-4 hover:text-white transition-colors"
+                className="inline-block mt-4 text-sm font-medium text-accent underline underline-offset-4 hover:text-ink transition-colors"
               >
                 {copy.rulesLink}
               </Link>
             )}
           </div>
-          <div className="rounded-xl border border-white/15 bg-black-200 p-6 md:p-8 self-start">
-            <p className="text-sm text-white-200/80">{copy.startsAt}</p>
-            <p className="tabular-nums text-3xl md:text-4xl type-light text-white mt-1">
+          <div className="rounded-xl border border-ink/15 bg-raised p-6 md:p-8 self-start">
+            <p className="text-sm text-body/80">{copy.startsAt}</p>
+            <p className="tabular-nums text-3xl md:text-4xl type-light text-ink mt-1">
               {copy.price}
             </p>
-            <p className="text-sm text-white-200 mt-4 leading-relaxed text-pretty">
+            <p className="text-sm text-body mt-4 leading-relaxed text-pretty">
               {copy.pricingBody}
             </p>
-            <p className="text-sm text-white-200 mt-4 leading-relaxed text-pretty">
-              <span className="font-semibold text-white">
+            <p className="text-sm text-body mt-4 leading-relaxed text-pretty">
+              <span className="font-semibold text-ink">
                 {copy.guaranteeHeading}: {copy.guaranteeLead}
               </span>{" "}
               {copy.guaranteeBody}
@@ -101,11 +101,11 @@ export const HarnessSetup = async ({
 
         <div className="mt-8">
           <Fold title={copy.termsHeading}>
-            <ul className="flex flex-col gap-3 list-disc pl-5 marker:text-white-200/40">
+            <ul className="flex flex-col gap-3 list-disc pl-5 marker:text-body/40">
               {copy.terms.map((item) => (
                 <li
                   key={item}
-                  className="text-sm text-white-200/80 leading-relaxed"
+                  className="text-sm text-body/80 leading-relaxed"
                 >
                   {item}
                 </li>

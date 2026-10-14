@@ -45,7 +45,7 @@ const Hero = ({
           >
             {copy.heading}
           </h1>
-          <p className="mt-6 measure-sm type-lead text-white-200 text-pretty">
+          <p className="mt-6 measure-sm type-lead text-body text-pretty">
             {copy.body}
           </p>
 
@@ -67,7 +67,7 @@ const Hero = ({
             </TrackedLink>
           </div>
 
-          <p className="mt-5 max-w-xl text-sm text-white-200 text-pretty">
+          <p className="mt-5 max-w-xl text-sm text-body text-pretty">
             {copy.guarantee}
           </p>
         </div>

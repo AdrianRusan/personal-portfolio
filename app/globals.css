@@ -21,95 +21,37 @@ html {
 
 @layer base {
   :root {
-    /* #114 direction M: warm paper, ink, one orange-red accent. shadcn tokens (HSL): */
-    --background: 51 22% 94%;
-    --foreground: 48 9% 11%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 48 9% 11%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 48 9% 11%;
-
-    --primary: 13 87% 41%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 47 15% 89%;
-    --secondary-foreground: 48 9% 11%;
-
-    --muted: 47 15% 89%;
-    --muted-foreground: 50 7% 34%;
-
-    --accent: 47 15% 89%;
-    --accent-foreground: 48 9% 11%;
-
-    --destructive: 0 72% 42%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 49 13% 84%;
-    --input: 49 13% 84%;
-    --ring: 13 87% 41%;
-
-    --radius: 0.75rem;
-
-    /* Brand tokens (space-separated RGB so Tailwind opacity modifiers work).
-       Names are historical: black-100 = page, black-200 = raised surface,
-       white = ink, white-100/200 = muted text, purple = the accent. Light: */
-    --fg: 31 30 26;
-    --black-100: 244 243 238;
-    --black-200: 255 255 255;
-    --black-300: rgba(31, 30, 26, 0.14);
-    --white-100: 92 90 80;
-    /* >= 4.5:1 on paper even at the /70 muted opacity */
-    --white-200: 51 49 43;
-    /* Accent text on accent tints (badges, inline code, active filters):
-       >= 4.5:1 on paper, on white and on bg-purple/10 in both themes. */
-    --blue-100: 178 50 16;
+    /* #114 direction M: warm paper, ink, one orange-red accent (#123 names).
+       Colours are space-separated RGB so Tailwind opacity modifiers work. */
+    --page: 244 243 238; /* page background (paper) */
+    --raised: 255 255 255; /* panels, inputs, hero panel */
+    --rule: rgba(31, 30, 26, 0.14); /* hairlines */
+    --ink: 31 30 26; /* headings, strong text, full-strength borders */
+    --body: 51 49 43; /* body text; >= 4.5:1 on paper even at /70 */
+    --muted: 92 90 80; /* meta, eyebrows, captions */
     /* #C4340E: >= 4.5:1 as small text on paper and under white or paper text */
-    --purple: 196 52 14;
-    --chip: 232 230 223;
+    --accent: 196 52 14;
+    /* Accent text on accent tints (badges, inline code, active filters):
+       >= 4.5:1 on paper, on white and on bg-accent/10 in both themes. */
+    --accent-ink: 178 50 16;
+    --chip: 232 230 223; /* quiet pill and band surface */
+    --destructive: 0 72% 42%; /* errors (HSL), >= 6:1 on paper and white */
+    --radius: 0.75rem;
     --nav-bg: rgba(244, 243, 238, 0.88);
     --nav-border: rgba(31, 30, 26, 0.12);
   }
 
   .dark {
-    --background: 48 11% 9%;
-    --foreground: 51 15% 92%;
-
-    --card: 43 12% 12%;
-    --card-foreground: 51 15% 92%;
-
-    --popover: 43 12% 12%;
-    --popover-foreground: 51 15% 92%;
-
-    --primary: 14 100% 62%;
-    --primary-foreground: 48 11% 9%;
-
-    --secondary: 50 9% 15%;
-    --secondary-foreground: 51 15% 92%;
-
-    --muted: 50 9% 15%;
-    --muted-foreground: 48 7% 64%;
-
-    --accent: 50 9% 15%;
-    --accent-foreground: 51 15% 92%;
-
-    --destructive: 0 70% 60%;
-    --destructive-foreground: 48 11% 9%;
-
-    --border: 47 9% 19%;
-    --input: 47 9% 19%;
-    --ring: 14 100% 62%;
-
-    --fg: 238 237 231;
-    --black-100: 25 24 20;
-    --black-200: 33 31 26;
-    --black-300: rgba(238, 237, 231, 0.12);
-    --white-100: 171 168 156;
-    --white-200: 214 212 204;
-    --blue-100: 255 138 99;
-    --purple: 255 106 61;
+    --page: 25 24 20;
+    --raised: 33 31 26;
+    --rule: rgba(238, 237, 231, 0.12);
+    --ink: 238 237 231;
+    --body: 214 212 204;
+    --muted: 171 168 156;
+    --accent: 255 106 61;
+    --accent-ink: 255 138 99;
     --chip: 43 42 36;
+    --destructive: 0 70% 60%;
     --nav-bg: rgba(25, 24, 20, 0.88);
     --nav-border: rgba(238, 237, 231, 0.12);
   }
@@ -119,7 +61,7 @@ html {
      no image request and no blend mode, so it composites once and stays cheap
      under the blurred nav. Same tile on both themes. */
   body {
-    @apply bg-black-100 text-foreground;
+    @apply bg-page text-ink;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.44 0 0 0 0 0.4 0.16 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
@@ -178,7 +120,7 @@ html {
 
   /* Small meta label: mono, muted (M). The accent is kept for actions. */
   .eyebrow {
-    @apply font-mono text-xs leading-5 text-white-100;
+    @apply font-mono text-xs leading-5 text-muted;
   }
 
   /* Section-level type (M): light weight, slightly tight. */
@@ -188,7 +130,7 @@ html {
 
   /* The hero panel (M): the framed, raised surface beside a hero H1. */
   .hero-panel {
-    @apply overflow-hidden rounded-xl border border-white/15 bg-black-200 shadow-[0_40px_80px_-48px_rgba(31,30,26,0.45)] dark:shadow-[0_40px_80px_-48px_rgba(0,0,0,0.7)];
+    @apply overflow-hidden rounded-xl border border-ink/15 bg-raised shadow-[0_40px_80px_-48px_rgba(31,30,26,0.45)] dark:shadow-[0_40px_80px_-48px_rgba(0,0,0,0.7)];
   }
 
   /* Display type (M): big, light, tight. */

@@ -112,21 +112,21 @@ const TeardownForm = ({ className }: { className?: string }) => {
     );
 
   const inputClass =
-    "w-full h-11 rounded-lg border border-white/15 bg-black-200 px-4 text-sm text-white placeholder:text-white-200/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:border-purple disabled:opacity-50";
+    "w-full h-11 rounded-lg border border-ink/15 bg-raised px-4 text-sm text-ink placeholder:text-body/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent disabled:opacity-50";
 
   return (
     <div
       className={cn(
-        "rounded-xl border border-white/15 bg-black-200 p-6 md:p-8",
+        "rounded-xl border border-ink/15 bg-raised p-6 md:p-8",
         className,
       )}
     >
       {status === "success" ? (
         <div role="status" aria-live="polite">
-          <h2 className="type-label text-purple">
+          <h2 className="type-label text-accent">
             Got it — your teardown is on the way.
           </h2>
-          <p className="text-sm text-white-200 leading-relaxed mt-2">
+          <p className="text-sm text-body leading-relaxed mt-2">
             Check your inbox for a confirmation. You&apos;ll have the Loom
             within 2&ndash;3 business days, no call required.
           </p>
@@ -195,7 +195,7 @@ const TeardownForm = ({ className }: { className?: string }) => {
               className="block text-sm font-medium mb-2"
             >
               Anything I should focus on?{" "}
-              <span className="text-white-200/75 font-normal">(optional)</span>
+              <span className="text-body/75 font-normal">(optional)</span>
             </label>
             <textarea
               id="teardown-note"
@@ -206,18 +206,18 @@ const TeardownForm = ({ className }: { className?: string }) => {
               value={note}
               onChange={(event) => setNote(event.target.value)}
               disabled={status === "loading"}
-              className="w-full rounded-lg border border-white/15 bg-black-200 px-4 py-3 text-sm text-white placeholder:text-white-200/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:border-purple disabled:opacity-50 resize-y"
+              className="w-full rounded-lg border border-ink/15 bg-raised px-4 py-3 text-sm text-ink placeholder:text-body/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent disabled:opacity-50 resize-y"
             />
           </div>
 
-          <label className="flex items-start gap-3 text-sm text-white-200 leading-relaxed cursor-pointer">
+          <label className="flex items-start gap-3 text-sm text-body leading-relaxed cursor-pointer">
             <input
               type="checkbox"
               name="optIn"
               checked={optIn}
               onChange={(event) => setOptIn(event.target.checked)}
               disabled={status === "loading"}
-              className="mt-1 h-4 w-4 shrink-0 accent-purple"
+              className="mt-1 h-4 w-4 shrink-0 accent-accent"
             />
             Also send me occasional notes on shipping AI-written code safely.
             Unsubscribe anytime.
@@ -241,12 +241,12 @@ const TeardownForm = ({ className }: { className?: string }) => {
             {status === "loading" ? "Sending…" : "Send for a free teardown"}
           </button>
 
-          <p className="text-xs text-white-200/75 leading-relaxed">
+          <p className="text-xs text-body/75 leading-relaxed">
             Free. No call. I&apos;ll only email you about this teardown unless
             you tick the box above.{" "}
             <Link
               href="/privacy"
-              className="underline underline-offset-2 hover:text-white-200"
+              className="underline underline-offset-2 hover:text-body"
             >
               How I handle your data
             </Link>

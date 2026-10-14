@@ -59,10 +59,10 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
             ]}
           />
           <div className="mb-12">
-            <h1 className="type-title text-white mb-6 text-balance">
+            <h1 className="type-title text-ink mb-6 text-balance">
             Notes from shipping with Claude Code agents
           </h1>
-          <p className="text-white-200 text-lg max-w-xl">
+          <p className="text-body text-lg max-w-xl">
             What my agents get wrong, what my review catches, and the numbers
             from my own logs. I&apos;m a senior full-stack engineer, 10+ years in
             production, and I review every PR my agents write.

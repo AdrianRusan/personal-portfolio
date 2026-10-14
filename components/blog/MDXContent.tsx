@@ -25,7 +25,7 @@ const rehypePlugins: MDXOptions["rehypePlugins"] = [
       behavior: "append",
       properties: {
         className: [
-          "ml-2 !no-underline !text-purple/60 opacity-0 group-hover:opacity-100 transition-opacity",
+          "ml-2 !no-underline !text-accent/60 opacity-0 group-hover:opacity-100 transition-opacity",
         ],
         ariaHidden: true,
         tabIndex: -1,

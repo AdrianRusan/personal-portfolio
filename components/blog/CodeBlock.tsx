@@ -32,7 +32,7 @@ export default function CodeBlock({ children, className, ...props }: CodeBlockPr
           'pr-12',
           // R3-F16: wrap on phones so the line that matters is never cut off.
           'max-sm:whitespace-pre-wrap max-sm:break-words',
-          'border border-white/5 bg-[#1e1e2e]',
+          'border border-ink/5 bg-[#1e1e2e]',
         ].join(' ')}
         {...props}
       >

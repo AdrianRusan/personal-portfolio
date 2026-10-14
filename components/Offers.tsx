@@ -38,7 +38,7 @@ const Offers = ({ copy = en }: { copy?: OffersCopy }) => {
   };
 
   return (
-    <section id="offers" className="section border-t border-white/15">
+    <section id="offers" className="section border-t border-ink/15">
       <div className="container-wide">
         <SectionHeading
           lead={
@@ -54,21 +54,21 @@ const Offers = ({ copy = en }: { copy?: OffersCopy }) => {
           {copy.heading}
         </SectionHeading>
 
-        <ul className="mt-10 grid border-t border-white md:grid-cols-2 xl:grid-cols-4">
+        <ul className="mt-10 grid border-t border-ink md:grid-cols-2 xl:grid-cols-4">
           {copy.tiers.map(({ tier, name, tagline }) => {
             const offers = copy.ladder.filter((o) => o.tier === tier);
             if (offers.length === 0) return null;
             return (
               <li
                 key={tier}
-                className="flex flex-col gap-2 border-b border-white/15 py-6 md:pr-8"
+                className="flex flex-col gap-2 border-b border-ink/15 py-6 md:pr-8"
               >
                 <h3 className="eyebrow">{name}</h3>
-                <p className="tabular-nums text-3xl type-light text-white text-balance">
+                <p className="tabular-nums text-3xl type-light text-ink text-balance">
                   {fromPrice(offers)}
                 </p>
-                <p className="text-white-200 text-pretty">{tagline}</p>
-                <p className="text-sm text-white-200/80 text-pretty">
+                <p className="text-body text-pretty">{tagline}</p>
+                <p className="text-sm text-body/80 text-pretty">
                   {offers.map((o) => o.name).join(" · ")}
                 </p>
               </li>
@@ -79,11 +79,11 @@ const Offers = ({ copy = en }: { copy?: OffersCopy }) => {
         <div className="mt-6 flex flex-col gap-3 md:flex-row md:items-baseline md:justify-between">
           <Link
             href={copy.href}
-            className="text-sm font-medium text-purple hover:underline underline-offset-4"
+            className="text-sm font-medium text-accent hover:underline underline-offset-4"
           >
             {copy.more}
           </Link>
-          <p className="text-sm text-white-200/80">{copy.capacity}</p>
+          <p className="text-sm text-body/80">{copy.capacity}</p>
         </div>
       </div>
     </section>

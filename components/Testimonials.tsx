@@ -15,11 +15,11 @@ export const Quote = ({
 }) => (
   <figure
     lang={lang}
-    className={cn("flex h-full flex-col border-t border-white/15 pt-6", className)}
+    className={cn("flex h-full flex-col border-t border-ink/15 pt-6", className)}
   >
     <blockquote
       className={cn(
-        "flex-1 text-white leading-snug text-pretty",
+        "flex-1 text-ink leading-snug text-pretty",
         size === "lg"
           ? "text-2xl md:text-3xl tracking-[-0.01em]"
           : "text-lg md:text-xl",
@@ -27,7 +27,7 @@ export const Quote = ({
     >
       &ldquo;{quote}&rdquo;
     </blockquote>
-    <figcaption className="mt-4 font-mono text-xs text-white-100">
+    <figcaption className="mt-4 font-mono text-xs text-muted">
       {name}, {role}
       {company && `, ${company}`}
     </figcaption>
@@ -52,7 +52,7 @@ export type TestimonialsCopy = typeof en;
 const Testimonials = ({ copy = en }: { copy?: TestimonialsCopy }) => (
   <section
     aria-labelledby="testimonials-heading"
-    className="section border-t border-white/15"
+    className="section border-t border-ink/15"
   >
     <div className="container-wide grid gap-10 lg:grid-cols-[4fr_7fr] lg:gap-16">
       <SectionHeading id="testimonials-heading">{copy.heading}</SectionHeading>

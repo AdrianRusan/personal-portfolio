@@ -56,44 +56,44 @@ export default async function WorkIndexPage() {
             ]}
           />
           <div className="mb-12">
-            <h1 className="type-title text-white mb-6">
+            <h1 className="type-title text-ink mb-6">
               Case studies
             </h1>
-            <p className="text-white-200 text-lg measure">{WORK_DESCRIPTION}</p>
+            <p className="text-body text-lg measure">{WORK_DESCRIPTION}</p>
           </div>
 
-          <ul className="flex flex-col border-t border-white">
+          <ul className="flex flex-col border-t border-ink">
             {studies.map((study) => {
               const result = caseStudyResults[study.slug];
               return (
                 <li key={study.slug}>
                   <Link
                     href={`/work/${study.slug}`}
-                    className="group flex flex-col md:flex-row gap-5 md:gap-10 border-b border-white/15 py-8"
+                    className="group flex flex-col md:flex-row gap-5 md:gap-10 border-b border-ink/15 py-8"
                   >
                     {result && (
                       <div className="md:w-56 flex-none">
-                        <p className="type-stat text-white">
+                        <p className="type-stat text-ink">
                           {result.figure}
                         </p>
-                        <p className="text-sm leading-relaxed text-white-200 mt-2">
+                        <p className="text-sm leading-relaxed text-body mt-2">
                           {result.label}
                         </p>
                       </div>
                     )}
                     <div className="flex flex-col flex-1">
-                      <h2 className="type-subsection text-balance text-white group-hover:underline group-focus-visible:underline decoration-purple underline-offset-4">
+                      <h2 className="type-subsection text-balance text-ink group-hover:underline group-focus-visible:underline decoration-accent underline-offset-4">
                         {study.frontmatter.title}
                       </h2>
                       {study.frontmatter.meta && (
-                        <p className="text-sm text-white-200/80 mt-2">
+                        <p className="text-sm text-body/80 mt-2">
                           {study.frontmatter.meta}
                         </p>
                       )}
-                      <p className="text-white-200 mt-3 leading-relaxed flex-1 measure-lg">
+                      <p className="text-body mt-3 leading-relaxed flex-1 measure-lg">
                         {study.frontmatter.description}
                       </p>
-                      <span className="text-sm font-medium text-purple mt-4">
+                      <span className="text-sm font-medium text-accent mt-4">
                         Read the case study →
                       </span>
                     </div>

@@ -85,7 +85,7 @@ That is about 45 billion tokens, 97.7% of them cache reads. Long sessions reread
       <text x="0" y="158">output 9% (grey)</text>
     </g>
   </svg>
-  <figcaption className="text-center text-sm text-white-200 mt-3">Tokens from my logs. Dollars are my arithmetic at Opus 5.5 list rates: $0.20 per million cache reads, $8 per million cache writes (the 1-hour cache a subscription uses), $20 per million output.</figcaption>
+  <figcaption className="text-center text-sm text-body mt-3">Tokens from my logs. Dollars are my arithmetic at Opus 5.5 list rates: $0.20 per million cache reads, $8 per million cache writes (the 1-hour cache a subscription uses), $20 per million output.</figcaption>
 </figure>
 
 Priced at Opus 5.5 list rates, the 66 days come to roughly $18,000 by my arithmetic. The surprise is the cache writes: 2.1% of the tokens and 42% of the dollars, because a 1-hour cache write costs 40 times a read. A write happens whenever context isn't already cached: a new session, a first message after the cache expired, a compaction. So a 97.7% read share says the cache works, and the money is in how often it has to be rebuilt.

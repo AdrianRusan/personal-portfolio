@@ -91,10 +91,10 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
           <h1 className="type-title text-balance measure-title mt-5">
             {w.headline}
           </h1>
-          <p className="type-lead text-white-200 mt-6 measure text-pretty">
+          <p className="type-lead text-body mt-6 measure text-pretty">
             {w.intro}
           </p>
-          <p className="text-sm text-white-200/80 mt-5">
+          <p className="text-sm text-body/80 mt-5">
             {euro(w.price)} for the {w.length} · {perEngineer(w)} · EUR, ex-VAT
           </p>
           <div className="flex mt-6">
@@ -125,20 +125,20 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
                   {part.duration && ` · ${part.duration}`}
                 </h3>
                 {/* #114 M: ruled rows, the time in the left column. */}
-                <ul className="mt-4 border-t border-white">
+                <ul className="mt-4 border-t border-ink">
                   {part.blocks.map((block) => (
                     <li
                       key={block.title}
-                      className="grid gap-1 border-b border-white/15 py-5 md:grid-cols-[10rem_minmax(0,1fr)] md:gap-8"
+                      className="grid gap-1 border-b border-ink/15 py-5 md:grid-cols-[10rem_minmax(0,1fr)] md:gap-8"
                     >
                       {block.time && (
-                        <p className="font-mono text-xs text-white-100 md:pt-1.5">
+                        <p className="font-mono text-xs text-muted md:pt-1.5">
                           {block.time}
                         </p>
                       )}
                       <div className="md:col-start-2">
                         <p className="text-xl type-light">{block.title}</p>
-                        <p className="text-white-200 mt-2 leading-relaxed measure-lg">
+                        <p className="text-body mt-2 leading-relaxed measure-lg">
                           {block.body}
                         </p>
                       </div>
@@ -159,20 +159,20 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
           <h2 className="type-section">
             What your team leaves with
           </h2>
-          <p className="text-white mt-4 font-medium leading-relaxed">
+          <p className="text-ink mt-4 font-medium leading-relaxed">
             {w.managerOutcome}
           </p>
-          <ul className="flex flex-col gap-3 mt-6 list-disc pl-5 marker:text-purple">
+          <ul className="flex flex-col gap-3 mt-6 list-disc pl-5 marker:text-accent">
             {w.outcomes.map((item) => (
               <li
                 key={item}
-                className="text-sm md:text-base text-white-200 leading-relaxed"
+                className="text-sm md:text-base text-body leading-relaxed"
               >
                 {item}
               </li>
             ))}
           </ul>
-          <p className="text-sm text-white-200/80 mt-6 leading-relaxed">
+          <p className="text-sm text-body/80 mt-6 leading-relaxed">
             Taught from {WORKFLOW_NUMBERS.days} days of running agents daily on
             real repos.
             {hubLive && (
@@ -180,7 +180,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
                 {" "}
                 <Link
                   href={workshopHubLink.href}
-                  className="text-purple underline underline-offset-4 hover:text-white"
+                  className="text-accent underline underline-offset-4 hover:text-ink"
                 >
                   {workshopHubLink.label}
                 </Link>
@@ -196,11 +196,11 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
       >
         <div className="container-wide">
           <h2 className="type-section">Logistics</h2>
-          <ul className="flex flex-col gap-3 mt-6 list-disc pl-5 marker:text-purple">
+          <ul className="flex flex-col gap-3 mt-6 list-disc pl-5 marker:text-accent">
             {workshopLogistics.map((item) => (
               <li
                 key={item}
-                className="text-sm md:text-base text-white-200 leading-relaxed"
+                className="text-sm md:text-base text-body leading-relaxed"
               >
                 {item}
               </li>
@@ -227,17 +227,17 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
         {w.secondaryCta ? (
           <a
             href={w.secondaryCta.href}
-            className="inline-block mt-4 text-sm text-white-200 underline underline-offset-4 hover:text-purple"
+            className="inline-block mt-4 text-sm text-body underline underline-offset-4 hover:text-accent"
           >
             {w.secondaryCta.label}
           </a>
         ) : (
           // R2-F22: the address in plain sight for webmail users.
-          <p className="mt-4 text-sm text-white-200">
+          <p className="mt-4 text-sm text-body">
             or write to{" "}
             <a
               href={w.cta.href}
-              className="font-medium underline underline-offset-4 hover:text-purple"
+              className="font-medium underline underline-offset-4 hover:text-accent"
             >
               {CONTACT_EMAIL}
             </a>
@@ -246,13 +246,13 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mt-8 text-sm font-medium">
           <Link
             href={`/workshops/${other.slug}`}
-            className="text-blue-100 hover:text-purple transition-colors"
+            className="text-accent-ink hover:text-accent transition-colors"
           >
             Or see the {other.length} version ({euro(other.price)}) →
           </Link>
           <Link
             href="/services"
-            className="text-blue-100 hover:text-purple transition-colors"
+            className="text-accent-ink hover:text-accent transition-colors"
           >
             All services and prices →
           </Link>

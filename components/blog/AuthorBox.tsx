@@ -12,7 +12,7 @@ export default function AuthorBox() {
   return (
     <aside
       aria-label="About the author"
-      className="flex gap-5 items-center border-t border-white/15 pt-6 mt-10"
+      className="flex gap-5 items-center border-t border-ink/15 pt-6 mt-10"
     >
       {hasPhoto ? (
         <Image
@@ -20,23 +20,23 @@ export default function AuthorBox() {
           alt="Adrian Rusan"
           width={64}
           height={64}
-          className="h-16 w-16 shrink-0 rounded-full object-cover border border-purple/40"
+          className="h-16 w-16 shrink-0 rounded-full object-cover border border-accent/40"
         />
       ) : (
         <div
           aria-hidden="true"
-          className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-black-300 bg-black-200 text-lg font-semibold tracking-tight text-white-100"
+          className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-rule bg-raised text-lg font-semibold tracking-tight text-muted"
         >
           AR
         </div>
       )}
       <div className="min-w-0">
-        <p className="font-semibold text-white">
-          <Link href="/" className="hover:text-purple transition-colors">
+        <p className="font-semibold text-ink">
+          <Link href="/" className="hover:text-accent transition-colors">
             Adrian Rusan
           </Link>
         </p>
-        <p className="text-sm text-white-200 leading-relaxed mt-1">
+        <p className="text-sm text-body leading-relaxed mt-1">
           Full-stack engineer, 10+ years in production. I run several Claude
           Code agents in parallel and review every PR myself before it merges.
         </p>
@@ -46,7 +46,7 @@ export default function AuthorBox() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Adrian Rusan on GitHub"
-            className="inline-flex h-11 w-11 items-center justify-center text-white-200 hover:text-purple transition-colors"
+            className="inline-flex h-11 w-11 items-center justify-center text-body hover:text-accent transition-colors"
           >
             <FaGithub size={18} />
           </Link>
@@ -55,7 +55,7 @@ export default function AuthorBox() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Adrian Rusan on LinkedIn"
-            className="inline-flex h-11 w-11 items-center justify-center text-white-200 hover:text-purple transition-colors"
+            className="inline-flex h-11 w-11 items-center justify-center text-body hover:text-accent transition-colors"
           >
             <FaLinkedin size={18} />
           </Link>

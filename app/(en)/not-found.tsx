@@ -22,7 +22,7 @@ export default function NotFound() {
         <h1 className="type-title mt-5 mb-6 text-balance">
           This page doesn&apos;t exist.
         </h1>
-        <p className="text-white-200 text-lg mb-8 max-w-md text-pretty">
+        <p className="text-body text-lg mb-8 max-w-md text-pretty">
           The link may be old or mistyped. The homepage has everything else.
         </p>
         <PrimaryCta
@@ -34,7 +34,7 @@ export default function NotFound() {
             <Link
               key={item.link}
               href={item.link}
-              className="text-blue-100 underline underline-offset-4 hover:text-purple transition-colors"
+              className="text-accent-ink underline underline-offset-4 hover:text-accent transition-colors"
             >
               {item.name}
             </Link>
