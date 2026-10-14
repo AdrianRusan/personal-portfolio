@@ -15,13 +15,12 @@ import {
 import { ServicesFinalCta } from "@/components/services/ServicesFinalCta";
 import { Ladder } from "@/components/services/Ladder";
 import { QuoteBand } from "@/components/Testimonials";
-import { testimonials } from "@/data";
+import { SERVICES_DESCRIPTION, SERVICES_TITLE, testimonials } from "@/data";
 import { ladderServiceJsonLd } from "@/data/ladder";
 import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 
-const TITLE = "AI Services and Prices, From a €200 Call";
-const DESCRIPTION =
-  "From a €200 AI strategy call to a monthly retainer: audits, workshops, automations, Agent Fleet Setup and reviewed delivery sprints, each priced up front.";
+const TITLE = SERVICES_TITLE;
+const DESCRIPTION = SERVICES_DESCRIPTION;
 
 export const metadata: Metadata = {
   // Bare title — the root layout's title.template appends "| Adrian Rusan"

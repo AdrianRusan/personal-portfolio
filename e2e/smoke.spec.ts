@@ -226,13 +226,17 @@ test('the locale switch reads "RO", with no glyph, where no twin exists', async 
 // D6 / A1 F3: /services ends in its own ask (book, or the teardown fallback);
 // the checklist capture lives on the blog only.
 test('pages with their own closing block end in one ask and no checklist', async ({ page }) => {
-  for (const path of ['/services', '/ro/servicii']) {
+  // #125: RO has no teardown page, so its fallback is the teardown by email.
+  for (const [path, fallback] of [
+    ['/services', 'a[href="/teardown"]'],
+    ['/ro/servicii', 'a[href^="mailto:"]'],
+  ]) {
     await page.goto(path);
     await expect(page.locator('#closing-cta-heading')).toHaveCount(0);
     await expect(page.locator('input[type="email"]')).toHaveCount(0);
     const close = page.locator('section[aria-labelledby="services-final-cta"]');
     await expect(close.locator('a[href*="calendly.com"]')).toHaveCount(1);
-    await expect(close.locator('a[href="/teardown"]')).toHaveCount(1);
+    await expect(close.locator(fallback)).toHaveCount(1);
   }
 });
 

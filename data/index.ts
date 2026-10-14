@@ -65,6 +65,16 @@ export const WORKFLOW_NUMBERS = {
 const n = (v: number) => v.toLocaleString("en-US");
 export const LEDGER_PROOF = `${WORKFLOW_NUMBERS.sessions} sessions · ${WORKFLOW_NUMBERS.hours} hours · ${n(WORKFLOW_NUMBERS.commits)} commits · ${WORKFLOW_NUMBERS.prsOpened} PRs opened (upper bound, not all merged) — ${WORKFLOW_NUMBERS.days} days, 6 Aug–10 Oct 2026, counted from my own session logs.`;
 
+// #125: /services title aimed at "ai implementation consultant" (KD 9) and its
+// description; the €200 call no longer leads the title.
+export const SERVICES_TITLE = "AI Implementation Consultant, Fixed Prices";
+export const SERVICES_DESCRIPTION =
+  "Reviewed PRs from €1,000, delivery sprints, Agent Fleet Setup, audits and workshops. Agents write the code, I review every PR. Prices fixed up front.";
+
+// #125: my own agent rules (CLAUDE.md + rules/*.md in ~/.claude), in words:
+// 20 Jul 2026 (goals/2026-10-10-1-mining/config-size.txt) vs 14 Oct 2026.
+export const RULES_WORDS = { from: 10667, to: 3382 } as const;
+
 // #125: merged PRs from the engineering ledger, same-method window only
 // (11 Sep–13 Oct 2026, complete days; days before 11 Sep use another method). PRs authored by
 // Adi's GitHub identities and merged, client and own work together, no split.

@@ -21,6 +21,8 @@ import {
   roHarnessSetup,
   roProcessSteps,
   roRetainer,
+  RO_SERVICES_DESCRIPTION,
+  RO_SERVICES_TITLE,
   roServicesPageFaq,
   roServicesFinalCta,
   roServicesHero,
@@ -29,9 +31,8 @@ import {
 } from "@/data/ro-services";
 import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 
-const title = "Servicii AI și prețuri, de la 110 €";
-const description =
-  "Sesiune de strategie AI, audit, workshop, automatizări, Agent Fleet Setup și sprinturi de livrare revizuite. Prețuri în EUR, fără TVA.";
+const title = RO_SERVICES_TITLE;
+const description = RO_SERVICES_DESCRIPTION;
 
 export const metadata: Metadata = {
   // Bare title — the root layout's title.template appends "| Adrian Rusan"

@@ -21,6 +21,7 @@ import {
   roSprintSizes,
   roTierNames,
   roTiers,
+  RO_TEARDOWN_EMAIL,
 } from "@/data/ro";
 
 // /ro/servicii copy. Prices follow data/ro.ts (55% of the global ladder).
@@ -274,6 +275,7 @@ export const roHarnessSetup: HarnessSetupCopy = {
   deliveredHeading: "Ce primești",
   deliverables: [
     "Un setup Claude Code funcțional pe repo-ul tău: regulile de proiect în CLAUDE.md, un worktree pentru fiecare agent și integrarea în CI.",
+    "Verificările pe care le folosesc la propria mea muncă: un PR nu se poate deschide până nu trec typecheck, lint, build și testele, iar un commit cu un secret în el e refuzat.",
     "Checklist-ul meu de review de securitate, cel care a prins 3 căi de shell injection pe propria mea rulare de 30 de PR-uri, adaptat stack-ului tău.",
     "O sesiune practică: rulez un lot live pe backlog-ul tău cu echipa de față, apoi echipa rulează lotul următor, iar eu fac review.",
     "Un playbook scris: cum împarți tichetele, ce verifici întâi și unde verificarea umană e obligatorie.",
@@ -430,10 +432,17 @@ export const roServicesFaq: ServicesFaqCopy = {
   ],
 };
 
+// /ro/servicii title and description (#125: same frame as EN /services).
+export const RO_SERVICES_TITLE = "Implementare AI și livrare, prețuri fixe";
+export const RO_SERVICES_DESCRIPTION =
+  "PR-uri revizuite de la 550 €, sprinturi de livrare, Agent Fleet Setup, audituri și workshop-uri. Agenții scriu codul, eu verific fiecare PR. Prețuri fixe.";
+
 export const roServicesFinalCta: ServicesFinalCtaCopy = {
   heading: "Spune-mi ce ai în backlog. Îți spun cât costă.",
-  body: "O discuție de 30 de minute. Pleci cu un scope și un preț fix.",
+  body: "O discuție de 30 de minute. Scope-ul și prețul fix vin în scris, în cel mult o zi lucrătoare.",
   cta: "Programează o discuție",
   ctaSource: "ro_services_final_cta",
-  teardown: "Sau trimite un repo pentru un teardown gratuit, în engleză →",
+  // #125: no RO teardown page yet, so the RO fallback is email (gate Q6).
+  teardown: "Sau trimite-mi un repo pe email pentru un teardown gratuit →",
+  teardownHref: RO_TEARDOWN_EMAIL,
 };

@@ -10,6 +10,9 @@ import {
   type Tier,
 } from "@/data/ladder";
 
+// #125: the RO stand-in for the EN-only /teardown form (gate Q6): an email.
+export const RO_TEARDOWN_EMAIL = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Teardown gratuit")}`;
+
 // Paid 110 € call (brief R3/R7). null until Adi creates the Calendly event;
 // set it and the RO CTAs switch from email to booking, label too.
 export const RO_STRATEGY_CALL_CALENDLY_URL: string | null = null;
@@ -85,8 +88,8 @@ const ro: Record<
     ctas: [
       { label: "Programează un audit", href: CALENDLY_URL },
       {
-        label: "Sau începe cu un teardown gratuit (EN)",
-        href: "/teardown",
+        label: "Sau trimite-mi un repo pe email pentru un teardown gratuit",
+        href: RO_TEARDOWN_EMAIL,
       },
     ],
   },

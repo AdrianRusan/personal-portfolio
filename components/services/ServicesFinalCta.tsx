@@ -7,10 +7,11 @@ import { ClosingBand } from "@/components/ClosingBand";
 // A1 F3: the button plus the teardown fallback; the email is in the footer.
 const en = {
   heading: "Tell me the backlog. I'll tell you the number.",
-  body: "A 30-minute call. You'll leave with a scope and a fixed price.",
+  body: "A 30-minute call. The scope and a fixed price follow in writing within one working day.",
   cta: "Book a scoping call",
   ctaSource: "services_final_cta",
   teardown: "Or send a repo for a free 15-minute teardown →",
+  teardownHref: "/teardown",
 };
 
 export type ServicesFinalCtaCopy = typeof en;
@@ -38,7 +39,7 @@ export const ServicesFinalCta = ({
       </div>
       <p className="mt-5">
         <Link
-          href="/teardown"
+          href={copy.teardownHref}
           className="inline-flex min-h-11 items-center font-medium text-body underline underline-offset-4 hover:text-accent transition-colors"
         >
           {copy.teardown}

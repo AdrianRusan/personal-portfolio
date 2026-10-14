@@ -14,6 +14,7 @@ const en = {
   deliveredHeading: "What you get",
   deliverables: [
     "A working Claude Code setup on your repo: project rules in CLAUDE.md, one worktree per agent, and CI wiring.",
+    "The gates I run on my own work: a PR can't be opened until typecheck, lint, build and tests pass, and a commit with a secret in it is refused.",
     "My security review checklist, the one that caught 3 shell-injection paths on my own 30-PR run, adapted to your stack.",
     "A hands-on session: I run a live batch on your backlog with your team, then your team runs the next one while I review.",
     "A written playbook: how to hand out tickets, what to review first, and where a human check is required.",
