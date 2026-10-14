@@ -11,7 +11,7 @@ faq:
   - q: "How do you measure the ROI of Claude Code?"
     a: "Put cost and delivery on the same unit. Cost per merged PR comes from token usage priced at a stated rate, divided by PRs merged on GitHub. Delivery comes from GitHub timestamps: open-to-merge time and review fix commits per PR. The value of the time saved needs an estimate of the work done without agents, and it should be labelled as an estimate."
   - q: "How much does Claude Code cost per merged PR?"
-    a: "In my ledger, $52, $51, $56 and $65 in the four full weeks from 14 September to 11 October 2026, at Opus 5 list rates, across client and own work. That's replacement cost, not an invoice: the sessions ran on subscriptions, and most ran on Opus 5.5, whose list rates are lower. It rose 25% in four weeks, with one flat week."
+    a: "In my ledger, $52, $51, $56 and $65 in the four full weeks from 14 September to 11 October 2026, at Opus 5 list rates, across client and own work. That's replacement cost, not an invoice: the sessions ran on subscriptions, and most ran on Opus 5.5, whose list rates are lower. It rose 25% in four weeks, with one flat week. The cost case study's 42% is a different comparison: per active day, September against 1–11 October."
   - q: "How long does Claude Code keep usage data?"
     a: "Session transcripts are deleted after cleanupPeriodDays, which defaults to 30 days, and /insights reports follow the same schedule. Raise the setting or export OpenTelemetry metrics before the month you want to measure ages out. Git and GitHub data are permanent, so commits and merged PRs can always be recounted."
   - q: "Does Claude Code report merged PRs?"
@@ -40,7 +40,7 @@ Two more numbers, over the slightly wider ledger window of 11 September to 13 Oc
 1. **42% of spend** ($13,894 of $33,083) was on repo-days with no merged PR. Some of that is work whose PR merged the next day, so it isn't waste. But it's the share a weekly PR count can't explain.
 2. **About a fifth of spend** ran outside any repo: planning, research, orchestration. That's a floor, because orchestration sessions were only recorded from 5 October.
 
-For a per-developer figure, Anthropic's [costs docs](https://code.claude.com/docs/en/costs) put the enterprise average at about $13 per developer per active day, with 90% of users under $30. At Opus 5 list price my setup ran about $930 per active day in September and early October, by the [cost case study](/work/agent-cost-per-commit). I'm not a typical seat: up to 18 sessions at once and over a thousand subagents in 66 days. That's why I lead with cost per merged PR. It's the unit that travels between a heavy user and a light one.
+For a per-developer figure, Anthropic's [costs docs](https://code.claude.com/docs/en/costs) put the enterprise average at about $13 per developer per active day, with 90% of users under $30. At Opus 5 list price my setup ran about $930 per active day in September, and more in early October, by the [cost case study](/work/agent-cost-per-commit). I'm not a typical seat: up to 18 sessions at once and over a thousand subagents in 66 days. That's why I lead with cost per merged PR. It's the unit that travels between a heavy user and a light one.
 
 ## Why measure it from week one
 
@@ -135,4 +135,4 @@ These four tell you whether usage turned into shipped work. Stack Overflow's [20
 
 After four weeks you'll have the first trend you can show someone. Mine, and what it caught, are in [the cost case study](/work/agent-cost-per-commit), and the review-wait side is in [where the AI speed-up goes](/blog/2-3x-not-100x).
 
-If you'd rather have someone set this up on your accounts and read the first month with you, that's the AI audit on [my services page](/services).
+If you'd rather have someone measure cost per merged PR on your setup and send you a ranked list of fixes, that's the AI Audit on [my services page](/services).

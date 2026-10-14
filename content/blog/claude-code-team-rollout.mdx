@@ -16,7 +16,7 @@ faq:
     a: "Enforce anything whose failure costs more than a review comment: secrets in commits, destructive commands, merges with failing or unreadable checks, and opening a PR before the checks pass. Set onFailure to block and a timeout on each of those gates. Leave style and taste to CLAUDE.md and review."
 ---
 
-In my own Claude Code setup, agents typed a gate's override in about 300 commands, and 84% of subagent messages ran on the top model because nothing pinned them. Both are settled by files you commit, so a team rollout should start there: shared settings with gates that fail closed, a short `CLAUDE.md`, reviewer subagents with a pinned model, and one weekly number to watch.
+In my own Claude Code setup, agents typed a gate's override in about 300 commands, and 84% of subagent messages ran on the top model, probably because nothing pinned them. Both are settled by files you commit, so a team rollout should start there: shared settings with gates that fail closed, a short `CLAUDE.md`, reviewer subagents with a pinned model, and one weekly number to watch.
 
 This is the setup I'd install, taken from the harness I run across my own Claude Code accounts. It isn't a measured team rollout. I'm one engineer with four accounts, so what follows is what my own audits of that setup found in its first months, and the problems I'd expect a team to hit at the same stage.
 
@@ -91,4 +91,4 @@ Pick one weekly number before the rollout starts, so you have a baseline: cost p
 5. Set `cleanupPeriodDays` above its default of 30 on every account ([Claude Code docs](https://code.claude.com/docs/en/claude-directory)), so the usage data survives long enough to measure.
 6. Start the weekly number.
 
-If you want your team taken through this hands-on, the workshop below covers it in a day. If you'd rather have it installed in your repos, that's the harness setup on [my services page](/services).
+If you want your team taken through this hands-on, the workshop below covers it in a day. If you'd rather have it installed in your repos, that's the Agent Fleet Setup on [my services page](/services).
