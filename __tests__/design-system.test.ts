@@ -30,7 +30,7 @@ const arbitrary = /-\[(#|rgb|hsl)[^\]]*\]/;
 const palette =
   /\b(text|bg|border|ring|fill|stroke|decoration|divide|outline|from|via|to)-(slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-\d{2,3}\b/;
 const legacy =
-  /\b(text|bg|border|ring|ring-offset|divide|decoration|placeholder)-(white-[12]00|black-[123]00|blue-100|purple)\b|\b(text|border|divide)-white\b/;
+  /\b(text|bg|border|ring|ring-offset|divide|decoration|placeholder|fill|stroke|shadow|outline)-(white-[12]00|black-[123]00|blue-100|purple|foreground|background|primary|secondary|card|popover|muted-foreground|border|input)\b|\b(text|border|divide)-white\b|\bring-ring\b/;
 const size = /\btext-\[\d+(\.\d+)?(px|rem|em)\]/;
 
 const rules: [string, RegExp][] = [
@@ -60,6 +60,8 @@ describe("design system guard", () => {
     expect(legacy.test('className="text-white-200"')).toBe(true);
     expect(legacy.test('className="text-white"')).toBe(true);
     expect(legacy.test('className="bg-white/5"')).toBe(false);
+    expect(legacy.test('className="border-border text-muted-foreground"')).toBe(true);
+    expect(legacy.test('className="fill-purple"')).toBe(true);
     expect(size.test('className="text-[17px]"')).toBe(true);
     expect(size.test('className="type-lead text-body"')).toBe(false);
   });
