@@ -28,7 +28,9 @@ async function resolve(request: APIRequestContext, path: string) {
   const res = await request.get(path, { maxRedirects: 0 });
   if (res.status() < 300 || res.status() >= 400)
     return { status: res.status(), hops: 0, final: path };
-  const loc = new URL(res.headers().location!, "http://x");
+  const location = res.headers().location;
+  if (!location) return { status: res.status(), hops: 0, final: path };
+  const loc = new URL(location, "http://x");
   const next = await request.get(loc.pathname + loc.search, {
     maxRedirects: 0,
   });
@@ -89,7 +91,9 @@ test.describe("links (I-01..I-08)", () => {
     const bad: string[] = [];
     const checked = new Map<string, string>();
     for (const page of pages) {
-      for (const [, href] of hrefsOf(await load(page))) {
+      for (let [, href] of hrefsOf(await load(page))) {
+        // Absolute links to this site count as internal.
+        if (href.startsWith(SITE)) href = href.slice(SITE.length) || "/";
         if (!href.startsWith("/") && !href.startsWith("#")) continue;
         if (href.startsWith("//")) continue;
         const [pathPart, hash] = href.split("#");
@@ -171,12 +175,17 @@ test.describe("links (I-01..I-08)", () => {
         if (!href.startsWith("mailto:")) continue;
         const url = new URL(href);
         expect(url.pathname, `${page} ${href}`).toBe(CONTACT_EMAIL);
-        const subject = url.searchParams.get("subject");
-        if (subject !== null) subjects.add(subject);
+        // The raw value: "+" is a literal plus to mail clients, but
+        // URLSearchParams would decode it to a space and hide it.
+        const raw = href.split("subject=")[1];
+        if (raw !== undefined) {
+          expect(raw, `${page} ${href}`).not.toContain("+");
+          subjects.add(decodeURIComponent(raw));
+        }
       }
     // URLSearchParams decodes "+" as a space; mail clients don't, so the raw
     // subjects must be percent-encoded and decode to readable text.
-    for (const s of subjects) expect(s).not.toMatch(/%[0-9A-F]{2}|\+/);
+    for (const s of subjects) expect(s).not.toMatch(/%[0-9A-F]{2}/);
     expect([...subjects]).toEqual(
       expect.arrayContaining([
         "AI Strategy Call (€200)",
@@ -354,7 +363,7 @@ test.describe("locale switch (I-20..I-22)", () => {
         name: from.startsWith("/ro") ? "Principal" : "Main",
       });
       await nav.locator("a[hreflang]").click();
-      await expect(page).toHaveURL(new RegExp(`${to === "/" ? "/" : to}$`));
+      await expect.poll(() => new URL(page.url()).pathname).toBe(to);
       await expect(page.locator("html")).toHaveAttribute(
         "lang",
         to.startsWith("/ro") ? "ro" : "en",
@@ -392,11 +401,15 @@ const events = (page: Page) =>
         }
       ).__events,
   );
+// Clicks before hydration would skip the React onClick that tracks.
+const hydrated = (page: Page) => page.waitForLoadState("networkidle");
 // Let the capture-phase attribution listener and the React handler run, then stop the navigation.
-const cancelNavigation = (page: Page) =>
-  page.evaluate(() =>
+const cancelNavigation = async (page: Page) => {
+  await hydrated(page);
+  await page.evaluate(() =>
     document.addEventListener("click", (e) => e.preventDefault()),
   );
+};
 
 test.describe("Calendly CTAs and analytics (I-30..I-36)", () => {
   for (const path of [
@@ -500,6 +513,7 @@ test.describe("forms (I-40..I-49)", () => {
       });
     });
     await page.goto("/blog");
+    await hydrated(page);
     // Scoped: Next's route announcer is a page-level role="alert" too.
     const box = page
       .locator("section")
@@ -561,6 +575,7 @@ test.describe("forms (I-40..I-49)", () => {
       });
     });
     await page.goto("/teardown");
+    await hydrated(page);
     const submit = page.getByRole("button", {
       name: "Send for a free teardown",
     });
@@ -642,16 +657,34 @@ test.describe("controls and keyboard (I-50..I-56)", () => {
       page,
     }) => {
       await page.goto(path);
+      // No transitions, so the focused and blurred styles are final when read.
+      await page.addStyleTag({
+        content: "*, *::before, *::after { transition: none !important; }",
+      });
       const missing: string[] = [];
       for (let i = 0; i < 40; i++) {
         await page.keyboard.press("Tab");
         const info = await page.evaluate(() => {
           const el = document.activeElement as HTMLElement | null;
           if (!el || el === document.body) return null;
-          const s = getComputedStyle(el);
+          // A ring is what focus adds: compare with the same control blurred,
+          // so a resting shadow doesn't count.
+          const look = () => {
+            const s = getComputedStyle(el);
+            const outline =
+              s.outlineStyle !== "none" && parseFloat(s.outlineWidth) > 0
+                ? `${s.outlineStyle} ${s.outlineWidth} ${s.outlineColor}`
+                : "none";
+            return { outline, shadow: s.boxShadow };
+          };
+          const focused = look();
+          el.blur();
+          const blurred = look();
+          el.focus();
           const ring =
-            (s.outlineStyle !== "none" && parseFloat(s.outlineWidth) > 0) ||
-            s.boxShadow !== "none";
+            (focused.outline !== "none" &&
+              focused.outline !== blurred.outline) ||
+            focused.shadow !== blurred.shadow;
           return {
             ring,
             label: `${el.tagName} ${(el.getAttribute("aria-label") || el.textContent || "").trim().slice(0, 40)}`,
