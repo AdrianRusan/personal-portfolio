@@ -251,7 +251,6 @@ test.describe("nav (I-10..I-16)", () => {
   }
 
   test("workshop pages mark Services as current (I-12)", async ({ page }) => {
-    test.fail(true, "I-12: /workshops/* marks no nav item");
     for (const path of ["/workshops/half-day", "/workshops/full-day"]) {
       await page.goto(path);
       await expect(

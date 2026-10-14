@@ -9,9 +9,11 @@ import { type NavItem, primaryNav, roPrimaryNav } from "@/data/nav";
 import { track } from "@/lib/analytics";
 import { hasTwin, localeOf, navPathname, switchLocalePath } from "@/lib/locale";
 
+// #133 I-12: the workshops live on the services ladder (/workshops → /services#ladder).
 const isCurrent = (link: string, pathname: string) =>
   link === pathname ||
-  (link !== "/" && link !== "/ro" && pathname.startsWith(link + "/"));
+  (link !== "/" && link !== "/ro" && pathname.startsWith(link + "/")) ||
+  (link === "/services" && pathname.startsWith("/workshops/"));
 
 // A4 F14: min-h-11 gives every nav link a 44px tap target at the same size.
 const linkClass =
