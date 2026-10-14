@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-// The one section heading (P1): left-aligned, one size, an optional sans
-// eyebrow and lead. Centred headings belong to the hero and the closing ask only.
+// The one section heading (P1, #114 M): left-aligned, big and light, an
+// optional mono eyebrow and lead. Centred headings belong to the hero and the closing ask only.
 export function SectionHeading({
   id,
   eyebrow,
@@ -22,7 +22,7 @@ export function SectionHeading({
       {eyebrow && <p className="eyebrow mb-3">{eyebrow}</p>}
       <h2
         id={id}
-        className="text-2xl md:text-3xl font-bold tracking-tight text-balance"
+        className="text-3xl md:text-5xl font-[380] tracking-[-0.035em] leading-[1.05] text-balance"
       >
         {children}
       </h2>

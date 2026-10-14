@@ -66,7 +66,7 @@ export const metadata: Metadata = {
 // Same sections, order and layout as /services, with Romanian copy.
 export default function RoServicesPage() {
   return (
-    <div className="relative dark:bg-black-100 bg-white overflow-x-clip">
+    <div className="relative overflow-x-clip">
       <JsonLd
         data={[
           faqJsonLd(roServicesPageFaq.items),

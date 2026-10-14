@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Geist_Mono, Host_Grotesk } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/context/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
@@ -8,7 +8,21 @@ import { organizationJsonLd, personJsonLd } from "@/lib/person-schema";
 import { JsonLd } from "@/lib/page-schema";
 import { SITE_TAGLINE, SITE_TITLE } from "@/data";
 
-const inter = Inter({ subsets: ["latin"], display: "swap" });
+// #114 M: one variable grotesk for text and display, a mono for small meta.
+// `subsets` only picks what is preloaded: the latin-ext faces (ă, ș, ț) are
+// still in the CSS and load on demand on /ro. The mono is preloaded too: the
+// hero eyebrow uses it above the fold, and a late swap would shift the H1.
+const sans = Host_Grotesk({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-sans",
+});
+const mono = Geist_Mono({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+  variable: "--font-mono",
+});
 
 // ≤155 characters so Google shows it whole (A1-17).
 const DESCRIPTION =
@@ -114,7 +128,7 @@ export function RootShell({
         />
         <JsonLd data={siteJsonLd} />
       </head>
-      <body className={inter.className}>
+      <body className={`${sans.variable} ${mono.variable} font-sans`}>
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[6000] focus:rounded-md focus:bg-purple focus:px-4 focus:py-2 focus:text-black-100"

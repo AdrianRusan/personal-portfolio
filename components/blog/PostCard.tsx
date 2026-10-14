@@ -34,7 +34,7 @@ export default function PostCard({
       >
         <div className="flex flex-col gap-3 flex-1">
           {frontmatter.featured && (
-            <span className="inline-flex items-center self-start px-2 py-0.5 rounded-full text-xs font-medium bg-purple/20 text-purple border border-purple/30">
+            <span className="inline-flex items-center self-start px-2 py-0.5 rounded-full text-xs font-medium bg-purple/10 text-blue-100 border border-purple/30">
               {featuredLabel}
             </span>
           )}
