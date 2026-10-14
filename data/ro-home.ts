@@ -172,11 +172,6 @@ export const roPostTitles: PostTitles = {
     description:
       "Agenți Claude Code în paralel în octombrie 2026: cele cinci lucruri pe care worktree-urile le partajează în continuare (porturi, servicii, .git, aprobări, limita de utilizare), ce rezolvă acum -w, --bg și claude agents și pentru ce folosesc încă Herdr.",
   },
-  "auditing-my-claude-code-setup-with-an-agent": {
-    title: "Cum auditezi un setup Claude Code: 5 verificări și ce au găsit în al meu",
-    description:
-      "Cinci verificări pentru un setup Claude Code: skill-uri care nu pornesc niciodată, cuvinte încărcate în fiecare sesiune, modelul pe care rulează subagenții, lucruri nefolosite și metrici care nu pot pica. Ce a găsit fiecare în al meu, cu date.",
-  },
   "reviewer-agents-that-dont-trust-other-agents": {
     title: "Code review-ul cu mai mulți agenți are nevoie de urme: 85 de PR-uri, 39 de verdicte neverificabile",
     description:

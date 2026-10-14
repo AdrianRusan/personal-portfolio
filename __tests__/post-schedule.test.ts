@@ -13,14 +13,13 @@ const SCHEDULE = [
   ["66-days-of-claude-code-by-the-numbers", "2026-10-10"],
   ["the-rules-file-my-agents-follow", "2026-10-17"],
   ["how-i-run-claude-code-agents-in-parallel", "2026-10-24"],
-  // A2 §3: the review post moves up, the setup audit follows it.
-  ["reviewer-agents-that-dont-trust-other-agents", "2026-10-31"],
-  ["auditing-my-claude-code-setup-with-an-agent", "2026-11-07"],
+  // #134 slate: the blind AI-reviewer test moves up; the reviewer-agents post
+  // takes 7 Nov and the setup-audit post is cut (never live, no redirect).
+  ["ai-reviewers-on-the-bugs-i-missed", "2026-10-31"],
+  ["reviewer-agents-that-dont-trust-other-agents", "2026-11-07"],
   // #90: A3 angle 1 fills the 14 Nov slot. #99: the ROI method post takes 21 Nov.
   ["claude-code-fail-closed-hooks", "2026-11-14"],
   ["how-i-measure-claude-code-roi", "2026-11-21"],
-  // #98 (K8): the AI-reviewer experiment.
-  ["ai-reviewers-on-the-bugs-i-missed", "2026-11-28"],
 ] as const;
 
 const at = (iso: string) => jest.useFakeTimers().setSystemTime(new Date(iso));
