@@ -21,6 +21,22 @@ describe("markdownFor", () => {
     }
   });
 
+  // #133 I-09: the HTML shows a link to a post that isn't live as plain text;
+  // the Markdown twin must too, or agents get a 404 link.
+  it("links no blog post that isn't live yet", async () => {
+    const live = new Set((await getPosts()).map((p) => p.slug));
+    for (const { url } of await sitemap()) {
+      const path = new URL(url).pathname;
+      const md = (await markdownFor(path)) ?? "";
+      const dead = [
+        ...md.matchAll(/\]\(https:\/\/www\.adrian-rusan\.com\/blog\/([^/?#)]+)/g),
+      ]
+        .map((m) => m[1])
+        .filter((slug) => !live.has(slug!));
+      expect([path, dead]).toEqual([path, []]);
+    }
+  });
+
   it("renders / and /ro from their own copy", async () => {
     expect(await markdownFor("/")).toContain(
       "# I ship your backlog with AI agents and review every PR myself.",

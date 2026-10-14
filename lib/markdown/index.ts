@@ -148,7 +148,8 @@ async function body(path: string): Promise<string | null> {
     return workshopMd(workshops[slug as WorkshopSlug]);
   if (section === "blog" || section === "work") {
     const found = await post(slug, section === "work" ? WORK_DIR : undefined);
-    return found && postMarkdown(found, absoluteUrl(path));
+    const live = new Set((await getPosts()).map((p) => p.slug));
+    return found && postMarkdown(found, absoluteUrl(path), live);
   }
   return null;
 }

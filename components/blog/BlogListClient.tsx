@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { Search, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { BlogPost } from '@/lib/blog-types';
@@ -23,6 +23,7 @@ export default function BlogListClient({
   initialTag,
 }: BlogListClientProps) {
   const [search, setSearch] = useState('');
+  const searchRef = useRef<HTMLInputElement>(null);
   const [activeTag, setActiveTag] = useState<string | null>(
     initialTag && allTags.includes(initialTag) ? initialTag : null,
   );
@@ -59,15 +60,22 @@ export default function BlogListClient({
               className="absolute left-3 top-1/2 -translate-y-1/2 text-body/40"
             />
             <input
+              ref={searchRef}
               type="text"
               placeholder="Search posts..."
+              aria-label="Search posts"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full bg-raised border border-rule text-ink placeholder-body/75 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-colors"
             />
             {search && (
               <button
-                onClick={() => setSearch('')}
+                // The button unmounts once search is empty; keep focus in the box.
+                onClick={() => {
+                  setSearch('');
+                  searchRef.current?.focus();
+                }}
+                aria-label="Clear search"
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-body/40 hover:text-body transition-colors"
               >
                 <X size={14} />
@@ -82,6 +90,7 @@ export default function BlogListClient({
         <div className="flex flex-nowrap sm:flex-wrap gap-2 mb-8 overflow-x-auto pb-1 -mx-5 px-5 sm:mx-0 sm:px-0 max-sm:[mask-image:linear-gradient(to_right,black_85%,transparent)]">
           <button
             onClick={() => setActiveTag(null)}
+            aria-pressed={activeTag === null}
             className={[
               'shrink-0 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium transition-colors border',
               activeTag === null
@@ -96,6 +105,7 @@ export default function BlogListClient({
               key={tag}
               className="shrink-0"
               onClick={() => setActiveTag(tag === activeTag ? null : tag)}
+              aria-pressed={tag === activeTag}
             >
               <TagBadge tag={tag} active={tag === activeTag} />
             </button>

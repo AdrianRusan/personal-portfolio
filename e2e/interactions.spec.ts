@@ -200,12 +200,18 @@ test.describe("links (I-01..I-08)", () => {
     project,
   }) => {
     desktopOnly(project.name);
-    test.fail(true, "I-04: taco-console is private, its PR links 404");
     // Private repos 404 for visitors; cite them as plain text.
+    // HTML and the Markdown twin agents read.
     for (const path of await sitemapPaths(request)) {
       const html = await (await request.get(path)).text();
       expect(html, path).not.toMatch(
         /href="https:\/\/github\.com\/AdrianRusan\/taco-console/,
+      );
+      const md = await (
+        await request.get(path, { headers: { Accept: "text/markdown" } })
+      ).text();
+      expect(md, `${path} (Markdown)`).not.toMatch(
+        /\(https:\/\/github\.com\/AdrianRusan\/taco-console/,
       );
     }
   });
@@ -260,7 +266,6 @@ test.describe("nav (I-10..I-16)", () => {
   }
 
   test("workshop pages mark Services as current (I-12)", async ({ page }) => {
-    test.fail(true, "I-12: /workshops/* marks no nav item");
     for (const path of ["/workshops/half-day", "/workshops/full-day"]) {
       await page.goto(path);
       await expect(
@@ -622,7 +627,6 @@ test.describe("controls and keyboard (I-50..I-56)", () => {
   test("blog tag filters are toggle buttons with aria-pressed (I-50)", async ({
     page,
   }) => {
-    test.fail(true, "I-50: tag filter buttons have no aria-pressed");
     await page.goto("/blog");
     const all = page.getByRole("button", { name: "All", exact: true });
     await expect(all).toHaveAttribute("aria-pressed", "true");
@@ -700,7 +704,6 @@ test.describe("controls and keyboard (I-50..I-56)", () => {
     page,
     context,
   }, { project }) => {
-    test.fail(true, "I-55: Copy link copies the visitor's URL, UTMs included");
     test.skip(project.name !== "desktop", "clipboard check, once is enough");
     await context.grantPermissions(["clipboard-read", "clipboard-write"]);
     await page.goto("/blog/2-3x-not-100x?utm_source=e2e#faq");
