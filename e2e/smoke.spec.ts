@@ -157,7 +157,7 @@ test('client-side navigation still gets the page, not Markdown', async ({ page }
   await page.goto('/');
   await page.locator('footer a[href="/about"]').click();
   await expect(page).toHaveURL(/\/about$/);
-  await expect(page.locator('h1')).toHaveText('About');
+  await expect(page.locator('h1')).toHaveText('Hire a Senior Full-Stack Developer');
 });
 
 // P1 (#66): one closing ask per page, and the footer itself asks for nothing.
@@ -189,7 +189,9 @@ for (const path of ['/contact', '/ro/contact']) {
     await expect(page.locator('#closing-cta-heading')).toHaveCount(0);
     await expect(page.locator('main a[href*="calendly.com"]')).toHaveCount(1);
     await expect(page.locator('main a[href^="mailto:contact@"]')).not.toHaveCount(0);
-    await expect(page.locator('main a[href="/teardown"]')).toHaveCount(1);
+    // #125: RO has no teardown page, so its teardown option is an email.
+    const teardown = path.startsWith('/ro') ? 'main a[href*="subject=Teardown"]' : 'main a[href="/teardown"]';
+    await expect(page.locator(teardown)).toHaveCount(1);
     // A1 F4: the paid strategy call is on /services only.
     await expect(page.locator('main a[href*="Strategy"], main a[href*="strategie"]')).toHaveCount(0);
     await expect(page.locator('footer a[href*="calendly.com"]')).toHaveCount(0);
