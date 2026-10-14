@@ -8,6 +8,9 @@ export const SITE_TITLE = `Adrian Rusan | ${SITE_TAGLINE}`;
 // #125: the homepage title and description, aimed at "ai code review"
 // (docs/plans/feat-114-redesign-research/keyword-research.md). Adi picked it.
 export const HOME_TITLE = "AI Code Review and Delivery by a Senior Engineer";
+// Spelled out: the layout's title template doesn't reach a page in its own
+// folder, so / sets this absolute <title> (also its share card and JSON-LD).
+export const HOME_SHARE_TITLE = `${HOME_TITLE} | Adrian Rusan`;
 export const HOME_DESCRIPTION =
   "AI-generated code, reviewed line by line by a senior engineer before it reaches you. Fixed price, security first, 10+ years in production.";
 
