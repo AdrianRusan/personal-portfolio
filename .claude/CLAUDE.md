@@ -61,7 +61,7 @@ config/environment.ts  site config, feature flags, env validation
 
 - **Server components by default**; add `"use client"` only for interactivity (animation, theme, forms). Heavy client components → `dynamic()` import.
 - **Named exports**, `import type` for types, no `any` (repo already has strict violations — don't add more).
-- **Styling**: Tailwind utilities + `cn()`; no inline style objects for themeable values (use CSS vars / tokens).
+- **Styling**: follow `DESIGN.md` (#123): semantic colour tokens (`page`, `ink`, `body`, `muted`, `accent`…), `type-*` roles, `measure*`, `section`/`gutter`. No hex, stock palette or `text-[Npx]` (`__tests__/design-system.test.ts` fails on them). Tailwind utilities + `cn()`; no inline style objects for themeable values.
 - **Content edits**: site copy and numbers live in `data/*` (one constant per fact), not in components. Blog = MDX in `content/blog/`, case studies in `content/work/`. Change EN and RO together (`data/ro*.ts`).
 - **Claims**: no invented proof. New numbers or quotes need a real source; run `npm test` (claim tests) after any copy change. See `.claude/CONTEXT.md` Active Decisions for names, Bono and Calendly rules.
 - **SEO is load-bearing** (this site's discovery channel): touching `layout.tsx` metadata, `sitemap.ts`, `robots.ts`, or Schema.org JSON-LD → verify rich-results + OG tags still valid.

@@ -142,7 +142,7 @@ project-root/
 - **Tailwind + Custom Theme:**
   - Dark mode via `class` strategy (no system preference pollution)
   - Custom colors: blacks (000, 000319, rgba variants), whites (FFF, BEC1DD, C1C2D3), purple (CBACF9)
-  - Extended utilities: animations (tailwindcss-animate), gradients, shadows
+  - Design system: semantic colour tokens, `type-*`, `measure*`, `section` roles (see `DESIGN.md`)
 - **No CSS-in-JS:** Styled-jsx present but unused; Tailwind is the primary vehicle
 - **Utility Function:** `cn()` in `lib/utils.ts` merges class strings with clsx + tailwind-merge
 
@@ -283,7 +283,7 @@ Parsed by gray-matter; `published` flag controls visibility; tags used for filte
 - CSS optimization (`experimental.optimizeCss` enabled)
 - Package import optimization (framer-motion, lucide-react)
 - Shiki included in `serverExternalPackages` (not bundled client-side)
-- Critters + mini-svg-data-uri for inlined CSS/SVG
+- Critters for inlined CSS
 
 ### Error Tracking
 - Sentry captures server, edge, and client errors
