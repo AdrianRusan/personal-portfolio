@@ -405,6 +405,7 @@ test.describe("locale switch (I-20..I-22)", () => {
     const res = await page.goto("/ro/nu-exista");
     expect(res?.status()).toBe(404);
     await expect(page.locator("html")).toHaveAttribute("lang", "ro");
+    await expect(page).toHaveTitle("Pagina nu există | Adrian Rusan");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
       "Pagina asta nu există.",
     );
