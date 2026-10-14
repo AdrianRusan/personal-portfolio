@@ -45,6 +45,7 @@ State as of 2026-10-12 (main after PRs #34–#95).
 - **Rendering**: server components by default; `"use client"` only for interactivity.
 
 ## Known Issues / Gotchas
+- **Re-link "nine PRs" on or after 2026-10-24**: `content/blog/2-3x-not-100x.mdx` (the October-run paragraph) had its link to `/work/nine-prs-one-afternoon` removed, because that study is dated 2026-10-24 and 404s until then. Once it is live, restore `[nine PRs](/work/nine-prs-one-afternoon)`.
 - **Vercel production deploys fail when merges land seconds apart** ("Git information retrieval failed"; seen on #87, #93, #95 on 2026-10-12). The older deploys fail and the newest one usually succeeds. After merging several PRs, check that the deploy of the LAST merge commit succeeded; if it failed too, Deployments → Redeploy without build cache.
 - **Vercel project must be on Node 24** (Project Settings → Node.js Version).
 - **Never `pkill`/`killall` `next-server` or kill by pattern**: other projects run dev servers on this machine. Start servers on an explicit port and kill only your own PID.
