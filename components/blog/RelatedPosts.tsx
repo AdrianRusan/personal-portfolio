@@ -9,11 +9,11 @@ export default function RelatedPosts({ posts }: { posts: BlogPost[] }) {
     <section aria-labelledby="related-heading" className="mt-16">
       <h2
         id="related-heading"
-        className="text-xl font-semibold tracking-tight text-white mb-4"
+        className="text-2xl type-light text-white mb-4"
       >
         Related posts
       </h2>
-      <ul className="divide-y divide-black-300 border-y border-black-300">
+      <ul className="divide-y divide-white/15 border-y border-white/15">
         {posts.map((post) => (
           <li key={post.slug}>
             <Link

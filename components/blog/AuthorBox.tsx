@@ -12,7 +12,7 @@ export default function AuthorBox() {
   return (
     <aside
       aria-label="About the author"
-      className="flex gap-5 items-center rounded-xl border border-white/10 bg-black-200/40 p-5 mt-10"
+      className="flex gap-5 items-center border-t border-white/15 pt-6 mt-10"
     >
       {hasPhoto ? (
         <Image

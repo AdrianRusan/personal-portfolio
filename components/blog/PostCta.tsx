@@ -17,7 +17,7 @@ export default function PostCta({
   return (
     <section
       aria-labelledby="post-cta-heading"
-      className="rounded-2xl border border-purple/40 bg-black-200/60 p-6 md:p-8"
+      className="border-t-2 border-purple pt-6"
     >
       <p className="eyebrow">{cta.eyebrow}</p>
       <h2
