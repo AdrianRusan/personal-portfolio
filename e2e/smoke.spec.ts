@@ -31,11 +31,10 @@ const scheduled: Record<string, string> = {
   '/blog/the-rules-file-my-agents-follow': '2026-10-17',
   '/blog/how-i-run-claude-code-agents-in-parallel': '2026-10-24',
   '/work/nine-prs-one-afternoon': '2026-10-24',
-  '/blog/reviewer-agents-that-dont-trust-other-agents': '2026-10-31',
-  '/blog/auditing-my-claude-code-setup-with-an-agent': '2026-11-07',
+  '/blog/ai-reviewers-on-the-bugs-i-missed': '2026-10-31',
+  '/blog/reviewer-agents-that-dont-trust-other-agents': '2026-11-07',
   '/blog/claude-code-fail-closed-hooks': '2026-11-14',
   '/blog/how-i-measure-claude-code-roi': '2026-11-21',
-  '/blog/ai-reviewers-on-the-bugs-i-missed': '2026-11-28',
 };
 for (const [route, date] of Object.entries(scheduled)) {
   if (Date.now() >= new Date(date).getTime()) routes.push(route);
