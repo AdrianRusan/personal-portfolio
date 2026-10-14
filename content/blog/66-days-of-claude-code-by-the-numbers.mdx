@@ -33,7 +33,7 @@ The script follows three rules:
 2. **Deduplicated.** Transcripts repeat events, so tokens count once per API request, messages once per message ID and tool calls once per call ID.
 3. **Aggregate only.** Most of my working directories are client work. Nothing here names a client or a project.
 
-For scale, Stack Overflow's [2026 Developer Survey](https://stackoverflow.blog/2026/10/06/the-results-of-the-2026-developer-survey-are-here/) (6 October 2026) found that 31% of developers who use AI daily use it four or more hours a day, and that Claude Code was the agent of choice for 66% of respondents, ahead of GitHub Copilot at 59%. My numbers are one heavy user inside that group.
+For scale, Stack Overflow's [2026 Developer Survey](https://stackoverflow.blog/2026/10/06/the-results-of-the-2026-developer-survey-are-here/) (6 October 2026) found that 31% of developers who use AI daily use it four or more hours a day, and that its "agents of choice" were Claude Code (66%) and GitHub Copilot (59%). My numbers are one heavy user inside that group.
 
 The script and its raw output stay on my machine. In early October I set `cleanupPeriodDays` to 365 on three of my four Claude Code accounts, so the next count can cover a full quarter.
 
@@ -96,7 +96,7 @@ Priced at [Opus 5.5 list rates](https://platform.claude.com/docs/en/about-claude
 
 Two levers follow. Keep what loads on every turn small, since cache reads are still about half the dollars. And avoid needless rebuilds: since v2.1.251, `/usage` shows a `Prompt cache (main)` line with the misses, and since v2.1.260 their likely cause ([Claude Code docs, fetched 12 Oct 2026](https://code.claude.com/docs/en/costs)). My [cost case study](/work/agent-cost-per-commit) tracks the result per merged PR.
 
-Those dollars aren't my invoice: the sessions ran on Claude subscriptions with a flat fee. They measure compute used, which is what a team on API billing would pay at the same rates. The same survey found that 38% of organisations set limits on AI usage and 28% review spending data.
+Those dollars aren't my invoice: the sessions ran on Claude subscriptions with a flat fee. They measure compute used at list price. On API billing the cache settings can differ, so treat the figure as a scale, not a forecast. Stack Overflow's [2026 survey](https://stackoverflow.blog/2026/10/06/the-results-of-the-2026-developer-survey-are-here/) also found that 38% of organizations set limits on AI usage and 28% review spending data.
 
 On models: 90% of assistant messages came from the Opus models, 7% from Sonnet and the rest from smaller or newer models. I use the cheaper tiers for read-only exploration and keep the strongest one for writing and review.
 
