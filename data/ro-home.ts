@@ -172,6 +172,16 @@ export const roPostTitles: PostTitles = {
     description:
       "Un git worktree îi dă fiecărui agent propriile fișiere și atât. Cele cinci lucruri pe care agenții paraleli le împart în continuare, două incidente reale și ce fac acum.",
   },
+  "vibe-coded-app-keep-fix-or-rebuild": {
+    title: "Aplicație făcută cu vibe coding: o păstrezi, o repari sau o rescrii?",
+    description:
+      "Propria mea aplicație scrisă de agenți avea 5 buguri de securitate ratate la review și un token de autentificare în git. Cea mai mare parte am reparat-o într-o zi. Rulează întâi 5 verificări.",
+  },
+  "claude-code-team-rollout": {
+    title: "Claude Code pentru echipe: ce pui în repo din prima zi",
+    description:
+      "Ce ar trebui să pună o echipă în repo din prima zi de Claude Code: setări comune, porți care refuză când nu pot verifica, un CLAUDE.md scurt, subagenți cu model fixat și o cifră urmărită săptămânal.",
+  },
   "claude-code-subagents-in-review": {
     title: "Subagenți Claude Code: ce arată 85 de PR-uri revizuite",
     description:
@@ -183,9 +193,9 @@ export const roPostTitles: PostTitles = {
       "Hook-ul meu de scanare a secretelor a lăsat commit-uri nescanate 75 de zile, iar onFailure: \"block\" nu l-ar fi prins. Am testat gate-urile mele Claude Code: ce blochează și ce trece.",
   },
   "how-i-measure-claude-code-roi": {
-    title: "Cum măsor ROI-ul Claude Code și cele 5 capcane care mi-au stricat cifrele",
+    title: "Costul Claude Code pe PR merge-uit: cum îl măsori",
     description:
-      "Claude Code șterge transcrierile după 30 de zile, iar cifrele rămase se strică în cinci feluri. Metoda din registrul meu pentru costul pe PR merge-uit și capcanele în care a căzut.",
+      "Costul meu pe PR merge-uit a crescut de la 52 la 65 de dolari în patru săptămâni, la preț de listă. Costul pe programator, metoda și cele 5 capcane care mi-au stricat cifrele.",
   },
   "what-agents-get-wrong": {
     title: "Cum faci review la codul scris de AI: de ce au avut nevoie 30 de PR-uri ale agenților",
