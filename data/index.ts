@@ -400,6 +400,17 @@ export const socialMedia = [
   },
 ];
 
+// #125: the /blog title aimed at "claude code best practices"; the H1 and
+// intro moved here from the page so the Markdown twin uses the same heading.
+export const BLOG_TITLE = "Claude Code Best Practices From Real Runs";
+export const BLOG_HEADING = "Notes from shipping with Claude Code agents";
+export const BLOG_INTRO =
+  "What my agents get wrong, what my review catches, and the numbers from my own logs. I'm a senior full-stack engineer, 10+ years in production, and I review every PR my agents write.";
+
+// #125: my own status board (now-board, private repo), counted 14 Oct 2026:
+// git rev-list, commit dates 2–14 Oct, *.test.*/*.spec.* files, gh PR states.
+export const NOW_BOARD = { commits: 438, activeDays: 12, testFiles: 175, prs: 21 } as const;
+
 // The /blog index description: page meta and its Markdown (#64).
 export const BLOG_DESCRIPTION =
   "What my Claude Code agents get wrong, what review catches, and the numbers from my own logs.";

@@ -3,6 +3,7 @@ import {
   CONTACT_EMAIL,
   HARNESS_PROOF,
   LEDGER_PROOF,
+  NOW_BOARD,
   callSteps,
   earlierTestimonial,
   workExperience,
@@ -14,6 +15,7 @@ import {
   roCallFaq,
   roWorkExperience,
 } from "@/data/ro-home";
+import { RO_TEARDOWN_EMAIL } from "@/data/ro";
 
 // Text-only pages (/privacy, /about, /contact and the RO twins). Bodies are
 // Markdown: components/ProsePage renders them, and lib/markdown serves the same
@@ -109,15 +111,16 @@ const job = (j: {
 // recent work leads; the 2022 quote follows the history it belongs to.
 export const aboutPage: ProsePage = {
   path: "/about",
-  // The layout template appends "| Adrian Rusan" (R1-F31).
-  title: "About",
+  // The layout template appends "| Adrian Rusan" (R1-F31). #125: the title
+  // (also the H1) takes "hire full stack developer" (keyword-research.md).
+  title: "Hire a Senior Full-Stack Developer",
   description:
     `Adrian Rusan: senior full-stack engineer in ${CITY} with 10+ years in production. AI agents ship the backlog; he reviews every pull request.`,
   lead: `I'm Adrian Rusan, a senior full-stack engineer in ${CITY} with 10+ years in production. I ship backlogs with AI agents and read every pull request myself before it reaches you, security first. Generation was never the slow part. Review is.`,
   sections: [
     {
       heading: "How I work",
-      body: `Day to day, I work in writing. You get the pull requests, my review notes and a short update, so nobody waits on a meeting. I learned to review on systems where mistakes show: live overlays for PGL Major streams watched by 2M+ people at once, and 300+ survey projects for global brands. I review agent code the same way. I assume it's wrong, then check. The agents run on my own harness: ${HARNESS_PROOF}.
+      body: `Day to day, I work in writing. You get the pull requests, my review notes and a short update, so nobody waits on a meeting. I learned to review on systems where mistakes show: live overlays for PGL Major streams watched by 2M+ people at once, and 300+ survey projects for global brands. I review agent code the same way. I assume it's wrong, then check. The agents run on my own harness: ${HARNESS_PROOF}. My own status board, for scale: ${NOW_BOARD.commits} commits on ${NOW_BOARD.activeDays} active days, ${NOW_BOARD.testFiles} test files, ${NOW_BOARD.prs} PRs, all merged.
 
 The method, agents ship and I review, is [on the home page](/#ship-verify). The full process, from scope call to handoff, is on [the services page](/services#process).`,
     },
@@ -132,7 +135,8 @@ The method, agents ship and I review, is [on the home page](/#ship-verify). The 
       heading: "How the numbers are counted",
       body: `- Agents give you 2–3x the throughput, not 100x, and they get specific things wrong. [Here's what they get wrong](/blog/what-agents-get-wrong).
 - Workflow numbers: ${LEDGER_PROOF}
-- Each case study says whether it's my own project or client work under NDA.`,
+- Each case study says whether it's my own project or client work under NDA.
+- This site checks its own claims: a test fails if a page says tests passed for a run that had none, and the build fails if a case study still has a placeholder.`,
     },
   ],
 };
@@ -140,14 +144,15 @@ The method, agents ship and I review, is [on the home page](/#ship-verify). The 
 // P2 (R1-F7, F30): three option blocks with one button each, the call first.
 export const contactPage: ProsePage = {
   path: "/contact",
-  title: "Contact",
+  // #125: unique title (it was "Contact" on both /contact and /ro/contact).
+  title: "Contact: Book a Scoping Call",
   description:
     "Book a 30-minute scoping call, email contact@adrian-rusan.com or send a repo for a free teardown. Adrian Rusan works remotely from Timișoara, Romania.",
   lead: "The quickest way to start is a 30-minute scoping call. If you'd rather write, email works just as well.",
   options: [
     {
       heading: "Book a scoping call",
-      body: "30 minutes on what you want built or shipped. You leave knowing which offer fits, what it covers and what it costs.",
+      body: "30 minutes on what you want built or shipped. You get the scope and a fixed price in writing within one working day.",
       cta: "Book a scoping call",
       href: CALENDLY_URL,
     },
@@ -186,14 +191,14 @@ export const contactPage: ProsePage = {
 
 export const roAboutPage: ProsePage = {
   path: "/ro/despre",
-  title: "Despre",
+  title: "Despre mine: inginer full-stack senior",
   description:
     `Adrian Rusan: inginer full-stack senior din ${CITY}, cu peste 10 ani în producție. Agenții AI livrează backlog-ul; el verifică fiecare PR.`,
   lead: `Sunt Adrian Rusan, inginer full-stack senior în ${CITY}, cu peste 10 ani în producție. Livrez backlog-uri cu agenți AI și citesc personal fiecare pull request înainte să ajungă la tine, întâi pentru securitate. Partea lentă n-a fost niciodată generarea codului, ci review-ul.`,
   sections: [
     {
       heading: "Cum lucrez",
-      body: `Zi de zi, lucrez în scris. Primești pull request-urile, notele mele de review și un update scurt, așa că nimeni nu așteaptă după o ședință. Am învățat să fac review pe sisteme unde greșelile se văd: grafica live din transmisiunile PGL Major, urmărite de peste 2 milioane de oameni simultan, și peste 300 de proiecte de sondaje pentru branduri globale. La fel verific și codul scris de agenți. Pornesc de la ideea că e greșit, apoi verific. Agenții rulează pe harness-ul meu: ${RO_HARNESS_PROOF}.
+      body: `Zi de zi, lucrez în scris. Primești pull request-urile, notele mele de review și un update scurt, așa că nimeni nu așteaptă după o ședință. Am învățat să fac review pe sisteme unde greșelile se văd: grafica live din transmisiunile PGL Major, urmărite de peste 2 milioane de oameni simultan, și peste 300 de proiecte de sondaje pentru branduri globale. La fel verific și codul scris de agenți. Pornesc de la ideea că e greșit, apoi verific. Agenții rulează pe harness-ul meu: ${RO_HARNESS_PROOF}. Panoul meu de status, ca ordin de mărime: ${NOW_BOARD.commits} de commit-uri în ${NOW_BOARD.activeDays} zile active, ${NOW_BOARD.testFiles} de fișiere de teste, ${NOW_BOARD.prs} de PR-uri, toate merge-uite.
 
 Metoda, agenții livrează și eu verific, e [pe pagina principală](/ro#ship-verify). Tot procesul, de la discuția de scope la predare, e pe [pagina de servicii](/ro/servicii#process).`,
     },
@@ -211,21 +216,22 @@ Studiile de caz și articolele sunt în engleză: [Studii de caz](/work) · [Blo
       heading: "Cum sunt numărate cifrele",
       body: `- Agenții îți dau de 2–3 ori mai mult volum, nu de 100 de ori, și greșesc lucruri anume. [Iată ce greșesc](/blog/what-agents-get-wrong).
 - Cifrele fluxului de lucru: ${RO_LEDGER_PROOF}
-- Fiecare studiu de caz spune dacă e proiectul meu sau un proiect pentru un client, sub NDA.`,
+- Fiecare studiu de caz spune dacă e proiectul meu sau un proiect pentru un client, sub NDA.
+- Site-ul își verifică singur afirmațiile: un test pică dacă o pagină spune că testele au trecut pentru o rulare care nu avea teste, iar build-ul pică dacă într-un studiu de caz a rămas un placeholder.`,
     },
   ],
 };
 
 export const roContactPage: ProsePage = {
   path: "/ro/contact",
-  title: "Contact",
+  title: "Contact: programează o discuție",
   description:
     "Programează o discuție de 30 de minute, scrie la contact@adrian-rusan.com sau trimite un repo pentru un teardown gratuit. Remote, din Timișoara.",
   lead: "Cel mai rapid începem cu o discuție de 30 de minute. Dacă preferi să scrii, un email merge la fel de bine.",
   options: [
     {
       heading: "Programează o discuție",
-      body: "30 de minute despre ce vrei să construiești sau să livrezi. Pleci știind ce ofertă ți se potrivește, ce acoperă și cât costă.",
+      body: "30 de minute despre ce vrei să construiești sau să livrezi. Scope-ul și prețul fix vin în scris, în cel mult o zi lucrătoare.",
       cta: "Programează o discuție",
       href: CALENDLY_URL,
     },
@@ -237,9 +243,9 @@ export const roContactPage: ProsePage = {
     },
     {
       heading: "Teardown gratuit",
-      body: "Trimite un repo sau un PR și primești un Loom de ~15 minute, în engleză, cu bugurile de securitate scrise de uneltele AI care trec totuși de teste.",
-      cta: "Trimite un repo",
-      href: "/teardown",
+      body: "Trimite-mi pe email un repo sau un PR și primești un Loom de ~15 minute, în engleză, cu bugurile de securitate scrise de uneltele AI care trec totuși de teste.",
+      cta: "Trimite un repo pe email",
+      href: RO_TEARDOWN_EMAIL,
     },
   ],
   sections: [

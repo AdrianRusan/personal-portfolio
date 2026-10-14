@@ -105,7 +105,7 @@ export const homeMd = (c: HomeCopy) =>
     faqMd(c.faq),
     `## ${c.closing.heading}`,
     c.closing.body,
-    `[${c.closing.button}](${CALENDLY_URL}) · [${c.closing.teardown.replace(/ →$/, "")}](/teardown)`,
+    `[${c.closing.button}](${CALENDLY_URL}) · [${c.closing.teardown.replace(/ →$/, "")}](${c.closing.teardownHref})`,
   );
 
 export interface ServicesCopy {

@@ -5,6 +5,7 @@ import { PageShell } from "@/components/PageShell";
 import { getPosts, WORK_DIR } from "@/lib/blog";
 import {
   WORK_DESCRIPTION,
+  WORK_TITLE,
   byCaseStudyOrder,
   caseStudyResults,
 } from "@/data/work";
@@ -14,10 +15,10 @@ import { JsonLd, itemListJsonLd, pageJsonLd } from "@/lib/page-schema";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Case studies",
+  title: WORK_TITLE,
   description: WORK_DESCRIPTION,
   openGraph: {
-    title: "Case studies | Adrian Rusan",
+    title: `${WORK_TITLE} | Adrian Rusan`,
     description: WORK_DESCRIPTION,
     type: "website",
     url: "https://www.adrian-rusan.com/work",
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Case studies | Adrian Rusan",
+    title: `${WORK_TITLE} | Adrian Rusan`,
     description: WORK_DESCRIPTION,
     creator: "@adrian_rusan",
   },

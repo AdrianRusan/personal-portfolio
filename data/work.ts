@@ -45,4 +45,7 @@ export function byCaseStudyOrder<T extends { slug: string }>(studies: T[]) {
 
 // The /work index description: page meta and its Markdown (#64).
 export const WORK_DESCRIPTION =
-  "Case studies from documented runs: what broke, what I built, the number it moved, and what it taught me about shipping with AI agents.";
+  "Documented runs, misses included: what the agents wrote, what my review caught, what it let through, and the number each run moved.";
+
+// #125: the /work title aimed at "review ai generated code" (keyword-research.md).
+export const WORK_TITLE = "Reviewing AI-Generated Code: Case Studies";

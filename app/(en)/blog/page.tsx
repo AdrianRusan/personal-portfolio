@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { BLOG_DESCRIPTION } from "@/data";
+import { BLOG_DESCRIPTION, BLOG_HEADING, BLOG_INTRO, BLOG_TITLE } from "@/data";
 import { getPosts, getAllTags } from "@/lib/blog";
 import BlogListClient from "@/components/blog/BlogListClient";
 import { PageShell } from "@/components/PageShell";
@@ -9,10 +9,10 @@ import { JsonLd, itemListJsonLd, pageJsonLd } from "@/lib/page-schema";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Blog",
+  title: BLOG_TITLE,
   description: BLOG_DESCRIPTION,
   openGraph: {
-    title: "Blog | Adrian Rusan",
+    title: `${BLOG_TITLE} | Adrian Rusan`,
     description: BLOG_DESCRIPTION,
     type: "website",
     url: "https://www.adrian-rusan.com/blog",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Blog | Adrian Rusan",
+    title: `${BLOG_TITLE} | Adrian Rusan`,
     description: BLOG_DESCRIPTION,
     creator: "@adrian_rusan",
   },
@@ -60,13 +60,9 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
           />
           <div className="mb-12">
             <h1 className="type-title text-ink mb-6 text-balance">
-            Notes from shipping with Claude Code agents
+            {BLOG_HEADING}
           </h1>
-          <p className="text-body text-lg max-w-xl">
-            What my agents get wrong, what my review catches, and the numbers
-            from my own logs. I&apos;m a senior full-stack engineer, 10+ years in
-            production, and I review every PR my agents write.
-          </p>
+          <p className="text-body text-lg max-w-xl">{BLOG_INTRO}</p>
           </div>
 
           <BlogListClient
