@@ -72,7 +72,7 @@ const roReviewLog: Record<string, string> = {
   "#111": "mar. 2026 · panoul meu · O căutare din cerere ajungea într-o comandă shell. Reparat înainte de merge.",
   "#119": "mar. 2026 · panoul meu · O cale de fișier construită dintr-un parametru de rută, fără limitare. Reparat înainte de merge.",
   "#109": "mar. 2026 · panoul meu · Valori din baza de date într-un string de shell. L-am ratat; re-auditul din octombrie l-a găsit, plus încă 4.",
-  "#39": "oct. 2026 · acest site · Verificarea de placeholder-e rula doar în teste. Am mutat-o în build.",
+  "#39": "oct. 2026 · acest site · Verificarea de placeholder-e din studiile de caz rula doar în teste. Am mutat-o în build.",
 };
 
 export const roProofBand: ProofBandCopy = {

@@ -122,7 +122,7 @@ export const reviewLog = [
   },
   {
     figure: "#39",
-    label: "Oct 2026 · this site · The no-placeholder check ran only in tests. Moved into the build.",
+    label: "Oct 2026 · this site · The case-study placeholder check ran only in tests. Moved into the build.",
   },
 ];
 
