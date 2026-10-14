@@ -12,6 +12,7 @@ const en = {
   heading: "I ship your backlog with AI agents and review every PR myself.",
   body: "Security first: injection, auth, secrets and access control, checked line by line before a PR reaches you. Expect 2–3x the throughput, not 100x.",
   teardown: "Get a free teardown",
+  teardownHref: "/teardown",
   call: "Book a scoping call",
   guarantee: GUARANTEE,
 };
@@ -58,7 +59,7 @@ const Hero = ({
               trackEvent={{ event: "calendly_click", props: { source: "hero" } }}
             />
             <TrackedLink
-              href="/teardown"
+              href={copy.teardownHref}
               event="cta_click"
               props={{ cta: "teardown", source: "hero" }}
               className={cn(ctaSecondary, "w-full sm:w-auto")}

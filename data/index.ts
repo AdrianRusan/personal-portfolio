@@ -5,6 +5,12 @@ export const CALENDLY_URL = "https://calendly.com/adrian-rusan/new-meeting";
 export const SITE_TAGLINE = "AI Agents Ship It, I Review Every PR";
 export const SITE_TITLE = `Adrian Rusan | ${SITE_TAGLINE}`;
 
+// #125: the homepage title and description, aimed at "ai code review"
+// (docs/plans/feat-114-redesign-research/keyword-research.md). Adi picked it.
+export const HOME_TITLE = "AI Code Review and Delivery by a Senior Engineer";
+export const HOME_DESCRIPTION =
+  "AI-generated code, reviewed line by line by a senior engineer before it reaches you. Fixed price, security first, 10+ years in production.";
+
 // Async intake inbox for offers that don't require a call.
 export const CONTACT_EMAIL = "contact@adrian-rusan.com";
 
@@ -56,12 +62,20 @@ export const WORKFLOW_NUMBERS = {
 const n = (v: number) => v.toLocaleString("en-US");
 export const LEDGER_PROOF = `${WORKFLOW_NUMBERS.sessions} sessions · ${WORKFLOW_NUMBERS.hours} hours · ${n(WORKFLOW_NUMBERS.commits)} commits · ${WORKFLOW_NUMBERS.prsOpened} PRs opened (upper bound, not all merged) — ${WORKFLOW_NUMBERS.days} days, 6 Aug–10 Oct 2026, counted from my own session logs.`;
 
+// #125: merged PRs from the engineering ledger, same-method window only
+// (11 Sep–14 Oct 2026; days before 11 Sep use another method). PRs authored by
+// Adi's GitHub identities and merged, client and own work together, no split.
+// Active day = a day with session time. Approved at the #125 gate.
+export const THROUGHPUT = { mergedPrs: 632, activeDays: 33 } as const;
+export const THROUGHPUT_LINE = `${THROUGHPUT.mergedPrs} merged PRs in ${THROUGHPUT.activeDays} active days (11 Sep–14 Oct 2026), client and own work together, counted from my engineering ledger`;
+
 // The one capacity line (Offers, the ladder, /about).
 export const CAPACITY =
   "The review layer is one senior human, so I run one sprint or retainer at a time.";
 
-// The harness proof (LinkedIn About, R5). Counted 2026-10-12: 23 skills and
-// 28 hooks in ~/.claude, so "20+" holds for both.
+// The harness proof (LinkedIn About, R5). Recounted 2026-10-14: 22 skills
+// (dirs with a SKILL.md) and 22 hook scripts (tests and base.js excluded) in
+// ~/.claude, so "20+" holds for both.
 export const HARNESS_PROOF =
   "20+ skills and 20+ hooks that scan for secrets, block destructive commands and refuse a merge when a check can't run";
 
@@ -79,19 +93,32 @@ export const GUARANTEE =
 
 // --- Ship / Verify homepage content ---
 
-// Three buyer-facing stats (P2). The workflow ledger lives on /about only.
-export const proofStats = [
-  { figure: "30", label: "PRs reviewed in under 3 days" },
+// #125: the hero panel is a review log from Adi's own repos (approved at the
+// gate). figure = the PR, label = date · repo · what review caught · outcome.
+// taco-console rows: goals/2026-10-11-30pr-canonical-facts.md (#109 is one of
+// the 5 misses; never "1 missed"). #39: the TODO(adi) check moved into the
+// build (lib/blog.ts). The workflow ledger lives on /about only.
+export const reviewLog = [
   {
-    figure: "3",
-    // Canonical facts: goals/2026-10-11-30pr-canonical-facts.md. The repo had
-    // no tests or CI, so the stat makes no claim about tests.
-    label: "shell-injection paths from request input, caught in review before merge",
+    figure: "#112",
+    label: "Mar 2026 · own dashboard · A job ID from the URL went into a shell command. Fixed before merge.",
   },
-  // Adi, 2026-10-12: a re-audit found 5 misses in the 30-PR run, not 1, so the
-  // miss count moved to the case study (where all 5 are listed) and the third
-  // stat is the PGL proof. Not "10+ yrs": the eyebrow already says it (A1 F9).
-  { figure: "2M+", label: "concurrent viewers on the PGL Major streams I built live graphics for" },
+  {
+    figure: "#111",
+    label: "Mar 2026 · own dashboard · A search query from the request went into a shell command. Fixed before merge.",
+  },
+  {
+    figure: "#119",
+    label: "Mar 2026 · own dashboard · A notes path built from a route param, with no containment. Fixed before merge.",
+  },
+  {
+    figure: "#109",
+    label: "Mar 2026 · own dashboard · Database values in a shell string. I missed it; my October re-audit found it and 4 more.",
+  },
+  {
+    figure: "#39",
+    label: "Oct 2026 · this site · The no-placeholder check ran only in tests. Moved into the build.",
+  },
 ];
 
 export const shipVerify = [
@@ -99,7 +126,7 @@ export const shipVerify = [
     tag: "SHIP",
     label: "Ship",
     heading: "The agents write the volume",
-    body: "Several Claude Code agents run in parallel git worktrees. Each one gets a ticket and follows your CLAUDE.md conventions. That is where the 2–3x comes from: a small team's throughput from one operator and a harness.",
+    body: `Several Claude Code agents run in parallel git worktrees, one ticket each, following your CLAUDE.md. That's where the 2–3x comes from. For scale: ${THROUGHPUT_LINE}.`,
   },
   {
     // tag is the styling key; label is what the page shows (RO overrides it).

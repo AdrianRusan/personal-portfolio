@@ -4,7 +4,8 @@ import {
   CONTACT_EMAIL,
   LEDGER_PROOF,
   callSteps,
-  proofStats,
+  reviewLog,
+  THROUGHPUT_LINE,
   whoFor,
 } from "@/data";
 import { formatPrice, ladder, offerById } from "@/data/ladder";
@@ -69,10 +70,9 @@ ${whoFor.notForList.map((w) => `- ${w}`).join("\n")}
 
 ## Proof
 
-${proofStats
-  // The last stat is the short form of LEDGER_PROOF, listed in full below.
-  .slice(0, -1)
-  .map((p) => `- ${p.figure} ${p.label}`).join("\n")}
+Review log from my own repos (PR · what review caught):
+${reviewLog.map((p) => `- ${p.figure} ${p.label}`).join("\n")}
+- ${THROUGHPUT_LINE}.
 - ${LEDGER_PROOF}
 
 ## Services

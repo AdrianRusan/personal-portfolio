@@ -3,9 +3,19 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { LEDGER_PROOF, proofStats, WORKFLOW_NUMBERS } from "@/data";
+import {
+  LEDGER_PROOF,
+  reviewLog,
+  THROUGHPUT,
+  THROUGHPUT_LINE,
+  WORKFLOW_NUMBERS,
+} from "@/data";
 import { aboutPage, roAboutPage } from "@/data/pages";
-import { RO_LEDGER_PROOF, roProofBand } from "@/data/ro-home";
+import {
+  RO_LEDGER_PROOF,
+  RO_THROUGHPUT_LINE,
+  roProofBand,
+} from "@/data/ro-home";
 
 // #54 R1: one set of workflow numbers, from one constant, everywhere.
 describe("workflow numbers", () => {
@@ -45,7 +55,20 @@ describe("workflow numbers", () => {
     expect(count(JSON.stringify(aboutPage), "463 sessions")).toBe(1);
     expect(count(JSON.stringify(roAboutPage), "463 de sesiuni")).toBe(1);
     expect(count(JSON.stringify(aboutPage), "session logs")).toBe(1);
-    expect(JSON.stringify([proofStats, roProofBand])).not.toContain("463");
+    expect(JSON.stringify([reviewLog, roProofBand])).not.toContain("463");
+  });
+
+  // #125: the merged-PR count comes from the same-method ledger window
+  // (11 Sep–14 Oct 2026) and only through THROUGHPUT; the window is stated.
+  it("render the merged-PR line from one constant, window stated", () => {
+    expect(THROUGHPUT).toEqual({ mergedPrs: 632, activeDays: 33 });
+    expect(THROUGHPUT_LINE).toContain("632 merged PRs in 33 active days (11 Sep–14 Oct 2026)");
+    expect(THROUGHPUT_LINE).toContain("client and own work");
+    expect(RO_THROUGHPUT_LINE).toContain("632 de PR-uri merge-uite în 33 de zile active");
+    const literal = files.filter(
+      (f) => f !== path.join("data", "index.ts") && /\b632\b/.test(fs.readFileSync(f, "utf8")),
+    );
+    expect(literal).toEqual([]);
   });
 
   // The 66-day post itself is exempt: its "91 days" is the prompt-history

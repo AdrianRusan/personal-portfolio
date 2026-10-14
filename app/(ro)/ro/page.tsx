@@ -17,6 +17,8 @@ import {
   roCaseStudyCards,
   roFaqHeading,
   roHero,
+  RO_HOME_DESCRIPTION,
+  RO_HOME_TITLE,
   roOffers,
   roProofBand,
   roShipVerify,
@@ -28,9 +30,8 @@ import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 // #54 R4: re-render hourly so a dated post appears without a deploy.
 export const revalidate = 3600;
 
-const title = "Livrare cu agenți AI, revizuită de un senior";
-const description =
-  "Agenții AI scriu codul, un inginer senior verifică fiecare PR pentru securitate. Strategie, audituri, workshop-uri și sprinturi, cu prețuri în EUR.";
+const title = RO_HOME_TITLE;
+const description = RO_HOME_DESCRIPTION;
 
 export const metadata: Metadata = {
   // Bare title — the root layout's title.template appends "| Adrian Rusan"
