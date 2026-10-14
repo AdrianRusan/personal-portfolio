@@ -1,6 +1,6 @@
 # HANDOFF: blog remake #134
 
-**Verdict: ready to merge in order.** All 12 slate posts are written, fact-checked, blind-reviewed and voiced. Every PR passed the full ladder locally (tsc → lint → build → jest → e2e); GitHub shows only the GitGuardian and Vercel checks, because the repo has no CI workflow. Two dates are hard: merge PR 1–2 by **Fri 16 Oct** for the rules post, and fix the secret-scan parser by **Fri 13 Nov** for the hooks post. Reviewing takes about 45 minutes: 25 for the five post PRs, 20 for the RO card strings and the teasers.
+**Verdict: ready to merge in order.** All 12 slate posts are written, fact-checked, blind-reviewed and voiced. Every PR passed the full ladder locally (tsc → lint → build → jest → e2e); GitHub shows only the GitGuardian and Vercel checks, because the repo has no CI workflow. One date is hard: merge PR 1–2 by **Fri 16 Oct** for the rules post. Reviewing takes about 45 minutes: 25 for the five post PRs, 20 for the RO card strings and the teasers.
 
 ## 1. Merge order and go-live deadlines
 
@@ -19,15 +19,9 @@ All slots are Saturday 00:00 UTC, which is 03:00 EEST until 25 Oct and 02:00 EET
 
 Base branches: when #137 merges, GitHub retargets #138 to `main`, and so on down the stack. If a retarget fails, edit the PR's base to `main` by hand before merging.
 
-## 2. Before 14 Nov: your one code task (gate Q3)
+## 2. Secret-scan fix (gate Q3): done 14 Oct
 
-The hooks post says "I've since moved the secret scan onto the same parser". That isn't true yet:
-
-1. In `~/.claude/hooks/secret-scan.js`, replace the `isCommit` and `isPush` regexes (about line 137) with `invokesCommand()` from `base.js`, as the PR gate already does.
-2. Add a test for the `bash -c`, `sudo`, `timeout`, `env` and `xargs` forms of `git commit`.
-3. Optional, same file: the stdin-parse catch (about line 128) allows when it can't parse its input. The post names that as an open bug of yours, so fixing it is a bonus, not a requirement.
-
-If this slips past 13 Nov, either change that sentence in `content/blog/claude-code-fail-closed-hooks.mdx` to "the fix is next" or move the post's date.
+`~/.claude/hooks/secret-scan.js` now detects commits and pushes with `invokesCommand()` and fails closed on unparseable input that mentions a commit or push. The tests pass. The hooks post dates both fixes to 14 Oct. That change is still **uncommitted in `~/.claude`**, so commit it there. The post leaves out the details of the findings that are still open (the `gh` guard's prefix gap and the config-read gaps), until those are fixed too.
 
 ## 3. OpenSEO credits
 
