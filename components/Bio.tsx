@@ -37,7 +37,7 @@ export const Avatar = ({
     <div
       aria-hidden="true"
       className={cn(
-        "flex h-20 w-20 shrink-0 items-center justify-center rounded-full border border-white/15 bg-black-200 text-xl font-semibold tracking-tight text-white-200",
+        "flex h-20 w-20 shrink-0 items-center justify-center rounded-full border border-ink/15 bg-raised text-xl font-semibold tracking-tight text-body",
         className,
       )}
     >
@@ -69,13 +69,13 @@ const Bio = ({ copy = en }: { copy?: BioCopy }) => {
   return (
     <section
       aria-labelledby="bio-heading"
-      className="px-5 sm:px-10 lg:px-12 py-16 md:py-28 border-t border-white/15"
+      className="section border-t border-ink/15"
     >
       <div className="container-wide grid gap-8 lg:grid-cols-[4fr_7fr] lg:gap-16">
         {/* A4 F2: the photo moved up to the hero. */}
         <SectionHeading id="bio-heading">{copy.heading}</SectionHeading>
         <div>
-          <p className="text-lg md:text-xl text-white-200 leading-relaxed text-pretty">
+          <p className="text-lg md:text-xl text-body leading-relaxed text-pretty">
             {copy.body}
           </p>
           <div className="flex items-center gap-1 mt-3 -ml-3">
@@ -86,7 +86,7 @@ const Bio = ({ copy = en }: { copy?: BioCopy }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={copy[label]}
-                className="inline-flex h-11 w-11 items-center justify-center text-white-200 hover:text-purple transition-colors"
+                className="inline-flex h-11 w-11 items-center justify-center text-body hover:text-accent transition-colors"
               >
                 <Icon size={20} />
               </Link>

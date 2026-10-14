@@ -9,21 +9,21 @@ export default function RelatedPosts({ posts }: { posts: BlogPost[] }) {
     <section aria-labelledby="related-heading" className="mt-16">
       <h2
         id="related-heading"
-        className="text-2xl type-light text-white mb-4"
+        className="type-subsection text-ink mb-4"
       >
         Related posts
       </h2>
-      <ul className="divide-y divide-white/15 border-y border-white/15">
+      <ul className="divide-y divide-ink/15 border-y border-ink/15">
         {posts.map((post) => (
           <li key={post.slug}>
             <Link
               href={`/blog/${post.slug}`}
               className="group flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-6 py-4"
             >
-              <span className="font-medium text-white group-hover:text-purple transition-colors">
+              <span className="font-medium text-ink group-hover:text-accent transition-colors">
                 {post.frontmatter.title}
               </span>
-              <span className="shrink-0 text-sm text-white-200/80">
+              <span className="shrink-0 text-sm text-body/80">
                 {formatDate(post.frontmatter.date)}
               </span>
             </Link>

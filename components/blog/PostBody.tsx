@@ -23,7 +23,7 @@ export function MDXLink({ href, children, ...props }: AnchorProps) {
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-purple hover:text-purple/80 underline underline-offset-2 decoration-purple/40 transition-colors"
+        className="text-accent hover:text-accent/80 underline underline-offset-2 decoration-accent/40 transition-colors"
         {...props}
       >
         {children}
@@ -34,7 +34,7 @@ export function MDXLink({ href, children, ...props }: AnchorProps) {
   return (
     <Link
       href={href}
-      className="text-purple hover:text-purple/80 underline underline-offset-2 decoration-purple/40 transition-colors"
+      className="text-accent hover:text-accent/80 underline underline-offset-2 decoration-accent/40 transition-colors"
       {...(props as Omit<ComponentProps<typeof Link>, "href">)}
     >
       {children}
@@ -54,7 +54,7 @@ function MDXImage({ src, alt, ...props }: ImgProps) {
   if (!src) return null;
 
   return (
-    <span className="block my-8 rounded-xl overflow-hidden border border-white/5">
+    <span className="block my-8 rounded-xl overflow-hidden border border-ink/5">
       <Image
         src={src as string}
         alt={alt ?? ""}
@@ -73,7 +73,7 @@ export const mdxComponents: MDXComponents = {
   img: MDXImage,
   h2: ({ children, ...props }: ComponentPropsWithoutRef<"h2">) => (
     <h2
-      className="text-3xl type-light text-white mt-14 mb-4 scroll-mt-24 group"
+      className="type-prose-h2 text-ink mt-14 mb-4 scroll-mt-24 group"
       {...props}
     >
       {children}
@@ -81,7 +81,7 @@ export const mdxComponents: MDXComponents = {
   ),
   h3: ({ children, ...props }: ComponentPropsWithoutRef<"h3">) => (
     <h3
-      className="text-2xl type-light text-white mt-10 mb-3 scroll-mt-24 group"
+      className="type-prose-h3 text-ink mt-10 mb-3 scroll-mt-24 group"
       {...props}
     >
       {children}
@@ -89,20 +89,20 @@ export const mdxComponents: MDXComponents = {
   ),
   h4: ({ children, ...props }: ComponentPropsWithoutRef<"h4">) => (
     <h4
-      className="text-lg font-medium text-white mt-6 mb-2 scroll-mt-24 group"
+      className="text-lg font-medium text-ink mt-6 mb-2 scroll-mt-24 group"
       {...props}
     >
       {children}
     </h4>
   ),
   p: ({ children, ...props }: ComponentPropsWithoutRef<"p">) => (
-    <p className="text-white-200 leading-[1.7] mb-5 text-[17px]" {...props}>
+    <p className="text-body leading-[1.7] mb-5 type-prose" {...props}>
       {children}
     </p>
   ),
   ul: ({ children, ...props }: ComponentPropsWithoutRef<"ul">) => (
     <ul
-      className="list-disc list-outside pl-6 text-[17px] text-white-200 space-y-2 mb-5"
+      className="list-disc list-outside pl-6 type-prose text-body space-y-2 mb-5"
       {...props}
     >
       {children}
@@ -110,7 +110,7 @@ export const mdxComponents: MDXComponents = {
   ),
   ol: ({ children, ...props }: ComponentPropsWithoutRef<"ol">) => (
     <ol
-      className="list-decimal list-outside pl-6 text-[17px] text-white-200 space-y-2 mb-5"
+      className="list-decimal list-outside pl-6 type-prose text-body space-y-2 mb-5"
       {...props}
     >
       {children}
@@ -126,7 +126,7 @@ export const mdxComponents: MDXComponents = {
     ...props
   }: ComponentPropsWithoutRef<"blockquote">) => (
     <blockquote
-      className="border-l-2 border-purple pl-5 my-8 [&_p]:mb-0 [&_p]:text-xl [&_p]:leading-snug [&_p]:text-white [&_p+p]:mt-3"
+      className="border-l-2 border-accent pl-5 my-8 [&_p]:mb-0 [&_p]:text-xl [&_p]:leading-snug [&_p]:text-ink [&_p+p]:mt-3"
       {...props}
     >
       {children}
@@ -139,7 +139,7 @@ export const mdxComponents: MDXComponents = {
       <code {...props}>{children}</code>
     ) : (
       <code
-        className="bg-purple/10 dark:bg-white/10 text-blue-100 px-1.5 py-0.5 rounded text-sm font-mono"
+        className="bg-accent/10 dark:bg-white/10 text-accent-ink px-1.5 py-0.5 rounded text-sm font-mono"
         {...props}
       >
         {children}
@@ -147,27 +147,27 @@ export const mdxComponents: MDXComponents = {
     ),
   table: ({ children, ...props }: ComponentPropsWithoutRef<"table">) => (
     <div className="my-6 overflow-x-auto">
-      <table className="w-full text-sm text-white-200" {...props}>
+      <table className="w-full text-sm text-body" {...props}>
         {children}
       </table>
     </div>
   ),
   th: ({ children, ...props }: ComponentPropsWithoutRef<"th">) => (
     <th
-      className="border-b border-black-300 py-2 pr-4 text-left font-semibold text-white"
+      className="border-b border-rule py-2 pr-4 text-left font-semibold text-ink"
       {...props}
     >
       {children}
     </th>
   ),
   td: ({ children, ...props }: ComponentPropsWithoutRef<"td">) => (
-    <td className="border-b border-black-300/60 py-2 pr-4 align-top" {...props}>
+    <td className="border-b border-rule/60 py-2 pr-4 align-top" {...props}>
       {children}
     </td>
   ),
-  hr: () => <hr className="my-10 border-black-300" />,
+  hr: () => <hr className="my-10 border-rule" />,
   strong: ({ children, ...props }: ComponentPropsWithoutRef<"strong">) => (
-    <strong className="font-semibold text-white" {...props}>
+    <strong className="font-semibold text-ink" {...props}>
       {children}
     </strong>
   ),

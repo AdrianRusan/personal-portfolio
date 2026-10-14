@@ -47,35 +47,35 @@ export const Retainer = ({ copy = en }: { copy?: RetainerCopy }) => {
   return (
     <section
       id="retainer"
-      className="px-5 sm:px-10 lg:px-12 py-12 md:py-16 scroll-mt-24"
+      className="section-compact"
     >
       <div className="container-wide">
         <SectionHeading lead={copy.intro}>{copy.heading}</SectionHeading>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10 border-t border-white/15 pt-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10 border-t border-ink/15 pt-8">
           <div>
-            <h3 className="text-lg font-semibold">{copy.deliveredHeading}</h3>
-            <ul className="flex flex-col gap-3 mt-4 list-disc pl-5 marker:text-purple">
+            <h3 className="type-label">{copy.deliveredHeading}</h3>
+            <ul className="flex flex-col gap-3 mt-4 list-disc pl-5 marker:text-accent">
               {copy.deliverables.map((item) => (
                 <li
                   key={item}
-                  className="text-sm text-white-200 leading-relaxed"
+                  className="text-sm text-body leading-relaxed"
                 >
                   {item}
                 </li>
               ))}
             </ul>
           </div>
-          <div className="rounded-xl border border-white/15 bg-black-200 p-6 md:p-8 self-start">
-            <p className="text-sm text-white-200/80">{copy.startsAt}</p>
-            <p className="tabular-nums text-3xl md:text-4xl type-light text-white mt-1">
+          <div className="rounded-xl border border-ink/15 bg-raised p-6 md:p-8 self-start">
+            <p className="text-sm text-body/80">{copy.startsAt}</p>
+            <p className="tabular-nums text-3xl md:text-4xl type-light text-ink mt-1">
               {copy.price}
-              <span className="text-base font-normal text-white-200">
+              <span className="text-base font-normal text-body">
                 {copy.perMonth}
               </span>
             </p>
-            <p className="text-sm text-white mt-2">{copy.minimum}</p>
-            <p className="text-sm text-white-200 mt-4 leading-relaxed text-pretty">
+            <p className="text-sm text-ink mt-2">{copy.minimum}</p>
+            <p className="text-sm text-body mt-4 leading-relaxed text-pretty">
               {copy.pricingBody}
             </p>
             <div className="mt-6">
@@ -95,23 +95,23 @@ export const Retainer = ({ copy = en }: { copy?: RetainerCopy }) => {
             {copy.guarantees.map((g) => (
               <p
                 key={g.title}
-                className="text-sm text-white-200 leading-relaxed"
+                className="text-sm text-body leading-relaxed"
               >
-                <span className="font-semibold text-white">{g.title}.</span>{" "}
+                <span className="font-semibold text-ink">{g.title}.</span>{" "}
                 {g.body}
               </p>
             ))}
-            <p className="text-sm text-white-200 mt-3 leading-relaxed">
+            <p className="text-sm text-body mt-3 leading-relaxed">
               {copy.securityNote}
             </p>
           </Fold>
 
           <Fold title={copy.termsHeading}>
-            <ul className="flex flex-col gap-3 list-disc pl-5 marker:text-white-200/40">
+            <ul className="flex flex-col gap-3 list-disc pl-5 marker:text-body/40">
               {copy.terms.map((item) => (
                 <li
                   key={item}
-                  className="text-sm text-white-200/80 leading-relaxed"
+                  className="text-sm text-body/80 leading-relaxed"
                 >
                   {item}
                 </li>

@@ -20,15 +20,15 @@ export default function PostHeader({ frontmatter, readingTime }: PostHeaderProps
         ))}
       </div>
 
-      <h1 className="display text-[38px] sm:text-5xl md:text-6xl text-white mb-6 text-balance">
+      <h1 className="type-title-sm text-ink mb-6 text-balance">
         {frontmatter.title}
       </h1>
 
-      <p className="text-white-200 text-lg leading-relaxed mb-6 max-w-3xl">
+      <p className="text-body text-lg leading-relaxed mb-6 max-w-3xl">
         {frontmatter.description}
       </p>
 
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-white-200/70 pb-8 border-b border-black-300">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-body/70 pb-8 border-b border-rule">
         <div className="flex items-center gap-2">
           {hasPhoto ? (
             <Image
@@ -36,18 +36,18 @@ export default function PostHeader({ frontmatter, readingTime }: PostHeaderProps
               alt=""
               width={32}
               height={32}
-              className="w-8 h-8 rounded-full object-cover border border-purple/30"
+              className="w-8 h-8 rounded-full object-cover border border-accent/30"
             />
           ) : (
             <div
               aria-hidden="true"
-              className="w-8 h-8 rounded-full bg-black-200 border border-black-300 flex items-center justify-center text-white-100 font-semibold text-xs"
+              className="w-8 h-8 rounded-full bg-raised border border-rule flex items-center justify-center text-muted font-semibold text-xs"
             >
               AR
             </div>
           )}
           {/* R3-F35: the avatar names him on phones; keeps the meta row on one line. */}
-          <span className="sr-only sm:not-sr-only text-white-100">Adrian Rusan</span>
+          <span className="sr-only sm:not-sr-only text-muted">Adrian Rusan</span>
         </div>
 
         <span className="flex items-center gap-1.5">

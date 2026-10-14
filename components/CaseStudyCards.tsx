@@ -32,13 +32,13 @@ const CaseStudyCards = async ({ copy = en }: { copy?: CaseStudyCardsCopy }) => {
     <section
       id="work"
       aria-labelledby="case-studies-heading"
-      className="px-5 sm:px-10 lg:px-12 py-16 md:py-28 scroll-mt-24 border-t border-white/15"
+      className="section border-t border-ink/15"
     >
       <div className="container-wide">
         <SectionHeading id="case-studies-heading" lead={copy.lead || undefined}>
           {copy.heading}
         </SectionHeading>
-        <ul className="grid mt-10 md:grid-cols-3 border-t border-white">
+        <ul className="grid mt-10 md:grid-cols-3 border-t border-ink">
           {studies.map((study) => {
             const { title } = {
               ...study.frontmatter,
@@ -51,26 +51,26 @@ const CaseStudyCards = async ({ copy = en }: { copy?: CaseStudyCardsCopy }) => {
               <li key={study.slug}>
                 <Link
                   href={`/work/${study.slug}`}
-                  className="group flex h-full flex-col border-b border-white/15 py-6 md:pr-8"
+                  className="group flex h-full flex-col border-b border-ink/15 py-6 md:pr-8"
                 >
                   {label && (
                     <span className="eyebrow">{t(label)}</span>
                   )}
                   {result && (
                     <p className="mt-3">
-                      <span className="block tabular-nums text-4xl md:text-5xl type-light text-white">
+                      <span className="block type-stat text-ink">
                         {t(result.figure)}
                       </span>
-                      <span className="mt-1 block text-sm text-white-200 text-pretty">
+                      <span className="mt-1 block text-sm text-body text-pretty">
                         {t(result.label)}
                       </span>
                     </p>
                   )}
                   {/* Figure, label and title, as on /work: no description line. */}
-                  <h3 className="text-xl md:text-[22px] leading-snug tracking-[-0.02em] mt-4 flex-1 text-balance group-hover:underline decoration-purple underline-offset-4">
+                  <h3 className="type-item leading-snug mt-4 flex-1 text-balance group-hover:underline decoration-accent underline-offset-4">
                     {title}
                   </h3>
-                  <span className="text-sm font-medium text-purple mt-5">
+                  <span className="text-sm font-medium text-accent mt-5">
                     {copy.read}
                   </span>
                 </Link>
@@ -80,7 +80,7 @@ const CaseStudyCards = async ({ copy = en }: { copy?: CaseStudyCardsCopy }) => {
         </ul>
         <Link
           href="/work"
-          className="inline-block text-sm font-medium text-purple hover:underline underline-offset-4 mt-6"
+          className="inline-block text-sm font-medium text-accent hover:underline underline-offset-4 mt-6"
         >
           {copy.all}
         </Link>

@@ -22,12 +22,12 @@ export function SectionHeading({
       {eyebrow && <p className="eyebrow mb-3">{eyebrow}</p>}
       <h2
         id={id}
-        className="text-3xl md:text-5xl type-light leading-[1.05] text-balance"
+        className="type-section text-balance"
       >
         {children}
       </h2>
       {lead && (
-        <p className="mt-4 text-white-200 leading-relaxed text-pretty">{lead}</p>
+        <p className="mt-4 text-body leading-relaxed text-pretty">{lead}</p>
       )}
     </div>
   );
