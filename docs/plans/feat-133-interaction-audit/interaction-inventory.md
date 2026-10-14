@@ -11,11 +11,11 @@ Every route, nav item, link, button, form and control on adrian-rusan.com, EN + 
 | | Findings (checks) | Control rows (per-route tables) |
 |---|---|---|
 | OK | 22 | 415 |
-| BROKEN | 4 (I-04, I-12, I-50, I-57) | 6 |
-| SMELL | 7 | 4 |
+| BROKEN | 5 (I-04, I-09, I-12, I-50, I-57) | 6 |
+| SMELL | 8 | 4 |
 | N/A | 2 (no mobile menu toggle, no theme toggle) | |
 
-BROKEN open after PR 2: **0** (all four are fixed there). SMELL fixed: I-55. SMELL deferred: I-08, I-22, I-23, I-32, I-56, I-58, each with a recommendation in HANDOFF.md.
+BROKEN open after #136: **0** (all five are fixed there). SMELL fixed: I-55. SMELL deferred: I-08, I-22, I-23, I-32, I-56, I-58, I-60, each with a recommendation in HANDOFF.md.
 
 Crawls: local 20 sitemap pages, 451 internal hrefs, 25 unique paths, 0 unexpected non-200s. Production: identical counts, 0 unexpected non-200s. The four 301s are one hop each on both. External links: 23 checked, 2 BROKEN (I-04), 1 returns 403 to scripts only (devops.com, opens in a browser).
 
@@ -26,13 +26,14 @@ Crawls: local 20 sitemap pages, 451 internal hrefs, 25 unique paths, 0 unexpecte
 | I-01 | Links | Every sitemap and `llms.txt` URL, plus `/sitemap.xml`, `/robots.txt`, `/feed.xml`, `/llms.txt` | all 200, local and production | OK | `every sitemap and llms.txt URL is a 200` |
 | I-02 | Links | Every internal `href` on every page resolves in at most one hop; every `#hash` has its `id` | 451 hrefs, 0 failures | OK | `every internal href resolves…` |
 | I-03 | Links | `/workshops` → `/services#ladder`, three blog 301s | one 301 hop to a 200, `#ladder` exists | OK | `redirects are one 301 hop` |
-| I-04 | Links | External links resolve | `taco-console#127` and `#128` on `/work/30-reviewed-prs-3-vulnerabilities` 404: the repo is private | **BROKEN** → fixed in PR 2 (unlinked, kept as text) | `case studies link to no private repo` |
+| I-04 | Links | External links resolve | `taco-console#127` and `#128` on `/work/30-reviewed-prs-3-vulnerabilities` 404: the repo is private | **BROKEN** → fixed in #136 (unlinked, kept as text) | `case studies link to no private repo` |
 | I-05 | Links | `target="_blank"` carries `rel="noopener"` | every one does | OK | `new-tab links carry rel="noopener"` |
 | I-06 | Links | `mailto:` decodes to `CONTACT_EMAIL` with a clean subject | 6 subjects, all percent-encoded, decode clean (no `+`, no `%xx` left) | OK | `mailto links decode…` |
 | I-07 | Links | RO pages never link EN pages that have an RO twin or fallback | only the locale switches (hreflang `en`) | OK | `RO pages link to no EN page…` |
 | I-08 | Links | Host redirects | `http://adrian-rusan.com/` takes 2 hops (http→https, apex→www); https apex and http www take 1 | SMELL, deferred (Vercel domain config, out of scope) | production crawl only |
+| I-09 | Links | Links inside the Markdown twins (`Accept: text/markdown`) of live posts resolve | the 66-days post's twin links 3 posts that aren't live yet (404); the HTML shows them as plain text, `lib/markdown` didn't | **BROKEN** → fixed in #136 (same gate as `MDXContent`) | jest `links no blog post that isn't live yet` |
 | I-10 | Nav | Current item marked on every route | 14 routes as expected; `/about`, `/contact`, `/teardown`, `/privacy` have no nav item by design | OK | `<route> marks … as current` |
-| I-12 | Nav | `/workshops/*` marks Services (the workshops live on the services ladder; `/workshops` redirects there) | no item marked | **BROKEN** → fixed in PR 2 | `workshop pages mark Services as current` |
+| I-12 | Nav | `/workshops/*` marks Services (the workshops live on the services ladder; `/workshops` redirects there) | no item marked | **BROKEN** → fixed in #136 | `workshop pages mark Services as current` |
 | I-13 | Nav | Nav hrefs match `data/nav.ts` | EN and RO match; RO Proiecte/Blog → EN `/work`, `/blog` by design | OK | `nav links go where data/nav.ts says` |
 | I-14 | Nav | Every nav link and the CTA reachable by Tab and on screen when focused, 1440 + 390 | yes | OK | `every nav link and the CTA are reachable…` |
 | I-15 | Nav, 390 | No hamburger: one row, links scroll sideways, the CTA stays on screen | CTA fully visible; every link scrolls into view | OK. Open/close/Escape/focus-return: **N/A**, there is no menu to open | `the nav CTA stays on screen…` |
@@ -47,15 +48,16 @@ Crawls: local 20 sitemap pages, 451 internal hrefs, 25 unique paths, 0 unexpecte
 | I-35 | CTAs | Paid-call `mailto:` on `/services` fires `cta_click` | yes | OK | `the paid-call mailto…` |
 | I-40 | Forms | Checklist capture: empty and invalid email show an error with `aria-invalid`, no request; API error shows the retry line; double-click sends one request; success shows "Check your inbox." and fires `email_submit` | all as expected (API mocked with `page.route`) | OK | `checklist form…` |
 | I-45 | Forms | Teardown form: empty submit shows both field errors and focuses the first; an API field 400 maps back to its field; double-click sends one request; body is `{email, repoUrl, note, optIn}`; success fires `teardown_request` | all as expected (API mocked) | OK | `teardown form…` |
-| I-50 | Controls | Blog tag filters expose their pressed state | plain `<button>`s, no `aria-pressed`: a screen reader can't tell which filter is on | **BROKEN** → fixed in PR 2 | `blog tag filters are toggle buttons…` |
+| I-50 | Controls | Blog tag filters expose their pressed state | plain `<button>`s, no `aria-pressed`: a screen reader can't tell which filter is on | **BROKEN** → fixed in #136 | `blog tag filters are toggle buttons…` |
 | I-51 | Controls | FAQ `<details>` open and close by keyboard | yes | OK | `FAQ items open and close by keyboard` |
 | I-52 | Controls | Skip link is the first Tab stop and jumps to `#main` | yes | OK | `the skip link moves focus to main` |
 | I-53 | Controls | Every keyboard stop shows a focus ring (first 40 stops on `/`, `/services`, `/ro`, `/blog`, `/teardown`) | yes | OK | `<page>: every keyboard stop shows a focus ring` |
 | I-54 | Controls | Theme toggle persists | **N/A**: the site follows the system theme, there is no toggle | — | — |
-| I-55 | Controls | Share and Copy link use the canonical post URL | Copy link copies `window.location.href`, so a reader's UTMs and `#hash` travel with every shared link and skew attribution; the share hrefs differ between server and client render (hydration mismatch) | SMELL → fixed in PR 2 (one line) | `share and copy link use the canonical post URL` |
+| I-55 | Controls | Share and Copy link use the canonical post URL | Copy link copies `window.location.href`, so a reader's UTMs and `#hash` travel with every shared link and skew attribution; the share hrefs differ between server and client render (hydration mismatch) | SMELL → fixed in #136 (one line) | `share and copy link use the canonical post URL` |
 | I-56 | Controls | Copy link / Copy code when the clipboard is blocked | promise rejects, no feedback | SMELL, deferred | — |
-| I-57 | Controls | Blog search input and its clear button have accessible names | no label, no `aria-label` (only rendered at 15+ posts, so not live today) | **BROKEN** (latent) → fixed in PR 2 | not testable until 15 posts |
+| I-57 | Controls | Blog search input and its clear button have accessible names | no label, no `aria-label` (only rendered at 15+ posts, so not live today) | **BROKEN** (latent) → fixed in #136 | not testable until 15 posts |
 | I-58 | Controls | `app/global-error.jsx` | "Try again" reloads; EN only, unstyled | SMELL, deferred | — |
+| I-60 | Controls | Blog tag filter state survives reload and sharing | clicking a tag doesn't update `?tag=`, so `/blog?tag=security` → All still shows `?tag=security` | SMELL, deferred | — |
 | I-59 | Analytics | Only the five named events fire; PII-shaped keys throw | as designed (`__tests__/analytics*.test.ts`) | OK | jest + the event checks above |
 
 ## EN ↔ RO locale map
