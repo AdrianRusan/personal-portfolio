@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { track } from "@/lib/analytics";
+import { cn } from "@/lib/utils";
+import { ctaPrimary, ctaSecondary } from "@/components/ui/button";
 
 export interface PricingColumn {
   name: string;
@@ -52,11 +54,10 @@ export const PricingTable = ({
       >
         {/* The featured tier gets the one filled booking button. */}
         <span
-          className={
-            column.featured
-              ? "inline-flex items-center rounded-lg bg-purple px-4 py-2 text-xs font-semibold text-black-100 hover:opacity-90 transition-opacity"
-              : "inline-flex items-center rounded-lg border border-purple/40 px-4 py-2 text-xs font-medium text-blue-100 hover:bg-purple/10 transition-colors"
-          }
+          className={cn(
+            column.featured ? ctaPrimary : ctaSecondary,
+            "min-h-11 px-5 py-2 text-sm",
+          )}
         >
           {ctaLabel}
         </span>

@@ -58,7 +58,7 @@ export function ClosingCta({
           {copy.teardown}
         </Link>
       </p>
-      {!hideEmailCapture && <EmailCapture variant="footer" className="mt-16" />}
+      {!hideEmailCapture && <EmailCapture variant="footer" className="mt-16 border-t border-white/15 pt-8" />}
     </ClosingBand>
   );
 }

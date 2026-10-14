@@ -93,9 +93,8 @@ const EmailCapture = ({
     <section
       aria-labelledby={headingId}
       className={cn(
-        // Solid in both themes, so nothing behind it shows through.
-        "rounded-xl border border-white/10 bg-white dark:bg-black-200 p-6 md:p-8",
-        variant === "footer" && "max-w-md p-5 md:p-6",
+        // #114 M: no card; the caller places it (ClosingCta draws a rule).
+        variant === "footer" && "max-w-md",
         className,
       )}
     >
