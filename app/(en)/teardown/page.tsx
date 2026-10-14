@@ -8,7 +8,7 @@ import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 const { title: TITLE, description: DESCRIPTION } = teardown;
 
 export const metadata: Metadata = {
-  title: "Free AI Code Teardown — 15-min Loom, no call",
+  title: teardown.metaTitle,
   description: DESCRIPTION,
   openGraph: {
     title: TITLE,

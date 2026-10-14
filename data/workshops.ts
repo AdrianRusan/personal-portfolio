@@ -1,4 +1,4 @@
-import { CONTACT_EMAIL } from "@/data";
+import { CONTACT_EMAIL, RULES_WORDS } from "@/data";
 
 // Team workshop pages (brief R8). Prices are the guide's ladder table
 // (2026-10-10): EUR, ex-VAT. Every number here traces to the guide.
@@ -105,9 +105,9 @@ const fullDay: Workshop = {
   // D3 (Adi, 2026-10-12): €3,500 → €5,000. RO is 55% of EN: 2.750 € (data/ro.ts).
   price: 5000,
   maxPeople: 10,
-  title: "Full-day Claude Code workshop for engineering teams",
+  title: "Full-day Claude Code workshop and training for teams",
   description:
-    "Claude Code workshop on agentic engineering for teams, full day: parallel agents in git worktrees, then review gates. Up to 10 engineers.",
+    "Claude Code workshop and training for teams, full day: parallel agents in git worktrees, then the review gates. Up to 10 engineers.",
   headline:
     "Teach your team to run Claude Code agents in parallel, then review what they ship",
   intro:
@@ -146,13 +146,13 @@ const halfDay: Workshop = {
   // D3 (Adi, 2026-10-12): €2,000 → €3,000. RO is 55% of EN: 1.650 € (data/ro.ts).
   price: 3000,
   maxPeople: 10,
-  title: "Half-day Claude Code workshop for engineering teams",
+  title: "Half-day Claude Code workshop and training for teams",
   description:
-    "Claude Code workshop on agentic engineering for teams, half-day: parallel agents in git worktrees, a rules file, an hour on review gates.",
+    "Claude Code workshop and training for teams, half day: parallel agents in git worktrees, a rules file, an hour on review gates.",
   headline:
     "Get your team running Claude Code agents in parallel in half a day",
   intro:
-    "Your engineers set up parallel agents on your own repo, write the rules file those agents follow, and finish with one hour on reviewing what the agents produce.",
+    `Your engineers set up parallel agents on your own repo, write the rules file those agents follow, and finish with one hour on reviewing what the agents produce. Short beats long here: I cut my own agent rules from ${RULES_WORDS.from.toLocaleString("en-US")} to ${RULES_WORDS.to.toLocaleString("en-US")} words.`,
   agenda: [
     setup("2.5 hours", ["09:00–09:45", "09:45–10:30", "10:45–11:30"]),
     {

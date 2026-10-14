@@ -1,7 +1,10 @@
 // /teardown copy: the page and its Markdown (lib/markdown) both read this.
 export const teardown = {
+  // #125: the <title> takes the "ai code security" target; title is the
+  // longer OG/schema name.
+  metaTitle: "Free AI Code Security Teardown",
   title:
-    "Free AI Code Teardown — a 15-min Loom of what your AI-generated code is hiding",
+    "Free AI Code Security Teardown: a 15-minute Loom of what your AI-generated code is hiding",
   description:
     "Send a repo or PR. Get a free 15-minute Loom of the security bugs your AI coding tools wrote that pass tests and merge anyway. No call, no pitch.",
   // A1 F16: "no call" is said once, by the button.
@@ -9,7 +12,7 @@ export const teardown = {
   heading:
     "Send me a repo. I'll show you what your AI-generated code is hiding.",
   intro:
-    "A free 15-minute Loom of a repo or a recent PR, showing the security bugs that pass your tests and merge anyway. I only need your email.",
+    "A free 15-minute Loom of a repo or a recent PR, showing the security bugs that pass your tests and merge anyway. I need your email and a repo or PR link, nothing else.",
   // R2-F20. The 30-PR repo had no tests, so the line makes no claim about tests.
   proof:
     "On my own 30-PR run, review caught 3 shell-injection paths before merge.",

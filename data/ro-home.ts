@@ -26,6 +26,7 @@ import {
   RO_CAPACITY,
   RO_CREDIT_TERMS,
   RO_GUARANTEE,
+  RO_TEARDOWN_EMAIL,
   roLadder,
   roTierNames,
   roTiers,
@@ -59,7 +60,7 @@ export const roHero: HeroCopy = {
   body: "Întâi securitatea: injection, autentificare, secrete și controlul accesului, verificate linie cu linie înainte ca PR-ul să ajungă la tine. Te poți aștepta la un volum de 2–3 ori mai mare, nu de 100 de ori.",
   // #125: no RO teardown page yet, so the RO fallback is email (Adi, gate Q6).
   teardown: "Trimite-mi un repo pe email",
-  teardownHref: `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Teardown gratuit")}`,
+  teardownHref: RO_TEARDOWN_EMAIL,
   call: "Programează o discuție",
   guarantee: RO_GUARANTEE,
 };

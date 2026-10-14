@@ -1,4 +1,7 @@
 import { CALENDLY_URL, CONTACT_EMAIL, CREDIT_DAYS } from "@/data";
+
+// #125: the RO stand-in for the EN-only /teardown form (gate Q6): an email.
+export const RO_TEARDOWN_EMAIL = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Teardown gratuit")}`;
 import {
   ladder,
   perPrBand,
@@ -85,8 +88,8 @@ const ro: Record<
     ctas: [
       { label: "Programează un audit", href: CALENDLY_URL },
       {
-        label: "Sau începe cu un teardown gratuit (EN)",
-        href: "/teardown",
+        label: "Sau trimite-mi un repo pe email pentru un teardown gratuit",
+        href: RO_TEARDOWN_EMAIL,
       },
     ],
   },
