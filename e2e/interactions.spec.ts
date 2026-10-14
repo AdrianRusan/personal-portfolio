@@ -606,7 +606,6 @@ test.describe("controls and keyboard (I-50..I-56)", () => {
   test("blog tag filters are toggle buttons with aria-pressed (I-50)", async ({
     page,
   }) => {
-    test.fail(true, "I-50: tag filter buttons have no aria-pressed");
     await page.goto("/blog");
     const all = page.getByRole("button", { name: "All", exact: true });
     await expect(all).toHaveAttribute("aria-pressed", "true");

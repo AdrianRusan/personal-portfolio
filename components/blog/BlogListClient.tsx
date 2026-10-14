@@ -61,6 +61,7 @@ export default function BlogListClient({
             <input
               type="text"
               placeholder="Search posts..."
+              aria-label="Search posts"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full bg-raised border border-rule text-ink placeholder-body/75 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-colors"
@@ -68,6 +69,7 @@ export default function BlogListClient({
             {search && (
               <button
                 onClick={() => setSearch('')}
+                aria-label="Clear search"
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-body/40 hover:text-body transition-colors"
               >
                 <X size={14} />
@@ -82,6 +84,7 @@ export default function BlogListClient({
         <div className="flex flex-nowrap sm:flex-wrap gap-2 mb-8 overflow-x-auto pb-1 -mx-5 px-5 sm:mx-0 sm:px-0 max-sm:[mask-image:linear-gradient(to_right,black_85%,transparent)]">
           <button
             onClick={() => setActiveTag(null)}
+            aria-pressed={activeTag === null}
             className={[
               'shrink-0 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium transition-colors border',
               activeTag === null
@@ -96,6 +99,7 @@ export default function BlogListClient({
               key={tag}
               className="shrink-0"
               onClick={() => setActiveTag(tag === activeTag ? null : tag)}
+              aria-pressed={tag === activeTag}
             >
               <TagBadge tag={tag} active={tag === activeTag} />
             </button>
