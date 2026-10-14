@@ -1,9 +1,9 @@
 ---
-title: "AI Reviewers vs My Review: The Panel Flagged All 5 Bugs I Missed, Then Approved One Anyway"
-seoTitle: "AI Code Review vs Human Review: Blind Test on 8 Commits"
-date: "2026-11-28"
+title: "Claude Code /code-review vs My Review: A Blind Test"
+seoTitle: "Claude Code /code-review vs My Review: A Blind Test"
+date: "2026-10-31"
 tags: ["ai", "code-review", "security", "claude-code", "agent-harness"]
-description: "I ran /code-review and a three-agent panel, blind, on 8 agent commits I'd reviewed. The panel flagged all 5 security bugs I missed, /code-review 4, and both waved one through, as I did."
+description: "I ran /code-review and a 3-agent panel blind on 8 agent commits I'd reviewed. They flagged the 5 security bugs I missed, and repeated my mistake on one."
 published: true
 language: "en"
 cta: "reviewed-pr"
@@ -12,30 +12,34 @@ faq:
   - q: "Can AI code review catch security bugs a human reviewer missed?"
     a: "In my test, yes. On 8 agent-written commits I had reviewed by hand in March, Claude Code's /code-review and a three-agent panel flagged the shell injections I had approved, two stored XSS sinks I never saw and a crashing tab. The panel flagged all 5 security bugs my review let through; /code-review flagged 4. All 5 had sat in that repo since March; I fixed them on 12 October 2026, the day of the test."
   - q: "What did the AI reviewers miss?"
-    a: "/code-review reports 10 findings at medium effort. On one commit it left a shell call built from a stored repo name out of its 10 and called it low risk because the value came from seeded data. The panel's security reviewer flagged the same call as a warning and approved the commit. That is the reasoning that made me miss a shell call built from database values."
+    a: "/code-review returned up to 10 findings per commit at medium effort. On one commit it left a shell call built from a stored repo name out of its 10 and called it low risk because the value came from seeded data. The panel's security reviewer flagged the same call as a warning and approved the commit. That is the reasoning that made me miss #109, a shell call built from database values."
   - q: "Should an AI reviewer replace human code review?"
-    a: "On this evidence it should run before every human review. It's cheap and it found real bugs I missed. It can't own the merge: Claude Code Review's own docs say its findings don't approve or block a PR. Someone still has to read its low-risk calls and decide."
+    a: "On this evidence it should run before every human review. It took about 58,000 tokens and a minute per commit, and it found real bugs I missed. It can't own the merge: Claude Code Review's own docs say its findings don't approve or block a PR. Someone still has to read its low-risk calls and decide."
   - q: "How much does AI code review cost?"
     a: "Claude Code Review, the managed GitHub service, averages $15 to $25 per review according to its docs, and it's in research preview for Team and Enterprise plans. I didn't run it. The local /code-review runs I did took about 58,000 tokens and 53 to 82 seconds per commit."
 ---
 
-**Short answer:** I gave two AI reviewers the 8 agent commits I'd already reviewed by hand in March. They flagged every security bug I missed, and on one they made my exact mistake. My three-agent panel flagged all 5 security bugs my review let through, and Claude Code's `/code-review` flagged 4, plus a crash I'd never noticed. On the fifth, both rated a shell call low risk because its value came from seed data, which is the reasoning that made me miss another one. I fixed all 5 bugs on 12 October 2026, the day of the test.
+I gave two AI reviewers, blind, the 8 agent commits I'd already reviewed by hand in March, and between them they flagged every security bug I had missed. On #117 they also made my exact mistake: they rated a shell call low risk because its value came from data I control. This is Claude Code's local `/code-review` command and my own reviewer panel, not the managed Claude Code Review service, which I didn't run.
 
-The run is my own admin dashboard, and [the 30-PR case study](/work/30-reviewed-prs-3-vulnerabilities) has the full list of what my review caught and missed. This post is the test of whether a machine would have done better.
+My three-agent panel flagged all 5 security bugs my review let through, and Claude Code's `/code-review` flagged 4, plus a crash I'd never noticed. I fixed all 5 bugs on 12 October 2026, the day of the test.
+
+The run is my own admin dashboard, and [the 30-PR case study](/work/30-reviewed-prs-3-vulnerabilities) has the full list of what my review caught and missed. This post tests whether a machine would have done better, and the [shell-injection post](/blog/catching-shell-injection-agents-wrote) has the code behind each shell row.
 
 ## The test
 
-- **Input:** the 7 agent commits behind the run's injection-class findings (#109, #111, #112, #113, #117, #119, #121), plus #98's. I added #98 the same day, once a review of this draft pointed out that the first set left out the only miss that took request input. For each commit I built a fresh repo from its parent with the agent's diff staged and no git history, so no reviewer could read the later fix commits.
+- **Input:** the 7 agent commits behind the run's injection-class findings (#109, #111, #112, #113, #117, #119, #121), plus #98's, the only miss that took request input. For each commit I built a fresh repo from its parent with the agent's diff staged and no git history, so no reviewer could read the later fix commits.
 - **Prompt:** the same for every reviewer: review the staged change, here is the author's commit message. No hint about security or about what I'd found.
 - **Reviewers:**
   1. Claude Code's `/code-review` at medium effort (v2.1.296), run by a fresh Claude Opus 5.5 subagent per commit.
   2. My panel: a correctness reviewer (Claude Sonnet 5.5), a security reviewer (Claude Opus 5.5) and a completeness reviewer (Claude Sonnet 5.5), each starting fresh.
-  3. Claude Code Review, the managed GitHub service: not run. It needs a Team or Enterprise organisation with the GitHub app installed, and I didn't set one up.
+  3. Claude Code Review, the managed GitHub service: not run. It needs a Team or Enterprise organization with the GitHub app installed, and I didn't set one up.
 - **The code's authors:** 4 of the 8 commits carry a Claude Sonnet 4 trailer, and 4 carry none.
 
-Two limits shape the result. First, the repo holds an `AUDIT.md` from a February review that names command injection, XSS in search snippets and path traversal, and warns that repo names interpolated into shell commands are "injection-ready if made dynamic". The reviewers could read it in October. The agents could read it when they wrote these commits in March, and so could I. Second, each subagent also loaded the project file of the repo I launched it from, this website's. Two reviewers on #98 cited it, with findings about Vercel and a branch name that don't apply to the dashboard. I counted those as wrong.
+Two limits shape the result. First, the repo holds an `AUDIT.md` from a February review that names command injection, XSS in search snippets and path traversal, and warns that repo names interpolated into shell commands are "injection-ready if made dynamic". The reviewers could read it in October. The agents could read it when they wrote these commits in March, and so could I. Second, each subagent also loaded the project file of the repo I launched it from, this website's. Two reviewers on #98 cited it, with findings about Vercel that don't apply to the dashboard. I counted those as wrong.
 
-## What they found
+## Can AI code review catch what a human reviewer missed?
+
+On these 8 commits, yes.
 
 | PR | The bug | Me, March | `/code-review` | Panel |
 | --- | --- | --- | --- | --- |
@@ -44,16 +48,16 @@ Two limits shape the result. First, the repo holds an `AUDIT.md` from a February
 | #121 | The same pattern, in a second search | caught | 2nd of 10 | B · W · B |
 | #119 | Path traversal on read and write | caught | 1st of 10 | B · B · B |
 | #113 | Config path in a shell string | caught | 2nd of 10 | W(ok) · W · W |
-| #117 | Stored repo name into a shell | missed (fix deleted) | not in its 10 | W(ok) · W · W |
+| #117 | Stored repo name into a shell | partly fixed (still a shell string) | not in its 10 | W(ok) · W · W |
 | #98 | URL query params into a `gh` shell command | **missed** | 1st of 9 | B · B · B |
 | #109 | Database values in a shell string | **missed** | 2nd of 10 | B · B · B |
 | #111 | Log lines rendered as raw HTML (stored XSS) | **missed** | 1st of 10 | B · B · B |
 | #121 | Memory-file lines rendered as raw HTML (stored XSS) | **missed** | 1st of 10 | B · B · B |
-| #109 | Diff tab crashes: it reads `sha`, `gh` sends `oid` | **missed** | 1st of 10 | n/a · B · N |
+| #109 | Diff tab crashes: it reads `sha`, `gh` sends `oid` | **missed** | 1st of 10 | noted · B · N |
 
-Panel column: security · correctness · completeness reviewer. B is BLOCK, W is WARN, N is NIT, and W(ok) means the reviewer rated it WARN and approved the commit.
+Panel column: security · correctness · completeness reviewer. B is BLOCK, W is WARN, N is NIT, and W(ok) means the reviewer rated it WARN and approved the commit. "noted" means the security reviewer mentioned it as outside its lane.
 
-I checked all 11 rows. The 5 caught rows match their March fix commits. The 5 security rows I missed, plus the crash, were still in the code at the repo's last commit when I checked on 12 October, and I fixed the 5 security rows that day. That fix, taco-console#127, did not fix the crash. I confirmed the XSS sinks at `components/logs/log-viewer.tsx:535` and `app/memory/page.tsx:231` in the code, and the crash by running `gh pr view --json commits` on a real PR: it returns `oid` and `authors`, no `sha`.
+I checked all 11 rows. The 5 caught rows match their March fix commits. The 5 security rows I missed or only partly fixed, plus the crash, were still in the code at the repo's last commit when I checked on 12 October, and I fixed the 5 security rows that day. That fix, taco-console#127, did not fix the crash. I confirmed the XSS sinks at `components/logs/log-viewer.tsx:535` and `app/memory/page.tsx:231` in the code, and the crash by running `gh pr view --json commits` on a real PR: it returns `oid` and `authors`, no `sha`.
 
 The panel asked for changes on all 8 commits. Its security reviewer alone would have approved #113 and #117.
 
@@ -67,14 +71,13 @@ The panel asked for changes on all 8 commits. Its security reviewer alone would 
 
 ## Where it made my mistake
 
-On #117 `/code-review` reported 10 findings, led by a build break, and listed the shell call only as an extra that didn't make its top 10, "low risk" because the repo name came from seeded data. The security reviewer flagged the same call, rated it WARN for the same reason, and approved the commit. It did the same on #113, where the path came from an environment variable.
+On #117 `/code-review` returned 10 findings, led by a build break, and listed the shell call only as an extra that didn't make its top 10, "low risk" because the repo name came from seeded data. The security reviewer flagged the same call, rated it WARN for the same reason, and approved the commit. It did the same on #113, where the path came from an environment variable.
 
 That is the reasoning that let #109 through my review: the value comes from somewhere I control, so it ranks low. In this repo the projects table became editable from the UI in the very next PR, #118.
 
 Two settings change that ranking. `/code-review --max-findings all` lifts the 10-finding limit (v2.1.288 and later). And `/code-review` follows the repo's `CLAUDE.md`, so a rule there applies to every review:
 
 ```markdown
-## Review rules
 - Any shell command built from a string with a variable in it
   is a blocking finding, whatever the value's source.
 - Any `dangerouslySetInnerHTML` without an escaping helper
@@ -90,11 +93,15 @@ Two settings change that ranking. `/code-review --max-findings all` lifts the 10
 | Correctness reviewer | 97 | 12–34 s | 26,000–40,000 |
 | Completeness reviewer | 115 | 16–27 s | 27,000–41,000 |
 
-Times and tokens come from each subagent's usage counter, logged per run. The 11 bugs in the table account for a few dozen of the 338 findings. I didn't triage the rest, and that triage is the cost this table leaves out: someone has to read them.
+Times and tokens come from each subagent's usage counter, logged per run. The 11 bugs in the table account for a few dozen of the 338 findings. I didn't triage the rest. Reading them is a cost this table leaves out.
 
-For scale: Claude Code Review's [docs](https://code.claude.com/docs/en/code-review) put a managed review at $15 to $25 on average, about 20 minutes, with findings that "don't approve or block your PR". [Semgrep's summary](https://semgrep.dev/blog/2026/end-is-nigh-for-code-review) of an ICSE 2022 study ([arXiv:2202.04586](https://arxiv.org/abs/2202.04586)) puts developers in ordinary review at catching two seeded security flaws 3% and 21% of the time, and 61% at best with a security checklist. Semgrep's own caveat: that is two specific vulnerabilities in one study.
+For scale: Claude Code Review's [docs](https://code.claude.com/docs/en/code-review) put a managed review at $15 to $25 on average, about 20 minutes, with findings that "don't approve or block your PR". [Semgrep's summary](https://semgrep.dev/blog/2026/end-is-nigh-for-code-review) (9 October 2026) of an ICSE 2022 study ([arXiv:2202.04586](https://arxiv.org/abs/2202.04586)) puts developers in ordinary review at catching two seeded security flaws 3% and 21% of the time, and 61% at best when told to focus on security or given a checklist. Semgrep's own caveat: that is two specific vulnerabilities in one study.
 
-## What I'd change in a review setup
+## Should AI code review replace human review?
+
+No, and it should run before every human one. A free bot doesn't count as that pass: on my own waitlist tool, a free-tier AI reviewer looked at 48 merged PRs between May and July 2026 and, by my keyword count of its comments, posted no actionable comment on any of them. It summarised 25, skipped 16 and hit a usage limit on 7. That's one free plan on a small repo, so I wouldn't judge the paid product by it.
+
+What I'd change in a review setup:
 
 1. **Run the machine pass before the human one, on every agent PR.** In this test the panel flagged all 5 security bugs my review let through, and `/code-review` flagged 4 of them plus the crash, in about a minute per commit.
 2. **Raise the finding cap on any diff that touches a shell, a file path or raw HTML.** The one bug `/code-review` dropped was below its cut-off.
@@ -102,3 +109,5 @@ For scale: Claude Code Review's [docs](https://code.claude.com/docs/en/code-revi
 4. **Keep a human who owns the merge.** The panel asked for changes on every commit, with 259 findings in total. Deciding which of them block a merge, and checking the "low risk" calls, is still the reviewer's job.
 
 All of my reviewers are Claude models, and so is the agent that wrote at least 4 of these commits. In a [146-PR experiment Addy Osmani cites](https://addyosmani.com/blog/agentic-code-review/), 93.4% of the locations four different review tools flagged were flagged by exactly one of them. A reviewer from another model family is the test I haven't run yet.
+
+If you want this setup on your own PRs, with the machine pass in front and a senior human owning the merge, that's the Reviewed PR on [my services page](/services). The categories of everything else review fixed on the same run are in [how to review AI-generated code](/blog/what-agents-get-wrong).
