@@ -28,62 +28,21 @@ const config = {
         sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
       },
-      // "white" text and borders mean foreground in this dark-first codebase,
-      // so they flip in light mode; bg-white stays literal white.
-      textColor: { white: { DEFAULT: "rgb(var(--fg) / <alpha-value>)" } },
-      borderColor: { white: { DEFAULT: "rgb(var(--fg) / <alpha-value>)" } },
-      placeholderColor: { white: { DEFAULT: "rgb(var(--fg) / <alpha-value>)" } },
+      // #123 semantic colours; values (light + dark) live in app/globals.css.
+      // `white` and `black` keep Tailwind's literal values.
       colors: {
-        // Brand tokens flip with the theme; values live in app/globals.css.
-        black: {
-          DEFAULT: "#000",
-          100: "rgb(var(--black-100) / <alpha-value>)",
-          200: "rgb(var(--black-200) / <alpha-value>)",
-          300: "var(--black-300)",
-        },
-        white: {
-          DEFAULT: "#FFF",
-          100: "rgb(var(--white-100) / <alpha-value>)",
-          200: "rgb(var(--white-200) / <alpha-value>)",
-        },
-        blue: {
-          "100": "rgb(var(--blue-100) / <alpha-value>)",
-        },
-        purple: "rgb(var(--purple) / <alpha-value>)",
-        chip: "rgb(var(--chip) / <alpha-value>)",
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
+        page: "rgb(var(--page) / <alpha-value>)",
+        raised: "rgb(var(--raised) / <alpha-value>)",
+        rule: "var(--rule)",
+        ink: "rgb(var(--ink) / <alpha-value>)",
+        body: "rgb(var(--body) / <alpha-value>)",
+        muted: "rgb(var(--muted) / <alpha-value>)",
         accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          DEFAULT: "rgb(var(--accent) / <alpha-value>)",
+          ink: "rgb(var(--accent-ink) / <alpha-value>)",
         },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
+        chip: "rgb(var(--chip) / <alpha-value>)",
+        destructive: "hsl(var(--destructive) / <alpha-value>)",
       },
       borderRadius: {
         lg: "var(--radius)",

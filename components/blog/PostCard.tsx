@@ -27,27 +27,27 @@ export default function PostCard({
       <article
         className={[
           // #114 M: a ruled entry, no card box.
-          'h-full flex flex-col gap-4 border-t border-white/15 pt-6 pb-8',
+          'h-full flex flex-col gap-4 border-t border-ink/15 pt-6 pb-8',
           featured ? 'md:flex-row md:items-start md:gap-6' : '',
         ].join(' ')}
       >
         <div className="flex flex-col gap-3 flex-1">
           {frontmatter.featured && (
-            <span className="inline-flex items-center self-start px-2 py-0.5 rounded-full text-xs font-medium bg-purple/10 text-blue-100 border border-purple/30">
+            <span className="inline-flex items-center self-start px-2 py-0.5 rounded-full text-xs font-medium bg-accent/10 text-accent-ink border border-accent/30">
               {featuredLabel}
             </span>
           )}
 
           <Heading
             className={[
-              'type-light text-white text-balance group-hover:underline group-focus-visible:underline decoration-purple underline-offset-4',
+              'type-light text-ink text-balance group-hover:underline group-focus-visible:underline decoration-accent underline-offset-4',
               featured ? 'text-3xl md:text-4xl' : 'text-2xl',
             ].join(' ')}
           >
             {frontmatter.title}
           </Heading>
 
-          <p className="text-white-200 leading-relaxed line-clamp-3 measure-lg">
+          <p className="text-body leading-relaxed line-clamp-3 measure-lg">
             {frontmatter.description}
           </p>
 
@@ -57,7 +57,7 @@ export default function PostCard({
             ))}
           </div>
 
-          <div className="flex items-center gap-4 text-xs text-white-200/70 pt-1">
+          <div className="flex items-center gap-4 text-xs text-body/70 pt-1">
             <span className="flex items-center gap-1.5">
               <Calendar size={12} />
               {formatDate(frontmatter.date, dateLocale)}

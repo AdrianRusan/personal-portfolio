@@ -52,10 +52,10 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
 
         <div className="mt-10 flex flex-col">
           {content.tiers.map(({ tier, tagline }) => (
-            <div key={tier} className="border-t border-white/15 pt-6 pb-2">
-              <h3 className="type-label text-white">
+            <div key={tier} className="border-t border-ink/15 pt-6 pb-2">
+              <h3 className="type-label text-ink">
                 {content.tierName(tier)}
-                <span className="ml-3 text-sm font-normal text-white-200/80">
+                <span className="ml-3 text-sm font-normal text-body/80">
                   {tagline}
                 </span>
               </h3>
@@ -65,13 +65,13 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
                   .map((offer) => (
                     <li
                       key={offer.id}
-                      className="grid gap-x-8 gap-y-1 border-t border-white/5 py-4 first:border-t-0 md:grid-cols-[13rem_1fr_auto]"
+                      className="grid gap-x-8 gap-y-1 border-t border-ink/5 py-4 first:border-t-0 md:grid-cols-[13rem_1fr_auto]"
                     >
                       <div>
-                        <h4 className="text-base font-semibold text-white">
+                        <h4 className="text-base font-semibold text-ink">
                           {offer.name}
                         </h4>
-                        <p className="text-xs text-white-200/75 mt-0.5">
+                        <p className="text-xs text-body/75 mt-0.5">
                           {offer.duration}
                           {offer.limited && (
                             <span title={content.capacity}>
@@ -82,7 +82,7 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
                         </p>
                       </div>
                       <div className="md:order-none order-last">
-                        <p className="text-sm text-white-200 leading-relaxed text-pretty">
+                        <p className="text-sm text-body leading-relaxed text-pretty">
                           {keepRangesWhole(offer.summary)}
                           {offer.tier !== "Ship" && offer.assurance && (
                             <> {offer.assurance}</>
@@ -95,14 +95,14 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
                               href={cta.href}
                               offer={offer.id}
                               source={content.source}
-                              className="inline-flex min-h-11 items-center text-sm font-medium text-purple hover:underline underline-offset-4"
+                              className="inline-flex min-h-11 items-center text-sm font-medium text-accent hover:underline underline-offset-4"
                             >
                               {cta.label} {cta.href.startsWith("#") ? "↓" : "→"}
                             </LadderLink>
                           ))}
                         </div>
                       </div>
-                      <p className="tabular-nums text-base type-light text-white md:text-right whitespace-nowrap">
+                      <p className="tabular-nums text-base type-light text-ink md:text-right whitespace-nowrap">
                         {content.format(offer)}
                       </p>
                     </li>
@@ -112,8 +112,8 @@ export const Ladder = ({ content = en }: { content?: LadderContent }) => {
           ))}
         </div>
 
-        <div className="border-t border-white/15 pt-6">
-          <p className="text-sm text-white-200/80 max-w-3xl text-pretty">
+        <div className="border-t border-ink/15 pt-6">
+          <p className="text-sm text-body/80 max-w-3xl text-pretty">
             {content.capacity}
           </p>
         </div>

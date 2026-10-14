@@ -25,14 +25,14 @@ const en = {
 };
 export type FooterCopy = typeof en;
 
-const link = "hover:text-purple transition-colors";
+const link = "hover:text-accent transition-colors";
 
 const Footer = ({ copy = en }: { copy?: FooterCopy }) => {
   return (
     // #114 M: one ruled row on desktop (name, links, contact), stacked on phones.
-    <footer className="border-t border-white/15 gutter py-10">
-      <div className="container-wide flex flex-col gap-5 text-sm text-white-200 lg:flex-row lg:items-center lg:justify-between">
-        <p className="font-mono text-xs text-white-100">
+    <footer className="border-t border-ink/15 gutter py-10">
+      <div className="container-wide flex flex-col gap-5 text-sm text-body lg:flex-row lg:items-center lg:justify-between">
+        <p className="font-mono text-xs text-muted">
           Copyright © {new Date().getFullYear()} Adrian Rusan
         </p>
         <div className="flex flex-wrap gap-x-5 gap-y-2">

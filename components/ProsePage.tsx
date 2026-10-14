@@ -31,7 +31,7 @@ export function ProsePage({
             <h1 className="type-title text-balance">
               {page.title}
             </h1>
-            <p className="type-lead text-white-200 mt-6 text-pretty">
+            <p className="type-lead text-body mt-6 text-pretty">
               {page.lead}
             </p>
             {page.updated && (
@@ -46,20 +46,20 @@ export function ProsePage({
         {page.sections.map((section) => (
           <section
             key={section.heading}
-            className="mt-14 grid gap-4 border-t border-white/15 pt-6 lg:grid-cols-[4fr_7fr] lg:gap-16"
+            className="mt-14 grid gap-4 border-t border-ink/15 pt-6 lg:grid-cols-[4fr_7fr] lg:gap-16"
           >
             <h2 className="type-subsection text-balance">
               {section.heading}
             </h2>
             <div>
-            <div className="measure-lg text-white-200 leading-relaxed [&_a]:text-purple [&_a]:underline [&_a]:underline-offset-2 [&_li]:mt-2 [&_p+p]:mt-3 [&_p+ul]:mt-3 [&_ul+p]:mt-3 [&_strong]:text-white [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:pl-6">
+            <div className="measure-lg text-body leading-relaxed [&_a]:text-accent [&_a]:underline [&_a]:underline-offset-2 [&_li]:mt-2 [&_p+p]:mt-3 [&_p+ul]:mt-3 [&_ul+p]:mt-3 [&_strong]:text-ink [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:pl-6">
               <MDXRemote
                 source={section.body}
                 options={{ mdxOptions: { format: "md" } }}
               />
             </div>
             {section.quote && (
-              <div className="mt-8 border-t border-white/15 pt-6">
+              <div className="mt-8 border-t border-ink/15 pt-6">
                 <p className="eyebrow">{section.quote.label}</p>
                 <Quote
                   testimonial={section.quote.testimonial}

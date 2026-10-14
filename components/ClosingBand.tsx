@@ -17,7 +17,7 @@ export function ClosingBand({
   return (
     <section
       aria-labelledby={id}
-      className="gutter pt-20 pb-20 md:pt-28 scroll-mt-24 border-t border-white/15 bg-chip/50"
+      className="gutter pt-20 pb-20 md:pt-28 scroll-mt-24 border-t border-ink/15 bg-chip/50"
     >
       <div className="container-wide">
         <h2
@@ -27,7 +27,7 @@ export function ClosingBand({
           {heading}
         </h2>
         {body && (
-          <p className="mt-6 max-w-xl text-lg text-white-200 text-pretty">
+          <p className="mt-6 max-w-xl text-lg text-body text-pretty">
             {body}
           </p>
         )}

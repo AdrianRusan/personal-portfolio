@@ -63,25 +63,25 @@ export const ProcessSteps = ({ copy = en }: { copy?: ProcessStepsCopy }) => {
             <li
               key={step.tag}
               className={`flex flex-col border-t-2 py-6 ${
-                step.verify ? "border-purple" : "border-white"
+                step.verify ? "border-accent" : "border-ink"
               }`}
             >
               <span
                 className={`font-mono text-xs ${
-                  step.verify ? "text-blue-100" : "text-white-100"
+                  step.verify ? "text-accent-ink" : "text-muted"
                 }`}
               >
                 {step.tag}
               </span>
               <h3 className="type-item mt-3 mb-2">{step.heading}</h3>
-              <p className="text-white-200 leading-relaxed flex-1">
+              <p className="text-body leading-relaxed flex-1">
                 {keepRangesWhole(step.body)}
                 {step.link && (
                   <>
                     {" "}
                     <Link
                       href={step.link.href}
-                      className="text-purple underline underline-offset-4"
+                      className="text-accent underline underline-offset-4"
                     >
                       {step.link.label}
                     </Link>

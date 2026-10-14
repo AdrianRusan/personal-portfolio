@@ -39,7 +39,7 @@ export const ServicesFinalCta = ({
       <p className="mt-5">
         <Link
           href="/teardown"
-          className="inline-flex min-h-11 items-center font-medium text-white-200 underline underline-offset-4 hover:text-purple transition-colors"
+          className="inline-flex min-h-11 items-center font-medium text-body underline underline-offset-4 hover:text-accent transition-colors"
         >
           {copy.teardown}
         </Link>

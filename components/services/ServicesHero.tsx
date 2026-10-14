@@ -33,7 +33,7 @@ export const ServicesHero = ({
           <h1 className="type-title text-balance">
             {keepRangesWhole(copy.heading)}
           </h1>
-          <p className="type-lead text-white-200 mt-6 measure-sm text-pretty">
+          <p className="type-lead text-body mt-6 measure-sm text-pretty">
             {copy.intro}
           </p>
 
@@ -48,11 +48,11 @@ export const ServicesHero = ({
             />
             <a
               href="#ladder"
-              className="inline-flex min-h-11 items-center text-sm font-medium text-white-200 underline underline-offset-4 hover:text-purple transition-colors"
+              className="inline-flex min-h-11 items-center text-sm font-medium text-body underline underline-offset-4 hover:text-accent transition-colors"
             >
               {copy.tiersLink}
             </a>
-            <p className="text-sm text-white-200 max-w-xl text-pretty">
+            <p className="text-sm text-body max-w-xl text-pretty">
               {copy.guarantee}
             </p>
           </div>

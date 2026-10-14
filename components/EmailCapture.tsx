@@ -98,14 +98,14 @@ const EmailCapture = ({
         className,
       )}
     >
-      <p id={headingId} className="text-lg font-semibold tracking-tight text-white">
+      <p id={headingId} className="text-lg font-semibold tracking-tight text-ink">
         {copy.heading}
       </p>
-      <p className="text-sm text-white-200 leading-relaxed mt-2">{copy.body}</p>
+      <p className="text-sm text-body leading-relaxed mt-2">{copy.body}</p>
 
       {status === "success" ? (
         <p
-          className="text-sm font-medium text-purple mt-5"
+          className="text-sm font-medium text-accent mt-5"
           role="status"
           aria-live="polite"
         >
@@ -135,7 +135,7 @@ const EmailCapture = ({
               aria-describedby={
                 status === "error" ? errorId : undefined
               }
-              className="w-full h-11 rounded-lg border border-white/10 bg-black-200/60 px-4 text-sm text-white placeholder:text-white-200/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple focus-visible:border-purple disabled:opacity-50"
+              className="w-full h-11 rounded-lg border border-ink/10 bg-raised/60 px-4 text-sm text-ink placeholder:text-body/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent disabled:opacity-50"
             />
           </div>
           <button
@@ -158,10 +158,10 @@ const EmailCapture = ({
         </p>
       )}
 
-      <p className="text-xs text-white-200/75 mt-3">
+      <p className="text-xs text-body/75 mt-3">
         <Link
           href="/privacy"
-          className="underline underline-offset-2 hover:text-white-200"
+          className="underline underline-offset-2 hover:text-body"
         >
           {copy.privacy}
         </Link>

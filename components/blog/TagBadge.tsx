@@ -11,8 +11,8 @@ export default function TagBadge({ tag, active = false, href }: TagBadgeProps) {
   const classes = [
     'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium transition-colors',
     active
-      ? 'bg-purple/10 text-blue-100 border border-purple/40'
-      : 'bg-white/5 text-white-200 border border-white/10 hover:bg-purple/10 hover:text-blue-100 hover:border-purple/30',
+      ? 'bg-accent/10 text-accent-ink border border-accent/40'
+      : 'bg-white/5 text-body border border-ink/10 hover:bg-accent/10 hover:text-accent-ink hover:border-accent/30',
   ].join(' ');
 
   if (href) {
