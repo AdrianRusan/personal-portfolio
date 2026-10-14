@@ -665,7 +665,6 @@ test.describe("controls and keyboard (I-50..I-56)", () => {
     page,
     context,
   }, { project }) => {
-    test.fail(true, "I-55: Copy link copies the visitor's URL, UTMs included");
     test.skip(project.name !== "desktop", "clipboard check, once is enough");
     await context.grantPermissions(["clipboard-read", "clipboard-write"]);
     await page.goto("/blog/2-3x-not-100x?utm_source=e2e#faq");

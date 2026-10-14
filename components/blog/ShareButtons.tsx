@@ -12,10 +12,9 @@ interface ShareButtonsProps {
 export default function ShareButtons({ title, slug }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false);
 
-  const url =
-    typeof window !== 'undefined'
-      ? window.location.href
-      : `https://www.adrian-rusan.com/blog/${slug}`;
+  // #133 I-55: the canonical URL, never the reader's (their UTMs and #hash
+  // would travel with every share), and the same on server and client.
+  const url = `https://www.adrian-rusan.com/blog/${slug}`;
 
   const encodedUrl = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title);
