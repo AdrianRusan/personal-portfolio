@@ -124,7 +124,7 @@ export const DeliverySprint = ({
   return (
     <section
       id="sprint"
-      className="px-5 sm:px-10 lg:px-12 py-12 md:py-16 scroll-mt-24"
+      className="section-compact"
     >
       <div className="container-wide">
         <SectionHeading eyebrow={copy.eyebrow} lead={copy.intro}>
@@ -133,13 +133,13 @@ export const DeliverySprint = ({
 
         <div className="mt-8">
           <Fold title={copy.deliveredHeading} defaultOpen>
-            <ul className="flex flex-col gap-3 list-disc pl-5 marker:text-purple">
+            <ul className="flex flex-col gap-3 list-disc pl-5 marker:text-accent">
               {copy.deliverables.map((item) => (
                 <li
                   key={item.lead}
-                  className="text-sm text-white-200 leading-relaxed"
+                  className="text-sm text-body leading-relaxed"
                 >
-                  <span className="text-white font-medium">{item.lead}</span>{" "}
+                  <span className="text-ink font-medium">{item.lead}</span>{" "}
                   {item.rest}
                 </li>
               ))}
@@ -149,7 +149,7 @@ export const DeliverySprint = ({
                 href={SAMPLE_REPORT_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block mt-4 text-sm font-medium text-purple underline underline-offset-4 hover:text-white transition-colors"
+                className="inline-block mt-4 text-sm font-medium text-accent underline underline-offset-4 hover:text-ink transition-colors"
               >
                 {copy.sampleLink}
               </a>
@@ -157,9 +157,9 @@ export const DeliverySprint = ({
           </Fold>
         </div>
 
-        <div className="border-t border-white/15 pt-8 pb-4">
-          <h3 className="text-lg font-semibold mb-3">{copy.pricingHeading}</h3>
-          <p className="text-white-200 mb-6 leading-relaxed max-w-3xl text-pretty">
+        <div className="border-t border-ink/15 pt-8 pb-4">
+          <h3 className="type-label mb-3">{copy.pricingHeading}</h3>
+          <p className="text-body mb-6 leading-relaxed max-w-3xl text-pretty">
             {copy.pricingRest}
           </p>
           <PricingTable
@@ -170,7 +170,7 @@ export const DeliverySprint = ({
             rowHeader={copy.rowHeader}
             trackSource="deliverysprint_pricing"
           />
-          <p className="text-xs text-white-200/75 mt-4">{copy.pricingNote}</p>
+          <p className="text-xs text-body/75 mt-4">{copy.pricingNote}</p>
         </div>
 
         {/* The one guarantees block on /services (C32): Retainer points here. */}
@@ -178,8 +178,8 @@ export const DeliverySprint = ({
           <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
             {copy.guarantees.map((g) => (
               <div key={g.title}>
-                <dt className="text-sm font-semibold text-white">{g.title}</dt>
-                <dd className="text-sm text-white-200 leading-relaxed mt-1">
+                <dt className="text-sm font-semibold text-ink">{g.title}</dt>
+                <dd className="text-sm text-body leading-relaxed mt-1">
                   {g.body}
                 </dd>
               </div>
@@ -188,11 +188,11 @@ export const DeliverySprint = ({
         </Fold>
 
         <Fold title={copy.notHeading}>
-          <ul className="flex flex-col gap-3 list-disc pl-5 marker:text-white-200/40">
+          <ul className="flex flex-col gap-3 list-disc pl-5 marker:text-body/40">
             {copy.notList.map((item) => (
               <li
                 key={item}
-                className="text-sm text-white-200/80 leading-relaxed"
+                className="text-sm text-body/80 leading-relaxed"
               >
                 {item}
               </li>
@@ -201,7 +201,7 @@ export const DeliverySprint = ({
         </Fold>
 
         <Fold title={copy.paymentHeading}>
-          <p className="text-sm text-white-200 leading-relaxed max-w-2xl">
+          <p className="text-sm text-body leading-relaxed max-w-2xl">
             {copy.payment}
           </p>
         </Fold>

@@ -27,13 +27,13 @@ export const ServicesHero = ({
   aside?: ReactNode;
 }) => {
   return (
-    <section className="px-5 sm:px-10 lg:px-12 pt-28 md:pt-36 pb-16 md:pb-24">
+    <section className="page-head pb-16 md:pb-24">
       <div className="container-wide grid gap-12 lg:grid-cols-[7fr_5fr] lg:gap-16 lg:items-start">
         <div>
-          <h1 className="display text-[40px] md:text-6xl xl:text-7xl text-balance">
+          <h1 className="type-title text-balance">
             {keepRangesWhole(copy.heading)}
           </h1>
-          <p className="text-[17px] md:text-lg text-white-200 mt-6 leading-relaxed max-w-[34em] text-pretty">
+          <p className="type-lead text-body mt-6 measure-sm text-pretty">
             {copy.intro}
           </p>
 
@@ -41,7 +41,6 @@ export const ServicesHero = ({
             <PrimaryCta
               title={copy.cta}
               href={CALENDLY_URL}
-              otherClasses="md:mt-0"
               trackEvent={{
                 event: "calendly_click",
                 props: { source: copy.ctaSource },
@@ -49,11 +48,11 @@ export const ServicesHero = ({
             />
             <a
               href="#ladder"
-              className="inline-flex min-h-11 items-center text-sm font-medium text-white-200 underline underline-offset-4 hover:text-purple transition-colors"
+              className="inline-flex min-h-11 items-center text-sm font-medium text-body underline underline-offset-4 hover:text-accent transition-colors"
             >
               {copy.tiersLink}
             </a>
-            <p className="text-sm text-white-200 max-w-xl text-pretty">
+            <p className="text-sm text-body max-w-xl text-pretty">
               {copy.guarantee}
             </p>
           </div>

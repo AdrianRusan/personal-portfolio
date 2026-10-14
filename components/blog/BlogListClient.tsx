@@ -56,19 +56,19 @@ export default function BlogListClient({
           <div className="relative flex-1">
             <Search
               size={16}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-white-200/40"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-body/40"
             />
             <input
               type="text"
               placeholder="Search posts..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-black-200 border border-black-300 text-white placeholder-white-200/75 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-purple transition-colors"
+              className="w-full bg-raised border border-rule text-ink placeholder-body/75 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-colors"
             />
             {search && (
               <button
                 onClick={() => setSearch('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white-200/40 hover:text-white-200 transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-body/40 hover:text-body transition-colors"
               >
                 <X size={14} />
               </button>
@@ -85,8 +85,8 @@ export default function BlogListClient({
             className={[
               'shrink-0 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium transition-colors border',
               activeTag === null
-                ? 'bg-purple/10 text-blue-100 border-purple/40'
-                : 'bg-white/5 text-white-200 border-white/10 hover:bg-purple/10 hover:text-blue-100 hover:border-purple/30',
+                ? 'bg-accent/10 text-accent-ink border-accent/40'
+                : 'bg-white/5 text-body border-ink/10 hover:bg-accent/10 hover:text-accent-ink hover:border-accent/30',
             ].join(' ')}
           >
             All
@@ -105,21 +105,21 @@ export default function BlogListClient({
 
       {/* Results count */}
       {(search || activeTag) && (
-        <p className="text-sm text-white-200/75 mb-6">
+        <p className="text-sm text-body/75 mb-6">
           {filtered.length} {filtered.length === 1 ? 'post' : 'posts'} found
         </p>
       )}
 
       {/* Posts grid */}
       {filtered.length === 0 ? (
-        <div className="text-center py-20 text-white-200/75">
+        <div className="text-center py-20 text-body/75">
           <p className="text-lg">No posts found.</p>
           <button
             onClick={() => {
               setSearch('');
               setActiveTag(null);
             }}
-            className="mt-3 text-sm text-purple hover:underline"
+            className="mt-3 text-sm text-accent hover:underline"
           >
             Clear filters
           </button>

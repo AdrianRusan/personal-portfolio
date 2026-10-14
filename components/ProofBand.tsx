@@ -12,25 +12,25 @@ export type ProofBandCopy = typeof en;
 const ProofBand = ({ copy = en }: { copy?: ProofBandCopy }) => {
   return (
     <section aria-label={copy.ariaLabel} className="hero-panel">
-      <p className="border-b border-white/15 px-4 py-3 font-mono text-xs text-white-100">
+      <p className="border-b border-ink/15 px-4 py-3 font-mono text-xs text-muted">
         {copy.ariaLabel}
       </p>
       <ul>
         {copy.stats.map((stat) => (
           <li
             key={stat.figure}
-            className="grid grid-cols-[5.5rem_1fr] items-baseline gap-4 border-b border-white/15 px-4 py-4"
+            className="grid grid-cols-[5.5rem_1fr] items-baseline gap-4 border-b border-ink/15 px-4 py-4"
           >
-            <span className="tabular-nums text-4xl type-light text-white">
+            <span className="tabular-nums text-4xl type-light text-ink">
               {stat.figure}
             </span>
-            <span className="text-[15px] text-white-200 text-pretty">
+            <span className="text-sm text-body text-pretty">
               {stat.label}
             </span>
           </li>
         ))}
       </ul>
-      <p className="bg-black-100/60 px-4 py-4 text-sm text-white-200">
+      <p className="bg-page/60 px-4 py-4 text-sm text-body">
         {copy.note}
       </p>
     </section>

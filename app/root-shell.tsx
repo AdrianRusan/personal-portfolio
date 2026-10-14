@@ -134,7 +134,7 @@ export function RootShell({
       <body className={`${sans.variable} ${mono.variable} font-sans`}>
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[6000] focus:rounded-md focus:bg-purple focus:px-4 focus:py-2 focus:text-black-100"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[6000] focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:text-page"
         >
           {lang === "ro" ? "Sari la conținut" : "Skip to content"}
         </a>

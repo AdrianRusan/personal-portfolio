@@ -26,16 +26,16 @@ export const EntryOffer = ({ copy = en }: { copy?: EntryOfferCopy }) => {
   return (
     <section
       id="entry-offer"
-      className="px-5 sm:px-10 lg:px-12 py-12 md:py-16 scroll-mt-24"
+      className="section-compact"
     >
       <div className="container-wide">
         <SectionHeading eyebrow={copy.eyebrow} lead={copy.intro}>
           {copy.heading}
         </SectionHeading>
 
-        <ol className="flex flex-col gap-3 mt-8 max-w-3xl list-decimal pl-5 marker:text-purple">
+        <ol className="flex flex-col gap-3 mt-8 max-w-3xl list-decimal pl-5 marker:text-accent">
           {copy.steps.map((item) => (
-            <li key={item} className="text-sm text-white-200 leading-relaxed">
+            <li key={item} className="text-sm text-body leading-relaxed">
               {item}
             </li>
           ))}
@@ -45,7 +45,6 @@ export const EntryOffer = ({ copy = en }: { copy?: EntryOfferCopy }) => {
           <PrimaryCta
             title={copy.cta}
             href={CALENDLY_URL}
-            otherClasses="md:mt-0"
             trackEvent={{
               event: "calendly_click",
               props: { source: "entry_offer" },
@@ -55,7 +54,7 @@ export const EntryOffer = ({ copy = en }: { copy?: EntryOfferCopy }) => {
             href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
               copy.emailSubject,
             )}&body=${encodeURIComponent(copy.emailBody)}`}
-            className="text-sm font-medium text-white-200 underline underline-offset-4 hover:text-purple transition-colors"
+            className="text-sm font-medium text-body underline underline-offset-4 hover:text-accent transition-colors"
           >
             {copy.emailLink}
           </a>

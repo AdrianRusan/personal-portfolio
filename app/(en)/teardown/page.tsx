@@ -43,29 +43,29 @@ export default function TeardownPage() {
       />
 
       {/* #114 M: a left-aligned display hero; the form follows in the same column. */}
-      <section className="px-5 sm:px-10 lg:px-12 pt-28 md:pt-36 pb-12">
+      <section className="page-head pb-12">
         <div className="container-wide">
           <p className="eyebrow">{teardown.eyebrow}</p>
-          <h1 className="display text-[40px] md:text-6xl xl:text-7xl text-balance max-w-[16em] mt-5">
+          <h1 className="type-title text-balance measure-title mt-5">
             {teardown.heading}
           </h1>
-          <p className="text-[17px] md:text-lg text-white-200 mt-6 leading-relaxed max-w-[38em] text-pretty">
+          <p className="type-lead text-body mt-6 measure text-pretty">
             {teardown.intro}
           </p>
-          <p className="text-sm text-white-200 mt-4 max-w-[38em] text-pretty">
+          <p className="text-sm text-body mt-4 measure text-pretty">
             {teardown.proof}
           </p>
         </div>
       </section>
 
       <section
-        className="px-5 sm:px-10 lg:px-12 pb-16"
+        className="gutter pb-16"
         aria-label="Request a teardown"
       >
         <div className="container-wide">
           <div className="max-w-2xl">
             <TeardownForm />
-            <ul className="flex flex-col gap-2 mt-5 text-xs text-white-200/80 leading-relaxed">
+            <ul className="flex flex-col gap-2 mt-5 text-xs text-body/80 leading-relaxed">
               {trustNotes.map((note) => (
                 <li key={note}>{note}</li>
               ))}
@@ -75,17 +75,17 @@ export default function TeardownPage() {
       </section>
 
       <section
-        className="px-5 sm:px-10 lg:px-12 pb-16"
+        className="gutter pb-16"
         aria-label="How the teardown works"
       >
         <div className="container-wide">
           <div className="max-w-2xl">
-            <h2 className="text-2xl md:text-3xl type-light">How it works</h2>
-            <ol className="flex flex-col gap-3 mt-4 list-decimal pl-5 marker:text-purple">
+            <h2 className="type-subsection">How it works</h2>
+            <ol className="flex flex-col gap-3 mt-4 list-decimal pl-5 marker:text-accent">
               {steps.map((item) => (
                 <li
                   key={item}
-                  className="text-sm md:text-base text-white-200 leading-relaxed"
+                  className="text-sm md:text-base text-body leading-relaxed"
                 >
                   {item}
                 </li>
@@ -95,13 +95,13 @@ export default function TeardownPage() {
         </div>
       </section>
 
-      <section className="px-5 sm:px-10 lg:px-12 pb-20" aria-label="Why free">
+      <section className="gutter pb-20" aria-label="Why free">
         <div className="container-wide">
-          <div className="max-w-2xl border-t border-white/15 pt-8">
-            <h2 className="text-2xl md:text-3xl type-light">
+          <div className="max-w-2xl border-t border-ink/15 pt-8">
+            <h2 className="type-subsection">
               {teardown.whyHeading}
             </h2>
-            <p className="text-sm text-white-200 mt-3 leading-relaxed">
+            <p className="text-sm text-body mt-3 leading-relaxed">
               {teardown.why}
             </p>
 
@@ -110,7 +110,7 @@ export default function TeardownPage() {
               <CalendlyLink
                 source="teardown_book"
                 newTab={false}
-                className="text-sm font-medium text-blue-100 hover:text-purple transition-colors"
+                className="text-sm font-medium text-accent-ink hover:text-accent transition-colors"
               >
                 Prefer to talk? Book a scoping call →
               </CalendlyLink>

@@ -21,25 +21,25 @@ export type TrustStripCopy = typeof en;
 
 export const TrustStrip = ({ copy = en }: { copy?: TrustStripCopy }) => {
   const link =
-    "inline-flex min-h-11 items-center font-medium text-purple underline underline-offset-4 hover:text-white transition-colors";
+    "inline-flex min-h-11 items-center font-medium text-accent underline underline-offset-4 hover:text-ink transition-colors";
   return (
     // #114 M: the services hero panel (ServicesHero `aside`).
     <section aria-label={copy.ariaLabel} className="hero-panel">
-      <p className="border-b border-white/15 px-4 py-3 font-mono text-xs text-white-100">
+      <p className="border-b border-ink/15 px-4 py-3 font-mono text-xs text-muted">
         {copy.label}
       </p>
-      <ul className="border-b border-white/15">
+      <ul className="border-b border-ink/15">
         {copy.employers.map((name) => (
           <li
             key={name}
-            className="border-b border-white/15 px-4 py-3 text-xl type-light text-white last:border-b-0"
+            className="border-b border-ink/15 px-4 py-3 text-xl type-light text-ink last:border-b-0"
           >
             {name}
           </li>
         ))}
       </ul>
-      <div className="bg-black-100/60 px-4 py-4">
-        <p className="text-sm text-white-200 text-pretty">{copy.proof}</p>
+      <div className="bg-page/60 px-4 py-4">
+        <p className="text-sm text-body text-pretty">{copy.proof}</p>
         <div className="flex flex-wrap gap-x-6 text-sm">
           <Link href={copy.study.href} className={link}>
             {copy.study.cta}
