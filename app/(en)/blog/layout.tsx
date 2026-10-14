@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
+import { BLOG_DESCRIPTION } from '@/data';
 
 export const metadata: Metadata = {
   title: {
     template: '%s | Adrian Rusan',
     default: 'Blog | Adrian Rusan',
   },
-  description:
-    'What my Claude Code agents get wrong, what review catches, and the numbers from my own logs.',
+  description: BLOG_DESCRIPTION,
   alternates: {
     types: {
       'application/rss+xml': 'https://www.adrian-rusan.com/feed.xml',

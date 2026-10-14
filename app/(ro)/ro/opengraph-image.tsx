@@ -1,16 +1,16 @@
 import { renderOgCard, OG_SIZE, OG_CONTENT_TYPE } from "@/lib/og";
+import { roHero, RO_HOME_DESCRIPTION } from "@/data/ro-home";
 
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
-export const alt =
-  "Livrare de software cu agenți AI, cu fiecare PR verificat de un inginer senior.";
+export const alt = RO_HOME_DESCRIPTION;
 
 export default function Image() {
   return renderOgCard({
-    eyebrow: "Consultanță · Training · Implementare · Livrare",
-    title: "Cod livrat în ritmul agenților AI",
+    eyebrow: "Inginer full-stack senior · peste 10 ani",
+    title: roHero.heading,
     subtitle:
-      "Fiecare PR verificat pentru securitate de un inginer senior înainte să ajungă la tine. De la 110 €.",
+      "Fiecare PR verificat pentru securitate de un inginer senior înainte să ajungă la tine. Preț fix.",
     footerRight: "adrian-rusan.com/ro",
   });
 }

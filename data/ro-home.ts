@@ -300,9 +300,10 @@ export const roCallFaq = {
 
 export const roClosingCta: ClosingCtaCopy = {
   heading: "Ai un backlog? Programează o discuție de 30 de minute.",
-  body: "Spune-mi ce vrei să construiești sau să livrezi. Pleci știind ce ofertă ți se potrivește și cât costă.",
+  body: "Spune-mi ce vrei să construiești sau să livrezi. Scope-ul și prețul fix vin în scris, în cel mult o zi lucrătoare.",
   button: "Programează o discuție",
-  teardown: "Sau trimite un repo pentru un teardown gratuit, în engleză →",
+  teardown: "Sau trimite-mi un repo pe email pentru un teardown gratuit →",
+  teardownHref: RO_TEARDOWN_EMAIL,
 };
 
 export const roFooter: FooterCopy = {

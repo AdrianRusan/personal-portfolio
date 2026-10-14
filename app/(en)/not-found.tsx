@@ -23,7 +23,8 @@ export default function NotFound() {
           This page doesn&apos;t exist.
         </h1>
         <p className="text-white-200 text-lg mb-8 max-w-md text-pretty">
-          The link may be old or mistyped. The homepage has everything else.
+          The link may be old or mistyped. The homepage has everything else,
+          and &ldquo;Book a call&rdquo; at the top works from every page.
         </p>
         <PrimaryCta
           title="Back to the homepage"

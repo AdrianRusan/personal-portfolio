@@ -14,6 +14,7 @@ import { servicesHeroCopy } from "@/components/services/ServicesHero";
 import { trustStripCopy } from "@/components/services/TrustStrip";
 import {
   BLOG_DESCRIPTION,
+  BLOG_HEADING,
   HOME_FAQ_HEADING,
   homeFaq,
   homeFaqs,
@@ -133,7 +134,7 @@ async function body(path: string): Promise<string | null> {
   if (page) return page();
 
   if (path === "/blog")
-    return postListMd("Blog", BLOG_DESCRIPTION, "/blog", await getPosts());
+    return postListMd(BLOG_HEADING, BLOG_DESCRIPTION, "/blog", await getPosts());
   if (path === "/work") {
     const studies = byCaseStudyOrder(await getPosts(WORK_DIR));
     return studies.length

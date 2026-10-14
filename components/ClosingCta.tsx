@@ -10,9 +10,10 @@ import { CALENDLY_URL } from "@/data";
 // in the footer and on /contact; the checklist capture only on the blog.
 const en = {
   heading: "Have a backlog? Book a 30‑minute scoping call.",
-  body: "Tell me what you want built or shipped. You'll leave knowing which offer fits and what it costs.",
+  body: "Tell me what you want built or shipped. You get the scope and a fixed price in writing within one working day.",
   button: "Book a scoping call",
   teardown: "Or send a repo for a free 15-minute teardown →",
+  teardownHref: "/teardown",
 };
 export type ClosingCtaCopy = typeof en;
 
@@ -52,7 +53,7 @@ export function ClosingCta({
       </div>
       <p className="mt-5">
         <Link
-          href="/teardown"
+          href={copy.teardownHref}
           className="inline-flex min-h-11 items-center text-pretty font-medium text-white-200 underline underline-offset-4 hover:text-purple transition-colors"
         >
           {copy.teardown}
