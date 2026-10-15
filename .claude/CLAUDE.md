@@ -1,6 +1,6 @@
 # Personal Portfolio — Project Rules
 
-Freelance/consultant portfolio + lead-gen funnel for Adrian Rusan (Full-Stack Engineer, 10+ yrs). Live: https://www.adrian-rusan.com. Primary job of this site: **convert visitors into scoping calls** (Calendly) — not just look good. Weigh changes against that goal.
+Freelance/consultant portfolio + lead-gen funnel for Adrian Rusan (Full-Stack Engineer, 10+ yrs). Live: https://www.adrian-rusan.com. Primary job of this site: **convert visitors into scoping calls** (Cal.com) — not just look good. Weigh changes against that goal.
 
 > Overrides nothing in global `~/.claude/CLAUDE.md`; adds project specifics. Read `.claude/CONTEXT.md` (Active Decisions + Known Issues) before starting work, and `.claude/codebase-profile.md` for structure.
 
@@ -48,7 +48,7 @@ lib/
   markdown/          Markdown for every page from the same copy + data (HTML and Markdown can't drift)
   blog.ts            MDX pipeline; posts hidden until published + isLive(date)
   page-schema.tsx person-schema.ts  JSON-LD
-  analytics.ts calendly.ts locale.ts og.tsx
+  analytics.ts booking.ts locale.ts og.tsx
 data/                Single sources: index.ts (URLs, numbers, testimonials, work history),
                      ladder.ts, work.ts, workshops.ts, teardown.ts, pages.ts, nav.ts, ro*.ts
 content/blog/ content/work/  MDX posts and case studies
@@ -63,7 +63,7 @@ config/environment.ts  site config, feature flags, env validation
 - **Named exports**, `import type` for types, no `any` (repo already has strict violations — don't add more).
 - **Styling**: follow `DESIGN.md` (#123): semantic colour tokens (`page`, `ink`, `body`, `muted`, `accent`…), `type-*` roles, `measure*`, `section`/`gutter`. No hex, stock palette or `text-[Npx]` (`__tests__/design-system.test.ts` fails on them). Tailwind utilities + `cn()`; no inline style objects for themeable values.
 - **Content edits**: site copy and numbers live in `data/*` (one constant per fact), not in components. Blog = MDX in `content/blog/`, case studies in `content/work/`. Change EN and RO together (`data/ro*.ts`).
-- **Claims**: no invented proof. New numbers or quotes need a real source; run `npm test` (claim tests) after any copy change. See `.claude/CONTEXT.md` Active Decisions for names, Bono and Calendly rules.
+- **Claims**: no invented proof. New numbers or quotes need a real source; run `npm test` (claim tests) after any copy change. See `.claude/CONTEXT.md` Active Decisions for names, Bono and booking rules.
 - **SEO is load-bearing** (this site's discovery channel): touching `layout.tsx` metadata, `sitemap.ts`, `robots.ts`, or Schema.org JSON-LD → verify rich-results + OG tags still valid.
 - Solo context: gitmoji commit format, tracker = github-issues. Feature branch before commits.
 
@@ -72,7 +72,7 @@ config/environment.ts  site config, feature flags, env validation
 - **`next build` needs `NODE_ENV=production`**: the shell profile exports `NODE_ENV=development`, and a raw `next build` re-triggers a `<Html>/pages/_document` prerender failure. Always build via `npm run build`.
 - **Never `pkill`/`killall` or kill by pattern**: other projects' `next-server`s run on this machine. Use an explicit port; kill only your own PID.
 - **Vercel CLI here is on another account**: don't use it for this project. Vercel must run Node 24; after close merges, check production is on the latest commit and promote it if not.
-- **Calendly free plan**: never create or activate a Calendly event; it would deactivate the Scoping Call (`CALENDLY_URL`).
+- **Calendly free plan**: never create or activate a Calendly event. The site books on Cal.com (`BOOKING_URL`) since #151; Calendly stays live only until Adi deactivates it after deploy. Cal.com is read-only for agents too.
 - **`verify:tests` is environment-dependent**: `npm test` and `npm run e2e` are the reliable gates.
 - **e2e is excluded from the app `tsconfig`**: tsc doesn't check `e2e/*.spec.ts`.
 - **Images**: only `utfs.io` / `ufs.sh` remote patterns in `next.config.mjs`; a new host needs `remotePatterns`. `dangerouslyAllowSVG` is on with a strict CSP.
