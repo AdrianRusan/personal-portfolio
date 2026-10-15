@@ -2,9 +2,11 @@ import {
   CALENDLY_URL,
   CONTACT_EMAIL,
   HARNESS_PROOF,
+  LEGAL_ENTITY,
   LEDGER_PROOF,
   NOW_BOARD,
   callSteps,
+  legalEntityLine,
   earlierTestimonial,
   workExperience,
   type Testimonial,
@@ -38,7 +40,6 @@ export interface ProsePage {
 
 const firstSentence = (s: string) => s.slice(0, s.indexOf(".") + 1);
 const mailto = `[${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL})`;
-const LEGAL_ENTITY = "Rusan Adrian-Ionuț PFA · CIF 49119790";
 const SOCIAL = `[LinkedIn](https://www.linkedin.com/in/adrian-rusan/) · [GitHub](https://github.com/AdrianRusan) · [X](https://x.com/adrian_rusan)`;
 // D12 (Adi, 2026-10-12): the city on every page, EN and RO.
 const CITY = "Timișoara";
@@ -47,16 +48,16 @@ export const privacyPage: ProsePage = {
   path: "/privacy",
   title: "Privacy",
   description:
-    "What adrian-rusan.com collects (form fields, analytics, error logs), who processes it (Resend, Vercel, Sentry), how long it is kept, and how to have it deleted.",
+    "What adrian-rusan.com collects (form fields, analytics, error logs), who processes it (Resend, Vercel, Sentry, Stripe), how long it is kept, and how to have it deleted.",
   lead: "The short version: I collect only what the forms ask for, plus anonymous analytics and error logs. I don't sell or share it, and you can have it deleted with one email.",
-  updated: "11 October 2026",
+  updated: "15 October 2026",
   // Plain-language notice (D7). Every claim here has to stay true of the code:
   // the forms (components/EmailCapture.tsx, components/TeardownForm.tsx), the
   // API routes in app/api/, and the analytics/Sentry setup.
   sections: [
     {
       heading: "Who is responsible",
-      body: `Adrian Rusan, an independent software engineer based in Romania, runs this site and decides what happens to the data below. Questions and requests go to ${mailto}.`,
+      body: `${LEGAL_ENTITY.name} (CUI ${LEGAL_ENTITY.cui}), the Romanian-registered business (PFA) of Adrian Rusan, runs this site and is the data controller for everything below. Registered seat: ${LEGAL_ENTITY.seat}. Questions and requests go to ${mailto}.`,
     },
     {
       heading: "What I collect, and why",
@@ -69,15 +70,17 @@ export const privacyPage: ProsePage = {
       heading: "Who processes it for me",
       body: `- **Resend** sends the emails and holds the email list.
 - **Vercel** hosts the site and provides the analytics and page-speed measurements.
-- **Sentry** stores the error logs.`,
+- **Sentry** stores the error logs.
+- **Stripe** takes the card payment when you pay for a session.`,
     },
     {
       // R3-F26, A8: Art. 13 legal basis and transfers.
       heading: "Legal basis and transfers",
       body: `- **Checklist and teardown emails**: your consent, which you can withdraw at any time.
 - **Error logs and analytics**: my legitimate interest in keeping the site working.
+- **Paid sessions**: the contract you make when you book and pay.
 
-Resend, Vercel and Sentry are US companies. Transfers outside the EEA rely on Standard Contractual Clauses and, where the provider is certified, the EU–US Data Privacy Framework.`,
+Resend, Vercel and Sentry are US companies, and Stripe can pass payment data to its US parent company. Transfers outside the EEA rely on Standard Contractual Clauses and, where the provider is certified, the EU–US Data Privacy Framework.`,
     },
     {
       heading: "How long I keep it",
@@ -184,7 +187,9 @@ export const contactPage: ProsePage = {
     },
     {
       heading: "Legal entity",
-      body: `${LEGAL_ENTITY}. Invoiced in EUR; USD on request.`,
+      body: `${legalEntityLine}
+
+A Romanian-registered business (PFA). Invoiced in EUR; USD on request.`,
     },
   ],
 };
@@ -262,7 +267,9 @@ export const roContactPage: ProsePage = {
     },
     {
       heading: "Entitate juridică",
-      body: `${LEGAL_ENTITY}. Facturez în EUR; în USD la cerere.`,
+      body: `${legalEntityLine}
+
+PFA înregistrat în România. Facturez în EUR; în USD la cerere.`,
     },
   ],
 };

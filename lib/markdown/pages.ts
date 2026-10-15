@@ -10,7 +10,7 @@ import type { LadderContent } from "@/components/services/Ladder";
 import type { ProcessStepsCopy } from "@/components/services/ProcessSteps";
 import type { ServicesHeroCopy } from "@/components/services/ServicesHero";
 import type { TrustStripCopy } from "@/components/services/TrustStrip";
-import { CALENDLY_URL, type Testimonial } from "@/data";
+import { CALENDLY_URL, VAT_LINE, type Testimonial } from "@/data";
 import type { ProsePage } from "@/data/pages";
 import { teardown } from "@/data/teardown";
 import {
@@ -193,7 +193,7 @@ export const workshopMd = (w: Workshop) =>
     `# ${w.title}`,
     w.headline,
     w.intro,
-    `**${euro(w.price)}** ex-VAT, ${w.length}, up to ${w.maxPeople} people (${perEngineer(w)}).`,
+    `**${euro(w.price)}**, ${w.length}, up to ${w.maxPeople} people (${perEngineer(w)}). ${VAT_LINE}`,
     "## Agenda",
     ...w.agenda.map((part) =>
       blocks(

@@ -23,6 +23,9 @@ export const RO_STRATEGY_CALL_CTA = RO_STRATEGY_CALL_CALENDLY_URL
   ? "Rezervă sesiunea de 110 €"
   : "Scrie-mi ca să rezervi sesiunea de 110 €";
 
+// #149 R2: RO twin of VAT_LINE.
+export const RO_VAT_LINE = "Prețurile nu includ TVA; TVA-ul se adaugă acolo unde se aplică.";
+
 export const RO_CAPACITY =
   "Review-ul îl face un singur om senior, așa că lucrez la un singur sprint sau retainer în același timp.";
 

@@ -18,6 +18,22 @@ export const HOME_DESCRIPTION =
 // ponytail: Gmail until contact@adrian-rusan.com has MX records (#145); switch back here.
 export const CONTACT_EMAIL = "rusan.adrian.ionut@gmail.com";
 
+// #149: the provider identity Law 365/2002 art. 5 asks for, copied from the
+// PFA's registration certificate. No phone (decision 5). Feeds the footer,
+// /contact (EN + RO) and the Organization JSON-LD.
+export const LEGAL_ENTITY = {
+  name: "RUSAN ADRIAN-IONUȚ PERSOANĂ FIZICĂ AUTORIZATĂ",
+  cui: "49119790",
+  registry: "F40/8516/2023",
+  seat: "B-dul Bucureștii Noi 136, parter, ap. 5, Sector 1, București",
+  email: CONTACT_EMAIL,
+} as const;
+export const legalEntityLine = `${LEGAL_ENTITY.name} · CUI ${LEGAL_ENTITY.cui} · Reg. Com. ${LEGAL_ENTITY.registry} · ${LEGAL_ENTITY.seat} · ${LEGAL_ENTITY.email}`;
+
+// #149 R2: the one VAT sentence, true before and after VAT registration.
+// No reverse-charge wording (D5).
+export const VAT_LINE = "Prices exclude VAT; VAT is added where it applies.";
+
 // Paid 1:1 advice call (€200). null until Adi creates the paid Calendly event
 // (ADI-3); set it and every €200 CTA switches from email to booking, label too.
 export const STRATEGY_CALL_CALENDLY_URL: string | null = null;
@@ -205,7 +221,7 @@ export const faqs: { question: string; answer: string }[] = [
   },
   {
     question: "How do payment terms work?",
-    answer: `Every price is fixed before work starts, in EUR, excluding VAT. The strategy call is paid up front. Sprints are 50% to book the slot and 50% on handoff. The Reviewed PR is paid only if it's merge-ready to your standard. Retainers bill monthly. ${CREDIT_TERMS}`,
+    answer: `Every price is fixed in EUR before work starts. ${VAT_LINE} The strategy call is paid up front. Sprints are 50% to book the slot and 50% on handoff. The Reviewed PR is paid only if it's merge-ready to your standard. Retainers bill monthly. ${CREDIT_TERMS}`,
   },
   {
     question: "What if it doesn't work out?",
@@ -242,7 +258,7 @@ export const faqs: { question: string; answer: string }[] = [
   {
     question: "Who invoices, and in which currency?",
     answer:
-      "Invoiced in EUR by my Romanian company; USD on request. The price on the invoice is the fixed price agreed before work started.",
+      "Invoiced in EUR by my Romanian-registered business (PFA); USD on request. The price on the invoice is the fixed price agreed before work started.",
   },
 ];
 

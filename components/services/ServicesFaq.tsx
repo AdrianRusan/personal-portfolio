@@ -1,5 +1,5 @@
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { VERACODE_LINE } from "@/data";
+import { VAT_LINE, VERACODE_LINE } from "@/data";
 
 type FaqItem = { question: string; answer: string };
 
@@ -42,7 +42,7 @@ const items: FaqItem[] = [
     question:
       "How do payment terms work, who invoices, and who pays for LLM and API usage?",
     answer:
-      "Every price is fixed before work starts, in EUR, excluding VAT. Invoiced in EUR by my Romanian company; USD on request. The strategy call is paid up front. Sprints are 50% to book the slot and 50% on handoff, the Reviewed PR is paid after delivery, and retainers bill monthly. LLM/API usage is included in the fixed price for sprints and reviewed PRs. Agent Fleet Setup runs on your team's own Claude Code licences.",
+      `Every price is fixed before work starts. ${VAT_LINE} Invoiced in EUR by my Romanian-registered business (PFA); USD on request. The strategy call is paid up front. Sprints are 50% to book the slot and 50% on handoff, the Reviewed PR is paid after delivery, and retainers bill monthly. LLM/API usage is included in the fixed price for sprints and reviewed PRs. Agent Fleet Setup runs on your team's own Claude Code licences.`,
   },
   {
     question:

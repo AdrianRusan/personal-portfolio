@@ -47,7 +47,7 @@ export const Avatar = ({
 
 const en = {
   heading: "Who reviews your code",
-  body: `I'm Adrian Rusan, a senior full-stack engineer with 10+ years in production. I work through my own company, most recently as founding engineer for ${FINTECH_EMPLOYER}. Before that, live graphics for PGL Major streams with 2M+ concurrent viewers, 300+ survey projects at Ipsos for global brands, and ad dashboards at GoSocial. The agents run on my own harness: ${HARNESS_PROOF}. I still read every PR myself.`,
+  body: `I'm Adrian Rusan, a senior full-stack engineer with 10+ years in production. I work through my own Romanian-registered business (PFA), most recently as founding engineer for ${FINTECH_EMPLOYER}. Before that, live graphics for PGL Major streams with 2M+ concurrent viewers, 300+ survey projects at Ipsos for global brands, and ad dashboards at GoSocial. The agents run on my own harness: ${HARNESS_PROOF}. I still read every PR myself.`,
   onGithub: "Adrian Rusan on GitHub",
   onLinkedin: "Adrian Rusan on LinkedIn",
   onX: "Adrian Rusan on X",

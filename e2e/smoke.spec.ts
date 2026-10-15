@@ -1,6 +1,6 @@
 import { readdirSync, readFileSync } from 'fs';
 import { test, expect } from '@playwright/test';
-import { CONTACT_EMAIL } from '../data';
+import { CONTACT_EMAIL, legalEntityLine } from '../data';
 
 // Every public route, EN and RO. Keep in sync with app/sitemap.ts.
 const routes = [
@@ -79,6 +79,7 @@ for (const route of routes) {
 
     await expect(page.locator('main')).toHaveCount(1);
     await expect(page.locator('footer')).toHaveCount(1);
+    await expect(page.locator('footer')).toContainText(legalEntityLine);
     expect(await page.locator('img:not([alt])').count()).toBe(0);
 
     // C01: a "Book…" link never opens an email client (EN "Book", RO "Programează"/"Rezervă").
@@ -171,6 +172,16 @@ for (const path of ['/about', '/blog', '/does-not-exist', '/', '/ro', '/ro/despr
     // D6 / A4 F6: the email lives in the footer; the checklist on the blog only.
     await expect(page.locator(`footer a[href^="mailto:${CONTACT_EMAIL}"]`)).toHaveCount(1);
     if (path !== '/blog') await expect(page.locator('input[type="email"]')).toHaveCount(0);
+  });
+}
+
+// #149: the PFA identity (Law 365/2002 art. 5) on one page per layout, EN and RO;
+// the route loop above checks every route.
+for (const path of ['/', '/services', '/ro', '/ro/contact']) {
+  test(`${path} footer shows the PFA identity`, async ({ page }) => {
+    await page.goto(path);
+    await expect(page.locator('footer', { hasText: legalEntityLine })).toHaveCount(1);
+    await expect(page.locator('footer')).toContainText('CUI 49119790');
   });
 }
 

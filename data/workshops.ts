@@ -180,7 +180,8 @@ export const euro = (n: number) => `€${n.toLocaleString("en-US")}`;
 export const perEngineer = (w: Workshop) =>
   `${euro(Math.round(w.price / w.maxPeople))} per engineer at ${w.maxPeople} people`;
 
-// Price is appended here, from the numeric field, so meta/OG/JSON-LD copy can't
+// #149: meta descriptions keep the short "ex-VAT" (155-char cap); the page
+// itself shows VAT_LINE. Price is appended here, from the numeric field, so meta/OG/JSON-LD copy can't
 // drift from Offer.price. The CTA books on Calendly once WORKSHOP_DATES_URL is set.
 const withPrice = (w: Workshop): Workshop => ({
   ...w,

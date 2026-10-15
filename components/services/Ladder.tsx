@@ -6,6 +6,7 @@ import {
   tiers,
   type Tier,
 } from "@/data/ladder";
+import { VAT_LINE } from "@/data";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { keepRangesWhole } from "@/lib/utils";
 import { LadderLink } from "./LadderLink";
@@ -17,7 +18,7 @@ const en = {
   format: formatPrice,
   heading: "Prices",
   // The credit rule is stated here and nowhere else on the page (R2-F11).
-  intro: `Start with one Reviewed PR at ${formatPrice(offerById(ladder, "reviewed-pr"))}, or go straight to a sprint. ${CREDIT_TERMS} All prices are in EUR, excluding VAT.`,
+  intro: `Start with one Reviewed PR at ${formatPrice(offerById(ladder, "reviewed-pr"))}, or go straight to a sprint. ${CREDIT_TERMS} All prices are in EUR. ${VAT_LINE}`,
   // RO adds the "firms based in Romania" qualifier (A7).
   note: undefined as string | undefined,
   limited: "One at a time",

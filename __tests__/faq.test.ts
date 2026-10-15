@@ -28,13 +28,13 @@ describe("FAQ", () => {
     expect(faqPageJsonLd().mainEntity).toHaveLength(14);
   });
 
-  // D5: usage included, EUR via the Romanian company, and no VAT-status claim.
+  // D5: usage included, EUR via the PFA, and no VAT-status claim.
   it("states the LLM-cost and invoicing facts without a reverse-charge claim", () => {
     const text = faqs.map((f) => f.answer).join(" ");
     expect(text).toContain(
       "LLM/API usage is included in the fixed price for sprints and reviewed PRs.",
     );
-    expect(text).toContain("Invoiced in EUR by my Romanian company; USD on request.");
+    expect(text).toContain("Invoiced in EUR by my Romanian-registered business (PFA); USD on request.");
     expect(text).not.toMatch(/reverse.charge/i);
   });
 
@@ -100,7 +100,7 @@ describe("services FAQ", () => {
     expect(text).toContain(
       "LLM/API usage is included in the fixed price for sprints and reviewed PRs.",
     );
-    expect(text).toContain("Invoiced in EUR by my Romanian company; USD on request.");
+    expect(text).toContain("Invoiced in EUR by my Romanian-registered business (PFA); USD on request.");
     expect(text).not.toMatch(/reverse.charge/i);
   });
 

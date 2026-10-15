@@ -67,7 +67,7 @@ describe("markdownFor", () => {
       expect((await markdownFor(path))!.length).toBeGreaterThan(500);
     }
     expect(await markdownFor("/contact")).toContain(
-      "Rusan Adrian-Ionuț PFA · CIF 49119790",
+      "RUSAN ADRIAN-IONUȚ PERSOANĂ FIZICĂ AUTORIZATĂ · CUI 49119790",
     );
   });
 

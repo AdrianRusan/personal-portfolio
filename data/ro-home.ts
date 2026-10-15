@@ -29,6 +29,7 @@ import {
   roLadder,
   roTierNames,
   roTiers,
+  RO_VAT_LINE,
 } from "@/data/ro";
 
 // RO twin of HARNESS_PROOF (data/index.ts).
@@ -107,7 +108,7 @@ export const roShipVerify: ShipVerifyCopy = {
 
 export const roBio: BioCopy = {
   heading: "Cine îți verifică codul",
-  body: `Sunt Adrian Rusan, inginer full-stack senior cu peste 10 ani în producție. Lucrez prin propria firmă, cel mai recent ca founding engineer pentru ${FINTECH_EMPLOYER}. Înainte de asta, am făcut grafica live pentru transmisiunile PGL Major, urmărite simultan de peste 2 milioane de spectatori, peste 300 de proiecte de sondaje la Ipsos pentru branduri globale și dashboard-uri de reclame la GoSocial. Agenții rulează pe harness-ul meu: ${RO_HARNESS_PROOF}. Fiecare PR îl citesc tot eu.`,
+  body: `Sunt Adrian Rusan, inginer full-stack senior cu peste 10 ani în producție. Lucrez prin PFA-ul meu, cel mai recent ca founding engineer pentru ${FINTECH_EMPLOYER}. Înainte de asta, am făcut grafica live pentru transmisiunile PGL Major, urmărite simultan de peste 2 milioane de spectatori, peste 300 de proiecte de sondaje la Ipsos pentru branduri globale și dashboard-uri de reclame la GoSocial. Agenții rulează pe harness-ul meu: ${RO_HARNESS_PROOF}. Fiecare PR îl citesc tot eu.`,
   onGithub: "Adrian Rusan pe GitHub",
   onLinkedin: "Adrian Rusan pe LinkedIn",
   onX: "Adrian Rusan pe X",
@@ -121,7 +122,7 @@ export const roOffers: OffersCopy = {
   intro: "Fiecare ofertă are un preț de pornire afișat, iar prețul final îl stabilim înainte să încep lucrul. ",
   credit: RO_CREDIT_TERMS,
   // A7: yes.
-  priceNote: "Prețuri pentru firme cu sediul în România.",
+  priceNote: `Prețuri pentru firme cu sediul în România. ${RO_VAT_LINE}`,
   tiers: tiers.map(({ tier }) => ({
     tier,
     name: roTierNames[tier],
