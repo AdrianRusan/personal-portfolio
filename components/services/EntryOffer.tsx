@@ -1,6 +1,6 @@
 import PrimaryCta from "@/components/ui/PrimaryCta";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { CALENDLY_URL, CONTACT_EMAIL } from "@/data";
+import { BOOKING_URL, CONTACT_EMAIL } from "@/data";
 import { ladder, offerById } from "@/data/ladder";
 
 const en = {
@@ -44,7 +44,7 @@ export const EntryOffer = ({ copy = en }: { copy?: EntryOfferCopy }) => {
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-8">
           <PrimaryCta
             title={copy.cta}
-            href={CALENDLY_URL}
+            href={BOOKING_URL}
             trackEvent={{
               event: "calendly_click",
               props: { source: "entry_offer" },

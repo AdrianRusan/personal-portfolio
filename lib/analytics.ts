@@ -1,6 +1,6 @@
 import { track as vercelTrack } from "@vercel/analytics";
 import { localeOf } from "@/lib/locale";
-import { utmFrom, withAttribution, type Utm } from "@/lib/calendly";
+import { utmFrom, withAttribution, type Utm } from "@/lib/booking";
 
 // Local, side-effect-free production check. Deliberately NOT imported from
 // config/environment (whose module runs validateEnvironment() at load) so this
@@ -46,8 +46,8 @@ export const track = (event: AnalyticsEvent, props?: EventProps): void => {
   vercelTrack(event, { ...props, locale: localeOf(window.location.pathname) });
 };
 
-// C44: Calendly shows the source of each booking only if the link carries it.
-// The landing UTMs go to sessionStorage, and every Calendly link gets them
+// C44: Cal.com shows the source of each booking only if the link carries it.
+// The landing UTMs go to sessionStorage, and every Cal.com link gets them
 // plus utm_content=<page> at click time. One document listener covers every
 // CTA component, since each of them imports this module.
 const UTM_STORE = "landing_utm";

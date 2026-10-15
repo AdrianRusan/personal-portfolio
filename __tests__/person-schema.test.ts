@@ -54,7 +54,7 @@ describe("Organization JSON-LD", () => {
       "@type": "ContactPoint",
       contactType: "sales",
       email: "rusan.adrian.ionut@gmail.com",
-      url: "https://calendly.com/adrian-rusan/new-meeting",
+      url: "https://cal.com/adrian-rusan/scoping-call",
       availableLanguage: ["en", "ro"],
     });
   });

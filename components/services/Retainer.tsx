@@ -1,4 +1,4 @@
-import { CalendlyLink } from "@/components/CalendlyLink";
+import { BookingLink } from "@/components/BookingLink";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ctaSecondary } from "@/components/ui/button";
 import { Fold } from "./Fold";
@@ -79,13 +79,13 @@ export const Retainer = ({ copy = en }: { copy?: RetainerCopy }) => {
               {copy.pricingBody}
             </p>
             <div className="mt-6">
-              <CalendlyLink
+              <BookingLink
                 source="retainer_top"
                 ariaLabel={copy.cta}
                 className={ctaSecondary}
               >
                 {copy.cta}
-              </CalendlyLink>
+              </BookingLink>
             </div>
           </div>
         </div>

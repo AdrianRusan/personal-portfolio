@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PageShell } from "@/components/PageShell";
 import TeardownForm from "@/components/TeardownForm";
 import { teardown } from "@/data/teardown";
-import { CalendlyLink } from "@/components/CalendlyLink";
+import { BookingLink } from "@/components/BookingLink";
 import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 
 const { title: TITLE, description: DESCRIPTION } = teardown;
@@ -107,13 +107,13 @@ export default function TeardownPage() {
 
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-8">
               {/* A link, not a button: the form above is this page's one primary CTA. */}
-              <CalendlyLink
+              <BookingLink
                 source="teardown_book"
                 newTab={false}
                 className="text-sm font-medium text-accent-ink hover:text-accent transition-colors"
               >
                 Prefer to talk? Book a scoping call →
-              </CalendlyLink>
+              </BookingLink>
             </div>
           </div>
         </div>

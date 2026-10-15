@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CalendlyLink } from "@/components/CalendlyLink";
+import { BookingLink } from "@/components/BookingLink";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ctaSecondary } from "@/components/ui/button";
 import { getPosts } from "@/lib/blog";
@@ -93,9 +93,9 @@ export const HarnessSetup = async ({
               {copy.guaranteeBody}
             </p>
             <div className="mt-6">
-              <CalendlyLink source="harness_top" className={ctaSecondary}>
+              <BookingLink source="harness_top" className={ctaSecondary}>
                 {copy.cta}
-              </CalendlyLink>
+              </BookingLink>
             </div>
           </div>
         </div>

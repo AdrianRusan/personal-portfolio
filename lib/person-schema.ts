@@ -1,5 +1,5 @@
 import {
-  CALENDLY_URL,
+  BOOKING_URL,
   CONTACT_EMAIL,
   FINTECH_EMPLOYER,
   LEGAL_ENTITY,
@@ -21,7 +21,7 @@ const contactPoint = {
   "@type": "ContactPoint",
   contactType: "sales",
   email: CONTACT_EMAIL,
-  url: CALENDLY_URL,
+  url: BOOKING_URL,
   availableLanguage: ["en", "ro"],
 };
 

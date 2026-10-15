@@ -4,12 +4,13 @@ import {
   type Page,
   type APIRequestContext,
 } from "@playwright/test";
-import { CALENDLY_URL, CONTACT_EMAIL } from "../data";
+import { BOOKING_URL, CONTACT_EMAIL, STRATEGY_CALL_BOOKING_URL } from "../data";
+import { RO_STRATEGY_CALL_BOOKING_URL } from "../data/ro";
 import { primaryNav, roPrimaryNav } from "../data/nav";
 
 // #133: every link, nav item, CTA, form and control, EN + RO. IDs (I-xx) are the
 // rows of docs/plans/feat-133-interaction-audit/interaction-inventory.md.
-// Forms never reach Resend: /api/* is mocked with page.route. Calendly is never
+// Forms never reach Resend: /api/* is mocked with page.route. Cal.com is never
 // opened: clicks are cancelled after the attribution listener has run.
 
 const SITE = "https://www.adrian-rusan.com";
@@ -188,9 +189,7 @@ test.describe("links (I-01..I-08)", () => {
     for (const s of subjects) expect(s).not.toMatch(/%[0-9A-F]{2}/);
     expect([...subjects]).toEqual(
       expect.arrayContaining([
-        "Architecture Session (€200)",
         "Teardown gratuit",
-        "Sesiune de arhitectură (110 €)",
         "Workshop pentru echipă",
       ]),
     );
@@ -448,7 +447,7 @@ const cancelNavigation = async (page: Page) => {
   );
 };
 
-test.describe("Calendly CTAs and analytics (I-30..I-36)", () => {
+test.describe("booking CTAs and analytics (I-30..I-36)", () => {
   for (const path of [
     "/",
     "/services",
@@ -461,31 +460,31 @@ test.describe("Calendly CTAs and analytics (I-30..I-36)", () => {
     "/ro/servicii",
     "/ro/contact",
   ]) {
-    test(`${path}: every Calendly CTA is the Scoping Call and carries attribution`, async ({
+    test(`${path}: every Scoping Call CTA carries attribution`, async ({
       page,
     }) => {
       await stubAnalytics(page);
       await page.goto(`${path}?utm_source=e2e&utm_medium=test`);
       await cancelNavigation(page);
-      const ctas = page.locator('a[href*="calendly.com"]');
+      const ctas = page.locator(`a[href^="${BOOKING_URL}"]`);
       const n = await ctas.count();
       expect(n).toBeGreaterThan(0);
       for (let i = 0; i < n; i++) {
         const cta = ctas.nth(i);
         if (!(await cta.isVisible())) continue;
         const before = await cta.getAttribute("href");
-        expect(before!.startsWith(CALENDLY_URL)).toBe(true);
+        expect(before!.startsWith(BOOKING_URL)).toBe(true);
         await cta.click();
         const url = new URL((await cta.getAttribute("href"))!);
-        expect(url.origin + url.pathname).toBe(CALENDLY_URL);
+        expect(url.origin + url.pathname).toBe(BOOKING_URL);
         expect(Object.fromEntries(url.searchParams)).toMatchObject({
           utm_source: "e2e",
           utm_medium: "test",
           utm_content: path,
         });
         // A tier prefill survives the attribution.
-        const a1 = new URL(before!).searchParams.get("a1");
-        if (a1) expect(url.searchParams.get("a1")).toBe(a1);
+        const topic = new URL(before!).searchParams.get("topic");
+        if (topic) expect(url.searchParams.get("topic")).toBe(topic);
       }
       const fired = (await events(page)).filter(
         (e) => e.name === "calendly_click",
@@ -522,14 +521,31 @@ test.describe("Calendly CTAs and analytics (I-30..I-36)", () => {
     }
   });
 
-  test("the paid-call mailto on /services fires cta_click (I-35)", async ({
+  // #151: the paid session is a Cal.com booking now, not a mailto (I-35).
+  test("the paid-session link books on Cal.com and fires calendly_click (I-35)", async ({
     page,
   }) => {
     await stubAnalytics(page);
-    await page.goto("/services");
-    await cancelNavigation(page);
-    await page.locator('main a[href^="mailto:"]').first().click();
-    expect((await events(page)).map((e) => e.name)).toContain("cta_click");
+    for (const [path, href] of [
+      ["/services", STRATEGY_CALL_BOOKING_URL],
+      ["/ro/servicii", RO_STRATEGY_CALL_BOOKING_URL],
+    ] as const) {
+      await page.goto(`${path}?utm_source=e2e`);
+      await cancelNavigation(page);
+      const cta = page.locator(`main a[href^="${href}"]`).first();
+      await expect(cta).toHaveCount(1);
+      await cta.click();
+      const url = new URL((await cta.getAttribute("href"))!);
+      expect(url.origin + url.pathname).toBe(href);
+      expect(url.searchParams.get("utm_source")).toBe("e2e");
+      expect(url.searchParams.has("topic")).toBe(false);
+      expect(await events(page)).toContainEqual(
+        expect.objectContaining({
+          name: "calendly_click",
+          data: expect.objectContaining({ offer: "strategy-call" }),
+        }),
+      );
+    }
   });
 });
 

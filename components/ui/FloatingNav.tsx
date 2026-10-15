@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { CALENDLY_URL } from "@/data";
+import { BOOKING_URL } from "@/data";
 import { type NavItem, primaryNav, roPrimaryNav } from "@/data/nav";
 import { track } from "@/lib/analytics";
 import { hasTwin, localeOf, navPathname, switchLocalePath } from "@/lib/locale";
@@ -118,7 +118,7 @@ export const FloatingNav = ({
             {isRo ? "EN" : "RO"}
           </Link>
           <a
-            href={CALENDLY_URL}
+            href={BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() =>

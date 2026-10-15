@@ -10,7 +10,7 @@ import type { LadderContent } from "@/components/services/Ladder";
 import type { ProcessStepsCopy } from "@/components/services/ProcessSteps";
 import type { ServicesHeroCopy } from "@/components/services/ServicesHero";
 import type { TrustStripCopy } from "@/components/services/TrustStrip";
-import { CALENDLY_URL, type Testimonial } from "@/data";
+import { BOOKING_URL, type Testimonial } from "@/data";
 import type { ProsePage } from "@/data/pages";
 import { teardown } from "@/data/teardown";
 import {
@@ -78,7 +78,7 @@ export const homeMd = (c: HomeCopy) =>
     `# ${c.hero.heading}`,
     c.hero.body,
     `> ${c.hero.guarantee}`,
-    `[${c.hero.call}](${CALENDLY_URL}) · [${c.hero.teardown}](${c.hero.teardownHref})`,
+    `[${c.hero.call}](${BOOKING_URL}) · [${c.hero.teardown}](${c.hero.teardownHref})`,
     `## ${c.proof.ariaLabel}`,
     list(c.proof.stats.map((s) => `**${s.figure}** ${s.label}`)),
     c.proof.note,
@@ -105,7 +105,7 @@ export const homeMd = (c: HomeCopy) =>
     faqMd(c.faq),
     `## ${c.closing.heading}`,
     c.closing.body,
-    `[${c.closing.button}](${CALENDLY_URL}) · [${c.closing.teardown.replace(/ →$/, "")}](${c.closing.teardownHref})`,
+    `[${c.closing.button}](${BOOKING_URL}) · [${c.closing.teardown.replace(/ →$/, "")}](${c.closing.teardownHref})`,
   );
 
 export interface ServicesCopy {
@@ -130,7 +130,7 @@ export const servicesMd = ({
     `# ${hero.heading}`,
     hero.intro,
     `> ${hero.guarantee}`,
-    `[${hero.cta}](${CALENDLY_URL})`,
+    `[${hero.cta}](${BOOKING_URL})`,
     `${trust.label} ${trust.employers.join(", ")}.`,
     `${trust.proof}. [${trust.study.cta.replace(/ →$/, "")}](${trust.study.href})`,
     `## ${ladder.heading}`,
@@ -185,7 +185,7 @@ export const teardownMd = () =>
     "Request a teardown with the form on [the teardown page](/teardown) (email plus a repo or PR link).",
     `## ${teardown.whyHeading}`,
     teardown.why,
-    `[Prefer to talk? Book a scoping call](${CALENDLY_URL})`,
+    `[Prefer to talk? Book a scoping call](${BOOKING_URL})`,
   );
 
 export const workshopMd = (w: Workshop) =>

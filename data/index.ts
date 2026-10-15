@@ -1,5 +1,7 @@
-// event slug must exist in Calendly (active "Scoping Call" event, slug "new-meeting")
-export const CALENDLY_URL = "https://calendly.com/adrian-rusan/new-meeting";
+// #151: the free Scoping Call on Cal.com (free plan; events scoping-call,
+// architecture-session and the hidden sesiune-arhitectura). Its `topic` field
+// takes the offer prefill.
+export const BOOKING_URL = "https://cal.com/adrian-rusan/scoping-call";
 
 // D1 / A1 F1: the LinkedIn positioning, for titles, OG cards and schema.
 export const SITE_TAGLINE = "AI Agents Ship It, I Review Every PR";
@@ -34,15 +36,12 @@ export const legalEntityLine = `${LEGAL_ENTITY.name} · CUI ${LEGAL_ENTITY.cui} 
 // No reverse-charge wording (D5).
 export const VAT_LINE = "Prices exclude VAT; VAT is added where it applies.";
 
-// Paid Architecture Session (€200, ends in a written build plan). null until the
-// booking link exists; set it and every €200 CTA switches from email to booking.
-export const STRATEGY_CALL_CALENDLY_URL: string | null = null;
-export const STRATEGY_CALL_URL =
-  STRATEGY_CALL_CALENDLY_URL ??
-  `mailto:${CONTACT_EMAIL}?subject=Architecture%20Session%20(%E2%82%AC200)`;
-export const STRATEGY_CALL_CTA = STRATEGY_CALL_CALENDLY_URL
-  ? "Book the €200 session"
-  : "Email me to book the €200 session";
+// Paid Architecture Session (€200, ends in a written build plan). Stripe takes
+// the payment on Cal.com at booking.
+export const STRATEGY_CALL_BOOKING_URL =
+  "https://cal.com/adrian-rusan/architecture-session";
+export const STRATEGY_CALL_URL = STRATEGY_CALL_BOOKING_URL;
+export const STRATEGY_CALL_CTA = "Book the €200 session";
 
 // Redacted sample of the sprint's Security Report (ADI-6), from my own 30-PR
 // run. Set to null to hide every "See a sample report" link.
@@ -173,7 +172,7 @@ export const shipVerify = [
 export const callSteps = [
   {
     heading: "Pick a 30-minute slot",
-    body: "Book on Calendly and add one line on what you want built or shipped. That line is all the prep.",
+    body: "Book a slot and add one line on what you want built or shipped. That line is all the prep.",
   },
   {
     heading: "We look at the real work",

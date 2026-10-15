@@ -1,4 +1,4 @@
-import { CALENDLY_URL } from "@/data";
+import { BOOKING_URL } from "@/data";
 import { ladder, offerById } from "@/data/ladder";
 import type { BlogCta, BlogFrontmatter } from "./blog-types";
 
@@ -15,7 +15,7 @@ export interface BlogCtaCopy {
 // A2 F7: every paid offer's second link books the free call in one click.
 const SCOPING_CALL = {
   label: "or book a free 30-minute scoping call",
-  href: CALENDLY_URL,
+  href: BOOKING_URL,
 };
 
 // "AI Code Audit · from €1,500": name and lowest price from the ladder, so a price

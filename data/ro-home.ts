@@ -293,7 +293,7 @@ export const roCallFaq = {
   question: "Ce se întâmplă după ce programezi o discuție?",
   steps: [
     {
-      body: "Rezervi pe Calendly și scrii un rând despre ce vrei să construiești sau să livrezi. Rândul ăsta e toată pregătirea.",
+      body: "Rezervi un slot și scrii un rând despre ce vrei să construiești sau să livrezi. Rândul ăsta e toată pregătirea.",
     },
     {
       body: "Ne uităm la backlog-ul tău, la repo-ul tău sau la întrebarea ta despre AI. Îți spun ce nivel se potrivește și cât costă, sau că nu e potrivit.",

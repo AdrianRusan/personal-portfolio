@@ -3,7 +3,7 @@ import PrimaryCta from "./ui/PrimaryCta";
 import { Avatar } from "./Bio";
 import { ctaSecondary } from "./ui/button";
 import { TrackedLink } from "@/components/TrackedLink";
-import { CALENDLY_URL, GUARANTEE } from "@/data";
+import { BOOKING_URL, GUARANTEE } from "@/data";
 import { cn } from "@/lib/utils";
 
 const en = {
@@ -54,7 +54,7 @@ const Hero = ({
             {/* Booking is the one filled pill; the teardown is the quiet one. */}
             <PrimaryCta
               title={copy.call}
-              href={CALENDLY_URL}
+              href={BOOKING_URL}
               otherClasses="md:min-w-0"
               trackEvent={{ event: "calendly_click", props: { source: "hero" } }}
             />

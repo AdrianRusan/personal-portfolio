@@ -1,5 +1,5 @@
 import {
-  CALENDLY_URL,
+  BOOKING_URL,
   CONTACT_EMAIL,
   HARNESS_PROOF,
   LEGAL_ENTITY,
@@ -48,7 +48,7 @@ export const privacyPage: ProsePage = {
   path: "/privacy",
   title: "Privacy",
   description:
-    "What adrian-rusan.com collects (form fields, analytics, error logs), who processes it (Resend, Vercel, Sentry, Stripe), how long it is kept, and how to have it deleted.",
+    "What adrian-rusan.com collects (form fields, analytics, error logs), who processes it (Resend, Vercel, Sentry, Cal.com, Stripe), how long it is kept, and how to have it deleted.",
   lead: "The short version: I collect only what the forms ask for, plus anonymous analytics and error logs. I don't sell or share it, and you can have it deleted with one email.",
   updated: "15 October 2026",
   // Plain-language notice (D7). Every claim here has to stay true of the code:
@@ -91,7 +91,7 @@ Resend, Vercel and Sentry are US companies. Transfers outside the EEA rely on St
     },
     {
       heading: "Booking a call",
-      body: "The “Book a call” buttons open Calendly. What you enter there is handled by Calendly under its own privacy policy, and I get the booking details.",
+      body: "The booking buttons open Cal.com. What you enter there is handled by Cal.com under its own privacy policy, and I get the booking details. For a paid session, Stripe takes the payment on the same page.",
     },
     {
       heading: "Your rights",
@@ -157,7 +157,7 @@ export const contactPage: ProsePage = {
       heading: "Book a scoping call",
       body: "30 minutes on what you want built or shipped. You get the scope and a fixed price in writing within one working day.",
       cta: "Book a scoping call",
-      href: CALENDLY_URL,
+      href: BOOKING_URL,
     },
     {
       heading: "Email",
@@ -238,7 +238,7 @@ export const roContactPage: ProsePage = {
       heading: "Programează o discuție",
       body: "30 de minute despre ce vrei să construiești sau să livrezi. Scope-ul și prețul fix vin în scris, în cel mult o zi lucrătoare.",
       cta: "Programează o discuție",
-      href: CALENDLY_URL,
+      href: BOOKING_URL,
     },
     {
       heading: "Email",

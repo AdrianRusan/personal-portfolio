@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { CalendlyLink } from "./CalendlyLink";
+import { BookingLink } from "./BookingLink";
 import { ctaPrimary, ctaSecondary } from "./ui/button";
 import type { ProsePage } from "@/data/pages";
-import { CALENDLY_URL } from "@/data";
+import { BOOKING_URL } from "@/data";
 import { cn } from "@/lib/utils";
 
 const button = "w-full sm:w-auto sm:min-w-48 shrink-0";
@@ -26,10 +26,10 @@ export function ContactOptions({
               {o.body}
             </p>
           </div>
-          {o.href === CALENDLY_URL ? (
-            <CalendlyLink source="contact" className={cn(ctaPrimary, button)}>
+          {o.href === BOOKING_URL ? (
+            <BookingLink source="contact" className={cn(ctaPrimary, button)}>
               {o.cta}
-            </CalendlyLink>
+            </BookingLink>
           ) : o.href.startsWith("mailto:") ? (
             <a href={o.href} className={cn(ctaSecondary, button)}>
               {o.cta}
