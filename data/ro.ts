@@ -48,7 +48,7 @@ export const roTiers: { tier: Tier; tagline: string }[] = [
     tagline:
       "Un plan de implementare scris sau o listă de probleme, cu prima deja reparată",
   },
-  { tier: "Set up", tagline: "Echipa ta învață fluxul de lucru, pe cod real" },
+  { tier: "Set up", tagline: "Fișierul de reguli și setup-ul de agenți ai echipei, pornite pe repo-ul tău" },
   {
     tier: "Build",
     tagline: "O automatizare sau un setup de agenți, construit și predat",
@@ -64,6 +64,7 @@ const [roPerPrLo, roPerPrHi] = perPrBand(roSprintSizes);
 const roPerPr = `${roPerPrLo}–${roPerPrHi} €`;
 
 // Brief R7 (2026-10-10): 55% of the global ladder, rounded clean. EUR, ex-VAT.
+const RO_SESSION_PRICE = 110;
 const ro: Record<
   string,
   Pick<LadderOffer, "name" | "summary" | "duration" | "ctas"> & {
@@ -74,9 +75,8 @@ const ro: Record<
 > = {
   "strategy-call": {
     name: "Sesiune de arhitectură",
-    summary:
-      "O oră pe ce vrei să construiești. În cel mult o zi lucrătoare primești în scris un plan de implementare: arhitectură, unelte, estimare de cost. Dacă începem proiectul în 30 de zile, cei 110 € se scad din preț.",
-    prices: [{ amount: 110 }],
+    summary: `O oră pe ce vrei să construiești. În cel mult o zi lucrătoare primești în scris un plan de implementare: arhitectură, unelte, estimare de cost. Dacă începem proiectul în ${CREDIT_DAYS} de zile, cei ${RO_SESSION_PRICE} € se scad din preț.`,
+    prices: [{ amount: RO_SESSION_PRICE }],
     duration: "1 oră",
     assurance: "Preț fix, plătit în avans.",
     ctas: [{ label: RO_STRATEGY_CALL_CTA, href: RO_STRATEGY_CALL_URL }],

@@ -27,6 +27,10 @@ const routes = [
   '/ro/contact',
 ];
 
+// #150: the paid session's mailto subjects. Asserted non-zero on /services, so
+// the "none on /contact" check can't pass on a dead selector.
+const PAID_MAILTO = 'main a[href*="subject=Architecture%20Session"], main a[href*="subject=Sesiune%20de%20arhitectur"]';
+
 // #54 R4: weekly posts 404 until their date (00:00 UTC), then join the list.
 const scheduled: Record<string, string> = {
   '/blog/the-rules-file-my-agents-follow': '2026-10-17',
@@ -205,9 +209,16 @@ for (const path of ['/contact', '/ro/contact']) {
     // #125: RO has no teardown page, so its teardown option is an email.
     const teardown = path.startsWith('/ro') ? 'main a[href*="subject=Teardown"]' : 'main a[href="/teardown"]';
     await expect(page.locator(teardown)).toHaveCount(1);
-    // A1 F4: the paid strategy call is on /services only.
-    await expect(page.locator('main a[href*="Strategy"], main a[href*="strategie"]')).toHaveCount(0);
+    // A1 F4: the paid session is on /services only (the positive check is below).
+    await expect(page.locator(PAID_MAILTO)).toHaveCount(0);
     await expect(page.locator('footer a[href*="calendly.com"]')).toHaveCount(0);
+  });
+}
+
+for (const path of ['/services', '/ro/servicii']) {
+  test(`${path} offers the paid session`, async ({ page }) => {
+    await page.goto(path);
+    await expect(page.locator(PAID_MAILTO)).not.toHaveCount(0);
   });
 }
 
