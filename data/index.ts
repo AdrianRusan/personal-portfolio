@@ -82,7 +82,7 @@ const n = (v: number) => v.toLocaleString("en-US");
 export const LEDGER_PROOF = `${WORKFLOW_NUMBERS.sessions} sessions · ${WORKFLOW_NUMBERS.hours} hours · ${n(WORKFLOW_NUMBERS.commits)} commits · ${WORKFLOW_NUMBERS.prsOpened} PRs opened (upper bound, not all merged) — ${WORKFLOW_NUMBERS.days} days, 6 Aug–10 Oct 2026, counted from my own session logs.`;
 
 // #125: /services title aimed at "ai implementation consultant" (KD 9) and its
-// description; the €200 call no longer leads the title.
+// description; the €200 Architecture Session no longer leads the title.
 export const SERVICES_TITLE = "AI Implementation Consultant, Fixed Prices";
 export const SERVICES_DESCRIPTION =
   "Reviewed PRs from €1,000, delivery sprints, Agent Fleet Setup, audits and workshops. Agents write the code, I review every PR. Prices fixed up front.";

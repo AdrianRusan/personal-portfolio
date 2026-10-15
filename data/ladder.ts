@@ -1,5 +1,6 @@
 import {
   BOOKING_URL,
+  CREDIT_DAYS,
   CREDIT_TERMS,
   STRATEGY_CALL_CTA,
   STRATEGY_CALL_URL,
@@ -18,7 +19,7 @@ export type Tier = "Plan" | "Set up" | "Build" | "Ship";
 
 export const tiers: { tier: Tier; tagline: string }[] = [
   { tier: "Plan", tagline: "A written build plan, or ranked findings with the top fix shipped" },
-  { tier: "Set up", tagline: "Your team learns the workflow hands-on" },
+  { tier: "Set up", tagline: "Your team's rules file and agent setup, running on your repo" },
   {
     tier: "Build",
     tagline: "One automation or agent setup, built and handed over",
@@ -75,6 +76,9 @@ const perPrLabel = (sizes: SprintSize[]) => {
   return `€${lo.toLocaleString("en-US")}–${hi.toLocaleString("en-US")} per PR`;
 };
 
+// The Architecture Session's price, also quoted in its own summary.
+const SESSION_PRICE = 200;
+
 // Prices are the guide's ladder table (2026-10-10): EUR, ex-VAT, global.
 const offers: LadderOffer[] = [
   {
@@ -82,9 +86,8 @@ const offers: LadderOffer[] = [
     tier: "Plan",
     name: "Architecture Session",
     // A1 F4: listed on /services only. #150: matches the live Cal.com event text.
-    summary:
-      "One hour on what you want built. Within one working day you get a written build plan: architecture, tooling, cost estimate. If we start the build within 30 days, the €200 counts toward it.",
-    prices: [{ amount: 200 }],
+    summary: `One hour on what you want built. Within one working day you get a written build plan: architecture, tooling, cost estimate. If we start the build within ${CREDIT_DAYS} days, the €${SESSION_PRICE} counts toward it.`,
+    prices: [{ amount: SESSION_PRICE }],
     duration: "1 h",
     assurance: "Fixed price, paid up front.",
     ctas: [{ label: STRATEGY_CALL_CTA, href: STRATEGY_CALL_URL }],
