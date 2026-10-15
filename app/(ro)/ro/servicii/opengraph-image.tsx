@@ -7,7 +7,7 @@ export const alt = RO_SERVICES_DESCRIPTION;
 
 export default function Image() {
   return renderOgCard({
-    eyebrow: "Prețuri în EUR, fără TVA",
+    eyebrow: "Prețuri în EUR, plus TVA unde se aplică",
     title: RO_SERVICES_TITLE,
     subtitle:
       "Sesiuni de arhitectură, audit de cod, workshop-uri, automatizări și sprinturi de livrare, cu fiecare PR revizuit de un inginer senior.",

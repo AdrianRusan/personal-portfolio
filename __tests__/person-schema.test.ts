@@ -60,11 +60,15 @@ describe("Organization JSON-LD", () => {
   });
 
   // #64 R3: city level only, never a street, postal code or phone.
+  // #149: the PFA sits at its registered seat's city, the person in Timișoara.
   it("gives a city-level address and no street, postcode or phone", () => {
-    for (const node of [org, person]) {
+    for (const [node, city] of [
+      [org, "București"],
+      [person, "Timișoara"],
+    ] as const) {
       expect(node.address).toEqual({
         "@type": "PostalAddress",
-        addressLocality: "Timișoara",
+        addressLocality: city,
         addressCountry: "RO",
       });
       expect(JSON.stringify(node)).not.toMatch(/streetAddress|postalCode|telephone/);

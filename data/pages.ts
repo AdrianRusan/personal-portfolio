@@ -80,7 +80,7 @@ export const privacyPage: ProsePage = {
 - **Error logs and analytics**: my legitimate interest in keeping the site working.
 - **Paid sessions**: the contract you make when you book and pay.
 
-Resend, Vercel and Sentry are US companies. Transfers outside the EEA rely on Standard Contractual Clauses and, where the provider is certified, the EU–US Data Privacy Framework.`,
+Resend, Vercel and Sentry are US companies, and Stripe can pass payment data to its US parent company. Transfers outside the EEA rely on Standard Contractual Clauses and, where the provider is certified, the EU–US Data Privacy Framework.`,
     },
     {
       heading: "How long I keep it",
