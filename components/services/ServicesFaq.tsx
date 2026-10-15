@@ -15,7 +15,7 @@ const items: FaqItem[] = [
   {
     question:
       "Unsupervised agents ship vulnerabilities. How do you handle security?",
-    answer: `They do. ${VERACODE_LINE} That's why security is the first pass of every review: injection, auth, secrets, access control. On my own 30-PR run, a repo with no test suite, the review caught 3 shell-injection paths from request input before merge. Anything in scope that I miss within ${SECURITY_GUARANTEE_DAYS} days of handoff is covered by the security guarantee in the terms.`,
+    answer: `They do. ${VERACODE_LINE} That's why security is the first pass of every review: injection, auth, secrets, access control. On my own 30-PR run, a repo with no test suite, the review caught 3 shell-injection paths from request input before merge. If something in scope that I missed turns up within ${SECURITY_GUARANTEE_DAYS} days of handoff, the security guarantee in the terms covers it.`,
   },
   {
     question:
@@ -42,7 +42,7 @@ const items: FaqItem[] = [
     question:
       "How do payment terms work, who invoices, and who pays for LLM and API usage?",
     answer:
-      `Every price is fixed before work starts. ${VAT_LINE} Invoiced in EUR by my Romanian-registered business (PFA); USD on request. The Architecture Session is paid up front. Sprints are 50% to book the slot and 50% on handoff, the Reviewed PR is paid after delivery, and retainers bill monthly. LLM/API usage is included in the fixed price for sprints and reviewed PRs. Agent Fleet Setup runs on your team's own Claude Code licences.`,
+      `Every price is fixed before work starts. ${VAT_LINE} Invoiced in EUR by my Romanian-registered business (PFA); USD on request. The Architecture Session is paid up front. Fixed-price work is 50% to book the slot and 50% on handoff, the Reviewed PR is paid after delivery, and retainers bill monthly. LLM/API usage is included in the fixed price for sprints and reviewed PRs. Agent Fleet Setup runs on your team's own Claude Code licences.`,
   },
   {
     question:

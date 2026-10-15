@@ -6,8 +6,8 @@ jest.mock("@vercel/analytics", () => ({ track: jest.fn() }));
 
 import sitemap from "@/app/sitemap";
 import { GET as llmsTxt } from "@/app/llms.txt/route";
-import { CREDIT_TERMS, VAT_LINE, faqs, legalEntityLine } from "@/data";
-import { RO_CREDIT_TERMS, RO_VAT_LINE } from "@/data/ro";
+import { CREDIT_TERMS, RETAINER_EXIT, VAT_LINE, faqs, legalEntityLine } from "@/data";
+import { RO_CREDIT_TERMS, RO_RETAINER_EXIT, RO_VAT_LINE } from "@/data/ro";
 import { termsPage, roTermsPage } from "@/data/pages";
 import {
   roDeliverySprint,
@@ -29,17 +29,17 @@ const text = (p: typeof termsPage) =>
 // #152 R6: the terms page, drafted for a lawyer's review before merge.
 describe("/terms and /ro/termeni", () => {
   it.each([
-    ["EN", termsPage, legalEntityLine, VAT_LINE, CREDIT_TERMS],
-    ["RO", roTermsPage, legalEntityLine, RO_VAT_LINE, RO_CREDIT_TERMS],
+    ["EN", termsPage, legalEntityLine, VAT_LINE, CREDIT_TERMS, RETAINER_EXIT],
+    ["RO", roTermsPage, legalEntityLine, RO_VAT_LINE, RO_CREDIT_TERMS, RO_RETAINER_EXIT],
   ] as const)(
     "%s covers identity, VAT, credit, advance, retainer exit and liability",
-    (_l, page, id, vat, credit) => {
+    (_l, page, id, vat, credit, exit) => {
       const t = text(page);
       expect(t).toContain(id);
       expect(t).toContain(vat);
       expect(t).toContain(credit);
       expect(t).toMatch(/50%/);
-      expect(t).toMatch(/30 (days'|de zile)/);
+      expect(t).toContain(exit);
       expect(t).toMatch(/1355/);
       expect(t).toMatch(/merge-ready|gata de merge/);
     },
@@ -75,7 +75,7 @@ describe("guarantee windows", () => {
         .filter((f) => /securitate/i.test(f.question))
         .map((f) => f.answer),
     ];
-    expect(en.filter((s) => /within 90 days of handoff/.test(s))).toHaveLength(
+    expect(en.filter((s) => /90 days (of|from that PR's) handoff/.test(s))).toHaveLength(
       4,
     );
     expect(ro.filter((s) => /90 de zile de la predare/.test(s))).toHaveLength(

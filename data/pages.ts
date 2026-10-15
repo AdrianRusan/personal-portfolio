@@ -1,6 +1,7 @@
 import {
   BOOKING_URL,
   CONTACT_EMAIL,
+  CREDIT_DAYS,
   CREDIT_TERMS,
   GUARANTEE,
   HARNESS_GUARANTEE_DAYS,
@@ -8,6 +9,7 @@ import {
   LEGAL_ENTITY,
   LEDGER_PROOF,
   NOW_BOARD,
+  RETAINER_EXIT,
   SECURITY_GUARANTEE_DAYS,
   VAT_LINE,
   callSteps,
@@ -25,6 +27,7 @@ import {
 import {
   RO_CREDIT_TERMS,
   RO_GUARANTEE,
+  RO_RETAINER_EXIT,
   RO_TEARDOWN_EMAIL,
   RO_VAT_LINE,
 } from "@/data/ro";
@@ -287,12 +290,12 @@ PFA înregistrat în România. Facturez în EUR; în USD la cerere.`,
 
 // #152 R6: the terms every engagement runs on. Draft: a lawyer reviews it
 // before merge. Each term restates what /services already promises, plus the
-// liability cap and the 50% advance on fixed-price work.
+// liability cap.
 export const termsPage: ProsePage = {
   path: "/terms",
   title: "Terms",
   description:
-    "The terms every engagement with Adrian Rusan runs on: what merge-ready means, payment and the 50% advance, VAT, the 30-day credit, the guarantees, retainer exit and liability.",
+    `The terms every engagement with Adrian Rusan runs on: what merge-ready means, payment and the 50% advance, VAT, the ${CREDIT_DAYS}-day credit, the guarantees, retainer exit and liability.`,
   lead: "The terms every engagement runs on. A written proposal for your project can change them, and where it does, the proposal wins.",
   updated: "15 October 2026",
   sections: [
@@ -321,18 +324,18 @@ A Romanian-registered business (PFA). Invoiced in EUR; USD on request.`,
     },
     {
       heading: "Guarantees",
-      body: `- **Security**: if an in-scope vulnerability turns up in a PR I marked reviewed within ${SECURITY_GUARANTEE_DAYS} days of handoff, I fix it free and re-review the batch around it.
+      body: `- **Security**: if, within ${SECURITY_GUARANTEE_DAYS} days of handoff, an in-scope vulnerability turns up in a PR I marked reviewed, I fix it free and re-review the batch around it.
 - **First PR**: ${GUARANTEE}
 - **Agent Fleet Setup**: if your team hasn't shipped a reviewed PR through the setup by the end, the sessions continue free until they have, within ${HARNESS_GUARANTEE_DAYS} days of handoff.
 - **Retainer, month 1**: if month 1 misses the pace we agreed, you can stop there and owe nothing more.`,
     },
     {
       heading: "Ending a retainer",
-      body: "Three months to start, then month to month with 30 days' notice.",
+      body: RETAINER_EXIT,
     },
     {
       heading: "Liability",
-      body: "My total liability for an engagement is capped at the fees you paid for that engagement. The cap doesn't cover damage caused with intent or through gross negligence, which Romanian law doesn't allow to be limited (Civil Code art. 1355).",
+      body: "My total liability for an engagement is capped at the fees you paid for that engagement. The cap doesn't apply where Romanian law doesn't allow a limit: damage caused with intent or through gross negligence, and harm to a person's physical or mental integrity or health (Civil Code art. 1355).",
     },
   ],
 };
@@ -341,7 +344,7 @@ export const roTermsPage: ProsePage = {
   path: "/ro/termeni",
   title: "Termeni și condiții",
   description:
-    "Termenii pe care rulează orice colaborare cu Adrian Rusan: ce înseamnă gata de merge, plata și avansul de 50%, TVA, creditul de 30 de zile, garanțiile, ieșirea din retainer și răspunderea.",
+    `Termenii pe care rulează orice colaborare cu Adrian Rusan: ce înseamnă gata de merge, plata și avansul de 50%, TVA, creditul de ${CREDIT_DAYS} de zile, garanțiile, ieșirea din retainer și răspunderea.`,
   lead: "Termenii pe care rulează orice colaborare. O ofertă scrisă pentru proiectul tău îi poate schimba, iar acolo unde o face, oferta are prioritate.",
   updated: "15 octombrie 2026",
   sections: [
@@ -377,11 +380,11 @@ PFA înregistrat în România. Facturez în EUR; în USD la cerere.`,
     },
     {
       heading: "Ieșirea din retainer",
-      body: "Trei luni la început, apoi lună de lună, cu preaviz de 30 de zile.",
+      body: RO_RETAINER_EXIT,
     },
     {
       heading: "Răspundere",
-      body: "Răspunderea mea totală pentru o colaborare e limitată la sumele pe care mi le-ai plătit pentru ea. Limita nu se aplică prejudiciilor cauzate cu intenție sau din culpă gravă, pe care legea română nu permite să le limitez (art. 1355 Cod civil).",
+      body: "Răspunderea mea totală pentru o colaborare e limitată la sumele pe care mi le-ai plătit pentru ea. Limita nu se aplică acolo unde legea română nu permite o limită: prejudiciile cauzate cu intenție sau din culpă gravă și cele aduse integrității fizice sau psihice ori sănătății unei persoane (art. 1355 Cod civil).",
     },
   ],
 };

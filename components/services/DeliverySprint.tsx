@@ -103,7 +103,7 @@ const en = {
   guarantees: [
     {
       title: "Security",
-      body: `Every PR gets a documented security review before you see it. If an in-scope vulnerability turns up in a PR I marked reviewed within ${SECURITY_GUARANTEE_DAYS} days of handoff, I fix it free and re-review the batch around it.`,
+      body: `Every PR gets a documented security review before you see it. If, within ${SECURITY_GUARANTEE_DAYS} days of handoff, an in-scope vulnerability turns up in a PR I marked reviewed, I fix it free and re-review the batch around it.`,
       link: { label: "Read the terms", href: "/terms" },
     },
     {

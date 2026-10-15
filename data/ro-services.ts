@@ -27,6 +27,7 @@ import {
   roTierNames,
   roTiers,
   RO_TEARDOWN_EMAIL,
+  RO_RETAINER_EXIT,
   RO_VAT_LINE,
 } from "@/data/ro";
 
@@ -271,7 +272,7 @@ export const roRetainer: RetainerCopy = {
   terms: [
     "Volumul lunar are o limită. Ce depășește se mută în luna următoare sau într-un sprint suplimentar.",
     "On-call 24/7 nu e inclus. Se poate adăuga separat, cu preț separat.",
-    "Trei luni la început, apoi lună de lună, cu preaviz de 30 de zile.",
+    RO_RETAINER_EXIT,
   ],
 };
 
@@ -321,7 +322,7 @@ export const roServicesPageFaq: ServicesFaqCopy = {
       question:
         "Agenții nesupravegheați livrează vulnerabilități. Cum tratezi securitatea?",
       answer:
-        `Așa e. ${RO_VERACODE_LINE} De aceea securitatea e prima trecere din fiecare review: injection, autentificare, secrete, controlul accesului. Pe propria mea rulare de 30 de PR-uri, un repo fără teste, review-ul a prins 3 căi de shell injection din input-ul cererii înainte de merge. Ce îmi scapă din aria review-ului în cel mult ${SECURITY_GUARANTEE_DAYS} de zile de la predare e acoperit de garanția de securitate din termeni.`,
+        `Așa e. ${RO_VERACODE_LINE} De aceea securitatea e prima trecere din fiecare review: injection, autentificare, secrete, controlul accesului. Pe propria mea rulare de 30 de PR-uri, un repo fără teste, review-ul a prins 3 căi de shell injection din input-ul cererii înainte de merge. Dacă ceva din aria review-ului mi-a scăpat și iese la iveală în cel mult ${SECURITY_GUARANTEE_DAYS} de zile de la predare, e acoperit de garanția de securitate din termeni.`,
     },
     {
       question:
@@ -348,7 +349,7 @@ export const roServicesPageFaq: ServicesFaqCopy = {
       question:
         "Cum funcționează plata, cine facturează și cine plătește consumul de LLM și API?",
       answer:
-        `Fiecare preț e fix înainte să înceapă munca. ${RO_VAT_LINE} Facturez în EUR prin PFA-ul meu, înregistrat în România; în USD la cerere. Sesiunea de arhitectură se plătește în avans. Sprinturile: 50% ca să rezervi slotul și 50% la predare; PR-ul revizuit se plătește după livrare, iar retainerele se facturează lunar. Consumul de LLM/API e inclus în prețul fix pentru sprinturi și PR-urile revizuite. Agent Fleet Setup rulează pe licențele Claude Code ale echipei tale.`,
+        `Fiecare preț e fix înainte să înceapă munca. ${RO_VAT_LINE} Facturez în EUR prin PFA-ul meu, înregistrat în România; în USD la cerere. Sesiunea de arhitectură se plătește în avans. Proiectele cu preț fix: 50% ca să rezervi slotul și 50% la predare; PR-ul revizuit se plătește după livrare, iar retainerele se facturează lunar. Consumul de LLM/API e inclus în prețul fix pentru sprinturi și PR-urile revizuite. Agent Fleet Setup rulează pe licențele Claude Code ale echipei tale.`,
     },
     {
       question:
@@ -398,7 +399,7 @@ export const roServicesFaq: ServicesFaqCopy = {
     },
     {
       question: "Cum funcționează plata?",
-      answer: `Fiecare preț e fix în EUR înainte să înceapă munca. ${RO_VAT_LINE} Sesiunea de arhitectură se plătește în avans. Sprinturile: 50% ca să rezervi slotul, 50% la predare. PR-ul revizuit se plătește doar dacă e gata de merge la standardele tale. Retainerele se facturează lunar. ${RO_CREDIT_TERMS}`,
+      answer: `Fiecare preț e fix în EUR înainte să înceapă munca. ${RO_VAT_LINE} Sesiunea de arhitectură se plătește în avans. Proiectele cu preț fix: 50% ca să rezervi slotul, 50% la predare. PR-ul revizuit se plătește doar dacă e gata de merge la standardele tale. Retainerele se facturează lunar. ${RO_CREDIT_TERMS}`,
     },
     {
       question: "Ce se întâmplă dacă nu merge?",

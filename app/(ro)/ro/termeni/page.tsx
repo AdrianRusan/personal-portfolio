@@ -1,20 +1,27 @@
-import type { Metadata } from "next";
 import { PageShell } from "@/components/PageShell";
-import { ProsePage } from "@/components/ProsePage";
+import { ProsePage, proseMetadata } from "@/components/ProsePage";
 import { roTermsPage } from "@/data/pages";
+import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 
-export const metadata: Metadata = {
-  title: roTermsPage.title,
-  description: roTermsPage.description,
-  alternates: {
-    canonical: "/ro/termeni",
-    languages: { en: "/terms", ro: "/ro/termeni", "x-default": "/terms" },
-  },
-};
+export const metadata = proseMetadata(
+  roTermsPage,
+  { en: "/terms", ro: "/ro/termeni" },
+  true,
+);
 
 export default function RoTermsPage() {
   return (
     <PageShell ro hideFooterCta hideEmailCapture>
+      <JsonLd
+        data={pageJsonLd({
+          path: roTermsPage.path,
+          name: roTermsPage.title,
+          description: roTermsPage.description,
+          crumbs: [{ name: "Termeni", path: roTermsPage.path }],
+          inLanguage: "ro-RO",
+          home: { name: "Acasă", path: "/ro" },
+        })}
+      />
       <ProsePage page={roTermsPage} updatedLabel="Ultima actualizare" />
     </PageShell>
   );

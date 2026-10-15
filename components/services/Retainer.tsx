@@ -1,5 +1,5 @@
 import { BookingLink } from "@/components/BookingLink";
-import { SECURITY_GUARANTEE_DAYS } from "@/data";
+import { RETAINER_EXIT, SECURITY_GUARANTEE_DAYS } from "@/data";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ctaSecondary } from "@/components/ui/button";
 import { Fold } from "./Fold";
@@ -31,12 +31,12 @@ const en = {
     },
   ],
   // C32: the full security guarantee is printed once, in the sprint section.
-  securityNote: `Every retainer PR also carries the sprint's security guarantee, within ${SECURITY_GUARANTEE_DAYS} days of handoff.`,
+  securityNote: `Every retainer PR also carries the sprint's security guarantee, for ${SECURITY_GUARANTEE_DAYS} days from that PR's handoff.`,
   termsHeading: "Terms",
   terms: [
     "Monthly volume has a cap. Overflow moves to next month or a top-up sprint.",
     "24/7 on-call isn't included. It can be added as a separate line item.",
-    "Three months to start, then month to month with 30 days' notice.",
+    RETAINER_EXIT,
   ],
 };
 
