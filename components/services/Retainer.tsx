@@ -1,4 +1,5 @@
 import { BookingLink } from "@/components/BookingLink";
+import { RETAINER_EXIT, SECURITY_GUARANTEE_DAYS } from "@/data";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ctaSecondary } from "@/components/ui/button";
 import { Fold } from "./Fold";
@@ -30,17 +31,17 @@ const en = {
     },
   ],
   // C32: the full security guarantee is printed once, in the sprint section.
-  securityNote:
-    "Every retainer PR also carries the sprint's security guarantee.",
+  securityNote: `Every retainer PR also carries the sprint's security guarantee, for ${SECURITY_GUARANTEE_DAYS} days from that PR's handoff.`,
   termsHeading: "Terms",
   terms: [
     "Monthly volume has a cap. Overflow moves to next month or a top-up sprint.",
     "24/7 on-call isn't included. It can be added as a separate line item.",
-    "Three months to start, then month to month with 30 days' notice.",
+    RETAINER_EXIT,
   ],
 };
 
 export type RetainerCopy = typeof en;
+export { en as retainerCopy };
 
 // R2-F14: price and deliverables side by side, so neither leaves half a row empty.
 export const Retainer = ({ copy = en }: { copy?: RetainerCopy }) => {

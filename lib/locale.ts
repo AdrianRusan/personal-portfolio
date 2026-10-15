@@ -6,6 +6,7 @@ const pairs: [en: string, ro: string][] = [
   ["/services", "/ro/servicii"],
   ["/about", "/ro/despre"],
   ["/contact", "/ro/contact"],
+  ["/terms", "/ro/termeni"],
 ];
 
 export const localeOf = (pathname: string): Locale =>

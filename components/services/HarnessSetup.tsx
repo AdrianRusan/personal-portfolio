@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BookingLink } from "@/components/BookingLink";
+import { HARNESS_GUARANTEE_DAYS } from "@/data";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ctaSecondary } from "@/components/ui/button";
 import { getPosts } from "@/lib/blog";
@@ -36,10 +37,11 @@ const en = {
   guaranteeHeading: "Guarantee",
   guaranteeLead: "Working setup.",
   guaranteeBody:
-    "By the end, your team has shipped at least one reviewed PR through the setup themselves, with me present. If they haven't, the sessions continue free until they have.",
+    `By the end, your team has shipped at least one reviewed PR through the setup themselves, with me present. If they haven't, the sessions continue free until they have, within ${HARNESS_GUARANTEE_DAYS} days of handoff.`,
 };
 
 export type HarnessSetupCopy = typeof en;
+export { en as harnessSetupCopy };
 
 export const HarnessSetup = async ({
   copy = en,
