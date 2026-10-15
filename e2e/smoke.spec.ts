@@ -87,6 +87,7 @@ for (const route of routes) {
 
     await expect(page.locator('main')).toHaveCount(1);
     await expect(page.locator('footer')).toHaveCount(1);
+    await expect(page.locator('footer')).toContainText(legalEntityLine);
     expect(await page.locator('img:not([alt])').count()).toBe(0);
 
     // C01: a "Book…" link never opens an email client (EN "Book", RO "Programează"/"Rezervă").
@@ -183,7 +184,8 @@ for (const path of ['/about', '/blog', '/does-not-exist', '/', '/ro', '/ro/despr
   });
 }
 
-// #149: the PFA identity (Law 365/2002 art. 5) sits in every footer, EN and RO.
+// #149: the PFA identity (Law 365/2002 art. 5) on one page per layout, EN and RO;
+// the route loop above checks every route.
 for (const path of ['/', '/services', '/ro', '/ro/contact']) {
   test(`${path} footer shows the PFA identity`, async ({ page }) => {
     await page.goto(path);
