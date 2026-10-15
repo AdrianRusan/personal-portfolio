@@ -1,10 +1,15 @@
 import {
   BOOKING_URL,
   CONTACT_EMAIL,
+  CREDIT_TERMS,
+  GUARANTEE,
+  HARNESS_GUARANTEE_DAYS,
   HARNESS_PROOF,
   LEGAL_ENTITY,
   LEDGER_PROOF,
   NOW_BOARD,
+  SECURITY_GUARANTEE_DAYS,
+  VAT_LINE,
   callSteps,
   legalEntityLine,
   earlierTestimonial,
@@ -17,7 +22,12 @@ import {
   roCallFaq,
   roWorkExperience,
 } from "@/data/ro-home";
-import { RO_TEARDOWN_EMAIL } from "@/data/ro";
+import {
+  RO_CREDIT_TERMS,
+  RO_GUARANTEE,
+  RO_TEARDOWN_EMAIL,
+  RO_VAT_LINE,
+} from "@/data/ro";
 
 // Text-only pages (/privacy, /about, /contact and the RO twins). Bodies are
 // Markdown: components/ProsePage renders them, and lib/markdown serves the same
@@ -270,6 +280,107 @@ export const roContactPage: ProsePage = {
       body: `${legalEntityLine}
 
 PFA înregistrat în România. Facturez în EUR; în USD la cerere.`,
+    },
+  ],
+};
+
+// #152 R6: the terms every engagement runs on. Draft: a lawyer reviews it
+// before merge. Each term restates what /services already promises, plus the
+// liability cap and the 50% advance on fixed-price work.
+export const termsPage: ProsePage = {
+  path: "/terms",
+  title: "Terms",
+  description:
+    "The terms every engagement with Adrian Rusan runs on: what merge-ready means, payment and the 50% advance, VAT, the 30-day credit, the guarantees, retainer exit and liability.",
+  lead: "The terms every engagement runs on. A written proposal for your project can change them, and where it does, the proposal wins.",
+  updated: "15 October 2026",
+  sections: [
+    {
+      heading: "Who provides the services",
+      body: `${legalEntityLine}
+
+A Romanian-registered business (PFA). Invoiced in EUR; USD on request.`,
+    },
+    {
+      heading: "What merge-ready means",
+      body: "A PR is merge-ready when it does what its ticket says, passes the checks your repo already runs (typecheck, lint, tests or CI, where they exist), and comes with my written review notes, security pass included. The standard is yours: if you wouldn't merge it as it stands, it isn't merge-ready. The merge and the deploy stay with your team.",
+    },
+    {
+      heading: "Prices and payment",
+      body: `Every price is fixed in writing before work starts. ${VAT_LINE}
+
+- **Fixed-price work** (sprints, audits, automations, Agent Fleet Setup): 50% in advance to book the slot, 50% on handoff.
+- **Architecture Session**: paid in full when you book.
+- **Reviewed PR**: paid after delivery, and only if it's merge-ready.
+- **Retainer**: billed monthly.`,
+    },
+    {
+      heading: "Credit toward the next tier",
+      body: `${CREDIT_TERMS} The invoice for the new tier shows its full price, with what you already paid deducted on a separate line.`,
+    },
+    {
+      heading: "Guarantees",
+      body: `- **Security**: if an in-scope vulnerability turns up in a PR I marked reviewed within ${SECURITY_GUARANTEE_DAYS} days of handoff, I fix it free and re-review the batch around it.
+- **First PR**: ${GUARANTEE}
+- **Agent Fleet Setup**: if your team hasn't shipped a reviewed PR through the setup by the end, the sessions continue free until they have, within ${HARNESS_GUARANTEE_DAYS} days of handoff.
+- **Retainer, month 1**: if month 1 misses the pace we agreed, you can stop there and owe nothing more.`,
+    },
+    {
+      heading: "Ending a retainer",
+      body: "Three months to start, then month to month with 30 days' notice.",
+    },
+    {
+      heading: "Liability",
+      body: "My total liability for an engagement is capped at the fees you paid for that engagement. The cap doesn't cover damage caused with intent or through gross negligence, which Romanian law doesn't allow to be limited (Civil Code art. 1355).",
+    },
+  ],
+};
+
+export const roTermsPage: ProsePage = {
+  path: "/ro/termeni",
+  title: "Termeni și condiții",
+  description:
+    "Termenii pe care rulează orice colaborare cu Adrian Rusan: ce înseamnă gata de merge, plata și avansul de 50%, TVA, creditul de 30 de zile, garanțiile, ieșirea din retainer și răspunderea.",
+  lead: "Termenii pe care rulează orice colaborare. O ofertă scrisă pentru proiectul tău îi poate schimba, iar acolo unde o face, oferta are prioritate.",
+  updated: "15 octombrie 2026",
+  sections: [
+    {
+      heading: "Cine prestează serviciile",
+      body: `${legalEntityLine}
+
+PFA înregistrat în România. Facturez în EUR; în USD la cerere.`,
+    },
+    {
+      heading: "Ce înseamnă gata de merge",
+      body: "Un PR e gata de merge când face ce cere tichetul, trece de verificările pe care repo-ul tău le rulează deja (typecheck, lint, teste sau CI, acolo unde există) și vine cu notele mele de review în scris, inclusiv trecerea de securitate. Standardul e al tău: dacă nu l-ai face merge așa cum e, nu e gata de merge. Merge-ul și deploy-ul rămân la echipa ta.",
+    },
+    {
+      heading: "Prețuri și plată",
+      body: `Fiecare preț e fix, în scris, înainte să înceapă munca. ${RO_VAT_LINE}
+
+- **Proiectele cu preț fix** (sprinturi, audituri, automatizări, Agent Fleet Setup): 50% în avans ca să rezervi slotul, 50% la predare.
+- **Sesiunea de arhitectură**: se plătește integral la rezervare.
+- **PR-ul revizuit**: se plătește după livrare și doar dacă e gata de merge.
+- **Retainerul**: se facturează lunar.`,
+    },
+    {
+      heading: "Creditul pentru nivelul următor",
+      body: `${RO_CREDIT_TERMS} Pe factura pentru noul nivel apare prețul întreg, iar ce ai plătit deja se scade pe un rând separat.`,
+    },
+    {
+      heading: "Garanții",
+      body: `- **Securitate**: dacă într-un PR marcat de mine ca revizuit apare o vulnerabilitate din aria review-ului în cel mult ${SECURITY_GUARANTEE_DAYS} de zile de la predare, o repar gratuit și refac review-ul pe lotul din jurul ei.
+- **Primul PR**: ${RO_GUARANTEE}
+- **Agent Fleet Setup**: dacă până la final echipa ta n-a livrat un PR revizuit prin setup, sesiunile continuă gratuit până se întâmplă, în cel mult ${HARNESS_GUARANTEE_DAYS} de zile de la predare.
+- **Retainer, luna 1**: dacă luna 1 nu atinge ritmul stabilit, te poți opri acolo fără să mai datorezi nimic.`,
+    },
+    {
+      heading: "Ieșirea din retainer",
+      body: "Trei luni la început, apoi lună de lună, cu preaviz de 30 de zile.",
+    },
+    {
+      heading: "Răspundere",
+      body: "Răspunderea mea totală pentru o colaborare e limitată la sumele pe care mi le-ai plătit pentru ea. Limita nu se aplică prejudiciilor cauzate cu intenție sau din culpă gravă, pe care legea română nu permite să le limitez (art. 1355 Cod civil).",
     },
   ],
 };

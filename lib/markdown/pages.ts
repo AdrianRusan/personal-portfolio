@@ -160,7 +160,8 @@ export const proseMd = (page: ProsePage) =>
   blocks(
     `# ${page.title}`,
     page.lead,
-    page.updated && `Last updated ${page.updated}`,
+    page.updated &&
+      `${page.path.startsWith("/ro") ? "Ultima actualizare" : "Last updated"} ${page.updated}`,
     ...(page.options ?? []).map(
       (o) => `## ${o.heading}\n\n${o.body} [${o.cta}](${o.href})`,
     ),

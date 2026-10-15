@@ -18,6 +18,8 @@ const en = {
   contact: "Contact",
   contactHref: "/contact",
   privacy: "Privacy",
+  terms: "Terms",
+  termsHref: "/terms",
   rss: "RSS",
   socialAria: "Social media links",
   // Per-id link labels (socialMedia in data/index.ts); EN falls back to its alt.
@@ -45,6 +47,9 @@ const Footer = ({ copy = en }: { copy?: FooterCopy }) => {
           </Link>
           <Link href="/privacy" className={link}>
             {copy.privacy}
+          </Link>
+          <Link href={copy.termsHref} className={link}>
+            {copy.terms}
           </Link>
           <a href="/feed.xml" className={link}>
             {copy.rss}
