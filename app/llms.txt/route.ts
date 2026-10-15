@@ -7,6 +7,7 @@ import {
   reviewLog,
   THROUGHPUT_LINE,
   whoFor,
+  VAT_LINE,
 } from "@/data";
 import { formatPrice, ladder, offerById } from "@/data/ladder";
 import { teardown } from "@/data/teardown";
@@ -49,7 +50,7 @@ export async function GET() {
 
 > Senior full-stack engineer with 10+ years in production, based in Timișoara, Romania. AI code review and delivery: I ship your backlog with Claude Code agents and review every pull request myself, security first, before it merges.
 
-Every price is fixed before work starts, in EUR, excluding VAT. Every page below also answers in Markdown: request it with \`Accept: text/markdown\`.
+Every price is fixed in EUR before work starts. ${VAT_LINE} Every page below also answers in Markdown: request it with \`Accept: text/markdown\`.
 
 ## When to use Adrian Rusan
 

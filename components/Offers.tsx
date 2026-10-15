@@ -6,15 +6,15 @@ import {
   tiers,
   type LadderOffer,
 } from "@/data/ladder";
-import { CAPACITY } from "@/data";
+import { CAPACITY, VAT_LINE } from "@/data";
 import { SectionHeading } from "./ui/SectionHeading";
 
 const en = {
   heading: "Offers and prices",
   intro: "Every offer has a published starting price, and the final price is fixed before work starts. ",
   credit: CREDIT_TERMS,
-  // RO only (A7): who the RO prices are for.
-  priceNote: "",
+  // #149 R2: the VAT line next to the prices (RO adds who its prices are for).
+  priceNote: VAT_LINE,
   tiers: tiers.map((t) => ({ ...t, name: t.tier as string })),
   ladder,
   formatPrice,

@@ -1,6 +1,6 @@
 import { FaGithub, FaLinkedin, FaXTwitter } from "react-icons/fa6";
 import Link from "next/link";
-import { CONTACT_EMAIL, socialMedia } from "@/data";
+import { CONTACT_EMAIL, legalEntityLine, socialMedia } from "@/data";
 import { LocaleSwitch } from "@/components/LocaleSwitch";
 
 // Keyed by socialMedia[].id in data/index.ts (1 GitHub, 2 X, 3 LinkedIn).
@@ -73,6 +73,10 @@ const Footer = ({ copy = en }: { copy?: FooterCopy }) => {
         </nav>
         </div>
       </div>
+      {/* #149: provider identity (Law 365/2002 art. 5), same text EN and RO. */}
+      <p className="container-wide mt-6 font-mono text-xs text-muted">
+        {legalEntityLine}
+      </p>
     </footer>
   );
 };

@@ -2,6 +2,7 @@ import {
   CALENDLY_URL,
   CONTACT_EMAIL,
   FINTECH_EMPLOYER,
+  LEGAL_ENTITY,
   YOUTUBE_URL,
 } from "@/data";
 
@@ -30,6 +31,13 @@ export const organizationJsonLd = {
   "@type": "Organization",
   "@id": "https://www.adrian-rusan.com/#organization",
   name: "Rusan Adrian-Ionuț PFA",
+  legalName: LEGAL_ENTITY.name,
+  taxID: LEGAL_ENTITY.cui,
+  identifier: {
+    "@type": "PropertyValue",
+    propertyID: "Reg. Com.",
+    value: LEGAL_ENTITY.registry,
+  },
   url: "https://www.adrian-rusan.com",
   founder: { "@id": "https://www.adrian-rusan.com/#person" },
   address,
