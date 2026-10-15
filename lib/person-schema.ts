@@ -10,10 +10,17 @@ import {
 // layout) so a jest test can check its shape — layouts may only export Next fields.
 const JOB_TITLE = "Senior full-stack engineer";
 
-// City level only (#64 R3): no street, no postal code, no phone.
+// City level only (#64 R3): no street, no postal code, no phone. The person
+// works from Timișoara; the PFA's registered seat is in București (#149; the
+// full seat is in the footer, decision 5).
 const address = {
   "@type": "PostalAddress",
   addressLocality: "Timișoara",
+  addressCountry: "RO",
+};
+const seat = {
+  "@type": "PostalAddress",
+  addressLocality: "București",
   addressCountry: "RO",
 };
 
@@ -40,7 +47,7 @@ export const organizationJsonLd = {
   },
   url: "https://www.adrian-rusan.com",
   founder: { "@id": "https://www.adrian-rusan.com/#person" },
-  address,
+  address: seat,
   contactPoint,
 };
 

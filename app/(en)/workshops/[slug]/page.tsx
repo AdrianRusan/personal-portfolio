@@ -12,7 +12,7 @@ import {
   perEngineer,
   type WorkshopSlug,
 } from "@/data/workshops";
-import { CONTACT_EMAIL, WORKFLOW_NUMBERS } from "@/data";
+import { CONTACT_EMAIL, VAT_LINE, WORKFLOW_NUMBERS } from "@/data";
 import { JsonLd, pageJsonLd } from "@/lib/page-schema";
 import { getPosts } from "@/lib/blog";
 
@@ -95,7 +95,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
             {w.intro}
           </p>
           <p className="text-sm text-body/80 mt-5">
-            {euro(w.price)} for the {w.length} · {perEngineer(w)} · EUR, ex-VAT
+            {euro(w.price)} for the {w.length} · {perEngineer(w)} · EUR. {VAT_LINE}
           </p>
           <div className="flex mt-6">
             <PrimaryCta
@@ -212,7 +212,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
       <ClosingBand
         id="workshop-book-heading"
         heading="Tell me your team size and a few dates that work"
-        body={`${euro(w.price)} for up to ${w.maxPeople} people, EUR, ex-VAT. I reply with the open dates and what to install beforehand.`}
+        body={`${euro(w.price)} for up to ${w.maxPeople} people, in EUR. ${VAT_LINE} I reply with the open dates and what to install beforehand.`}
       >
         <div className="flex mt-8">
           <PrimaryCta

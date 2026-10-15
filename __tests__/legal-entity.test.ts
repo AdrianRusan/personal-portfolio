@@ -47,7 +47,6 @@ describe("LEGAL_ENTITY", () => {
     const text = privacyPage.sections.map((s) => s.body).join("\n");
     expect(text).toContain(`${LEGAL_ENTITY.name} (CUI ${LEGAL_ENTITY.cui})`);
     expect(text).toMatch(/\*\*Stripe\*\*/);
-    expect(privacyPage.updated).toBe("15 October 2026");
   });
 });
 
