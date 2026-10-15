@@ -91,7 +91,7 @@ describe("getPostCta", () => {
   });
 
   it("keeps today's eyebrow wording", () => {
-    expect(offerEyebrow("audit")).toMatch(/^AI Audit · from €[\d,]+$/);
+    expect(offerEyebrow("audit")).toMatch(/^AI Code Audit · from €[\d,]+$/);
     expect(offerEyebrow("workshop")).toMatch(/^Team workshop · from €[\d,]+$/);
     expect(offerEyebrow("reviewed-pr")).toMatch(/^Reviewed PR · €[\d,]+$/);
   });

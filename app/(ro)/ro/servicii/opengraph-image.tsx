@@ -10,7 +10,7 @@ export default function Image() {
     eyebrow: "Prețuri în EUR, fără TVA",
     title: RO_SERVICES_TITLE,
     subtitle:
-      "Strategie, audit, workshop-uri, automatizări și sprinturi de livrare, cu fiecare PR revizuit de un inginer senior.",
+      "Sesiuni de arhitectură, audit de cod, workshop-uri, automatizări și sprinturi de livrare, cu fiecare PR revizuit de un inginer senior.",
     footerRight: "adrian-rusan.com/ro/servicii",
   });
 }

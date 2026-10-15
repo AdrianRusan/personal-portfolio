@@ -34,15 +34,15 @@ export const legalEntityLine = `${LEGAL_ENTITY.name} · CUI ${LEGAL_ENTITY.cui} 
 // No reverse-charge wording (D5).
 export const VAT_LINE = "Prices exclude VAT; VAT is added where it applies.";
 
-// Paid 1:1 advice call (€200). null until Adi creates the paid Calendly event
-// (ADI-3); set it and every €200 CTA switches from email to booking, label too.
+// Paid Architecture Session (€200, ends in a written build plan). null until the
+// booking link exists; set it and every €200 CTA switches from email to booking.
 export const STRATEGY_CALL_CALENDLY_URL: string | null = null;
 export const STRATEGY_CALL_URL =
   STRATEGY_CALL_CALENDLY_URL ??
-  `mailto:${CONTACT_EMAIL}?subject=AI%20Strategy%20Call%20(%E2%82%AC200)`;
+  `mailto:${CONTACT_EMAIL}?subject=Architecture%20Session%20(%E2%82%AC200)`;
 export const STRATEGY_CALL_CTA = STRATEGY_CALL_CALENDLY_URL
-  ? "Book the €200 call"
-  : "Email me to book the €200 call";
+  ? "Book the €200 session"
+  : "Email me to book the €200 session";
 
 // Redacted sample of the sprint's Security Report (ADI-6), from my own 30-PR
 // run. Set to null to hide every "See a sample report" link.
@@ -221,7 +221,7 @@ export const faqs: { question: string; answer: string }[] = [
   },
   {
     question: "How do payment terms work?",
-    answer: `Every price is fixed in EUR before work starts. ${VAT_LINE} The strategy call is paid up front. Sprints are 50% to book the slot and 50% on handoff. The Reviewed PR is paid only if it's merge-ready to your standard. Retainers bill monthly. ${CREDIT_TERMS}`,
+    answer: `Every price is fixed in EUR before work starts. ${VAT_LINE} The Architecture Session is paid up front. Sprints are 50% to book the slot and 50% on handoff. The Reviewed PR is paid only if it's merge-ready to your standard. Retainers bill monthly. ${CREDIT_TERMS}`,
   },
   {
     question: "What if it doesn't work out?",

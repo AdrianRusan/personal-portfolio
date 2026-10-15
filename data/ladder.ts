@@ -13,11 +13,12 @@ import {
 
 export { CREDIT_TERMS };
 
-export type Tier = "Advise" | "Train" | "Build" | "Ship";
+// #150 R4: CAEN 6210 wording. The keys are the EN labels and the JSON-LD serviceType.
+export type Tier = "Plan" | "Set up" | "Build" | "Ship";
 
 export const tiers: { tier: Tier; tagline: string }[] = [
-  { tier: "Advise", tagline: "An answer to one question, or a ranked list of fixes" },
-  { tier: "Train", tagline: "Your team learns the workflow hands-on" },
+  { tier: "Plan", tagline: "A written build plan, or ranked findings with the top fix shipped" },
+  { tier: "Set up", tagline: "Your team learns the workflow hands-on" },
   {
     tier: "Build",
     tagline: "One automation or agent setup, built and handed over",
@@ -78,10 +79,11 @@ const perPrLabel = (sizes: SprintSize[]) => {
 const offers: LadderOffer[] = [
   {
     id: "strategy-call",
-    tier: "Advise",
-    name: "AI Strategy Call",
-    // A1 F4: listed on /services only; stated on its own terms, not by contrast.
-    summary: "One hour on your own AI question, with a written summary within one working day.",
+    tier: "Plan",
+    name: "Architecture Session",
+    // A1 F4: listed on /services only. #150: matches the live Cal.com event text.
+    summary:
+      "One hour on what you want built. Within one working day you get a written build plan: architecture, tooling, cost estimate. If we start the build within 30 days, the €200 counts toward it.",
     prices: [{ amount: 200 }],
     duration: "1 h",
     assurance: "Fixed price, paid up front.",
@@ -89,10 +91,10 @@ const offers: LadderOffer[] = [
   },
   {
     id: "audit",
-    tier: "Advise",
-    name: "AI Audit",
+    tier: "Plan",
+    name: "AI Code Audit",
     summary:
-      "Your AI-written or vibe-coded code, LLM workflow or token spend, reviewed: security gaps, cost per merged PR, cache use and wasted agent runs, in a ranked report of what to fix first.",
+      "Your AI-written or vibe-coded code, LLM workflow or token spend, reviewed: security gaps, cost per merged PR, cache use and wasted agent runs. You get the findings ranked by what to fix first, plus one PR that fixes the top finding, scoped on the findings call.",
     // D3 (Adi, 2026-10-12): €900 → €1,500. RO is 55% of EN: 850 € (data/ro.ts).
     prices: [{ amount: 1500, from: true }],
     duration: "2–3 days",
@@ -104,7 +106,7 @@ const offers: LadderOffer[] = [
   },
   {
     id: "workshop",
-    tier: "Train",
+    tier: "Set up",
     name: "Team workshop",
     summary:
       "Claude Code, parallel agents, a rules file and review gates, hands-on. Your team leaves with its first rules file and a worktree-per-agent setup running on your repo. Up to 10 people.",
