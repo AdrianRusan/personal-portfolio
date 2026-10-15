@@ -1,11 +1,11 @@
 import {
-  CALENDLY_URL,
+  BOOKING_URL,
   CREDIT_DAYS,
   CREDIT_TERMS,
   STRATEGY_CALL_CTA,
   STRATEGY_CALL_URL,
 } from "@/data";
-import { calendlyUrl, isCalendly } from "@/lib/calendly";
+import { bookingUrl } from "@/lib/booking";
 import {
   workshops,
   workshopServiceId,
@@ -50,7 +50,7 @@ export interface LadderOffer {
 }
 
 // Delivery Sprint sizes (Pilot, Standard, Scale): price and PR count. One
-// source for the pricing table, the per-PR band and the Calendly prefill.
+// source for the pricing table, the per-PR band and the booking prefill.
 export interface SprintSize {
   price: number;
   prs: [number, number];
@@ -103,7 +103,7 @@ const offers: LadderOffer[] = [
     duration: "2–3 days",
     assurance: "Price agreed before I start.",
     ctas: [
-      { label: "Scope an audit", href: CALENDLY_URL },
+      { label: "Scope an audit", href: BOOKING_URL },
       { label: "Or start with a free teardown", href: "/teardown" },
     ],
   },
@@ -136,7 +136,7 @@ const offers: LadderOffer[] = [
     assurance:
       "Fixed price before I start; evals prove it works before handoff.",
     ctas: [
-      { label: "Scope an automation", href: CALENDLY_URL },
+      { label: "Scope an automation", href: BOOKING_URL },
       { label: "See the fact gate I built", href: "/work/honesty-gate" },
     ],
   },
@@ -194,8 +194,9 @@ const offers: LadderOffer[] = [
 // both ranges: "1–2 wk" for the "from" price, "larger scopes 2–3 wk" for Scale.
 export const sprintDurations = ["~1 wk", "1–2 wk", "2–3 wk"];
 
-// C44: booking links pre-fill Calendly's first answer with the offer, so the
-// call starts from what the visitor clicked (Calendly's a1 parameter).
+// C44: Scoping Call links pre-fill the booking form's `topic` with the offer,
+// so the call starts from what the visitor clicked. The paid sessions ask what
+// you want built, so they stay unprefilled.
 export const withOfferPrefill = (
   list: LadderOffer[],
   format: (offer: LadderOffer) => string,
@@ -203,11 +204,11 @@ export const withOfferPrefill = (
   list.map((offer) => ({
     ...offer,
     ctas: offer.ctas.map((cta) =>
-      isCalendly(cta.href)
+      cta.href === BOOKING_URL
         ? {
             ...cta,
-            href: calendlyUrl(cta.href, {
-              a1: `${offer.name} (${format(offer)})`,
+            href: bookingUrl(cta.href, {
+              topic: `${offer.name} (${format(offer)})`,
             }),
           }
         : cta,

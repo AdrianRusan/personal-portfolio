@@ -22,7 +22,7 @@ State as of 2026-10-14 (main after PRs #34–#131).
 - **Route groups**: `app/(en)/` (/, about, blog, contact, privacy, services, teardown, work, workshops) and `app/(ro)/ro/` (/ro, despre, contact, servicii). Each group has its own root layout; `app/root-shell.tsx` is shared. `app/global-not-found.tsx` handles unmatched URLs.
 - **Markdown negotiation**: `middleware.ts` rewrites any page request with `Accept: text/markdown` to `app/api/markdown/[[...path]]`. HTML responses get `Vary` with `Accept` appended (keep `HTML_VARY` in sync with `next.config.mjs`). Unknown paths get a Markdown 404.
 - **`lib/markdown/`**: builds each page's Markdown from the same copy objects the components export (`*Copy`) and from `data/*`, so HTML and Markdown can't drift. `app/llms.txt/route.ts` is generated from site data too.
-- **Single sources in `data/`**: `index.ts` (CALENDLY_URL, CONTACT_EMAIL, STRATEGY_CALL_*, FINTECH_EMPLOYER, WORKFLOW_NUMBERS/LEDGER_PROOF, CAPACITY, GUARANTEE, faqs, testimonials, workExperience), `ladder.ts` (offers + prices), `work.ts` (case studies), `workshops.ts`, `teardown.ts`, `pages.ts` (about/contact/privacy prose), `nav.ts`, `ro*.ts` (RO copy, `RO_STRATEGY_CALL_*`). Change copy there, never inline in components.
+- **Single sources in `data/`**: `index.ts` (BOOKING_URL, STRATEGY_CALL_BOOKING_URL, LEGAL_ENTITY, VAT_LINE, CONTACT_EMAIL, STRATEGY_CALL_*, FINTECH_EMPLOYER, WORKFLOW_NUMBERS/LEDGER_PROOF, CAPACITY, GUARANTEE, faqs, testimonials, workExperience), `ladder.ts` (offers + prices), `work.ts` (case studies), `workshops.ts`, `teardown.ts`, `pages.ts` (about/contact/privacy prose), `nav.ts`, `ro*.ts` (RO copy, `RO_STRATEGY_CALL_*`). Change copy there, never inline in components.
 - **Content**: blog in `content/blog/*.mdx`, case studies in `content/work/`. `lib/blog.ts` gates posts by `published` + `isLive(date)`.
 - **API**: `app/api/subscribe` (Resend), `app/api/teardown` (form), `app/api/markdown`.
 - **Claim tests** (jest, `__tests__/`): guard the honesty rules below.
@@ -34,14 +34,14 @@ State as of 2026-10-14 (main after PRs #34–#131).
 - **E2E**: `e2e/smoke.spec.ts` (Playwright), every route at 1440 and 390, against `npm start` on :3045. Run `npm run build` first, then `npm run e2e`.
 
 ## Active Decisions
-- **Site goal**: lead-gen. Convert visitors into Calendly scoping calls; judge changes by that.
+- **Site goal**: lead-gen. Convert visitors into Cal.com scoping calls; judge changes by that.
 - **Honesty / no invented proof**: every number and claim on the site must trace to a real source. No invented clients, quotes, metrics or results. When proof is missing, leave the slot out rather than fill it.
 - **One number source per fact**:
   - Workflow numbers come only from `WORKFLOW_NUMBERS` (the 66-day post: 463 sessions, 335 hours, 4,920 commits, 928 PRs opened as an upper bound, 66 days, 6 Aug–10 Oct 2026).
   - 30-PR run canonical facts: the repo had **no tests and no CI**; review caught **3** shell-injection paths from request input before merge; a 2026-10-12 re-audit found **5** security misses (#98, #109, #117, stored XSS in #111 and #121; fixes in taco-console#126), listed only in the case study, never "1 missed"; the run took **under three days**. Never say "tests passed", "CI was green", "2.5 days" or "caught all of them". Source: `~/Code/personal/goals/2026-10-11-30pr-canonical-facts.md`.
 - **Bono**: named as a client of the PFA (`FINTECH_EMPLOYER`), title Founding Engineer (contract, Sep 2024 – present), LinkedIn-level detail only. No product details, numbers or client names from that work. The receipt project never appears on the site (test-enforced).
 - **Names**: no client names beyond what the site already shows. Never name the agent-built SaaS client or its people anywhere, docs included (this repo is public; the banned-name list lives in the private brief `~/Code/personal/goals/2026-10-10-1-portfolio-polish-sell.md`, R1). No compensation or equity details anywhere.
-- **Calendly is on the FREE plan**: only one event can be active, the Scoping Call (`CALENDLY_URL`, slug `new-meeting`). Creating or activating another event deactivates it and breaks every booking CTA. Paid calls (€200 EN, 110 € RO) use `mailto:` until the Stripe payment links exist (workshops are `mailto:` too); set `STRATEGY_CALL_CALENDLY_URL` / `RO_STRATEGY_CALL_CALENDLY_URL` then and the CTAs switch.
+- **Booking is Cal.com, free plan, 3 events** (#151): Scoping Call (`BOOKING_URL`, `scoping-call`, free, 30 min), Architecture Session (`STRATEGY_CALL_BOOKING_URL`, `architecture-session`, €200) and the hidden Sesiune de arhitectură (`RO_STRATEGY_CALL_BOOKING_URL`, `sesiune-arhitectura`, 110 EUR); Stripe takes the paid ones at booking. Prefill is `?topic=` on the Scoping Call only; the analytics event stays `calendly_click`. `isBookingUrl` (`lib/booking.ts`) must match `cal.com`, or prefill and UTMs stop silently. Calendly is deactivated by Adi after deploy; until then its free plan allows one active event, so never create or activate one. Workshops stay `mailto:` (CAEN 8559 pending).
 - **Testimonials**: four current quotes in `data/index.ts` `testimonials` (shown on `/`, `/services` and RO twins), plus `earlierTestimonial` (Tim Claes, 2022) on `/about` and `/ro/despre` only, marked `lang="en"` on RO.
 - **Weekly posts via date-gated ISR**: one post a week, each hidden until 00:00 UTC on its frontmatter date. Blog, home, feed, sitemap and `llms.txt` use `revalidate = 3600`, so a post appears within an hour of its date with no deploy.
 - **RO parity**: `/ro` mirrors `/` in layout and sections, only translated. RO copy lives in `data/ro*.ts`.
@@ -65,7 +65,6 @@ State as of 2026-10-14 (main after PRs #34–#131).
 
 ## Open Items (Adi)
 - `contact@adrian-rusan.com` has no MX records (no mailbox). `CONTACT_EMAIL` points at the Gmail until forwarding exists (#145); then switch the one constant back.
-- Stripe payment links for the paid calls; then set the `*_STRATEGY_CALL_CALENDLY_URL` constants (or wire the links) in place of the `mailto:` fallbacks.
 - YouTube channel: set `YOUTUBE_CHANNEL_ID` when live (null hides every YouTube surface).
 
 ## Environment

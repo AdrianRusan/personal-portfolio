@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { track, type AnalyticsEvent, type EventProps } from "@/lib/analytics";
+import { isBookingUrl } from "@/lib/booking";
 
-// Booking links fire calendly_click, mailto fallbacks and page links fire
+// Booking links fire calendly_click (name kept for continuity), mailto links and page links fire
 // cta_click; in-page anchors are scrolling, not money actions, so they return
 // null. `cta` is the snake_case offer id, the same key the hero sends.
 export const ladderEvent = (
@@ -14,7 +15,7 @@ export const ladderEvent = (
   href.startsWith("#")
     ? null
     : [
-        href.includes("calendly.com") ? "calendly_click" : "cta_click",
+        isBookingUrl(href) ? "calendly_click" : "cta_click",
         { cta: offer.replace(/-/g, "_"), source, offer },
       ];
 

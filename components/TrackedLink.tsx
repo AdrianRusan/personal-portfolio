@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { track, type AnalyticsEvent, type EventProps } from "@/lib/analytics";
 
-// next/link (so internal links don't reload the page) that fires one analytics event on click, for non-Calendly CTAs
-// inside server components (CalendlyLink owns calendly_click).
+// next/link (so internal links don't reload the page) that fires one analytics event on click, for non-booking CTAs
+// inside server components (BookingLink owns calendly_click).
 export const TrackedLink = ({
   href,
   event,

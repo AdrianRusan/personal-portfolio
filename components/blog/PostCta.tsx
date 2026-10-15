@@ -1,8 +1,8 @@
-import { CalendlyLink } from "@/components/CalendlyLink";
+import { BookingLink } from "@/components/BookingLink";
 import { TrackedLink } from "@/components/TrackedLink";
 import PrimaryCta from "@/components/ui/PrimaryCta";
 import type { BlogCtaCopy } from "@/lib/blog-cta";
-import { CALENDLY_URL } from "@/data";
+import { BOOKING_URL } from "@/data";
 
 const secondaryClass =
   "block text-sm text-accent hover:underline underline-offset-4 mt-3";
@@ -39,11 +39,11 @@ export default function PostCta({
         />
       </div>
       {cta.secondary &&
-        // The scoping-call link counts as a booking click, like every other Calendly link.
-        (cta.secondary.href === CALENDLY_URL ? (
-          <CalendlyLink source={`${source}_${cta.cta}`} className={secondaryClass}>
+        // The scoping-call link counts as a booking click, like every other booking link.
+        (cta.secondary.href === BOOKING_URL ? (
+          <BookingLink source={`${source}_${cta.cta}`} className={secondaryClass}>
             {cta.secondary.label} →
-          </CalendlyLink>
+          </BookingLink>
         ) : (
           <TrackedLink
             href={cta.secondary.href}

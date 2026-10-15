@@ -1,6 +1,6 @@
 import { offerById } from "@/data/ladder";
-import { CALENDLY_URL, FINTECH_EMPLOYER } from "@/data";
-import { withTierPrefill } from "@/lib/calendly";
+import { BOOKING_URL, FINTECH_EMPLOYER } from "@/data";
+import { withTierPrefill } from "@/lib/booking";
 import type { DeliverySprintCopy } from "@/components/services/DeliverySprint";
 import type { EntryOfferCopy } from "@/components/services/EntryOffer";
 import type { HarnessSetupCopy } from "@/components/services/HarnessSetup";
@@ -143,7 +143,7 @@ export const roDeliverySprint: DeliverySprintCopy = {
   rowHeader: "Criteriu",
   pricingRest: `Un Sprint Standard costă ${eur(standard.price)} pentru ${prs(1)} PR-uri, fiecare verificat pentru securitate, plus raportul de securitate.`,
   columns: withTierPrefill(
-    CALENDLY_URL,
+    BOOKING_URL,
     [
       { name: "Sprint Pilot", badge: "Primul sprint", featured: true },
       { name: "Sprint Standard", badge: "Cel mai bun preț per PR" },

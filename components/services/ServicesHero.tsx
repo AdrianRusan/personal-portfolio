@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import PrimaryCta from "@/components/ui/PrimaryCta";
-import { CALENDLY_URL, GUARANTEE } from "@/data";
+import { BOOKING_URL, GUARANTEE } from "@/data";
 import { keepRangesWhole } from "@/lib/utils";
 
 // R2-F7: H1, one subhead, one ask with a price link and the guarantee. A4 F16:
@@ -40,7 +40,7 @@ export const ServicesHero = ({
           <div className="flex flex-col items-start gap-4 mt-8">
             <PrimaryCta
               title={copy.cta}
-              href={CALENDLY_URL}
+              href={BOOKING_URL}
               trackEvent={{
                 event: "calendly_click",
                 props: { source: copy.ctaSource },
