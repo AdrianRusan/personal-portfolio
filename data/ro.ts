@@ -18,7 +18,7 @@ export const RO_TEARDOWN_EMAIL = `mailto:${CONTACT_EMAIL}?subject=${encodeURICom
 export const RO_STRATEGY_CALL_CALENDLY_URL: string | null = null;
 export const RO_STRATEGY_CALL_URL =
   RO_STRATEGY_CALL_CALENDLY_URL ??
-  `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Sesiune de strategie AI (110 €)")}`;
+  `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Sesiune de arhitectură (110 €)")}`;
 export const RO_STRATEGY_CALL_CTA = RO_STRATEGY_CALL_CALENDLY_URL
   ? "Rezervă sesiunea de 110 €"
   : "Scrie-mi ca să rezervi sesiunea de 110 €";
@@ -36,19 +36,19 @@ export const RO_GUARANTEE =
 export const RO_CREDIT_TERMS = `Treci la nivelul următor în ${CREDIT_DAYS} de zile și ce ai plătit deja se scade din preț.`;
 
 export const roTierNames: Record<Tier, string> = {
-  Advise: "Consultanță",
-  Train: "Training",
+  Plan: "Planificare",
+  "Set up": "Configurare",
   Build: "Implementare",
   Ship: "Livrare",
 };
 
 export const roTiers: { tier: Tier; tagline: string }[] = [
   {
-    tier: "Advise",
+    tier: "Plan",
     tagline:
-      "Un răspuns la o întrebare sau o listă de reparații, în ordinea priorității",
+      "Un plan de implementare scris sau o listă de probleme, cu prima deja reparată",
   },
-  { tier: "Train", tagline: "Echipa ta învață fluxul de lucru, pe cod real" },
+  { tier: "Set up", tagline: "Fișierul de reguli și setup-ul de agenți ai echipei, pornite pe repo-ul tău" },
   {
     tier: "Build",
     tagline: "O automatizare sau un setup de agenți, construit și predat",
@@ -64,6 +64,7 @@ const [roPerPrLo, roPerPrHi] = perPrBand(roSprintSizes);
 const roPerPr = `${roPerPrLo}–${roPerPrHi} €`;
 
 // Brief R7 (2026-10-10): 55% of the global ladder, rounded clean. EUR, ex-VAT.
+const RO_SESSION_PRICE = 110;
 const ro: Record<
   string,
   Pick<LadderOffer, "name" | "summary" | "duration" | "ctas"> & {
@@ -73,18 +74,17 @@ const ro: Record<
   }
 > = {
   "strategy-call": {
-    name: "Sesiune de strategie AI",
-    summary:
-      "O oră pe întrebarea ta despre AI, cu un rezumat scris în cel mult o zi lucrătoare.",
-    prices: [{ amount: 110 }],
+    name: "Sesiune de arhitectură",
+    summary: `O oră pe ce vrei să construiești. În cel mult o zi lucrătoare primești în scris un plan de implementare: arhitectură, unelte, estimare de cost. Dacă începem proiectul în ${CREDIT_DAYS} de zile, cei ${RO_SESSION_PRICE} € se scad din preț.`,
+    prices: [{ amount: RO_SESSION_PRICE }],
     duration: "1 oră",
     assurance: "Preț fix, plătit în avans.",
     ctas: [{ label: RO_STRATEGY_CALL_CTA, href: RO_STRATEGY_CALL_URL }],
   },
   audit: {
-    name: "Audit AI",
+    name: "Audit de cod AI",
     summary:
-      "Îți verific codul scris de AI sau „vibe-coded”, fluxul LLM sau costurile cu tokenii: breșe de securitate, costul pe fiecare PR merge-uit, folosirea cache-ului și rulările de agenți irosite. Primești un raport care îți spune ce repari întâi.",
+      "Îți verific codul scris de AI sau „vibe-coded”, fluxul LLM sau costurile cu tokenii: breșe de securitate, costul pe fiecare PR merge-uit, folosirea cache-ului și rulările de agenți irosite. Primești problemele în ordinea priorității și un PR care o repară pe prima, cu scope-ul stabilit la discuția despre rezultate.",
     prices: [{ amount: 850, from: true }],
     duration: "2–3 zile",
     assurance: "Prețul se stabilește înainte să încep.",

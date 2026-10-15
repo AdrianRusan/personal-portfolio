@@ -188,9 +188,9 @@ test.describe("links (I-01..I-08)", () => {
     for (const s of subjects) expect(s).not.toMatch(/%[0-9A-F]{2}/);
     expect([...subjects]).toEqual(
       expect.arrayContaining([
-        "AI Strategy Call (€200)",
+        "Architecture Session (€200)",
         "Teardown gratuit",
-        "Sesiune de strategie AI (110 €)",
+        "Sesiune de arhitectură (110 €)",
         "Workshop pentru echipă",
       ]),
     );

@@ -40,12 +40,12 @@ describe("Calendly attribution", () => {
 
   it("keeps an existing a1 prefill and is idempotent on a second click", () => {
     const once = withAttribution(
-      calendlyUrl(CALENDLY_URL, { a1: "AI Audit (from €1,500)" }),
+      calendlyUrl(CALENDLY_URL, { a1: "AI Code Audit (from €1,500)" }),
       { utm_source: "x" },
       "/",
     );
     expect(withAttribution(once, { utm_source: "x" }, "/")).toBe(once);
-    expect(new URL(once).searchParams.get("a1")).toBe("AI Audit (from €1,500)");
+    expect(new URL(once).searchParams.get("a1")).toBe("AI Code Audit (from €1,500)");
   });
 
   it("leaves non-Calendly links alone", () => {

@@ -37,7 +37,7 @@ const whenToUse = [
   `Setting up Claude Code agents, git worktrees and review gates for a team: ${offer("harness")}, or a ${offer("workshop")}.`,
   `Cutting LLM or agent cost: an ${offer("audit")} of LLM spend, cost per merged PR and wasted agent runs. Background: [Cost per merged PR: 3 months of my Claude Code ledger](${BASE_URL}/work/agent-cost-per-commit).`,
   `n8n workflows or LLM automations with evals and cost controls: ${offer("automation")}.`,
-  `A 1:1 call on an AI question: ${offer("strategy-call")}.`,
+  `A written build plan before committing to a build: ${offer("strategy-call")}.`,
 ];
 
 export async function GET() {
