@@ -1,5 +1,10 @@
 import { offerById } from "@/data/ladder";
-import { BOOKING_URL, FINTECH_EMPLOYER } from "@/data";
+import {
+  BOOKING_URL,
+  FINTECH_EMPLOYER,
+  HARNESS_GUARANTEE_DAYS,
+  SECURITY_GUARANTEE_DAYS,
+} from "@/data";
 import { withTierPrefill } from "@/lib/booking";
 import type { DeliverySprintCopy } from "@/components/services/DeliverySprint";
 import type { EntryOfferCopy } from "@/components/services/EntryOffer";
@@ -192,7 +197,8 @@ export const roDeliverySprint: DeliverySprintCopy = {
   guarantees: [
     {
       title: "Securitate",
-      body: "Fiecare PR trece printr-un review de securitate documentat înainte să-l vezi. Dacă mai târziu apare o vulnerabilitate din aria review-ului într-un PR marcat de mine ca revizuit, o repar gratuit și refac review-ul pe lotul din jurul ei.",
+      body: `Fiecare PR trece printr-un review de securitate documentat înainte să-l vezi. Dacă într-un PR marcat de mine ca revizuit apare o vulnerabilitate din aria review-ului în cel mult ${SECURITY_GUARANTEE_DAYS} de zile de la predare, o repar gratuit și refac review-ul pe lotul din jurul ei.`,
+      link: { label: "Citește termenii", href: "/ro/termeni" },
     },
     {
       title: "Primul PR",
@@ -260,7 +266,7 @@ export const roRetainer: RetainerCopy = {
     },
   ],
   securityNote:
-    "Fiecare PR din retainer are și garanția de securitate de la sprint.",
+    `Fiecare PR din retainer are și garanția de securitate de la sprint, timp de ${SECURITY_GUARANTEE_DAYS} de zile de la predarea lui.`,
   termsHeading: "Condiții",
   terms: [
     "Volumul lunar are o limită. Ce depășește se mută în luna următoare sau într-un sprint suplimentar.",
@@ -298,7 +304,7 @@ export const roHarnessSetup: HarnessSetupCopy = {
   guaranteeHeading: "Garanție",
   guaranteeLead: "Setup funcțional.",
   guaranteeBody:
-    "Până la final, echipa ta a livrat singură cel puțin un PR revizuit prin setup, cu mine de față. Dacă nu, sesiunile continuă gratuit până se întâmplă.",
+    `Până la final, echipa ta a livrat singură cel puțin un PR revizuit prin setup, cu mine de față. Dacă nu, sesiunile continuă gratuit până se întâmplă, în cel mult ${HARNESS_GUARANTEE_DAYS} de zile de la predare.`,
 };
 
 // /ro/servicii FAQ: the same 8 questions, same order, as servicesFaqCopy.
@@ -315,7 +321,7 @@ export const roServicesPageFaq: ServicesFaqCopy = {
       question:
         "Agenții nesupravegheați livrează vulnerabilități. Cum tratezi securitatea?",
       answer:
-        `Așa e. ${RO_VERACODE_LINE} De aceea securitatea e prima trecere din fiecare review: injection, autentificare, secrete, controlul accesului. Pe propria mea rulare de 30 de PR-uri, un repo fără teste, review-ul a prins 3 căi de shell injection din input-ul cererii înainte de merge. Ce îmi scapă din aria review-ului e acoperit de garanția de securitate din condițiile sprintului.`,
+        `Așa e. ${RO_VERACODE_LINE} De aceea securitatea e prima trecere din fiecare review: injection, autentificare, secrete, controlul accesului. Pe propria mea rulare de 30 de PR-uri, un repo fără teste, review-ul a prins 3 căi de shell injection din input-ul cererii înainte de merge. Ce îmi scapă din aria review-ului în cel mult ${SECURITY_GUARANTEE_DAYS} de zile de la predare e acoperit de garanția de securitate din termeni.`,
     },
     {
       question:
@@ -373,7 +379,7 @@ export const roServicesFaq: ServicesFaqCopy = {
       question:
         "Agenții nesupravegheați livrează vulnerabilități. Cum tratezi securitatea?",
       answer:
-        `Așa e, livrează. ${RO_VERACODE_LINE} Securitatea e prima trecere din fiecare review: injection, autentificare, secrete, controlul accesului. Pe propria mea rulare de 30 de PR-uri, un repo fără teste, review-ul a prins 3 căi de shell injection din input-ul cererii înainte de merge. Garanția e în scris: o vulnerabilitate din aria review-ului, găsită într-un PR marcat de mine ca revizuit, se repară gratuit.`,
+        `Așa e, livrează. ${RO_VERACODE_LINE} Securitatea e prima trecere din fiecare review: injection, autentificare, secrete, controlul accesului. Pe propria mea rulare de 30 de PR-uri, un repo fără teste, review-ul a prins 3 căi de shell injection din input-ul cererii înainte de merge. Garanția e în scris: o vulnerabilitate din aria review-ului, găsită în cel mult ${SECURITY_GUARANTEE_DAYS} de zile de la predare într-un PR marcat de mine ca revizuit, se repară gratuit.`,
     },
     {
       question: "Al cui e codul? Semnezi un NDA?",

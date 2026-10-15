@@ -1,4 +1,5 @@
-import { BOOKING_URL, SAMPLE_REPORT_URL } from "@/data";
+import Link from "next/link";
+import { BOOKING_URL, SAMPLE_REPORT_URL, SECURITY_GUARANTEE_DAYS } from "@/data";
 import { sprintDurations, sprintSizes } from "@/data/ladder";
 import { withTierPrefill } from "@/lib/booking";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -102,7 +103,8 @@ const en = {
   guarantees: [
     {
       title: "Security",
-      body: "Every PR gets a documented security review before you see it. If an in-scope vulnerability later turns up in a PR I marked reviewed, I fix it free and re-review the batch around it.",
+      body: `Every PR gets a documented security review before you see it. If an in-scope vulnerability turns up in a PR I marked reviewed within ${SECURITY_GUARANTEE_DAYS} days of handoff, I fix it free and re-review the batch around it.`,
+      link: { label: "Read the terms", href: "/terms" },
     },
     {
       title: "First PR",
@@ -115,6 +117,7 @@ const en = {
 };
 
 export type DeliverySprintCopy = typeof en;
+export { en as deliverySprintCopy };
 
 export const DeliverySprint = ({
   copy = en,
@@ -181,6 +184,14 @@ export const DeliverySprint = ({
                 <dt className="text-sm font-semibold text-ink">{g.title}</dt>
                 <dd className="text-sm text-body leading-relaxed mt-1">
                   {g.body}
+                  {g.link && (
+                    <>
+                      {" "}
+                      <Link href={g.link.href} className="text-accent underline underline-offset-4">
+                        {g.link.label}
+                      </Link>
+                    </>
+                  )}
                 </dd>
               </div>
             ))}

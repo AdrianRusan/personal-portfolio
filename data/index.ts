@@ -36,6 +36,10 @@ export const legalEntityLine = `${LEGAL_ENTITY.name} · CUI ${LEGAL_ENTITY.cui} 
 // No reverse-charge wording (D5).
 export const VAT_LINE = "Prices exclude VAT; VAT is added where it applies.";
 
+// #152 R6: how long each guarantee runs after handoff. /terms states both.
+export const SECURITY_GUARANTEE_DAYS = 90;
+export const HARNESS_GUARANTEE_DAYS = 30;
+
 // Paid Architecture Session (€200, ends in a written build plan). Stripe takes
 // the payment on Cal.com at booking.
 export const STRATEGY_CALL_BOOKING_URL =
@@ -201,7 +205,7 @@ export const faqs: { question: string; answer: string }[] = [
     question:
       "Unsupervised agents ship vulnerabilities. How do you handle security?",
     answer:
-      `Correct, they do. ${VERACODE_LINE} Security is the first pass of every review: injection, auth, secrets, access control. On my own 30-PR run, a repo with no test suite, the review caught 3 shell-injection paths from request input before merge. The guarantee is in writing: an in-scope vulnerability found in a PR I marked reviewed gets fixed free.`,
+      `Correct, they do. ${VERACODE_LINE} Security is the first pass of every review: injection, auth, secrets, access control. On my own 30-PR run, a repo with no test suite, the review caught 3 shell-injection paths from request input before merge. The guarantee is in writing: an in-scope vulnerability found in a PR I marked reviewed within ${SECURITY_GUARANTEE_DAYS} days of handoff gets fixed free.`,
   },
   {
     question: "Who owns the code? Will you sign an NDA?",
