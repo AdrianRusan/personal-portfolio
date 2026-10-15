@@ -33,12 +33,12 @@ export interface Workshop {
   managerOutcome: string;
   outcomes: string[];
   cta: { label: string; href: string };
-  // The email ask, shown under the primary CTA once it books on Calendly.
+  // The email ask, shown under the primary CTA once it books online.
   secondaryCta?: { label: string; href: string };
 }
 
-// 20-min "Workshop dates" Calendly event (ADI-3). null until Adi creates it;
-// set it and both workshop pages book on Calendly, email as the fallback.
+// A "Workshop dates" booking event. null: workshops stay mailto until CAEN 8559
+// is registered (#151). A Cal.com URL here makes both pages book online.
 export const WORKSHOP_DATES_URL: string | null = null;
 
 // D6, the same for both formats.
@@ -182,7 +182,7 @@ export const perEngineer = (w: Workshop) =>
 
 // #149: meta descriptions keep the short "ex-VAT" (155-char cap); the page
 // itself shows VAT_LINE. Price is appended here, from the numeric field, so meta/OG/JSON-LD copy can't
-// drift from Offer.price. The CTA books on Calendly once WORKSHOP_DATES_URL is set.
+// drift from Offer.price. The CTA books online once WORKSHOP_DATES_URL is set.
 const withPrice = (w: Workshop): Workshop => ({
   ...w,
   description: `${w.description} ${euro(w.price)} ex-VAT.`,
