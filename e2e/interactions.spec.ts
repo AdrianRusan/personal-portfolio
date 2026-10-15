@@ -521,6 +521,17 @@ test.describe("booking CTAs and analytics (I-30..I-36)", () => {
     }
   });
 
+  // The ladder's mailto CTAs (RO workshop) still fire cta_click (I-35).
+  test("a ladder mailto CTA fires cta_click (I-35)", async ({ page }) => {
+    await stubAnalytics(page);
+    await page.goto("/ro/servicii");
+    await cancelNavigation(page);
+    const mailto = page.locator('#ladder a[href^="mailto:"]').first();
+    await expect(mailto).toHaveCount(1);
+    await mailto.click();
+    expect((await events(page)).map((e) => e.name)).toContain("cta_click");
+  });
+
   // #151: the paid session is a Cal.com booking now, not a mailto (I-35).
   test("the paid-session link books on Cal.com and fires calendly_click (I-35)", async ({
     page,

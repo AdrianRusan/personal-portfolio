@@ -71,6 +71,7 @@ export const privacyPage: ProsePage = {
       body: `- **Resend** sends the emails and holds the email list.
 - **Vercel** hosts the site and provides the analytics and page-speed measurements.
 - **Sentry** stores the error logs.
+- **Cal.com** takes the bookings: your name, email and what you write in the booking form.
 - **Stripe** takes the card payment when you pay for a session.`,
     },
     {
@@ -80,7 +81,7 @@ export const privacyPage: ProsePage = {
 - **Error logs and analytics**: my legitimate interest in keeping the site working.
 - **Paid sessions**: the contract you make when you book and pay.
 
-Resend, Vercel and Sentry are US companies, and Stripe can pass payment data to its US parent company. Transfers outside the EEA rely on Standard Contractual Clauses and, where the provider is certified, the EU–US Data Privacy Framework.`,
+Resend, Vercel, Sentry and Cal.com are US companies, and Stripe can pass payment data to its US parent company. Transfers outside the EEA rely on Standard Contractual Clauses and, where the provider is certified, the EU–US Data Privacy Framework.`,
     },
     {
       heading: "How long I keep it",
@@ -91,7 +92,7 @@ Resend, Vercel and Sentry are US companies, and Stripe can pass payment data to 
     },
     {
       heading: "Booking a call",
-      body: "The booking buttons open Cal.com. What you enter there is handled by Cal.com under its own privacy policy, and I get the booking details. For a paid session, Stripe takes the payment on the same page.",
+      body: "The booking buttons open Cal.com, which stores what you enter there and sends me the booking details. For a paid session, Stripe takes the payment on the same page.",
     },
     {
       heading: "Your rights",
