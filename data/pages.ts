@@ -182,7 +182,7 @@ export const contactPage: ProsePage = {
       href: "/teardown",
     },
   ],
-  // A1 F4 / F18: the paid strategy call is listed on /services only.
+  // A1 F4 / F18: the paid Architecture Session is listed on /services only.
   sections: [
     {
       heading: "Response times",

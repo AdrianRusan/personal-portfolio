@@ -93,7 +93,7 @@ describe("ladder", () => {
     }
   });
 
-  it("sends the €200 call to the one STRATEGY_CALL_URL in data/index.ts", () => {
+  it("sends the €200 session to the one STRATEGY_CALL_URL in data/index.ts", () => {
     const offer = ladder.find((o) => o.id === "strategy-call")!;
     expect(offer.ctas.map((c) => c.href)).toEqual([STRATEGY_CALL_URL]);
   });
