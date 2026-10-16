@@ -65,9 +65,9 @@ describe("/llms.txt", () => {
     ]) {
       expect(text).toContain(heading);
     }
-    expect(text).toContain("AI Strategy Call (€200)");
+    expect(text).toContain("Architecture Session (€200)");
     expect(text).toContain("rusan.adrian.ionut@gmail.com");
-    expect(text).toContain("https://calendly.com/adrian-rusan/new-meeting");
+    expect(text).toContain("https://cal.com/adrian-rusan/scoping-call");
     expect(text).toContain("463 sessions · 335 hours");
     expect(text).toContain("Accept: text/markdown");
   });

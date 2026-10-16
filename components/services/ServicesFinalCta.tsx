@@ -1,6 +1,6 @@
 import Link from "next/link";
 import PrimaryCta from "@/components/ui/PrimaryCta";
-import { CALENDLY_URL } from "@/data";
+import { BOOKING_URL } from "@/data";
 import { ClosingBand } from "@/components/ClosingBand";
 
 // The page's one closing ask (PageShell's shared one is off on /services).
@@ -30,7 +30,7 @@ export const ServicesFinalCta = ({
       <div className="flex mt-8">
         <PrimaryCta
           title={copy.cta}
-          href={CALENDLY_URL}
+          href={BOOKING_URL}
           trackEvent={{
             event: "calendly_click",
             props: { source: copy.ctaSource },

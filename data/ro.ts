@@ -1,4 +1,4 @@
-import { CALENDLY_URL, CONTACT_EMAIL, CREDIT_DAYS } from "@/data";
+import { BOOKING_URL, CONTACT_EMAIL, CREDIT_DAYS } from "@/data";
 import {
   ladder,
   perPrBand,
@@ -13,15 +13,11 @@ import {
 // #125: the RO stand-in for the EN-only /teardown form (gate Q6): an email.
 export const RO_TEARDOWN_EMAIL = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Teardown gratuit")}`;
 
-// Paid 110 € call (brief R3/R7). null until Adi creates the Calendly event;
-// set it and the RO CTAs switch from email to booking, label too.
-export const RO_STRATEGY_CALL_CALENDLY_URL: string | null = null;
-export const RO_STRATEGY_CALL_URL =
-  RO_STRATEGY_CALL_CALENDLY_URL ??
-  `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Sesiune de strategie AI (110 €)")}`;
-export const RO_STRATEGY_CALL_CTA = RO_STRATEGY_CALL_CALENDLY_URL
-  ? "Rezervă sesiunea de 110 €"
-  : "Scrie-mi ca să rezervi sesiunea de 110 €";
+// Paid 110 € Sesiune de arhitectură: a hidden Cal.com event, paid by Stripe at booking.
+export const RO_STRATEGY_CALL_BOOKING_URL =
+  "https://cal.com/adrian-rusan/sesiune-arhitectura";
+export const RO_STRATEGY_CALL_URL = RO_STRATEGY_CALL_BOOKING_URL;
+export const RO_STRATEGY_CALL_CTA = "Rezervă sesiunea de 110 €";
 
 // #149 R2: RO twin of VAT_LINE.
 export const RO_VAT_LINE = "Prețurile nu includ TVA; TVA-ul se adaugă acolo unde se aplică.";
@@ -36,19 +32,19 @@ export const RO_GUARANTEE =
 export const RO_CREDIT_TERMS = `Treci la nivelul următor în ${CREDIT_DAYS} de zile și ce ai plătit deja se scade din preț.`;
 
 export const roTierNames: Record<Tier, string> = {
-  Advise: "Consultanță",
-  Train: "Training",
+  Plan: "Planificare",
+  "Set up": "Configurare",
   Build: "Implementare",
   Ship: "Livrare",
 };
 
 export const roTiers: { tier: Tier; tagline: string }[] = [
   {
-    tier: "Advise",
+    tier: "Plan",
     tagline:
-      "Un răspuns la o întrebare sau o listă de reparații, în ordinea priorității",
+      "Un plan de implementare scris sau o listă de probleme, cu prima deja reparată",
   },
-  { tier: "Train", tagline: "Echipa ta învață fluxul de lucru, pe cod real" },
+  { tier: "Set up", tagline: "Fișierul de reguli și setup-ul de agenți ai echipei, pornite pe repo-ul tău" },
   {
     tier: "Build",
     tagline: "O automatizare sau un setup de agenți, construit și predat",
@@ -64,6 +60,7 @@ const [roPerPrLo, roPerPrHi] = perPrBand(roSprintSizes);
 const roPerPr = `${roPerPrLo}–${roPerPrHi} €`;
 
 // Brief R7 (2026-10-10): 55% of the global ladder, rounded clean. EUR, ex-VAT.
+const RO_SESSION_PRICE = 110;
 const ro: Record<
   string,
   Pick<LadderOffer, "name" | "summary" | "duration" | "ctas"> & {
@@ -73,23 +70,22 @@ const ro: Record<
   }
 > = {
   "strategy-call": {
-    name: "Sesiune de strategie AI",
-    summary:
-      "O oră pe întrebarea ta despre AI, cu un rezumat scris în cel mult o zi lucrătoare.",
-    prices: [{ amount: 110 }],
+    name: "Sesiune de arhitectură",
+    summary: `O oră pe ce vrei să construiești. În cel mult o zi lucrătoare primești în scris un plan de implementare: arhitectură, unelte, estimare de cost. Dacă începem proiectul în ${CREDIT_DAYS} de zile, cei ${RO_SESSION_PRICE} € se scad din preț.`,
+    prices: [{ amount: RO_SESSION_PRICE }],
     duration: "1 oră",
     assurance: "Preț fix, plătit în avans.",
     ctas: [{ label: RO_STRATEGY_CALL_CTA, href: RO_STRATEGY_CALL_URL }],
   },
   audit: {
-    name: "Audit AI",
+    name: "Audit de cod AI",
     summary:
-      "Îți verific codul scris de AI sau „vibe-coded”, fluxul LLM sau costurile cu tokenii: breșe de securitate, costul pe fiecare PR merge-uit, folosirea cache-ului și rulările de agenți irosite. Primești un raport care îți spune ce repari întâi.",
+      "Îți verific codul scris de AI sau „vibe-coded”, fluxul LLM sau costurile cu tokenii: breșe de securitate, costul pe fiecare PR merge-uit, folosirea cache-ului și rulările de agenți irosite. Primești problemele în ordinea priorității și un PR care o repară pe prima, cu scope-ul stabilit la discuția despre rezultate.",
     prices: [{ amount: 850, from: true }],
     duration: "2–3 zile",
     assurance: "Prețul se stabilește înainte să încep.",
     ctas: [
-      { label: "Programează un audit", href: CALENDLY_URL },
+      { label: "Programează un audit", href: BOOKING_URL },
       {
         label: "Sau trimite-mi un repo pe email pentru un teardown gratuit",
         href: RO_TEARDOWN_EMAIL,
@@ -123,7 +119,7 @@ const ro: Record<
     assurance:
       "Preț fix înainte să încep; evaluările dovedesc că funcționează înainte de predare.",
     ctas: [
-      { label: "Hai să discutăm o automatizare", href: CALENDLY_URL },
+      { label: "Hai să discutăm o automatizare", href: BOOKING_URL },
       {
         label: "Vezi filtrul de fapte construit de mine (EN)",
         href: "/work/honesty-gate",
@@ -137,7 +133,7 @@ const ro: Record<
     prices: [{ amount: 2200, from: true }],
     duration: "1 săpt.",
     assurance: "Preț fix pentru un repo, stabilit înainte să încep.",
-    ctas: [{ label: "Hai să discutăm configurarea", href: CALENDLY_URL }],
+    ctas: [{ label: "Hai să discutăm configurarea", href: BOOKING_URL }],
   },
   "reviewed-pr": {
     name: "PR revizuit",
@@ -146,7 +142,7 @@ const ro: Record<
     prices: [{ amount: 550 }],
     duration: "~48 h",
     assurance: "Plătești după ce vezi PR-ul.",
-    ctas: [{ label: "Începe cu un PR", href: CALENDLY_URL }],
+    ctas: [{ label: "Începe cu un PR", href: BOOKING_URL }],
   },
   sprint: {
     name: "Sprint de livrare",
@@ -155,7 +151,7 @@ const ro: Record<
     prices: [{ amount: roSprintSizes[0]!.price, from: true }],
     duration: "1–2 săpt. · proiecte mai mari 2–3 săpt.",
     assurance: "Prețul se fixează la discuția de scope, înainte să înceapă lucrul.",
-    ctas: [{ label: "Hai să discutăm un sprint", href: CALENDLY_URL }],
+    ctas: [{ label: "Hai să discutăm un sprint", href: BOOKING_URL }],
   },
   retainer: {
     name: "Retainer lunar",
@@ -164,7 +160,7 @@ const ro: Record<
     prices: [{ amount: 2200, from: true }],
     duration: "lunar",
     assurance: "Trei luni la început, apoi lună de lună.",
-    ctas: [{ label: "Hai să discutăm un retainer", href: CALENDLY_URL }],
+    ctas: [{ label: "Hai să discutăm un retainer", href: BOOKING_URL }],
   },
 };
 

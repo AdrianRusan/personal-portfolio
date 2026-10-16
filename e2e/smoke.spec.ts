@@ -27,6 +27,12 @@ const routes = [
   '/ro/contact',
 ];
 
+// #151: booking links are Cal.com. Each "none here" check below is paired with
+// a non-zero count of the same selector, so a dead selector can't pass on 0.
+const BOOKING = 'a[href^="https://cal.com/adrian-rusan/"]';
+const SCOPING = 'a[href^="https://cal.com/adrian-rusan/scoping-call"]';
+const PAID = 'a[href^="https://cal.com/adrian-rusan/architecture-session"], a[href^="https://cal.com/adrian-rusan/sesiune-arhitectura"]';
+
 // #54 R4: weekly posts 404 until their date (00:00 UTC), then join the list.
 const scheduled: Record<string, string> = {
   '/blog/the-rules-file-my-agents-follow': '2026-10-17',
@@ -168,7 +174,8 @@ for (const path of ['/about', '/blog', '/does-not-exist', '/', '/ro', '/ro/despr
   test(`${path} has exactly one closing ask`, async ({ page }) => {
     await page.goto(path);
     await expect(page.locator('#closing-cta-heading')).toHaveCount(1);
-    await expect(page.locator('footer a[href*="calendly.com"]')).toHaveCount(0);
+    await expect(page.locator(SCOPING)).not.toHaveCount(0);
+    await expect(page.locator(`footer ${BOOKING}`)).toHaveCount(0);
     // D6 / A4 F6: the email lives in the footer; the checklist on the blog only.
     await expect(page.locator(`footer a[href^="mailto:${CONTACT_EMAIL}"]`)).toHaveCount(1);
     if (path !== '/blog') await expect(page.locator('input[type="email"]')).toHaveCount(0);
@@ -195,19 +202,29 @@ for (const [path, label] of [['/', 'Client work (NDA)'], ['/ro', 'Proiect pentru
 }
 
 // P2 (#67): /contact's three option blocks are its ask; the call is the one
-// Calendly button in the page body, and the footer still asks for nothing.
+// booking button in the page body, and the footer still asks for nothing.
 for (const path of ['/contact', '/ro/contact']) {
   test(`${path} asks once, from its own option blocks`, async ({ page }) => {
     await page.goto(path);
     await expect(page.locator('#closing-cta-heading')).toHaveCount(0);
-    await expect(page.locator('main a[href*="calendly.com"]')).toHaveCount(1);
+    await expect(page.locator(`main ${SCOPING}`)).toHaveCount(1);
     await expect(page.locator(`main a[href^="mailto:${CONTACT_EMAIL}"]`)).not.toHaveCount(0);
     // #125: RO has no teardown page, so its teardown option is an email.
     const teardown = path.startsWith('/ro') ? 'main a[href*="subject=Teardown"]' : 'main a[href="/teardown"]';
     await expect(page.locator(teardown)).toHaveCount(1);
-    // A1 F4: the paid strategy call is on /services only.
-    await expect(page.locator('main a[href*="Strategy"], main a[href*="strategie"]')).toHaveCount(0);
-    await expect(page.locator('footer a[href*="calendly.com"]')).toHaveCount(0);
+    // A1 F4: the paid session is on /services only (positive check below).
+    await expect(page.locator('main').locator(PAID)).toHaveCount(0);
+    await expect(page.locator(`footer ${BOOKING}`)).toHaveCount(0);
+  });
+}
+
+// #151: the paid session books on its own Cal.com event, never by email.
+for (const [path, slug] of [['/services', 'architecture-session'], ['/ro/servicii', 'sesiune-arhitectura']]) {
+  test(`${path} books the paid session on Cal.com`, async ({ page }) => {
+    await page.goto(path);
+    await expect(page.locator('main').locator(PAID)).not.toHaveCount(0);
+    await expect(page.locator(`main a[href^="https://cal.com/adrian-rusan/${slug}"]`)).not.toHaveCount(0);
+    await expect(page.locator('main a[href*="subject=Architecture"], main a[href*="subject=Sesiune"]')).toHaveCount(0);
   });
 }
 
@@ -250,7 +267,7 @@ test('pages with their own closing block end in one ask and no checklist', async
     await expect(page.locator('#closing-cta-heading')).toHaveCount(0);
     await expect(page.locator('input[type="email"]')).toHaveCount(0);
     const close = page.locator('section[aria-labelledby="services-final-cta"]');
-    await expect(close.locator('a[href*="calendly.com"]')).toHaveCount(1);
+    await expect(close.locator(SCOPING)).toHaveCount(1);
     await expect(close.locator(fallback)).toHaveCount(1);
   }
 });
@@ -269,7 +286,8 @@ test('posts, studies and /privacy drop the shared closing ask', async ({ page })
     await expect(page.locator('#post-cta-heading')).toHaveCount(offers);
     // D6: the checklist stays on posts and studies, not on /privacy.
     await expect(page.locator('input[type="email"]')).toHaveCount(offers);
-    await expect(page.locator('footer a[href*="calendly.com"]')).toHaveCount(0);
+    await expect(page.locator(BOOKING)).not.toHaveCount(0);
+    await expect(page.locator(`footer ${BOOKING}`)).toHaveCount(0);
   }
 });
 

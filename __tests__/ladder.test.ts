@@ -6,18 +6,25 @@ import {
   sprintDurations,
   sprintSizes,
   perPrBand,
+  offerById,
+  tiers,
 } from "@/data/ladder";
-import { roLadder, roSprintDurations, roSprintSizes } from "@/data/ro";
+import {
+  roLadder,
+  roSprintDurations,
+  roSprintSizes,
+  roTierNames,
+} from "@/data/ro";
 import { workshops, workshopJsonLd } from "@/data/workshops";
 import { STRATEGY_CALL_URL } from "@/data";
 
 // The guide's ladder table (2026-10-10), verbatim. EUR, ex-VAT, global.
 const GUIDE: Record<string, { tier: string; price: string; duration: string }> =
   {
-    "strategy-call": { tier: "Advise", price: "€200", duration: "1 h" },
-    audit: { tier: "Advise", price: "from €1,500", duration: "2–3 days" },
+    "strategy-call": { tier: "Plan", price: "€200", duration: "1 h" },
+    audit: { tier: "Plan", price: "from €1,500", duration: "2–3 days" },
     workshop: {
-      tier: "Train",
+      tier: "Set up",
       price: "€3,000 half-day / €5,000 full-day",
       // R2-F28: the half-day agenda runs 09:00–12:30.
       duration: "3.5 h / 8 h",
@@ -36,6 +43,36 @@ const GUIDE: Record<string, { tier: string; price: string; duration: string }> =
   };
 
 describe("ladder", () => {
+  // #150 R4: CAEN 6210, so every paid offer ends in software: a build plan,
+  // or findings plus one fix PR. Tier keys renamed, ids and prices unchanged.
+  it("names the tiers Plan / Set up / Build / Ship, EN and RO", () => {
+    expect(tiers.map((t) => t.tier)).toEqual(["Plan", "Set up", "Build", "Ship"]);
+    expect(Object.values(roTierNames)).toEqual([
+      "Planificare",
+      "Configurare",
+      "Implementare",
+      "Livrare",
+    ]);
+  });
+
+  it("sells the Architecture Session with a written build plan", () => {
+    const en = offerById(ladder, "strategy-call");
+    const ro = offerById(roLadder, "strategy-call");
+    expect(en.name).toBe("Architecture Session");
+    expect(ro.name).toBe("Sesiune de arhitectură");
+    expect(en.summary).toMatch(/written build plan: architecture, tooling, cost estimate/);
+    expect(ro.summary).toMatch(/plan de implementare: arhitectură, unelte, estimare de cost/);
+  });
+
+  it("sells the AI Code Audit with one PR fixing the top finding", () => {
+    const en = offerById(ladder, "audit");
+    const ro = offerById(roLadder, "audit");
+    expect(en.name).toBe("AI Code Audit");
+    expect(ro.name).toBe("Audit de cod AI");
+    expect(en.summary).toMatch(/one PR that fixes the top finding/);
+    expect(ro.summary).toMatch(/un PR care o repară pe prima/);
+  });
+
   it("links the workshop tier to both workshop pages", () => {
     const offer = ladder.find((o) => o.id === "workshop")!;
     // Same order as the prices: half-day, then full day.
@@ -56,7 +93,7 @@ describe("ladder", () => {
     }
   });
 
-  it("sends the €200 call to the one STRATEGY_CALL_URL in data/index.ts", () => {
+  it("sends the €200 session to the one STRATEGY_CALL_URL in data/index.ts", () => {
     const offer = ladder.find((o) => o.id === "strategy-call")!;
     expect(offer.ctas.map((c) => c.href)).toEqual([STRATEGY_CALL_URL]);
   });

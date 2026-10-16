@@ -10,7 +10,7 @@ describe("ladderEvent (#43 follow-up)", () => {
   it("sends a cta key on booking links, like every other CTA", () => {
     expect(
       ladderEvent(
-        "https://calendly.com/adrian-rusan/new-meeting",
+        "https://cal.com/adrian-rusan/scoping-call",
         "audit",
         "services_ladder",
       ),

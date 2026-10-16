@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { getRelatedPosts } from "@/lib/blog";
-import { CALENDLY_URL } from "@/data";
+import { BOOKING_URL } from "@/data";
 import { ladder, offerById } from "@/data/ladder";
 import { BLOG_CTAS, getPostCta, offerEyebrow } from "@/lib/blog-cta";
 import type { BlogFrontmatter, BlogPost } from "@/lib/blog-types";
@@ -68,7 +68,7 @@ describe("getPostCta", () => {
     "offers the scoping call as the %s CTA's second link",
     (cta) => {
       for (const tags of [[], ["security"], ["code-review"]]) {
-        expect(getPostCta(fm({ cta, tags })).secondary?.href).toBe(CALENDLY_URL);
+        expect(getPostCta(fm({ cta, tags })).secondary?.href).toBe(BOOKING_URL);
       }
     },
   );
@@ -91,7 +91,7 @@ describe("getPostCta", () => {
   });
 
   it("keeps today's eyebrow wording", () => {
-    expect(offerEyebrow("audit")).toMatch(/^AI Audit · from €[\d,]+$/);
+    expect(offerEyebrow("audit")).toMatch(/^AI Code Audit · from €[\d,]+$/);
     expect(offerEyebrow("workshop")).toMatch(/^Team workshop · from €[\d,]+$/);
     expect(offerEyebrow("reviewed-pr")).toMatch(/^Reviewed PR · €[\d,]+$/);
   });

@@ -1,20 +1,21 @@
-// Calendly URL helpers (C44). Pure, so the jest suite covers them; the click
+// Booking URL helpers for Cal.com (C44, #151). Pure, so the jest suite covers them; the click
 // listener that applies them lives in lib/analytics.ts.
 
 const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign"] as const;
 export type Utm = Partial<Record<(typeof UTM_KEYS)[number], string>>;
 
-export const isCalendly = (href: string) => {
+export const isBookingUrl = (href: string) => {
   try {
-    return new URL(href).hostname === "calendly.com";
+    return new URL(href).hostname === "cal.com";
   } catch {
     return false;
   }
 };
 
-// Adds the params to the URL, skipping empty values. Calendly reads utm_* onto
-// the booking and a1 into the first question's answer.
-export const calendlyUrl = (
+// Adds the params to the URL, skipping empty values. Cal.com fills a booking
+// field from the query param named after its identifier (`topic`) and keeps
+// utm_* on the booking.
+export const bookingUrl = (
   base: string,
   params: Record<string, string | undefined>,
 ) => {
@@ -36,12 +37,12 @@ export const utmFrom = (search: string): Utm => {
   );
 };
 
-// What a Calendly link carries at click time: the landing UTMs plus the page
+// What a Cal.com link carries at click time: the landing UTMs plus the page
 // the click came from. Any other link passes through untouched.
 export const withAttribution = (href: string, utm: Utm, page: string) =>
-  isCalendly(href) ? calendlyUrl(href, { ...utm, utm_content: page }) : href;
+  isBookingUrl(href) ? bookingUrl(href, { ...utm, utm_content: page }) : href;
 
-// Each pricing tier's button pre-fills Calendly's first answer with the tier
+// Each pricing tier's button pre-fills the Scoping Call's `topic` with the tier
 // and its price; `prices` is the same list the table's Price row shows.
 export const withTierPrefill = <T extends { name: string }>(
   base: string,
@@ -50,5 +51,5 @@ export const withTierPrefill = <T extends { name: string }>(
 ) =>
   columns.map((column, i) => ({
     ...column,
-    ctaHref: calendlyUrl(base, { a1: `${column.name} (${prices[i]})` }),
+    ctaHref: bookingUrl(base, { topic: `${column.name} (${prices[i]})` }),
   }));

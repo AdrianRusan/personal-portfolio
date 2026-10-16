@@ -1,6 +1,6 @@
-import { CALENDLY_URL, SAMPLE_REPORT_URL } from "@/data";
+import { BOOKING_URL, SAMPLE_REPORT_URL } from "@/data";
 import { sprintDurations, sprintSizes } from "@/data/ladder";
-import { withTierPrefill } from "@/lib/calendly";
+import { withTierPrefill } from "@/lib/booking";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Fold } from "./Fold";
 import { PricingTable } from "./PricingTable";
@@ -10,7 +10,7 @@ const eur = (n: number) => `€${n.toLocaleString("en-US")}`;
 const prs = (i: number) => sprintSizes[i]!.prs.join("–");
 const standard = sprintSizes[1]!;
 
-// C44: one price list feeds the Price row and each tier's Calendly prefill.
+// C44: one price list feeds the Price row and each tier's booking prefill.
 // R2-F3: Scale is a floor, so it reads "from".
 const prices = [
   eur(sprintSizes[0]!.price),
@@ -20,7 +20,7 @@ const prices = [
 
 // R2-F2: Pilot first at every width, and it holds the filled button.
 const columns: PricingColumn[] = withTierPrefill(
-  CALENDLY_URL,
+  BOOKING_URL,
   [
     { name: "Pilot Sprint", badge: "First sprint", featured: true },
     { name: "Standard Sprint", badge: "Best per-PR price" },
@@ -165,7 +165,7 @@ export const DeliverySprint = ({
           <PricingTable
             columns={copy.columns}
             rows={copy.rows}
-            ctaHref={CALENDLY_URL}
+            ctaHref={BOOKING_URL}
             ctaLabel={copy.cta}
             rowHeader={copy.rowHeader}
             trackSource="deliverysprint_pricing"

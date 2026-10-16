@@ -1,4 +1,4 @@
-import { CALENDLY_URL } from "@/data";
+import { BOOKING_URL } from "@/data";
 import { ladder, offerById } from "@/data/ladder";
 import type { BlogCta, BlogFrontmatter } from "./blog-types";
 
@@ -15,10 +15,10 @@ export interface BlogCtaCopy {
 // A2 F7: every paid offer's second link books the free call in one click.
 const SCOPING_CALL = {
   label: "or book a free 30-minute scoping call",
-  href: CALENDLY_URL,
+  href: BOOKING_URL,
 };
 
-// "AI Audit · from €900": name and lowest price from the ladder, so a price
+// "AI Code Audit · from €1,500": name and lowest price from the ladder, so a price
 // change in data/ladder.ts or data/workshops.ts reaches every post.
 export const offerEyebrow = (id: string) => {
   const { name, prices } = offerById(ladder, id);
@@ -42,7 +42,7 @@ export const BLOG_CTAS: Record<BlogCta, BlogCtaCopy> = {
     cta: "audit",
     eyebrow: offerEyebrow("audit"),
     heading: "Get your AI-written code audited",
-    body: "I review your AI-written code or LLM workflow and send a ranked report of what to fix first, in 2–3 days.",
+    body: "I review your AI-written code or LLM workflow, send the findings ranked by what to fix first in 2–3 days, plus one PR that fixes the top one.",
     label: "See what the audit covers",
     href: "/services#ladder",
     secondary: SCOPING_CALL,
@@ -52,7 +52,7 @@ export const BLOG_CTAS: Record<BlogCta, BlogCtaCopy> = {
     cta: "cost-audit",
     eyebrow: offerEyebrow("audit"),
     heading: "Find where your agent tokens go",
-    body: "I measure cost per commit and per merged PR on your setup and send a ranked list of fixes, in 2–3 days.",
+    body: "I measure cost per commit and per merged PR on your setup, send the ranked fixes in 2–3 days, and ship the top one as a PR.",
     label: "See what the audit covers",
     href: "/services#ladder",
     secondary: SCOPING_CALL,

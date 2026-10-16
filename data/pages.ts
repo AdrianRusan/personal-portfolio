@@ -1,5 +1,5 @@
 import {
-  CALENDLY_URL,
+  BOOKING_URL,
   CONTACT_EMAIL,
   HARNESS_PROOF,
   LEGAL_ENTITY,
@@ -48,7 +48,7 @@ export const privacyPage: ProsePage = {
   path: "/privacy",
   title: "Privacy",
   description:
-    "What adrian-rusan.com collects (form fields, analytics, error logs), who processes it (Resend, Vercel, Sentry, Stripe), how long it is kept, and how to have it deleted.",
+    "What adrian-rusan.com collects (form fields, analytics, error logs), who processes it (Resend, Vercel, Sentry, Cal.com, Stripe), how long it is kept, and how to have it deleted.",
   lead: "The short version: I collect only what the forms ask for, plus anonymous analytics and error logs. I don't sell or share it, and you can have it deleted with one email.",
   updated: "15 October 2026",
   // Plain-language notice (D7). Every claim here has to stay true of the code:
@@ -71,6 +71,7 @@ export const privacyPage: ProsePage = {
       body: `- **Resend** sends the emails and holds the email list.
 - **Vercel** hosts the site and provides the analytics and page-speed measurements.
 - **Sentry** stores the error logs.
+- **Cal.com** takes the bookings: your name, email and what you write in the booking form.
 - **Stripe** takes the card payment when you pay for a session.`,
     },
     {
@@ -80,7 +81,7 @@ export const privacyPage: ProsePage = {
 - **Error logs and analytics**: my legitimate interest in keeping the site working.
 - **Paid sessions**: the contract you make when you book and pay.
 
-Resend, Vercel and Sentry are US companies, and Stripe can pass payment data to its US parent company. Transfers outside the EEA rely on Standard Contractual Clauses and, where the provider is certified, the EU–US Data Privacy Framework.`,
+Resend, Vercel, Sentry and Cal.com are US companies, and Stripe can pass payment data to its US parent company. Transfers outside the EEA rely on Standard Contractual Clauses and, where the provider is certified, the EU–US Data Privacy Framework.`,
     },
     {
       heading: "How long I keep it",
@@ -91,7 +92,7 @@ Resend, Vercel and Sentry are US companies, and Stripe can pass payment data to 
     },
     {
       heading: "Booking a call",
-      body: "The “Book a call” buttons open Calendly. What you enter there is handled by Calendly under its own privacy policy, and I get the booking details.",
+      body: "The booking buttons open Cal.com, which stores what you enter there and sends me the booking details. For a paid session, Stripe takes the payment on the same page.",
     },
     {
       heading: "Your rights",
@@ -157,7 +158,7 @@ export const contactPage: ProsePage = {
       heading: "Book a scoping call",
       body: "30 minutes on what you want built or shipped. You get the scope and a fixed price in writing within one working day.",
       cta: "Book a scoping call",
-      href: CALENDLY_URL,
+      href: BOOKING_URL,
     },
     {
       heading: "Email",
@@ -172,7 +173,7 @@ export const contactPage: ProsePage = {
       href: "/teardown",
     },
   ],
-  // A1 F4 / F18: the paid strategy call is listed on /services only.
+  // A1 F4 / F18: the paid Architecture Session is listed on /services only.
   sections: [
     {
       heading: "Response times",
@@ -238,7 +239,7 @@ export const roContactPage: ProsePage = {
       heading: "Programează o discuție",
       body: "30 de minute despre ce vrei să construiești sau să livrezi. Scope-ul și prețul fix vin în scris, în cel mult o zi lucrătoare.",
       cta: "Programează o discuție",
-      href: CALENDLY_URL,
+      href: BOOKING_URL,
     },
     {
       heading: "Email",

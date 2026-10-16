@@ -1,5 +1,7 @@
-// event slug must exist in Calendly (active "Scoping Call" event, slug "new-meeting")
-export const CALENDLY_URL = "https://calendly.com/adrian-rusan/new-meeting";
+// #151: the free Scoping Call on Cal.com (free plan; events scoping-call,
+// architecture-session and the hidden sesiune-arhitectura). Its `topic` field
+// takes the offer prefill.
+export const BOOKING_URL = "https://cal.com/adrian-rusan/scoping-call";
 
 // D1 / A1 F1: the LinkedIn positioning, for titles, OG cards and schema.
 export const SITE_TAGLINE = "AI Agents Ship It, I Review Every PR";
@@ -34,15 +36,12 @@ export const legalEntityLine = `${LEGAL_ENTITY.name} · CUI ${LEGAL_ENTITY.cui} 
 // No reverse-charge wording (D5).
 export const VAT_LINE = "Prices exclude VAT; VAT is added where it applies.";
 
-// Paid 1:1 advice call (€200). null until Adi creates the paid Calendly event
-// (ADI-3); set it and every €200 CTA switches from email to booking, label too.
-export const STRATEGY_CALL_CALENDLY_URL: string | null = null;
-export const STRATEGY_CALL_URL =
-  STRATEGY_CALL_CALENDLY_URL ??
-  `mailto:${CONTACT_EMAIL}?subject=AI%20Strategy%20Call%20(%E2%82%AC200)`;
-export const STRATEGY_CALL_CTA = STRATEGY_CALL_CALENDLY_URL
-  ? "Book the €200 call"
-  : "Email me to book the €200 call";
+// Paid Architecture Session (€200, ends in a written build plan). Stripe takes
+// the payment on Cal.com at booking.
+export const STRATEGY_CALL_BOOKING_URL =
+  "https://cal.com/adrian-rusan/architecture-session";
+export const STRATEGY_CALL_URL = STRATEGY_CALL_BOOKING_URL;
+export const STRATEGY_CALL_CTA = "Book the €200 session";
 
 // Redacted sample of the sprint's Security Report (ADI-6), from my own 30-PR
 // run. Set to null to hide every "See a sample report" link.
@@ -83,7 +82,7 @@ const n = (v: number) => v.toLocaleString("en-US");
 export const LEDGER_PROOF = `${WORKFLOW_NUMBERS.sessions} sessions · ${WORKFLOW_NUMBERS.hours} hours · ${n(WORKFLOW_NUMBERS.commits)} commits · ${WORKFLOW_NUMBERS.prsOpened} PRs opened (upper bound, not all merged) — ${WORKFLOW_NUMBERS.days} days, 6 Aug–10 Oct 2026, counted from my own session logs.`;
 
 // #125: /services title aimed at "ai implementation consultant" (KD 9) and its
-// description; the €200 call no longer leads the title.
+// description; the €200 Architecture Session no longer leads the title.
 export const SERVICES_TITLE = "AI Implementation Consultant, Fixed Prices";
 export const SERVICES_DESCRIPTION =
   "Reviewed PRs from €1,000, delivery sprints, Agent Fleet Setup, audits and workshops. Agents write the code, I review every PR. Prices fixed up front.";
@@ -173,7 +172,7 @@ export const shipVerify = [
 export const callSteps = [
   {
     heading: "Pick a 30-minute slot",
-    body: "Book on Calendly and add one line on what you want built or shipped. That line is all the prep.",
+    body: "Book a slot and add one line on what you want built or shipped. That line is all the prep.",
   },
   {
     heading: "We look at the real work",
@@ -221,7 +220,7 @@ export const faqs: { question: string; answer: string }[] = [
   },
   {
     question: "How do payment terms work?",
-    answer: `Every price is fixed in EUR before work starts. ${VAT_LINE} The strategy call is paid up front. Sprints are 50% to book the slot and 50% on handoff. The Reviewed PR is paid only if it's merge-ready to your standard. Retainers bill monthly. ${CREDIT_TERMS}`,
+    answer: `Every price is fixed in EUR before work starts. ${VAT_LINE} The Architecture Session is paid up front. Sprints are 50% to book the slot and 50% on handoff. The Reviewed PR is paid only if it's merge-ready to your standard. Retainers bill monthly. ${CREDIT_TERMS}`,
   },
   {
     question: "What if it doesn't work out?",

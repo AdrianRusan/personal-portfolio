@@ -2,7 +2,7 @@ import Link from "next/link";
 import PrimaryCta from "./ui/PrimaryCta";
 import EmailCapture from "./EmailCapture";
 import { ClosingBand } from "./ClosingBand";
-import { CALENDLY_URL } from "@/data";
+import { BOOKING_URL } from "@/data";
 
 // The one closing ask (P1). PageShell renders it on every page; pages with
 // their own closing block pass hideFooterCta. U+2011 keeps "30‑minute" whole.
@@ -46,7 +46,7 @@ export function ClosingCta({
       <div className="mt-8 flex">
         <PrimaryCta
           title={copy.button}
-          href={CALENDLY_URL}
+          href={BOOKING_URL}
           trackEvent={{ event: "calendly_click", props: { source } }}
         />
       </div>

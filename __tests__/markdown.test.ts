@@ -5,6 +5,7 @@ import { middleware } from "@/middleware";
 import { markdownFor } from "@/lib/markdown";
 import { finish, notFoundMarkdown } from "@/lib/markdown/format";
 import { getPosts } from "@/lib/blog";
+import { mdxToMarkdown } from "@/lib/markdown/mdx";
 
 const FOOTER_LINKS = [
   "https://www.adrian-rusan.com/llms.txt",
@@ -35,6 +36,15 @@ describe("markdownFor", () => {
         .filter((slug) => !live.has(slug!));
       expect([path, dead]).toEqual([path, []]);
     }
+  });
+
+  // #150 R9: the same gate at the converter, independent of today's posts.
+  it("turns a link to a post that isn't live into its text, and keeps live ones", () => {
+    const md = mdxToMarkdown(
+      "See [the live one](/blog/live) and [the next one](/blog/soon#faq).",
+      new Set(["live"]),
+    );
+    expect(md).toBe("See [the live one](/blog/live) and the next one.");
   });
 
   it("renders / and /ro from their own copy", async () => {
