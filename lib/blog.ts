@@ -19,9 +19,11 @@ export const WORK_DIR = path.join(process.cwd(), "content/work");
 function extractHeadings(content: string): Heading[] {
   const headingRegex = /^(#{1,6})\s+(.+)$/gm;
   const headings: Heading[] = [];
+  // A "# comment" inside a fenced code block is code, not a heading.
+  const prose = content.replace(/^(```|~~~)[^\n]*\n[\s\S]*?^\1[^\n]*$/gm, "");
   let match;
 
-  while ((match = headingRegex.exec(content)) !== null) {
+  while ((match = headingRegex.exec(prose)) !== null) {
     const [, hashes, rawText] = match;
     if (!hashes || !rawText) continue;
 
