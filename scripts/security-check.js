@@ -54,42 +54,41 @@ function logInfo(message) {
 function checkDependencyVulnerabilities() {
   logStep('Checking dependency vulnerabilities...');
   
+  // npm audit exits non-zero both when it finds vulnerabilities and when it
+  // can't run at all (no network, registry error). Read its JSON either way,
+  // and treat "couldn't run" as a failure, never as "found vulnerabilities".
+  let output;
   try {
-    // Run npm audit with JSON output for detailed analysis
-    const auditResult = execSync('npm audit --json', { encoding: 'utf8' });
-    const auditData = JSON.parse(auditResult);
-    
-    const highVulns = auditData.vulnerabilities ? 
-      Object.values(auditData.vulnerabilities).filter(vuln => 
-        vuln.severity === 'high' || vuln.severity === 'critical'
-      ) : [];
-    
-    if (highVulns.length === 0) {
-      logSuccess('No high or critical severity vulnerabilities found');
-      results.dependencyAudit.passed = true;
-      results.dependencyAudit.details.push('All dependencies passed security audit');
-    } else {
-      logError(`Found ${highVulns.length} high/critical vulnerabilities`);
-      highVulns.forEach(vuln => {
-        results.dependencyAudit.details.push(`${vuln.name}: ${vuln.severity} - ${vuln.title}`);
-      });
-    }
+    output = execSync('npm audit --json', { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
   } catch (error) {
-    if (error.status === 1) {
-      logWarning('npm audit found vulnerabilities, checking severity...');
-      try {
-        const auditResult = execSync('npm audit --audit-level=high --json', { encoding: 'utf8' });
-        logSuccess('No high or critical vulnerabilities (only low/moderate found)');
-        results.dependencyAudit.passed = true;
-        results.dependencyAudit.details.push('Only low/moderate severity vulnerabilities found');
-      } catch (highLevelError) {
-        logError('High or critical vulnerabilities detected');
-        results.dependencyAudit.details.push('High/critical vulnerabilities found - run npm audit for details');
-      }
-    } else {
-      logError('Failed to run dependency audit');
-      results.dependencyAudit.details.push(`Audit failed: ${error.message}`);
-    }
+    output = error.stdout || '';
+  }
+
+  let auditData;
+  try {
+    auditData = JSON.parse(output);
+  } catch {
+    logError('npm audit did not run (no JSON output)');
+    results.dependencyAudit.details.push('Audit could not run');
+    return;
+  }
+
+  const counts = auditData.metadata && auditData.metadata.vulnerabilities;
+  if (auditData.error || !counts) {
+    const reason = auditData.message || (auditData.error && (auditData.error.summary || auditData.error.code)) || 'no vulnerability counts';
+    logError(`npm audit did not run: ${reason}`);
+    results.dependencyAudit.details.push(`Audit could not run: ${reason}`);
+    return;
+  }
+
+  const high = (counts.high || 0) + (counts.critical || 0);
+  if (high === 0) {
+    logSuccess('No high or critical severity vulnerabilities found');
+    results.dependencyAudit.passed = true;
+    results.dependencyAudit.details.push(`Low/moderate only: ${counts.low || 0} low, ${counts.moderate || 0} moderate`);
+  } else {
+    logError(`Found ${high} high/critical vulnerabilities`);
+    results.dependencyAudit.details.push(`${counts.high || 0} high, ${counts.critical || 0} critical - run npm audit for details`);
   }
 }
 
@@ -110,8 +109,10 @@ function validateSecurityHeaders() {
       'Content-Security-Policy'
     ];
     
-    const missingHeaders = requiredHeaders.filter(header => 
-      !configContent.includes(header)
+    // Match the quoted header name, so "Content-Security-Policy-Report-Only"
+    // (which blocks nothing) doesn't count as an enforced CSP.
+    const missingHeaders = requiredHeaders.filter(header =>
+      !new RegExp(`['"]${header}['"]`).test(configContent)
     );
     
     if (missingHeaders.length === 0) {
@@ -408,7 +409,7 @@ function generateVulnerabilityReport() {
     reportData.recommendations.push('- SSL Labs: https://www.ssllabs.com/ssltest/');
     
     // Save report
-    const reportsDir = path.join(process.cwd(), '.taskmaster/reports');
+    const reportsDir = path.join(process.cwd(), 'test-results');
     if (!fs.existsSync(reportsDir)) {
       fs.mkdirSync(reportsDir, { recursive: true });
     }
@@ -464,11 +465,18 @@ function displaySummary(reportData) {
     console.log('');
   }
   
-  console.log(`${colors.bold}📊 Report Location:${colors.reset} .taskmaster/reports/security-assessment-report.json`);
+  console.log(`${colors.bold}📊 Report Location:${colors.reset} test-results/security-assessment-report.json`);
   console.log('='.repeat(60));
   
-  // Exit with appropriate code
-  const exitCode = summary.overallStatus === 'critical' ? 1 : 0;
+  // Fail when any check that can actually fail did fail. The environment and
+  // external-link checks are informational and always pass, so the overall
+  // score alone can never reach "critical".
+  const gates = ['dependencyAudit', 'securityHeaders', 'codeSecurityPatterns'];
+  const failedGates = gates.filter((name) => !reportData.results[name].passed);
+  const exitCode = failedGates.length > 0 ? 1 : 0;
+  if (failedGates.length > 0) {
+    console.log(`${colors.red}Failed checks: ${failedGates.join(', ')}${colors.reset}`);
+  }
   if (exitCode !== 0) {
     console.log(`${colors.red}❌ Security assessment failed. Address critical issues before deployment.${colors.reset}`);
   } else {

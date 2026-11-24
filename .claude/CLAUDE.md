@@ -73,7 +73,7 @@ config/environment.ts  site config, feature flags, env validation
 - **Never `pkill`/`killall` or kill by pattern**: other projects' `next-server`s run on this machine. Use an explicit port; kill only your own PID.
 - **Vercel CLI here is on another account**: don't use it for this project. Vercel must run Node 24; after close merges, check production is on the latest commit and promote it if not.
 - **Calendly free plan**: never create or activate a Calendly event. The site books on Cal.com (`BOOKING_URL`) since #151; Calendly stays live only until Adi deactivates it after deploy. Cal.com is read-only for agents too.
-- **`verify:tests` is environment-dependent**: `npm test` and `npm run e2e` are the reliable gates.
+- **`verify:tests` runs tsc → lint → build → `npm test` → `npm run e2e`** and exits 1 if any step fails or can't run (#162). Local e2e needs Playwright's browser: `npx playwright install chromium`. `security-check` exits 1 when the dependency audit, headers or code-pattern check fails, or when `npm audit` couldn't run.
 - **e2e is excluded from the app `tsconfig`**: tsc doesn't check `e2e/*.spec.ts`.
 - **Images**: only `utfs.io` / `ufs.sh` remote patterns in `next.config.mjs`; a new host needs `remotePatterns`. `dangerouslyAllowSVG` is on with a strict CSP.
 - **Env**: `NEXT_PUBLIC_SITE_URL` is required in production (`validateEnvironment` throws). Analytics/Sentry gated on env + `isProduction`.

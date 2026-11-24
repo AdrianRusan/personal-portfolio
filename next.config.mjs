@@ -95,6 +95,25 @@ const nextConfig = {
           {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()'
+          },
+          {
+            // Report-only first (audit 2026-11-24): browsers log violations
+            // to the console and block nothing. Next's inline bootstrap
+            // scripts need 'unsafe-inline' until a nonce is wired in.
+            // Enforce only after a clean week on every page.
+            key: 'Content-Security-Policy-Report-Only',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline'",
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data: blob: https://utfs.io https://*.ufs.sh https://i.ytimg.com",
+              "font-src 'self'",
+              "connect-src 'self' https://*.ingest.sentry.io https://*.ingest.de.sentry.io",
+              "frame-ancestors 'self'",
+              "base-uri 'self'",
+              "form-action 'self'",
+              "object-src 'none'",
+            ].join('; ')
           }
         ]
       },

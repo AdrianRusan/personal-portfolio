@@ -46,6 +46,19 @@ describe("getPost", () => {
     await expect(getPost("draft", dir)).rejects.toThrow(/Post not found/);
   });
 
+  it("doesn't read a # comment inside a fenced code block as a heading", async () => {
+    const fs = await import("fs");
+    const os = await import("os");
+    const path = await import("path");
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "blog-"));
+    fs.writeFileSync(
+      path.join(dir, "code.mdx"),
+      '---\ntitle: "t"\ndescription: "d"\ndate: "2020-01-01"\ntags: []\npublished: true\n---\n\n## Real heading\n\n```bash\n# a shell comment\necho hi\n```\n\n~~~sh\n# another comment\n~~~\n',
+    );
+    const post = await getPost("code", dir);
+    expect(post.headings.map((h) => h.text)).toEqual(["Real heading"]);
+  });
+
   it("throws for a missing slug", async () => {
     await expect(getPost("does-not-exist-xyz")).rejects.toThrow(
       /Post not found/,

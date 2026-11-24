@@ -50,24 +50,11 @@ export const metadata: Metadata = {
   },
 };
 
-const ServicesFaqJsonLd = () => (
-  <script
-    type="application/ld+json"
-    // Static data, JSON.stringify()-escaped. Built from the same items the
-    // visible FAQ renders, so the schema can't drift from the page.
-    dangerouslySetInnerHTML={{
-      __html: JSON.stringify(faqJsonLd(servicesFaqCopy.items)),
-    }}
-  />
-);
+// Built from the same items the visible FAQ renders, so the schema can't drift
+// from the page. JsonLd escapes "<" as well.
+const ServicesFaqJsonLd = () => <JsonLd data={faqJsonLd(servicesFaqCopy.items)} />;
 
-const ServicesJsonLd = () => (
-  <script
-    type="application/ld+json"
-    // Static data, JSON.stringify()-escaped — same pattern as the FAQ JSON-LD.
-    dangerouslySetInnerHTML={{ __html: JSON.stringify(ladderServiceJsonLd()) }}
-  />
-);
+const ServicesJsonLd = () => <JsonLd data={ladderServiceJsonLd()} />;
 
 
 export default function ServicesPage() {

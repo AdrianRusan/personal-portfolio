@@ -1,9 +1,14 @@
+import { CONTACT_EMAIL } from '@/data';
 import { getPosts } from '@/lib/blog';
+import { SITE_URL as BASE_URL } from '@/lib/page-schema';
 
 // #54 R4: re-render hourly so a dated post appears without a deploy.
 export const revalidate = 3600;
 
-const BASE_URL = 'https://www.adrian-rusan.com';
+// "]]>" would end a CDATA section early; split it across two sections.
+function cdata(str: string): string {
+  return `<![CDATA[${str.replace(/]]>/g, ']]]]><![CDATA[>')}]]>`;
+}
 
 function escapeXml(str: string): string {
   return str
@@ -26,8 +31,8 @@ export async function GET() {
 
       return `
     <item>
-      <title><![CDATA[${post.frontmatter.title}]]></title>
-      <description><![CDATA[${post.frontmatter.description}]]></description>
+      <title>${cdata(post.frontmatter.title)}</title>
+      <description>${cdata(post.frontmatter.description)}</description>
       <link>${url}</link>
       <guid isPermaLink="true">${url}</guid>
       <pubDate>${new Date(post.frontmatter.date).toUTCString()}</pubDate>
@@ -48,8 +53,8 @@ export async function GET() {
     <link>${BASE_URL}</link>
     <atom:link href="${BASE_URL}/feed.xml" rel="self" type="application/rss+xml"/>
     <language>en-US</language>
-    <managingEditor>rusan.adrian.ionut@gmail.com (Adrian Rusan)</managingEditor>
-    <webMaster>rusan.adrian.ionut@gmail.com (Adrian Rusan)</webMaster>
+    <managingEditor>${CONTACT_EMAIL} (Adrian Rusan)</managingEditor>
+    <webMaster>${CONTACT_EMAIL} (Adrian Rusan)</webMaster>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <image>
       <url>${BASE_URL}/favicon-32x32.png</url>
