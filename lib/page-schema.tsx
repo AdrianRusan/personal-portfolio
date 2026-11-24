@@ -12,7 +12,7 @@ export const ogImageUrl = (
   params: Record<string, string>,
   id: string,
 ) =>
-  `${SITE_URL}${fillMetadataSegment(segment, params, "opengraph-image")}/${id}`;
+  `${SITE_URL}${fillMetadataSegment(segment, params, "opengraph-image", false)}/${id}`;
 
 export interface Crumb {
   name: string;

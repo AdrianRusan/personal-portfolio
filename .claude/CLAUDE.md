@@ -6,7 +6,7 @@ Freelance/consultant portfolio + lead-gen funnel for Adrian Rusan (Full-Stack En
 
 ## Stack
 
-- **Next.js 15.5** (App Router, server-first) · **React 19.2** · **TypeScript 5** (`strict: true`)
+- **Next.js 16** (App Router, server-first, Turbopack build) · **React 19.2** · **TypeScript 5** (`strict: true`)
 - **Tailwind 3.4** + shadcn/ui (`components/ui`, `components.json`) + `cn()` (`lib/utils.ts`)
 - **framer-motion 11** animations · **next-themes** dark/light · **lucide-react** + **react-icons**
 - **MDX blog**: `next-mdx-remote` + `gray-matter` + `rehype-pretty-code`/`shiki` (`lib/blog.ts`, `content/blog/*.mdx`)
@@ -21,7 +21,7 @@ Freelance/consultant portfolio + lead-gen funnel for Adrian Rusan (Full-Stack En
 | Dev | `npm run dev` | localhost:3000 |
 | Build | `npm run build` | `cross-env NODE_ENV=production next build`; type-checks |
 | Start | `npm start` | `next start`; pass `-- -p <port>` for a non-default port |
-| Lint | `npm run lint` | `next lint` (eslint-config-next) |
+| Lint | `npm run lint` | `eslint .` (ESLint 9 flat config, `eslint.config.mjs`, eslint-config-next core-web-vitals) |
 | Typecheck | `npx tsc --noEmit` | no script; excludes `e2e/` |
 | Unit + claim tests | `npm test` | jest; 28 suites, 270 tests on 2026-10-14 |
 | E2E | `npm run e2e` | `playwright test`; starts `npm start` on :3045 (`E2E_PORT`), so run `npm run build` first; every route at 1440 + 390 |
@@ -34,7 +34,7 @@ Freelance/consultant portfolio + lead-gen funnel for Adrian Rusan (Full-Stack En
 ## Architecture
 
 ```
-middleware.ts        Accept: text/markdown → rewrite to /api/markdown; Vary: Accept on HTML
+proxy.ts             Accept: text/markdown → rewrite to /api/markdown; Vary: Accept on HTML
 app/
   (en)/              EN root layout + /, about, blog, contact, privacy, services, teardown, work, workshops
   (ro)/ro/           RO root layout (<html lang="ro">) + /ro, despre, contact, servicii

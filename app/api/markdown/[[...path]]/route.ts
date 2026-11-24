@@ -1,7 +1,7 @@
 import { markdownFor } from "@/lib/markdown";
 import { MARKDOWN_HEADERS, notFoundMarkdown } from "@/lib/markdown/format";
 
-// middleware.ts rewrites "Accept: text/markdown" requests here (#64 R1):
+// proxy.ts rewrites "Accept: text/markdown" requests here (#64 R1):
 // /about → /api/markdown/about, / → /api/markdown.
 export async function GET(
   _req: Request,

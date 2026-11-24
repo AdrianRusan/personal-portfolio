@@ -22,7 +22,7 @@ const wantsMarkdown = (accept: string) =>
       );
     });
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   // Browsers and Next's RSC/prefetch fetches never ask for text/markdown (the
   // router's fetch sends no Accept, so */*), so only agents land here.
   if (wantsMarkdown(req.headers.get("accept") ?? "")) {

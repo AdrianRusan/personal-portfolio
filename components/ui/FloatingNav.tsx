@@ -29,7 +29,6 @@ function LocalTime() {
         hour: "2-digit",
         minute: "2-digit",
       });
-    setTime(fmt());
     // Tick on the minute boundary, so the clock is never a minute behind.
     let id: ReturnType<typeof setTimeout>;
     const tick = () => {
