@@ -26,6 +26,17 @@ import {
   roWhoFor,
 } from "@/data/ro-home";
 import { JsonLd, pageJsonLd } from "@/lib/page-schema";
+// PROTOTYPE (branch prototype/ro-non-tech): ?variant=A|B|C swaps the page body.
+import { Suspense } from "react";
+import { PrototypeSwitcher } from "@/components/prototype/PrototypeSwitcher";
+import { VariantA, VariantB, VariantC } from "@/components/prototype/RoNonTechVariants";
+
+const PROTOTYPE_VARIANTS = [
+  { key: "0", name: "pagina de azi" },
+  { key: "A", name: "trei uși" },
+  { key: "B", name: "ce vă mănâncă timpul" },
+  { key: "C", name: "patru pași" },
+];
 
 // #54 R4: re-render hourly so a dated post appears without a deploy.
 export const revalidate = 3600;
@@ -60,7 +71,13 @@ export const metadata: Metadata = {
 };
 
 // Same sections, order and shell as app/(en)/page.tsx; only the copy differs.
-export default function RoHome() {
+export default async function RoHome({
+  searchParams,
+}: {
+  searchParams: Promise<{ variant?: string }>;
+}) {
+  const { variant } = await searchParams;
+  const Prototype = variant === "A" ? VariantA : variant === "B" ? VariantB : variant === "C" ? VariantC : null;
   return (
     <PageShell
       ro
@@ -77,6 +94,7 @@ export default function RoHome() {
           home: { name: "Acasă", path: "/ro" },
         })}
       />
+      {Prototype ? <Prototype /> : <>
       <Hero copy={roHero} aside={<ProofBand copy={roProofBand} />} />
       <ShipVerify copy={roShipVerify} />
       <CaseStudyCards copy={roCaseStudyCards} />
@@ -90,6 +108,10 @@ export default function RoHome() {
           items: homeFaq(roServicesFaq.items, roCallFaq),
         }}
       />
+      </>}
+      <Suspense>
+        <PrototypeSwitcher variants={PROTOTYPE_VARIANTS} />
+      </Suspense>
     </PageShell>
   );
 }
