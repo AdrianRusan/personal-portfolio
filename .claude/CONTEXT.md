@@ -55,7 +55,7 @@ State as of 2026-11-24 (main at 6d3556c; audit and fixes in PRs #158, #159, #163
 
 ## Known Issues / Gotchas
 - **Form rate limit lives in Vercel Firewall, not in the repo**: rule `limita formulare`, 5 requests per 60 s per IP, shared across `/api/subscribe` and `/api/teardown`, 429 above it (published 2026-11-24; live check: requests 1–5 → 400, 6–7 → 429). Changing or removing it is a dashboard action; nothing in the repo or tests shows it.
-- **Vercel Web Analytics is not enabled** on the project (the dashboard shows demo data, 2026-11-24). `@vercel/analytics` is installed, but nothing is collected until Adi enables it, so `calendly_click` and traffic are unmeasured.
+- **Vercel Web Analytics is not enabled** on the project (the dashboard shows demo data, 2026-11-24). `@vercel/analytics` is installed, but nothing is collected until Adi enables it, so `calendly_click` and traffic are unmeasured. Speed Insights does collect: 35 desktop events and 0 mobile in the 7 days to 2026-11-24 (events sum FCP, LCP, CLS and INP, so fewer visits), which fits the "no visitors" reading.
 - **Deploys are not gated on tests** until #161 lands: `main` is unprotected and there is no workflow, so run `npm test` before every merge.
 - **The scheduled blog queue ends on 2026-12-05** (`vibe-coded-app-keep-fix-or-rebuild`). No post is dated after it.
 - **`/` metadata**: the layout's `title.template` doesn't apply to a page in the layout's own folder, so `/` sets an absolute `HOME_SHARE_TITLE`. A page-level `openGraph` on `/` drops `app/(en)/opengraph-image.tsx` (moved from `app/` in #179: Next 16 no longer applies `app/` root image files to route groups), so the home share text lives in the layout (`root-shell.tsx`). `/privacy` and the 404s inherit that card.
