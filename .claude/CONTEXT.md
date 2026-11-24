@@ -67,7 +67,7 @@ State as of 2026-11-24 (main at 6d3556c; audit and fixes in PRs #158, #159, #163
 - **Production can land on an older build** when merges land close together (an earlier deployment finishes last). After merging, check the production deployment's commit in the Vercel dashboard and promote the latest one if needed.
 - **`npx is-agentic` caches reports**: a CLI rerun can show a stale score. Rescan from the is-agentic website to get a fresh report.
 - Shell profile exports `NODE_ENV=development`: always build with `npm run build` (pins production), never raw `next build`.
-- `verify:tests` (inside `verify:all`) is environment-dependent; `npm test` and `npm run e2e` are the reliable gates.
+- `verify:tests` (inside `verify:all`) runs the whole ladder and exits 1 on any failed or skipped step (#162); local e2e needs `npx playwright install chromium`.
 
 ## Open Items (Adi)
 - Enable Vercel Web Analytics (read Limits & Pricing first).
