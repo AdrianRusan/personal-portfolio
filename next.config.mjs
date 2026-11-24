@@ -38,6 +38,11 @@ const nextConfig = {
   // for non-bot user agents; block on it for every agent so the description is in <head>.
   htmlLimitedBots: /.*/,
   serverExternalPackages: ['next-mdx-remote', 'shiki'],
+  // lib/blog.ts reads content/ at request time (ISR); its fs calls opt out of
+  // tracing, so ship the MDX files explicitly instead of the whole project.
+  outputFileTracingIncludes: {
+    '/**': ['./content/**/*.mdx'],
+  },
   experimental: {
     inlineCss: true,
     // D1: with per-group root layouts, unmatched URLs need app/global-not-found.tsx.

@@ -56,15 +56,18 @@ export function isLive(date: string, now = new Date()): boolean {
 }
 
 export async function getPosts(dir = BLOG_DIR): Promise<BlogPost[]> {
-  if (!fs.existsSync(dir)) return [];
+  // turbopackIgnore: a dynamic `dir` made Next 16 trace the whole project into
+  // every server function (182 MB vs 13 MB). content/ is shipped explicitly by
+  // outputFileTracingIncludes in next.config.mjs.
+  if (!fs.existsSync(/*turbopackIgnore: true*/ dir)) return [];
 
-  const files = fs.readdirSync(dir);
+  const files = fs.readdirSync(/*turbopackIgnore: true*/ dir);
 
   const posts = files
     .filter((file) => file.endsWith(".mdx"))
     .map((file) => {
       const slug = file.replace(".mdx", "");
-      const raw = fs.readFileSync(path.join(dir, file), "utf-8");
+      const raw = fs.readFileSync(path.join(/*turbopackIgnore: true*/ dir, file), "utf-8");
       const { data, content } = matter(raw);
       const rt = readingTime(content);
       const headings = headingsFor(content, data);
@@ -110,11 +113,11 @@ export async function getPost(
   if (!/^[a-z0-9-]+$/.test(slug)) throw new Error(`Post not found: ${slug}`);
   const filePath = path.join(dir, `${slug}.mdx`);
 
-  if (!fs.existsSync(filePath)) {
+  if (!fs.existsSync(/*turbopackIgnore: true*/ filePath)) {
     throw new Error(`Post not found: ${slug}`);
   }
 
-  const raw = fs.readFileSync(filePath, "utf-8");
+  const raw = fs.readFileSync(/*turbopackIgnore: true*/ filePath, "utf-8");
   const { data, content } = matter(raw);
   // Drafts and future-dated posts behave like missing posts everywhere (page,
   // metadata, OG image).
