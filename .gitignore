@@ -72,8 +72,9 @@ Thumbs.db
 *.backup
 *.bak
 
-# Taskmaster files (keep main tasks.json but ignore generated files)
-.taskmaster/reports/
-.taskmaster/docs/
-.taskmaster/tasks/
-.taskmaster/state.json 
+# Locally installed agent skills and agent memory (not part of the site)
+.agents/
+.claude/skills/
+.claude/agent-memory/
+skills-lock.json
+graphify-out/ 
