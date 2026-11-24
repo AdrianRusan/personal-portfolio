@@ -1,9 +1,11 @@
 # CONTEXT — Personal Portfolio
 
 Living context. Update after each session. Keep under 200 lines.
-State as of 2026-10-14 (main after PRs #34–#131).
+State as of 2026-11-24 (main at 6d3556c; audit and fixes in PRs #158, #159, #163).
 
 ## Recent Changes
+- [2026-11-24] Status review (Bruce + SuperBoris). Adi widened the job: not only review and delivery for dev teams, also automating parts of a business and teaching company staff to use AI tools. Bruce qualification: NEED-DATA; the evidence, the next test and its success line are in the private sheet (this repo is public): `~/Code/personal/goals/2026-11-24-portfolio-calificare.md`.
+- [2026-11-24] SuperBoris repo audit: CHANGES REQUESTED, 3 MAJOR, 0 CRITICAL (`docs/audit/2026-11-24-repo-intreg-personal-portfolio.md`, #159). MAJOR 1 handled in Vercel Firewall (below); #160 (form-route length caps, logged confirmation failure), #161 (CI gate), #162 (verify scripts that always pass) are open. Quick MINOR fixes in #163.
 - [2026-10-15] #149–#152 (stacked PRs #153–#156), CAEN 6210 fit: one `LEGAL_ENTITY` (footer, /contact, JSON-LD `taxID`), `VAT_LINE`, tiers Plan / Set up / Build / Ship, "AI Strategy Call" → Architecture Session (written build plan) and "AI Audit" → AI Code Audit (findings + one fix PR); these supersede the older names below. Private brief: `~/Code/personal/goals/2026-10-15-3-site-legal-offers-calcom.md`.
 - [2026-10-14] #126, #129, #131 (issue #125) copy rewrite from content research, words only: the hero panel on `/` and `/ro` is a review log (`reviewLog`, own repos, the #109 miss included); keyword-led titles on every page (`HOME_TITLE`, `SERVICES_TITLE`, `WORK_TITLE`, `BLOG_TITLE`, /about "Hire a Senior Full-Stack Developer", distinct /contact and /ro/contact); new numbers `THROUGHPUT` (632 merged PRs, 32 active days), `NOW_BOARD`, `RULES_WORDS`; RO teardown fallbacks are an email (`RO_TEARDOWN_EMAIL`). Private research and receipts: `~/Code/personal/goals/2026-10-14-1-content-research/`.
 - [2026-10-13/14] #114 redesign (direction M) and #123 design system (semantic tokens, type scale, `DESIGN.md`). Decisions in `docs/plans/feat-114-redesign-research/` and `DESIGN.md`.
@@ -52,6 +54,10 @@ State as of 2026-10-14 (main after PRs #34–#131).
 - **RO teardown fallback**: `RO_TEARDOWN_EMAIL` (mailto, subject "Teardown gratuit") everywhere RO used to link the EN-only `/teardown`, until an RO teardown page exists.
 
 ## Known Issues / Gotchas
+- **Form rate limit lives in Vercel Firewall, not in the repo**: rule `limita formulare`, 5 requests per 60 s per IP, shared across `/api/subscribe` and `/api/teardown`, 429 above it (published 2026-11-24; live check: requests 1–5 → 400, 6–7 → 429). Changing or removing it is a dashboard action; nothing in the repo or tests shows it.
+- **Vercel Web Analytics is not enabled** on the project (the dashboard shows demo data, 2026-11-24). `@vercel/analytics` is installed, but nothing is collected until Adi enables it, so `calendly_click` and traffic are unmeasured.
+- **Deploys are not gated on tests** until #161 lands: `main` is unprotected and there is no workflow, so run `npm test` before every merge.
+- **The scheduled blog queue ends on 2026-12-05** (`vibe-coded-app-keep-fix-or-rebuild`). No post is dated after it.
 - **`/` metadata**: the layout's `title.template` doesn't apply to a page in the layout's own folder, so `/` sets an absolute `HOME_SHARE_TITLE`. A page-level `openGraph` on `/` drops the root `app/opengraph-image.tsx`, so the home share text lives in the layout (`root-shell.tsx`). `/privacy` and the 404s inherit that card.
 - **Re-link "nine PRs" on or after 2026-10-24**: `content/blog/2-3x-not-100x.mdx` (the October-run paragraph) had its link to `/work/nine-prs-one-afternoon` removed, because that study is dated 2026-10-24 and 404s until then. Once it is live, restore `[nine PRs](/work/nine-prs-one-afternoon)`.
 - **Vercel production deploys fail when merges land seconds apart** ("Git information retrieval failed"; seen on #87, #93, #95 on 2026-10-12). The older deploys fail and the newest one usually succeeds. After merging several PRs, check that the deploy of the LAST merge commit succeeded; if it failed too, Deployments → Redeploy without build cache.
@@ -64,6 +70,10 @@ State as of 2026-10-14 (main after PRs #34–#131).
 - `verify:tests` (inside `verify:all`) is environment-dependent; `npm test` and `npm run e2e` are the reliable gates.
 
 ## Open Items (Adi)
+- Enable Vercel Web Analytics (read Limits & Pricing first).
+- Sentry project setting "Prevent storing of IP addresses": the privacy page promises IPs aren't kept; unchecked (no access).
+- Confirm the PFA seat address with the apartment number should stay in the footer of every page (#149 decision; flagged by the audit).
+- CAEN 8559 (and possibly 6220 / 7020) for the training and automation offers: ONRC Anexa 2b, together with the CAEN Rev.3 update (deadline 2027-04-01).
 - `contact@adrian-rusan.com` has no MX records (no mailbox). `CONTACT_EMAIL` points at the Gmail until forwarding exists (#145); then switch the one constant back.
 - YouTube channel: set `YOUTUBE_CHANNEL_ID` when live (null hides every YouTube surface).
 
