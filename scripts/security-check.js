@@ -109,8 +109,10 @@ function validateSecurityHeaders() {
       'Content-Security-Policy'
     ];
     
-    const missingHeaders = requiredHeaders.filter(header => 
-      !configContent.includes(header)
+    // Match the quoted header name, so "Content-Security-Policy-Report-Only"
+    // (which blocks nothing) doesn't count as an enforced CSP.
+    const missingHeaders = requiredHeaders.filter(header =>
+      !new RegExp(`['"]${header}['"]`).test(configContent)
     );
     
     if (missingHeaders.length === 0) {
