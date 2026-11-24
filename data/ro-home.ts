@@ -318,6 +318,8 @@ export const roFooter: FooterCopy = {
   contact: "Contact",
   contactHref: "/ro/contact",
   privacy: "Confidențialitate",
+  terms: "Termeni",
+  termsHref: "/ro/termeni",
   rss: "RSS",
   socialAria: "Rețele sociale",
   socialLabels: {

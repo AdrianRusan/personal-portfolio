@@ -103,6 +103,7 @@ ${posts.map((p) => link(p.frontmatter.title, `/blog/${p.slug}`, p.frontmatter.de
 ${link("Homepage", "/", "Positioning, the ship/verify method, proof and offers.")}
 ${link("About", "/about", "Who reviews the code: 10+ years in production, the ship/verify method, the honesty policy.")}
 ${link("Contact", "/contact", "Booking, email, response times, location and the legal entity.")}
+${link("Terms", "/terms", "Merge-ready, payment and the 50% advance, VAT, guarantees, retainer exit and liability.")}
 ${link("Free AI code teardown", "/teardown", "Send a repo or PR; get a free 15-minute Loom of the security bugs that pass tests.")}
 - [Book a scoping call](${BOOKING_URL}): 30 minutes on which offer fits, what it covers and what it costs.
 
@@ -112,6 +113,7 @@ ${link("Acasă", "/ro", "Livrare de software cu agenți AI, revizuită de un sen
 ${link("Servicii", "/ro/servicii", "Servicii și prețuri în EUR pentru România.")}
 ${link("Despre", "/ro/despre", "Cine verifică codul, metoda și regula de onestitate.")}
 ${link("Contact", "/ro/contact", "Programare, email, timp de răspuns și entitatea juridică.")}
+${link("Termeni", "/ro/termeni", "Gata de merge, plata și avansul de 50%, TVA, garanții, ieșirea din retainer și răspunderea.")}
 `;
 
   return new Response(body, {

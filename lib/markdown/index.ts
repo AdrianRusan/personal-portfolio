@@ -26,6 +26,8 @@ import {
   privacyPage,
   roAboutPage,
   roContactPage,
+  roTermsPage,
+  termsPage,
 } from "@/data/pages";
 import {
   roBio,
@@ -118,6 +120,8 @@ const staticPages: Record<string, () => string> = {
   "/ro/despre": () => proseMd(roAboutPage),
   "/contact": () => proseMd(contactPage),
   "/ro/contact": () => proseMd(roContactPage),
+  "/terms": () => proseMd(termsPage),
+  "/ro/termeni": () => proseMd(roTermsPage),
 };
 
 // Missing or unpublished posts behave as 404s, like the HTML pages.

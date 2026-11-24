@@ -8,6 +8,7 @@ const routes = [
   '/services',
   '/teardown',
   '/privacy',
+  '/terms',
   '/about',
   '/contact',
   '/blog',
@@ -25,6 +26,7 @@ const routes = [
   '/ro/servicii',
   '/ro/despre',
   '/ro/contact',
+  '/ro/termeni',
 ];
 
 // #151: booking links are Cal.com. Each "none here" check below is paired with
@@ -189,6 +191,9 @@ for (const path of ['/', '/services', '/ro', '/ro/contact']) {
     await page.goto(path);
     await expect(page.locator('footer', { hasText: legalEntityLine })).toHaveCount(1);
     await expect(page.locator('footer')).toContainText('CUI 49119790');
+    // #152: the terms sit next to privacy in every footer.
+    const terms = path.startsWith('/ro') ? '/ro/termeni' : '/terms';
+    await expect(page.locator(`footer a[href="${terms}"]`)).toHaveCount(1);
   });
 }
 
@@ -280,6 +285,8 @@ test('posts, studies and /privacy drop the shared closing ask', async ({ page })
     ['/work/30-reviewed-prs-3-vulnerabilities', 1],
     ['/blog/catching-shell-injection-agents-wrote', 1],
     ['/privacy', 0],
+    ['/terms', 0],
+    ['/ro/termeni', 0],
   ] as const) {
     await page.goto(path);
     await expect(page.locator('#closing-cta-heading')).toHaveCount(0);

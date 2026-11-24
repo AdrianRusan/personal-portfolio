@@ -245,10 +245,12 @@ const current: Record<string, string[]> = {
   "/contact": [],
   "/teardown": [],
   "/privacy": [],
+  "/terms": [],
   "/ro": ["Acasă"],
   "/ro/servicii": ["Servicii"],
   "/ro/despre": [],
   "/ro/contact": [],
+  "/ro/termeni": [],
 };
 
 test.describe("nav (I-10..I-16)", () => {

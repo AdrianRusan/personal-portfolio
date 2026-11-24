@@ -19,6 +19,9 @@ export const RO_STRATEGY_CALL_BOOKING_URL =
 export const RO_STRATEGY_CALL_URL = RO_STRATEGY_CALL_BOOKING_URL;
 export const RO_STRATEGY_CALL_CTA = "Rezervă sesiunea de 110 €";
 
+export const RO_RETAINER_EXIT =
+  "Trei luni la început, apoi lună de lună, cu preaviz de 30 de zile.";
+
 // #149 R2: RO twin of VAT_LINE.
 export const RO_VAT_LINE = "Prețurile nu includ TVA; TVA-ul se adaugă acolo unde se aplică.";
 

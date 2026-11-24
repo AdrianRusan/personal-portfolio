@@ -12,6 +12,7 @@ import type { ServicesHeroCopy } from "@/components/services/ServicesHero";
 import type { TrustStripCopy } from "@/components/services/TrustStrip";
 import { BOOKING_URL, VAT_LINE, type Testimonial } from "@/data";
 import type { ProsePage } from "@/data/pages";
+import { localeOf } from "@/lib/locale";
 import { teardown } from "@/data/teardown";
 import {
   euro,
@@ -160,7 +161,8 @@ export const proseMd = (page: ProsePage) =>
   blocks(
     `# ${page.title}`,
     page.lead,
-    page.updated && `Last updated ${page.updated}`,
+    page.updated &&
+      `${localeOf(page.path) === "ro" ? "Ultima actualizare" : "Last updated"} ${page.updated}`,
     ...(page.options ?? []).map(
       (o) => `## ${o.heading}\n\n${o.body} [${o.cta}](${o.href})`,
     ),

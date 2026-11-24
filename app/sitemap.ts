@@ -27,6 +27,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const trustPages: MetadataRoute.Sitemap = [
     ["/about", "/ro/despre"],
     ["/contact", "/ro/contact"],
+    ["/terms", "/ro/termeni"],
   ].flatMap(([en, ro]) =>
     [en!, ro!].map((path) => ({
       url: `${baseUrl}${path}`,
