@@ -5,6 +5,13 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
+    ignore:
+      # v3 supports Tailwind v4 only; this site is on Tailwind 3.4.
+      - dependency-name: tailwind-merge
+        update-types: ["version-update:semver-major"]
+      # Types should match the Node runtime (24, see package.json engines).
+      - dependency-name: "@types/node"
+        versions: [">=25"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
