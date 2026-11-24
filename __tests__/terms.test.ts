@@ -42,6 +42,11 @@ describe("/terms and /ro/termeni", () => {
       expect(t).toContain(exit);
       expect(t).toMatch(/1355/);
       expect(t).toMatch(/merge-ready|gata de merge/);
+      // Legal check 2026-11-24: B2B only (OUG 34/2014), how the contract is
+      // made (Legea 365/2002 art. 8), express acceptance of the cap (art. 1203).
+      expect(t).toMatch(/businesses only|doar cu firme/);
+      expect(t).toMatch(/How a contract is made|Cum se încheie contractul/);
+      expect(t).toMatch(/1203/);
     },
   );
 
@@ -53,7 +58,7 @@ describe("/terms and /ro/termeni", () => {
     expect(llms).toContain("https://www.adrian-rusan.com/ro/termeni");
     expect(await markdownFor("/terms")).toContain(legalEntityLine);
     expect(await markdownFor("/ro/termeni")).toContain(legalEntityLine);
-    expect(await markdownFor("/ro/termeni")).toContain("Ultima actualizare 15 octombrie 2026");
+    expect(await markdownFor("/ro/termeni")).toContain("Ultima actualizare 24 noiembrie 2026");
     expect(switchLocalePath("/terms")).toBe("/ro/termeni");
     expect(switchLocalePath("/ro/termeni")).toBe("/terms");
   });

@@ -296,14 +296,22 @@ export const termsPage: ProsePage = {
   title: "Terms",
   description:
     `The terms every engagement with Adrian Rusan runs on: what merge-ready means, payment and the 50% advance, VAT, the ${CREDIT_DAYS}-day credit, the guarantees, retainer exit and liability.`,
-  lead: "The terms every engagement runs on. A written proposal for your project can change them, and where it does, the proposal wins.",
-  updated: "15 October 2026",
+  lead: "The terms every engagement runs on. I work with businesses only. The terms bind once you accept my written proposal, and where the proposal differs, the proposal wins.",
+  updated: "24 November 2026",
   sections: [
     {
       heading: "Who provides the services",
       body: `${legalEntityLine}
 
-A Romanian-registered business (PFA). Invoiced in EUR; USD on request.`,
+A Romanian-registered business (PFA). Invoiced in EUR; USD on request.
+
+I work with businesses only, not with consumers. By booking a paid session or accepting a proposal, you confirm you're acting for a business.`,
+    },
+    {
+      heading: "How a contract is made",
+      body: `- **Paid sessions**: you pick a time on Cal.com, fill in the form and pay by card through Stripe. You can correct the form before you pay. Cal.com e-mails you a confirmation; that e-mail and this page are the record of the contract.
+- **Projects**: I send a written proposal by e-mail and you accept it in writing by e-mail. The proposal and this page are the contract.
+- **Language**: English or Romanian. I don't subscribe to a code of conduct.`,
     },
     {
       heading: "What merge-ready means",
@@ -335,7 +343,7 @@ A Romanian-registered business (PFA). Invoiced in EUR; USD on request.`,
     },
     {
       heading: "Liability",
-      body: "My total liability for an engagement is capped at the fees you paid for that engagement. The cap doesn't apply where Romanian law doesn't allow a limit: damage caused with intent or through gross negligence, and harm to a person's physical or mental integrity or health (Civil Code art. 1355).",
+      body: "My total liability for an engagement is capped at the fees you paid for that engagement. The cap doesn't apply where Romanian law doesn't allow a limit: damage caused with intent or through gross negligence, and harm to a person's physical or mental integrity or health (Civil Code art. 1355). The cap applies only where you accept it expressly in writing; every written proposal has a line for that (Civil Code art. 1203).",
     },
   ],
 };
@@ -345,14 +353,22 @@ export const roTermsPage: ProsePage = {
   title: "Termeni și condiții",
   description:
     `Termenii pe care rulează orice colaborare cu Adrian Rusan: ce înseamnă gata de merge, plata și avansul de 50%, TVA, creditul de ${CREDIT_DAYS} de zile, garanțiile, ieșirea din retainer și răspunderea.`,
-  lead: "Termenii pe care rulează orice colaborare. O ofertă scrisă pentru proiectul tău îi poate schimba, iar acolo unde o face, oferta are prioritate.",
-  updated: "15 octombrie 2026",
+  lead: "Termenii pe care rulează orice colaborare. Lucrez doar cu firme. Termenii se aplică din momentul în care accepți oferta mea scrisă, iar acolo unde oferta spune altceva, oferta are prioritate.",
+  updated: "24 noiembrie 2026",
   sections: [
     {
       heading: "Cine prestează serviciile",
       body: `${legalEntityLine}
 
-PFA înregistrat în România. Facturez în EUR; în USD la cerere.`,
+PFA înregistrat în România. Facturez în EUR; în USD la cerere.
+
+Lucrez doar cu firme, nu cu consumatori. Când rezervi o sesiune plătită sau accepți o ofertă, confirmi că acționezi în numele unei firme.`,
+    },
+    {
+      heading: "Cum se încheie contractul",
+      body: `- **Sesiunile plătite**: alegi o oră pe Cal.com, completezi formularul și plătești cu cardul prin Stripe. Poți corecta formularul înainte să plătești. Cal.com îți trimite o confirmare pe e-mail; acel e-mail și pagina asta sunt evidența contractului.
+- **Proiectele**: îți trimit o ofertă scrisă pe e-mail, iar tu o accepți în scris, tot pe e-mail. Oferta și pagina asta sunt contractul.
+- **Limba**: română sau engleză. Nu aderez la un cod de conduită.`,
     },
     {
       heading: "Ce înseamnă gata de merge",
@@ -384,7 +400,7 @@ PFA înregistrat în România. Facturez în EUR; în USD la cerere.`,
     },
     {
       heading: "Răspundere",
-      body: "Răspunderea mea totală pentru o colaborare e limitată la sumele pe care mi le-ai plătit pentru ea. Limita nu se aplică acolo unde legea română nu permite o limită: prejudiciile cauzate cu intenție sau din culpă gravă și cele aduse integrității fizice sau psihice ori sănătății unei persoane (art. 1355 Cod civil).",
+      body: "Răspunderea mea totală pentru o colaborare e limitată la sumele pe care mi le-ai plătit pentru ea. Limita nu se aplică acolo unde legea română nu permite o limită: prejudiciile cauzate cu intenție sau din culpă gravă și cele aduse integrității fizice sau psihice ori sănătății unei persoane (art. 1355 Cod civil). Limita se aplică doar dacă o accepți expres, în scris; fiecare ofertă scrisă are un rând pentru asta (art. 1203 Cod civil).",
     },
   ],
 };
