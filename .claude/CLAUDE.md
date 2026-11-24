@@ -10,7 +10,7 @@ Freelance/consultant portfolio + lead-gen funnel for Adrian Rusan (Full-Stack En
 - **Tailwind 3.4** + shadcn/ui (`components/ui`, `components.json`) + `cn()` (`lib/utils.ts`)
 - **framer-motion 11** animations · **next-themes** dark/light · **lucide-react** + **react-icons**
 - **MDX blog**: `next-mdx-remote` + `gray-matter` + `rehype-pretty-code`/`shiki` (`lib/blog.ts`, `content/blog/*.mdx`)
-- **Observability**: Sentry (`@sentry/nextjs`, org `adrianrusan`), Vercel Analytics + Speed Insights (prod only)
+- **Observability**: Sentry (`@sentry/nextjs`, org `adrianrusan`), Vercel Speed Insights (prod only, collecting; per-metric detail needs the Speed Insights Plus add-on). `@vercel/analytics` is installed, but Web Analytics is not enabled on the project (2026-11-24)
 - **Tests**: Jest 30 (unit + claim tests, `__tests__/`) · Playwright (`e2e/smoke.spec.ts`)
 - **Deploy**: Vercel (Node 24), branch previews. Package manager: npm.
 
