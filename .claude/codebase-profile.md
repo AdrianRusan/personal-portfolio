@@ -95,8 +95,7 @@ project-root/
 ├── scripts/                       # Utility scripts
 │   ├── verify-build.js            # Build size, type checks
 │   ├── verify-tests.js            # Test coverage
-│   ├── security-check.js          # Dependency vulnerabilities
-│   └── measure-performance.js, analyze-lighthouse.js
+│   └── security-check.js          # Dependency vulnerabilities
 │
 ├── .claude/                       # Claude Code config
 │   ├── CLAUDE.md                  # Project-specific rules (if exists)
