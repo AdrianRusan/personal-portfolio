@@ -1,7 +1,7 @@
 /** @jest-environment node */
 import { NextRequest } from "next/server";
 import sitemap from "@/app/sitemap";
-import { middleware } from "@/middleware";
+import { proxy } from "@/proxy";
 import { markdownFor } from "@/lib/markdown";
 import { finish, notFoundMarkdown } from "@/lib/markdown/format";
 import { getPosts } from "@/lib/blog";
@@ -120,9 +120,9 @@ describe("notFoundMarkdown", () => {
   });
 });
 
-describe("middleware", () => {
+describe("proxy", () => {
   const run = (path: string, accept: string) =>
-    middleware(
+    proxy(
       new NextRequest(`https://www.adrian-rusan.com${path}`, {
         headers: { accept },
       }),

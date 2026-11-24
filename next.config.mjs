@@ -118,7 +118,7 @@ const nextConfig = {
         ]
       },
       {
-        // #64 R1: page routes answer HTML or Markdown by Accept (middleware.ts),
+        // #64 R1: page routes answer HTML or Markdown by Accept (proxy.ts),
         // so caches must key on it. Same scope and value as HTML_VARY there.
         source: '/:path((?!api/|_next/|.*\\.[a-z0-9]+$).*)',
         headers: [
