@@ -43,6 +43,13 @@ describe("POST /api/subscribe — input guard", () => {
     }
   });
 
+  it("rejects an email over 254 characters with 400, accepts one at 254", async () => {
+    const at254 = `${"a".repeat(248)}@b.com`;
+    expect(at254).toHaveLength(254);
+    expect((await post(JSON.stringify({ email: at254 }))).status).toBe(200);
+    expect((await post(JSON.stringify({ email: `a${at254}` }))).status).toBe(400);
+  });
+
   it("accepts a valid email and no-ops when no ESP is configured", async () => {
     const res = await post(JSON.stringify({ email: "Founder@Startup.io" }));
     expect(res.status).toBe(200);

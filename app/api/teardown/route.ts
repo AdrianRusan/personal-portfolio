@@ -15,6 +15,8 @@ import { CONTACT_EMAIL } from "@/data";
 //   RESEND_AUDIENCE_ID   audience an opted-in submitter is added to (best-effort nurture only)
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_EMAIL = 254;
+const MAX_REPO_URL = 2048;
 const NOTIFY_TO = process.env.TEARDOWN_NOTIFY_TO ?? CONTACT_EMAIL;
 const MAX_NOTE = 2000;
 
@@ -65,14 +67,22 @@ export async function POST(request: Request) {
   // Nurture is opt-in: only an explicit `true` (a ticked box) joins the audience.
   const optIn = field("optIn") === true;
 
-  if (typeof email !== "string" || !EMAIL_PATTERN.test(email.trim())) {
+  if (
+    typeof email !== "string" ||
+    email.trim().length > MAX_EMAIL ||
+    !EMAIL_PATTERN.test(email.trim())
+  ) {
     return NextResponse.json(
       { ok: false, error: "Please provide a valid email address." },
       { status: 400 },
     );
   }
 
-  if (typeof repoUrl !== "string" || !isHttpUrl(repoUrl.trim())) {
+  if (
+    typeof repoUrl !== "string" ||
+    repoUrl.trim().length > MAX_REPO_URL ||
+    !isHttpUrl(repoUrl.trim())
+  ) {
     return NextResponse.json(
       { ok: false, error: "Please provide a valid repo or PR URL." },
       { status: 400 },
@@ -178,7 +188,7 @@ export async function POST(request: Request) {
   // 3. Confirm to the submitter (best-effort — the request is already logged
   //    with Adrian, so a failed confirmation shouldn't fail the whole request).
   try {
-    await fetch("https://api.resend.com/emails", {
+    const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: authHeaders,
       body: JSON.stringify({
@@ -193,8 +203,13 @@ export async function POST(request: Request) {
         `,
       }),
     });
+
+    if (!res.ok) {
+      throw new Error(`Resend confirmation responded with ${res.status}`);
+    }
   } catch (error) {
     console.warn("[teardown] Confirmation email failed (non-fatal):", error);
+    Sentry.captureException(error);
   }
 
   return NextResponse.json({ ok: true });
