@@ -53,6 +53,23 @@ describe("POST /api/teardown — input guard", () => {
     }
   });
 
+  it("rejects an email over 254 characters with 400, accepts one at 254", async () => {
+    const at254 = `${"a".repeat(248)}@b.com`;
+    expect(at254).toHaveLength(254);
+    const send = (email: string) =>
+      post(JSON.stringify({ email, repoUrl: VALID_REPO }));
+    expect((await send(at254)).status).toBe(200);
+    expect((await send(`a${at254}`)).status).toBe(400);
+  });
+
+  it("rejects a repo URL over 2048 characters with 400, accepts one at 2048", async () => {
+    const at2048 = VALID_REPO.padEnd(2048, "0");
+    const send = (repoUrl: string) =>
+      post(JSON.stringify({ email: "founder@startup.io", repoUrl }));
+    expect((await send(at2048)).status).toBe(200);
+    expect((await send(`${at2048}0`)).status).toBe(400);
+  });
+
   it("accepts a valid request and no-ops when no ESP is configured", async () => {
     const res = await post(
       JSON.stringify({ email: "Founder@Startup.io", repoUrl: VALID_REPO }),
@@ -108,7 +125,7 @@ describe("POST /api/teardown — production misconfig fails closed", () => {
   });
 });
 
-describe("POST /api/teardown — nurture opt-in (D8)", () => {
+describe("POST /api/teardown — with the ESP configured", () => {
   const fetchMock = jest.fn(
     async (_url: RequestInfo | URL, _init?: RequestInit) =>
       new Response("{}", { status: 200 }),
@@ -126,6 +143,9 @@ describe("POST /api/teardown — nurture opt-in (D8)", () => {
   afterEach(() => {
     global.fetch = realFetch;
     delete process.env.RESEND_AUDIENCE_ID;
+    jest.dontMock("@sentry/nextjs");
+    jest.resetModules();
+    jest.restoreAllMocks();
   });
 
   const audienceCalls = () =>
@@ -148,5 +168,38 @@ describe("POST /api/teardown — nurture opt-in (D8)", () => {
     );
     expect(res.status).toBe(200);
     expect(audienceCalls()).toHaveLength(1);
+  });
+
+  it("still returns 200 but reports a failed confirmation email to Sentry", async () => {
+    const captureException = jest.fn();
+    jest.resetModules();
+    jest.doMock("@sentry/nextjs", () => ({
+      captureMessage: jest.fn(),
+      captureException,
+    }));
+    jest.spyOn(console, "warn").mockImplementation(() => {});
+    // 1st send = notification to Adrian (ok), 2nd = confirmation (rejected).
+    fetchMock
+      .mockResolvedValueOnce(new Response("{}", { status: 200 }))
+      .mockResolvedValueOnce(new Response("{}", { status: 422 }));
+
+    const { POST: FreshPOST } = await import("@/app/api/teardown/route");
+    const res = await FreshPOST(
+      new Request("http://localhost/api/teardown", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: "founder@startup.io",
+          repoUrl: VALID_REPO,
+        }),
+      }),
+    );
+
+    expect(res.status).toBe(200);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(captureException).toHaveBeenCalledTimes(1);
+    const [error] = captureException.mock.calls[0] as [Error];
+    expect(error.message).toContain("422");
+    expect(error.message).not.toContain("founder@startup.io");
   });
 });

@@ -15,6 +15,7 @@ import { BOOKING_URL } from "@/data";
 //   NEXT_PUBLIC_SITE_URL used to build the checklist download link
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_EMAIL = 254;
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.adrian-rusan.com";
 const CHECKLIST_URL = `${SITE_URL}/agent-pr-review-checklist.pdf`;
@@ -41,7 +42,11 @@ export async function POST(request: Request) {
       ? (body as { email: unknown }).email
       : undefined;
 
-  if (typeof email !== "string" || !EMAIL_PATTERN.test(email.trim())) {
+  if (
+    typeof email !== "string" ||
+    email.trim().length > MAX_EMAIL ||
+    !EMAIL_PATTERN.test(email.trim())
+  ) {
     return NextResponse.json(
       { ok: false, error: "Please provide a valid email address." },
       { status: 400 },
