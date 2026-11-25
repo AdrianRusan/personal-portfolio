@@ -1,11 +1,12 @@
 # CONTEXT — Personal Portfolio
 
 Living context. Update after each session. Keep under 200 lines.
-State as of 2026-11-24 (main at 6d3556c; audit and fixes in PRs #158, #159, #163).
+State as of 2026-11-25 (main at 401719a).
 
 ## Recent Changes
+- [2026-11-25] SuperBoris round 2: CHANGES REQUESTED, 1 MAJOR left of 3 (`docs/audit/2026-11-25-runda-2-personal-portfolio.md`): length caps on the two public forms, issue #160, fix in PR #188. CI gate and honest verify scripts are closed.
 - [2026-11-24] Status review (Bruce + SuperBoris). Adi widened the job: not only review and delivery for dev teams, also automating parts of a business and teaching company staff to use AI tools. Bruce qualification: NEED-DATA; the evidence, the next test and its success line are in the private sheet (this repo is public): `~/Code/personal/goals/2026-11-24-portfolio-calificare.md`.
-- [2026-11-24] SuperBoris repo audit: CHANGES REQUESTED, 3 MAJOR, 0 CRITICAL (`docs/audit/2026-11-24-repo-intreg-personal-portfolio.md`, #159). MAJOR 1 handled in Vercel Firewall (below); #160 (form-route length caps, logged confirmation failure), #161 (CI gate), #162 (verify scripts that always pass) are open. Quick MINOR fixes in #163.
+- [2026-11-24] SuperBoris repo audit: CHANGES REQUESTED, 3 MAJOR, 0 CRITICAL (`docs/audit/2026-11-24-repo-intreg-personal-portfolio.md`, #159). MAJOR 1 handled in Vercel Firewall (below); #161 (CI gate) and #162 (verify scripts that always pass) are merged; #160 (form-route length caps, logged confirmation failure) is in PR #188. Quick MINOR fixes in #163.
 - [2026-10-15] #149–#152 (stacked PRs #153–#156), CAEN 6210 fit: one `LEGAL_ENTITY` (footer, /contact, JSON-LD `taxID`), `VAT_LINE`, tiers Plan / Set up / Build / Ship, "AI Strategy Call" → Architecture Session (written build plan) and "AI Audit" → AI Code Audit (findings + one fix PR); these supersede the older names below. Private brief: `~/Code/personal/goals/2026-10-15-3-site-legal-offers-calcom.md`.
 - [2026-10-14] #126, #129, #131 (issue #125) copy rewrite from content research, words only: the hero panel on `/` and `/ro` is a review log (`reviewLog`, own repos, the #109 miss included); keyword-led titles on every page (`HOME_TITLE`, `SERVICES_TITLE`, `WORK_TITLE`, `BLOG_TITLE`, /about "Hire a Senior Full-Stack Developer", distinct /contact and /ro/contact); new numbers `THROUGHPUT` (632 merged PRs, 32 active days), `NOW_BOARD`, `RULES_WORDS`; RO teardown fallbacks are an email (`RO_TEARDOWN_EMAIL`). Private research and receipts: `~/Code/personal/goals/2026-10-14-1-content-research/`.
 - [2026-10-13/14] #114 redesign (direction M) and #123 design system (semantic tokens, type scale, `DESIGN.md`). Decisions in `docs/plans/feat-114-redesign-research/` and `DESIGN.md`.
@@ -55,8 +56,9 @@ State as of 2026-11-24 (main at 6d3556c; audit and fixes in PRs #158, #159, #163
 
 ## Known Issues / Gotchas
 - **Form rate limit lives in Vercel Firewall, not in the repo**: rule `limita formulare`, 5 requests per 60 s per IP, shared across `/api/subscribe` and `/api/teardown`, 429 above it (published 2026-11-24; live check: requests 1–5 → 400, 6–7 → 429). Changing or removing it is a dashboard action; nothing in the repo or tests shows it.
-- **Vercel Web Analytics is not enabled** on the project (the dashboard shows demo data, 2026-11-24). `@vercel/analytics` is installed, but nothing is collected until Adi enables it, so `calendly_click` and traffic are unmeasured. Speed Insights does collect: 35 desktop events and 0 mobile in the 7 days to 2026-11-24 (events sum FCP, LCP, CLS and INP, so fewer visits), which fits the "no visitors" reading.
-- **Deploys are not gated on tests** until #161 lands: `main` is unprotected and there is no workflow, so run `npm test` before every merge.
+- **Vercel Web Analytics is not enabled** on the project (the dashboard shows demo data, 2026-11-24). `@vercel/analytics` is installed, but nothing is collected until Adi enables it, so `calendly_click` and traffic are unmeasured. Speed Insights does collect.
+- **Merges to `main` are gated on `ci`** (required check, `enforce_admins` on, since 2026-11-24). Whether Vercel itself waits for `ci` before deploying is unchecked.
+- **`security-check` exits 1 on `main`**: it requires an enforced `Content-Security-Policy`, and pages send only the report-only header. CI doesn't run it. The report-only policy has no `report-to`, so violations show only in each visitor's console.
 - **The scheduled blog queue ends on 2026-12-05** (`vibe-coded-app-keep-fix-or-rebuild`). No post is dated after it.
 - **`/` metadata**: the layout's `title.template` doesn't apply to a page in the layout's own folder, so `/` sets an absolute `HOME_SHARE_TITLE`. A page-level `openGraph` on `/` drops `app/(en)/opengraph-image.tsx` (moved from `app/` in #179: Next 16 no longer applies `app/` root image files to route groups), so the home share text lives in the layout (`root-shell.tsx`). `/privacy` and the 404s inherit that card.
 - **Re-link "nine PRs" on or after 2026-10-24**: `content/blog/2-3x-not-100x.mdx` (the October-run paragraph) had its link to `/work/nine-prs-one-afternoon` removed, because that study is dated 2026-10-24 and 404s until then. Once it is live, restore `[nine PRs](/work/nine-prs-one-afternoon)`.
