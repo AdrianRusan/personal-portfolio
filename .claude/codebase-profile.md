@@ -242,7 +242,7 @@ Parsed by gray-matter; `published` flag controls visibility; tags used for filte
 
 ### Unit Tests (Jest)
 - Located in `__tests__/` or co-located as `.test.ts` / `.spec.ts`
-- Render via React Testing Library or jest-dom assertions
+- Plain Jest assertions; no React Testing Library or jest-dom (removed 2026-11-25, unused)
 - Mock external dependencies (analytics, Sentry) in setup
 - Coverage focused on components/ and app/
 
